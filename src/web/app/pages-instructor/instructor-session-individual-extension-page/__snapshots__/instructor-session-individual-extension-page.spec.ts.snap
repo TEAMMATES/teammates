@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorSessionIndividualExtensionPageComponent should snap when clicking the Select All Instructors button 1`] = `
+exports[`InstructorSessionIndividualExtensionPageComponent should select students that have not submitted yet if Select Not Submitted Student Button is checked 1`] = `
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
@@ -19,12 +19,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
-  isAllInstructorsSelected={[Function Boolean]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected={[Function Boolean]}
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -133,6 +134,1066 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-valid ng-dirty"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <h1>
+        Students
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="student-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><tm-loading-retry>
+    <div>
+      <h1>
+        Instructors
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="instructor-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><div
+    class="align-row-right"
+  >
+    <div>
+      <button
+        class="btn btn-success"
+        id="extend-btn"
+        type="button"
+      >
+        Extend / Edit
+      </button>
+    </div>
+    <div>
+      <button
+        class="btn btn-danger"
+        id="delete-btn"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</tm-instructor-session-individual-extension-page>
+`;
+
+exports[`InstructorSessionIndividualExtensionPageComponent should select those that have not submitted yet if Select Not Submitted Instructor and Student Button is checked 1`] = `
+<tm-instructor-session-individual-extension-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
+  courseId={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
+  feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed="false"
+  hasLoadedAllStudentsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
+  isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected={[Function Boolean]}
+  isAllYetToSubmitStudentsSelected={[Function Boolean]}
+  isLoadingAllInstructors="false"
+  isLoadingAllStudents="false"
+  isLoadingFeedbackSession="false"
+  isSubmittingDeadlines="false"
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
+  statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <tm-loading-retry>
+    <div>
+      <div
+        class="card bg-light top-padded text-center text-sm-start"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course ID
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="course-id"
+            >
+               exampleId 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Time Zone
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="time-zone"
+            >
+               UTC 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="course-name"
+            >
+               Example Course 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Session Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="session-name"
+            >
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Original Deadline
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="original-deadline"
+            >
+               Fri, 14 Jul 2017, 02:40 AM UTC 
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>
+         Select students or instructors from the lists and click the 
+        <b>
+          Extend / Edit
+        </b>
+         or 
+        <b>
+          Delete
+        </b>
+         buttons at the bottom of the page to update their feedback session deadline. 
+      </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-valid ng-dirty"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-valid ng-dirty"
+          id="select-not-submitted-instructor-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-instructor-btn"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <h1>
+        Students
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="student-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><tm-loading-retry>
+    <div>
+      <h1>
+        Instructors
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="instructor-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="table-warning"
+              id="instructor-row-0"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-0"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester1"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><div
+    class="align-row-right"
+  >
+    <div>
+      <button
+        class="btn btn-success"
+        id="extend-btn"
+        type="button"
+      >
+        Extend / Edit
+      </button>
+    </div>
+    <div>
+      <button
+        class="btn btn-danger"
+        id="delete-btn"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</tm-instructor-session-individual-extension-page>
+`;
+
+exports[`InstructorSessionIndividualExtensionPageComponent should snap when clicking the Select All Instructors button 1`] = `
+<tm-instructor-session-individual-extension-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
+  courseId={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
+  feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed="false"
+  hasLoadedAllStudentsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected={[Function Boolean]}
+  isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
+  isLoadingAllInstructors="false"
+  isLoadingAllStudents="false"
+  isLoadingFeedbackSession="false"
+  isSubmittingDeadlines="false"
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
+  statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <tm-loading-retry>
+    <div>
+      <div
+        class="card bg-light top-padded text-center text-sm-start"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course ID
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="course-id"
+            >
+               exampleId 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Time Zone
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="time-zone"
+            >
+               UTC 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="course-name"
+            >
+               Example Course 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Session Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="session-name"
+            >
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Original Deadline
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="original-deadline"
+            >
+               Fri, 14 Jul 2017, 02:40 AM UTC 
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>
+         Select students or instructors from the lists and click the 
+        <b>
+          Extend / Edit
+        </b>
+         or 
+        <b>
+          Delete
+        </b>
+         buttons at the bottom of the page to update their feedback session deadline. 
+      </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-instructor-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-instructor-btn"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -529,10 +1590,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected={[Function Boolean]}
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -641,6 +1703,42 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-instructor-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-instructor-btn"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -1037,10 +2135,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession={[Function Boolean]}
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -1070,6 +2169,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         </div>
       </div>
     </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
       <h1>
@@ -1331,10 +2436,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -1443,6 +2549,27 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -1790,10 +2917,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -1902,6 +3030,27 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-instructor-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-instructor-btn"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -2215,10 +3364,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -2327,6 +3477,42 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-instructor-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-instructor-btn"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -2725,10 +3911,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -2837,6 +4024,25 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
     </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
     <div>
       <h1>
@@ -3015,10 +4221,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents={[Function Boolean]}
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3126,6 +4333,25 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <tm-loading-spinner>
@@ -3290,10 +4516,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3325,6 +4552,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         />
          Retry
       </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -3566,6 +4799,244 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 </tm-instructor-session-individual-extension-page>
 `;
 
+exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if feedback session service get feedback session submitted giver set returns 404 1`] = `
+<tm-instructor-session-individual-extension-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
+  courseId={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
+  feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
+  hasLoadedAllStudentsFailed={[Function Boolean]}
+  hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
+  isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
+  isLoadingAllInstructors="false"
+  isLoadingAllStudents="false"
+  isLoadingFeedbackSession="false"
+  isSubmittingDeadlines="false"
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
+  statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <tm-loading-retry>
+    <div>
+      <div
+        class="card bg-light top-padded text-center text-sm-start"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course ID
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="course-id"
+            >
+               exampleId 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Time Zone
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="time-zone"
+            >
+               UTC 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="course-name"
+            >
+               Example Course 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Session Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="session-name"
+            >
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Original Deadline
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="original-deadline"
+            >
+               5 Apr 2000 2:00:00 
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>
+         Select students or instructors from the lists and click the 
+        <b>
+          Extend / Edit
+        </b>
+         or 
+        <b>
+          Delete
+        </b>
+         buttons at the bottom of the page to update their feedback session deadline. 
+      </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load all students
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load all instructors
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load students
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry><br /><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load instructors
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry><br /><div
+    class="align-row-right"
+  >
+    <div>
+      <button
+        class="btn btn-success"
+        disabled=""
+        id="extend-btn"
+        type="button"
+      >
+        Extend / Edit
+      </button>
+    </div>
+    <div>
+      <button
+        class="btn btn-danger"
+        disabled=""
+        id="delete-btn"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</tm-instructor-session-individual-extension-page>
+`;
+
 exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if feedback session service returns 404 1`] = `
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
@@ -3587,10 +5058,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3622,6 +5094,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         />
          Retry
       </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -3884,10 +5362,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3996,6 +5475,43 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load all instructors
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -4263,10 +5779,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -4375,6 +5892,43 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load all students
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="select-not-submitted-instructor-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-instructor-btn"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div
@@ -4552,6 +6106,932 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
       <button
         class="btn btn-success"
         disabled=""
+        id="extend-btn"
+        type="button"
+      >
+        Extend / Edit
+      </button>
+    </div>
+    <div>
+      <button
+        class="btn btn-danger"
+        disabled=""
+        id="delete-btn"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</tm-instructor-session-individual-extension-page>
+`;
+
+exports[`InstructorSessionIndividualExtensionPageComponent should unselect instructors that have not submitted yet if Select Not Submitted Instructor Button is unchecked 1`] = `
+<tm-instructor-session-individual-extension-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
+  courseId={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
+  feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed="false"
+  hasLoadedAllStudentsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
+  isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
+  isLoadingAllInstructors="false"
+  isLoadingAllStudents="false"
+  isLoadingFeedbackSession="false"
+  isSubmittingDeadlines="false"
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
+  statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <tm-loading-retry>
+    <div>
+      <div
+        class="card bg-light top-padded text-center text-sm-start"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course ID
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="course-id"
+            >
+               exampleId 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Time Zone
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="time-zone"
+            >
+               UTC 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="course-name"
+            >
+               Example Course 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Session Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="session-name"
+            >
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Original Deadline
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="original-deadline"
+            >
+               Fri, 14 Jul 2017, 02:40 AM UTC 
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>
+         Select students or instructors from the lists and click the 
+        <b>
+          Extend / Edit
+        </b>
+         or 
+        <b>
+          Delete
+        </b>
+         buttons at the bottom of the page to update their feedback session deadline. 
+      </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-valid ng-dirty"
+          id="select-not-submitted-instructor-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-instructor-btn"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <h1>
+        Students
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="student-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><tm-loading-retry>
+    <div>
+      <h1>
+        Instructors
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="instructor-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="table-warning"
+              id="instructor-row-0"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-0"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester1"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><div
+    class="align-row-right"
+  >
+    <div>
+      <button
+        class="btn btn-success"
+        id="extend-btn"
+        type="button"
+      >
+        Extend / Edit
+      </button>
+    </div>
+    <div>
+      <button
+        class="btn btn-danger"
+        disabled=""
+        id="delete-btn"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</tm-instructor-session-individual-extension-page>
+`;
+
+exports[`InstructorSessionIndividualExtensionPageComponent should unselect only students that have not submitted yet if Select Not Submitted Student Button is unchecked 1`] = `
+<tm-instructor-session-individual-extension-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
+  courseId={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
+  feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed="false"
+  hasLoadedAllStudentsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
+  isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
+  isLoadingAllInstructors="false"
+  isLoadingAllStudents="false"
+  isLoadingFeedbackSession="false"
+  isSubmittingDeadlines="false"
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
+  statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <tm-loading-retry>
+    <div>
+      <div
+        class="card bg-light top-padded text-center text-sm-start"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course ID
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="course-id"
+            >
+               exampleId 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Time Zone
+            </div>
+            <div
+              class="col-md-3 text-md-start"
+              id="time-zone"
+            >
+               UTC 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Course Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="course-name"
+            >
+               Example Course 
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Session Name
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="session-name"
+            >
+            </div>
+          </div>
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-end font-bold"
+            >
+              Original Deadline
+            </div>
+            <div
+              class="col-md-10 text-md-start"
+              id="original-deadline"
+            >
+               Fri, 14 Jul 2017, 02:40 AM UTC 
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>
+         Select students or instructors from the lists and click the 
+        <b>
+          Extend / Edit
+        </b>
+         or 
+        <b>
+          Delete
+        </b>
+         buttons at the bottom of the page to update their feedback session deadline. 
+      </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-valid ng-dirty"
+          id="select-not-submitted-student-btn"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="select-not-submitted-student-btn"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <h1>
+        Students
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="student-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><tm-loading-retry>
+    <div>
+      <h1>
+        Instructors
+      </h1>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered table-hover"
+          id="instructor-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+              >
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+              >
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-loading-retry><br /><div
+    class="align-row-right"
+  >
+    <div>
+      <button
+        class="btn btn-success"
         id="extend-btn"
         type="button"
       >
