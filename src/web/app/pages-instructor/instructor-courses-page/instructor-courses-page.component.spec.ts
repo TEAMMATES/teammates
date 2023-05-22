@@ -421,7 +421,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should find a target course', () => {
     const courseModelList: CourseModel[] = [courseModelCS1231, courseModelCS3281, courseModelCS3282, courseModelST4234];
-    expect(component.findCourse(courseModelList, "CS3281")).toEqual(courseModelCS3281);
+    expect(component.findCourse(courseModelList, 'CS3281')).toEqual(courseModelCS3281);
   });
 
   it('should permanently delete a course', async () => {
