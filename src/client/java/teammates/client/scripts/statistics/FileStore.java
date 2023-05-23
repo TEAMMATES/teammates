@@ -68,13 +68,7 @@ public final class FileStore {
         }
 
         // parse institutesStats
-        File institutesStatsFile = new File(INSTITUTES_STATS_FILEPATH);
-        Map<String, StatisticsBundle.InstituteStats> institutesStats = new HashMap<>();
-        if (institutesStatsFile.isFile()) {
-            institutesStats = parseEncryptedJsonFile(INSTITUTES_STATS_FILEPATH,
-                    jsonReader -> getSerializer().fromJson(jsonReader,
-                        new TypeToken<Map<String, StatisticsBundle.InstituteStats>>(){}.getType()));
-        }
+        Map<String, StatisticsBundle.InstituteStats> institutesStats = getStringInstituteStatsMap();
 
         // construct bundle
         StatisticsBundle statisticsBundle = new StatisticsBundle();
@@ -82,6 +76,17 @@ public final class FileStore {
         statisticsBundle.setInstitutesStats(institutesStats);
 
         return statisticsBundle;
+    }
+
+    private static Map<String, StatisticsBundle.InstituteStats> getStringInstituteStatsMap() throws Exception {
+        File institutesStatsFile = new File(INSTITUTES_STATS_FILEPATH);
+        Map<String, StatisticsBundle.InstituteStats> institutesStats = new HashMap<>();
+        if (institutesStatsFile.isFile()) {
+            institutesStats = parseEncryptedJsonFile(INSTITUTES_STATS_FILEPATH,
+                    jsonReader -> getSerializer().fromJson(jsonReader,
+                        new TypeToken<Map<String, StatisticsBundle.InstituteStats>>(){}.getType()));
+        }
+        return institutesStats;
     }
 
     /**

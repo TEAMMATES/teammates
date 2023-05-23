@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
+import org.jetbrains.annotations.NotNull;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.JsonUtils;
@@ -27,10 +28,7 @@ public final class DataBundleRegenerator {
     }
 
     private static void regenerateDataBundleJson(File folder) throws IOException {
-        File[] listOfFiles = folder.listFiles();
-        if (listOfFiles == null) {
-            listOfFiles = new File[] {};
-        }
+        File[] listOfFiles = getFiles(folder);
         for (File file : listOfFiles) {
             if (!file.getName().endsWith(".json") || NON_DATA_BUNDLE_JSON.contains(file.getName())) {
                 continue;
@@ -40,6 +38,15 @@ public final class DataBundleRegenerator {
             String regeneratedJsonString = JsonUtils.toJson(db).replace("+0000", "UTC");
             saveFile(file.getCanonicalPath(), regeneratedJsonString + System.lineSeparator());
         }
+    }
+
+    @NotNull
+    private static File[] getFiles(File folder) {
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles == null) {
+            listOfFiles = new File[]{};
+        }
+        return listOfFiles;
     }
 
     private static void regenerateAllDataBundleJson() throws IOException {
@@ -71,10 +78,7 @@ public final class DataBundleRegenerator {
     }
 
     private static void regenerateWebsiteDataJson() throws IOException {
-        File[] listOfFiles = new File("./src/main/webapp/data").listFiles();
-        if (listOfFiles == null) {
-            listOfFiles = new File[] {};
-        }
+        File[] listOfFiles = getFiles(new File("./src/main/webapp/data"));
         for (File file : listOfFiles) {
             if (!file.getName().endsWith(".json")) {
                 continue;

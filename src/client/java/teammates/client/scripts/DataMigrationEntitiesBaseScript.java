@@ -161,10 +161,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
-            Query<T> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
-            if (cursor != null) {
-                filterQueryKeys = filterQueryKeys.startAt(cursor);
-            }
+            Query<T> filterQueryKeys = getTs(cursor);
             QueryResults<?> iterator;
             if (shouldUseTransaction()) {
                 iterator = filterQueryKeys.keys().iterator();
@@ -185,15 +182,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
                 numberOfScannedKey.incrementAndGet();
             }
 
-            if (shouldContinue) {
-                cursor = iterator.getCursorAfter();
-                flushEntitiesSavingBuffer();
-                savePositionOfCursorToFile(cursor);
-                log(String.format("Cursor Position: %s", cursor.toUrlSafe()));
-                log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
-                log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
-                log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
-            }
+            cursor = getCursor(cursor, shouldContinue, iterator);
         }
 
         deleteCursorPositionFile();
@@ -201,6 +190,27 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         log("Total number of entities: " + numberOfScannedKey.get());
         log("Number of affected entities: " + numberOfAffectedEntities.get());
         log("Number of updated entities: " + numberOfUpdatedEntities.get());
+    }
+
+    private Query<T> getTs(Cursor cursor) {
+        Query<T> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
+        if (cursor != null) {
+            filterQueryKeys = filterQueryKeys.startAt(cursor);
+        }
+        return filterQueryKeys;
+    }
+
+    private Cursor getCursor(Cursor cursor, boolean shouldContinue, QueryResults<?> iterator) {
+        if (shouldContinue) {
+            cursor = iterator.getCursorAfter();
+            flushEntitiesSavingBuffer();
+            savePositionOfCursorToFile(cursor);
+            log(String.format("Cursor Position: %s", cursor.toUrlSafe()));
+            log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
+            log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
+            log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
+        }
+        return cursor;
     }
 
     /**
