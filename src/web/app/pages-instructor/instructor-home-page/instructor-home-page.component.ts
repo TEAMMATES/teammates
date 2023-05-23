@@ -178,6 +178,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   createCopiedCourse(result: CopyCourseModalResult): void {
     this.isCopyingCourse = true;
+    this.modifiedSession = {};
     this.numberOfSessionsCopied = 0;
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
@@ -223,6 +224,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 this.sortCoursesBy(this.instructorCoursesSortBy);
                 this.isCopyingCourse = false;
                 if (Object.keys(this.modifiedSession).length > 0) {
+                  this.coursesOfModifiedSession = [];
                   this.simpleModalService.openInformationModal('Note On Modified Session Timings',
                       SimpleModalType.WARNING, this.modifiedTimestampsModal);
                 } else {
