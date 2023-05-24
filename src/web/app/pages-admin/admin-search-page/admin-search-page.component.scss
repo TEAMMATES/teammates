@@ -22,3 +22,14 @@
 ::ng-deep .highlighted-text {
   background-color: yellow;
 }
+
+#search-box:focus {
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 10px #9ecaed;
+}
+
+#search-box:hover {
+  border-color: #9ecaed;
+  box-shadow: 0 0 10px #9ecaed;
+}
