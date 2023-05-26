@@ -17,6 +17,9 @@ export interface SearchParams {
 })
 export class InstructorSearchBarComponent {
 
+  characterLimit = 6000;
+  characterLimitIsReached = false;
+
   @Input() searchParams: SearchParams = {
     searchKey: '',
   };
@@ -24,6 +27,8 @@ export class InstructorSearchBarComponent {
   @Output() searched: EventEmitter<any> = new EventEmitter();
 
   @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
+
+  @Output() characterLimitReached: EventEmitter<any> = new EventEmitter();
 
   /**
    * send the search data to parent for processing
@@ -33,6 +38,12 @@ export class InstructorSearchBarComponent {
   }
 
   triggerSearchParamsChangeEvent(field: string, data: any): void {
+    if (data.length >= this.characterLimit) {
+      this.characterLimitReached.emit();
+      this.characterLimitIsReached = true;
+    } else {
+      this.characterLimitIsReached = false;
+    }
     this.searchParamsChange.emit({ ...this.searchParams, [field]: data });
   }
 
