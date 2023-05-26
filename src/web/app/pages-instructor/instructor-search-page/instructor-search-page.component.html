@@ -1,4 +1,6 @@
-<tm-instructor-search-bar (searched)="search()" [(searchParams)]="searchParams" (characterLimitReached)="characterLimitReached()"></tm-instructor-search-bar>
+<tm-instructor-search-bar (searched)="search()" [(searchParams)]="searchParams"
+      (characterLimitReached)="characterLimitReached()">
+</tm-instructor-search-bar>
 
 <div *tmIsLoading="isSearching">
   <tm-student-result-table *ngIf="studentsListRowTables && studentsListRowTables.length" [studentTables]="studentsListRowTables"
