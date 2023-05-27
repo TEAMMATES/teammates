@@ -184,7 +184,9 @@ export class InstructorSearchPageComponent {
   }
 
   characterLimitReached(): void {
-      this.statusMessageService.showWarningToast('The maximum number of characters for the search has been reached, please use less than 6000 characters.');
+      this.statusMessageService.showWarningToast(
+      'The maximum number of characters for the search has been reached, please use less than 6000 characters.',
+      );
   }
 }
 
