@@ -42,9 +42,9 @@ Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Co
 Question 2,Split points among the teams
 
 Summary Statistics
-Team,Recipient,Total Points,Average Points,Points Received
-,\\"Team 1.1</td></div>'\\"\\"\\",80,80,80
-,Team 1.2,20,20,20
+Team,Recipient,Recipient Email,Total Points,Average Points,Points Received
+,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",80,80,80
+,Team 1.2,Team 1.2,20,20,20
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
@@ -55,12 +55,12 @@ Instructors,Instructor1 Course1,instructor1@course1.tmt,Team 1.2,Team 1.2,,20
 Question 3,How much has each student worked?
 
 Summary Statistics
-Team,Recipient,Total Points,Average Points,Points Received
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",30,30,30
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,20,20,20
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,30,30,30
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,10,10,10
-Team 1.2,student5 In Course1,10,10,10
+Team,Recipient,Recipient Email,Total Points,Average Points,Points Received
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,30,30,30
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,20,20,20
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,30,30,30
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,10,10,10
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,10,10,10
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
@@ -279,9 +279,9 @@ exports[`SessionResultCsvService should generate results for NUMSCALE question 1
 Question 1,Rate our product.
 
 Summary Statistics
-Team,Recipient,Average,Minimum,Maximum
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",3.5,3.5,3.5
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,2,2
+Team,Recipient,Recipient Email,Average,Minimum,Maximum
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,3.5,3.5,3.5
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,2,2,2
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
@@ -295,9 +295,9 @@ Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Co
 Question 2,Rate our product.
 
 Summary Statistics
-Team,Recipient,Average,Minimum,Maximum
-Instructors,Instructor1 Course1,4.5,4.5,4.5
-Instructors,Instructor2 Course1,1,1,1
+Team,Recipient,Recipient Email,Average,Minimum,Maximum
+Instructors,Instructor1 Course1,instructor1@course1.tmt,4.5,4.5,4.5
+Instructors,Instructor2 Course1,instructor2@course1.tmt,1,1,1
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
@@ -314,11 +314,11 @@ exports[`SessionResultCsvService should generate results for RANK question 1`] =
 Question 1,Rank the other students.
 
 Summary Statistics
-Team,Recipient,Self Rank,Overall Rank,Overall Rank Excluding Self,Team Rank,Team Rank Excluding Self,Ranks Received
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",4,4,-,-,-,4
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,1,3,-,-,2,3
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,3,1,1,-,-,2,3
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,3,3,2,-,-,1,3,4
+Team,Recipient,Recipient Email,Self Rank,Overall Rank,Overall Rank Excluding Self,Team Rank,Team Rank Excluding Self,Ranks Received
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,4,4,-,-,-,4
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,2,1,3,-,-,2,3
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,3,1,1,-,-,2,3
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,3,3,2,-,-,1,3,4
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
