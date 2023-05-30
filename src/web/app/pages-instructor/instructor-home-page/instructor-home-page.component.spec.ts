@@ -281,7 +281,7 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should sort courseTabModels by courseId in ascending order', () => {
-    const CopytActiveCourseTabModels: CourseTabModel[] = activeCourseTabModels;
+    const activeCourses: CourseTabModel[] = activeCourseTabModels;
     CopytActiveCourseTabModels.push({
       course: testCourse3,
       instructorPrivilege: testInstructorPrivilege,
