@@ -5,6 +5,8 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
   __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
+  characterLimitReached="false"
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -35,6 +37,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="6000"
           type="text"
         />
         <button
@@ -332,6 +335,8 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
   __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
+  characterLimitReached="false"
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -362,6 +367,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="6000"
           type="text"
         />
         <button
@@ -381,6 +387,8 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
   __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
+  characterLimitReached="false"
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -411,6 +419,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="6000"
           type="text"
         />
         <button
@@ -543,6 +552,8 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
   __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
+  characterLimitReached="false"
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -573,6 +584,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="6000"
           type="text"
         />
         <button
@@ -796,6 +808,8 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
   __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
+  characterLimitReached="false"
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -826,6 +840,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="6000"
           type="text"
         />
         <button
@@ -1099,6 +1114,8 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
   __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
+  characterLimitReached="false"
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -1129,6 +1146,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="6000"
           type="text"
         />
         <button
