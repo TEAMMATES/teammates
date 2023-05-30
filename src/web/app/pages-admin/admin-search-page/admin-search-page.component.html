@@ -5,8 +5,11 @@
     </p>
 
     <div class="input-group">
-      <input id="search-box" type="text" class="form-control" aria-label="Search" [(ngModel)]="searchQuery" (keyup.enter)="search()">
-      <button id="search-button" class="btn btn-primary input-group-text" (click)="search()">Search</button>
+      <input id="search-box" type="text" class="form-control" aria-label="Search" [(ngModel)]="searchQuery"
+             (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" [maxlength]="characterLimit">
+      <button id="search-button" class="btn btn-primary input-group-text" (click)="search()"
+              [disabled]="(searchQuery === '' || characterLimitReached)"
+      >Search</button>
     </div>
   </div>
 </div>
