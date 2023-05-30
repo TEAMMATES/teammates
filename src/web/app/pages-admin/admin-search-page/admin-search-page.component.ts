@@ -39,7 +39,7 @@ export class AdminSearchPageComponent {
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
   characterLimit: number = 6000;
-  characterLimitReached: boolean = false
+  characterLimitReached: boolean = false;
 
   constructor(
     private statusMessageService: StatusMessageService,
