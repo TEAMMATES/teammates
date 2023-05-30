@@ -294,6 +294,7 @@ describe('InstructorHomePageComponent', () => {
       isTabExpanded: true,
       hasLoadingFailed: false,
     });
+
     component.courseTabModels = activeCourses;
     component.sortCoursesBy(SortBy.COURSE_ID);
     expect(component.courseTabModels[0].course.courseId).toEqual('CS0234');
