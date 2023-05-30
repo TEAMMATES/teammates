@@ -34,6 +34,7 @@ export class InstructorSearchBarComponent {
    * send the search data to parent for processing
    */
   search(): void {
+    if (this.characterLimitIsReached) return;
     this.searched.emit();
   }
 
