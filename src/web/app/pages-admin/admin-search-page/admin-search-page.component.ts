@@ -56,7 +56,6 @@ export class AdminSearchPageComponent {
    * Searches for students and instructors matching the search query.
    */
   search(): void {
-    if (this.searchQuery === '') return;
     if (this.characterLimitReached) return;
     this.loadingBarService.showLoadingBar();
     this.searchService.searchAdmin(
