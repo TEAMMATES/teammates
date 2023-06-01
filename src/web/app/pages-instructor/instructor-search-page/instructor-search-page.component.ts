@@ -182,6 +182,7 @@ export class InstructorSearchPageComponent {
       },
     });
   }
+
 }
 
 interface TransformedInstructorSearchResult {
