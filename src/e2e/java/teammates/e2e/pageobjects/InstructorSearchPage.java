@@ -43,7 +43,7 @@ public class InstructorSearchPage extends AppPage {
             verifyUnclickable(searchButton);
             return;
         }
-        if (searchTerm.length() >= 6000) {
+        if (searchTerm.length() >= 100) {
             verifyUnclickable(searchButton);
             return;
         }

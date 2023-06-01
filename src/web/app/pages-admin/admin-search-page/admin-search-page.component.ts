@@ -38,8 +38,9 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
-  characterLimit: number = 6000;
-  characterLimitReached: boolean = false;
+  characterLimit = 100;
+  charactersLeft = this.characterLimit;
+  characterLimitReached = false;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -391,12 +392,11 @@ export class AdminSearchPageComponent {
   }
 
   onSearchKeyChange(newKey: string): void {
-    if (newKey.length >= this.characterLimit) {
-      this.statusMessageService.showWarningToast(`The maximum number of characters for the search has been reached,
-        please use less than 6000 characters.`);
-      this.characterLimitReached = true;
-    } else {
-      this.characterLimitReached = false;
-    }
+    this.charactersLeft = this.characterLimit - newKey.length;
+     if (this.charactersLeft <= 0) {
+       this.characterLimitReached = true;
+     } else {
+       this.characterLimitReached = false;
+     }
   }
 }
