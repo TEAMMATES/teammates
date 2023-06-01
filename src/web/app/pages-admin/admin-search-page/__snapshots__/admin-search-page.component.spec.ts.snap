@@ -7,6 +7,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
   characterLimitReached="false"
+  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -37,7 +38,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
-          maxlength="6000"
+          maxlength="100"
           type="text"
         />
         <button
@@ -47,6 +48,9 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -337,6 +341,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
   characterLimitReached="false"
+  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -367,7 +372,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
-          maxlength="6000"
+          maxlength="100"
           type="text"
         />
         <button
@@ -377,6 +382,9 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div>
 </tm-admin-search-page>
@@ -389,6 +397,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
   characterLimitReached="false"
+  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -419,7 +428,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
-          maxlength="6000"
+          maxlength="100"
           type="text"
         />
         <button
@@ -429,6 +438,9 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -554,6 +566,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
   characterLimitReached="false"
+  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -584,7 +597,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
-          maxlength="6000"
+          maxlength="100"
           type="text"
         />
         <button
@@ -594,6 +607,9 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -810,6 +826,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
   characterLimitReached="false"
+  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -840,7 +857,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
-          maxlength="6000"
+          maxlength="100"
           type="text"
         />
         <button
@@ -850,6 +867,9 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -1116,6 +1136,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
   characterLimitReached="false"
+  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -1146,7 +1167,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
-          maxlength="6000"
+          maxlength="100"
           type="text"
         />
         <button
@@ -1156,6 +1177,9 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div>
 </tm-admin-search-page>
