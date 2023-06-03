@@ -6,12 +6,10 @@
 
     <div class="input-group">
       <input id="search-box" type="text" class="form-control" aria-label="Search" [(ngModel)]="searchQuery"
-             (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" [maxlength]="characterLimit">
-      <button id="search-button" class="btn btn-primary input-group-text" (click)="search()"
-              [disabled]="characterLimitReached"
-      >Search</button>
+             (keyup.enter)="search()" [maxlength]="characterLimit">
+      <button id="search-button" class="btn btn-primary input-group-text" (click)="search()">Search</button>
     </div>
-    <span>{{ charactersLeft }} characters left</span>
+    <span>{{ characterLimit - searchQuery.length }} characters left</span>
   </div>
 </div>
 

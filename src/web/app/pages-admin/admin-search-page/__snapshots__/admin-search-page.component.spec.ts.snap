@@ -6,8 +6,6 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
-  characterLimitReached="false"
-  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -340,8 +338,6 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
-  characterLimitReached="false"
-  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -383,7 +379,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
         </button>
       </div>
       <span>
-        100 characters left
+        96 characters left
       </span>
     </div>
   </div>
@@ -396,8 +392,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
-  characterLimitReached="false"
-  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -565,8 +559,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
-  characterLimitReached="false"
-  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -825,8 +817,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
-  characterLimitReached="false"
-  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -1135,8 +1125,6 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
-  characterLimitReached="false"
-  charactersLeft={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}

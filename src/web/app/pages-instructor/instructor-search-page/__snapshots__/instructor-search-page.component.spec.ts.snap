@@ -63,7 +63,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
             </button>
           </div>
           <span>
-            100 characters left
+            96 characters left
           </span>
         </div>
       </div>

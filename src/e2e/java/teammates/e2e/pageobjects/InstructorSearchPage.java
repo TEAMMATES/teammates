@@ -43,10 +43,6 @@ public class InstructorSearchPage extends AppPage {
             verifyUnclickable(searchButton);
             return;
         }
-        if (searchTerm.length() >= 100) {
-            verifyUnclickable(searchButton);
-            return;
-        }
         click(searchButton);
         WebElement loadingContainer = null;
         try {

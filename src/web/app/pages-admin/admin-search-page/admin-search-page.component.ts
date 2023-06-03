@@ -39,8 +39,6 @@ export class AdminSearchPageComponent {
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
   characterLimit = 100;
-  charactersLeft = this.characterLimit;
-  characterLimitReached = false;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -57,7 +55,6 @@ export class AdminSearchPageComponent {
    * Searches for students and instructors matching the search query.
    */
   search(): void {
-    if (this.characterLimitReached) return;
     this.loadingBarService.showLoadingBar();
     this.searchService.searchAdmin(
         this.searchQuery,
@@ -391,12 +388,4 @@ export class AdminSearchPageComponent {
         });
   }
 
-  onSearchKeyChange(newKey: string): void {
-    this.charactersLeft = this.characterLimit - newKey.length;
-     if (this.charactersLeft <= 0) {
-       this.characterLimitReached = true;
-     } else {
-       this.characterLimitReached = false;
-     }
-  }
 }
