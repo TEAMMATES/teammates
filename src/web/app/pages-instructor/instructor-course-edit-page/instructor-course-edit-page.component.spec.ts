@@ -200,7 +200,7 @@ describe('InstructorCourseEditPageComponent', () => {
     }));
 
     component.loadCourseInstructors();
-    
+
     component.isInstructorsLoading = false;
     fixture.detectChanges();
 
@@ -221,7 +221,6 @@ describe('InstructorCourseEditPageComponent', () => {
     expect(component.instructorDetailPanels[0].editPanel.isEditing).toBeFalsy();
     expect(component.instructorDetailPanels[0].editPanel.name).toBe('Example Instructor Changed');
   });
-
 
   it('should load correct instructors details for given API output', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
