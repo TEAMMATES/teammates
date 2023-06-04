@@ -111,7 +111,10 @@
         </select>
       </div>
     </div>
-    <div class="card bg-light margin-top-30px" *ngFor="let mapping of sessions | keyvalue">
+    <button (click)="sortCoursesBy(SortBy.INSTITUTION_NAME)">Institutions Name</button>
+    <button (click)="sortCoursesBy(SortBy.INSTITUTION_SESSIONS_TOTAL)">Institutions Sessions Total</button>
+    <div *ngFor="let item of sessionsArr">
+    <div class="card bg-light margin-top-30px" *ngFor="let mapping of item | keyvalue">
       <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
         <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
         <div class="card-header-btn-toolbar">
@@ -151,6 +154,7 @@
           </table>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </div>

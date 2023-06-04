@@ -143,6 +143,7 @@ export class TableComparatorService {
       case SortBy.RESPONDENT_NAME:
       case SortBy.RESPONDENT_EMAIL:
       case SortBy.JOIN_STATUS:
+      case SortBy.INSTITUTION_NAME:
       case SortBy.COURSE_ID:
       case SortBy.COURSE_NAME:
       case SortBy.COURSE_CREATION_DATE:
@@ -190,6 +191,7 @@ export class TableComparatorService {
       case SortBy.MSQ_WEIGHTED_PERCENTAGE:
       case SortBy.MSQ_WEIGHT_TOTAL:
       case SortBy.MSQ_WEIGHT_AVERAGE:
+      case SortBy.INSTITUTION_SESSIONS_TOTAL:
         return this.compareNumbers(strA, strB, order);
       case SortBy.LOG_DATE:
         return this.compareChronologically(strA, strB, order);

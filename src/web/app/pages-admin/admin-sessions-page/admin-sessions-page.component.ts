@@ -1,3 +1,4 @@
+import { TableComparatorService } from './../../../services/table-comparator.service';
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 
 interface OngoingSessionModel {
   ongoingSession: OngoingSession;
@@ -33,6 +35,8 @@ export class AdminSessionsPageComponent implements OnInit {
   totalAwaitingSessions: number = 0;
   totalInstitutes: number = 0;
   sessions: Record<string, OngoingSessionModel[]> = {};
+  sessionsArr: Record<string, OngoingSessionModel[]>[] = [];
+  SortBy: typeof SortBy = SortBy;
 
   // Tracks the whether the panel of an institute has been opened
   institutionPanelsStatus: Record<string, boolean> = {};
@@ -54,7 +58,8 @@ export class AdminSessionsPageComponent implements OnInit {
 
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
-              private feedbackSessionsService: FeedbackSessionsService) {}
+              private feedbackSessionsService: FeedbackSessionsService,
+              private tableComparatorService: TableComparatorService) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -142,6 +147,15 @@ export class AdminSessionsPageComponent implements OnInit {
             this.totalAwaitingSessions = resp.totalAwaitingSessions;
             this.totalInstitutes = resp.totalInstitutes;
             Object.keys(resp.sessions).forEach((key: string) => {
+              const obj: Record<string, OngoingSessionModel[]> = {}
+              obj[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
+                return {
+                  ongoingSession,
+                  startTimeString: this.showDateFromMillis(ongoingSession.startTime),
+                  endTimeString: this.showDateFromMillis(ongoingSession.endTime),
+                };
+              });
+              this.sessionsArr.push(obj);
               this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
                 return {
                   ongoingSession,
@@ -193,6 +207,33 @@ export class AdminSessionsPageComponent implements OnInit {
         session.startTimeString = this.showDateFromMillis(session.ongoingSession.startTime);
         session.endTimeString = this.showDateFromMillis(session.ongoingSession.endTime);
       }
+    }
+  }
+
+  sortPanelsBy(by: SortBy):((a: Record<string, OngoingSessionModel[]>, b: Record<string, OngoingSessionModel[]>) => number) {
+    return ((a: Record<string, OngoingSessionModel[]>, b: Record<string, OngoingSessionModel[]>): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.INSTITUTION_NAME:
+          strA = Object.keys(a)[0];
+          strB = Object.keys(b)[0];
+          break;
+        case SortBy.INSTITUTION_SESSIONS_TOTAL:
+          strA = String(Object.values(b)[0].length);
+          strB = String(Object.values(a)[0].length);
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
+    });
+  }
+
+  sortCoursesBy(by: SortBy): void {
+    if(this.sessionsArr.length > 1){
+      this.sessionsArr.sort(this.sortPanelsBy(by))
     }
   }
 
