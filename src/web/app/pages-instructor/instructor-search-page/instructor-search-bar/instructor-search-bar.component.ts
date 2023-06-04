@@ -17,6 +17,8 @@ export interface SearchParams {
 })
 export class InstructorSearchBarComponent {
 
+  characterLimit = 100;
+
   @Input() searchParams: SearchParams = {
     searchKey: '',
   };
