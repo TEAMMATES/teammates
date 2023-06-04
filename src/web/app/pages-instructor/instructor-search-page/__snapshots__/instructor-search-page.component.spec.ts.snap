@@ -51,6 +51,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               id="search-keyword"
+              maxlength="100"
               placeholder="Your search keyword"
               type="text"
             />
@@ -61,6 +62,9 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
               Search
             </button>
           </div>
+          <span>
+            96 characters left
+          </span>
         </div>
       </div>
     </div>
@@ -120,6 +124,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               id="search-keyword"
+              maxlength="100"
               placeholder="Your search keyword"
               type="text"
             />
@@ -131,6 +136,9 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
               Search
             </button>
           </div>
+          <span>
+            100 characters left
+          </span>
         </div>
       </div>
     </div>
@@ -532,6 +540,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               id="search-keyword"
+              maxlength="100"
               placeholder="Your search keyword"
               type="text"
             />
@@ -543,6 +552,9 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
               Search
             </button>
           </div>
+          <span>
+            100 characters left
+          </span>
         </div>
       </div>
     </div>
