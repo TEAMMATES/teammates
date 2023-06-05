@@ -135,7 +135,7 @@
                 </span>
               </td>
               <td class="text-center actions-cell">
-                <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
+                <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm custom-buttons" *ngIf="course.canModifyStudent"
                   ngbTooltip="Enroll student into the course" tmRouterLink="/web/instructor/courses/enroll"
                   [queryParams]="{courseid: course.course.courseId}">
                   Enroll
@@ -145,7 +145,7 @@
                   Enroll
                 </button>
                 <div ngbDropdown class="d-inline-block">
-                  <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm" ngbDropdownToggle>Other
+                  <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm custom-buttons" ngbDropdownToggle>Other
                     Actions</button>
                   <div ngbDropdownMenu>
                     <a class="btn btn-primary btn-sm dropdown-item clickable"
