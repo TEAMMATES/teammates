@@ -116,8 +116,8 @@
         <div class="float-end">
           <strong class="d-inline"> Sort By: </strong>
           <div class="btn-group" data-toggle="buttons">
-            <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION_NAME)" (click)="sortCoursesBy(SortBy.INSTITUTION_NAME)">Institution Name</button>
-            <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION_SESSIONS_TOTAL)" (click)="sortCoursesBy(SortBy.INSTITUTION_SESSIONS_TOTAL)">Institution Sessions Total</button>
+            <button class="btn btn-light" [disabled]="selectedSort === SortBy.INSTITUTION_NAME" (click)="sortCoursesBy(SortBy.INSTITUTION_NAME)">Institution Name</button>
+            <button class="btn btn-light" [disabled]="selectedSort === SortBy.INSTITUTION_SESSIONS_TOTAL" (click)="sortCoursesBy(SortBy.INSTITUTION_SESSIONS_TOTAL)">Institution Sessions Total</button>
           </div>
         </div>
       </div>

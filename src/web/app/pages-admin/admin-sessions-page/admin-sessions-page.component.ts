@@ -38,7 +38,7 @@ export class AdminSessionsPageComponent implements OnInit {
   sessionsArr: Record<string, OngoingSessionModel[]>[] = [];
   SortBy: typeof SortBy = SortBy;
 
-  adminInstitutionsSortBy: SortBy = SortBy.INSTITUTION_NAME;
+  selectedSort: SortBy = SortBy.NONE;
 
   // Tracks the whether the panel of an institute has been opened
   institutionPanelsStatus: Record<string, boolean> = {};
@@ -148,6 +148,7 @@ export class AdminSessionsPageComponent implements OnInit {
             this.totalClosedSessions = resp.totalClosedSessions;
             this.totalAwaitingSessions = resp.totalAwaitingSessions;
             this.totalInstitutes = resp.totalInstitutes;
+            this.sessionsArr = [];
             Object.keys(resp.sessions).forEach((key: string) => {
               const obj: Record<string, OngoingSessionModel[]> = {}
               obj[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
@@ -158,6 +159,9 @@ export class AdminSessionsPageComponent implements OnInit {
                 };
               });
               this.sessionsArr.push(obj);
+              if(this.selectedSort !== SortBy.NONE && this.sessionsArr.length > 1){
+                this.sessionsArr.sort(this.sortPanelsBy(this.selectedSort))
+              }
               this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
                 return {
                   ongoingSession,
@@ -234,16 +238,7 @@ export class AdminSessionsPageComponent implements OnInit {
   }
 
   sortCoursesBy(by: SortBy): void {
-    this.adminInstitutionsSortBy = by;
-  
-    if(this.sessionsArr.length > 1){
-      this.sessionsArr.sort(this.sortPanelsBy(by))
-      this.closeAllInstitutions();
-    }
+    this.selectedSort = by;
+    this.getFeedbackSessions();
   }
-
-  isSelectedForSorting(by: SortBy): boolean {
-    return this.adminInstitutionsSortBy === by;
-  }
-
 }
