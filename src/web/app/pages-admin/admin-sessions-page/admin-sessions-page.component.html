@@ -111,8 +111,17 @@
         </select>
       </div>
     </div>
-    <button (click)="sortCoursesBy(SortBy.INSTITUTION_NAME)">Institutions Name</button>
-    <button (click)="sortCoursesBy(SortBy.INSTITUTION_SESSIONS_TOTAL)">Institutions Sessions Total</button>
+    <div class="row mt-3">
+      <div>
+        <div class="float-end">
+          <strong class="d-inline"> Sort By: </strong>
+          <div class="btn-group" data-toggle="buttons">
+            <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION_NAME)" (click)="sortCoursesBy(SortBy.INSTITUTION_NAME)">Institution Name</button>
+            <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION_SESSIONS_TOTAL)" (click)="sortCoursesBy(SortBy.INSTITUTION_SESSIONS_TOTAL)">Institution Sessions Total</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div *ngFor="let item of sessionsArr">
     <div class="card bg-light margin-top-30px" *ngFor="let mapping of item | keyvalue">
       <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">

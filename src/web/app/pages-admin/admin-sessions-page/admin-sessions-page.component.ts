@@ -38,6 +38,8 @@ export class AdminSessionsPageComponent implements OnInit {
   sessionsArr: Record<string, OngoingSessionModel[]>[] = [];
   SortBy: typeof SortBy = SortBy;
 
+  adminInstitutionsSortBy: SortBy = SortBy.INSTITUTION_NAME;
+
   // Tracks the whether the panel of an institute has been opened
   institutionPanelsStatus: Record<string, boolean> = {};
 
@@ -232,9 +234,16 @@ export class AdminSessionsPageComponent implements OnInit {
   }
 
   sortCoursesBy(by: SortBy): void {
+    this.adminInstitutionsSortBy = by;
+  
     if(this.sessionsArr.length > 1){
       this.sessionsArr.sort(this.sortPanelsBy(by))
+      this.closeAllInstitutions();
     }
+  }
+
+  isSelectedForSorting(by: SortBy): boolean {
+    return this.adminInstitutionsSortBy === by;
   }
 
 }
