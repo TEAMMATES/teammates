@@ -4,9 +4,9 @@
 
 @media (max-width: 767px) { //applies only to mobile screens
   .custom-button {
-    font-size: 14px; 
-    width: 90px; 
-    height: 30px; 
+    font-size: 14px;
+    width: 90px;
+    height: 30px;
     margin-bottom: 5px;
   }
 }
@@ -50,5 +50,4 @@ which usually match 2 classes (eg .btn.disabled)
     font: inherit;
     cursor: inherit;
   }
-  
 }
