@@ -138,15 +138,19 @@
               <th>Status</th>
               <th>[Course ID] Session Name</th>
               <th>Response Rate</th>
-              <th (click)="sortByStartDate(mapping.value)" >Start Time
-                <span class="fa-stack" aria-hidden="true">
+              <th>Start Time
+                <span class="fa-stack" aria-hidden="true" (click)="sortByStartDate(mapping.value)">
                   <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="mapping.value.length > 0 && mapping.value[0].ongoingSession.startTime - mapping.value[1].ongoingSession.startTime > 0"></i>
+                  <i class="fas fa-sort-up" *ngIf="mapping.value.length > 0 && mapping.value[0].ongoingSession.startTime - mapping.value[1].ongoingSession.startTime < 0"></i>
                 </span>
               </th>
-              <th (click)="sortByEndDate(mapping.value)">End Time
-                <span class="fa-stack" aria-hidden="true">
-                  <i class="fas fa-sort"></i>
-                </span>
+              <th>End Time
+                  <span class="fa-stack" aria-hidden="true" (click)="sortByEndDate(mapping.value)">
+                    <i class="fas fa-sort"></i>
+                    <i class="fas fa-sort-down" *ngIf="mapping.value.length > 0 && mapping.value[0].ongoingSession.endTime - mapping.value[1].ongoingSession.endTime > 0"></i>
+                    <i class="fas fa-sort-up" *ngIf="mapping.value.length > 0 && mapping.value[0].ongoingSession.endTime - mapping.value[1].ongoingSession.endTime < 0"></i>
+                  </span>
               </th>
               <th>Creator</th>
             </tr>
