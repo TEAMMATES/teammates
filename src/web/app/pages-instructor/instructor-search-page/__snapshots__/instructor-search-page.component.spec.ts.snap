@@ -268,7 +268,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       class="no-print align-center"
                     >
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
                         id="btn-view-details-test-exa.demo-0"
                         rel="noopener noreferrer"
@@ -277,7 +277,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          View
                       </a>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
                         id="btn-edit-details-test-exa.demo-0"
                         rel="noopener noreferrer"
@@ -286,13 +286,13 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          Edit
                       </a>
                       <button
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         id="btn-delete-test-exa.demo-0"
                       >
                         Delete
                       </button>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
                         id="btn-view-records-test-exa.demo-0"
                         rel="noopener noreferrer"
@@ -324,7 +324,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       class="no-print align-center"
                     >
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
                         id="btn-view-details-test-exa.demo-1"
                         rel="noopener noreferrer"
@@ -333,7 +333,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          View
                       </a>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
                         id="btn-edit-details-test-exa.demo-1"
                         rel="noopener noreferrer"
@@ -342,13 +342,13 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          Edit
                       </a>
                       <button
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         id="btn-delete-test-exa.demo-1"
                       >
                         Delete
                       </button>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
                         id="btn-view-records-test-exa.demo-1"
                         rel="noopener noreferrer"
@@ -380,7 +380,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       class="no-print align-center"
                     >
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                         id="btn-view-details-test-exa.demo-2"
                         rel="noopener noreferrer"
@@ -389,7 +389,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          View
                       </a>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                         id="btn-edit-details-test-exa.demo-2"
                         rel="noopener noreferrer"
@@ -398,13 +398,13 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          Edit
                       </a>
                       <button
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         id="btn-delete-test-exa.demo-2"
                       >
                         Delete
                       </button>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                         id="btn-view-records-test-exa.demo-2"
                         rel="noopener noreferrer"
@@ -436,7 +436,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       class="no-print align-center"
                     >
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
                         id="btn-view-details-test-exa.demo-3"
                         rel="noopener noreferrer"
@@ -445,7 +445,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          View
                       </a>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
                         id="btn-edit-details-test-exa.demo-3"
                         rel="noopener noreferrer"
@@ -454,13 +454,13 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                          Edit
                       </a>
                       <button
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         id="btn-delete-test-exa.demo-3"
                       >
                         Delete
                       </button>
                       <a
-                        class="btn btn-light btn-sm btn-margin-right"
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
                         id="btn-view-records-test-exa.demo-3"
                         rel="noopener noreferrer"
