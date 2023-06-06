@@ -1,15 +1,15 @@
-import { TableComparatorService } from './../../../services/table-comparator.service';
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SortBy, SortOrder } from '../../../types/sort-properties';
 
 interface OngoingSessionModel {
   ongoingSession: OngoingSession;
@@ -31,7 +31,7 @@ export class AdminSessionsPageComponent implements OnInit {
 
   startFlag: boolean = true;
   endFlag: boolean = true;
-  
+
   totalOngoingSessions: number = 0;
   totalOpenSessions: number = 0;
   totalClosedSessions: number = 0;
@@ -153,7 +153,7 @@ export class AdminSessionsPageComponent implements OnInit {
             this.totalInstitutes = resp.totalInstitutes;
             this.sessionsArr = [];
             Object.keys(resp.sessions).forEach((key: string) => {
-              const obj: Record<string, OngoingSessionModel[]> = {}
+              const obj: Record<string, OngoingSessionModel[]> = {};
               obj[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
                 return {
                   ongoingSession,
@@ -162,8 +162,8 @@ export class AdminSessionsPageComponent implements OnInit {
                 };
               });
               this.sessionsArr.push(obj);
-              if(this.selectedSort !== SortBy.NONE && this.sessionsArr.length > 1){
-                this.sessionsArr.sort(this.sortPanelsBy(this.selectedSort))
+              if (this.selectedSort !== SortBy.NONE && this.sessionsArr.length > 1) {
+                this.sessionsArr.sort(this.sortPanelsBy(this.selectedSort));
               }
               this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
                 return {
@@ -219,7 +219,8 @@ export class AdminSessionsPageComponent implements OnInit {
     }
   }
 
-  sortPanelsBy(by: SortBy):((a: Record<string, OngoingSessionModel[]>, b: Record<string, OngoingSessionModel[]>) => number) {
+  sortPanelsBy(by: SortBy): ((a: Record<string, OngoingSessionModel[]>, b: Record<string, OngoingSessionModel[]>)
+    => number) {
     return ((a: Record<string, OngoingSessionModel[]>, b: Record<string, OngoingSessionModel[]>): number => {
       let strA: string;
       let strB: string;
@@ -245,23 +246,23 @@ export class AdminSessionsPageComponent implements OnInit {
     this.getFeedbackSessions();
   }
 
-  sortByStartDate(sessions: any[]):void{
-    if (this.startFlag == true){
-      sessions.sort((b, a) =>  a.ongoingSession.startTime - b.ongoingSession.startTime);
+  sortByStartDate(sessions: any[]):void {
+    if (this.startFlag === true) {
+      sessions.sort((b, a) => a.ongoingSession.startTime - b.ongoingSession.startTime);
       this.startFlag = false;
-    }else{
-      sessions.sort((a, b) =>  a.ongoingSession.startTime - b.ongoingSession.startTime);
+    } else {
+      sessions.sort((a, b) => a.ongoingSession.startTime - b.ongoingSession.startTime);
       this.startFlag = true;
     }
   }
 
-  sortByEndDate(sessions: any[]):void{
-    if(this.endFlag==true){
-      sessions.sort((b, a) =>  a.ongoingSession.endTime - b.ongoingSession.endTime);
-      this.endFlag=false;
-    }else{
-      sessions.sort((a, b) =>  a.ongoingSession.endTime - b.ongoingSession.endTime);
-      this.endFlag=true;
+  sortByEndDate(sessions: any[]):void {
+    if (this.endFlag === true) {
+      sessions.sort((b, a) => a.ongoingSession.endTime - b.ongoingSession.endTime);
+      this.endFlag = false;
+    } else {
+      sessions.sort((a, b) => a.ongoingSession.endTime - b.ongoingSession.endTime);
+      this.endFlag = true;
     }
   }
 }
