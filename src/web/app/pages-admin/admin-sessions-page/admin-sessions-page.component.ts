@@ -29,6 +29,9 @@ interface OngoingSessionModel {
 })
 export class AdminSessionsPageComponent implements OnInit {
 
+  startFlag: boolean =true;
+  endFlag: boolean =true;
+  
   totalOngoingSessions: number = 0;
   totalOpenSessions: number = 0;
   totalClosedSessions: number = 0;
@@ -240,5 +243,29 @@ export class AdminSessionsPageComponent implements OnInit {
   sortCoursesBy(by: SortBy): void {
     this.selectedSort = by;
     this.getFeedbackSessions();
+  }
+
+  sortByStartDate(sessions: any[]):void{
+    // @ts-ignore
+    if (this.startFlag == true){
+      sessions.sort((b, a) =>  a.ongoingSession.startTime - b.ongoingSession.startTime);
+      this.startFlag = false;
+    }else{
+      sessions.sort((a, b) =>  a.ongoingSession.startTime - b.ongoingSession.startTime);
+      this.startFlag = true;
+    }
+    console.log("click")
+  }
+
+  sortByEndDate(sessions: any[]):void{
+    // @ts-ignore
+    if(this.endFlag==true){
+      sessions.sort((b, a) =>  a.ongoingSession.endTime - b.ongoingSession.endTime);
+      this.endFlag=false;
+    }else{
+      sessions.sort((a, b) =>  a.ongoingSession.endTime - b.ongoingSession.endTime);
+      this.endFlag=true;
+    }
+    console.log("click")
   }
 }
