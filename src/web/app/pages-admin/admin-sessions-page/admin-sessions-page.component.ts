@@ -29,8 +29,8 @@ interface OngoingSessionModel {
 })
 export class AdminSessionsPageComponent implements OnInit {
 
-  startFlag: boolean =true;
-  endFlag: boolean =true;
+  startFlag: boolean = true;
+  endFlag: boolean = true;
   
   totalOngoingSessions: number = 0;
   totalOpenSessions: number = 0;
