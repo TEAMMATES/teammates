@@ -38,6 +38,7 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
+  characterLimit = 100;
 
   constructor(
     private statusMessageService: StatusMessageService,
