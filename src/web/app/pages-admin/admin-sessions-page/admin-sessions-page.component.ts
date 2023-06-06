@@ -246,7 +246,6 @@ export class AdminSessionsPageComponent implements OnInit {
   }
 
   sortByStartDate(sessions: any[]):void{
-    // @ts-ignore
     if (this.startFlag == true){
       sessions.sort((b, a) =>  a.ongoingSession.startTime - b.ongoingSession.startTime);
       this.startFlag = false;
@@ -254,11 +253,9 @@ export class AdminSessionsPageComponent implements OnInit {
       sessions.sort((a, b) =>  a.ongoingSession.startTime - b.ongoingSession.startTime);
       this.startFlag = true;
     }
-    console.log("click")
   }
 
   sortByEndDate(sessions: any[]):void{
-    // @ts-ignore
     if(this.endFlag==true){
       sessions.sort((b, a) =>  a.ongoingSession.endTime - b.ongoingSession.endTime);
       this.endFlag=false;
@@ -266,6 +263,5 @@ export class AdminSessionsPageComponent implements OnInit {
       sessions.sort((a, b) =>  a.ongoingSession.endTime - b.ongoingSession.endTime);
       this.endFlag=true;
     }
-    console.log("click")
   }
 }
