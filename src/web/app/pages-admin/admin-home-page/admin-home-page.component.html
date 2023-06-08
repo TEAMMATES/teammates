@@ -3,13 +3,29 @@
     <div>
       <strong>Adding Multiple Instructors</strong>
       <p class="text-muted">
-        <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
+        <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the
+        format: Name | Email | Institution
       </p>
-      <textarea class="form-control" id="instructor-details-single-line" [(ngModel)]="instructorDetails" aria-label="Add multiple instructors"></textarea>
+      <textarea
+        (blur)="focusOutTextArea()"
+        class="form-control"
+        id="instructor-details-single-line"
+        [(ngModel)]="instructorDetails"
+        aria-label="Add multiple instructors"
+      ></textarea>
+      <div class="text-danger mt-2" *ngIf="showError">
+        Please ensure the entered format is correct.
+      </div>
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" id="add-instructor-single-line" (click)="validateAndAddInstructorDetails()">Add Instructors</button>
+      <button
+        class="btn btn-primary"
+        id="add-instructor-single-line"
+        (click)="validateAndAddInstructorDetails()"
+      >
+        Add Instructors
+      </button>
     </div>
   </div>
 </div>
@@ -24,25 +40,58 @@
       <label for="instructor-name">
         <strong>Name:</strong>
       </label>
-      <input class="form-control" type="text" id="instructor-name" [(ngModel)]="instructorName">
+      <input
+        (blur)="focusOutForm()"
+        class="form-control"
+        type="text"
+        id="instructor-name"
+        [(ngModel)]="instructorName"
+      />
+      <div class="text-danger mt-2" *ngIf="showNameError">
+        Please enter a valid name.
+      </div>
     </div>
 
     <div class="top-padded">
       <label for="instructor-email">
         <strong>Email:</strong>
       </label>
-      <input class="form-control" type="text" id="instructor-email" [(ngModel)]="instructorEmail">
+      <input
+        class="form-control"
+        (blur)="focusOutForm()"
+        type="text"
+        id="instructor-email"
+        [(ngModel)]="instructorEmail"
+      />
+      <div class="text-danger mt-2" *ngIf="showEmailError">
+        Please enter a valid email.
+      </div>
     </div>
 
     <div class="top-padded">
       <label for="instructor-institution">
         <strong>Institution:</strong>
       </label>
-      <input class="form-control" type="text" id="instructor-institution" [(ngModel)]="instructorInstitution">
+      <input
+        (blur)="focusOutForm()"
+        class="form-control"
+        type="text"
+        id="instructor-institution"
+        [(ngModel)]="instructorInstitution"
+      />
+      <div class="text-danger mt-2" *ngIf="showInstitutionError">
+        Please enter a valid institution.
+      </div>
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" id="add-instructor" (click)="validateAndAddInstructorDetail()">Add Instructor</button>
+      <button
+        class="btn btn-primary"
+        id="add-instructor"
+        (click)="validateAndAddInstructorDetail()"
+      >
+        Add Instructor
+      </button>
     </div>
   </div>
 </div>
@@ -65,19 +114,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr tm-new-instructor-data-row
-              *ngFor="let instructor of instructorsConsolidated; let i = index"
-              [instructor]="instructor"
-              [index]="i"
-              [isAddDisabled]="activeRequests > 0"
-              (addInstructorEvent)="addInstructor(i)"
-              (removeInstructorEvent)="removeInstructor(i)"
-              (toggleEditModeEvent)="setInstructorRowEditModeEnabled(i, $event)"
-              (showRegisteredInstructorModalEvent)="showRegisteredInstructorModal(i)"
+          <tr
+            tm-new-instructor-data-row
+            *ngFor="let instructor of instructorsConsolidated; let i = index"
+            [instructor]="instructor"
+            [index]="i"
+            [isAddDisabled]="activeRequests > 0"
+            (addInstructorEvent)="addInstructor(i)"
+            (removeInstructorEvent)="removeInstructor(i)"
+            (toggleEditModeEvent)="setInstructorRowEditModeEnabled(i, $event)"
+            (showRegisteredInstructorModalEvent)="
+              showRegisteredInstructorModal(i)
+            "
           ></tr>
         </tbody>
       </table>
-      <button class="btn btn-primary top-padded" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0 || isAddingInstructors">
+      <button
+        class="btn btn-primary top-padded"
+        (click)="addAllInstructors()"
+        id="add-all-instructors"
+        [disabled]="activeRequests > 0 || isAddingInstructors"
+      >
         <tm-ajax-loading *ngIf="isAddingInstructors"></tm-ajax-loading>
         Add All Instructors
       </button>
@@ -87,23 +144,40 @@
 <ng-template #registeredInstructorModal>
   <div *tmIsLoading="isRegisteredInstructorModalLoading">
     <p>
-      You may <a id="reset-account-request-link" href="javascript:;" (click)="resetAccountRequest(registeredInstructorIndex)">reset</a>
-      this account request. Alternatively, reset the Google account or use the Google ID migration script.
+      You may
+      <a
+        id="reset-account-request-link"
+        href="javascript:;"
+        (click)="resetAccountRequest(registeredInstructorIndex)"
+        >reset</a
+      >
+      this account request. Alternatively, reset the Google account or use the
+      Google ID migration script.
     </p>
     <p *ngIf="!registeredInstructorAccountData.length">
       No accounts found for instructor associated with email
-      <b>{{ instructorsConsolidated[registeredInstructorIndex].email }}</b>.
+      <b>{{ instructorsConsolidated[registeredInstructorIndex].email }}</b
+      >.
     </p>
     <p *ngIf="registeredInstructorAccountData.length">
-      The following {{ registeredInstructorAccountData.length }} account(s) are associated with the email
-      <b>{{ instructorsConsolidated[registeredInstructorIndex].email }}</b>:
+      The following {{ registeredInstructorAccountData.length }} account(s) are
+      associated with the email
+      <b>{{ instructorsConsolidated[registeredInstructorIndex].email }}</b
+      >:
     </p>
     <div class="card" *ngFor="let account of registeredInstructorAccountData">
-      <a href="{{ account.manageAccountLink }}" target="_blank"><h5 class="card-header">{{ account.googleId }}</h5></a>
+      <a href="{{ account.manageAccountLink }}" target="_blank"
+        ><h5 class="card-header">{{ account.googleId }}</h5></a
+      >
       <div class="card-body">
-        <h6 *ngIf="!account.instructorCourses.length">No instructor courses found for this account.</h6>
+        <h6 *ngIf="!account.instructorCourses.length">
+          No instructor courses found for this account.
+        </h6>
         <div *ngIf="account.instructorCourses.length">
-          <h6 class="card-title">Instructor for the following <b>{{ account.instructorCourses.length }}</b> courses:</h6>
+          <h6 class="card-title">
+            Instructor for the following
+            <b>{{ account.instructorCourses.length }}</b> courses:
+          </h6>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -121,9 +195,14 @@
             </tbody>
           </table>
         </div>
-        <h6 class="mt-3" *ngIf="!account.studentCourses.length">No student courses found for this account.</h6>
+        <h6 class="mt-3" *ngIf="!account.studentCourses.length">
+          No student courses found for this account.
+        </h6>
         <div *ngIf="account.studentCourses.length">
-          <h6 class="card-title mt-3">Student for the following <b>{{ account.studentCourses.length }}</b> courses:</h6>
+          <h6 class="card-title mt-3">
+            Student for the following
+            <b>{{ account.studentCourses.length }}</b> courses:
+          </h6>
           <table class="table table-striped">
             <thead>
               <tr>

@@ -7,10 +7,18 @@ import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
+import {
+  Account,
+  Accounts,
+  Courses,
+  JoinLink,
+} from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
+import {
+  InstructorData,
+  RegisteredInstructorAccountData,
+} from './instructor-data';
 
 /**
  * Admin home page.
@@ -21,8 +29,11 @@ import { InstructorData, RegisteredInstructorAccountData } from './instructor-da
   styleUrls: ['./admin-home-page.component.scss'],
 })
 export class AdminHomePageComponent {
-
   instructorDetails: string = '';
+  showError: boolean = false;
+  showNameError: boolean = false;
+  showEmailError: boolean = false;
+  showInstitutionError: boolean = false;
   instructorName: string = '';
   instructorEmail: string = '';
   instructorInstitution: string = '';
@@ -36,7 +47,8 @@ export class AdminHomePageComponent {
   registeredInstructorIndex: number = 0;
   registeredInstructorAccountData: RegisteredInstructorAccountData[] = [];
 
-  @ViewChild('registeredInstructorModal') registeredInstructorModal!: TemplateRef<any>;
+  @ViewChild('registeredInstructorModal')
+  registeredInstructorModal!: TemplateRef<any>;
 
   constructor(
     private accountService: AccountService,
@@ -44,7 +56,7 @@ export class AdminHomePageComponent {
     private simpleModalService: SimpleModalService,
     private statusMessageService: StatusMessageService,
     private linkService: LinkService,
-    private ngbModal: NgbModal,
+    private ngbModal: NgbModal
   ) {}
 
   /**
@@ -53,13 +65,19 @@ export class AdminHomePageComponent {
   validateAndAddInstructorDetails(): void {
     const invalidLines: string[] = [];
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
-      const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
+      const instructorDetailSplit: string[] = instructorDetail
+        .split(/[|\t]/)
+        .map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
         // TODO handle error
         invalidLines.push(instructorDetail);
         continue;
       }
-      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
+      if (
+        !instructorDetailSplit[0] ||
+        !instructorDetailSplit[1] ||
+        !instructorDetailSplit[2]
+      ) {
         // TODO handle error
         invalidLines.push(instructorDetail);
         continue;
@@ -73,16 +91,56 @@ export class AdminHomePageComponent {
       });
     }
     this.instructorDetails = invalidLines.join('\r\n');
+    this.showError = Boolean(this.instructorDetails);
+  }
+
+  /**
+   * Focus out the text area and hide the error message if the text area is empty.
+   */
+  focusOutTextArea() {
+    if (this.instructorDetails.length == 0) {
+      this.showError = false;
+    }
+  }
+
+  /**
+   * Focus out the form and hide the error message if form is empty.
+   */
+  focusOutForm() {
+    if (
+      this.instructorName.length +
+        this.instructorEmail.length +
+        this.instructorInstitution.length ==
+      0
+    ) {
+      this.showNameError = false;
+      this.showEmailError = false;
+      this.showInstitutionError = false;
+    }
   }
 
   /**
    * Validates and adds the instructor detail filled with second form.
    */
   validateAndAddInstructorDetail(): void {
-    if (!this.instructorName || !this.instructorEmail || !this.instructorInstitution) {
-      // TODO handle error
+    if (
+      this.instructorName ||
+      this.instructorEmail ||
+      this.instructorInstitution
+    ) {
+      this.showNameError = !this.instructorName;
+      this.showEmailError = !this.instructorEmail;
+      this.showInstitutionError = !this.instructorInstitution;
+    }
+
+    if (
+      !this.instructorName ||
+      !this.instructorEmail ||
+      !this.instructorInstitution
+    ) {
       return;
     }
+
     this.instructorsConsolidated.push({
       name: this.instructorName,
       email: this.instructorEmail,
@@ -100,36 +158,41 @@ export class AdminHomePageComponent {
    */
   addInstructor(i: number): void {
     const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (this.instructorsConsolidated[i].isCurrentlyBeingEdited
-      || (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')) {
+    if (
+      this.instructorsConsolidated[i].isCurrentlyBeingEdited ||
+      (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')
+    ) {
       return;
     }
     this.activeRequests += 1;
     instructor.status = 'ADDING';
 
     this.isAddingInstructors = true;
-    this.accountService.createAccountRequest({
-      instructorEmail: instructor.email,
-      instructorName: instructor.name,
-      instructorInstitution: instructor.institution,
-    })
-        .pipe(finalize(() => {
+    this.accountService
+      .createAccountRequest({
+        instructorEmail: instructor.email,
+        instructorName: instructor.name,
+        instructorInstitution: instructor.institution,
+      })
+      .pipe(
+        finalize(() => {
           this.isAddingInstructors = false;
-        }))
-        .subscribe({
-          next: (resp: JoinLink) => {
-            instructor.status = 'SUCCESS';
-            instructor.statusCode = 200;
-            instructor.joinLink = resp.joinLink;
-            this.activeRequests -= 1;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            instructor.status = 'FAIL';
-            instructor.statusCode = resp.status;
-            instructor.message = resp.error.message;
-            this.activeRequests -= 1;
-          },
-        });
+        })
+      )
+      .subscribe({
+        next: (resp: JoinLink) => {
+          instructor.status = 'SUCCESS';
+          instructor.statusCode = 200;
+          instructor.joinLink = resp.joinLink;
+          this.activeRequests -= 1;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          instructor.status = 'FAIL';
+          instructor.statusCode = resp.status;
+          instructor.message = resp.error.message;
+          this.activeRequests -= 1;
+        },
+      });
   }
 
   /**
@@ -173,29 +236,38 @@ export class AdminHomePageComponent {
       SimpleModalType.INFO,
       this.registeredInstructorModal,
       undefined,
-      { scrollable: true },
+      { scrollable: true }
     );
 
-    this.accountService.getAccounts(email).pipe(
-      map((accounts: Accounts) => accounts.accounts),
-      mergeMap((accounts: Account[]) =>
-        forkJoin(accounts.map(
-          (account: Account) => this.getRegisteredAccountData(account.googleId)),
+    this.accountService
+      .getAccounts(email)
+      .pipe(
+        map((accounts: Accounts) => accounts.accounts),
+        mergeMap((accounts: Account[]) =>
+          forkJoin(
+            accounts.map((account: Account) =>
+              this.getRegisteredAccountData(account.googleId)
+            )
+          )
         ),
-      ),
-      finalize(() => { this.isRegisteredInstructorModalLoading = false; }),
-    ).subscribe({
-      next: (resp: RegisteredInstructorAccountData[]) => {
-        this.registeredInstructorAccountData = resp;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        modalRef.dismiss();
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+        finalize(() => {
+          this.isRegisteredInstructorModalLoading = false;
+        })
+      )
+      .subscribe({
+        next: (resp: RegisteredInstructorAccountData[]) => {
+          this.registeredInstructorAccountData = resp;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          modalRef.dismiss();
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
-  private getRegisteredAccountData(googleId: string): Observable<RegisteredInstructorAccountData> {
+  private getRegisteredAccountData(
+    googleId: string
+  ): Observable<RegisteredInstructorAccountData> {
     const getStudentCourses: Observable<Courses> = this.courseService
       .getStudentCoursesInMasqueradeMode(googleId)
       .pipe(
@@ -205,7 +277,7 @@ export class AdminHomePageComponent {
             return of({ courses: [] });
           }
           return throwError(() => err);
-        }),
+        })
       );
     const getInstructorCourses: Observable<Courses> = this.courseService
       .getInstructorCoursesInMasqueradeMode(googleId)
@@ -216,23 +288,22 @@ export class AdminHomePageComponent {
             return of({ courses: [] });
           }
           return throwError(() => err);
-        }),
+        })
       );
 
-    return forkJoin([
-      getStudentCourses,
-      getInstructorCourses,
-    ]).pipe(
+    return forkJoin([getStudentCourses, getInstructorCourses]).pipe(
       map((value: [Courses, Courses]) => {
-        const manageAccountLink = this.linkService
-          .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
+        const manageAccountLink = this.linkService.generateManageAccountLink(
+          googleId,
+          this.linkService.ADMIN_ACCOUNTS_PAGE
+        );
         return {
           googleId,
           manageAccountLink,
           studentCourses: value[0].courses,
           instructorCourses: value[1].courses,
         };
-      }),
+      })
     );
   }
 
@@ -243,28 +314,31 @@ export class AdminHomePageComponent {
         <strong>${this.instructorsConsolidated[i].institution}</strong>?
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset account request for <strong>${this.instructorsConsolidated[i].name}</strong>?`,
-        SimpleModalType.WARNING,
-        modalContent);
+      `Reset account request for <strong>${this.instructorsConsolidated[i].name}</strong>?`,
+      SimpleModalType.WARNING,
+      modalContent
+    );
 
-    modalRef.result.then(() => {
-      this.accountService
-        .resetAccountRequest(
-          this.instructorsConsolidated[i].email,
-          this.instructorsConsolidated[i].institution,
-        )
-        .subscribe({
-          next: (resp: JoinLink) => {
-            this.instructorsConsolidated[i].status = 'SUCCESS';
-            this.instructorsConsolidated[i].statusCode = 200;
-            this.instructorsConsolidated[i].joinLink = resp.joinLink;
-            this.ngbModal.dismissAll();
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.accountService
+          .resetAccountRequest(
+            this.instructorsConsolidated[i].email,
+            this.instructorsConsolidated[i].institution
+          )
+          .subscribe({
+            next: (resp: JoinLink) => {
+              this.instructorsConsolidated[i].status = 'SUCCESS';
+              this.instructorsConsolidated[i].statusCode = 200;
+              this.instructorsConsolidated[i].joinLink = resp.joinLink;
+              this.ngbModal.dismissAll();
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
+      },
+      () => {}
+    );
   }
-
 }
