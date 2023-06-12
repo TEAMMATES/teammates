@@ -12,14 +12,14 @@ import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
-import {
-  ResendResultsLinkToRespondentModalComponent,
-} from './resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
+import { ResendResultsLinkToRespondentModalComponent } from './resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import { RespondentListInfoTableComponent } from './respondent-list-info-table/respondent-list-info-table.component';
-import {
-  SendRemindersToRespondentsModalComponent,
-} from './send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
+import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { SessionsTableComponent } from './sessions-table.component';
+import { SortableTableModule } from '../sortable-table/sortable-table.module';
+import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
+import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
+import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 
 /**
  * Module for sessions table.
@@ -32,6 +32,7 @@ import { SessionsTableComponent } from './sessions-table.component';
     SendRemindersToRespondentsModalComponent,
     RespondentListInfoTableComponent,
   ],
+  exports: [SessionsTableComponent, RespondentListInfoTableComponent],
   imports: [
     CommonModule,
     AjaxLoadingModule,
@@ -42,9 +43,14 @@ import { SessionsTableComponent } from './sessions-table.component';
     FormsModule,
     CopySessionModalModule,
     RouterModule,
-    TeammatesCommonModule,
     TeammatesRouterModule,
+    SortableTableModule,
   ],
-  exports: [SessionsTableComponent, RespondentListInfoTableComponent],
+  providers: [
+    FormatDateDetailPipe,
+    FormatDateBriefPipe,
+    PublishStatusNamePipe,
+    PublishStatusTooltipPipe,
+  ],
 })
 export class SessionsTableModule {}
