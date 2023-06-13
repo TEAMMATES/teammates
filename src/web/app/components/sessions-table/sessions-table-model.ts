@@ -1,4 +1,7 @@
-import { FeedbackSession, InstructorPermissionSet } from '../../../types/api-output';
+import {
+  FeedbackSession,
+  InstructorPermissionSet,
+} from '../../../types/api-output';
 
 /**
  * The model for a row of the sessions table.
@@ -24,8 +27,8 @@ export interface CopySessionResult {
 /**
  * The column of the session table
  */
-export enum SessionsTableColumn {
 
+export enum SessionsTableColumn {
   /**
    * Course ID column.
    */
@@ -40,7 +43,19 @@ export enum SessionsTableColumn {
    * End date of the feedback session column.
    */
   END_DATE,
+  /**
+   * Response rate of the feedback session column.
+   */
+  RESPONSE_RATE,
 }
+
+/** Map from column to its name. */
+export const SessionsTableColumnNames = new Map<SessionsTableColumn, string>([
+  [SessionsTableColumn.COURSE_ID, 'Course ID'],
+  [SessionsTableColumn.START_DATE, 'Start Date'],
+  [SessionsTableColumn.END_DATE, 'End Date'],
+  [SessionsTableColumn.RESPONSE_RATE, 'Response Rate'],
+]);
 
 /**
  * The color scheme of the header of the table
