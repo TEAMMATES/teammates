@@ -280,17 +280,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.hasResponseChanged = true;
       this.isSubmitAllClickedChange.emit(false);
 
-      const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-        this.model.recipientSubmissionForms.slice();
-      recipientSubmissionForms[index] = {
-        ...recipientSubmissionForms[index],
+      this.model.recipientSubmissionForms[index] = {
+        ...this.model.recipientSubmissionForms[index],
         [field]: data,
       };
 
-      this.formModelChange.emit({
-        ...this.model,
-        recipientSubmissionForms,
-      });
+      this.formModelChange.emit(this.model);
     }
   }
 
