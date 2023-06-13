@@ -1,8 +1,10 @@
-.custom-buttons { //applies to both mobile and desktop screens
-  width: 115px;
-  height: 30px;
-  margin-bottom: 5px;
-  margin-right: 5px;
+@media (max-width: 767px) { //applies only to mobile screens
+  .custom-buttons { //applies to both mobile and desktop screens
+    width: 115px;
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
 }
 
 .sortable-header {
