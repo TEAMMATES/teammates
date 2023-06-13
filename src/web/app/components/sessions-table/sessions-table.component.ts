@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnInit,
-  OnChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
@@ -45,7 +38,7 @@ import { ResponseRateComponent } from './response-rate.component';
   templateUrl: './sessions-table.component.html',
   styleUrls: ['./sessions-table.component.scss'],
 })
-export class SessionsTableComponent implements OnInit, OnChanges {
+export class SessionsTableComponent implements OnInit {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -86,7 +79,7 @@ export class SessionsTableComponent implements OnInit, OnChanges {
   sortSessionsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
 
   @Output()
-  loadResponseRateEvent: EventEmitter<number> = new EventEmitter();
+  loadResponseRateEvent: EventEmitter<any> = new EventEmitter();
 
   @Output()
   moveSessionToRecycleBinEvent: EventEmitter<number> = new EventEmitter();
@@ -117,7 +110,20 @@ export class SessionsTableComponent implements OnInit, OnChanges {
   sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> =
     new EventEmitter();
 
-  columnsData: ColumnData[] = [];
+  columnsData: ColumnData[] = [
+    { header: 'Session Name', sortBy: SortBy.SESSION_NAME },
+    { header: 'Start Date', sortBy: SortBy.SESSION_START_DATE },
+    { header: 'End Date', sortBy: SortBy.SESSION_END_DATE },
+    { header: 'Submissions' },
+    { header: 'Responses' },
+    {
+      header: 'Response Rate',
+      headerToolTip: 'Number of students submitted / Class size',
+    },
+    {
+      header: 'Action(s)',
+    },
+  ];
   rowsData: SortableTableCellData[][] = [];
 
   constructor(
@@ -126,186 +132,135 @@ export class SessionsTableComponent implements OnInit, OnChanges {
     private formatDateDetailPipe: FormatDateDetailPipe,
     private formatDateBriefPipe: FormatDateBriefPipe,
     private publishStatusName: PublishStatusNamePipe,
-    private publishStatusTooltip: PublishStatusTooltipPipe
+    private publishStatusTooltip: PublishStatusTooltipPipe,
+    private submissionStatusTooltip: SubmissionStatusTooltipPipe,
+    private submissionStatusName: SubmissionStatusNamePipe
   ) {}
 
   ngOnInit(): void {
-    this.setTableData();
+    this.setRowData();
   }
 
-  ngOnChanges(): void {
-    this.rowsData.forEach((row: SortableTableCellData[], idx: number) => {
-      row[5] = {
-        customComponent: {
-          component: ResponseRateComponent,
-          componentData: {
-            responseRate: this.sessionsTableRowModels[idx].responseRate,
-            empty: this.sessionsTableRowModels[idx].responseRate == '',
-            isLoading: this.sessionsTableRowModels[idx].isLoadingResponseRate,
-            onClick: () => {
-              this.loadResponseRateEvent.emit(idx);
-            },
-            idx: idx,
-          },
-        },
-      };
-    });
-    // this.setTableData();
-  }
-
-  setTableData(): void {
-    this.columnsData = [
-      { header: 'Session Name', sortBy: SortBy.SESSION_NAME },
-      { header: 'Start Date', sortBy: SortBy.SESSION_START_DATE },
-      { header: 'End Date', sortBy: SortBy.SESSION_END_DATE },
-      { header: 'Submissions' },
-      { header: 'Responses' },
-      {
-        header: 'Response Rate',
-        headerToolTip: 'Number of students submitted / Class size',
-      },
-      {
-        header: 'Action(s)',
-      },
-    ];
+  setRowData(): void {
     this.rowsData = this.sessionsTableRowModels.map(
       (sessionTableRowModel: SessionsTableRowModel, idx: number) => {
-        const submissionStatus =
-          sessionTableRowModel.feedbackSession.submissionStatus;
+        const { feedbackSession } = sessionTableRowModel;
+        const {
+          submissionStatus,
+          submissionStartTimestamp,
+          submissionEndTimestamp,
+          timeZone,
+          publishStatus,
+        } = feedbackSession;
+
         const deadlines = this.getDeadlines(sessionTableRowModel);
-        const submissionStartTimestamp =
-          sessionTableRowModel.feedbackSession.submissionStartTimestamp;
-        const submissionEndTimestamp =
-          sessionTableRowModel.feedbackSession.submissionEndTimestamp;
-        const timeZone = sessionTableRowModel.feedbackSession.timeZone;
-        const publishStatus =
-          sessionTableRowModel.feedbackSession.publishStatus;
 
         return [
           {
             value: sessionTableRowModel.feedbackSession.feedbackSessionName,
           },
-          {
-            value: String(submissionStartTimestamp),
-            customComponent: {
-              component: CellWithToolTipComponent,
-              componentData: {
-                toolTip: this.formatDateDetailPipe.transform(
-                  submissionStartTimestamp,
-                  timeZone
-                ),
-                value: this.formatDateBriefPipe.transform(
-                  submissionStartTimestamp,
-                  timeZone
-                ),
-              },
-            },
-          },
-          {
-            value: String(submissionEndTimestamp),
-            customComponent: {
-              component: CellWithToolTipComponent,
-              componentData: {
-                toolTip: this.formatDateDetailPipe.transform(
-                  submissionEndTimestamp,
-                  timeZone
-                ),
-                value: this.formatDateBriefPipe.transform(
-                  submissionEndTimestamp,
-                  timeZone
-                ),
-              },
-            },
-          },
-          {
-            customComponent: {
-              component: CellWithToolTipComponent,
-              componentData: {
-                toolTip: new SubmissionStatusTooltipPipe().transform(
-                  submissionStatus,
-                  deadlines
-                ),
-                value: new SubmissionStatusNamePipe().transform(
-                  submissionStatus,
-                  deadlines
-                ),
-              },
-            },
-          },
-          {
-            customComponent: {
-              component: CellWithToolTipComponent,
-              componentData: {
-                toolTip: this.publishStatusTooltip.transform(publishStatus),
-                value: this.publishStatusName.transform(publishStatus),
-              },
-            },
-          },
-          {
-            customComponent: {
-              component: ResponseRateComponent,
-              componentData: {
-                responseRate: sessionTableRowModel.responseRate,
-                empty: sessionTableRowModel.responseRate == '',
-                isLoading: sessionTableRowModel.isLoadingResponseRate,
-                onClick: () => {
-                  this.loadResponseRateEvent.emit(idx);
-                },
-                idx: idx,
-              },
-            },
-          },
-          {
-            customComponent: {
-              component: GroupButtonsComponent,
-              componentData: {
-                courseId: sessionTableRowModel.feedbackSession.courseId,
-                fsName:
-                  sessionTableRowModel.feedbackSession.feedbackSessionName,
-                instructorPrivileges: sessionTableRowModel.instructorPrivilege,
-                idx,
-                submissionStatus:
-                  sessionTableRowModel.feedbackSession.submissionStatus,
-                publishStatus:
-                  sessionTableRowModel.feedbackSession.publishStatus,
-                onSubmitSessionAsInstructor: () => {
-                  return this.submitSessionAsInstructorEvent.emit(idx);
-                },
-                isSendReminderLoading: this.isSendReminderLoading,
-                rowClicked: this.rowClicked,
-                copySession: () => {
-                  this.copySession(idx);
-                },
-                moveSessionToRecycleBin: () => {
-                  this.moveSessionToRecycleBin(idx);
-                },
-                unpublishSession: () => {
-                  this.unpublishSession(idx);
-                },
-                publishSession: () => {
-                  this.publishSession(idx);
-                },
-                remindResultsLinkToStudent: () => {
-                  this.remindResultsLinkToStudent(idx);
-                },
-                downloadSessionResults: () => {
-                  this.downloadSessionResults(idx);
-                },
-                sendRemindersToAllNonSubmitters: () => {
-                  this.sendRemindersToAllNonSubmitters(idx);
-                },
-                sendRemindersToSelectedNonSubmitters: () => {
-                  this.sendRemindersToSelectedNonSubmitters(idx);
-                },
-                setRowClicked: () => {
-                  this.setRowClicked(idx);
-                },
-              },
-            },
-          },
+          this.createDateCellWithToolTip(submissionStartTimestamp, timeZone),
+          this.createDateCellWithToolTip(submissionEndTimestamp, timeZone),
+          this.createCellWithToolTip(
+            this.submissionStatusTooltip.transform(submissionStatus, deadlines),
+            this.submissionStatusName.transform(submissionStatus, deadlines)
+          ),
+          this.createCellWithToolTip(
+            this.publishStatusTooltip.transform(publishStatus),
+            this.publishStatusName.transform(publishStatus)
+          ),
+          this.createResponseRateComponent(sessionTableRowModel, idx),
+          this.createGroupButtonsComponent(sessionTableRowModel, idx),
         ];
       }
     );
+  }
+
+  private createGroupButtonsComponent(
+    sessionTableRowModel: SessionsTableRowModel,
+    idx: number
+  ): any {
+    const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
+
+    return {
+      customComponent: {
+        component: GroupButtonsComponent,
+        componentData: {
+          courseId: feedbackSession.courseId,
+          fsName: feedbackSession.feedbackSessionName,
+          instructorPrivileges: instructorPrivilege,
+          idx,
+          submissionStatus: feedbackSession.submissionStatus,
+          publishStatus: feedbackSession.publishStatus,
+          onSubmitSessionAsInstructor: () =>
+            this.submitSessionAsInstructorEvent.emit(idx),
+          isSendReminderLoading: this.isSendReminderLoading,
+          rowClicked: this.rowClicked,
+          copySession: () => this.copySession(idx),
+          moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
+          unpublishSession: () => this.unpublishSession(idx),
+          publishSession: () => this.publishSession(idx),
+          remindResultsLinkToStudent: () =>
+            this.remindResultsLinkToStudent(idx),
+          downloadSessionResults: () => this.downloadSessionResults(idx),
+          sendRemindersToAllNonSubmitters: () =>
+            this.sendRemindersToAllNonSubmitters(idx),
+          sendRemindersToSelectedNonSubmitters: () =>
+            this.sendRemindersToSelectedNonSubmitters(idx),
+          setRowClicked: () => this.setRowClicked(idx),
+        },
+      },
+    };
+  }
+
+  private createResponseRateComponent(
+    sessionTableRowModel: SessionsTableRowModel,
+    idx: number
+  ): any {
+    const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
+    return {
+      customComponent: {
+        component: ResponseRateComponent,
+        componentData: {
+          responseRate,
+          empty: responseRate === '',
+          isLoading: isLoadingResponseRate,
+          onClick: () => {
+            this.loadResponseRateEvent.emit({
+              idx,
+              rowData: this.rowsData[idx],
+              columnsData: this.columnsData,
+            });
+          },
+          idx,
+        },
+      },
+    };
+  }
+
+  private createCellWithToolTip(toolTip: string, value: string): any {
+    return {
+      customComponent: {
+        component: CellWithToolTipComponent,
+        componentData: {
+          toolTip,
+          value,
+        },
+      },
+    };
+  }
+
+  private createDateCellWithToolTip(timestamp: number, timeZone: string): any {
+    return {
+      value: String(timestamp),
+      customComponent: {
+        component: CellWithToolTipComponent,
+        componentData: {
+          toolTip: this.formatDateDetailPipe.transform(timestamp, timeZone),
+          value: this.formatDateBriefPipe.transform(timestamp, timeZone),
+        },
+      },
+    };
   }
 
   /**

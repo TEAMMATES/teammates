@@ -20,6 +20,8 @@ import { SortableTableModule } from '../sortable-table/sortable-table.module';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
+import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
+import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
 
 /**
  * Module for sessions table.
@@ -51,6 +53,8 @@ import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.p
     FormatDateBriefPipe,
     PublishStatusNamePipe,
     PublishStatusTooltipPipe,
+    SubmissionStatusNamePipe,
+    SubmissionStatusTooltipPipe,
   ],
 })
 export class SessionsTableModule {}
