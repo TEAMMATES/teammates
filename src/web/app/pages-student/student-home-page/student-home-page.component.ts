@@ -20,12 +20,15 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 interface StudentCourse {
   course: Course;
   feedbackSessions: StudentSession[];
   isFeedbackSessionsLoading: boolean;
   hasFeedbackSessionsLoadingFailed: boolean;
+  isTabExpanded: boolean;
+  hasPopulated: boolean;
 }
 
 interface StudentSession {
@@ -43,9 +46,9 @@ interface StudentSession {
   selector: 'tm-student-home-page',
   templateUrl: './student-home-page.component.html',
   styleUrls: ['./student-home-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class StudentHomePageComponent implements OnInit {
-
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -56,14 +59,18 @@ export class StudentHomePageComponent implements OnInit {
     'The responses for the session have not yet been published and cannot be viewed.';
   studentFeedbackSessionStatusAwaiting: string =
     'The session is not open for submission at this time. It is expected to open later.';
-  studentFeedbackSessionStatusPending: string = 'The feedback session is yet to be completed by you.';
-  studentFeedbackSessionStatusExtension: string = ' An instructor has granted you a deadline extension.';
-  studentFeedbackSessionStatusSubmitted: string = 'You have submitted your feedback for this session.';
-  studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
+  studentFeedbackSessionStatusPending: string =
+    'The feedback session is yet to be completed by you.';
+  studentFeedbackSessionStatusExtension: string =
+    ' An instructor has granted you a deadline extension.';
+  studentFeedbackSessionStatusSubmitted: string =
+    'You have submitted your feedback for this session.';
+  studentFeedbackSessionStatusClosed: string =
+    ' The session is now closed for submissions.';
 
   // Error messages
   allStudentFeedbackSessionsNotReturned: string =
-      'Something went wrong with fetching responses for all Feedback Sessions.';
+    'Something went wrong with fetching responses for all Feedback Sessions.';
 
   courses: StudentCourse[] = [];
   isCoursesLoading: boolean = false;
@@ -74,12 +81,14 @@ export class StudentHomePageComponent implements OnInit {
   sessionSubmissionStatusPipe = new SubmissionStatusPipe();
   formatDateDetailPipe = new FormatDateDetailPipe(this.timezoneService);
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private courseService: CourseService,
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
     private timezoneService: TimezoneService,
-    private tableComparatorService: TableComparatorService) {
+    private tableComparatorService: TableComparatorService
+  ) {
     this.timezoneService.getTzVersion();
   }
 
@@ -96,28 +105,54 @@ export class StudentHomePageComponent implements OnInit {
     this.hasCoursesLoadingFailed = false;
     this.isCoursesLoading = true;
     this.courses = [];
-    this.courseService.getAllCoursesAsStudent()
-      .pipe(finalize(() => { this.isCoursesLoading = false; }))
+    this.courseService
+      .getAllCoursesAsStudent()
+      .pipe(
+        finalize(() => {
+          this.isCoursesLoading = false;
+        })
+      )
       .subscribe({
         next: (resp: Courses) => {
-          for (const course of resp.courses) {
+          resp.courses.forEach((course: Course) => {
             this.courses.push({
               course,
               feedbackSessions: [],
-              isFeedbackSessionsLoading: true,
+              isFeedbackSessionsLoading: false,
               hasFeedbackSessionsLoadingFailed: false,
+              isTabExpanded: false,
+              hasPopulated: false,
             });
-            this.loadFeedbackSessionsForCourse(course.courseId);
-          }
+          });
+
           this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-              ((a.course.courseId > b.course.courseId) ? 1 : -1));
+            a.course.courseId > b.course.courseId ? 1 : -1
+          );
+
+          this.courses.slice(0, 3).forEach((course: StudentCourse) => {
+            course.isTabExpanded = true;
+            this.loadFeedbackSessionsForCourse(course.course.courseId);
+          });
         },
         error: (e: ErrorMessageOutput) => {
           this.hasCoursesLoadingFailed = true;
           this.statusMessageService.showErrorToast(e.error.message);
         },
       });
+  }
+
+  /**
+   * Handles click events on the course tab model.
+   */
+  handleClick(event: Event, studentCourse: StudentCourse): boolean {
+    if (
+      event.target &&
+      !(event.target as HTMLElement).className.includes('dropdown-toggle')
+    ) {
+      return !studentCourse.isTabExpanded;
     }
+    return studentCourse.isTabExpanded;
+  }
 
   /**
    * Load feedback sessions for a single course.
@@ -126,54 +161,80 @@ export class StudentHomePageComponent implements OnInit {
   loadFeedbackSessionsForCourse(courseId: string): void {
     // reference to the course within the this.courses array
     const courseRef = this.courses.find((c) => c.course.courseId === courseId)!;
+    if (courseRef.hasPopulated) {
+      return;
+    }
     courseRef.isFeedbackSessionsLoading = true;
     courseRef.hasFeedbackSessionsLoadingFailed = false;
-    this.feedbackSessionsService.getFeedbackSessionsForStudent('student', courseId)
+    courseRef.feedbackSessions = [];
+    this.feedbackSessionsService
+      .getFeedbackSessionsForStudent('student', courseId)
       .subscribe({
         next: (fss: FeedbackSessions) => {
           const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
-          this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(courseId)
-              .pipe(finalize(() => {
+          this.feedbackSessionsService
+            .hasStudentResponseForAllFeedbackSessionsInCourse(courseId)
+            .pipe(
+              finalize(() => {
                 courseRef.isFeedbackSessionsLoading = false;
-              }))
-              .subscribe({
-                next: (hasRes: HasResponses) => {
-                  if (!hasRes.hasResponsesBySession) {
-                    this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-                    courseRef.hasFeedbackSessionsLoadingFailed = true;
-                    return;
-                  }
-
-                  const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
-                  const isAllSessionsPresent: boolean =
-                      sortedFss.filter((fs: FeedbackSession) =>
-                          sessionsReturned.has(fs.feedbackSessionName)).length
-                      === sortedFss.length;
-
-                  if (!isAllSessionsPresent) {
-                    this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-                    courseRef.hasFeedbackSessionsLoadingFailed = true;
-                    return;
-                  }
-
-                  for (const fs of sortedFss) {
-                    const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-                    const isWaitingToOpen: boolean =
-                        fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-                    const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
-
-                    const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
-                    courseRef.feedbackSessions.push({
-                      isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs,
-                    });
-                  }
-                },
-                error: (error: ErrorMessageOutput) => {
+              })
+            )
+            .subscribe({
+              next: (hasRes: HasResponses) => {
+                if (!hasRes.hasResponsesBySession) {
+                  this.statusMessageService.showErrorToast(
+                    this.allStudentFeedbackSessionsNotReturned
+                  );
                   courseRef.hasFeedbackSessionsLoadingFailed = true;
-                  this.statusMessageService.showErrorToast(error.error.message);
-                },
-              });
+                  return;
+                }
+
+                const sessionsReturned: Set<string> = new Set(
+                  Object.keys(hasRes.hasResponsesBySession)
+                );
+                const isAllSessionsPresent: boolean =
+                  sortedFss.filter((fs: FeedbackSession) =>
+                    sessionsReturned.has(fs.feedbackSessionName)
+                  ).length === sortedFss.length;
+
+                if (!isAllSessionsPresent) {
+                  this.statusMessageService.showErrorToast(
+                    this.allStudentFeedbackSessionsNotReturned
+                  );
+                  courseRef.hasFeedbackSessionsLoadingFailed = true;
+                  return;
+                }
+
+                for (const fs of sortedFss) {
+                  const isOpened: boolean =
+                    fs.submissionStatus ===
+                    FeedbackSessionSubmissionStatus.OPEN;
+                  const isWaitingToOpen: boolean =
+                    fs.submissionStatus ===
+                    FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                  const isPublished: boolean =
+                    fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+
+                  const isSubmitted: boolean =
+                    hasRes.hasResponsesBySession[fs.feedbackSessionName];
+                  courseRef.feedbackSessions.push({
+                    isOpened,
+                    isWaitingToOpen,
+                    isPublished,
+                    isSubmitted,
+                    session: fs,
+                  });
+                }
+
+                // only set true if all feedback sessions are loaded
+                courseRef.hasPopulated = true;
+              },
+              error: (error: ErrorMessageOutput) => {
+                courseRef.hasFeedbackSessionsLoadingFailed = true;
+                this.statusMessageService.showErrorToast(error.error.message);
+              },
+            });
         },
         error: (error: ErrorMessageOutput) => {
           courseRef.isFeedbackSessionsLoading = false;
@@ -188,8 +249,11 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
-    const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(session.session);
-    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasOngoingExtension(session.session);
+    const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(
+      session.session
+    );
+    const hasOngoingStudentExtension =
+      DeadlineExtensionHelper.hasOngoingExtension(session.session);
 
     if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;
@@ -203,7 +267,11 @@ export class StudentHomePageComponent implements OnInit {
       msg += this.studentFeedbackSessionStatusExtension;
     }
 
-    if (!session.isOpened && !session.isWaitingToOpen && !hasOngoingStudentExtension) {
+    if (
+      !session.isOpened &&
+      !session.isWaitingToOpen &&
+      !hasOngoingStudentExtension
+    ) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
     return msg;
@@ -215,15 +283,23 @@ export class StudentHomePageComponent implements OnInit {
   getSubmissionStatus(session: StudentSession): string {
     const hasStudentExtension = this.hasStudentExtension(session.session);
     return this.sessionSubmissionStatusPipe.transform(
-      session.isOpened, session.isWaitingToOpen, session.isSubmitted, hasStudentExtension);
+      session.isOpened,
+      session.isWaitingToOpen,
+      session.isSubmitted,
+      hasStudentExtension
+    );
   }
 
   /**
    * Get the formatted date of the student's session end time.
    */
   getSubmissionEndDate({ session }: StudentSession): string {
-    const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
-    return this.formatDateDetailPipe.transform(submissionEndDate, session.timeZone);
+    const submissionEndDate =
+      DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
+    return this.formatDateDetailPipe.transform(
+      submissionEndDate,
+      session.timeZone
+    );
   }
 
   getSubmissionEndDateTooltip({ session }: StudentSession): string {
@@ -231,9 +307,14 @@ export class StudentHomePageComponent implements OnInit {
     if (!hasStudentExtension) {
       return '';
     }
-    const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
-    return `The session's original end date is ${originalEndTime}.`
-      + ' An instructor has granted you an extension to this date.';
+    const originalEndTime = this.formatDateDetailPipe.transform(
+      session.submissionEndTimestamp,
+      session.timeZone
+    );
+    return (
+      `The session's original end date is ${originalEndTime}.` +
+      ' An instructor has granted you an extension to this date.'
+    );
   }
 
   hasStudentExtension(session: FeedbackSession): boolean {
@@ -272,24 +353,33 @@ export class StudentHomePageComponent implements OnInit {
     this.courses.sort(this.sortPanelsBy(by));
   }
 
-  sortPanelsBy(by: SortBy): ((a: StudentCourse, b: StudentCourse) => number) {
-    return ((a: StudentCourse, b: StudentCourse): number => {
+  sortPanelsBy(by: SortBy): (a: StudentCourse, b: StudentCourse) => number {
+    return (a: StudentCourse, b: StudentCourse): number => {
       let strA: string;
       let strB: string;
+      let sortOrder: SortOrder;
       switch (by) {
         case SortBy.COURSE_NAME:
           strA = a.course.courseName;
           strB = b.course.courseName;
+          sortOrder = SortOrder.ASC;
           break;
         case SortBy.COURSE_ID:
           strA = a.course.courseId;
           strB = b.course.courseId;
+          sortOrder = SortOrder.ASC;
+          break;
+        case SortBy.COURSE_CREATION_DATE:
+          strA = a.course.creationTimestamp.toString();
+          strB = b.course.creationTimestamp.toString();
+          sortOrder = SortOrder.DESC;
           break;
         default:
           strA = '';
           strB = '';
+          sortOrder = SortOrder.ASC;
       }
-      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
-    });
+      return this.tableComparatorService.compare(by, sortOrder, strA, strB);
+    };
   }
 }
