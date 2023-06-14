@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { InstructorPermissionSet } from 'src/web/types/api-request';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-import {
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-} from 'src/web/types/api-output';
-import { SessionsTableHeaderColorScheme } from './sessions-table-model';
-import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import {
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+} from 'src/web/types/api-output';
+import { InstructorPermissionSet } from 'src/web/types/api-request';
+import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+import { SessionsTableHeaderColorScheme } from './sessions-table-model';
 
 @Component({
   selector: 'tm-group-buttons',

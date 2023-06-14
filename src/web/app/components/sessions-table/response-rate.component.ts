@@ -1,6 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'tm-response-rate',

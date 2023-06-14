@@ -33,11 +33,11 @@ import {
   SessionsTableRowModel,
 } from '../components/sessions-table/sessions-table-model';
 import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
-import { ErrorMessageOutput } from '../error-message-output';
 import {
   ColumnData,
   SortableTableCellData,
 } from '../components/sortable-table/sortable-table.component';
+import { ErrorMessageOutput } from '../error-message-output';
 
 /**
  * The base page for session related page.
@@ -63,7 +63,7 @@ export abstract class InstructorSessionBasePageComponent {
     protected simpleModalService: SimpleModalService,
     protected progressBarService: ProgressBarService,
     protected feedbackSessionActionsService: FeedbackSessionActionsService,
-    protected timezoneService: TimezoneService
+    protected timezoneService: TimezoneService,
   ) {}
 
   /**
@@ -73,7 +73,7 @@ export abstract class InstructorSessionBasePageComponent {
     fromFeedbackSession: FeedbackSession,
     newSessionName: string,
     newCourseId: string,
-    oldCourseId: string
+    oldCourseId: string,
   ): Observable<FeedbackSession> {
     // Local constants
     const startHour = moment
@@ -142,13 +142,13 @@ export abstract class InstructorSessionBasePageComponent {
     let copiedCustomSessionVisibleTimestamp =
       fromFeedbackSession.customSessionVisibleTimestamp!;
     const thirtyDaysBeforeSubmissionStart = moment(
-      copiedSubmissionStartTimestamp
+      copiedSubmissionStartTimestamp,
     )
       .tz(fromFeedbackSession.timeZone)
       .subtract(30, 'days')
       .valueOf();
     const thirtyDaysBeforeSubmissionStartRoundedUp = moment(
-      copiedSubmissionStartTimestamp
+      copiedSubmissionStartTimestamp,
     )
       .tz(fromFeedbackSession.timeZone)
       .subtract(30, 'days')
@@ -174,12 +174,12 @@ export abstract class InstructorSessionBasePageComponent {
     const copiedCustomResponseVisibleTimestamp =
       fromFeedbackSession.customResponseVisibleTimestamp!;
     if (
-      copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM &&
-      ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN &&
-        copiedCustomResponseVisibleTimestamp <
-          copiedSubmissionStartTimestamp) ||
-        copiedCustomResponseVisibleTimestamp <
-          copiedCustomSessionVisibleTimestamp)
+      copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM
+      && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+        && copiedCustomResponseVisibleTimestamp
+          < copiedSubmissionStartTimestamp)
+        || copiedCustomResponseVisibleTimestamp
+          < copiedCustomSessionVisibleTimestamp)
     ) {
       copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
       isModified = true;
@@ -192,52 +192,52 @@ export abstract class InstructorSessionBasePageComponent {
         oldTimestamp: {
           submissionStartTimestamp: this.formatTimestamp(
             fromFeedbackSession.submissionStartTimestamp,
-            fromFeedbackSession.timeZone
+            fromFeedbackSession.timeZone,
           ),
           submissionEndTimestamp: this.formatTimestamp(
             fromFeedbackSession.submissionEndTimestamp,
-            fromFeedbackSession.timeZone
+            fromFeedbackSession.timeZone,
           ),
           sessionVisibleTimestamp:
-            fromFeedbackSession.sessionVisibleSetting ===
-            SessionVisibleSetting.AT_OPEN
+            fromFeedbackSession.sessionVisibleSetting
+            === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
               : this.formatTimestamp(
                   fromFeedbackSession.customSessionVisibleTimestamp!,
-                  fromFeedbackSession.timeZone
+                  fromFeedbackSession.timeZone,
                 ),
           responseVisibleTimestamp: '',
         },
         newTimestamp: {
           submissionStartTimestamp: this.formatTimestamp(
             copiedSubmissionStartTimestamp,
-            fromFeedbackSession.timeZone
+            fromFeedbackSession.timeZone,
           ),
           submissionEndTimestamp: this.formatTimestamp(
             copiedSubmissionEndTimestamp,
-            fromFeedbackSession.timeZone
+            fromFeedbackSession.timeZone,
           ),
           sessionVisibleTimestamp:
             copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
               : this.formatTimestamp(
                   copiedCustomSessionVisibleTimestamp!,
-                  fromFeedbackSession.timeZone
+                  fromFeedbackSession.timeZone,
                 ),
           responseVisibleTimestamp: '',
         },
       };
 
       if (
-        fromFeedbackSession.responseVisibleSetting ===
-        ResponseVisibleSetting.AT_VISIBLE
+        fromFeedbackSession.responseVisibleSetting
+        === ResponseVisibleSetting.AT_VISIBLE
       ) {
         this.modifiedSession[
           newSessionName
         ].oldTimestamp.responseVisibleTimestamp = 'On session visible time';
       } else if (
-        fromFeedbackSession.responseVisibleSetting ===
-        ResponseVisibleSetting.LATER
+        fromFeedbackSession.responseVisibleSetting
+        === ResponseVisibleSetting.LATER
       ) {
         this.modifiedSession[
           newSessionName
@@ -247,7 +247,7 @@ export abstract class InstructorSessionBasePageComponent {
           newSessionName
         ].oldTimestamp.responseVisibleTimestamp = this.formatTimestamp(
           fromFeedbackSession.customResponseVisibleTimestamp!,
-          fromFeedbackSession.timeZone
+          fromFeedbackSession.timeZone,
         );
       }
 
@@ -266,7 +266,7 @@ export abstract class InstructorSessionBasePageComponent {
           newSessionName
         ].newTimestamp.responseVisibleTimestamp = this.formatTimestamp(
           copiedCustomResponseVisibleTimestamp!,
-          fromFeedbackSession.timeZone
+          fromFeedbackSession.timeZone,
         );
       }
     }
@@ -297,7 +297,7 @@ export abstract class InstructorSessionBasePageComponent {
     return this.timezoneService.formatToString(
       timestamp,
       timeZone,
-      'D MMM YYYY h:mm A'
+      'D MMM YYYY h:mm A',
     );
   }
 
@@ -306,14 +306,14 @@ export abstract class InstructorSessionBasePageComponent {
    */
   protected sortModelsBy(
     by: SortBy,
-    order: SortOrder
+    order: SortOrder,
   ): (
     a: { feedbackSession: FeedbackSession },
     b: { feedbackSession: FeedbackSession }
   ) => number {
     return (
       a: { feedbackSession: FeedbackSession },
-      b: { feedbackSession: FeedbackSession }
+      b: { feedbackSession: FeedbackSession },
     ): number => {
       let strA: string;
       let strB: string;
@@ -356,12 +356,12 @@ export abstract class InstructorSessionBasePageComponent {
   loadResponseRate(
     model: SessionsTableRowModel,
     rowData: SortableTableCellData[],
-    columnsData: ColumnData[]
+    columnsData: ColumnData[],
   ): void {
     const colIdx = columnsData.findIndex(
       (colData) =>
-        colData.header ===
-        SessionsTableColumnNames.get(SessionsTableColumn.RESPONSE_RATE)
+        colData.header
+        === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSE_RATE),
     );
 
     model.isLoadingResponseRate = true;
@@ -374,7 +374,7 @@ export abstract class InstructorSessionBasePageComponent {
     this.feedbackSessionsService
       .loadSessionStatistics(
         model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName
+        model.feedbackSession.feedbackSessionName,
       )
       .pipe(
         finalize(() => {
@@ -383,7 +383,7 @@ export abstract class InstructorSessionBasePageComponent {
             ...rowData[colIdx].customComponent!.componentData!,
             isLoading: false,
           };
-        })
+        }),
       )
       .subscribe({
         next: (resp: FeedbackSessionStats) => {
@@ -391,7 +391,7 @@ export abstract class InstructorSessionBasePageComponent {
           rowData[colIdx].customComponent!.componentData! = {
             ...rowData[colIdx].customComponent!.componentData!,
             responseRate: model.responseRate,
-            empty: model.responseRate == '',
+            empty: model.responseRate === '',
           };
         },
         error: (resp: ErrorMessageOutput) => {
@@ -409,7 +409,7 @@ export abstract class InstructorSessionBasePageComponent {
    */
   createSessionCopyRequestsFromRowModel(
     model: SessionsTableRowModel,
-    result: CopySessionResult
+    result: CopySessionResult,
   ): Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
@@ -418,13 +418,13 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession,
           result.newFeedbackSessionName,
           copyToCourseId,
-          result.sessionToCopyCourseId
+          result.sessionToCopyCourseId,
         ).pipe(
           catchError((err: any) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return of(err);
-          })
-        )
+          }),
+        ),
       );
     });
     return copySessionRequests;
@@ -441,7 +441,7 @@ export abstract class InstructorSessionBasePageComponent {
   createSessionCopyRequestsFromModal(
     result: CopySessionModalResult,
     courseId: string,
-    feedbackSessionName: string
+    feedbackSessionName: string,
   ): Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
@@ -458,14 +458,14 @@ export abstract class InstructorSessionBasePageComponent {
                 feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
-                result.sessionToCopyCourseId
-              )
+                result.sessionToCopyCourseId,
+              ),
             ),
             catchError((err: any) => {
               this.failedToCopySessions[copyToCourseId] = err.error.message;
               return of(err);
-            })
-          )
+            }),
+          ),
       );
     });
     return copySessionRequests;
@@ -476,7 +476,7 @@ export abstract class InstructorSessionBasePageComponent {
    */
   copySingleSession(
     copySessionRequest: Observable<FeedbackSession>,
-    modifiedTimestampsModal: TemplateRef<any>
+    modifiedTimestampsModal: TemplateRef<any>,
   ): void {
     copySessionRequest.subscribe({
       next: (createdSession: FeedbackSession) => {
@@ -494,9 +494,9 @@ export abstract class InstructorSessionBasePageComponent {
                   {
                     courseid: createdSession.courseId,
                     fsname: createdSession.feedbackSessionName,
-                  }
+                  },
                 ),
-            }
+            },
           );
         } else {
           this.navigationService.navigateWithSuccessMessage(
@@ -505,7 +505,7 @@ export abstract class InstructorSessionBasePageComponent {
             {
               courseid: createdSession.courseId,
               fsname: createdSession.feedbackSessionName,
-            }
+            },
           );
         }
       },
@@ -522,11 +522,11 @@ export abstract class InstructorSessionBasePageComponent {
       this.simpleModalService.openInformationModal(
         'Note On Modified Session Timings',
         SimpleModalType.WARNING,
-        modifiedTimestampsModal
+        modifiedTimestampsModal,
       );
     } else {
       this.statusMessageService.showSuccessToast(
-        'Feedback session copied successfully to all courses.'
+        'Feedback session copied successfully to all courses.',
       );
     }
   }
@@ -535,12 +535,12 @@ export abstract class InstructorSessionBasePageComponent {
     return Object.keys(this.failedToCopySessions)
       .map(
         (key: string) =>
-          `Error copying to ${key}: ${this.failedToCopySessions[key]}`
+          `Error copying to ${key}: ${this.failedToCopySessions[key]}`,
       )
       .join(' ')
       .concat(
         ` Tip: If you can't find such a session in that course, also check the 'Recycle bin'
-         (shown at the bottom of the 'Sessions' page).`
+         (shown at the bottom of the 'Sessions' page).`,
       );
   }
 
@@ -553,7 +553,7 @@ export abstract class InstructorSessionBasePageComponent {
       {
         courseid: model.feedbackSession.courseId,
         fsname: model.feedbackSession.feedbackSessionName,
-      }
+      },
     );
   }
 
@@ -578,13 +578,13 @@ export abstract class InstructorSessionBasePageComponent {
               Intent.FULL_DETAIL,
               true,
               true,
-              questions
-            )
+              questions,
+            ),
           );
         }),
         finalize(() => {
           this.isResultActionLoading = false;
-        })
+        }),
       )
       .subscribe();
   }
@@ -597,12 +597,12 @@ export abstract class InstructorSessionBasePageComponent {
     this.feedbackSessionsService
       .publishFeedbackSession(
         model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName
+        model.feedbackSession.feedbackSessionName,
       )
       .pipe(
         finalize(() => {
           this.isResultActionLoading = false;
-        })
+        }),
       )
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
@@ -610,8 +610,8 @@ export abstract class InstructorSessionBasePageComponent {
           model.responseRate = '';
 
           this.statusMessageService.showSuccessToast(
-            'The feedback session has been published. ' +
-              'Please allow up to 1 hour for all the notification emails to be sent out.'
+            'The feedback session has been published. '
+              + 'Please allow up to 1 hour for all the notification emails to be sent out.',
           );
         },
         error: (resp: ErrorMessageOutput) => {
@@ -633,12 +633,12 @@ export abstract class InstructorSessionBasePageComponent {
     this.feedbackSessionsService
       .unpublishFeedbackSession(
         model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName
+        model.feedbackSession.feedbackSessionName,
       )
       .pipe(
         finalize(() => {
           this.isResultActionLoading = false;
-        })
+        }),
       )
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
@@ -646,7 +646,7 @@ export abstract class InstructorSessionBasePageComponent {
           model.responseRate = '';
 
           this.statusMessageService.showSuccessToast(
-            'The feedback session has been unpublished.'
+            'The feedback session has been unpublished.',
           );
         },
         error: (resp: ErrorMessageOutput) => {
