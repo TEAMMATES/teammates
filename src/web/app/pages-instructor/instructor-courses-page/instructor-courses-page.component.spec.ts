@@ -385,6 +385,24 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
   });
 
+  it('should restore a soft deleted course', () => {
+    component.softDeletedCourses = [courseModelCS1231];
+    expect(component.softDeletedCourses.length).toEqual(1);
+
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'restoreCourse')
+      .mockReturnValue(of(courseModelCS1231));
+    jest.spyOn(simpleModalService, 'openConfirmationModal')
+      .mockReturnValue(createMockNgbModalRef());
+
+    component.onRestore('CS1231');
+
+    expect(courseSpy).toHaveBeenCalledTimes(1);
+    expect(courseSpy).toHaveBeenNthCalledWith(1, 'CS1231');
+
+    expect(component.archivedCourses.length).toEqual(0);
+    expect(component.softDeletedCourses.length).toEqual(0);
+});
+
   it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
