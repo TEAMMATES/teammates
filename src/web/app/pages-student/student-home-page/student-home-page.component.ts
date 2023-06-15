@@ -87,7 +87,7 @@ export class StudentHomePageComponent implements OnInit {
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
     private timezoneService: TimezoneService,
-    private tableComparatorService: TableComparatorService,
+    private tableComparatorService: TableComparatorService
   ) {
     this.timezoneService.getTzVersion();
   }
@@ -110,7 +110,7 @@ export class StudentHomePageComponent implements OnInit {
       .pipe(
         finalize(() => {
           this.isCoursesLoading = false;
-        }),
+        })
       )
       .subscribe({
         next: (resp: Courses) => {
@@ -126,7 +126,7 @@ export class StudentHomePageComponent implements OnInit {
           });
 
           this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-            (a.course.courseId > b.course.courseId ? 1 : -1),
+            a.course.courseId > b.course.courseId ? 1 : -1
           );
 
           this.courses.slice(0, 3).forEach((course: StudentCourse) => {
@@ -146,8 +146,8 @@ export class StudentHomePageComponent implements OnInit {
    */
   handleClick(event: Event, studentCourse: StudentCourse): boolean {
     if (
-      event.target
-      && !(event.target as HTMLElement).className.includes('dropdown-toggle')
+      event.target &&
+      !(event.target as HTMLElement).className.includes('dropdown-toggle')
     ) {
       return !studentCourse.isTabExpanded;
     }
@@ -178,29 +178,29 @@ export class StudentHomePageComponent implements OnInit {
             .pipe(
               finalize(() => {
                 courseRef.isFeedbackSessionsLoading = false;
-              }),
+              })
             )
             .subscribe({
               next: (hasRes: HasResponses) => {
                 if (!hasRes.hasResponsesBySession) {
                   this.statusMessageService.showErrorToast(
-                    this.allStudentFeedbackSessionsNotReturned,
+                    this.allStudentFeedbackSessionsNotReturned
                   );
                   courseRef.hasFeedbackSessionsLoadingFailed = true;
                   return;
                 }
 
                 const sessionsReturned: Set<string> = new Set(
-                  Object.keys(hasRes.hasResponsesBySession),
+                  Object.keys(hasRes.hasResponsesBySession)
                 );
                 const isAllSessionsPresent: boolean =
                   sortedFss.filter((fs: FeedbackSession) =>
-                    sessionsReturned.has(fs.feedbackSessionName),
+                    sessionsReturned.has(fs.feedbackSessionName)
                   ).length === sortedFss.length;
 
                 if (!isAllSessionsPresent) {
                   this.statusMessageService.showErrorToast(
-                    this.allStudentFeedbackSessionsNotReturned,
+                    this.allStudentFeedbackSessionsNotReturned
                   );
                   courseRef.hasFeedbackSessionsLoadingFailed = true;
                   return;
@@ -208,11 +208,11 @@ export class StudentHomePageComponent implements OnInit {
 
                 for (const fs of sortedFss) {
                   const isOpened: boolean =
-                    fs.submissionStatus
-                    === FeedbackSessionSubmissionStatus.OPEN;
+                    fs.submissionStatus ===
+                    FeedbackSessionSubmissionStatus.OPEN;
                   const isWaitingToOpen: boolean =
-                    fs.submissionStatus
-                    === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                    fs.submissionStatus ===
+                    FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
                   const isPublished: boolean =
                     fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
 
@@ -250,7 +250,7 @@ export class StudentHomePageComponent implements OnInit {
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
     const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(
-      session.session,
+      session.session
     );
     const hasOngoingStudentExtension =
       DeadlineExtensionHelper.hasOngoingExtension(session.session);
@@ -268,9 +268,9 @@ export class StudentHomePageComponent implements OnInit {
     }
 
     if (
-      !session.isOpened
-      && !session.isWaitingToOpen
-      && !hasOngoingStudentExtension
+      !session.isOpened &&
+      !session.isWaitingToOpen &&
+      !hasOngoingStudentExtension
     ) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
@@ -286,7 +286,7 @@ export class StudentHomePageComponent implements OnInit {
       session.isOpened,
       session.isWaitingToOpen,
       session.isSubmitted,
-      hasStudentExtension,
+      hasStudentExtension
     );
   }
 
@@ -298,7 +298,7 @@ export class StudentHomePageComponent implements OnInit {
       DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
     return this.formatDateDetailPipe.transform(
       submissionEndDate,
-      session.timeZone,
+      session.timeZone
     );
   }
 
@@ -309,11 +309,11 @@ export class StudentHomePageComponent implements OnInit {
     }
     const originalEndTime = this.formatDateDetailPipe.transform(
       session.submissionEndTimestamp,
-      session.timeZone,
+      session.timeZone
     );
     return (
-      `The session's original end date is ${originalEndTime}.`
-      + ' An instructor has granted you an extension to this date.'
+      `The session's original end date is ${originalEndTime}.` +
+      ' An instructor has granted you an extension to this date.'
     );
   }
 
@@ -353,8 +353,12 @@ export class StudentHomePageComponent implements OnInit {
     this.courses.sort(this.sortPanelsBy(by));
     // open the first three panels
     this.courses.forEach((course: StudentCourse, index: number) => {
-      course.isTabExpanded = index < 3;
-      this.loadFeedbackSessionsForCourse(course.course.courseId);
+      if (index < 3) {
+        course.isTabExpanded = true;
+        this.loadFeedbackSessionsForCourse(course.course.courseId);
+      } else {
+        course.isTabExpanded = false;
+      }
     });
   }
 
