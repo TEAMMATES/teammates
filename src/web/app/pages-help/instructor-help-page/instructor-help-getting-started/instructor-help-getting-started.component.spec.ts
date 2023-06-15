@@ -1,6 +1,9 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
@@ -28,6 +31,18 @@ describe('InstructorHelpGettingStartedComponent', () => {
       imports: [
         RouterTestingModule,
         TeammatesRouterModule,
+      ],
+      providers: [
+        {
+          provide: DomSanitizer,
+                   useValue: {
+                     bypassSecurityTrustHtml: () => '',
+                     sanitize: () => '',
+                   },
+        },
+        { provide: DOCUMENT, useValue: document },
+        PageScrollService,
+        { provide: NGXPS_CONFIG, useValue: {} },
       ],
     })
     .compileComponents();
