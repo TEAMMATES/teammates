@@ -78,6 +78,14 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES);
         feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3"));
         assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        errorResponse.clear();
+
+        feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+        feedbackQuestionDetails.setMinOptionsToBeRanked(5);
+        feedbackQuestionDetails.setMaxOptionsToBeRanked(3);
+        feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3", "4", "5"));
+        errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_INVALID_MIN_OPTIONS_ENABLED);
+        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
     }
 
     @Test
