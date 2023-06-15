@@ -352,9 +352,10 @@ export class StudentHomePageComponent implements OnInit {
     this.sortBy = by;
     this.courses.sort(this.sortPanelsBy(by));
     // open the first three panels
-    this.courses.forEach((course: StudentCourse, index: number) => {
-      if (index < 3) {
+    this.courses.forEach((course: StudentCourse, idx: number) => {
+      if (idx < 3) {
         course.isTabExpanded = true;
+        course.hasPopulated = false; // need to clear cache
         this.loadFeedbackSessionsForCourse(course.course.courseId);
       } else {
         course.isTabExpanded = false;
