@@ -6,9 +6,20 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput, Notification, Notifications } from '../../../types/api-output';
-import { NotificationStyle, NotificationTargetUser } from '../../../types/api-request';
-import { getDefaultDateFormat, getDefaultTimeFormat, getLatestTimeFormat } from '../../../types/datetime-const';
+import {
+  MessageOutput,
+  Notification,
+  Notifications,
+} from '../../../types/api-output';
+import {
+  NotificationStyle,
+  NotificationTargetUser,
+} from '../../../types/api-request';
+import {
+  getDefaultDateFormat,
+  getDefaultTimeFormat,
+  getLatestTimeFormat,
+} from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -26,7 +37,6 @@ import { NotificationsTableRowModel } from './notifications-table/notifications-
   animations: [collapseAnim],
 })
 export class AdminNotificationsPageComponent implements OnInit {
-
   NotificationEditFormMode = NotificationEditFormMode;
 
   currentNotificationEditFormMode = NotificationEditFormMode.ADD;
@@ -65,7 +75,7 @@ export class AdminNotificationsPageComponent implements OnInit {
     private simpleModalService: SimpleModalService,
     private statusMessageService: StatusMessageService,
     private tableComparatorService: TableComparatorService,
-    private timezoneService: TimezoneService,
+    private timezoneService: TimezoneService
   ) {}
 
   ngOnInit(): void {
@@ -120,8 +130,13 @@ export class AdminNotificationsPageComponent implements OnInit {
    */
   loadNotifications(): void {
     this.isNotificationLoading = true;
-    this.notificationService.getNotifications()
-      .pipe(finalize(() => { this.isNotificationLoading = false; }))
+    this.notificationService
+      .getNotifications()
+      .pipe(
+        finalize(() => {
+          this.isNotificationLoading = false;
+        })
+      )
       .subscribe({
         next: (notifications: Notifications) => {
           notifications.notifications.forEach((notification: Notification) => {
@@ -133,7 +148,9 @@ export class AdminNotificationsPageComponent implements OnInit {
           // sort the list using create time, and allocate the index in ascending order
           // note: order is set to be descending here as it will be reversed later
           this.notificationsTableRowModelsSortOrder = SortOrder.ASC;
-          this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
+          this.sortNotificationsTableRowModelsHandler(
+            SortBy.NOTIFICATION_CREATE_TIME
+          );
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasNotificationLoadingFailed = true;
@@ -157,15 +174,20 @@ export class AdminNotificationsPageComponent implements OnInit {
    */
   loadNotificationEditFormHandler(notification: Notification): void {
     if (this.isNotificationEditFormExpanded) {
-      if (this.notificationEditFormModel.notificationId !== notification.notificationId) {
+      if (
+        this.notificationEditFormModel.notificationId !==
+        notification.notificationId
+      ) {
         // Warns user that the existing edits will be cleared
-        this.simpleModalService.openConfirmationModal(
-          'Discard unsaved edit?',
-          SimpleModalType.WARNING,
-          'Warning: If you choose to edit another notification, any unsaved changes will be lost.',
-        ).result.then(() => {
-          this.loadNotificationEditForm(notification);
-        });
+        this.simpleModalService
+          .openConfirmationModal(
+            'Discard unsaved edit?',
+            SimpleModalType.WARNING,
+            'Warning: If you choose to edit another notification, any unsaved changes will be lost.'
+          )
+          .result.then(() => {
+            this.loadNotificationEditForm(notification);
+          });
       }
       // Not to do anything if the notification is already loaded
     } else {
@@ -225,34 +247,43 @@ export class AdminNotificationsPageComponent implements OnInit {
 
     // Timezone is not specified here so it will be guessed from browser's request.
     const startTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.startDate, this.notificationEditFormModel.startTime,
+      this.notificationEditFormModel.startDate,
+      this.notificationEditFormModel.startTime
     );
     const endTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.endDate, this.notificationEditFormModel.endTime,
+      this.notificationEditFormModel.endDate,
+      this.notificationEditFormModel.endTime
     );
 
-    this.notificationService.createNotification({
-      title: this.notificationEditFormModel.title,
-      message: this.notificationEditFormModel.message,
-      style: this.notificationEditFormModel.style,
-      targetUser: this.notificationEditFormModel.targetUser,
-      startTimestamp: startTime,
-      endTimestamp: endTime,
-    })
-    .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
-    .subscribe({
-      next: (notification: Notification) => {
-        this.notificationsTableRowModels.unshift({
-          isHighlighted: true,
-          notification,
-        });
-        this.initNotificationEditFormModel();
-        this.statusMessageService.showSuccessToast('Notification created successfully.');
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.notificationService
+      .createNotification({
+        title: this.notificationEditFormModel.title,
+        message: this.notificationEditFormModel.message,
+        style: this.notificationEditFormModel.style,
+        targetUser: this.notificationEditFormModel.targetUser,
+        startTimestamp: startTime,
+        endTimestamp: endTime,
+      })
+      .pipe(
+        finalize(() => {
+          this.notificationEditFormModel.isSaving = false;
+        })
+      )
+      .subscribe({
+        next: (notification: Notification) => {
+          this.notificationsTableRowModels.unshift({
+            isHighlighted: true,
+            notification,
+          });
+          this.initNotificationEditFormModel();
+          this.statusMessageService.showSuccessToast(
+            'Notification created successfully.'
+          );
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -263,58 +294,78 @@ export class AdminNotificationsPageComponent implements OnInit {
 
     // Timezone is not specified here so it will be guessed from browser's request.
     const startTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.startDate, this.notificationEditFormModel.startTime,
+      this.notificationEditFormModel.startDate,
+      this.notificationEditFormModel.startTime
     );
     const endTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.endDate, this.notificationEditFormModel.endTime,
+      this.notificationEditFormModel.endDate,
+      this.notificationEditFormModel.endTime
     );
 
-    this.notificationService.updateNotification({
-      title: this.notificationEditFormModel.title,
-      message: this.notificationEditFormModel.message,
-      style: this.notificationEditFormModel.style,
-      targetUser: this.notificationEditFormModel.targetUser,
-      startTimestamp: startTime,
-      endTimestamp: endTime,
-    }, this.notificationEditFormModel.notificationId)
-    .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
-    .subscribe({
-      next: (notification: Notification) => {
-        this.statusMessageService.showSuccessToast('Notification updated successfully.');
+    this.notificationService
+      .updateNotification(
+        {
+          title: this.notificationEditFormModel.title,
+          message: this.notificationEditFormModel.message,
+          style: this.notificationEditFormModel.style,
+          targetUser: this.notificationEditFormModel.targetUser,
+          startTimestamp: startTime,
+          endTimestamp: endTime,
+        },
+        this.notificationEditFormModel.notificationId
+      )
+      .pipe(
+        finalize(() => {
+          this.notificationEditFormModel.isSaving = false;
+        })
+      )
+      .subscribe({
+        next: (notification: Notification) => {
+          this.statusMessageService.showSuccessToast(
+            'Notification updated successfully.'
+          );
 
-        this.notificationsTableRowModels.forEach((rowModel: NotificationsTableRowModel) => {
-          if (rowModel.notification.notificationId === notification.notificationId) {
-            rowModel.isHighlighted = true;
-            rowModel.notification = notification;
-          }
-        });
+          this.notificationsTableRowModels.forEach(
+            (rowModel: NotificationsTableRowModel) => {
+              if (
+                rowModel.notification.notificationId ===
+                notification.notificationId
+              ) {
+                rowModel.isHighlighted = true;
+                rowModel.notification = notification;
+              }
+            }
+          );
 
-        this.initNotificationEditFormModel();
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+          this.initNotificationEditFormModel();
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
    * Deletes a notification.
    */
   deleteNotificationHandler(notificationId: string): void {
-    this.notificationService.deleteNotification(notificationId)
-      .subscribe({
-        next: (msg: MessageOutput) => {
-          this.statusMessageService.showSuccessToast(msg.message);
-          this.notificationsTableRowModels = this.notificationsTableRowModels.filter(
-              (notificationsTableRowModel: NotificationsTableRowModel) => {
-                return notificationsTableRowModel.notification.notificationId !== notificationId;
-              },
+    this.notificationService.deleteNotification(notificationId).subscribe({
+      next: (msg: MessageOutput) => {
+        this.statusMessageService.showSuccessToast(msg.message);
+        this.notificationsTableRowModels =
+          this.notificationsTableRowModels.filter(
+            (notificationsTableRowModel: NotificationsTableRowModel) => {
+              return (
+                notificationsTableRowModel.notification.notificationId !==
+                notificationId
+              );
+            }
           );
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
@@ -324,7 +375,9 @@ export class AdminNotificationsPageComponent implements OnInit {
     if (this.notificationsTableRowModelsSortBy === sortBy) {
       // if sorting the same column, reverse the order
       this.notificationsTableRowModelsSortOrder =
-        this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
+        this.notificationsTableRowModelsSortOrder === SortOrder.ASC
+          ? SortOrder.DESC
+          : SortOrder.ASC;
     } else {
       // if different column, change the sortBy value and but sort order will not be changed
       this.notificationsTableRowModelsSortBy = sortBy;
@@ -333,51 +386,59 @@ export class AdminNotificationsPageComponent implements OnInit {
     this.notificationsTableRowModels.forEach(
       (notificationsTableRowModel: NotificationsTableRowModel) => {
         notificationsTableRowModel.isHighlighted = false;
-      },
+      }
     );
-    this.notificationsTableRowModels.sort(this.getNotificationsTableRowModelsComparator());
+    this.notificationsTableRowModels.sort(
+      this.getNotificationsTableRowModelsComparator()
+    );
   }
 
   /**
    * Gets a comparator to sort the row models based on sortBy and sortOrder.
    */
-  getNotificationsTableRowModelsComparator():
-    ((a: NotificationsTableRowModel, b: NotificationsTableRowModel) => number) {
-      return (a: NotificationsTableRowModel, b: NotificationsTableRowModel) => {
-        let strA: string;
-        let strB: string;
-        switch (this.notificationsTableRowModelsSortBy) {
-          case SortBy.NOTIFICATION_CREATE_TIME:
-            strA = String(a.notification.createdAt);
-            strB = String(b.notification.createdAt);
-            break;
-          case SortBy.NOTIFICATION_TITLE:
-            strA = a.notification.title;
-            strB = b.notification.title;
-            break;
-          case SortBy.NOTIFICATION_START_TIME:
-            strA = String(a.notification.startTimestamp);
-            strB = String(b.notification.startTimestamp);
-            break;
-          case SortBy.NOTIFICATION_END_TIME:
-            strA = String(a.notification.endTimestamp);
-            strB = String(b.notification.endTimestamp);
-            break;
-          case SortBy.NOTIFICATION_TARGET_USER:
-            strA = String(a.notification.targetUser);
-            strB = String(b.notification.targetUser);
-            break;
-          case SortBy.NOTIFICATION_STYLE:
-            strA = String(a.notification.style);
-            strB = String(b.notification.style);
-            break;
-          default:
-            strA = '';
-            strB = '';
-        }
+  getNotificationsTableRowModelsComparator(): (
+    a: NotificationsTableRowModel,
+    b: NotificationsTableRowModel
+  ) => number {
+    return (a: NotificationsTableRowModel, b: NotificationsTableRowModel) => {
+      let strA: string;
+      let strB: string;
+      switch (this.notificationsTableRowModelsSortBy) {
+        case SortBy.NOTIFICATION_CREATE_TIME:
+          strA = String(a.notification.createdAt);
+          strB = String(b.notification.createdAt);
+          break;
+        case SortBy.NOTIFICATION_TITLE:
+          strA = a.notification.title;
+          strB = b.notification.title;
+          break;
+        case SortBy.NOTIFICATION_START_TIME:
+          strA = String(a.notification.startTimestamp);
+          strB = String(b.notification.startTimestamp);
+          break;
+        case SortBy.NOTIFICATION_END_TIME:
+          strA = String(a.notification.endTimestamp);
+          strB = String(b.notification.endTimestamp);
+          break;
+        case SortBy.NOTIFICATION_TARGET_USER:
+          strA = String(a.notification.targetUser);
+          strB = String(b.notification.targetUser);
+          break;
+        case SortBy.NOTIFICATION_STYLE:
+          strA = String(a.notification.style);
+          strB = String(b.notification.style);
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
 
-        return this.tableComparatorService.compare(
-          this.notificationsTableRowModelsSortBy, this.notificationsTableRowModelsSortOrder, strA, strB);
-      };
+      return this.tableComparatorService.compare(
+        this.notificationsTableRowModelsSortBy,
+        this.notificationsTableRowModelsSortOrder,
+        strA,
+        strB
+      );
+    };
   }
 }

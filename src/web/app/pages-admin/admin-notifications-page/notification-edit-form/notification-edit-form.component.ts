@@ -2,22 +2,32 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { ApiConst } from '../../../../types/api-const';
-import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
-import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/datetime-const';
+import {
+  NotificationTargetUser,
+  NotificationStyle,
+} from '../../../../types/api-request';
+import {
+  getDefaultTimeFormat,
+  getDefaultDateFormat,
+} from '../../../../types/datetime-const';
 import { DatePickerFormatter } from '../../../components/datepicker/datepicker-formatter';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
-import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
+import {
+  NotificationEditFormMode,
+  NotificationEditFormModel,
+} from './notification-edit-form-model';
 
 @Component({
   selector: 'tm-notification-edit-form',
   templateUrl: './notification-edit-form.component.html',
   styleUrls: ['./notification-edit-form.component.scss'],
-  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: DatePickerFormatter },
+  ],
   animations: [collapseAnim],
 })
 export class NotificationEditFormComponent {
-
   NotificationEditFormMode = NotificationEditFormMode;
   NotificationStyle = NotificationStyle;
   NotificationTargetUser = NotificationTargetUser;
@@ -66,12 +76,16 @@ export class NotificationEditFormComponent {
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService) { }
+  constructor(private simpleModalService: SimpleModalService) {}
 
   /**
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
+    if (field == 'message') {
+      data = data.replace(/<p>\s*(&nbsp;)?\s*<\/p>/g, '');
+    }
+    console.log(data);
     this.modelChange.emit({
       ...this.model,
       [field]: data,
@@ -96,10 +110,14 @@ export class NotificationEditFormComponent {
    * Handles cancel button click event.
    */
   cancelHandler(): void {
-    this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
-        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
-          this.cancelEditingNotificationEvent.emit();
-        });
+    this.simpleModalService
+      .openConfirmationModal(
+        'Discard unsaved edit?',
+        SimpleModalType.WARNING,
+        'Warning: Any unsaved changes will be lost.'
+      )
+      .result.then(() => {
+        this.cancelEditingNotificationEvent.emit();
+      });
   }
-
 }
