@@ -41,6 +41,28 @@ public class TimeHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testFormatInstant() {
+        String zoneId = "UTC";
+
+        Instant instant1 = LocalDateTime.of(2022, Month.MARCH, 15, 8, 30).atZone(ZoneId.of(zoneId)).toInstant();
+        Instant instant2 = LocalDateTime.of(2019, Month.JULY, 1, 12,0).atZone(ZoneId.of(zoneId)).toInstant(); 
+        Instant instant3 = LocalDateTime.of(2018, Month.DECEMBER, 30, 12, 59).atZone(ZoneId.of(zoneId)).toInstant(); 
+
+        String timeZone1 = "UTC";
+
+        Instant instant4 = null; 
+        String timeZoneNull = null;
+        String patternNull = null;
+
+        assertEquals( "", TimeHelper.formatInstant(instant4, timeZoneNull, DATETIME_DISPLAY_FORMAT));
+        assertEquals( "", TimeHelper.formatInstant(instant1, timeZone1, patternNull));
+        assertEquals( "", TimeHelper.formatInstant(instant4, timeZone1, patternNull));
+        assertEquals( "Sun, 30 Dec 2018, 12:59 PM UTC", TimeHelper.formatInstant(instant3, timeZone1, DATETIME_DISPLAY_FORMAT));
+        assertEquals( "Tue, 15 Mar 2022, 08:30 AM UTC", TimeHelper.formatInstant(instant1, timeZone1, DATETIME_DISPLAY_FORMAT));
+        assertEquals( "Mon, 01 Jul 2019, 12:00 NOON UTC", TimeHelper.formatInstant(instant2, timeZone1, DATETIME_DISPLAY_FORMAT));
+    }
+
+    @Test
     public void testGetMidnightAdjustedInstantBasedOnZone() {
         String zoneId = "UTC";
         Instant instantAt0000 = LocalDateTime.of(2015, Month.NOVEMBER, 30, 0, 0).atZone(ZoneId.of(zoneId)).toInstant();
