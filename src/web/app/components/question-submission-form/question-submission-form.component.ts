@@ -347,13 +347,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   updateValidity(isValid: boolean): void {
     if (this.model.recipientSubmissionForms.length === 0) { return; }
-    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+    this.model.recipientSubmissionForms =
       this.model.recipientSubmissionForms.slice().map(
         (model: FeedbackResponseRecipientSubmissionFormModel) => ({ ...model, isValid }));
-    this.formModelChange.emit({
-      ...this.model,
-      recipientSubmissionForms,
-    });
+    this.formModelChange.emit(this.model);
   }
 
   /**
