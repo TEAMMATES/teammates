@@ -76,14 +76,14 @@
                        tmRouterLink="/web/student/sessions/submission"
                        [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                        id="start-submit-btn-{{i}}"
-                       class="btn btn-light btn-sm">
+                       class="btn btn-light btn-sm alignment-buttons">
                       Start Submission
                     </a>
                     <a *ngIf="session.isOpened && session.isSubmitted"
                        tmRouterLink="/web/student/sessions/submission"
                        [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                        id="edit-submit-btn-{{i}}"
-                       class="btn btn-light btn-sm">
+                       class="btn btn-light btn-sm alignment-buttons">
                       Edit Submission
                     </a>
                     <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
