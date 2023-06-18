@@ -35,5 +35,8 @@ User convenience is **far** more important than developer convenience, e.g.
 
 ## Be consistent
 
+* Keep a neutral color scheme across the site.
+* Where possible, use Bootstrap CSS classes instead of custom CSS.
+* Use Bootstrap color utility classes meaningfully (e.g. `warning` color for user warnings).
 * Use consistent naming guidelines for links, page names and page titles.
 * Use consistent styles for components (e.g. buttons, links) that have the same behavior.
