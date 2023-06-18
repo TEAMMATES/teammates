@@ -25,6 +25,41 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testShouldChangesRequireResponseDeletion_whenMinScaleIsDifferent_shouldReturnTrue() {
+        FeedbackNumericalScaleQuestionDetails changed = new FeedbackNumericalScaleQuestionDetails();
+        changed.setMinScale(2);
+
+        FeedbackNumericalScaleQuestionDetails unchanged = new FeedbackNumericalScaleQuestionDetails();
+        assertTrue(unchanged.shouldChangesRequireResponseDeletion(changed));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_whenMaxScaleChanges_shouldReturnTrue() {
+        FeedbackNumericalScaleQuestionDetails changed = new FeedbackNumericalScaleQuestionDetails();
+        changed.setMaxScale(2);
+
+        FeedbackNumericalScaleQuestionDetails unchanged = new FeedbackNumericalScaleQuestionDetails();
+        assertTrue(unchanged.shouldChangesRequireResponseDeletion(changed));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_whenStepChanges_shouldReturnTrue() {
+        FeedbackNumericalScaleQuestionDetails changed = new FeedbackNumericalScaleQuestionDetails();
+        changed.setStep(0.6);
+
+        FeedbackNumericalScaleQuestionDetails unchanged = new FeedbackNumericalScaleQuestionDetails();
+        assertTrue(unchanged.shouldChangesRequireResponseDeletion(changed));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_whenNothingChanges_shouldReturnFalse() {
+        FeedbackNumericalScaleQuestionDetails changed = new FeedbackNumericalScaleQuestionDetails();
+        FeedbackNumericalScaleQuestionDetails unchanged = new FeedbackNumericalScaleQuestionDetails();
+
+        assertFalse(unchanged.shouldChangesRequireResponseDeletion(changed));
+    }
+
+    @Test
     public void tesValidateResponseDetails() {
         FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
         numScaleQuestion.setStep(0.1);
