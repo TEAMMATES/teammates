@@ -194,6 +194,34 @@ describe('InstructorCourseEditPageComponent', () => {
     expect(component.courseFormModel.course.courseName).toBe('Example Course Changed');
   });
 
+  it('should update instructor details if SAVE is requested', () => {
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
+      instructors: [testInstructor1],
+    }));
+
+    component.loadCourseInstructors();
+
+    component.isInstructorsLoading = false;
+    fixture.detectChanges();
+
+    component.instructorDetailPanels[0].editPanel.isEditing = true;
+    component.instructorDetailPanels[0].editPanel.name = 'Example Instructor Changed';
+    fixture.detectChanges();
+
+    jest.spyOn(instructorService, 'updateInstructor').mockReturnValue(of({
+      courseId: 'exampleId',
+      email: 'instructor1@gmail.com',
+      joinState: JoinState.JOINED,
+      name: 'Example Instructor Changed',
+    }));
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-instructor-1');
+    button.click();
+
+    expect(component.instructorDetailPanels[0].editPanel.isEditing).toBeFalsy();
+    expect(component.instructorDetailPanels[0].editPanel.name).toBe('Example Instructor Changed');
+  });
+
   it('should load correct instructors details for given API output', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
       instructors: [testInstructor1, testInstructor2],
