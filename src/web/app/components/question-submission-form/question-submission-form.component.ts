@@ -348,7 +348,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   updateValidity(isValid: boolean): void {
     if (this.model.recipientSubmissionForms.length === 0) { return; }
 
-    for (var recipientSubmissionForm of this.model.recipientSubmissionForms) {
+    for (const recipientSubmissionForm of this.model.recipientSubmissionForms) {
       recipientSubmissionForm.isValid = isValid;
     }
 
