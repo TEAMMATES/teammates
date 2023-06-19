@@ -84,8 +84,10 @@
   margin-top: 30px;
 }
 
-.actions-cell button:not(.dropdown-item) {
-  margin-left: var(--btn-margin);
+@media (min-width: 768px) { //applies only to non-mobile screens
+  .actions-cell button:not(.dropdown-item) {
+    margin-left: var(--btn-margin);
+  }
 }
 
 .dropdown-menu {
