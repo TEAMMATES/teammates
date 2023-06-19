@@ -186,6 +186,22 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
+### To enable masquerade mode
+
+Masquerade Mode typically refers to a feature that allows you to assume the identity of another user or role within a system for various purposes, such as testing or troubleshooting.
+To enable Masquerade Mode , you can follow these steps:
+
+```sh
+Log in to /web/admin/home as an administrator
+In admin pages, create new instructor with any Name, Email, Institution credentials.
+After adding instructor, do not access the join link in the same browser.
+Copy the join link into another browser/incognito browser, and register with the new instructor's email(instead of the default admin email).
+Now there is an instructor with its own google id instead of the admin google id.
+This google id can be used to login as the new instructor.
+```
+
+After this, you can effectively utilize Masquerade Mode during development to streamline testing workflows and ensure optimal application functionality.
+
 ## Running the Datastore emulator
 
 The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
