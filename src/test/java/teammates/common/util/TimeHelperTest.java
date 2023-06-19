@@ -20,6 +20,28 @@ public class TimeHelperTest extends BaseTestCase {
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
     @Test
+    public void testFormatInstant() {
+        String timeZone = "UTC";
+
+        Instant instantA = LocalDateTime.of(2001, Month.JUNE, 24, 23, 54).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant instantB = LocalDateTime.of(2001, Month.JULY, 3, 12, 0).atZone(ZoneId.of(timeZone)).toInstant(); 
+        Instant instantC = LocalDateTime.of(2011, Month.NOVEMBER, 20, 12, 59).atZone(ZoneId.of(timeZone)).toInstant(); 
+
+        //CT1
+        assertEquals( "", TimeHelper.formatInstant(null, null, null));
+        //CT2
+        assertEquals( "", TimeHelper.formatInstant(instantA, timeZone, null));
+        //CT3
+        assertEquals( "", TimeHelper.formatInstant(null, timeZone, DATETIME_DISPLAY_FORMAT));
+        //CT4
+        assertEquals( "Sun, 20 Nov 2011, 12:59 PM UTC", TimeHelper.formatInstant(instantC, timeZone, DATETIME_DISPLAY_FORMAT));
+        //CT5
+        assertEquals( "Sun, 24 Jun 2001, 11:54 PM UTC", TimeHelper.formatInstant(instantA, timeZone, DATETIME_DISPLAY_FORMAT));
+        //CT6
+        assertEquals( "Tue, 03 Jul 2001, 12:00 NOON UTC", TimeHelper.formatInstant(instantB, timeZone, DATETIME_DISPLAY_FORMAT));
+    }
+
+    @Test
     public void testEndOfYearDates() {
         LocalDateTime date = LocalDateTime.of(2015, Month.DECEMBER, 30, 12, 0);
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatInstant(
