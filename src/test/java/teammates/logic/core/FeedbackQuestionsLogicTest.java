@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.Assert;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
@@ -918,7 +919,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
     }
 
-    private void testGetFeedbackQuestionsForInstructor() {
+    @Test
+    private void testGetFeedbackQuestionsForInstructor () throws Exception {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
         List<FeedbackQuestionAttributes> allQuestions;
@@ -974,6 +976,93 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, true);
 
         assertEquals(actualQuestions, expectedQuestions);
+
+        ______TS("CT1 - Check if the array of questions is empty");
+        allQuestions = new ArrayList<>();
+        allQuestions.add(null);
+
+        try {
+                actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, false);
+                assertEquals(actualQuestions, null);
+        } catch (Exception e) {
+
+        }
+
+        ______TS("CT2 - Check if the question.getGiverType() is the same of FeedbackParticipantType.INSTRUCTORS");
+        allQuestions = new ArrayList<>();
+        allQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse2"));
+
+        expectedQuestions = new ArrayList<>();
+        expectedQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse2"));
+
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, false);
+        assertEquals(actualQuestions, expectedQuestions);
+
+        ______TS("CT3 - Get questions created for self from list of all questions and check the true boolean case of the statement");
+        allQuestions = new ArrayList<>();
+        allQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
+
+        expectedQuestions = new ArrayList<>();
+        expectedQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
+
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, true);
+        assertEquals(actualQuestions, expectedQuestions);
+
+        ______TS("CT4 -  Check if the question.getGiverType() is the same of FeedbackParticipantType.INSTRUCTORS with the false boolean case");
+        allQuestions = new ArrayList<>();
+        allQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse2"));
+
+        expectedQuestions = new ArrayList<>();
+        expectedQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse2"));
+
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, false);
+        assertEquals(actualQuestions, expectedQuestions);
+
+        ______TS("CT5 -  Check if the question.getGiverType() is the same of FeedbackParticipantType.INSTRUCTORS with the true boolean case");
+
+        try {
+                allQuestions = new ArrayList<>();
+                allQuestions.add(getQuestionFromDatabase("kbbjhhbj"));
+
+                expectedQuestions = new ArrayList<>();
+                expectedQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse1"));
+
+                actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, true);
+                assertEquals(actualQuestions, null);
+        } catch (Exception e) {
+                // TODO: handle exception
+        }
+
+        ______TS("CT6 -  Check if the question.getGiverType() is the same of FeedbackParticipantType.SELF with the false boolean case");
+
+        allQuestions = new ArrayList<>();
+        allQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
+
+        expectedQuestions = new ArrayList<>();
+        expectedQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
+
+        try {
+                actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, false);
+                assertNotEquals(actualQuestions, expectedQuestions);
+        } catch (Exception e) {
+                // TODO: handle exception
+        }
+
+        ______TS("CT7 -  Check if the question.getGiverType() is diferent of FeedbackParticipantType.SELF and INSTRUCTOR with the false boolean case");
+
+        try {
+                allQuestions = new ArrayList<>();
+                allQuestions.add(getQuestionFromDatabase("kbbjhhbj"));
+
+                expectedQuestions = new ArrayList<>();
+                expectedQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
+
+                actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, false);
+                assertEquals(actualQuestions, null);
+        } catch (Exception e) {
+                // TODO: handle exception
+        }
+        
     }
 
     private void testHasFeedbackQuestionsForStudents() {
