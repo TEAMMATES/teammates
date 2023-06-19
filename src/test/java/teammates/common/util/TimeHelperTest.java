@@ -1,11 +1,6 @@
 package teammates.common.util;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 
 import org.testng.annotations.Test;
@@ -30,14 +25,17 @@ public class TimeHelperTest extends BaseTestCase {
     public void testFormatDateTimeForDisplay() {
         String zoneId = "UTC";
         Instant instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 12, 0).atZone(ZoneId.of(zoneId)).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC",
+                TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
 
         zoneId = "Asia/Singapore";
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 16, 0).atZone(ZoneId.of(zoneId)).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT", TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
+        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT",
+                TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
 
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 4, 0).atZone(ZoneId.of(zoneId)).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT", TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
+        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT",
+                TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
     }
 
     @Test
@@ -53,7 +51,8 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals("Mon, 30 Nov 2015, 12:00 AM UTC",
                 TimeHelper.formatInstant(forwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
 
-        Instant instantAt2359 = LocalDateTime.of(2015, Month.NOVEMBER, 29, 23, 59).atZone(ZoneId.of(zoneId)).toInstant();
+        Instant instantAt2359 = LocalDateTime.of(2015, Month.NOVEMBER, 29, 23, 59).atZone(ZoneId.of(zoneId))
+                .toInstant();
 
         backwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, zoneId, false);
         assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
@@ -130,4 +129,72 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithProjectsTimeConstantShouldReturnSameConstant() {
+        String timeZone = "GMT-3";
+        Instant constantInput = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+        assertNotNull(constantInput);
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(constantInput, timeZone, true);
+        assertEquals(constantInput, adjustedTime);
+    }
+
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithTime2359notForwardFalseShouldReturnSameInstant() {
+        String timeZone = "GMT-3";
+        Instant instantAt2359 = LocalDateTime.of(2023, Month.MAY, 31, 23, 59).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, timeZone, false);
+        assertEquals(instantAt2359, adjustedTime);
+    }
+
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithTime0000notForwardShouldReturnPreviousDayAt2359() {
+        String timeZone = "GMT-3";
+        Instant instantAt0000 = LocalDateTime.of(2023, Month.MAY, 31, 0, 0).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant previousDayAt2359 = LocalDateTime.of(2023, Month.MAY, 30, 23, 59).atZone(ZoneId.of(timeZone))
+                .toInstant();
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt0000, timeZone, false);
+        assertEquals(previousDayAt2359, adjustedTime);
+    }
+
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithTime0059notForwardShouldReturnSameInstant() {
+        String timeZone = "GMT-3";
+        Instant instantAt0059 = LocalDateTime.of(2023, Month.MAY, 31, 0, 59).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt0059, timeZone, false);
+        assertEquals(instantAt0059, adjustedTime);
+    }
+
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithTime2300notForwardShouldReturnSameInstant() {
+        String timeZone = "GMT-3";
+        Instant instantAt2300 = LocalDateTime.of(2023, Month.MAY, 31, 23, 0).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2300, timeZone, false);
+        assertEquals(instantAt2300, adjustedTime);
+    }
+
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithTime0059andForwardShouldReturnSameInstant() {
+        String timeZone = "GMT-3";
+        Instant instantAt0059 = LocalDateTime.of(2023, Month.MAY, 31, 0, 59).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt0059, timeZone, true);
+        assertEquals(instantAt0059, adjustedTime);
+    }
+
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithTime2300andForwardShouldReturnSameInstant() {
+        String timeZone = "GMT-3";
+        Instant instantAt2300 = LocalDateTime.of(2023, Month.MAY, 31, 23, 0).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2300, timeZone, true);
+        assertEquals(instantAt2300, adjustedTime);
+    }
+
+    @Test
+    public void testGetMidnightAdjustedInstantBasedOnZoneWithTime2359andForwardShouldReturnNextDayAt0000() {
+        String timeZone = "GMT-3";
+        Instant instantAt2359 = LocalDateTime.of(2023, Month.MAY, 31, 23, 59).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant nextDayAt0000 = LocalDateTime.of(2023, Month.JUNE, 1, 0, 0).atZone(ZoneId.of(timeZone)).toInstant();
+        Instant adjustedTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, timeZone, true);
+        assertEquals(nextDayAt0000, adjustedTime);
+
+    }
 }
