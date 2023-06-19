@@ -230,7 +230,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                        Not Published 
                     </span>
                   </td>
-                  <td  
+                  <td
                     class="text-center"
                   >
                     <a
@@ -276,7 +276,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                        Not Published 
                     </span>
                   </td>
-                  <td 
+                  <td
                     class="text-center"
                   >
                     <a
@@ -378,7 +378,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                        Not Published 
                     </span>
                   </td>
-                  <td  
+                  <td
                     class="text-center"
                   >
                     <a
@@ -424,7 +424,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                        Not Published 
                     </span>
                   </td>
-                  <td  
+                  <td
                     class="text-center"
                   >
                     <a
@@ -637,7 +637,7 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
                        Published 
                     </span>
                   </td>
-                  <td 
+                  <td
                     class="text-center"
                   >
                     <a
@@ -683,7 +683,7 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
                        Not Published 
                     </span>
                   </td>
-                  <td 
+                  <td
                     class="text-center"
                   >
                     <a
