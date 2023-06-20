@@ -142,4 +142,80 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_MIN_MAX, errors.get(0));
         assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_STEP, errors.get(1));
     }
+
+    
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentMinScale() {
+        FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
+        FeedbackNumericalScaleQuestionDetails newDetails = new FeedbackNumericalScaleQuestionDetails();
+        numScaleQuestion.setMinScale(1);
+        numScaleQuestion.setMaxScale(5);
+        numScaleQuestion.setStep(0.5);
+
+        newDetails.setMinScale(3);
+        newDetails.setMaxScale(5);
+        newDetails.setStep(0.5);
+
+        assertTrue(numScaleQuestion.shouldChangesRequireResponseDeletion(newDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentMinScaleAndMaxScale() {
+        FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
+        FeedbackNumericalScaleQuestionDetails newDetails = new FeedbackNumericalScaleQuestionDetails();
+        numScaleQuestion.setMinScale(1);
+        numScaleQuestion.setMaxScale(5);
+        numScaleQuestion.setStep(0.5);
+
+        newDetails.setMinScale(3);
+        newDetails.setMaxScale(10);
+        newDetails.setStep(0.5);
+
+        assertTrue(numScaleQuestion.shouldChangesRequireResponseDeletion(newDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentMinScaleAndSteps() {
+        FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
+        FeedbackNumericalScaleQuestionDetails newDetails = new FeedbackNumericalScaleQuestionDetails();
+        numScaleQuestion.setMinScale(1);
+        numScaleQuestion.setMaxScale(5);
+        numScaleQuestion.setStep(0.5);
+
+        newDetails.setMinScale(3);
+        newDetails.setMaxScale(5);
+        newDetails.setStep(0.8);
+
+        assertTrue(numScaleQuestion.shouldChangesRequireResponseDeletion(newDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentStepsAndMaxScale() {
+        FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
+        FeedbackNumericalScaleQuestionDetails newDetails = new FeedbackNumericalScaleQuestionDetails();
+        numScaleQuestion.setMinScale(1);
+        numScaleQuestion.setMaxScale(5);
+        numScaleQuestion.setStep(0.5);
+
+        newDetails.setMinScale(1);
+        newDetails.setMaxScale(10);
+        newDetails.setStep(0.8);
+
+        assertTrue(numScaleQuestion.shouldChangesRequireResponseDeletion(newDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentStepsAndMaxScaleAndMinScale() {
+        FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
+        FeedbackNumericalScaleQuestionDetails newDetails = new FeedbackNumericalScaleQuestionDetails();
+        numScaleQuestion.setMinScale(1);
+        numScaleQuestion.setMaxScale(5);
+        numScaleQuestion.setStep(0.5);
+
+        newDetails.setMinScale(3);
+        newDetails.setMaxScale(10);
+        newDetails.setStep(0.8);
+
+        assertTrue(numScaleQuestion.shouldChangesRequireResponseDeletion(newDetails));
+    }
 }
