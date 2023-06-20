@@ -3,6 +3,7 @@ package teammates.e2e.pageobjects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -1630,4 +1631,110 @@ public class InstructorFeedbackEditPage extends AppPage {
         inputMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
         inputMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
+}
+
+
+    public class VerifySubmissionStatusTest {
+        private class FeedbackSessionAttributes {
+        private boolean closed;
+        private boolean visible;
+        private boolean opened;
+        private boolean inGracePeriod;
+
+        public boolean isClosed() {
+            return closed;
+        }
+
+        public boolean isVisible() {
+            return visible;
+        }
+
+        public boolean isOpened() {
+            return opened;
+        }
+
+        public boolean isInGracePeriod() {
+            return inGracePeriod;
+        }
+
+        public void setClosed(boolean b) {
+        }
+
+        public void setVisible(boolean b) {
+        }
+
+        public void setOpened(boolean b) {
+        }
+
+        public void setInGracePeriod(boolean b) {
+        }
+        }
+    
+        @Test
+        public void testFeedbackSessionIsClosed() {
+            FeedbackSessionAttributes feedbackSession = new FeedbackSessionAttributes();
+            feedbackSession.setClosed(true);
+        
+            String expectedStatus = "Closed";
+            String actualStatus = verifySubmissionStatus(feedbackSession);
+        
+            assertEquals(expectedStatus, actualStatus);
+        }
+    
+        @Test
+        public void testFeedbackSessionIsVisible() {
+            FeedbackSessionAttributes feedbackSession = new FeedbackSessionAttributes();
+            feedbackSession.setVisible(true);
+        
+            String expectedStatus = "Open";
+            String actualStatus = verifySubmissionStatus(feedbackSession);
+        
+            assertEquals(expectedStatus, actualStatus);
+        }
+    
+        @Test
+        public void testFeedbackSessionIsOpen() {
+            FeedbackSessionAttributes feedbackSession = new FeedbackSessionAttributes();
+            feedbackSession.setVisible(true);
+            feedbackSession.setOpened(true);
+        
+            String expectedStatus = "Open";
+            String actualStatus = verifySubmissionStatus(feedbackSession);
+        
+            assertEquals(expectedStatus, actualStatus);
+        }
+    
+        @Test
+        public void testFeedbackSessionIsInGracePeriod() {
+            FeedbackSessionAttributes feedbackSession = new FeedbackSessionAttributes();
+            feedbackSession.setVisible(true);
+            feedbackSession.setInGracePeriod(true);
+        
+            String expectedStatus = "Open";
+            String actualStatus = verifySubmissionStatus(feedbackSession);
+        
+            assertEquals(expectedStatus, actualStatus);
+        }
+    
+        @Test
+        public void testAllConditionsAreFalse() {
+            FeedbackSessionAttributes feedbackSession = new FeedbackSessionAttributes();
+        
+            String expectedStatus = "Awaiting";
+            String actualStatus = verifySubmissionStatus(feedbackSession);
+        
+            assertEquals(expectedStatus, actualStatus);
+        }
+    
+        private String verifySubmissionStatus(FeedbackSessionAttributes feedbackSession) {
+            if (feedbackSession.isClosed()) {
+                return "Closed";
+            } else if (feedbackSession.isVisible() && (feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
+                return "Open";
+            } else {
+                return "Awaiting";
+            }
+        }
+    }
+
 }
