@@ -72,6 +72,36 @@ public class TimeHelperTest extends BaseTestCase {
         forwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, wrongTimeZone, true);
         assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
                 TimeHelper.formatInstant(forwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
+           //
+        Instant instant1At0000 = LocalDateTime.of(2015, Month.NOVEMBER, 30, 12, 34).atZone(ZoneId.of(zoneId)).toInstant();
+
+        Instant backwardAdjusted1 = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant1At0000, zoneId, false);
+        assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
+                TimeHelper.formatInstant(backwardAdjusted1, zoneId, DATETIME_DISPLAY_FORMAT));
+
+        Instant forwardAdjusted1 = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant1At0000, zoneId, true);
+        assertEquals("Mon, 30 Nov 2015, 12:00 AM UTC",
+                TimeHelper.formatInstant(forwardAdjusted1, zoneId, DATETIME_DISPLAY_FORMAT));
+
+        Instant instant1At2359 = LocalDateTime.of(2015, Month.NOVEMBER, 29, 18, 45).atZone(ZoneId.of(zoneId)).toInstant();
+
+        backwardAdjusted1 = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant1At2359, zoneId, false);
+        assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
+                TimeHelper.formatInstant(backwardAdjusted1, zoneId, DATETIME_DISPLAY_FORMAT));
+
+        forwardAdjusted1 = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant1At2359, zoneId, true);
+        assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
+                TimeHelper.formatInstant(forwardAdjusted1, zoneId, DATETIME_DISPLAY_FORMAT));
+
+        String wrongTimeZone1 = "Europe/London";
+
+        backwardAdjusted1 = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant1At0000, wrongTimeZone1, false);
+        assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
+                TimeHelper.formatInstant(backwardAdjusted1, wrongTimeZone1, DATETIME_DISPLAY_FORMAT));
+
+        forwardAdjusted1 = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant1At2359, wrongTimeZone1, true);
+        assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
+                TimeHelper.formatInstant(forwardAdjusted1, wrongTimeZone1, DATETIME_DISPLAY_FORMAT));
     }
 
     @Test
