@@ -11,10 +11,7 @@
           [(ngModel)]="emailOfStudentToPreview"
           aria-label="Select student to preview as"
         >
-          <option
-            *ngFor="let student of studentsOfCourse"
-            [ngValue]="student.email"
-          >
+          <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">
             [{{ student.teamName }}] {{ student.name }}
           </option>
         </select>
@@ -56,18 +53,12 @@
           [(ngModel)]="emailOfInstructorToPreview"
           aria-label="Select instructor to preview as"
         >
-          <option
-            *ngFor="let instructor of instructorsOfCourse"
-            [ngValue]="instructor.email"
-          >
+          <option *ngFor="let instructor of instructorsOfCourse" [ngValue]="instructor.email">
             {{ instructor.name }}
           </option>
         </select>
         <a
-          *ngIf="
-            emailOfInstructorToPreview.length !== 0;
-            else previewInstructorBtn
-          "
+          *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn"
           tmRouterLink="/web/instructor/sessions/result"
           [queryParams]="{
             courseid: courseId,
@@ -85,9 +76,7 @@
           <button
             id="btn-preview-instructor"
             class="btn btn-primary"
-            [disabled]="
-              emailOfInstructorToPreview.length === 0 || forDisplayOnly
-            "
+            [disabled]="emailOfInstructorToPreview.length === 0 || forDisplayOnly"
           >
             Preview as Instructor
           </button>

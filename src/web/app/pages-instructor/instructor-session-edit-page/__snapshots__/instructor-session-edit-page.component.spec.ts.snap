@@ -3051,45 +3051,53 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="row align-items-center"
           >
             <div
-              class="col-lg-2 text-lg-end"
+              class="col-lg-2 text-lg-end mb-3 mb-lg-0"
             >
               <b>
                 Preview Session:
               </b>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 col-lg-5 mb-3 mb-lg-0"
             >
-              <select
-                aria-label="Select student to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-student"
+              <div
+                class="d-flex flex-column flex-sm-row align-items-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-student"
-              >
-                Preview as Student
-              </button>
+                <select
+                  aria-label="Select student to preview as"
+                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  id="preview-student"
+                >
+                </select>
+                <button
+                  class="btn btn-primary"
+                  disabled=""
+                  id="btn-preview-student"
+                >
+                   Preview as Student 
+                </button>
+              </div>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 col-lg-5"
             >
-              <select
-                aria-label="Select instructor to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-instructor"
+              <div
+                class="d-flex flex-column flex-sm-row align-items-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-instructor"
-              >
-                Preview as Instructor
-              </button>
+                <select
+                  aria-label="Select instructor to preview as"
+                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  id="preview-instructor"
+                >
+                </select>
+                <button
+                  class="btn btn-primary"
+                  disabled=""
+                  id="btn-preview-instructor"
+                >
+                   Preview as Instructor 
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -4788,45 +4796,53 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             class="row align-items-center"
           >
             <div
-              class="col-lg-2 text-lg-end"
+              class="col-lg-2 text-lg-end mb-3 mb-lg-0"
             >
               <b>
                 Preview Session:
               </b>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 col-lg-5 mb-3 mb-lg-0"
             >
-              <select
-                aria-label="Select student to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-student"
+              <div
+                class="d-flex flex-column flex-sm-row align-items-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-student"
-              >
-                Preview as Student
-              </button>
+                <select
+                  aria-label="Select student to preview as"
+                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  id="preview-student"
+                >
+                </select>
+                <button
+                  class="btn btn-primary"
+                  disabled=""
+                  id="btn-preview-student"
+                >
+                   Preview as Student 
+                </button>
+              </div>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 col-lg-5"
             >
-              <select
-                aria-label="Select instructor to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-instructor"
+              <div
+                class="d-flex flex-column flex-sm-row align-items-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-instructor"
-              >
-                Preview as Instructor
-              </button>
+                <select
+                  aria-label="Select instructor to preview as"
+                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  id="preview-instructor"
+                >
+                </select>
+                <button
+                  class="btn btn-primary"
+                  disabled=""
+                  id="btn-preview-instructor"
+                >
+                   Preview as Instructor 
+                </button>
+              </div>
             </div>
           </div>
         </div>
