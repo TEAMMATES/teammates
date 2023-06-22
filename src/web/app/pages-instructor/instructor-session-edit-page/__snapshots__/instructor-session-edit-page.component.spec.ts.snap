@@ -2738,7 +2738,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     >
       <tm-adding-question-panel>
         <div
-          class="card-body background-color-light-blue text-center"
+          class="card-body background-color-light-blue text-center responsive-padding"
         >
           <div
             class="d-inline-block"
@@ -2746,7 +2746,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           >
             <button
               aria-expanded="false"
-              class="dropdown-toggle btn btn-primary"
+              class="dropdown-toggle btn btn-primary p-1 p-sm-2"
               id="btn-new-question"
               ngbdropdowntoggle=""
             >
@@ -3019,7 +3019,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           </div>
           <a
             aria-label="Help for questions"
-            class="btn btn-link"
+            class="btn btn-link p-1 p-sm-3"
             href="/web/instructor/help?questionId=questions&section=questions"
             rel="noopener noreferrer"
             target="_blank"
@@ -3031,7 +3031,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             />
           </a>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary p-1 p-sm-2"
             id="btn-copy-question"
           >
             Copy Question
