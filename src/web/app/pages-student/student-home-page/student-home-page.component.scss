@@ -2,8 +2,10 @@
   margin: 0;
 }
 
-.alignment-buttons {
-  width: 100px;
-  height: 55px;
-  margin-bottom: 5px;
+@media (max-width: 768px) { //applies only to mobile screens
+  .custom-button {
+    width: 100px;
+    margin-bottom: 5px;
+    margin-right: 0px;
+  }
 }

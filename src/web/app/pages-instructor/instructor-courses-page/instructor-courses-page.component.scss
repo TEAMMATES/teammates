@@ -1,18 +1,14 @@
 @media (max-width: 768px) { //applies only to mobile screens
-  .custom-buttons {
+  .custom-button-active {
     width: 115px;
-    height: 30px;
     margin-bottom: 5px;
-    //margin-right: 5px;
   }
 }
 
 @media (max-width: 768px) { //applies only to mobile screens
-  .custom-buttons2 {
+  .custom-button-archived {
     width: 95px;
-    height: 30px;
     margin-bottom: 5px;
-    //margin-right: 5px;
   }
 }
 
