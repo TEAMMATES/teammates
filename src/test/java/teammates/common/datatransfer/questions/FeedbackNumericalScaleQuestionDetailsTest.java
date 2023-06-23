@@ -149,7 +149,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         numDetails.setMinScale(1);
 
         FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
-        numDetails.setMinScale(3);
+        newNumDetails.setMinScale(3);
 
         assertTrue(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
     }
@@ -160,7 +160,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         numDetails.setMaxScale(5);
 
         FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
-        numDetails.setMaxScale(2);
+        newNumDetails.setMaxScale(2);
 
         assertTrue(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
     }
@@ -171,7 +171,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         numDetails.setStep(0.5);
 
         FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
-        numDetails.setStep(2);
+        newNumDetails.setStep(2);
 
         assertTrue(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
     }
@@ -184,9 +184,9 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         numDetails.setStep(0.5);
 
         FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
-        numDetails.setMinScale(1);
-        numDetails.setMaxScale(5);
-        numDetails.setStep(0.5);
+        newNumDetails.setMinScale(1);
+        newNumDetails.setMaxScale(5);
+        newNumDetails.setStep(0.5);
 
         assertFalse(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
     }
