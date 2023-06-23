@@ -83,7 +83,7 @@ export class StudentHomePageComponent implements OnInit {
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
     private timezoneService: TimezoneService,
-    private tableComparatorService: TableComparatorService
+    private tableComparatorService: TableComparatorService,
   ) {
     this.timezoneService.getTzVersion();
   }
@@ -106,7 +106,7 @@ export class StudentHomePageComponent implements OnInit {
       .pipe(
         finalize(() => {
           this.isCoursesLoading = false;
-        })
+        }),
       )
       .subscribe({
         next: (resp: Courses) => {
@@ -167,7 +167,7 @@ export class StudentHomePageComponent implements OnInit {
           .pipe(
             finalize(() => {
               courseRef.isFeedbackSessionsLoading = false;
-            })
+            }),
           )
           .subscribe({
             next: (hasRes: HasResponses) => {
@@ -179,8 +179,8 @@ export class StudentHomePageComponent implements OnInit {
 
               const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
               const isAllSessionsPresent: boolean =
-                sortedFss.filter((fs: FeedbackSession) => sessionsReturned.has(fs.feedbackSessionName)).length ===
-                sortedFss.length;
+                sortedFss.filter((fs: FeedbackSession) => sessionsReturned.has(fs.feedbackSessionName)).length
+                === sortedFss.length;
 
               if (!isAllSessionsPresent) {
                 this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
@@ -256,7 +256,7 @@ export class StudentHomePageComponent implements OnInit {
       session.isOpened,
       session.isWaitingToOpen,
       session.isSubmitted,
-      hasStudentExtension
+      hasStudentExtension,
     );
   }
 
@@ -275,8 +275,8 @@ export class StudentHomePageComponent implements OnInit {
     }
     const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
     return (
-      `The session's original end date is ${originalEndTime}.` +
-      ' An instructor has granted you an extension to this date.'
+      `The session's original end date is ${originalEndTime}.`
+      + ' An instructor has granted you an extension to this date.'
     );
   }
 

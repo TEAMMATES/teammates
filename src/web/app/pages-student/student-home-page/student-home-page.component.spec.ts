@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -21,7 +22,6 @@ import { TeammatesRouterModule } from '../../components/teammates-router/teammat
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 import { StudentHomePageComponent } from './student-home-page.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const studentCourseA: any = {
   course: {
