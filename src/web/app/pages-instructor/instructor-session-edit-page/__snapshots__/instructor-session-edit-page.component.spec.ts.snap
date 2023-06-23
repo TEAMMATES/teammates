@@ -3061,11 +3061,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="col-12 col-lg-5 mb-3 mb-lg-0"
             >
               <div
-                class="d-flex flex-column flex-sm-row align-items-center"
+                class="row align-items-center justify-content-center"
               >
                 <select
                   aria-label="Select student to preview as"
-                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                   id="preview-student"
                 >
                 </select>
@@ -3082,11 +3082,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="col-12 col-lg-5"
             >
               <div
-                class="d-flex flex-column flex-sm-row align-items-center"
+                class="row align-items-center justify-content-center"
               >
                 <select
                   aria-label="Select instructor to preview as"
-                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                   id="preview-instructor"
                 >
                 </select>
@@ -4806,11 +4806,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               class="col-12 col-lg-5 mb-3 mb-lg-0"
             >
               <div
-                class="d-flex flex-column flex-sm-row align-items-center"
+                class="row align-items-center justify-content-center"
               >
                 <select
                   aria-label="Select student to preview as"
-                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                   id="preview-student"
                 >
                 </select>
@@ -4827,11 +4827,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               class="col-12 col-lg-5"
             >
               <div
-                class="d-flex flex-column flex-sm-row align-items-center"
+                class="row align-items-center justify-content-center"
               >
                 <select
                   aria-label="Select instructor to preview as"
-                  class="form-control form-select preview-select w-100 ng-untouched ng-pristine ng-valid"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                   id="preview-instructor"
                 >
                 </select>
