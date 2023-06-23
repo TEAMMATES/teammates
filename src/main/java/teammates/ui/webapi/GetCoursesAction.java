@@ -9,7 +9,6 @@ import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 
 /**
