@@ -10,13 +10,13 @@ import {
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { ConstsumRecipientsQuestionConstraintComponent }
+  from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
 import { ContributionQuestionConstraintComponent }
   from '../question-types/question-constraint/contribution-question-constraint.component';
 import { RankRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/rank-recipients-question-constraint.component';
-import { ConstsumRecipientsQuestionConstraintComponent }
-  from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
-import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import {
   FeedbackRecipientLabelType,
