@@ -1,4 +1,4 @@
-import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -10,6 +10,12 @@ import {
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { ContributionQuestionConstraintComponent }
+  from '../question-types/question-constraint/contribution-question-constraint.component';
+import { RankRecipientsQuestionConstraintComponent }
+  from '../question-types/question-constraint/rank-recipients-question-constraint.component';
+import { ConstsumRecipientsQuestionConstraintComponent }
+  from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import {
@@ -82,6 +88,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Output()
   responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
+
+  @ViewChild(ContributionQuestionConstraintComponent)
+  private contributionQuestionConstraint!: ContributionQuestionConstraintComponent;
+
+  @ViewChild(RankRecipientsQuestionConstraintComponent)
+  private rankRecipientsQuestionConstraint!: RankRecipientsQuestionConstraintComponent;
+
+  @ViewChild(ConstsumRecipientsQuestionConstraintComponent)
+  private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
     isLoading: false,
@@ -280,13 +295,31 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.hasResponseChanged = true;
       this.isSubmitAllClickedChange.emit(false);
 
-      this.model.recipientSubmissionForms[index] = {
+      this.model.recipientSubmissionForms[index] =
+      {
         ...this.model.recipientSubmissionForms[index],
         [field]: data,
       };
 
+      this.updateIsValidByQuestionConstraint();
       this.formModelChange.emit(this.model);
     }
+  }
+
+  updateIsValidByQuestionConstraint(): void {
+    let isValid: boolean = false;
+    const questionType: string = this.model.questionType;
+    if (questionType === FeedbackQuestionType.CONTRIB) {
+      isValid = this.contributionQuestionConstraint.isValid;
+    } else if (questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+      isValid = this.rankRecipientsQuestionConstraint.isValid;
+    } else if (questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+      isValid = this.constsumRecipientQuesitonConstraint.isValid;
+    } else {
+      return;
+    }
+
+    this.updateValidity(isValid);
   }
 
   /**
