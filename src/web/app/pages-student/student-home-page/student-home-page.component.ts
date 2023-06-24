@@ -100,7 +100,7 @@ export class StudentHomePageComponent implements OnInit {
   loadStudentCourses(): void {
     this.hasCoursesLoadingFailed = false;
     this.isCoursesLoading = true;
-    // this.courses = [];
+    this.courses = [];
     this.courseService
       .getAllCoursesAsStudent()
       .pipe(
@@ -122,7 +122,6 @@ export class StudentHomePageComponent implements OnInit {
           });
 
           this.courses.sort((a: StudentCourse, b: StudentCourse) => (a.course.courseId > b.course.courseId ? 1 : -1));
-
           this.courses.slice(0, 3).forEach((course: StudentCourse) => {
             course.isTabExpanded = true;
             this.loadFeedbackSessionsForCourse(course.course.courseId);
