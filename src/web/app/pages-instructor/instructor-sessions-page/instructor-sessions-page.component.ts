@@ -732,4 +732,19 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.sessionsTableRowModels = [];
     this.recycleBinFeedbackSessionRowModels = [];
   }
+
+  triggerModelChange(data: SessionEditFormModel): void {
+    const submissionStartDate = data.submissionStartDate;
+    const submissionEndDate = data.submissionEndDate;
+    const startDate = new Date(submissionStartDate.year, submissionStartDate.month, submissionStartDate.day);
+    const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
+
+    if (startDate > endDate) {
+      this.sessionEditFormModel.submissionEndDate = data.submissionStartDate;
+      this.sessionEditFormModel.submissionEndTime = {
+        minute: 59,
+        hour: 23,
+      };
+    }
+  }
 }
