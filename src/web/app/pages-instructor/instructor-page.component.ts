@@ -48,11 +48,11 @@ export class InstructorPageComponent implements OnInit {
       children: [
         {
           url: '/web/instructor/getting-started',
-          display: 'Getting Started'
+          display: 'Getting Started',
         },
         {
           url: '/web/instructor/help',
-          display: 'Instructor Help'
+          display: 'Instructor Help',
         },
       ],
     },
