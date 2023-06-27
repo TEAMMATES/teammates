@@ -439,9 +439,8 @@ def afterTestClosure = { descriptor, result ->
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
             process.waitFor()
-            def deleteCommand = isWindows ? "del" : "rm"
-            "${deleteCommand} ${expectedFileName}".execute()
-            "${deleteCommand} ${actualFileName}".execute()
+            delete expectedFileName
+            delete actualFileName
         } else {
             println "${result.exception.getClass().getName()}: ${result.exception.getMessage()}"
         }
