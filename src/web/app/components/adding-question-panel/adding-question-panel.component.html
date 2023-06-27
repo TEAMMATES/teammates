@@ -1,6 +1,6 @@
 <div class="card-body background-color-light-blue text-center responsive-padding">
   <div ngbDropdown class="d-inline-block">
-    <button id="btn-new-question" class="btn btn-primary px-2 px-sm-3" ngbDropdownToggle>Add New Question</button>
+    <button id="btn-new-question" class="btn btn-primary btn-small-padding" ngbDropdownToggle>Add New Question</button>
     <div id="new-question-dropdown" ngbDropdownMenu>
       <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
       <div class="dropdown-divider"></div>
@@ -25,6 +25,6 @@
     <i class="fas fa-info-circle"></i>
   </a>
   <a type="button" class="btn btn-link px-1 px-sm-3" *ngIf="isLinkDisabled"><i class="fas fa-info-circle"></i></a>
-  <button id="btn-copy-question" class="btn btn-primary px-2 px-sm-3" (click)="copyQuestionsFromOtherSessionsHandler()"
+  <button id="btn-copy-question" class="btn btn-primary btn-small-padding" (click)="copyQuestionsFromOtherSessionsHandler()"
     [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
 </div>
