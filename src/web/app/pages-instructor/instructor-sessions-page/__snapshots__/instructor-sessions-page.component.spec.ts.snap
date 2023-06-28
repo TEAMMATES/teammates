@@ -45,6 +45,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -163,6 +164,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -281,6 +283,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -367,6 +370,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1310,6 +1314,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1428,6 +1433,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1546,6 +1552,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
