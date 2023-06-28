@@ -15,7 +15,7 @@
             [{{ student.teamName }}] {{ student.name }}
           </option>
         </select>
-        <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content">
+        <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6">
           <a
             *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn"
             tmRouterLink="/web/sessions/submission"
