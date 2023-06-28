@@ -114,7 +114,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void tesValidateQuestionDetails() {
+    public void testValidateQuestionDetails() {
         FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
 
         ______TS("Test Default no error");
@@ -141,5 +141,53 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         assertEquals(2, errors.size());
         assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_MIN_MAX, errors.get(0));
         assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_STEP, errors.get(1));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentMinScale_shouldReturnTrue() {
+        FeedbackNumericalScaleQuestionDetails numDetails = new FeedbackNumericalScaleQuestionDetails();
+        numDetails.setMinScale(1);
+
+        FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
+        newNumDetails.setMinScale(3);
+
+        assertTrue(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentMaxScale_shouldReturnTrue() {
+        FeedbackNumericalScaleQuestionDetails numDetails = new FeedbackNumericalScaleQuestionDetails();
+        numDetails.setMaxScale(5);
+
+        FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
+        newNumDetails.setMaxScale(2);
+
+        assertTrue(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentStep_shouldReturnTrue() {
+        FeedbackNumericalScaleQuestionDetails numDetails = new FeedbackNumericalScaleQuestionDetails();
+        numDetails.setStep(0.5);
+
+        FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
+        newNumDetails.setStep(2);
+
+        assertTrue(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_sameDetails_shouldReturnFalse() {
+        FeedbackNumericalScaleQuestionDetails numDetails = new FeedbackNumericalScaleQuestionDetails();
+        numDetails.setMinScale(1);
+        numDetails.setMaxScale(5);
+        numDetails.setStep(0.5);
+
+        FeedbackNumericalScaleQuestionDetails newNumDetails = new FeedbackNumericalScaleQuestionDetails();
+        newNumDetails.setMinScale(1);
+        newNumDetails.setMaxScale(5);
+        newNumDetails.setStep(0.5);
+
+        assertFalse(numDetails.shouldChangesRequireResponseDeletion(newNumDetails));
     }
 }
