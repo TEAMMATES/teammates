@@ -3069,13 +3069,17 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   id="preview-student"
                 >
                 </select>
-                <button
-                  class="btn btn-primary"
-                  disabled=""
-                  id="btn-preview-student"
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6"
                 >
-                   Preview as Student 
-                </button>
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-student"
+                  >
+                     Preview as Student 
+                  </button>
+                </div>
               </div>
             </div>
             <div
@@ -3090,13 +3094,17 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   id="preview-instructor"
                 >
                 </select>
-                <button
-                  class="btn btn-primary"
-                  disabled=""
-                  id="btn-preview-instructor"
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
                 >
-                   Preview as Instructor 
-                </button>
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-instructor"
+                  >
+                     Preview as Instructor 
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -4814,13 +4822,17 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   id="preview-student"
                 >
                 </select>
-                <button
-                  class="btn btn-primary"
-                  disabled=""
-                  id="btn-preview-student"
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6"
                 >
-                   Preview as Student 
-                </button>
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-student"
+                  >
+                     Preview as Student 
+                  </button>
+                </div>
               </div>
             </div>
             <div
@@ -4835,13 +4847,17 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   id="preview-instructor"
                 >
                 </select>
-                <button
-                  class="btn btn-primary"
-                  disabled=""
-                  id="btn-preview-instructor"
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
                 >
-                   Preview as Instructor 
-                </button>
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-instructor"
+                  >
+                     Preview as Instructor 
+                  </button>
+                </div>
               </div>
             </div>
           </div>
