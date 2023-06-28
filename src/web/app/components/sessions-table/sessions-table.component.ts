@@ -110,6 +110,7 @@ export class SessionsTableComponent implements OnInit {
   sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> =
     new EventEmitter();
 
+  tableId = 'sessions-table';
   columnsData: ColumnData[] = [
     { header: 'Session Name', sortBy: SortBy.SESSION_NAME },
     { header: 'Start Date', sortBy: SortBy.SESSION_START_DATE },

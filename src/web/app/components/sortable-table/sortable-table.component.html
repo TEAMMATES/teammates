@@ -1,9 +1,10 @@
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped {{ tableId }}">
   <thead>
     <tr>
       <th
         *ngFor="let column of columns"
         [ngClass]="{ 'sortable-header': column.sortBy }"
+        class="{{column?.headerClass}}"
         [ngStyle]="getAlignment(column)"
         (click)="column.sortBy && onClickHeader(column.header)"
         [attr.aria-sort]="getAriaSort(column.header)"

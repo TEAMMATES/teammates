@@ -10,6 +10,7 @@ export interface ColumnData {
   headerToolTip?: string;
   sortBy?: SortBy; // optional if the column is not sortable
   alignment?: 'start' | 'center' | 'end'; // defaults to start
+  headerClass?: string; // optional id for the header
 }
 
 /**
@@ -44,6 +45,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   // enum
   SortOrder: typeof SortOrder = SortOrder;
+
+  @Input()
+  tableId: string = '';
 
   @Input()
   columns: ColumnData[] = [];
