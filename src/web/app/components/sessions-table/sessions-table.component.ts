@@ -134,7 +134,7 @@ export class SessionsTableComponent implements OnInit {
     private publishStatusName: PublishStatusNamePipe,
     private publishStatusTooltip: PublishStatusTooltipPipe,
     private submissionStatusTooltip: SubmissionStatusTooltipPipe,
-    private submissionStatusName: SubmissionStatusNamePipe
+    private submissionStatusName: SubmissionStatusNamePipe,
   ) {}
 
   ngOnInit(): void {
@@ -163,22 +163,22 @@ export class SessionsTableComponent implements OnInit {
           this.createDateCellWithToolTip(submissionEndTimestamp, timeZone),
           this.createCellWithToolTip(
             this.submissionStatusTooltip.transform(submissionStatus, deadlines),
-            this.submissionStatusName.transform(submissionStatus, deadlines)
+            this.submissionStatusName.transform(submissionStatus, deadlines),
           ),
           this.createCellWithToolTip(
             this.publishStatusTooltip.transform(publishStatus),
-            this.publishStatusName.transform(publishStatus)
+            this.publishStatusName.transform(publishStatus),
           ),
           this.createResponseRateComponent(sessionTableRowModel, idx),
           this.createGroupButtonsComponent(sessionTableRowModel, idx),
         ];
-      }
+      },
     );
   }
 
   private createGroupButtonsComponent(
     sessionTableRowModel: SessionsTableRowModel,
-    idx: number
+    idx: number,
   ): any {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
 
@@ -215,7 +215,7 @@ export class SessionsTableComponent implements OnInit {
 
   private createResponseRateComponent(
     sessionTableRowModel: SessionsTableRowModel,
-    idx: number
+    idx: number,
   ): any {
     const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
     return {
@@ -284,18 +284,18 @@ export class SessionsTableComponent implements OnInit {
    */
   moveSessionToRecycleBin(rowIndex: number): void {
     const modalContent: string =
-      'Session will be moved to the recycle bin. ' +
-      'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
+      'Session will be moved to the recycle bin. '
+      + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Delete session <strong>${this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
-      modalContent
+      modalContent,
     );
     modalRef.result.then(
       () => {
         this.moveSessionToRecycleBinEvent.emit(rowIndex);
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -318,7 +318,7 @@ export class SessionsTableComponent implements OnInit {
           sessionToCopyRowIndex: rowIndex,
         });
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -331,14 +331,14 @@ export class SessionsTableComponent implements OnInit {
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
-      'An email will be sent to students to inform them that the responses are ready for viewing.'
+      'An email will be sent to students to inform them that the responses are ready for viewing.',
     );
 
     modalRef.result.then(
       () => {
         this.publishSessionEvent.emit(rowIndex);
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -353,14 +353,14 @@ export class SessionsTableComponent implements OnInit {
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Unpublish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
-      modalContent
+      modalContent,
     );
 
     modalRef.result.then(
       () => {
         this.unpublishSessionEvent.emit(rowIndex);
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -403,8 +403,8 @@ export class SessionsTableComponent implements OnInit {
    * Get the deadlines for student and instructors.
    */
   getDeadlines(model: SessionsTableRowModel): {
-    studentDeadlines: Record<string, number>;
-    instructorDeadlines: Record<string, number>;
+    studentDeadlines: Record<string, number>,
+    instructorDeadlines: Record<string, number>,
   } {
     return {
       studentDeadlines: model.feedbackSession.studentDeadlines,

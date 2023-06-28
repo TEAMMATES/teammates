@@ -20,13 +20,19 @@ import {
   Students,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
-import { ResendResultsLinkToRespondentModalComponent } from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
+import {
+  ResendResultsLinkToRespondentModalComponent,
+} from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
-import { SendRemindersToRespondentsModalComponent } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
-import { ReminderResponseModel } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
+import {
+  SendRemindersToRespondentsModalComponent,
+} from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
+import {
+  ReminderResponseModel,
+} from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 import { InstructorSessionBasePageComponent } from './instructor-session-base-page.component';
