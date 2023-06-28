@@ -9,9 +9,7 @@
         [attr.aria-sort]="getAriaSort(column.header)"
       >
         <button *ngIf="column.sortBy" class="d-lg-flex align-items-center gap-lg-1 d-inline ">
-          <span 
-            [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } " 
-            [ngbTooltip]="column.headerToolTip" container="body">{{ column.header }}</span>
+          <span [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } " [ngbTooltip]="column.headerToolTip" container="body">{{ column.header }}</span>
           <span class="fa-stack" aria-hidden="true">
             <i class="fas fa-sort"></i>
             <i
@@ -36,7 +34,7 @@
         <span
           *ngIf="!column.sortBy"
           [ngbTooltip]="column.headerToolTip"
-          [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } " 
+          [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } "
           container="body"
           >{{ column.header }}</span
         >

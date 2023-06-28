@@ -4,11 +4,11 @@ import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { InstructorPermissionSet } from 'src/web/types/api-request';
 import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-} from 'src/web/types/api-output';
-import { InstructorPermissionSet } from 'src/web/types/api-request';
+} from '../../../types/api-output';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SessionsTableHeaderColorScheme } from './sessions-table-model';

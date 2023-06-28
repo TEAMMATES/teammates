@@ -1265,15 +1265,18 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             >
               <tm-sortable-table>
                 <table
-                  class="table table-bordered table-striped margin-bottom-20px"
+                  class="table table-bordered table-striped"
                 >
                   <thead>
                     <tr>
                       <th
                         aria-sort="none"
                         class="sortable-header"
+                        style="text-align: start;"
                       >
-                        <button>
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                        >
                           <span
                             container="body"
                           >
@@ -1292,8 +1295,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                       <th
                         aria-sort="ascending"
                         class="sortable-header"
+                        style="text-align: start;"
                       >
-                        <button>
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                        >
                           <span
                             container="body"
                           >
@@ -1315,8 +1321,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                       <th
                         aria-sort="none"
                         class="sortable-header"
+                        style="text-align: start;"
                       >
-                        <button>
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                        >
                           <span
                             container="body"
                           >
@@ -1335,8 +1344,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                       <th
                         aria-sort="none"
                         class="sortable-header"
+                        style="text-align: start;"
                       >
-                        <button>
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                        >
                           <span
                             container="body"
                           >
@@ -1355,8 +1367,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                       <th
                         aria-sort="none"
                         class="sortable-header"
+                        style="text-align: start;"
                       >
-                        <button>
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                        >
                           <span
                             container="body"
                           >
