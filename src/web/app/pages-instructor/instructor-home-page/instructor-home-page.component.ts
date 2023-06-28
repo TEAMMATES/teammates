@@ -78,6 +78,9 @@ export class InstructorHomePageComponent
 
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
+  // Table Style
+  setMainTableStyle = false;
+
   // data
   courseTabModels: CourseTabModel[] = [];
   allCoursesList: Course[] = [];

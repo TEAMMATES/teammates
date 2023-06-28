@@ -26,7 +26,9 @@ import { ResponseRateComponent } from './response-rate.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
+  SessionsTableColumnData,
   SessionsTableHeaderColorScheme,
+  SessionsTableRowData,
   SessionsTableRowModel,
 } from './sessions-table-model';
 
@@ -43,15 +45,15 @@ export class SessionsTableComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus =
-    FeedbackSessionSubmissionStatus;
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus =
-    FeedbackSessionPublishStatus;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme =
-    SessionsTableHeaderColorScheme;
+  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
   // variable
   rowClicked: number = -1;
+
+  @Input()
+  mainTableStyle: boolean = false;
 
   @Input()
   sessionsTableRowModels: SessionsTableRowModel[] = [];
@@ -69,8 +71,7 @@ export class SessionsTableComponent implements OnInit {
   sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
   @Input()
-  headerColorScheme: SessionsTableHeaderColorScheme =
-    SessionsTableHeaderColorScheme.BLUE;
+  headerColorScheme: SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme.BLUE;
 
   @Input()
   isSendReminderLoading: boolean = false;
@@ -103,29 +104,13 @@ export class SessionsTableComponent implements OnInit {
   downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  sendRemindersToAllNonSubmittersEvent: EventEmitter<number> =
-    new EventEmitter();
+  sendRemindersToAllNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> =
-    new EventEmitter();
+  sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
 
-  tableId = 'sessions-table';
-  columnsData: ColumnData[] = [
-    { header: 'Session Name', sortBy: SortBy.SESSION_NAME },
-    { header: 'Start Date', sortBy: SortBy.SESSION_START_DATE },
-    { header: 'End Date', sortBy: SortBy.SESSION_END_DATE },
-    { header: 'Submissions' },
-    { header: 'Responses' },
-    {
-      header: 'Response Rate',
-      headerToolTip: 'Number of students submitted / Class size',
-    },
-    {
-      header: 'Action(s)',
-      alignment: 'center',
-    },
-  ];
+  columnsData: ColumnData[] = [];
+
   rowsData: SortableTableCellData[][] = [];
 
   constructor(
@@ -140,48 +125,114 @@ export class SessionsTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setColumnData();
     this.setRowData();
   }
 
-  setRowData(): void {
-    this.rowsData = this.sessionsTableRowModels.map(
-      (sessionTableRowModel: SessionsTableRowModel, idx: number) => {
-        const { feedbackSession } = sessionTableRowModel;
-        const {
-          submissionStatus,
-          submissionStartTimestamp,
-          submissionEndTimestamp,
-          timeZone,
-          publishStatus,
-        } = feedbackSession;
+  createColumnData(config: SessionsTableColumnData): ColumnData[] {
+    if (!this.columnsToShow.includes(config.columnType)) {
+      return [];
+    }
 
-        const deadlines = this.getDeadlines(sessionTableRowModel);
+    const columnData: ColumnData = {
+      header: config.header,
+      ...(config.sortBy && { sortBy: config.sortBy }),
+      ...(config.headerToolTip && { headerToolTip: config.headerToolTip }),
+      ...(config.alignment && { alignment: config.alignment }),
+      ...(config.headerClass && { headerClass: config.headerClass }),
+    };
 
-        return [
-          {
-            value: sessionTableRowModel.feedbackSession.feedbackSessionName,
-          },
-          this.createDateCellWithToolTip(submissionStartTimestamp, timeZone),
-          this.createDateCellWithToolTip(submissionEndTimestamp, timeZone),
-          this.createCellWithToolTip(
-            this.submissionStatusTooltip.transform(submissionStatus, deadlines),
-            this.submissionStatusName.transform(submissionStatus, deadlines),
-          ),
-          this.createCellWithToolTip(
-            this.publishStatusTooltip.transform(publishStatus),
-            this.publishStatusName.transform(publishStatus),
-          ),
-          this.createResponseRateComponent(sessionTableRowModel, idx),
-          this.createGroupButtonsComponent(sessionTableRowModel, idx),
-        ];
-      },
-    );
+    return [columnData];
   }
 
-  private createGroupButtonsComponent(
-    sessionTableRowModel: SessionsTableRowModel,
-    idx: number,
-  ): any {
+  createRowData(config: SessionsTableRowData): SortableTableCellData[] {
+    if (!this.columnsToShow.includes(config.columnType)) {
+      return [];
+    }
+
+    const rowData: SortableTableCellData = {
+      ...(config.value && { value: config.value }),
+      ...(config.displayValue && { displayValue: config.displayValue }),
+      ...(config.customComponent && { customComponent: config.customComponent }),
+      ...(config.style && { style: config.style }),
+    };
+
+    return [rowData];
+  }
+
+  setColumnData(): void {
+    this.columnsData = [
+    ...this.createColumnData({
+      columnType: SessionsTableColumn.COURSE_ID,
+      header: 'Course ID',
+      sortBy: SortBy.COURSE_ID,
+    }),
+    {
+      header: 'Session Name',
+      sortBy: SortBy.SESSION_NAME,
+    },
+    ...this.createColumnData({
+      columnType: SessionsTableColumn.START_DATE,
+      header: 'Start Date',
+      sortBy: SortBy.SESSION_START_DATE,
+    }),
+    ...this.createColumnData({
+      columnType: SessionsTableColumn.END_DATE,
+      header: 'End Date',
+      sortBy: SortBy.SESSION_END_DATE,
+    }),
+    { header: 'Submissions' },
+    { header: 'Responses' },
+    {
+      header: 'Response Rate',
+      headerToolTip: 'Number of students submitted / Class size',
+    },
+    {
+      header: 'Action(s)',
+      alignment: 'center',
+    },
+    ];
+  }
+
+  setRowData(): void {
+    this.rowsData = this.sessionsTableRowModels.map((sessionTableRowModel: SessionsTableRowModel, idx: number) => {
+      const { feedbackSession } = sessionTableRowModel;
+      const { submissionStatus, submissionStartTimestamp, submissionEndTimestamp, timeZone, publishStatus } =
+        feedbackSession;
+
+      const deadlines = this.getDeadlines(sessionTableRowModel);
+
+      return [
+        ...this.createRowData({
+          columnType: SessionsTableColumn.COURSE_ID,
+          value: sessionTableRowModel.feedbackSession.courseId,
+        }),
+        {
+          value: sessionTableRowModel.feedbackSession.feedbackSessionName,
+        },
+        ...this.createRowData({
+          columnType: SessionsTableColumn.START_DATE,
+          ...this.createDateCellWithToolTip(submissionStartTimestamp, timeZone),
+        }),
+        ...this.createRowData({
+          columnType: SessionsTableColumn.END_DATE,
+          ...this.createDateCellWithToolTip(submissionEndTimestamp, timeZone),
+        }),
+        this.createCellWithToolTip(
+          this.submissionStatusTooltip.transform(submissionStatus, deadlines),
+          this.submissionStatusName.transform(submissionStatus, deadlines),
+        ),
+        this.createCellWithToolTip(
+          this.publishStatusTooltip.transform(publishStatus),
+          this.publishStatusName.transform(publishStatus),
+        ),
+        this.createResponseRateComponent(sessionTableRowModel, idx),
+        this.createGroupButtonsComponent(sessionTableRowModel, idx),
+      ];
+    });
+  }
+
+  private createGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): any {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
 
     return {
@@ -194,31 +245,24 @@ export class SessionsTableComponent implements OnInit {
           idx,
           submissionStatus: feedbackSession.submissionStatus,
           publishStatus: feedbackSession.publishStatus,
-          onSubmitSessionAsInstructor: () =>
-            this.submitSessionAsInstructorEvent.emit(idx),
+          onSubmitSessionAsInstructor: () => this.submitSessionAsInstructorEvent.emit(idx),
           isSendReminderLoading: this.isSendReminderLoading,
           rowClicked: this.rowClicked,
           copySession: () => this.copySession(idx),
           moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
           unpublishSession: () => this.unpublishSession(idx),
           publishSession: () => this.publishSession(idx),
-          remindResultsLinkToStudent: () =>
-            this.remindResultsLinkToStudent(idx),
+          remindResultsLinkToStudent: () => this.remindResultsLinkToStudent(idx),
           downloadSessionResults: () => this.downloadSessionResults(idx),
-          sendRemindersToAllNonSubmitters: () =>
-            this.sendRemindersToAllNonSubmitters(idx),
-          sendRemindersToSelectedNonSubmitters: () =>
-            this.sendRemindersToSelectedNonSubmitters(idx),
+          sendRemindersToAllNonSubmitters: () => this.sendRemindersToAllNonSubmitters(idx),
+          sendRemindersToSelectedNonSubmitters: () => this.sendRemindersToSelectedNonSubmitters(idx),
           setRowClicked: () => this.setRowClicked(idx),
         },
       },
     };
   }
 
-  private createResponseRateComponent(
-    sessionTableRowModel: SessionsTableRowModel,
-    idx: number,
-  ): any {
+  private createResponseRateComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): any {
     const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
     return {
       customComponent: {
@@ -276,9 +320,7 @@ export class SessionsTableComponent implements OnInit {
     if (by !== this.sessionsTableRowModelsSortBy) {
       return 'none';
     }
-    return this.sessionsTableRowModelsSortOrder === SortOrder.ASC
-      ? 'ascending'
-      : 'descending';
+    return this.sessionsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   /**
@@ -307,11 +349,9 @@ export class SessionsTableComponent implements OnInit {
   copySession(rowIndex: number): void {
     const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-    modalRef.componentInstance.newFeedbackSessionName =
-      model.feedbackSession.feedbackSessionName;
+    modalRef.componentInstance.newFeedbackSessionName = model.feedbackSession.feedbackSessionName;
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
-    modalRef.componentInstance.sessionToCopyCourseId =
-      model.feedbackSession.courseId;
+    modalRef.componentInstance.sessionToCopyCourseId = model.feedbackSession.courseId;
 
     modalRef.result.then(
       (result: CopySessionModalResult) => {

@@ -1,6 +1,6 @@
-<table class="table table-bordered table-striped {{ tableId }}">
+<table class="table table-bordered table-striped">
   <thead>
-    <tr>
+    <tr [ngClass]="{ 'bg-primary': setMainTableStyle, 'text-white': setMainTableStyle}">
       <th
         *ngFor="let column of columns"
         [ngClass]="{ 'sortable-header': column.sortBy }"

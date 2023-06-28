@@ -91,6 +91,8 @@ export class InstructorSessionsPageComponent
   // url params
   courseId: string = '';
 
+  setMainTableStyle: boolean = true;
+
   // data
   courseCandidates: Course[] = [];
   templateSessions: TemplateSession[] = [];

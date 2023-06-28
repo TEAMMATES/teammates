@@ -50,6 +50,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
   tableId: string = '';
 
   @Input()
+  setMainTableStyle: boolean = false;
+
+  @Input()
   columns: ColumnData[] = [];
 
   @Input()

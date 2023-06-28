@@ -1,8 +1,8 @@
 <div *ngIf="sessionsTableRowModels.length > 0; else noSessionMessage">
   <tm-sortable-table
-    [tableId]="tableId"
     [columns]="columnsData"
     [rows]="rowsData"
+    [setMainTableStyle]="mainTableStyle"
   ></tm-sortable-table>
 </div>
 

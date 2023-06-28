@@ -220,6 +220,8 @@
               [sessionsTableRowModelsSortOrder]="
                 courseTabModel.sessionsTableRowModelsSortOrder
               "
+              id = "sessions-table-{{ idx }}"
+              [mainTableStyle]="setMainTableStyle"
               [courseCandidates]="courseCandidates"
               [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE"
               [columnsToShow]="[
