@@ -4,13 +4,14 @@
       <th
         *ngFor="let column of columns"
         [ngClass]="{ 'sortable-header': column.sortBy }"
+        [ngStyle]="getAlignment(column)"
         (click)="column.sortBy && onClickHeader(column.header)"
         [attr.aria-sort]="getAriaSort(column.header)"
       >
-        <button *ngIf="column.sortBy">
-          <span [ngbTooltip]="column.headerToolTip" container="body">{{
-            column.header
-          }}</span>
+        <button *ngIf="column.sortBy" class="d-lg-flex align-items-center gap-lg-1 d-inline ">
+          <span 
+            [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } " 
+            [ngbTooltip]="column.headerToolTip" container="body">{{ column.header }}</span>
           <span class="fa-stack" aria-hidden="true">
             <i class="fas fa-sort"></i>
             <i
@@ -35,6 +36,7 @@
         <span
           *ngIf="!column.sortBy"
           [ngbTooltip]="column.headerToolTip"
+          [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } " 
           container="body"
           >{{ column.header }}</span
         >

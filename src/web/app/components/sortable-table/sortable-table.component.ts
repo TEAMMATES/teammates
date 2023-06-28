@@ -9,6 +9,7 @@ export interface ColumnData {
   header: string;
   headerToolTip?: string;
   sortBy?: SortBy; // optional if the column is not sortable
+  alignment?: 'start' | 'center' | 'end'; // defaults to start
 }
 
 /**
@@ -119,5 +120,11 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   getStyle(cellData: SortableTableCellData): string | undefined {
     return cellData.style;
+  }
+
+  getAlignment(column: ColumnData): { 'text-align': ColumnData['alignment'] } {
+    return {
+      'text-align': `${column?.alignment || 'start'}`,
+    };
   }
 }

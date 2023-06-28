@@ -122,6 +122,7 @@ export class SessionsTableComponent implements OnInit {
     },
     {
       header: 'Action(s)',
+      alignment: 'center',
     },
   ];
   rowsData: SortableTableCellData[][] = [];
