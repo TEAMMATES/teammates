@@ -1,12 +1,17 @@
 <div class="card-body background-color-light-blue text-center">
   <div class="row align-items-center">
-    <div class="col-lg-2 text-lg-end mb-3 mb-lg-0">
+    <div
+      [ngClass]="{ 'col-lg-2': !forDisplayOnly, 'text-lg-end': !forDisplayOnly, 'mb-lg-3': forDisplayOnly }"
+      class="mb-3 mb-lg-0">
       <b>Preview Session:</b>
     </div>
-    <div class="col-12 col-lg-5 mb-3 mb-lg-0">
+    <div
+      [ngClass]="{'col-lg-5': !forDisplayOnly, 'col-lg-6': forDisplayOnly}"
+      class="col-12 mb-3 mb-lg-0">
       <div class="row align-items-center justify-content-center">
         <select
           id="preview-student"
+          [ngClass]="{ 'preview-example-select': forDisplayOnly }"
           class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select"
           [(ngModel)]="emailOfStudentToPreview"
           aria-label="Select student to preview as"
@@ -15,7 +20,7 @@
             [{{ student.teamName }}] {{ student.name }}
           </option>
         </select>
-        <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6">
+        <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content">
           <a
             *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn"
             tmRouterLink="/web/sessions/submission"
@@ -46,10 +51,13 @@
         </ng-template>
       </div>
     </div>
-    <div class="col-12 col-lg-5">
+    <div
+      [ngClass]="{'col-lg-5': !forDisplayOnly, 'col-lg-6': forDisplayOnly}"
+      class="col-12">
       <div class="row align-items-center justify-content-center">
         <select
           id="preview-instructor"
+          [ngClass]="{ 'preview-example-select': forDisplayOnly }"
           class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select"
           [(ngModel)]="emailOfInstructorToPreview"
           aria-label="Select instructor to preview as"

@@ -3051,14 +3051,14 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="row align-items-center"
           >
             <div
-              class="col-lg-2 text-lg-end mb-3 mb-lg-0"
+              class="mb-3 mb-lg-0 col-lg-2 text-lg-end"
             >
               <b>
                 Preview Session:
               </b>
             </div>
             <div
-              class="col-12 col-lg-5 mb-3 mb-lg-0"
+              class="col-12 mb-3 mb-lg-0 col-lg-5"
             >
               <div
                 class="row align-items-center justify-content-center"
@@ -3070,7 +3070,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 >
                 </select>
                 <div
-                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6"
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
                 >
                   <button
                     class="btn btn-primary"
@@ -4804,14 +4804,14 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             class="row align-items-center"
           >
             <div
-              class="col-lg-2 text-lg-end mb-3 mb-lg-0"
+              class="mb-3 mb-lg-0 col-lg-2 text-lg-end"
             >
               <b>
                 Preview Session:
               </b>
             </div>
             <div
-              class="col-12 col-lg-5 mb-3 mb-lg-0"
+              class="col-12 mb-3 mb-lg-0 col-lg-5"
             >
               <div
                 class="row align-items-center justify-content-center"
@@ -4823,7 +4823,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                 </select>
                 <div
-                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6"
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
                 >
                   <button
                     class="btn btn-primary"
