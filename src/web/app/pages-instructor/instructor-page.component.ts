@@ -44,8 +44,17 @@ export class InstructorPageComponent implements OnInit {
       display: 'Notifications',
     },
     {
-      url: '/web/instructor/help',
       display: 'Help',
+      children: [
+        {
+          url: '/web/instructor/getting-started',
+          display: 'Getting Started',
+        },
+        {
+          url: '/web/instructor/help',
+          display: 'Instructor Help',
+        },
+      ],
     },
   ];
   isFetchingAuthDetails: boolean = false;
