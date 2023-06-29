@@ -186,21 +186,129 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           </div>
         </div>
         <tm-loading-retry>
-          <tm-loading-spinner>
+          <div
+            class="table-responsive"
+          >
             <div
-              class="loading-container"
+              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              style=""
             >
-              <div
-                class="row spinner-border text-primary"
-                role="status"
-              />
-              <div
-                class="row text-secondary"
+              <table
+                class="table table-striped table-bordered margin-0"
+                style=""
               >
-                Loading...
-              </div>
+                <thead>
+                  <tr>
+                    <th>
+                      Session Name
+                    </th>
+                    <th>
+                      Deadline
+                    </th>
+                    <th>
+                      Submissions
+                    </th>
+                    <th>
+                      Responses
+                    </th>
+                    <th>
+                      Action(s)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      class="text-break"
+                    >
+                       First Session 
+                    </td>
+                    <td>
+                      <span>
+                         Sat, 02 Feb 2019, 04:15 PM +08 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Submitted 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Not Published 
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        class="btn btn-light btn-sm btn-margin-right disabled"
+                        href="/web/student/sessions/result?courseid=CS1231&fsname=First%20Session"
+                        id="view-responses-btn-0"
+                        tmrouterlink="/web/student/sessions/result"
+                      >
+                         View Responses 
+                      </a>
+                      <a
+                        class="btn btn-light btn-sm"
+                        href="/web/student/sessions/submission?courseid=CS1231&fsname=First%20Session"
+                        id="edit-submit-btn-0"
+                        tmrouterlink="/web/student/sessions/submission"
+                      >
+                         Edit Submission 
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="text-break"
+                    >
+                       Second Session 
+                    </td>
+                    <td>
+                      <span>
+                         Sat, 02 Feb 2019, 04:15 PM +08 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Closed 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Not Published 
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        class="btn btn-light btn-sm btn-margin-right disabled"
+                        href="/web/student/sessions/result?courseid=CS1231&fsname=Second%20Session"
+                        id="view-responses-btn-1"
+                        tmrouterlink="/web/student/sessions/result"
+                      >
+                         View Responses 
+                      </a>
+                      <a
+                        class="btn btn-light btn-sm"
+                        href="/web/student/sessions/submission?courseid=CS1231&fsname=Second%20Session"
+                        id="view-submit-btn-1"
+                        tmrouterlink="/web/student/sessions/submission"
+                      >
+                         View Submission 
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </tm-loading-spinner>
+          </div>
         </tm-loading-retry>
       </div>
       <div
@@ -229,21 +337,129 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           </div>
         </div>
         <tm-loading-retry>
-          <tm-loading-spinner>
+          <div
+            class="table-responsive"
+          >
             <div
-              class="loading-container"
+              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              style=""
             >
-              <div
-                class="row spinner-border text-primary"
-                role="status"
-              />
-              <div
-                class="row text-secondary"
+              <table
+                class="table table-striped table-bordered margin-0"
+                style=""
               >
-                Loading...
-              </div>
+                <thead>
+                  <tr>
+                    <th>
+                      Session Name
+                    </th>
+                    <th>
+                      Deadline
+                    </th>
+                    <th>
+                      Submissions
+                    </th>
+                    <th>
+                      Responses
+                    </th>
+                    <th>
+                      Action(s)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      class="text-break"
+                    >
+                       Third Session 
+                    </td>
+                    <td>
+                      <span>
+                         Sat, 02 Feb 2019, 04:15 PM +08 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Submitted 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Not Published 
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        class="btn btn-light btn-sm btn-margin-right disabled"
+                        href="/web/student/sessions/result?courseid=LSM1306&fsname=Third%20Session"
+                        id="view-responses-btn-0"
+                        tmrouterlink="/web/student/sessions/result"
+                      >
+                         View Responses 
+                      </a>
+                      <a
+                        class="btn btn-light btn-sm"
+                        href="/web/student/sessions/submission?courseid=LSM1306&fsname=Third%20Session"
+                        id="edit-submit-btn-0"
+                        tmrouterlink="/web/student/sessions/submission"
+                      >
+                         Edit Submission 
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="text-break"
+                    >
+                       Fourth Session 
+                    </td>
+                    <td>
+                      <span>
+                         Sat, 02 Feb 2019, 04:15 PM +08 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Closed 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Not Published 
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        class="btn btn-light btn-sm btn-margin-right disabled"
+                        href="/web/student/sessions/result?courseid=LSM1306&fsname=Fourth%20Session"
+                        id="view-responses-btn-1"
+                        tmrouterlink="/web/student/sessions/result"
+                      >
+                         View Responses 
+                      </a>
+                      <a
+                        class="btn btn-light btn-sm"
+                        href="/web/student/sessions/submission?courseid=LSM1306&fsname=Fourth%20Session"
+                        id="view-submit-btn-1"
+                        tmrouterlink="/web/student/sessions/submission"
+                      >
+                         View Submission 
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </tm-loading-spinner>
+          </div>
         </tm-loading-retry>
       </div>
     </div>

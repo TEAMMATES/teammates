@@ -312,16 +312,16 @@ export class StudentHomePageComponent implements OnInit {
 
   sortCoursesBy(by: SortBy): void {
     this.sortBy = by;
-    this.courses.sort(this.sortPanelsBy(by));
+
+    // make a copy of the courses array and sort it
+    const copy: StudentCourse[] = JSON.parse(JSON.stringify(this.courses));
+    copy.sort(this.sortPanelsBy(by));
+    this.courses = copy;
+
     // open the first three panels
     this.courses.forEach((course: StudentCourse, idx: number) => {
-      if (idx < 3) {
-        course.isTabExpanded = true;
-        course.hasPopulated = false; // need to clear cache
-        this.loadFeedbackSessionsForCourse(course.course.courseId);
-      } else {
-        course.isTabExpanded = false;
-      }
+      course.isTabExpanded = idx < 3;
+      this.loadFeedbackSessionsForCourse(course.course.courseId);
     });
   }
 

@@ -527,8 +527,7 @@ describe('StudentHomePageComponent', () => {
 
     component.courses = [studentCourse];
     component.isCoursesLoading = false;
-    // fixture.detectChanges();
-    fixture.autoDetectChanges();
+    fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0');
     expect(button.textContent).toEqual(' View Responses ');
