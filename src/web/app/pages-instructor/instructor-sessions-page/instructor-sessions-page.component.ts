@@ -740,10 +740,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
 
     if (startDate > endDate) {
-      this.sessionEditFormModel.submissionEndDate = data.submissionStartDate;
-      this.sessionEditFormModel.submissionEndTime = {
-        minute: 59,
-        hour: 23,
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: data.submissionStartDate,
+        submissionEndTime: {
+          hour: 23,
+          minute: 59,
+        },
       };
     }
   }

@@ -1211,4 +1211,22 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   scrollToTopOfPage(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  triggerModelChange(data: SessionEditFormModel): void {
+    const submissionStartDate = data.submissionStartDate;
+    const submissionEndDate = data.submissionEndDate;
+    const startDate = new Date(submissionStartDate.year, submissionStartDate.month, submissionStartDate.day);
+    const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
+
+    if (startDate > endDate) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: data.submissionStartDate,
+        submissionEndTime: {
+          hour: 23,
+          minute: 59,
+        },
+      };
+    }
+  }
 }
