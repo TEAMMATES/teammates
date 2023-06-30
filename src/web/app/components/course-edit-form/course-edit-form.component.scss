@@ -8,13 +8,11 @@
 }
 
 @media (max-width: 768px) {
-
-.card-header {
+  .card-header {
     display: flex;
     flex-direction: column;
     align-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
-}
-
+  }
 }
