@@ -6,3 +6,15 @@
 .fill-plain {
   background-color: #EAEFF5;
 }
+
+@media (max-width: 768px) {
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+}
