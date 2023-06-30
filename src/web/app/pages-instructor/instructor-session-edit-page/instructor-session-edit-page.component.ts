@@ -756,6 +756,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!;
     this.questionEditFormModels[index] = this.getQuestionEditFormModel(feedbackQuestion);
+    this.questionEditFormModels[index].isQuestionHasResponses = questionEditFormModel.isQuestionHasResponses;
   }
 
   /**
