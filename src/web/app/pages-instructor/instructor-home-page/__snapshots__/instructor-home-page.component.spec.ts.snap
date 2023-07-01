@@ -30,6 +30,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}
@@ -105,6 +106,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}
@@ -180,6 +182,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}
@@ -331,6 +334,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}
@@ -564,7 +568,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         <tr>
                           <th
                             aria-sort="none"
-                            class="sortable-header"
+                            class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
                             <button
@@ -908,6 +912,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}
@@ -1122,7 +1127,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <tr>
                           <th
                             aria-sort="none"
-                            class="sortable-header"
+                            class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
                             <button
@@ -1645,6 +1650,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}
@@ -1897,6 +1903,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}
@@ -2173,6 +2180,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   setMainTableStyle="false"
   simpleModalService={[Function SimpleModalService]}

@@ -49,7 +49,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           <tr>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-course-id sortable-header"
               style="text-align: start;"
             >
               <button
@@ -72,7 +72,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-session-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -193,7 +193,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           <tr>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-course-id sortable-header"
               style="text-align: start;"
             >
               <button
@@ -216,7 +216,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-session-name sortable-header"
               style="text-align: start;"
             >
               <button
