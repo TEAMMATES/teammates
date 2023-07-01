@@ -108,7 +108,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     progressBarService: ProgressBarService,
     feedbackSessionActionsService: FeedbackSessionActionsService,
     timezoneService: TimezoneService,
-    private courseService: CourseService
+    private courseService: CourseService,
   ) {
     super(
       instructorService,
@@ -122,7 +122,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       progressBarService,
       feedbackSessionActionsService,
       timezoneService,
-      studentService
+      studentService,
     );
   }
 
@@ -186,7 +186,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
         modalRef.result.then(
           (result: CopyCourseModalResult) => this.createCopiedCourse(result),
-          () => {}
+          () => {},
         );
       },
       error: (resp: ErrorMessageOutput) => {
@@ -228,14 +228,14 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                   finalize(() => {
                     this.numberOfSessionsCopied += 1;
                     this.copyProgressPercentage = Math.round(
-                      (100 * this.numberOfSessionsCopied) / this.totalNumberOfSessionsToCopy
+                      (100 * this.numberOfSessionsCopied) / this.totalNumberOfSessionsToCopy,
                     );
                     this.progressBarService.updateProgress(this.copyProgressPercentage);
 
                     if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
                       resolve();
                     }
-                  })
+                  }),
                 )
                 .subscribe();
             });
@@ -252,7 +252,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 this.simpleModalService.openInformationModal(
                   'Note On Modified Session Timings',
                   SimpleModalType.WARNING,
-                  this.modifiedTimestampsModal
+                  this.modifiedTimestampsModal,
                 );
               } else {
                 this.statusMessageService.showSuccessToast('The course has been added.');
@@ -278,7 +278,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Archive course <strong>${courseId}</strong>?`,
       SimpleModalType.INFO,
-      modalContent
+      modalContent,
     );
     modalRef.result.then(
       () => {
@@ -299,7 +299,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             },
           });
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -313,7 +313,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Move course <strong>${courseId}</strong> to Recycle Bin`,
       SimpleModalType.WARNING,
-      modalContent
+      modalContent,
     );
     modalRef.result.then(
       () => {
@@ -323,7 +323,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               return model.course.courseId !== courseId;
             });
             this.statusMessageService.showSuccessToast(
-              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`
+              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
             );
           },
           error: (resp: ErrorMessageOutput) => {
@@ -331,7 +331,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           },
         });
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -347,7 +347,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       .pipe(
         finalize(() => {
           this.hasCoursesLoaded = true;
-        })
+        }),
       )
       .subscribe({
         next: (courses: Courses) => {
@@ -501,15 +501,15 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   loadResponseRateEventHandler(
     tabIndex: number,
     rowObject: {
-      idx: number;
-      rowData: SortableTableCellData[];
-      columnsData: ColumnData[];
-    }
+      idx: number,
+      rowData: SortableTableCellData[],
+      columnsData: ColumnData[],
+    },
   ): void {
     this.loadResponseRate(
       this.courseTabModels[tabIndex].sessionsTableRowModels[rowObject.idx],
       rowObject.rowData,
-      rowObject.columnsData
+      rowObject.columnsData,
     );
   }
 
@@ -525,10 +525,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         next: () => {
           this.courseTabModels[tabIndex].sessionsTableRowModels.splice(
             this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model),
-            1
+            1,
           );
           this.statusMessageService.showSuccessToast(
-            "The feedback session has been deleted. You can restore it from the 'Sessions' tab."
+            "The feedback session has been deleted. You can restore it from the 'Sessions' tab.",
           );
         },
         error: (resp: ErrorMessageOutput) => {
@@ -547,7 +547,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
       this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex],
-      result
+      result,
     );
     if (requestList.length === 1) {
       this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
@@ -557,7 +557,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         .pipe(
           finalize(() => {
             this.isCopyLoading = false;
-          })
+          }),
         )
         .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
@@ -569,7 +569,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
               };
               const courseModel: CourseTabModel | undefined = this.courseTabModels.find(
-                (tabModel: CourseTabModel) => tabModel.course.courseId === session.courseId
+                (tabModel: CourseTabModel) => tabModel.course.courseId === session.courseId,
               );
               if (courseModel && courseModel.hasPopulated) {
                 courseModel.sessionsTableRowModels.push(model);
@@ -594,15 +594,15 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   publishSessionEventHandler(
     tabIndex: number,
     rowObject: {
-      idx: number;
-      rowData: SortableTableCellData[];
-      columnsData: ColumnData[];
-    }
+      idx: number,
+      rowData: SortableTableCellData[],
+      columnsData: ColumnData[],
+    },
   ): void {
     this.publishSession(
       this.courseTabModels[tabIndex].sessionsTableRowModels[rowObject.idx],
       rowObject.rowData,
-      rowObject.columnsData
+      rowObject.columnsData,
     );
   }
 
@@ -612,15 +612,15 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   unpublishSessionEventHandler(
     tabIndex: number,
     rowObject: {
-      idx: number;
-      rowData: SortableTableCellData[];
-      columnsData: ColumnData[];
-    }
+      idx: number,
+      rowData: SortableTableCellData[],
+      columnsData: ColumnData[],
+    },
   ): void {
     this.unpublishSession(
       this.courseTabModels[tabIndex].sessionsTableRowModels[rowObject.idx],
       rowObject.rowData,
-      rowObject.columnsData
+      rowObject.columnsData,
     );
   }
 
