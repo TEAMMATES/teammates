@@ -32,6 +32,12 @@ import {
   SessionsTableRowModel,
 } from './sessions-table-model';
 
+type MutateEvent = {
+  idx: number,
+  rowData: SortableTableCellData[],
+  columnsData: ColumnData[],
+}
+
 /**
  * A table to display a list of feedback sessions.
  */
@@ -80,7 +86,7 @@ export class SessionsTableComponent implements OnInit {
   sortSessionsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
 
   @Output()
-  loadResponseRateEvent: EventEmitter<any> = new EventEmitter();
+  loadResponseRateEvent: EventEmitter<MutateEvent> = new EventEmitter();
 
   @Output()
   moveSessionToRecycleBinEvent: EventEmitter<number> = new EventEmitter();
@@ -92,10 +98,10 @@ export class SessionsTableComponent implements OnInit {
   submitSessionAsInstructorEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  publishSessionEvent: EventEmitter<number> = new EventEmitter();
+  publishSessionEvent: EventEmitter<MutateEvent> = new EventEmitter();
 
   @Output()
-  unpublishSessionEvent: EventEmitter<number> = new EventEmitter();
+  unpublishSessionEvent: EventEmitter<MutateEvent> = new EventEmitter();
 
   @Output()
   resendResultsLinkToStudentsEvent: EventEmitter<number> = new EventEmitter();
@@ -121,7 +127,7 @@ export class SessionsTableComponent implements OnInit {
     private publishStatusName: PublishStatusNamePipe,
     private publishStatusTooltip: PublishStatusTooltipPipe,
     private submissionStatusTooltip: SubmissionStatusTooltipPipe,
-    private submissionStatusName: SubmissionStatusNamePipe,
+    private submissionStatusName: SubmissionStatusNamePipe
   ) {}
 
   ngOnInit(): void {
@@ -162,35 +168,37 @@ export class SessionsTableComponent implements OnInit {
 
   setColumnData(): void {
     this.columnsData = [
-    ...this.createColumnData({
-      columnType: SessionsTableColumn.COURSE_ID,
-      header: 'Course ID',
-      sortBy: SortBy.COURSE_ID,
-    }),
-    {
-      header: 'Session Name',
-      sortBy: SortBy.SESSION_NAME,
-    },
-    ...this.createColumnData({
-      columnType: SessionsTableColumn.START_DATE,
-      header: 'Start Date',
-      sortBy: SortBy.SESSION_START_DATE,
-    }),
-    ...this.createColumnData({
-      columnType: SessionsTableColumn.END_DATE,
-      header: 'End Date',
-      sortBy: SortBy.SESSION_END_DATE,
-    }),
-    { header: 'Submissions' },
-    { header: 'Responses' },
-    {
-      header: 'Response Rate',
-      headerToolTip: 'Number of students submitted / Class size',
-    },
-    {
-      header: 'Action(s)',
-      alignment: 'center',
-    },
+      ...this.createColumnData({
+        columnType: SessionsTableColumn.COURSE_ID,
+        header: 'Course ID',
+        sortBy: SortBy.COURSE_ID,
+        headerClass: 'sort-course-id',
+      }),
+      {
+        header: 'Session Name',
+        sortBy: SortBy.SESSION_NAME,
+        headerClass: 'sort-session-name',
+      },
+      ...this.createColumnData({
+        columnType: SessionsTableColumn.START_DATE,
+        header: 'Start Date',
+        sortBy: SortBy.SESSION_START_DATE,
+      }),
+      ...this.createColumnData({
+        columnType: SessionsTableColumn.END_DATE,
+        header: 'End Date',
+        sortBy: SortBy.SESSION_END_DATE,
+      }),
+      { header: 'Submissions' },
+      { header: 'Responses' },
+      {
+        header: 'Response Rate',
+        headerToolTip: 'Number of students submitted / Class size',
+      },
+      {
+        header: 'Action(s)',
+        alignment: 'center',
+      },
     ];
   }
 
@@ -220,11 +228,11 @@ export class SessionsTableComponent implements OnInit {
         }),
         this.createCellWithToolTip(
           this.submissionStatusTooltip.transform(submissionStatus, deadlines),
-          this.submissionStatusName.transform(submissionStatus, deadlines),
+          this.submissionStatusName.transform(submissionStatus, deadlines)
         ),
         this.createCellWithToolTip(
           this.publishStatusTooltip.transform(publishStatus),
-          this.publishStatusName.transform(publishStatus),
+          this.publishStatusName.transform(publishStatus)
         ),
         this.createResponseRateComponent(sessionTableRowModel, idx),
         this.createGroupButtonsComponent(sessionTableRowModel, idx),
@@ -232,7 +240,7 @@ export class SessionsTableComponent implements OnInit {
     });
   }
 
-  private createGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): any {
+  private createGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
 
     return {
@@ -250,8 +258,8 @@ export class SessionsTableComponent implements OnInit {
           rowClicked: this.rowClicked,
           copySession: () => this.copySession(idx),
           moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
-          unpublishSession: () => this.unpublishSession(idx),
-          publishSession: () => this.publishSession(idx),
+          unpublishSession: () => this.unpublishSession(idx, this.rowsData[idx], this.columnsData),
+          publishSession: () => this.publishSession(idx, this.rowsData[idx], this.columnsData),
           remindResultsLinkToStudent: () => this.remindResultsLinkToStudent(idx),
           downloadSessionResults: () => this.downloadSessionResults(idx),
           sendRemindersToAllNonSubmitters: () => this.sendRemindersToAllNonSubmitters(idx),
@@ -262,7 +270,7 @@ export class SessionsTableComponent implements OnInit {
     };
   }
 
-  private createResponseRateComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): any {
+  private createResponseRateComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): SortableTableCellData {
     const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
     return {
       customComponent: {
@@ -284,7 +292,7 @@ export class SessionsTableComponent implements OnInit {
     };
   }
 
-  private createCellWithToolTip(toolTip: string, value: string): any {
+  private createCellWithToolTip(toolTip: string, value: string): SortableTableCellData {
     return {
       customComponent: {
         component: CellWithToolTipComponent,
@@ -296,7 +304,7 @@ export class SessionsTableComponent implements OnInit {
     };
   }
 
-  private createDateCellWithToolTip(timestamp: number, timeZone: string): any {
+  private createDateCellWithToolTip(timestamp: number, timeZone: string): SortableTableCellData {
     return {
       value: String(timestamp),
       customComponent: {
@@ -328,18 +336,18 @@ export class SessionsTableComponent implements OnInit {
    */
   moveSessionToRecycleBin(rowIndex: number): void {
     const modalContent: string =
-      'Session will be moved to the recycle bin. '
-      + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
+      'Session will be moved to the recycle bin. ' +
+      'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Delete session <strong>${this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
-      modalContent,
+      modalContent
     );
     modalRef.result.then(
       () => {
         this.moveSessionToRecycleBinEvent.emit(rowIndex);
       },
-      () => {},
+      () => {}
     );
   }
 
@@ -360,34 +368,33 @@ export class SessionsTableComponent implements OnInit {
           sessionToCopyRowIndex: rowIndex,
         });
       },
-      () => {},
+      () => {}
     );
   }
 
   /**
    * Publishes a feedback session.
    */
-  publishSession(rowIndex: number): void {
+  publishSession(rowIndex: number, rowData: SortableTableCellData[], colData: ColumnData[]): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
-      'An email will be sent to students to inform them that the responses are ready for viewing.',
+      'An email will be sent to students to inform them that the responses are ready for viewing.'
     );
 
     modalRef.result.then(
       () => {
-        this.publishSessionEvent.emit(rowIndex);
+        this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData: colData });
       },
-      () => {},
+      () => {}
     );
   }
 
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSession(rowIndex: number): void {
+  unpublishSession(rowIndex: number, rowData: SortableTableCellData[], colData: ColumnData[]): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     const modalContent: string = `An email will be sent to students to inform them that the session 
       has been unpublished and the session responses will no longer be viewable by students.`;
@@ -395,14 +402,13 @@ export class SessionsTableComponent implements OnInit {
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Unpublish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
-      modalContent,
+      modalContent
     );
 
-    modalRef.result.then(
-      () => {
-        this.unpublishSessionEvent.emit(rowIndex);
+    modalRef.result.then(() => {
+        this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData: colData });
       },
-      () => {},
+      () => {}
     );
   }
 
@@ -445,8 +451,8 @@ export class SessionsTableComponent implements OnInit {
    * Get the deadlines for student and instructors.
    */
   getDeadlines(model: SessionsTableRowModel): {
-    studentDeadlines: Record<string, number>,
-    instructorDeadlines: Record<string, number>,
+    studentDeadlines: Record<string, number>;
+    instructorDeadlines: Record<string, number>;
   } {
     return {
       studentDeadlines: model.feedbackSession.studentDeadlines,

@@ -17,6 +17,7 @@ import {
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessionStats,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -38,6 +39,7 @@ import {
   SortableTableCellData,
 } from '../components/sortable-table/sortable-table.component';
 import { ErrorMessageOutput } from '../error-message-output';
+import { PublishStatusNamePipe } from '../components/teammates-common/publish-status-name.pipe';
 
 /**
  * The base page for session related page.
@@ -49,8 +51,9 @@ export abstract class InstructorSessionBasePageComponent {
   coursesOfModifiedSession: Array<string> = [];
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
-  private publishUnpublishRetryAttempts: number =
-    DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+  private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+
+  private publishStatusName: PublishStatusNamePipe = new PublishStatusNamePipe();
 
   protected constructor(
     protected instructorService: InstructorService,
@@ -63,7 +66,7 @@ export abstract class InstructorSessionBasePageComponent {
     protected simpleModalService: SimpleModalService,
     protected progressBarService: ProgressBarService,
     protected feedbackSessionActionsService: FeedbackSessionActionsService,
-    protected timezoneService: TimezoneService,
+    protected timezoneService: TimezoneService
   ) {}
 
   /**
@@ -73,16 +76,11 @@ export abstract class InstructorSessionBasePageComponent {
     fromFeedbackSession: FeedbackSession,
     newSessionName: string,
     newCourseId: string,
-    oldCourseId: string,
+    oldCourseId: string
   ): Observable<FeedbackSession> {
     // Local constants
-    const startHour = moment
-      .utc(fromFeedbackSession.submissionStartTimestamp)
-      .tz(fromFeedbackSession.timeZone)
-      .hours();
-    const endHour = moment(fromFeedbackSession.submissionEndTimestamp)
-      .tz(fromFeedbackSession.timeZone)
-      .hours();
+    const startHour = moment.utc(fromFeedbackSession.submissionStartTimestamp).tz(fromFeedbackSession.timeZone).hours();
+    const endHour = moment(fromFeedbackSession.submissionEndTimestamp).tz(fromFeedbackSession.timeZone).hours();
     const twoHoursBeforeNow = moment().subtract(2, 'hours').valueOf();
     const twoDaysFromNowSameHour = moment()
       .tz(fromFeedbackSession.timeZone)
@@ -96,19 +94,13 @@ export abstract class InstructorSessionBasePageComponent {
       .set('hour', endHour)
       .startOf('hour')
       .valueOf();
-    const ninetyDaysFromNow = moment()
-      .tz(fromFeedbackSession.timeZone)
-      .add(90, 'days')
-      .valueOf();
+    const ninetyDaysFromNow = moment().tz(fromFeedbackSession.timeZone).add(90, 'days').valueOf();
     const ninetyDaysFromNowRoundedDown = moment()
       .tz(fromFeedbackSession.timeZone)
       .add(90, 'days')
       .startOf('hour')
       .valueOf();
-    const oneHundredAndEightyDaysFromNow = moment()
-      .tz(fromFeedbackSession.timeZone)
-      .add(180, 'days')
-      .valueOf();
+    const oneHundredAndEightyDaysFromNow = moment().tz(fromFeedbackSession.timeZone).add(180, 'days').valueOf();
     const oneHundredAndEightyDaysFromNowRoundedDown = moment()
       .tz(fromFeedbackSession.timeZone)
       .add(180, 'days')
@@ -118,8 +110,7 @@ export abstract class InstructorSessionBasePageComponent {
     // Preprocess timestamps to adhere to feedback session timestamps constraints
     let isModified: boolean = false;
 
-    let copiedSubmissionStartTimestamp =
-      fromFeedbackSession.submissionStartTimestamp;
+    let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
     if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
       copiedSubmissionStartTimestamp = twoDaysFromNowSameHour;
       isModified = true;
@@ -128,8 +119,7 @@ export abstract class InstructorSessionBasePageComponent {
       isModified = true;
     }
 
-    let copiedSubmissionEndTimestamp =
-      fromFeedbackSession.submissionEndTimestamp;
+    let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
     if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp) {
       copiedSubmissionEndTimestamp = sevenDaysFromNowSameHour;
       isModified = true;
@@ -139,47 +129,33 @@ export abstract class InstructorSessionBasePageComponent {
     }
 
     let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
-    let copiedCustomSessionVisibleTimestamp =
-      fromFeedbackSession.customSessionVisibleTimestamp!;
-    const thirtyDaysBeforeSubmissionStart = moment(
-      copiedSubmissionStartTimestamp,
-    )
+    let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
+    const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
       .tz(fromFeedbackSession.timeZone)
       .subtract(30, 'days')
       .valueOf();
-    const thirtyDaysBeforeSubmissionStartRoundedUp = moment(
-      copiedSubmissionStartTimestamp,
-    )
+    const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
       .tz(fromFeedbackSession.timeZone)
       .subtract(30, 'days')
       .startOf('hour')
       .valueOf();
     if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      if (
-        copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart
-      ) {
-        copiedCustomSessionVisibleTimestamp =
-          thirtyDaysBeforeSubmissionStartRoundedUp;
+      if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
+        copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
         isModified = true;
-      } else if (
-        copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp
-      ) {
+      } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
         copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
         isModified = true;
       }
     }
 
-    let copiedResponseVisibleSetting =
-      fromFeedbackSession.responseVisibleSetting;
-    const copiedCustomResponseVisibleTimestamp =
-      fromFeedbackSession.customResponseVisibleTimestamp!;
+    let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
+    const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
     if (
-      copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM
-      && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-        && copiedCustomResponseVisibleTimestamp
-          < copiedSubmissionStartTimestamp)
-        || copiedCustomResponseVisibleTimestamp
-          < copiedCustomSessionVisibleTimestamp)
+      copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM &&
+      ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN &&
+        copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp) ||
+        copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)
     ) {
       copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
       isModified = true;
@@ -192,81 +168,48 @@ export abstract class InstructorSessionBasePageComponent {
         oldTimestamp: {
           submissionStartTimestamp: this.formatTimestamp(
             fromFeedbackSession.submissionStartTimestamp,
-            fromFeedbackSession.timeZone,
+            fromFeedbackSession.timeZone
           ),
           submissionEndTimestamp: this.formatTimestamp(
             fromFeedbackSession.submissionEndTimestamp,
-            fromFeedbackSession.timeZone,
+            fromFeedbackSession.timeZone
           ),
           sessionVisibleTimestamp:
-            fromFeedbackSession.sessionVisibleSetting
-            === SessionVisibleSetting.AT_OPEN
+            fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
-              : this.formatTimestamp(
-                  fromFeedbackSession.customSessionVisibleTimestamp!,
-                  fromFeedbackSession.timeZone,
-                ),
+              : this.formatTimestamp(fromFeedbackSession.customSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
         newTimestamp: {
-          submissionStartTimestamp: this.formatTimestamp(
-            copiedSubmissionStartTimestamp,
-            fromFeedbackSession.timeZone,
-          ),
-          submissionEndTimestamp: this.formatTimestamp(
-            copiedSubmissionEndTimestamp,
-            fromFeedbackSession.timeZone,
-          ),
+          submissionStartTimestamp: this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone),
+          submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
           sessionVisibleTimestamp:
             copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
-              : this.formatTimestamp(
-                  copiedCustomSessionVisibleTimestamp!,
-                  fromFeedbackSession.timeZone,
-                ),
+              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
       };
 
-      if (
-        fromFeedbackSession.responseVisibleSetting
-        === ResponseVisibleSetting.AT_VISIBLE
-      ) {
-        this.modifiedSession[
-          newSessionName
-        ].oldTimestamp.responseVisibleTimestamp = 'On session visible time';
-      } else if (
-        fromFeedbackSession.responseVisibleSetting
-        === ResponseVisibleSetting.LATER
-      ) {
-        this.modifiedSession[
-          newSessionName
-        ].oldTimestamp.responseVisibleTimestamp = 'Not now (publish manually)';
+      if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        this.modifiedSession[newSessionName].oldTimestamp.responseVisibleTimestamp = 'On session visible time';
+      } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
+        this.modifiedSession[newSessionName].oldTimestamp.responseVisibleTimestamp = 'Not now (publish manually)';
       } else {
-        this.modifiedSession[
-          newSessionName
-        ].oldTimestamp.responseVisibleTimestamp = this.formatTimestamp(
+        this.modifiedSession[newSessionName].oldTimestamp.responseVisibleTimestamp = this.formatTimestamp(
           fromFeedbackSession.customResponseVisibleTimestamp!,
-          fromFeedbackSession.timeZone,
+          fromFeedbackSession.timeZone
         );
       }
 
       if (copiedResponseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
-        this.modifiedSession[
-          newSessionName
-        ].newTimestamp.responseVisibleTimestamp = 'On session visible time';
-      } else if (
-        copiedResponseVisibleSetting === ResponseVisibleSetting.LATER
-      ) {
-        this.modifiedSession[
-          newSessionName
-        ].newTimestamp.responseVisibleTimestamp = 'Not now (publish manually)';
+        this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp = 'On session visible time';
+      } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
+        this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp = 'Not now (publish manually)';
       } else {
-        this.modifiedSession[
-          newSessionName
-        ].newTimestamp.responseVisibleTimestamp = this.formatTimestamp(
+        this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp = this.formatTimestamp(
           copiedCustomResponseVisibleTimestamp!,
-          fromFeedbackSession.timeZone,
+          fromFeedbackSession.timeZone
         );
       }
     }
@@ -285,8 +228,7 @@ export abstract class InstructorSessionBasePageComponent {
       customSessionVisibleTimestamp: copiedCustomSessionVisibleTimestamp,
 
       responseVisibleSetting: copiedResponseVisibleSetting,
-      customResponseVisibleTimestamp:
-        fromFeedbackSession.customResponseVisibleTimestamp,
+      customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
@@ -294,11 +236,7 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   private formatTimestamp(timestamp: number, timeZone: string): string {
-    return this.timezoneService.formatToString(
-      timestamp,
-      timeZone,
-      'D MMM YYYY h:mm A',
-    );
+    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM YYYY h:mm A');
   }
 
   /**
@@ -306,15 +244,9 @@ export abstract class InstructorSessionBasePageComponent {
    */
   protected sortModelsBy(
     by: SortBy,
-    order: SortOrder,
-  ): (
-    a: { feedbackSession: FeedbackSession },
-    b: { feedbackSession: FeedbackSession }
-  ) => number {
-    return (
-      a: { feedbackSession: FeedbackSession },
-      b: { feedbackSession: FeedbackSession },
-    ): number => {
+    order: SortOrder
+  ): (a: { feedbackSession: FeedbackSession }, b: { feedbackSession: FeedbackSession }) => number {
+    return (a: { feedbackSession: FeedbackSession }, b: { feedbackSession: FeedbackSession }): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -353,15 +285,9 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRate(
-    model: SessionsTableRowModel,
-    rowData: SortableTableCellData[],
-    columnsData: ColumnData[],
-  ): void {
+  loadResponseRate(model: SessionsTableRowModel, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     const colIdx = columnsData.findIndex(
-      (colData) =>
-        colData.header
-        === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSE_RATE),
+      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSE_RATE)
     );
 
     model.isLoadingResponseRate = true;
@@ -372,10 +298,7 @@ export abstract class InstructorSessionBasePageComponent {
     };
 
     this.feedbackSessionsService
-      .loadSessionStatistics(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-      )
+      .loadSessionStatistics(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
       .pipe(
         finalize(() => {
           model.isLoadingResponseRate = false;
@@ -383,7 +306,7 @@ export abstract class InstructorSessionBasePageComponent {
             ...rowData[colIdx].customComponent!.componentData!,
             isLoading: false,
           };
-        }),
+        })
       )
       .subscribe({
         next: (resp: FeedbackSessionStats) => {
@@ -409,7 +332,7 @@ export abstract class InstructorSessionBasePageComponent {
    */
   createSessionCopyRequestsFromRowModel(
     model: SessionsTableRowModel,
-    result: CopySessionResult,
+    result: CopySessionResult
   ): Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
@@ -418,13 +341,13 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession,
           result.newFeedbackSessionName,
           copyToCourseId,
-          result.sessionToCopyCourseId,
+          result.sessionToCopyCourseId
         ).pipe(
           catchError((err: any) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return of(err);
-          }),
-        ),
+          })
+        )
       );
     });
     return copySessionRequests;
@@ -441,7 +364,7 @@ export abstract class InstructorSessionBasePageComponent {
   createSessionCopyRequestsFromModal(
     result: CopySessionModalResult,
     courseId: string,
-    feedbackSessionName: string,
+    feedbackSessionName: string
   ): Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
@@ -458,14 +381,14 @@ export abstract class InstructorSessionBasePageComponent {
                 feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
-                result.sessionToCopyCourseId,
-              ),
+                result.sessionToCopyCourseId
+              )
             ),
             catchError((err: any) => {
               this.failedToCopySessions[copyToCourseId] = err.error.message;
               return of(err);
-            }),
-          ),
+            })
+          )
       );
     });
     return copySessionRequests;
@@ -474,10 +397,7 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Submits a single copy session request.
    */
-  copySingleSession(
-    copySessionRequest: Observable<FeedbackSession>,
-    modifiedTimestampsModal: TemplateRef<any>,
-  ): void {
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<any>): void {
     copySessionRequest.subscribe({
       next: (createdSession: FeedbackSession) => {
         if (Object.keys(this.failedToCopySessions).length > 0) {
@@ -489,14 +409,11 @@ export abstract class InstructorSessionBasePageComponent {
             modifiedTimestampsModal,
             {
               onClosed: () =>
-                this.navigationService.navigateByURLWithParamEncoding(
-                  '/web/instructor/sessions/edit',
-                  {
-                    courseid: createdSession.courseId,
-                    fsname: createdSession.feedbackSessionName,
-                  },
-                ),
-            },
+                this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
+                  courseid: createdSession.courseId,
+                  fsname: createdSession.feedbackSessionName,
+                }),
+            }
           );
         } else {
           this.navigationService.navigateWithSuccessMessage(
@@ -505,7 +422,7 @@ export abstract class InstructorSessionBasePageComponent {
             {
               courseid: createdSession.courseId,
               fsname: createdSession.feedbackSessionName,
-            },
+            }
           );
         }
       },
@@ -522,25 +439,20 @@ export abstract class InstructorSessionBasePageComponent {
       this.simpleModalService.openInformationModal(
         'Note On Modified Session Timings',
         SimpleModalType.WARNING,
-        modifiedTimestampsModal,
+        modifiedTimestampsModal
       );
     } else {
-      this.statusMessageService.showSuccessToast(
-        'Feedback session copied successfully to all courses.',
-      );
+      this.statusMessageService.showSuccessToast('Feedback session copied successfully to all courses.');
     }
   }
 
   getCopyErrorMessage(): string {
     return Object.keys(this.failedToCopySessions)
-      .map(
-        (key: string) =>
-          `Error copying to ${key}: ${this.failedToCopySessions[key]}`,
-      )
+      .map((key: string) => `Error copying to ${key}: ${this.failedToCopySessions[key]}`)
       .join(' ')
       .concat(
         ` Tip: If you can't find such a session in that course, also check the 'Recycle bin'
-         (shown at the bottom of the 'Sessions' page).`,
+         (shown at the bottom of the 'Sessions' page).`
       );
   }
 
@@ -548,13 +460,10 @@ export abstract class InstructorSessionBasePageComponent {
    * Submits the feedback session as instructor.
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
-    this.navigationService.navigateByURLWithParamEncoding(
-      '/web/instructor/sessions/submission',
-      {
-        courseid: model.feedbackSession.courseId,
-        fsname: model.feedbackSession.feedbackSessionName,
-      },
-    );
+    this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/submission', {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    });
   }
 
   /**
@@ -578,13 +487,13 @@ export abstract class InstructorSessionBasePageComponent {
               Intent.FULL_DETAIL,
               true,
               true,
-              questions,
-            ),
+              questions
+            )
           );
         }),
         finalize(() => {
           this.isResultActionLoading = false;
-        }),
+        })
       )
       .subscribe();
   }
@@ -592,26 +501,43 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Publishes a feedback session.
    */
-  publishSession(model: SessionsTableRowModel): void {
+  publishSession(model: SessionsTableRowModel, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     this.isResultActionLoading = true;
+
+    const colIdx = columnsData.findIndex(
+      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSES)
+    );
+
+     const actionsColIdx = columnsData.findIndex(
+       (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.ACTIONS)
+     );
+
     this.feedbackSessionsService
-      .publishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-      )
+      .publishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
       .pipe(
         finalize(() => {
           this.isResultActionLoading = false;
-        }),
+        })
       )
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
+          rowData[colIdx].customComponent!.componentData! = {
+            ...rowData[colIdx].customComponent!.componentData!,
+            value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
+          };
+
+          
+          rowData[actionsColIdx].customComponent!.componentData! = {
+            ...rowData[actionsColIdx].customComponent!.componentData!,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          };
+
           this.statusMessageService.showSuccessToast(
-            'The feedback session has been published. '
-              + 'Please allow up to 1 hour for all the notification emails to be sent out.',
+            'The feedback session has been published. ' +
+              'Please allow up to 1 hour for all the notification emails to be sent out.'
           );
         },
         error: (resp: ErrorMessageOutput) => {
@@ -628,26 +554,40 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSession(model: SessionsTableRowModel): void {
+  unpublishSession(model: SessionsTableRowModel, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     this.isResultActionLoading = true;
+
+    const responseColIdx = columnsData.findIndex(
+        (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSES)
+    );
+
+    const actionsColIdx = columnsData.findIndex(
+      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.ACTIONS)
+    );
+
     this.feedbackSessionsService
-      .unpublishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-      )
+      .unpublishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
       .pipe(
         finalize(() => {
           this.isResultActionLoading = false;
-        }),
+        })
       )
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          this.statusMessageService.showSuccessToast(
-            'The feedback session has been unpublished.',
-          );
+          rowData[responseColIdx].customComponent!.componentData! = {
+            ...rowData[responseColIdx].customComponent!.componentData!,
+            value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
+          };
+
+          rowData[actionsColIdx].customComponent!.componentData! = {
+            ...rowData[actionsColIdx].customComponent!.componentData!,
+            publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+          }
+
+          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

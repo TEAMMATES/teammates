@@ -48,6 +48,14 @@ export enum SessionsTableColumn {
    * Response rate of the feedback session column.
    */
   RESPONSE_RATE,
+  /**
+   * Responses of the feedback session column.
+   */
+  RESPONSES,
+  /**
+   * Actions of the feedback session column.
+   */
+  ACTIONS,
 }
 
 /** Map from column to its name. */
@@ -56,6 +64,8 @@ export const SessionsTableColumnNames = new Map<SessionsTableColumn, string>([
   [SessionsTableColumn.START_DATE, 'Start Date'],
   [SessionsTableColumn.END_DATE, 'End Date'],
   [SessionsTableColumn.RESPONSE_RATE, 'Response Rate'],
+  [SessionsTableColumn.RESPONSES, 'Responses'],
+  [SessionsTableColumn.ACTIONS, 'Action(s)'],
 ]);
 
 /** Generate header. */
