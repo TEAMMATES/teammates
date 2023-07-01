@@ -12,6 +12,6 @@ export class CellWithToolTipComponent implements OnChanges {
   @Input() value: string = '';
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.toolTip = changes['toolTip'].currentValue;
+    this.toolTip = changes['toolTip']?.currentValue;
   }
 }
