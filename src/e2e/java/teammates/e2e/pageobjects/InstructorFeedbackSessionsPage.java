@@ -96,7 +96,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "btn-create-session")
     private WebElement createSessionButton;
 
-    @FindBy(className = "sessions-table")
+    @FindBy(id = "sessions-table")
     private WebElement sessionsTable;
 
     @FindBy(id = "deleted-sessions-heading")
