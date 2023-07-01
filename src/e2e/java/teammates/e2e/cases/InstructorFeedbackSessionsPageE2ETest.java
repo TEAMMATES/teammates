@@ -92,8 +92,10 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(loadedSessions);
 
         ______TS("verify response rate");
+        feedbackSessionsPage.sortByCourseId(); // reset sorting
         feedbackSessionsPage.verifyResponseRate(closedSession, getExpectedResponseRate(closedSession));
         feedbackSessionsPage.verifyResponseRate(openSession, getExpectedResponseRate(openSession));
+        feedbackSessionsPage.sortByCourseId(); // re-enable sorting
 
         ______TS("add new session");
         FeedbackSessionAttributes[] sessionsForAdded = { closedSession, newSession, openSession };
