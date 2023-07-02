@@ -1,3 +1,16 @@
 .background-color-light-blue {
   background-color: #EAEFF5;
 }
+
+.responsive-padding {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+@media (max-width: 576px) {
+  // prevent overflow for small screen sizes
+  .btn-small-padding {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}
