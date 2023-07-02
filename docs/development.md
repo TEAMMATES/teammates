@@ -186,6 +186,16 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
+### Enter Masquerade Mode
+
+1. Log in to /web/admin/home as an administrator
+2. In admin pages, create new instructor with any Name, Email, Institution credentials
+3. After adding instructor, do not access the join link in the same browser
+4. Copy the join link into another browser/incognito browser, and register with the new instructor's email
+(instead of the default admin email)
+5. Now there is an instructor with its own google id instead of the admin google id
+6. This google id can be used to login as the new instructor
+
 ## Running the Datastore emulator
 
 The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
