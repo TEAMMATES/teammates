@@ -15,7 +15,7 @@ import { SessionsTableHeaderColorScheme } from './sessions-table-model';
 
 @Component({
   selector: 'tm-group-buttons',
-  templateUrl: './group-buttons.component.html',
+  templateUrl: './cell-with-group-buttons.component.html',
   standalone: true,
   imports: [
     CommonModule,

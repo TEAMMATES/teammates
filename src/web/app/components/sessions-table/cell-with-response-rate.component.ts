@@ -4,7 +4,7 @@ import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 
 @Component({
   selector: 'tm-response-rate',
-  templateUrl: './response-rate.component.html',
+  templateUrl: './cell-with-response-rate.component.html',
   imports: [AjaxLoadingModule, CommonModule],
   standalone: true,
 })

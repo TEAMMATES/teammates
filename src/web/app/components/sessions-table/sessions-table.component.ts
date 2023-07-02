@@ -19,10 +19,10 @@ import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pip
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
+import { GroupButtonsComponent } from './cell-with-group-buttons.component';
+import { ResponseRateComponent } from './cell-with-response-rate.component';
 import { CellWithToolTipComponent } from './cell-with-tooltip.component';
-import { GroupButtonsComponent } from './group-buttons.component';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
-import { ResponseRateComponent } from './response-rate.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -136,7 +136,7 @@ export class SessionsTableComponent implements OnInit {
   }
 
   createColumnData(config: SessionsTableColumnData): ColumnData[] {
-    if (!this.columnsToShow.includes(config.columnType)) {
+    if (config?.columnType && !this.columnsToShow.includes(config.columnType)) {
       return [];
     }
 
@@ -152,7 +152,7 @@ export class SessionsTableComponent implements OnInit {
   }
 
   createRowData(config: SessionsTableRowData): SortableTableCellData[] {
-    if (!this.columnsToShow.includes(config.columnType)) {
+    if (config?.columnType && !this.columnsToShow.includes(config.columnType)) {
       return [];
     }
 
@@ -174,11 +174,11 @@ export class SessionsTableComponent implements OnInit {
         sortBy: SortBy.COURSE_ID,
         headerClass: 'sort-course-id',
       }),
-      {
+      ...this.createColumnData({
         header: 'Session Name',
         sortBy: SortBy.SESSION_NAME,
         headerClass: 'sort-session-name',
-      },
+      }),
       ...this.createColumnData({
         columnType: SessionsTableColumn.START_DATE,
         header: 'Start Date',
@@ -189,16 +189,16 @@ export class SessionsTableComponent implements OnInit {
         header: 'End Date',
         sortBy: SortBy.SESSION_END_DATE,
       }),
-      { header: 'Submissions' },
-      { header: 'Responses' },
-      {
+      ...this.createColumnData({ header: 'Submissions' }),
+      ...this.createColumnData({ header: 'Responses' }),
+      ...this.createColumnData({
         header: 'Response Rate',
         headerToolTip: 'Number of students submitted / Class size',
-      },
-      {
+      }),
+      ...this.createColumnData({
         header: 'Action(s)',
         alignment: 'center',
-      },
+      }),
     ];
   }
 
@@ -215,9 +215,9 @@ export class SessionsTableComponent implements OnInit {
           columnType: SessionsTableColumn.COURSE_ID,
           value: sessionTableRowModel.feedbackSession.courseId,
         }),
-        {
+        ...this.createRowData({
           value: sessionTableRowModel.feedbackSession.feedbackSessionName,
-        },
+        }),
         ...this.createRowData({
           columnType: SessionsTableColumn.START_DATE,
           ...this.createDateCellWithToolTip(submissionStartTimestamp, timeZone),
@@ -226,56 +226,64 @@ export class SessionsTableComponent implements OnInit {
           columnType: SessionsTableColumn.END_DATE,
           ...this.createDateCellWithToolTip(submissionEndTimestamp, timeZone),
         }),
-        this.createCellWithToolTip(
-          this.submissionStatusTooltip.transform(submissionStatus, deadlines),
-          this.submissionStatusName.transform(submissionStatus, deadlines),
-        ),
-        this.createCellWithToolTip(
+        ...this.createRowData(this.createCellWithToolTip(
+            this.submissionStatusTooltip.transform(submissionStatus, deadlines),
+            this.submissionStatusName.transform(submissionStatus, deadlines),
+        )),
+        ...this.createRowData(this.createCellWithToolTip(
           this.publishStatusTooltip.transform(publishStatus),
           this.publishStatusName.transform(publishStatus),
-        ),
-        this.createResponseRateComponent(sessionTableRowModel, idx),
-        this.createGroupButtonsComponent(sessionTableRowModel, idx),
+        )),
+        ...this.createRowData(this.createCellWithResponseRateComponent(sessionTableRowModel, idx)),
+        ...this.createRowData(this.createCellWithGroupButtonsComponent(sessionTableRowModel, idx)),
       ];
     });
   }
 
-  private createGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): SortableTableCellData {
+  private createCellWithGroupButtonsComponent(
+    sessionTableRowModel: SessionsTableRowModel,
+    idx: number,
+  ): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
+    const { courseId, feedbackSessionName, submissionStatus, publishStatus } = feedbackSession;
 
     return {
       customComponent: {
         component: GroupButtonsComponent,
         componentData: {
-          courseId: feedbackSession.courseId,
-          fsName: feedbackSession.feedbackSessionName,
-          instructorPrivileges: instructorPrivilege,
           idx,
-          submissionStatus: feedbackSession.submissionStatus,
-          publishStatus: feedbackSession.publishStatus,
-          onSubmitSessionAsInstructor: () => this.submitSessionAsInstructorEvent.emit(idx),
-          isSendReminderLoading: this.isSendReminderLoading,
+          courseId,
+          fsName: feedbackSessionName,
           rowClicked: this.rowClicked,
+          publishStatus,
+          submissionStatus,
+          instructorPrivileges: instructorPrivilege,
+          isSendReminderLoading: this.isSendReminderLoading,
           copySession: () => this.copySession(idx),
-          moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
-          unpublishSession: () => this.unpublishSession(idx, this.rowsData[idx], this.columnsData),
-          publishSession: () => this.publishSession(idx, this.rowsData[idx], this.columnsData),
-          remindResultsLinkToStudent: () => this.remindResultsLinkToStudent(idx),
-          downloadSessionResults: () => this.downloadSessionResults(idx),
-          sendRemindersToAllNonSubmitters: () => this.sendRemindersToAllNonSubmitters(idx),
-          sendRemindersToSelectedNonSubmitters: () => this.sendRemindersToSelectedNonSubmitters(idx),
           setRowClicked: () => this.setRowClicked(idx),
+          downloadSessionResults: () => this.downloadSessionResults(idx),
+          moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
+          remindResultsLinkToStudent: () => this.remindResultsLinkToStudent(idx),
+          sendRemindersToAllNonSubmitters: () => this.sendRemindersToAllNonSubmitters(idx),
+          onSubmitSessionAsInstructor: () => this.submitSessionAsInstructorEvent.emit(idx),
+          publishSession: () => this.publishSession(idx, this.rowsData[idx], this.columnsData),
+          unpublishSession: () => this.unpublishSession(idx, this.rowsData[idx], this.columnsData),
+          sendRemindersToSelectedNonSubmitters: () => this.sendRemindersToSelectedNonSubmitters(idx),
         },
       },
     };
   }
 
-  private createResponseRateComponent(sessionTableRowModel: SessionsTableRowModel, idx: number): SortableTableCellData {
+  private createCellWithResponseRateComponent(
+    sessionTableRowModel: SessionsTableRowModel,
+    idx: number,
+  ): SortableTableCellData {
     const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
     return {
       customComponent: {
         component: ResponseRateComponent,
         componentData: {
+          idx,
           responseRate,
           empty: responseRate === '',
           isLoading: isLoadingResponseRate,
@@ -286,7 +294,6 @@ export class SessionsTableComponent implements OnInit {
               columnsData: this.columnsData,
             });
           },
-          idx,
         },
       },
     };

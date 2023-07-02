@@ -568,6 +568,29 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         <tr>
                           <th
                             aria-sort="none"
+                            class="sort-course-id sortable-header"
+                            style="text-align: start;"
+                          >
+                            <button
+                              class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                            >
+                              <span
+                                container="body"
+                              >
+                                Course ID
+                              </span>
+                              <span
+                                aria-hidden="true"
+                                class="fa-stack"
+                              >
+                                <i
+                                  class="fas fa-sort"
+                                />
+                              </span>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="none"
                             class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
@@ -680,6 +703,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       </thead>
                       <tbody>
                         <tr>
+                          <td>
+                            CS1231
+                          </td>
                           <td>
                             First Session
                           </td>
@@ -1127,6 +1153,29 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <tr>
                           <th
                             aria-sort="none"
+                            class="sort-course-id sortable-header"
+                            style="text-align: start;"
+                          >
+                            <button
+                              class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                            >
+                              <span
+                                container="body"
+                              >
+                                Course ID
+                              </span>
+                              <span
+                                aria-hidden="true"
+                                class="fa-stack"
+                              >
+                                <i
+                                  class="fas fa-sort"
+                                />
+                              </span>
+                            </button>
+                          </th>
+                          <th
+                            aria-sort="none"
                             class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
@@ -1239,6 +1288,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </thead>
                       <tbody>
                         <tr>
+                          <td>
+                            CS1231
+                          </td>
                           <td>
                             First Session
                           </td>
@@ -1423,6 +1475,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           </td>
                         </tr>
                         <tr>
+                          <td>
+                            CS1231
+                          </td>
                           <td>
                             Second Session
                           </td>
