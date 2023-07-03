@@ -136,7 +136,7 @@ export class SessionsTableComponent implements OnInit {
   }
 
   createColumnData(config: SessionsTableColumnData): ColumnData[] {
-    if (config?.columnType && !this.columnsToShow.includes(config.columnType)) {
+    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
       return [];
     }
 
@@ -152,7 +152,7 @@ export class SessionsTableComponent implements OnInit {
   }
 
   createRowData(config: SessionsTableRowData): SortableTableCellData[] {
-    if (config?.columnType && !this.columnsToShow.includes(config.columnType)) {
+    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
       return [];
     }
 
