@@ -1214,8 +1214,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   triggerModelChange(data: SessionEditFormModel): void {
-    const submissionStartDate = data.submissionStartDate;
-    const submissionEndDate = data.submissionEndDate;
+    const { submissionStartDate, submissionEndDate, submissionStartTime, submissionEndTime } = data;
+
     const startDate = new Date(submissionStartDate.year, submissionStartDate.month, submissionStartDate.day);
     const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
 
@@ -1223,9 +1223,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       this.sessionEditFormModel = {
         ...data,
         submissionEndDate: data.submissionStartDate,
+        submissionEndTime,
+      };
+    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour > submissionEndTime.hour) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: data.submissionStartDate,
         submissionEndTime: {
-          hour: 23,
-          minute: 59,
+          ...submissionStartTime,
+          hour: submissionStartTime.hour,
         },
       };
     }
