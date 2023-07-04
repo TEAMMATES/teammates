@@ -7,8 +7,8 @@
   background-color: #EAEFF5;
 }
 
-@media (max-width: 768px) {
-  .card-header {
+@media (max-width: 576px) {
+  .add-mode {
     display: flex;
     flex-direction: column;
     align-content: flex-start;
