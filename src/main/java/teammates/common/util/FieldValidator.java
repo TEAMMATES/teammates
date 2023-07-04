@@ -700,7 +700,7 @@ public final class FieldValidator {
         Instant twelveMonthsFromNow = TimeHelper.getInstantMonthsOffsetFromNow(12, timeZone);
         String laterThanTwelveMonthsError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 twelveMonthsFromNow, endTime, SESSION_NAME,
-                "twelve months from now", SESSION_END_TIME_FIELD_NAME,
+                "12 months from now", SESSION_END_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be later than %s.");
         if (!laterThanTwelveMonthsError.isEmpty()) {

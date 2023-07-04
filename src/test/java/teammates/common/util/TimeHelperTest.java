@@ -130,4 +130,15 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testGetInstantMonthsOffsetFromNow() {
+        Instant expected = Instant.now().truncatedTo(ChronoUnit.DAYS);
+        Instant actual = TimeHelper.getInstantMonthsOffsetFromNow(0, Const.DEFAULT_TIME_ZONE).truncatedTo(ChronoUnit.DAYS);
+        assertEquals(expected, actual);
+
+        expected = Instant.now().plus(Duration.ofDays(365)).truncatedTo(ChronoUnit.SECONDS);
+        actual = TimeHelper.getInstantMonthsOffsetFromNow(12, Const.DEFAULT_TIME_ZONE).truncatedTo(ChronoUnit.SECONDS);
+        assertEquals(expected, actual);
+    }
+
 }

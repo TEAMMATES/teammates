@@ -235,8 +235,8 @@ export class SessionEditFormComponent {
    * <p> The maximum session closing datetime is 12 months from now.
    */
   get maxDateForSubmissionEnd(): DateFormat {
-    const oneHundredAndEightyDaysFromNow = moment().tz(this.model.timeZone).add(12, 'months');
-    return this.datetimeService.getDateInstance(oneHundredAndEightyDaysFromNow);
+    const twelveMonthsFromNow = moment().tz(this.model.timeZone).add(12, 'months');
+    return this.datetimeService.getDateInstance(twelveMonthsFromNow);
   }
 
   /**
