@@ -27,7 +27,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
     class="card"
   >
     <div
-      class="card-header bg-primary text-white"
+      class="card-header bg-primary text-white add-mode"
     >
       <strong>
         Create a new Course
@@ -44,7 +44,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
             aria-hidden="true"
             class="fa fa-copy"
           />
-           Copy from previous courses 
+           Copy from previous courses
         </button>
         <button
           class="btn btn-primary btn-sm"
@@ -93,7 +93,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
                 aria-hidden="true"
                 class="fa fa-exclamation-circle"
               />
-               The field Course ID should not be empty. 
+               The field Course ID should not be empty.
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
                 aria-hidden="true"
                 class="fa fa-exclamation-circle"
               />
-               The field Course Name should not be empty. 
+               The field Course Name should not be empty.
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
               class="ngb-tooltip-class"
               ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
             >
-               Course institute: 
+               Course institute:
             </span>
           </label>
           <div
@@ -193,7 +193,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
                   disabled=""
                   type="button"
                 >
-                   Auto-Detect 
+                   Auto-Detect
                 </button>
               </span>
             </div>
@@ -211,7 +211,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
               id="btn-submit-course"
               type="submit"
             >
-               Add Course 
+               Add Course
             </button>
           </div>
         </div>
@@ -248,7 +248,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
     class="card"
   >
     <div
-      class="card-header bg-primary text-white"
+      class="card-header bg-primary text-white add-mode"
     >
       <strong>
         Create a new Course
