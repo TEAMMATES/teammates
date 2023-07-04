@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.testng.annotations.Test;
@@ -133,10 +134,14 @@ public class TimeHelperTest extends BaseTestCase {
     @Test
     public void testGetInstantMonthsOffsetFromNow() {
         Instant expected = Instant.now().truncatedTo(ChronoUnit.DAYS);
-        Instant actual = TimeHelper.getInstantMonthsOffsetFromNow(0, Const.DEFAULT_TIME_ZONE).truncatedTo(ChronoUnit.DAYS);
+        Instant actual = TimeHelper.getInstantMonthsOffsetFromNow(0, Const.DEFAULT_TIME_ZONE)
+                .truncatedTo(ChronoUnit.DAYS);
         assertEquals(expected, actual);
 
-        expected = Instant.now().plus(Duration.ofDays(365)).truncatedTo(ChronoUnit.SECONDS);
+        Instant now = Instant.now();
+        ZonedDateTime zdt = now.atZone(ZoneId.of(Const.DEFAULT_TIME_ZONE));
+        ZonedDateTime offsetZdt = zdt.plusMonths(12);
+        expected = offsetZdt.toInstant().truncatedTo(ChronoUnit.SECONDS);
         actual = TimeHelper.getInstantMonthsOffsetFromNow(12, Const.DEFAULT_TIME_ZONE).truncatedTo(ChronoUnit.SECONDS);
         assertEquals(expected, actual);
     }
