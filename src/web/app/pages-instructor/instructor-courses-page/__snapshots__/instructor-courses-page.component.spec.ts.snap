@@ -875,7 +875,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
         class="card"
       >
         <div
-          class="card-header bg-primary text-white"
+          class="card-header bg-primary text-white add-mode"
         >
           <strong
             style=""
