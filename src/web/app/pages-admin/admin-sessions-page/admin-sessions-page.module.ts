@@ -6,6 +6,7 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { AdminSessionsPageComponent } from './admin-sessions-page.component';
+import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     PanelChevronModule,
+    SortableTableModule,
   ],
 })
 export class AdminSessionsPageModule { }
