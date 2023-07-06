@@ -32,11 +32,8 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { Index, MutateEvent, SortableEvent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import {
-  ColumnData,
-  SortableTableCellData,
-} from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -388,8 +385,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Loads the feedback session in the course and sorts them according to end date.
    */
-  loadFeedbackSessions(index: number): void {
-    const model: CourseTabModel = this.courseTabModels[index];
+  loadFeedbackSessions(rowIndex: Index): void {
+    const model: CourseTabModel = this.courseTabModels[rowIndex];
     model.hasLoadingFailed = false;
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId).subscribe({
@@ -486,7 +483,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModelsEvent(tabIndex: number, event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+  sortSessionsTableRowModelsEvent(tabIndex: number, event: SortableEvent): void {
     const tab: CourseTabModel = this.courseTabModels[tabIndex];
     tab.sessionsTableRowModelsSortOrder = event.sortOrder;
     tab.sessionsTableRowModelsSortBy = event.sortBy;
@@ -496,20 +493,16 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRateEventHandler(
-    tabIndex: number,
-    rowIdx: number,
-  ): void {
-    const callback = (models: SessionsTableRowModel[]): void => {
+  loadResponseRateEventHandler(tabIndex: number, rowIndex: Index): void {
+    this.loadResponseRate((models: SessionsTableRowModel[]): void => {
       this.courseTabModels[tabIndex].sessionsTableRowModels = [...models];
-    };
-    this.loadResponseRate(callback, this.courseTabModels[tabIndex].sessionsTableRowModels, rowIdx);
+    }, this.courseTabModels[tabIndex].sessionsTableRowModels, rowIndex);
   }
 
   /**
    * Moves the feedback session to the recycle bin.
    */
-  moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: number): void {
+  moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: Index): void {
     const model: SessionsTableRowModel = this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex];
 
     this.feedbackSessionsService
@@ -578,50 +571,30 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Submits the feedback session as instructor.
    */
-  submitSessionAsInstructorEventHandler(tabIndex: number, rowIndex: number): void {
+  submitSessionAsInstructorEventHandler(tabIndex: number, rowIndex: Index): void {
     this.submitSessionAsInstructor(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
 
   /**
    * Publishes a feedback session.
    */
-  publishSessionEventHandler(
-    tabIndex: number,
-    rowObject: {
-      idx: number,
-      rowData: SortableTableCellData[],
-      columnsData: ColumnData[],
-    },
-  ): void {
-    this.publishSession(
-      this.courseTabModels[tabIndex].sessionsTableRowModels[rowObject.idx],
-      rowObject.rowData,
-      rowObject.columnsData,
-    );
+  publishSessionEventHandler(tabIndex: number, event: MutateEvent): void {
+    const model = this.courseTabModels[tabIndex].sessionsTableRowModels[event.idx];
+    this.publishSession(model, event.rowData, event.columnsData);
   }
 
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSessionEventHandler(
-    tabIndex: number,
-    rowObject: {
-      idx: number,
-      rowData: SortableTableCellData[],
-      columnsData: ColumnData[],
-    },
-  ): void {
-    this.unpublishSession(
-      this.courseTabModels[tabIndex].sessionsTableRowModels[rowObject.idx],
-      rowObject.rowData,
-      rowObject.columnsData,
-    );
+  unpublishSessionEventHandler(tabIndex: number, event: MutateEvent): void {
+    const model = this.courseTabModels[tabIndex].sessionsTableRowModels[event.idx];
+    this.unpublishSession(model, event.rowData, event.columnsData);
   }
 
   /**
    * Downloads the result of a feedback session in csv.
    */
-  downloadSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
+  downloadSessionResultEventHandler(tabIndex: number, rowIndex: Index): void {
     this.downloadSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
 }

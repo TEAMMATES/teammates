@@ -46,11 +46,8 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { Index, MutateEvent, SortableEvent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import {
-  ColumnData,
-  SortableTableCellData,
-} from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -501,7 +498,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModelsEvent(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+  sortSessionsTableRowModelsEvent(event: SortableEvent): void {
     this.sessionsTableRowModels.sort(this.sortModelsBy(event.sortBy, event.sortOrder));
   }
 
@@ -520,11 +517,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRateEventHandler(rowIdx: number): void {
-    const callback = (models: SessionsTableRowModel[]): void => {
+  loadResponseRateEventHandler(rowIdx: Index): void {
+    this.loadResponseRate((models: SessionsTableRowModel[]): void => {
       this.sessionsTableRowModels = [...models];
-    };
-    this.loadResponseRate(callback, this.sessionsTableRowModels, rowIdx);
+    }, this.sessionsTableRowModels, rowIdx);
   }
 
   /**
@@ -560,7 +556,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Moves the feedback session to the recycle bin.
    */
-  moveSessionToRecycleBinEventHandler(rowIndex: number): void {
+  moveSessionToRecycleBinEventHandler(rowIndex: Index): void {
     this.isMoveToRecycleBinLoading = true;
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     this.feedbackSessionsService
@@ -628,36 +624,28 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Submits the feedback session as instructor.
    */
-  submitSessionAsInstructorEventHandler(rowIndex: number): void {
+  submitSessionAsInstructorEventHandler(rowIndex: Index): void {
     this.submitSessionAsInstructor(this.sessionsTableRowModels[rowIndex]);
   }
 
   /**
    * Publishes a feedback session.
    */
-  publishSessionEventHandler(rowObject: {
-    idx: number,
-    rowData: SortableTableCellData[],
-    columnsData: ColumnData[],
-  }): void {
-    this.publishSession(this.sessionsTableRowModels[rowObject.idx], rowObject.rowData, rowObject.columnsData);
+  publishSessionEventHandler(event: MutateEvent): void {
+    this.publishSession(this.sessionsTableRowModels[event.idx], event.rowData, event.columnsData);
   }
 
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSessionEventHandler(rowObject: {
-    idx: number,
-    rowData: SortableTableCellData[],
-    columnsData: ColumnData[],
-  }): void {
-    this.unpublishSession(this.sessionsTableRowModels[rowObject.idx], rowObject.rowData, rowObject.columnsData);
+  unpublishSessionEventHandler(event: MutateEvent): void {
+    this.unpublishSession(this.sessionsTableRowModels[event.idx], event.rowData, event.columnsData);
   }
 
   /**
    * Downloads the result of a feedback session in csv.
    */
-  downloadSessionResultEventHandler(rowIndex: number): void {
+  downloadSessionResultEventHandler(rowIndex: Index): void {
     this.downloadSessionResult(this.sessionsTableRowModels[rowIndex]);
   }
 

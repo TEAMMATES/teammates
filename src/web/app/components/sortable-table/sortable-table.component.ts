@@ -10,7 +10,7 @@ export interface ColumnData {
   headerToolTip?: string;
   sortBy?: SortBy; // optional if the column is not sortable
   alignment?: 'start' | 'center' | 'end'; // defaults to start
-  headerClass?: string; // optional id for the header
+  headerClass?: string; // additional stylings
 }
 
 /**

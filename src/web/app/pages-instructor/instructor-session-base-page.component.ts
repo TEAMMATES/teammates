@@ -509,9 +509,9 @@ export abstract class InstructorSessionBasePageComponent {
       (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSES),
     );
 
-     const actionsColIdx = columnsData.findIndex(
-       (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.ACTIONS),
-     );
+    const actionsColIdx = columnsData.findIndex(
+      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.ACTIONS),
+    );
 
     this.feedbackSessionsService
       .publishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)

@@ -162,9 +162,6 @@
                 >
                   View / Edit
                 </a>
-                <!--                <a class="btn btn-light btn-sm dropdown-item"-->
-                <!--                   tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs-->
-                <!--                </a>-->
                 <ng-container
                   *ngIf="courseTabModel.instructorPrivilege.canModifyCourse"
                 >
@@ -224,26 +221,14 @@
                 SessionsTableColumn.END_DATE
               ]"
               [isSendReminderLoading]="isSendReminderLoading"
-              (sortSessionsTableRowModelsEvent)="
-                sortSessionsTableRowModelsEvent(idx, $event)
-              "
-              (loadResponseRateEvent)="
-                loadResponseRateEventHandler(idx, $event)
-              "
-              (moveSessionToRecycleBinEvent)="
-                moveSessionToRecycleBinEventHandler(idx, $event)
-              "
+              (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+              (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)"
+              (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)"
               (copySessionEvent)="copySessionEventHandler(idx, $event)"
-              (submitSessionAsInstructorEvent)="
-                submitSessionAsInstructorEventHandler(idx, $event)
-              "
+              (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)"
               (publishSessionEvent)="publishSessionEventHandler(idx, $event)"
-              (unpublishSessionEvent)="
-                unpublishSessionEventHandler(idx, $event)
-              "
-              (downloadSessionResultsEvent)="
-                downloadSessionResultEventHandler(idx, $event)
-              "
+              (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+              (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
               (resendResultsLinkToStudentsEvent)="
                 resendResultsLinkToRespondentsEventHandler(
                   courseTabModel.sessionsTableRowModels[$event]

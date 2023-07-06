@@ -32,11 +32,18 @@ import {
   SessionsTableRowModel,
 } from './sessions-table-model';
 
-type MutateEvent = {
+export type MutateEvent = {
   idx: number,
   rowData: SortableTableCellData[],
   columnsData: ColumnData[],
 };
+
+export type SortableEvent = {
+  sortBy: SortBy,
+  sortOrder: SortOrder,
+};
+
+export type Index = number;
 
 /**
  * A table to display a list of feedback sessions.
@@ -64,8 +71,6 @@ export class SessionsTableComponent implements OnInit {
   @Input()
   initialSortBy: SortBy = SortBy.COURSE_ID;
 
-  private sessionsTableRowModelsVar: SessionsTableRowModel[] = [];
-
   @Input()
   courseCandidates: Course[] = [];
 
@@ -79,19 +84,19 @@ export class SessionsTableComponent implements OnInit {
   isSendReminderLoading: boolean = false;
 
   @Output()
-  sortSessionsTableRowModelsEvent: EventEmitter<any> = new EventEmitter();
+  sortSessionsTableRowModelsEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
   @Output()
-  loadResponseRateEvent: EventEmitter<number> = new EventEmitter();
+  loadResponseRateEvent: EventEmitter<Index> = new EventEmitter();
 
   @Output()
-  moveSessionToRecycleBinEvent: EventEmitter<any> = new EventEmitter();
+  moveSessionToRecycleBinEvent: EventEmitter<Index> = new EventEmitter();
 
   @Output()
   copySessionEvent: EventEmitter<CopySessionResult> = new EventEmitter();
 
   @Output()
-  submitSessionAsInstructorEvent: EventEmitter<number> = new EventEmitter();
+  submitSessionAsInstructorEvent: EventEmitter<Index> = new EventEmitter();
 
   @Output()
   publishSessionEvent: EventEmitter<MutateEvent> = new EventEmitter();
@@ -100,16 +105,16 @@ export class SessionsTableComponent implements OnInit {
   unpublishSessionEvent: EventEmitter<MutateEvent> = new EventEmitter();
 
   @Output()
-  resendResultsLinkToStudentsEvent: EventEmitter<number> = new EventEmitter();
+  resendResultsLinkToStudentsEvent: EventEmitter<Index> = new EventEmitter();
 
   @Output()
-  downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
+  downloadSessionResultsEvent: EventEmitter<Index> = new EventEmitter();
 
   @Output()
-  sendRemindersToAllNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
+  sendRemindersToAllNonSubmittersEvent: EventEmitter<Index> = new EventEmitter();
 
   @Output()
-  sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
+  sendRemindersToSelectedNonSubmittersEvent: EventEmitter<Index> = new EventEmitter();
 
   @Input() set sessionsTableRowModels(rowModels: SessionsTableRowModel[]) {
     this.sessionsTableRowModelsVar = rowModels;
@@ -120,9 +125,9 @@ export class SessionsTableComponent implements OnInit {
     return this.sessionsTableRowModelsVar;
   }
 
-  columnsData: ColumnData[] = [];
-
+  private sessionsTableRowModelsVar: SessionsTableRowModel[] = [];
   rowsData: SortableTableCellData[][] = [];
+  columnsData: ColumnData[] = [];
 
   constructor(
     private ngbModal: NgbModal,
@@ -138,8 +143,6 @@ export class SessionsTableComponent implements OnInit {
   ngOnInit(): void {
     this.setColumnData();
     this.setRowData();
-
-    // this.formatDateBriefPipe.transform('2012-03-29T15:00:00Z', 'Asia/Singapore');
   }
 
   createColumnData(config: SessionsTableColumnData): ColumnData[] {
@@ -388,7 +391,7 @@ export class SessionsTableComponent implements OnInit {
   /**
    * Publishes a feedback session.
    */
-  publishSession(rowIndex: number, rowData: SortableTableCellData[], colData: ColumnData[]): void {
+  publishSession(rowIndex: number, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
@@ -398,7 +401,7 @@ export class SessionsTableComponent implements OnInit {
 
     modalRef.result.then(
       () => {
-        this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData: colData });
+        this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
       },
       () => {},
     );
@@ -407,7 +410,7 @@ export class SessionsTableComponent implements OnInit {
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSession(rowIndex: number, rowData: SortableTableCellData[], colData: ColumnData[]): void {
+  unpublishSession(rowIndex: number, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
     const modalContent: string = `An email will be sent to students to inform them that the session 
       has been unpublished and the session responses will no longer be viewable by students.`;
@@ -420,7 +423,7 @@ export class SessionsTableComponent implements OnInit {
 
     modalRef.result.then(
       () => {
-        this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData: colData });
+        this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
       },
       () => {},
     );
