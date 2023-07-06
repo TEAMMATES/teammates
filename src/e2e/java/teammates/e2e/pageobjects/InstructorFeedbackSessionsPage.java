@@ -501,6 +501,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     private int getSoftDeletedFeedbackSessionRowId(String courseId, String sessionName) {
         int i = 0;
+        assertEquals(courseId, getSoftDeletedFeedbackSessionCourseId(i));
+        assertEquals(sessionName, getSoftDeletedFeedbackSessionName(i));
 
         while (i < getNumSoftDeletedFeedbackSessions()) {
             if (getSoftDeletedFeedbackSessionCourseId(i).equals(courseId)
@@ -520,6 +522,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         if (!isElementPresent(By.id("deleted-sessions-table"))) {
             return 0;
         }
+
         return deletedSessionsTable.findElements(By.cssSelector("tbody tr")).size();
     }
 

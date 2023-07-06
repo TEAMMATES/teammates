@@ -43,12 +43,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of tableRows">
-      <td *ngFor="let item of row" [style]="getStyle(item)">
+    <tr *ngFor="let row of tableRows; let idx = index">
+      <td *ngFor="let item of row;" [style]="getStyle(item)">
         <ndc-dynamic
           *ngIf="item.customComponent"
           [ngComponentOutlet]="item.customComponent.component"
-          [ndcDynamicInputs]="item.customComponent.componentData"
+          [ndcDynamicInputs]="item.customComponent.componentData(idx)"
         ></ndc-dynamic>
         <ng-container *ngIf="!item.customComponent && item.displayValue">{{
           item.displayValue

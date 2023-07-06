@@ -135,8 +135,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   isSessionEditFormExpanded: boolean = false;
 
   sessionsTableRowModels: SessionsTableRowModel[] = [];
-  sessionsTableRowModelsSortBy: SortBy = SortBy.NONE;
-  sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
   isRecycleBinExpanded: boolean = false;
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
@@ -188,7 +186,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       studentService,
     );
   }
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
@@ -498,19 +495,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           this.hasFeedbackSessionLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-        complete: () => this.sortSessionsTableRowModelsEvent(SortBy.COURSE_ID),
       });
   }
 
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModelsEvent(by: SortBy): void {
-    this.sessionsTableRowModelsSortBy = by;
-    // reverse the sort order
-    this.sessionsTableRowModelsSortOrder =
-      this.sessionsTableRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.sessionsTableRowModels.sort(this.sortModelsBy(by, this.sessionsTableRowModelsSortOrder));
+  sortSessionsTableRowModelsEvent(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+    this.sessionsTableRowModels.sort(this.sortModelsBy(event.sortBy, event.sortOrder));
   }
 
   /**
@@ -528,12 +520,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRateEventHandler(rowObject: {
-    idx: number,
-    rowData: SortableTableCellData[],
-    columnsData: ColumnData[],
-  }): void {
-    this.loadResponseRate(this.sessionsTableRowModels[rowObject.idx], rowObject.rowData, rowObject.columnsData);
+  loadResponseRateEventHandler(rowIdx: number): void {
+    const callback = (models: SessionsTableRowModel[]): void => {
+      this.sessionsTableRowModels = [...models];
+    };
+    this.loadResponseRate(callback, this.sessionsTableRowModels, rowIdx);
   }
 
   /**
@@ -557,7 +548,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             isLoadingResponseRate: false,
             instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
           };
-          this.sessionsTableRowModels.push(m);
+          this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
           this.statusMessageService.showSuccessToast('The feedback session has been restored.');
         },
         error: (resp: ErrorMessageOutput) => {
@@ -730,7 +721,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               isLoadingResponseRate: false,
               instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
             };
-            this.sessionsTableRowModels.push(m);
+            this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
           });
           this.statusMessageService.showSuccessToast('All sessions have been restored.');
         },

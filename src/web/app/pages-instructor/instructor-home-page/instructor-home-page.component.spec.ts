@@ -275,9 +275,9 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].sessionsTableRowModels.length).toEqual(2);
 
     expect(component.courseTabModels[0].sessionsTableRowModels[0]
-            .feedbackSession.feedbackSessionName).toEqual('Second Session');
-    expect(component.courseTabModels[0].sessionsTableRowModels[1]
             .feedbackSession.feedbackSessionName).toEqual('First Session');
+    expect(component.courseTabModels[0].sessionsTableRowModels[1]
+            .feedbackSession.feedbackSessionName).toEqual('Second Session');
   });
 
   it('should sort courseTabModels by courseId in ascending order', () => {

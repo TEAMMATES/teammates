@@ -214,13 +214,8 @@
             <tm-sessions-table
               *tmIsLoading="!courseTabModel.hasPopulated"
               [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels"
-              [sessionsTableRowModelsSortBy]="
-                courseTabModel.sessionsTableRowModelsSortBy
-              "
-              [sessionsTableRowModelsSortOrder]="
-                courseTabModel.sessionsTableRowModelsSortOrder
-              "
               id = "sessions-table-{{ idx }}"
+              [initialSortBy]="initialSortBy"
               [mainTableStyle]="setMainTableStyle"
               [courseCandidates]="courseCandidates"
               [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE"

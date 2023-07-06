@@ -3,7 +3,9 @@
     [columns]="columnsData"
     [rows]="rowsData"
     [setMainTableStyle]="mainTableStyle"
-  ></tm-sortable-table>
+    [initialSortBy]="initialSortBy"
+    (sortEvent)="sortSessionsTableRowModelsEventHandler($event)"
+    ></tm-sortable-table>
 </div>
 
 <ng-template #noSessionMessage>

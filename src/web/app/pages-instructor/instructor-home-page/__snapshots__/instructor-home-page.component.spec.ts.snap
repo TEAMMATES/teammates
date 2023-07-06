@@ -17,6 +17,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
@@ -93,6 +94,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
@@ -169,6 +171,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
@@ -321,6 +324,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
@@ -567,7 +571,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       <thead>
                         <tr>
                           <th
-                            aria-sort="none"
+                            aria-sort="ascending"
                             class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
@@ -585,6 +589,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               >
                                 <i
                                   class="fas fa-sort"
+                                />
+                                <i
+                                  class="fas fa-sort-up"
                                 />
                               </span>
                             </button>
@@ -899,6 +906,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
@@ -1126,7 +1134,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <thead>
                         <tr>
                           <th
-                            aria-sort="none"
+                            aria-sort="ascending"
                             class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
@@ -1144,6 +1152,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 <i
                                   class="fas fa-sort"
+                                />
+                                <i
+                                  class="fas fa-sort-up"
                                 />
                               </span>
                             </button>
@@ -1637,6 +1648,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
@@ -1890,6 +1902,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
@@ -2167,6 +2180,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
+  initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"

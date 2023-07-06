@@ -285,40 +285,41 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRate(model: SessionsTableRowModel, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
-    const colIdx = columnsData.findIndex(
-      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSE_RATE),
-    );
-
-    model.isLoadingResponseRate = true;
-    // Set loading state for the response rate cell.
-    rowData[colIdx].customComponent!.componentData! = {
-      ...rowData[colIdx].customComponent!.componentData!,
-      isLoading: true,
+  loadResponseRate(callback: (
+    models: SessionsTableRowModel[]) => void, models: SessionsTableRowModel[],
+    idx: number,
+  ): void {
+    models[idx] = {
+      ...models[idx],
+      isLoadingResponseRate: true,
     };
+    callback(models);
 
     this.feedbackSessionsService
-      .loadSessionStatistics(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
+      .loadSessionStatistics(models[idx].feedbackSession.courseId, models[idx].feedbackSession.feedbackSessionName)
       .pipe(
         finalize(() => {
-          model.isLoadingResponseRate = false;
-          rowData[colIdx].customComponent!.componentData! = {
-            ...rowData[colIdx].customComponent!.componentData!,
-            isLoading: false,
+          models[idx] = {
+            ...models[idx],
+            isLoadingResponseRate: false,
           };
+          callback(models);
         }),
       )
       .subscribe({
         next: (resp: FeedbackSessionStats) => {
-          model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-          rowData[colIdx].customComponent!.componentData! = {
-            ...rowData[colIdx].customComponent!.componentData!,
-            responseRate: model.responseRate,
-            empty: model.responseRate === '',
+          models[idx] = {
+            ...models[idx],
+            responseRate: `${resp.submittedTotal} / ${resp.expectedTotal}`,
           };
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
+        },
+        complete: () => {
+          /* eslint no-param-reassign: "off" */
+          models = [...models];
+          callback(models);
         },
       });
   }
@@ -524,14 +525,18 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          rowData[colIdx].customComponent!.componentData! = {
-            ...rowData[colIdx].customComponent!.componentData!,
-            value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
+          rowData[colIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[colIdx].customComponent!.componentData!,
+              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
+            };
           };
 
-          rowData[actionsColIdx].customComponent!.componentData! = {
-            ...rowData[actionsColIdx].customComponent!.componentData!,
-            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          rowData[actionsColIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[actionsColIdx].customComponent!.componentData!,
+              publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            };
           };
 
           this.statusMessageService.showSuccessToast(
@@ -576,14 +581,18 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          rowData[responseColIdx].customComponent!.componentData! = {
-            ...rowData[responseColIdx].customComponent!.componentData!,
-            value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
+          rowData[responseColIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[responseColIdx].customComponent!.componentData!,
+              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
+            };
           };
 
-          rowData[actionsColIdx].customComponent!.componentData! = {
-            ...rowData[actionsColIdx].customComponent!.componentData!,
-            publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+          rowData[actionsColIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[actionsColIdx].customComponent!.componentData!,
+              publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+            };
           };
 
           this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');

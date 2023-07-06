@@ -62,7 +62,9 @@ export class SessionsTableComponent implements OnInit {
   mainTableStyle: boolean = false;
 
   @Input()
-  sessionsTableRowModels: SessionsTableRowModel[] = [];
+  initialSortBy: SortBy = SortBy.COURSE_ID;
+
+  private sessionsTableRowModelsVar: SessionsTableRowModel[] = [];
 
   @Input()
   courseCandidates: Course[] = [];
@@ -71,25 +73,19 @@ export class SessionsTableComponent implements OnInit {
   columnsToShow: SessionsTableColumn[] = [SessionsTableColumn.COURSE_ID];
 
   @Input()
-  sessionsTableRowModelsSortBy: SortBy = SortBy.NONE;
-
-  @Input()
-  sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
-
-  @Input()
   headerColorScheme: SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme.BLUE;
 
   @Input()
   isSendReminderLoading: boolean = false;
 
   @Output()
-  sortSessionsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
+  sortSessionsTableRowModelsEvent: EventEmitter<any> = new EventEmitter();
 
   @Output()
-  loadResponseRateEvent: EventEmitter<MutateEvent> = new EventEmitter();
+  loadResponseRateEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  moveSessionToRecycleBinEvent: EventEmitter<number> = new EventEmitter();
+  moveSessionToRecycleBinEvent: EventEmitter<any> = new EventEmitter();
 
   @Output()
   copySessionEvent: EventEmitter<CopySessionResult> = new EventEmitter();
@@ -115,6 +111,15 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
 
+  @Input() set sessionsTableRowModels(rowModels: SessionsTableRowModel[]) {
+    this.sessionsTableRowModelsVar = rowModels;
+    this.setRowData();
+  }
+
+  get sessionsTableRowModels(): SessionsTableRowModel[] {
+    return this.sessionsTableRowModelsVar;
+  }
+
   columnsData: ColumnData[] = [];
 
   rowsData: SortableTableCellData[][] = [];
@@ -133,6 +138,8 @@ export class SessionsTableComponent implements OnInit {
   ngOnInit(): void {
     this.setColumnData();
     this.setRowData();
+
+    // this.formatDateBriefPipe.transform('2012-03-29T15:00:00Z', 'Asia/Singapore');
   }
 
   createColumnData(config: SessionsTableColumnData): ColumnData[] {
@@ -203,7 +210,7 @@ export class SessionsTableComponent implements OnInit {
   }
 
   setRowData(): void {
-    this.rowsData = this.sessionsTableRowModels.map((sessionTableRowModel: SessionsTableRowModel, idx: number) => {
+    this.rowsData = this.sessionsTableRowModelsVar.map((sessionTableRowModel: SessionsTableRowModel) => {
       const { feedbackSession } = sessionTableRowModel;
       const { submissionStatus, submissionStartTimestamp, submissionEndTimestamp, timeZone, publishStatus } =
         feedbackSession;
@@ -226,74 +233,72 @@ export class SessionsTableComponent implements OnInit {
           columnType: SessionsTableColumn.END_DATE,
           ...this.createDateCellWithToolTip(submissionEndTimestamp, timeZone),
         }),
-        ...this.createRowData(this.createCellWithToolTip(
+        ...this.createRowData(
+          this.createCellWithToolTip(
             this.submissionStatusTooltip.transform(submissionStatus, deadlines),
             this.submissionStatusName.transform(submissionStatus, deadlines),
-        )),
-        ...this.createRowData(this.createCellWithToolTip(
-          this.publishStatusTooltip.transform(publishStatus),
-          this.publishStatusName.transform(publishStatus),
-        )),
-        ...this.createRowData(this.createCellWithResponseRateComponent(sessionTableRowModel, idx)),
-        ...this.createRowData(this.createCellWithGroupButtonsComponent(sessionTableRowModel, idx)),
+          ),
+        ),
+        ...this.createRowData(
+          this.createCellWithToolTip(
+            this.publishStatusTooltip.transform(publishStatus),
+            this.publishStatusName.transform(publishStatus),
+          ),
+        ),
+        ...this.createRowData(this.createCellWithResponseRateComponent(sessionTableRowModel)),
+        ...this.createRowData(this.createCellWithGroupButtonsComponent(sessionTableRowModel)),
       ];
     });
   }
 
-  private createCellWithGroupButtonsComponent(
-    sessionTableRowModel: SessionsTableRowModel,
-    idx: number,
-  ): SortableTableCellData {
+  private createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
     const { courseId, feedbackSessionName, submissionStatus, publishStatus } = feedbackSession;
 
     return {
       customComponent: {
         component: GroupButtonsComponent,
-        componentData: {
-          idx,
-          courseId,
-          fsName: feedbackSessionName,
-          rowClicked: this.rowClicked,
-          publishStatus,
-          submissionStatus,
-          instructorPrivileges: instructorPrivilege,
-          isSendReminderLoading: this.isSendReminderLoading,
-          copySession: () => this.copySession(idx),
-          setRowClicked: () => this.setRowClicked(idx),
-          downloadSessionResults: () => this.downloadSessionResults(idx),
-          moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
-          remindResultsLinkToStudent: () => this.remindResultsLinkToStudent(idx),
-          sendRemindersToAllNonSubmitters: () => this.sendRemindersToAllNonSubmitters(idx),
-          onSubmitSessionAsInstructor: () => this.submitSessionAsInstructorEvent.emit(idx),
-          publishSession: () => this.publishSession(idx, this.rowsData[idx], this.columnsData),
-          unpublishSession: () => this.unpublishSession(idx, this.rowsData[idx], this.columnsData),
-          sendRemindersToSelectedNonSubmitters: () => this.sendRemindersToSelectedNonSubmitters(idx),
+        componentData: (idx: number) => {
+          return {
+            idx,
+            courseId,
+            fsName: feedbackSessionName,
+            rowClicked: this.rowClicked,
+            publishStatus,
+            submissionStatus,
+            instructorPrivileges: instructorPrivilege,
+            isSendReminderLoading: this.isSendReminderLoading,
+            copySession: () => this.copySession(idx),
+            setRowClicked: () => this.setRowClicked(idx),
+            downloadSessionResults: () => this.downloadSessionResults(idx),
+            moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
+            remindResultsLinkToStudent: () => this.remindResultsLinkToStudent(idx),
+            sendRemindersToAllNonSubmitters: () => this.sendRemindersToAllNonSubmitters(idx),
+            onSubmitSessionAsInstructor: () => this.submitSessionAsInstructorEvent.emit(idx),
+            publishSession: () => this.publishSession(idx, this.rowsData[idx], this.columnsData),
+            unpublishSession: () => this.unpublishSession(idx, this.rowsData[idx], this.columnsData),
+            sendRemindersToSelectedNonSubmitters: () => this.sendRemindersToSelectedNonSubmitters(idx),
+          };
         },
       },
     };
   }
 
-  private createCellWithResponseRateComponent(
-    sessionTableRowModel: SessionsTableRowModel,
-    idx: number,
-  ): SortableTableCellData {
+  private createCellWithResponseRateComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
     return {
       customComponent: {
         component: ResponseRateComponent,
-        componentData: {
-          idx,
-          responseRate,
-          empty: responseRate === '',
-          isLoading: isLoadingResponseRate,
-          onClick: () => {
-            this.loadResponseRateEvent.emit({
-              idx,
-              rowData: this.rowsData[idx],
-              columnsData: this.columnsData,
-            });
-          },
+        componentData: (idx: number) => {
+          return {
+            idx,
+            responseRate,
+            empty: responseRate === '',
+            isLoading: isLoadingResponseRate,
+            onClick: () => {
+              this.loadResponseRateEvent.emit(idx);
+            },
+          };
         },
       },
     };
@@ -303,9 +308,11 @@ export class SessionsTableComponent implements OnInit {
     return {
       customComponent: {
         component: CellWithToolTipComponent,
-        componentData: {
-          toolTip,
-          value,
+        componentData: () => {
+          return {
+            toolTip,
+            value,
+          };
         },
       },
     };
@@ -316,9 +323,11 @@ export class SessionsTableComponent implements OnInit {
       value: String(timestamp),
       customComponent: {
         component: CellWithToolTipComponent,
-        componentData: {
-          toolTip: this.formatDateDetailPipe.transform(timestamp, timeZone),
-          value: this.formatDateBriefPipe.transform(timestamp, timeZone),
+        componentData: () => {
+          return {
+            toolTip: this.formatDateDetailPipe.transform(timestamp, timeZone),
+            value: this.formatDateBriefPipe.transform(timestamp, timeZone),
+          };
         },
       },
     };
@@ -327,32 +336,29 @@ export class SessionsTableComponent implements OnInit {
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModels(by: SortBy): void {
-    this.sortSessionsTableRowModelsEvent.emit(by);
-  }
-
-  getAriaSort(by: SortBy): String {
-    if (by !== this.sessionsTableRowModelsSortBy) {
-      return 'none';
-    }
-    return this.sessionsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  sortSessionsTableRowModelsEventHandler(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+    this.sortSessionsTableRowModelsEvent.emit(event);
   }
 
   /**
    * Moves the feedback session to the recycle bin.
    */
-  moveSessionToRecycleBin(rowIndex: number): void {
+  moveSessionToRecycleBin(idx: number): void {
     const modalContent: string =
       'Session will be moved to the recycle bin. '
       + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Delete session <strong>${this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName}</strong>?`,
+      `Delete session <strong>${this.sessionsTableRowModelsVar[idx].feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
       modalContent,
     );
+
     modalRef.result.then(
       () => {
-        this.moveSessionToRecycleBinEvent.emit(rowIndex);
+        this.moveSessionToRecycleBinEvent.emit(idx);
+        this.rowsData = this.rowsData.filter((_, index) => index !== idx);
+        this.sessionsTableRowModelsVar = this.sessionsTableRowModelsVar.filter((_, index) => index !== idx);
+        this.setRowData();
       },
       () => {},
     );
@@ -363,7 +369,7 @@ export class SessionsTableComponent implements OnInit {
    */
   copySession(rowIndex: number): void {
     const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
-    const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
+    const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
     modalRef.componentInstance.newFeedbackSessionName = model.feedbackSession.feedbackSessionName;
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
     modalRef.componentInstance.sessionToCopyCourseId = model.feedbackSession.courseId;
@@ -383,7 +389,7 @@ export class SessionsTableComponent implements OnInit {
    * Publishes a feedback session.
    */
   publishSession(rowIndex: number, rowData: SortableTableCellData[], colData: ColumnData[]): void {
-    const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
+    const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
       SimpleModalType.WARNING,
@@ -402,7 +408,7 @@ export class SessionsTableComponent implements OnInit {
    * Unpublishes a feedback session.
    */
   unpublishSession(rowIndex: number, rowData: SortableTableCellData[], colData: ColumnData[]): void {
-    const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
+    const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
     const modalContent: string = `An email will be sent to students to inform them that the session 
       has been unpublished and the session responses will no longer be viewable by students.`;
 
@@ -412,7 +418,8 @@ export class SessionsTableComponent implements OnInit {
       modalContent,
     );
 
-    modalRef.result.then(() => {
+    modalRef.result.then(
+      () => {
         this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData: colData });
       },
       () => {},

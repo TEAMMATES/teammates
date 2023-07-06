@@ -77,9 +77,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.sortCoursesById();
         int courseIndex = 1;
         int otherCourseIndex = 0;
-        // by default, sessions are sorted by end date in descending order
-        FeedbackSessionAttributes[] courseSessions = { feedbackSessionOpen, feedbackSessionAwaiting,
-                feedbackSessionClosed, feedbackSessionPublished };
+        // by default, sessions are sorted by session name in ascending order
+        FeedbackSessionAttributes[] courseSessions = { feedbackSessionOpen,
+                feedbackSessionPublished, feedbackSessionAwaiting, feedbackSessionClosed };
         FeedbackSessionAttributes[] otherCourseSessions = { otherCourseSession };
         // use course index instead of searching for course in table to test sorted order of courses
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessions);
@@ -101,7 +101,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         copiedSession.setFeedbackSessionName(newName);
         copiedSession.setCreatedTime(Instant.now());
         int startHour = ZonedDateTime.ofInstant(copiedSession.getStartTime(), ZoneId.of(copiedSession.getTimeZone()))
-                .getHour();
+                        .getHour();
         copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(2))
                 .withHour(startHour).truncatedTo(ChronoUnit.HOURS).toInstant());
         int endHour = ZonedDateTime.ofInstant(copiedSession.getEndTime(), ZoneId.of(copiedSession.getTimeZone()))
@@ -136,7 +136,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 + "Please modify settings/questions as necessary.");
         homePage = getNewPageInstance(url, InstructorHomePage.class);
         homePage.sortCoursesByName();
-        FeedbackSessionAttributes[] otherCourseSessionsWithTwoCopies = { copiedSession2, copiedSession, otherCourseSession };
+        FeedbackSessionAttributes[] otherCourseSessionsWithTwoCopies = { copiedSession, copiedSession2, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithTwoCopies);
         verifyPresentInDatabase(copiedSession2);
 
@@ -209,9 +209,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.sortCoursesByCreationDate();
         courseIndex = 1;
         otherCourseIndex = 0;
-        FeedbackSessionAttributes[] otherCourseSessionsWithCopy2 = { copiedSession2, otherCourseSession };
-        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopy2);
-        assertNotNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
+        FeedbackSessionAttributes[] otherCourseSessionsWithCopyTwo = { copiedSession, otherCourseSession };
+        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
+        assertNotNull(getSoftDeletedSession(copiedSession2.getFeedbackSessionName(),
                 instructor.getGoogleId()));
 
         ______TS("archive course");

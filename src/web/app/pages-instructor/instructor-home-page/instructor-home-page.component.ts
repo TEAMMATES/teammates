@@ -92,6 +92,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   totalNumberOfSessionsToCopy = 0;
   copyProgressPercentage = 0;
 
+  initialSortBy = SortBy.SESSION_NAME;
+
   @ViewChild('modifiedTimestampsModal')
   modifiedTimestampsModal!: TemplateRef<any>;
 
@@ -410,7 +412,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           model.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-        complete: () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE),
       });
     }
   }
@@ -485,14 +486,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModelsEvent(tabIndex: number, by: SortBy): void {
+  sortSessionsTableRowModelsEvent(tabIndex: number, event: { sortBy: SortBy, sortOrder: SortOrder }): void {
     const tab: CourseTabModel = this.courseTabModels[tabIndex];
-
-    tab.sessionsTableRowModelsSortBy = by;
-    // reverse the sort order
-    tab.sessionsTableRowModelsSortOrder =
-      tab.sessionsTableRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    tab.sessionsTableRowModels.sort(this.sortModelsBy(by, tab.sessionsTableRowModelsSortOrder));
+    tab.sessionsTableRowModelsSortOrder = event.sortOrder;
+    tab.sessionsTableRowModelsSortBy = event.sortBy;
+    tab.sessionsTableRowModels.sort(this.sortModelsBy(event.sortBy, event.sortOrder));
   }
 
   /**
@@ -500,17 +498,12 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   loadResponseRateEventHandler(
     tabIndex: number,
-    rowObject: {
-      idx: number,
-      rowData: SortableTableCellData[],
-      columnsData: ColumnData[],
-    },
+    rowIdx: number,
   ): void {
-    this.loadResponseRate(
-      this.courseTabModels[tabIndex].sessionsTableRowModels[rowObject.idx],
-      rowObject.rowData,
-      rowObject.columnsData,
-    );
+    const callback = (models: SessionsTableRowModel[]): void => {
+      this.courseTabModels[tabIndex].sessionsTableRowModels = [...models];
+    };
+    this.loadResponseRate(callback, this.courseTabModels[tabIndex].sessionsTableRowModels, rowIdx);
   }
 
   /**
@@ -527,6 +520,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model),
             1,
           );
+
           this.statusMessageService.showSuccessToast(
             "The feedback session has been deleted. You can restore it from the 'Sessions' tab.",
           );

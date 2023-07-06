@@ -13,5 +13,6 @@ export class ResponseRateComponent {
   @Input() idx: number = 0;
   @Input() empty: boolean = false;
   @Input() isLoading: boolean = false;
-  @Input() onClick: () => void = () => {};
+  @Input() onClick: () => void = () => { };
+
 }
