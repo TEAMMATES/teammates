@@ -186,6 +186,21 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
+### How to enter masquerade mode
+Masquerade mode is a feature that enables the admin create mock instructors and students for testing and other purposes.
+- To be able to use the masquerade mode, do the following :
+    - Log in as an administrator to `http://localhost:8080/web/admin/home`.
+    - Create new instructor with by filling the Name, Email, Institution fields in the form
+      provided and submit.
+    - After adding instructor, copy the join link and paste in another browser.
+    - In the new browser, log in with the new instructor's email
+      (not the default admin email) and register to course.
+    - Now there is a new instructor with its own google id that can be used to login.
+- To masquerade as an instructor :
+    - Use the instructor's URL at /web/instructor/home with the instructor's email id as a parameter eg. `http://localhost:8080/web/instructor/home?user=kelvin@gmail.com`
+- To masquerade as a student:
+    - Use the student's URL at /web/student/home appended with the student's email id eg. `http://localhost:8080/web/student/home?user=janethestudent@gmail.com`
+
 ## Running the Datastore emulator
 
 The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
