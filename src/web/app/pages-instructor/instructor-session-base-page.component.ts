@@ -3,7 +3,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
-import { getDefaultDateFormat, getLatestTimeFormat } from '../../types/datetime-const';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
@@ -25,6 +24,7 @@ import {
   SessionVisibleSetting,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
+import { getDefaultDateFormat, getLatestTimeFormat } from '../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
