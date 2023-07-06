@@ -32,7 +32,6 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
-  FeedbackSessionSubmissionStatus,
   FeedbackTextQuestionDetails, FeedbackVisibilityType,
   HasResponses,
   Instructor,
@@ -98,44 +97,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   isEditingMode: boolean = false;
 
   courseName: string = '';
-
-  // models
-  sessionEditFormModel: SessionEditFormModel = {
-    courseId: '',
-    timeZone: 'UTC',
-    courseName: '',
-    feedbackSessionName: '',
-    instructions: '',
-
-    submissionStartTime: getLatestTimeFormat(),
-    submissionStartDate: getDefaultDateFormat(),
-    submissionEndTime: getLatestTimeFormat(),
-    submissionEndDate: getDefaultDateFormat(),
-    gracePeriod: 0,
-
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: getLatestTimeFormat(),
-    customSessionVisibleDate: getDefaultDateFormat(),
-
-    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: getLatestTimeFormat(),
-    customResponseVisibleDate: getDefaultDateFormat(),
-
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-
-    templateSessionName: '',
-
-    isSaving: false,
-    isEditable: false,
-    isDeleting: false,
-    isCopying: false,
-    hasVisibleSettingsPanelExpanded: false,
-    hasEmailSettingsPanelExpanded: false,
-  };
   studentDeadlines: Record<string, number> = {};
   instructorDeadlines: Record<string, number> = {};
 
@@ -1211,29 +1172,5 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   scrollToTopOfPage(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  triggerModelChange(data: SessionEditFormModel): void {
-    const { submissionStartDate, submissionEndDate, submissionStartTime, submissionEndTime } = data;
-
-    const startDate = new Date(submissionStartDate.year, submissionStartDate.month, submissionStartDate.day);
-    const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
-
-    if (startDate > endDate) {
-      this.sessionEditFormModel = {
-        ...data,
-        submissionEndDate: data.submissionStartDate,
-        submissionEndTime,
-      };
-    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour > submissionEndTime.hour) {
-      this.sessionEditFormModel = {
-        ...data,
-        submissionEndDate: data.submissionStartDate,
-        submissionEndTime: {
-          ...submissionStartTime,
-          hour: submissionStartTime.hour,
-        },
-      };
-    }
   }
 }
