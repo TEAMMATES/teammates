@@ -194,7 +194,7 @@ Masquerade mode is a feature that enables the admin to create and log in as mock
       provided and submit.
     - After adding the instructor, copy the join link and paste it in another browser.
     - In the new browser, log in with the new instructor's email
-      (not the default admin email) and register to course.
+      (not the default admin email) and click to register for the course.
     - Now there is a new instructor with its own google id that can be used to login.
 - To masquerade as an instructor :
     - Use the instructor's URL at /web/instructor/home with the instructor's email id as a parameter eg. `http://localhost:8080/web/instructor/home?user=kelvin@gmail.com`
