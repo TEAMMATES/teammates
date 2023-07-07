@@ -48,6 +48,7 @@ import {
 } from '../../components/sessions-table/sessions-table-model';
 import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -61,7 +62,6 @@ import {
 import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
-import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
 
 interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;

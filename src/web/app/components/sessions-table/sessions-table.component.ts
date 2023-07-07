@@ -143,7 +143,7 @@ export class SessionsTableComponent implements OnInit {
 
   /**
    * Creates the column data for the table.
-   * 
+   *
    * @param config Contains the information to create a column data.
    * @returns An array containing a column's data for the table
    *  if the column is to be shown, otherwise an empty array.
@@ -166,7 +166,7 @@ export class SessionsTableComponent implements OnInit {
 
   /**
    * Creates the row data for the table.
-   * 
+   *
    * @param config Contains the information to create a row data.
    * @returns An array containing a row's data for the table if the row is to be shown,
    * otherwise an empty array.

@@ -14,8 +14,8 @@ export interface ColumnData {
 }
 
 export type SortableEvent = {
-  sortBy: SortBy;
-  sortOrder: SortOrder;
+  sortBy: SortBy,
+  sortOrder: SortOrder,
 };
 
 /**
