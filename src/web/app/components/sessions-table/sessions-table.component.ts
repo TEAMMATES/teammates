@@ -12,6 +12,7 @@ import { CopySessionModalComponent } from '../copy-session-modal/copy-session-mo
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import {
   ColumnData,
+  SortableEvent,
   SortableTableCellData,
 } from '../sortable-table/sortable-table.component';
 import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
@@ -36,11 +37,6 @@ export type MutateEvent = {
   idx: number,
   rowData: SortableTableCellData[],
   columnsData: ColumnData[],
-};
-
-export type SortableEvent = {
-  sortBy: SortBy,
-  sortOrder: SortOrder,
 };
 
 export type Index = number;
@@ -145,6 +141,13 @@ export class SessionsTableComponent implements OnInit {
     this.setRowData();
   }
 
+  /**
+   * Creates the column data for the table.
+   * 
+   * @param config Contains the information to create a column data.
+   * @returns An array containing a column's data for the table
+   *  if the column is to be shown, otherwise an empty array.
+   */
   createColumnData(config: SessionsTableColumnData): ColumnData[] {
     if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
       return [];
@@ -161,6 +164,13 @@ export class SessionsTableComponent implements OnInit {
     return [columnData];
   }
 
+  /**
+   * Creates the row data for the table.
+   * 
+   * @param config Contains the information to create a row data.
+   * @returns An array containing a row's data for the table if the row is to be shown,
+   * otherwise an empty array.
+   */
   createRowData(config: SessionsTableRowData): SortableTableCellData[] {
     if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
       return [];

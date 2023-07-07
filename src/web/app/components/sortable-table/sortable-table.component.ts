@@ -13,6 +13,11 @@ export interface ColumnData {
   headerClass?: string; // additional stylings
 }
 
+export type SortableEvent = {
+  sortBy: SortBy;
+  sortOrder: SortOrder;
+};
+
 /**
  * Data provided for each table cell
  * Priority of display
@@ -61,7 +66,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
   initialSortBy: SortBy = SortBy.NONE;
 
   @Output()
-  sortEvent: EventEmitter<any> = new EventEmitter();
+  sortEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;

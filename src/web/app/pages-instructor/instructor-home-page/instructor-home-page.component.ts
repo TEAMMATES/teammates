@@ -32,11 +32,12 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
-import { Index, MutateEvent, SortableEvent } from '../../components/sessions-table/sessions-table.component';
+import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
+import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
 
 /**
  * Data model for the course tab.
