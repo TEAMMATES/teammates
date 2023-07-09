@@ -2,9 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackParticipantType, 
-  FeedbackQuestionType, 
-  NumberOfEntitiesToGiveFeedbackToSetting } from '../../../types/api-output';
+import {
+  FeedbackParticipantType,
+  FeedbackQuestionType,
+  NumberOfEntitiesToGiveFeedbackToSetting
+} from '../../../types/api-output';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
@@ -15,8 +17,8 @@ import {
   SingleStatisticsModule,
 } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
-import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
 import { QuestionTabModel } from './instructor-session-result-page.component';
+import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
 
 describe('InstructorSessionResultQuestionViewComponent', () => {
   let component: InstructorSessionResultQuestionViewComponent;
