@@ -13,7 +13,6 @@ import {
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
 import { By } from '@angular/platform-browser';
-// ../src/web/types/api-output
 import { FeedbackParticipantType, FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../../../src/web/types/api-output';
 import { QuestionTabModel } from './instructor-session-result-page.component';
 
@@ -33,7 +32,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
           questionType: FeedbackQuestionType.TEXT
         },
         questionType: FeedbackQuestionType.TEXT,
-        giverType: FeedbackParticipantType.STUDENTS, // testar se faz sentido trocar para professores um deses dois
+        giverType: FeedbackParticipantType.STUDENTS, 
         recipientType: FeedbackParticipantType.STUDENTS,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
         customNumberOfEntitiesToGiveFeedbackTo: 3,
@@ -58,7 +57,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
           questionType: FeedbackQuestionType.TEXT
         },
         questionType: FeedbackQuestionType.TEXT,
-        giverType: FeedbackParticipantType.STUDENTS, // testar se faz sentido trocar para professores um deses dois
+        giverType: FeedbackParticipantType.STUDENTS, 
         recipientType: FeedbackParticipantType.STUDENTS,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
         customNumberOfEntitiesToGiveFeedbackTo: 3,
