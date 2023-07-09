@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackParticipantType, 
+  FeedbackQuestionType, 
+  NumberOfEntitiesToGiveFeedbackToSetting } from '../../../types/api-output';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
@@ -12,8 +16,6 @@ import {
 } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
-import { By } from '@angular/platform-browser';
-import { FeedbackParticipantType, FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../types/api-output';
 import { QuestionTabModel } from './instructor-session-result-page.component';
 
 describe('InstructorSessionResultQuestionViewComponent', () => {
@@ -29,10 +31,10 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         questionDescription: 'desc',
         questionDetails: {
           questionText: 'questionText',
-          questionType: FeedbackQuestionType.TEXT
+          questionType: FeedbackQuestionType.TEXT,
         },
         questionType: FeedbackQuestionType.TEXT,
-        giverType: FeedbackParticipantType.STUDENTS, 
+        giverType: FeedbackParticipantType.STUDENTS,
         recipientType: FeedbackParticipantType.STUDENTS,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
         customNumberOfEntitiesToGiveFeedbackTo: 3,
@@ -44,7 +46,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
       statistics: '32',
       hasPopulated: true,
       errorMessage: 'Error message',
-      isTabExpanded: false
+      isTabExpanded: false,
     },
     'question 2': {
       question: {
@@ -54,10 +56,10 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         questionDescription: 'desc',
         questionDetails: {
           questionText: 'questionText',
-          questionType: FeedbackQuestionType.TEXT
+          questionType: FeedbackQuestionType.TEXT,
         },
         questionType: FeedbackQuestionType.TEXT,
-        giverType: FeedbackParticipantType.STUDENTS, 
+        giverType: FeedbackParticipantType.STUDENTS,
         recipientType: FeedbackParticipantType.STUDENTS,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
         customNumberOfEntitiesToGiveFeedbackTo: 3,
@@ -69,9 +71,9 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
       statistics: '89',
       hasPopulated: true,
       errorMessage: 'Error message',
-      isTabExpanded: false
-    }
-  }
+      isTabExpanded: false,
+    },
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -94,7 +96,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
     component = fixture.componentInstance;
     component.questions = testQuestions;
     fixture.detectChanges();
-  }); 
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -102,9 +104,9 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
 
   it('Verify if buttons is rendered', () => {
     fixture.detectChanges();
-    const downloadQuestion1 = fixture.debugElement.queryAll(By.css('#btn-donwload-question'))[0].nativeElement
-    const downloadQuestion2 = fixture.debugElement.queryAll(By.css('#btn-donwload-question'))[1].nativeElement
-  
+    const downloadQuestion1 = fixture.debugElement.queryAll(By.css('#btn-donwload-question'))[0].nativeElement;
+    const downloadQuestion2 = fixture.debugElement.queryAll(By.css('#btn-donwload-question'))[1].nativeElement;
+
     expect(downloadQuestion1).toBeTruthy();
     expect(downloadQuestion2).toBeTruthy();
   });
@@ -113,7 +115,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
     fixture.detectChanges();
     const downloadQuestionResultsSpy = jest.spyOn(component, 'triggerDownloadQuestionResult');
     fixture.debugElement.queryAll(By.css('#btn-donwload-question'))[0].nativeElement.click();
-  
+
     expect(downloadQuestionResultsSpy).toHaveBeenCalledTimes(1);
   });
 });
