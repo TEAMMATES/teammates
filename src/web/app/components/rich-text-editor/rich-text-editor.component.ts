@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TINYMCE_BASE_URL } from './tinymce';
 
-const RICH_TEXT_EDITOR_MAX_WORD_LENGTH = 500;
-const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
+const RICH_TEXT_EDITOR_MAX_WORD_LENGTH = 10;
+const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 100;
 
 const SPACE_KEYCODE = 32;
 
@@ -15,7 +15,8 @@ const SPACE_KEYCODE = 32;
   styleUrls: ['./rich-text-editor.component.scss'],
 })
 export class RichTextEditorComponent implements OnInit {
-  //const
+
+  // const
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
   RICH_TEXT_EDITOR_MAX_WORD_LENGTH: number = RICH_TEXT_EDITOR_MAX_WORD_LENGTH;
 
@@ -71,17 +72,15 @@ export class RichTextEditorComponent implements OnInit {
       autoresize_bottom_margin: 50,
 
       toolbar1: this.defaultToolbar,
-      setup: function (editor:any) {
-        editor.on('keypress',  (event:any) => {
+      setup: (editor:any) => {
+        editor.on('keypress', (event:any) => {
           const wordCountApi = editor.plugins.wordcount;
           const wordCount = wordCountApi.body.getWordCount();
-          const charCount = wordCountApi.body.getCharacterCount();
-          if ((charCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) ||
-              (wordCount >= RICH_TEXT_EDITOR_MAX_WORD_LENGTH && event.keyCode === SPACE_KEYCODE)) {
+          if (wordCount >= RICH_TEXT_EDITOR_MAX_WORD_LENGTH && event.keyCode === SPACE_KEYCODE) {
             event.preventDefault();
           }
-        })
-      }
+        });
+      },
     };
   }
 

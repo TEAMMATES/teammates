@@ -233,6 +233,9 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                     <div
                       inviewport=""
                     >
+                      <div>
+                         10 words left 
+                      </div>
                     </div>
                   </tm-rich-text-editor>
                 </div>
