@@ -13,7 +13,7 @@ import {
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
 import { By } from '@angular/platform-browser';
-import { FeedbackParticipantType, FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../../../src/web/types/api-output';
+import { FeedbackParticipantType, FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../types/api-output';
 import { QuestionTabModel } from './instructor-session-result-page.component';
 
 describe('InstructorSessionResultQuestionViewComponent', () => {
@@ -21,14 +21,14 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
   let fixture: ComponentFixture<InstructorSessionResultQuestionViewComponent>;
 
   const testQuestions: Record<string, QuestionTabModel> = {
-    "question 1": {
+    'question 1': {
       question: {
-        feedbackQuestionId: "Q1",
+        feedbackQuestionId: 'Q1',
         questionNumber: 1,
-        questionBrief: "brief",
-        questionDescription: "desc",
+        questionBrief: 'brief',
+        questionDescription: 'desc',
         questionDetails: {
-          questionText: "questionText",
+          questionText: 'questionText',
           questionType: FeedbackQuestionType.TEXT
         },
         questionType: FeedbackQuestionType.TEXT,
@@ -41,19 +41,19 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         showRecipientNameTo: [],
       },
       responses: [],
-      statistics: "32",
+      statistics: '32',
       hasPopulated: true,
-      errorMessage: "Error message",
+      errorMessage: 'Error message',
       isTabExpanded: false
     },
-    "question 2": {
+    'question 2': {
       question: {
-        feedbackQuestionId: "Q2",
+        feedbackQuestionId: 'Q2',
         questionNumber: 2,
-        questionBrief: "brief",
-        questionDescription: "desc",
+        questionBrief: 'brief',
+        questionDescription: 'desc',
         questionDetails: {
-          questionText: "questionText",
+          questionText: 'questionText',
           questionType: FeedbackQuestionType.TEXT
         },
         questionType: FeedbackQuestionType.TEXT,
@@ -66,9 +66,9 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         showRecipientNameTo: [],
       },
       responses: [],
-      statistics: "89",
+      statistics: '89',
       hasPopulated: true,
-      errorMessage: "Error message",
+      errorMessage: 'Error message',
       isTabExpanded: false
     }
   }
