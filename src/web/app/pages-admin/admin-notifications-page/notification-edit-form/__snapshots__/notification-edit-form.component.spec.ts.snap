@@ -202,7 +202,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                   inviewport=""
                 >
                   <div>
-                     10 words left 
+                     500 words left 
                   </div>
                 </div>
               </tm-rich-text-editor>
@@ -842,7 +842,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                   inviewport=""
                 >
                   <div>
-                     8 words left 
+                     498 words left 
                   </div>
                 </div>
               </tm-rich-text-editor>
@@ -1499,7 +1499,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                   inviewport=""
                 >
                   <div>
-                     8 words left 
+                     498 words left 
                   </div>
                 </div>
               </tm-rich-text-editor>

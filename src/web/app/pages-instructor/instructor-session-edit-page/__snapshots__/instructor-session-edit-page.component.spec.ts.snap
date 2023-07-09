@@ -1452,7 +1452,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                   <div
                                     style=""
                                   >
-                                     9 words left 
+                                     499 words left 
                                   </div>
                                 </div>
                               </tm-rich-text-editor>
@@ -2180,7 +2180,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                   <div
                                     style=""
                                   >
-                                     9 words left 
+                                     499 words left 
                                   </div>
                                 </div>
                               </tm-rich-text-editor>
@@ -4063,7 +4063,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                               <div
                                 style=""
                               >
-                                 10 words left 
+                                 500 words left 
                               </div>
                             </div>
                           </tm-rich-text-editor>
