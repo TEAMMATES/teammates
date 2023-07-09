@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TINYMCE_BASE_URL } from './tinymce';
 
-const RICH_TEXT_EDITOR_MAX_WORD_LENGTH = 10;
-const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 100;
+const RICH_TEXT_EDITOR_MAX_WORD_LENGTH = 500;
 
 const SPACE_KEYCODE = 32;
 
@@ -17,7 +16,6 @@ const SPACE_KEYCODE = 32;
 export class RichTextEditorComponent implements OnInit {
 
   // const
-  RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
   RICH_TEXT_EDITOR_MAX_WORD_LENGTH: number = RICH_TEXT_EDITOR_MAX_WORD_LENGTH;
 
   @Input()
