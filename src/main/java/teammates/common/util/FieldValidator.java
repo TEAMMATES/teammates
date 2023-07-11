@@ -683,7 +683,7 @@ public final class FieldValidator {
      * Checks if the {@code endTime} is valid to be used as a session end time.
      * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p>The {@code endTime} is valid if it is after 1 hour before now, before twelve months from now
+     * <p>The {@code endTime} is valid if it is after 1 hour before now, before 12 months from now
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForNewEndTime(Instant endTime, String timeZone) {
