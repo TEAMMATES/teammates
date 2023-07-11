@@ -124,6 +124,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.sessionEditFormModel = {
       ...this.sessionEditFormModel,
       isEditable: true,
+      gracePeriod: 15,
     };
   }
 
