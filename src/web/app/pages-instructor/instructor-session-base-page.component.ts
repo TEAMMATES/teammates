@@ -533,6 +533,16 @@ export abstract class InstructorSessionBasePageComponent {
           hour: submissionStartTime.hour,
         },
       };
+    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour === submissionEndTime.hour
+        && submissionStartTime.minute > submissionEndTime.minute) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: submissionStartDate,
+        submissionEndTime: {
+          ...submissionStartTime,
+          minute: submissionStartTime.minute,
+        },
+      };
     }
   }
 }
