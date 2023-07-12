@@ -522,7 +522,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         if (!isElementPresent(By.id("deleted-sessions-table"))) {
             return 0;
         }
-
         return deletedSessionsTable.findElements(By.cssSelector("tbody tr")).size();
     }
 

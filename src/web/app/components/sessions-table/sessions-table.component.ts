@@ -1,11 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../services/simple-modal.service';
-import {
-  Course,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-} from '../../../types/api-output';
+import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
@@ -60,9 +56,6 @@ export class SessionsTableComponent implements OnInit {
 
   // variable
   rowClicked: number = -1;
-
-  @Input()
-  mainTableStyle: boolean = false;
 
   @Input()
   initialSortBy: SortBy = SortBy.COURSE_ID;
@@ -387,15 +380,12 @@ export class SessionsTableComponent implements OnInit {
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
     modalRef.componentInstance.sessionToCopyCourseId = model.feedbackSession.courseId;
 
-    modalRef.result.then(
-      (result: CopySessionModalResult) => {
-        this.copySessionEvent.emit({
-          ...result,
-          sessionToCopyRowIndex: rowIndex,
-        });
-      },
-      () => {},
-    );
+    modalRef.result.then((result: CopySessionModalResult) => {
+      this.copySessionEvent.emit({
+        ...result,
+        sessionToCopyRowIndex: rowIndex,
+      });
+    }, () => {});
   }
 
   /**
@@ -409,12 +399,9 @@ export class SessionsTableComponent implements OnInit {
       'An email will be sent to students to inform them that the responses are ready for viewing.',
     );
 
-    modalRef.result.then(
-      () => {
+    modalRef.result.then(() => {
         this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
-      },
-      () => {},
-    );
+      }, () => {});
   }
 
   /**
@@ -431,12 +418,9 @@ export class SessionsTableComponent implements OnInit {
       modalContent,
     );
 
-    modalRef.result.then(
-      () => {
+    modalRef.result.then(() => {
         this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
-      },
-      () => {},
-    );
+      }, () => {});
   }
 
   /**
@@ -478,8 +462,7 @@ export class SessionsTableComponent implements OnInit {
    * Get the deadlines for student and instructors.
    */
   getDeadlines(model: SessionsTableRowModel): {
-    studentDeadlines: Record<string, number>,
-    instructorDeadlines: Record<string, number>,
+    studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
   } {
     return {
       studentDeadlines: model.feedbackSession.studentDeadlines,

@@ -7,10 +7,7 @@ import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
-import {
-  FeedbackSessionsService,
-  TemplateSession,
-} from '../../../services/feedback-sessions.service';
+import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
@@ -30,10 +27,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import {
-  getDefaultDateFormat,
-  getLatestTimeFormat,
-} from '../../../types/datetime-const';
+import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
@@ -81,12 +75,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   SortOrder: typeof SortOrder = SortOrder;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
+  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme =
+    SessionsTableHeaderColorScheme;
 
   // url params
   courseId: string = '';
-
-  setMainTableStyle: boolean = true;
 
   // data
   courseCandidates: Course[] = [];
@@ -150,39 +143,25 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
-  @ViewChild('modifiedTimestampsModal')
-  modifiedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
-  constructor(
-    statusMessageService: StatusMessageService,
-    navigationService: NavigationService,
-    feedbackSessionsService: FeedbackSessionsService,
-    feedbackQuestionsService: FeedbackQuestionsService,
-    ngbModalService: NgbModal,
-    studentService: StudentService,
-    instructorService: InstructorService,
-    tableComparatorService: TableComparatorService,
-    simpleModalService: SimpleModalService,
-    progressBarService: ProgressBarService,
-    feedbackSessionActionsService: FeedbackSessionActionsService,
-    timezoneService: TimezoneService,
-    private courseService: CourseService,
-    private route: ActivatedRoute,
-  ) {
-    super(
-      instructorService,
-      statusMessageService,
-      navigationService,
-      feedbackSessionsService,
-      feedbackQuestionsService,
-      tableComparatorService,
-      ngbModalService,
-      simpleModalService,
-      progressBarService,
-      feedbackSessionActionsService,
-      timezoneService,
-      studentService,
-    );
+  constructor(statusMessageService: StatusMessageService,
+              navigationService: NavigationService,
+              feedbackSessionsService: FeedbackSessionsService,
+              feedbackQuestionsService: FeedbackQuestionsService,
+              ngbModalService: NgbModal,
+              studentService: StudentService,
+              instructorService: InstructorService,
+              tableComparatorService: TableComparatorService,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
+              feedbackSessionActionsService: FeedbackSessionActionsService,
+              timezoneService: TimezoneService,
+              private courseService: CourseService,
+              private route: ActivatedRoute) {
+    super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
+        feedbackQuestionsService, tableComparatorService, ngbModalService,
+        simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService, studentService);
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -210,8 +189,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       (model: SessionsTableRowModel) => model.feedbackSession,
     );
 
-    modalRef.result
-      .then((result: CopyFromOtherSessionsResult) => {
+    modalRef.result.then((result: CopyFromOtherSessionsResult) => {
         this.coursesOfModifiedSession = [];
         this.modifiedSession = {};
         this.copyFeedbackSession(
@@ -219,13 +197,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           result.newFeedbackSessionName,
           result.copyToCourseId,
           result.fromFeedbackSession.courseId,
-        )
-          .pipe(
-            finalize(() => {
+        ).pipe(finalize(() => {
               this.isCopyOtherSessionLoading = false;
-            }),
-          )
-          .subscribe({
+        })).subscribe({
             next: (createdFeedbackSession: FeedbackSession) => {
               if (this.coursesOfModifiedSession.length > 0) {
                 this.simpleModalService.openInformationModal(
@@ -241,14 +215,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   },
                 );
               } else {
-                this.navigationService.navigateWithSuccessMessage(
-                  '/web/instructor/sessions/edit',
+                this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
                   'The feedback session has been copied. Please modify settings/questions as necessary.',
                   {
                     courseid: createdFeedbackSession.courseId,
                     fsname: createdFeedbackSession.feedbackSessionName,
-                  },
-                );
+                  });
               }
             },
             error: (resp: ErrorMessageOutput) => {
@@ -268,12 +240,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.isCoursesLoading = true;
     this.courseService
       .getInstructorCoursesThatAreActive()
-      .pipe(
-        finalize(() => {
+      .pipe(finalize(() => {
           this.isCoursesLoading = false;
-        }),
-      )
-      .subscribe({
+      })).subscribe({
         next: (courses: Courses) => {
           this.courseCandidates = courses.courses;
 

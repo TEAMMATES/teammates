@@ -1,7 +1,5 @@
-import {
-  FeedbackSession,
-  InstructorPermissionSet,
-} from '../../../types/api-output';
+import { FeedbackSession, InstructorPermissionSet } from '../../../types/api-output';
+/* eslint-disable-next-line import/no-cycle */
 import { ColumnData, SortableTableCellData } from '../sortable-table/sortable-table.component';
 
 /**
@@ -28,7 +26,6 @@ export interface CopySessionResult {
 /**
  * The column of the session table
  */
-
 export enum SessionsTableColumn {
   /**
    * Course ID column.

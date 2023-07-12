@@ -1,70 +1,34 @@
-<div
-  class="alert alert-warning"
-  role="alert"
-  *ngIf="
-    !isCoursesLoading &&
-    courseCandidates.length === 0 &&
-    !hasCourseLoadingFailed
-  "
->
+<div class="alert alert-warning" role="alert"
+  *ngIf="!isCoursesLoading && courseCandidates.length === 0 && !hasCourseLoadingFailed">
   You have not created any courses yet, or you have no active courses. Go
   <a tmRouterLink="/web/instructor/courses">here</a> to create or unarchive a
   course.
 </div>
 
 <div>
-  <button
-    id="btn-add-session"
-    class="btn btn-success"
-    (click)="isSessionEditFormExpanded = true"
-    [disabled]="isSessionEditFormExpanded || isCoursesLoading"
-  >
-    <i class="fas fa-plus"></i> Add New Feedback Session
+  <button id="btn-add-session" class="btn btn-success" (click)="isSessionEditFormExpanded = true"
+    [disabled]="isSessionEditFormExpanded || isCoursesLoading"><i class="fas fa-plus"></i> Add New Feedback Session
   </button>
 </div>
 
-<div
-  id="add-session-section"
-  class="margin-top-30px"
-  *ngIf="isSessionEditFormExpanded && !isCoursesLoading"
-  @collapseAnim
->
+<div id="add-session-section" class="margin-top-30px" *ngIf="isSessionEditFormExpanded && !isCoursesLoading" 
+  @collapseAnim>
   <div>
-    <tm-session-edit-form
-      [formMode]="SessionEditFormMode.ADD"
-      [(model)]="sessionEditFormModel"
-      [courseCandidates]="courseCandidates"
-      [templateSessions]="templateSessions"
-      [isCopyOtherSessionLoading]="isCopyOtherSessionLoading"
-      (addNewSessionEvent)="addNewSessionHandler()"
-      (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
-      (closeEditFormEvent)="isSessionEditFormExpanded = false"
-    ></tm-session-edit-form>
+    <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel" 
+    [courseCandidates]="courseCandidates" [templateSessions]="templateSessions" 
+    [isCopyOtherSessionLoading]="isCopyOtherSessionLoading" (addNewSessionEvent)="addNewSessionHandler()" 
+    (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()" 
+    (closeEditFormEvent)="isSessionEditFormExpanded = false"></tm-session-edit-form>
   </div>
 </div>
 
-<tm-loading-retry
-  [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed"
-  [message]="'Failed to load data'"
-  (retryEvent)="retryLoadingAllData()"
->
+<tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed"
+  [message]="'Failed to load data'" (retryEvent)="retryLoadingAllData()">
   <div class="margin-top-30px">
-    <div
-      *tmIsLoading="
-        isCoursesLoading ||
-        isMoveToRecycleBinLoading ||
-        isCopySessionLoading ||
-        isResultActionLoading
-      "
-      class="table-responsive"
-    >
-      <div
-        class="alert alert-warning margin-top-30px"
-        role="alert"
-        *ngIf="
-          sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading
-        "
-      >
+    <div *tmIsLoading="isCoursesLoading || isMoveToRecycleBinLoading || isCopySessionLoading || isResultActionLoading"
+      class="table-responsive">
+      <div class="alert alert-warning margin-top-30px" role="alert"
+        *ngIf="sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading">
         You have not created any sessions yet. Use the form above to create a
         session.
       </div>
@@ -76,7 +40,6 @@
         [columnsToShow]="[SessionsTableColumn.COURSE_ID]"
         [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
         [isSendReminderLoading]="isSendReminderLoading"
-        [mainTableStyle]="setMainTableStyle"
         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
         (loadResponseRateEvent)="loadResponseRateEventHandler($event)"
         (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)"
@@ -85,24 +48,9 @@
         (publishSessionEvent)="publishSessionEventHandler($event)"
         (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
         (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
-        (resendResultsLinkToStudentsEvent)="
-          resendResultsLinkToRespondentsEventHandler(
-            sessionsTableRowModels[$event]
-          )
-        "
-        (sendRemindersToAllNonSubmittersEvent)="
-          sendRemindersToRespondentsEventHandler(
-            sessionsTableRowModels[$event],
-            true
-          )
-        "
-        (sendRemindersToSelectedNonSubmittersEvent)="
-          sendRemindersToRespondentsEventHandler(
-            sessionsTableRowModels[$event],
-            false
-          )
-        "
-      ></tm-sessions-table>
+        (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(sessionsTableRowModels[$event])"
+        (sendRemindersToAllNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], true)"
+        (sendRemindersToSelectedNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], false)"></tm-sessions-table>
     </div>
   </div>
   <br />
@@ -119,35 +67,26 @@
   </div>
 
   <div class="margin-top-30px">
-    <tm-sessions-recycle-bin-table
-      *tmIsLoading="isRecycleBinLoading || isRestoreFeedbackSessionLoading"
+    <tm-sessions-recycle-bin-table *tmIsLoading="isRecycleBinLoading || isRestoreFeedbackSessionLoading"
       [isRecycleBinExpanded]="isRecycleBinExpanded"
       [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
       [recycleBinFeedbackSessionRowModelsSortBy]="
         recycleBinFeedbackSessionRowModelsSortBy
       "
-      [recycleBinFeedbackSessionRowModelsSortOrder]="
-        recycleBinFeedbackSessionRowModelsSortOrder
-      "
+      [recycleBinFeedbackSessionRowModelsSortOrder]="recycleBinFeedbackSessionRowModelsSortOrder"
       [isPermanentDeleteLoading]="isPermanentDeleteLoading"
       (restoreSessionEvent)="restoreRecycleBinFeedbackSession($event)"
-      (restoreAllRecycleBinFeedbackSessionEvent)="
-        restoreAllRecycleBinFeedbackSession()
-      "
+      (restoreAllRecycleBinFeedbackSessionEvent)="restoreAllRecycleBinFeedbackSession()"
       (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
       (permanentDeleteAllSessionsEvent)="permanentDeleteAllSessions()"
-      (sortRecycleBinFeedbackSessionRowsEvent)="
-        sortRecycleBinFeedbackSessionRowsEvent($event)
-      "
-      (recycleBinExpandEvent)="isRecycleBinExpanded = !isRecycleBinExpanded"
-    >
+      (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)"
+      (recycleBinExpandEvent)="isRecycleBinExpanded = !isRecycleBinExpanded">
     </tm-sessions-recycle-bin-table>
   </div>
 </tm-loading-retry>
 
 <ng-template #modifiedTimestampsModal>
-  <tm-modified-timestamps-modal
-    [coursesOfModifiedSession]="this.coursesOfModifiedSession"
+  <tm-modified-timestamps-modal [coursesOfModifiedSession]="this.coursesOfModifiedSession"
     [modifiedSessions]="this.modifiedSession"
   >
   </tm-modified-timestamps-modal>
