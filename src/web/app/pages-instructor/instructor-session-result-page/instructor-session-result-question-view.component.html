@@ -10,7 +10,7 @@
         >
       </tm-question-text-with-info>
       <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
-        <button id="btn-donwload-question" class="btn btn-primary btn-sm button" type="button"
+        <button id="btn-donwload-question-{{ question.question.questionNumber }}" class="btn btn-primary btn-sm button" type="button"
         (click)="triggerDownloadQuestionResult({
           questionNumber: question.question.questionNumber,
           questionId: question.question.feedbackQuestionId})">
