@@ -101,11 +101,13 @@ export class AdminSessionsPageComponent implements OnInit {
 
     this.getFeedbackSessions();
   }
-  int: number=0;
+  num: number=0;
   /**
    * Populates the Sortable Table Data to be displayed
    */
   populateSortableTable(): void {
+  this.sortableTables=[];
+  this.num=0;
   const key= Object.keys(this.sessions)
     Object.values(this.sessions).forEach((ongoingSessionModelArray)=>{ 
       this.sortableTables.push({
@@ -114,14 +116,14 @@ export class AdminSessionsPageComponent implements OnInit {
           return [
             { displayValue: session.ongoingSession.sessionStatus },
             { displayValue: '['+session.ongoingSession.courseId+'] '+session.ongoingSession.feedbackSessionName },
-            { displayValue: session.responseRate },
+            { displayValue: ''},
             { displayValue: session.startTimeString },
             { displayValue: session.endTimeString },
             { displayValue: session.ongoingSession.creatorEmail },
           ]}),
-        institute: key[this.int],
-      })
-    this.int++;
+        institute: key[this.num],
+      } )
+    this.num++;
   })
 }
 
@@ -189,7 +191,7 @@ export class AdminSessionsPageComponent implements OnInit {
                 };
               });
             });
-
+            
             this.institutionPanelsStatus = {};
             for (const institution of Object.keys(resp.sessions)) {
               this.institutionPanelsStatus[institution] = true;

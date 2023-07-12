@@ -111,45 +111,16 @@
         </select>
       </div>
     </div>
-    <div class="card bg-light margin-top-30px" *ngFor="let sortableTable of sortableTables">
-      <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[sortableTable.institute] = !institutionPanelsStatus[sortableTable.institute]">
-        <strong>{{ sortableTable.institute }} - Number of sessions: {{ sortableTable.rows.length }}</strong>
+    <div class="card bg-light margin-top-30px" *ngFor="let table of sortableTables">
+      <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[table.institute] = !institutionPanelsStatus[table.institute]">
+        <strong>{{table.institute}} - Number of sessions: {{ table.rows.length }}</strong>
         <div class="card-header-btn-toolbar">
-          <tm-panel-chevron [isExpanded]="institutionPanelsStatus[sortableTable.institute]"></tm-panel-chevron>
+          <tm-panel-chevron [isExpanded]="institutionPanelsStatus[table.institut]"></tm-panel-chevron>
         </div>
       </div>
-      <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[sortableTable.institute]" @collapseAnim>
+      <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[table.institute]" @collapseAnim>
         <div class="table-responsive">
-          <tm-sortable-table [rows]="sortableTable.rows" [columns]="sortableTable.columns" [initialSortBy]="SortBy.SESSION_START_DATE"></tm-sortable-table>
-          <!-- <table class="table table-striped data-table session-table" id="ongoing-sessions-table">
-            <thead>
-            <tr>
-              <th>Status</th>
-              <th>[Course ID] Session Name</th>
-              <th>Response Rate</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Creator</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr *ngFor="let session of mapping.value">
-              <td>{{ session.ongoingSession.sessionStatus }}</td>
-              <td class="text-break">
-                <strong>[{{ session.ongoingSession.courseId }}]</strong>
-                {{ session.ongoingSession.feedbackSessionName }}
-              </td>
-              <td>
-                <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
-                <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
-              </td>
-              <td>{{ session.startTimeString }}</td>
-              <td>{{ session.endTimeString }}</td>
-              <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
-            </tr>
-            </tbody>
-          </table> -->
+          <tm-sortable-table [rows]="table.rows" [columns]="table.columns" [initialSortBy]="SortBy.SESSION_START_DATE"></tm-sortable-table>
         </div>
       </div>
     </div>
