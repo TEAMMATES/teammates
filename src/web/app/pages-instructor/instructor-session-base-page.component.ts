@@ -522,7 +522,13 @@ export abstract class InstructorSessionBasePageComponent {
       this.sessionEditFormModel = {
         ...data,
         submissionEndDate: submissionStartDate,
-        submissionEndTime: submissionStartTime.hour > submissionEndTime.hour ? submissionStartTime : submissionEndTime,
+        submissionEndTime:
+          submissionStartTime.hour > submissionEndTime.hour || (
+            submissionStartTime.hour === submissionEndTime.hour
+            && submissionStartTime.minute > submissionEndTime.minute
+          )
+            ? submissionStartTime
+            : submissionEndTime,
       };
     } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour > submissionEndTime.hour) {
       this.sessionEditFormModel = {
