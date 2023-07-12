@@ -116,7 +116,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
   it('Verify the button trigger download', () => {
     fixture.detectChanges();
     const downloadQuestionResultsSpy = jest.spyOn(component, 'triggerDownloadQuestionResult');
-    fixture.debugElement.queryAll(By.css('#btn-donwload-question'))[0].nativeElement.click();
+    fixture.debugElement.queryAll(By.css('#btn-donwload-question-1'))[0].nativeElement.click();
 
     expect(downloadQuestionResultsSpy).toHaveBeenCalledTimes(1);
   });
