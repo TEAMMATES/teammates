@@ -196,7 +196,7 @@ Masquerade mode is a feature that enables the admin to create and log in as mock
 - To masquerade as an instructor:
     - Use the instructor's URL at /web/instructor/home with the instructor's email appended as a parameter, e.g. `http://localhost:8080/web/instructor/home?user=kelvin@gmail.com`
 - To masquerade as a student:
-    - Use the student's URL at /web/student/home with the student's email appended as a parameter, e.g. `http://localhost:8080/web/student/home?user=janethestudent@gmail.com`
+    - Use the student's URL at /web/student/home with the student's email appended as a query parameter, e.g. `http://localhost:8080/web/student/home?user=janethestudent@gmail.com`.
 
 ## Running the Datastore emulator
 
