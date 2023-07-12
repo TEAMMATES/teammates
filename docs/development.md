@@ -187,7 +187,7 @@ GET http://localhost:8080/logout
 ```
 
 ### How to enter masquerade mode
-Masquerade mode is a feature that enables the admin to create and log in as mock instructors and students for testing and other purposes.
+Masquerade mode is a feature that enables the admin to create and log in as mock instructors and students for testing and situations where masquerading as another user is applicable.
 - To prepare for entering masquerade mode, do the following:
     - Log in as an administrator to `http://localhost:8080/web/admin/home`.
     - Create a new instructor by filling the Name, Email, and Institution fields in the form
