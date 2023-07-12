@@ -21,18 +21,14 @@ import {
   Courses,
   FeedbackQuestion,
   FeedbackSession,
-  FeedbackSessionPublishStatus,
   FeedbackSessions,
-  FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   SessionEditFormMode,
-  SessionEditFormModel,
 } from '../../components/session-edit-form/session-edit-form-model';
 import {
   CopySessionResult,
@@ -83,44 +79,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   courseCandidates: Course[] = [];
   templateSessions: TemplateSession[] = [];
 
-  // models
-  sessionEditFormModel: SessionEditFormModel = {
-    courseId: '',
-    timeZone: 'UTC',
-    courseName: '',
-    feedbackSessionName: '',
-    instructions: 'Please answer all the given questions.',
-
-    submissionStartTime: getLatestTimeFormat(),
-    submissionStartDate: getDefaultDateFormat(),
-    submissionEndTime: getLatestTimeFormat(),
-    submissionEndDate: getDefaultDateFormat(),
-    gracePeriod: 15,
-
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: getLatestTimeFormat(),
-    customSessionVisibleDate: getDefaultDateFormat(),
-
-    responseVisibleSetting: ResponseVisibleSetting.LATER,
-    customResponseVisibleTime: getLatestTimeFormat(),
-    customResponseVisibleDate: getDefaultDateFormat(),
-
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-
-    templateSessionName: '',
-
-    isSaving: false,
-    isEditable: true,
-    isDeleting: false,
-    isCopying: false,
-    hasVisibleSettingsPanelExpanded: false,
-    hasEmailSettingsPanelExpanded: false,
-  };
-
   isSessionEditFormExpanded: boolean = false;
 
   sessionsTableRowModels: SessionsTableRowModel[] = [];
@@ -161,7 +119,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               private route: ActivatedRoute) {
     super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModalService,
-        simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService, studentService);
+      simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService, studentService);
+
+    this.sessionEditFormModel = {
+      ...this.sessionEditFormModel,
+      isEditable: true,
+      gracePeriod: 15,
+    };
   }
 
   ngOnInit(): void {
