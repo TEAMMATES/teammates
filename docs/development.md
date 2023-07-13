@@ -210,6 +210,7 @@ We have a Docker compose definition to run dependent services, including local D
 docker-compose run -p 8484:8484 datastore
 ```
 
+**Verification:** Should receive an "Ok" response in the browser at `http://localhost:8484`.
 </panel>
 
 <panel header="**Using Cloud SDK**">

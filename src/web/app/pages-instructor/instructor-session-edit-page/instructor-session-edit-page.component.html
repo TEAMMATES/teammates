@@ -2,11 +2,11 @@
   (retryEvent)="loadFeedbackSession()">
   <tm-session-edit-form *tmIsLoading="isLoadingFeedbackSession" [formMode]="SessionEditFormMode.EDIT"
     [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
+    (modelChange)="triggerModelChange($event)"
     (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
     (deleteExistingSessionEvent)="deleteExistingSessionHandler()"
     (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
 </tm-loading-retry>
-
 <tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'"
   (retryEvent)="loadFeedbackQuestions()">
   <div *ngIf="!isLoadingFeedbackQuestions && questionEditFormModels.length" class="offset-md-10 margin-vertical-20px">

@@ -1,3 +1,17 @@
+@media (max-width: 768px) { //applies only to mobile screens
+  .custom-button-active {
+    width: 115px;
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 768px) { //applies only to mobile screens
+  .custom-button-archived {
+    width: 95px;
+    margin-bottom: 5px;
+  }
+}
+
 .sortable-header {
   cursor: pointer;
 
@@ -75,8 +89,10 @@
   margin-top: 30px;
 }
 
-.actions-cell button:not(.dropdown-item) {
-  margin-left: var(--btn-margin);
+@media (min-width: 768px) { //applies only to non-mobile screens
+  .actions-cell button:not(.dropdown-item) {
+    margin-left: var(--btn-margin);
+  }
 }
 
 .dropdown-menu {

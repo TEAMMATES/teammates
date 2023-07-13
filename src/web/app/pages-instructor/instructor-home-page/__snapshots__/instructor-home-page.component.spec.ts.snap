@@ -31,6 +31,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -105,6 +106,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -179,6 +181,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -329,6 +332,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -846,6 +850,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1509,6 +1514,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1760,6 +1766,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -2035,6 +2042,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
