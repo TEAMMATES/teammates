@@ -48,55 +48,55 @@
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
-                  <button class="btn btn-info btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/enroll"
+                  <a class="btn btn-info btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/enroll"
                     [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
-                </button>
+                </a>
                 </ng-container>
-                <button class="btn btn-info btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/details"
+                <a class="btn btn-info btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/details"
                   [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-              </button>
+              </a>
               </div>
             </span>
             <span ngbDropdown>
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Instructors </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                <button class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/edit"
+                <a class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/edit"
                   [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-              </button>
+              </a>
               </div>
             </span>
             <span ngbDropdown>
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Sessions </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                <button class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/sessions"
+                <a class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/sessions"
                   [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
-              </button>
+              </a>
               </div>
             </span>
             <span ngbDropdown>
               <button class="btn-course btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                <button class="btn-archive-course btn btn-light btn-sm dropdown-item"
+                <a class="btn-archive-course btn btn-light btn-sm dropdown-item"
                   ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
-              </button>
-                <button class="btn btn-light btn-sm dropdown-item" tmRouterLink='/web/instructor/courses/edit'
+              </a>
+                <a class="btn btn-light btn-sm dropdown-item" tmRouterLink='/web/instructor/courses/edit'
                   [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-            </button>
+            </a>
                 <!--                <a class="btn btn-light btn-sm dropdown-item"-->
                 <!--                   tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs-->
                 <!--                </a>-->
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
-                  <button class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                  <a class="btn-copy-course btn btn-light btn-sm dropdown-item"
                     ngbTooltip="Copy the course and its corresponding sessions"
                     (click)="!isCopyingCourse && onCopy(courseTabModel.course.courseId, courseTabModel.course.courseName, courseTabModel.course.timeZone)"> Copy
-                  </button>
+                </a>
                 </ng-container>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
-                  <button class="btn-delete-course btn btn-light btn-sm dropdown-item"
+                  <a class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     ngbTooltip="Delete the course and its corresponding students and sessions"
                     (click)="deleteCourse(courseTabModel.course.courseId)"> Delete
-                </button>
+                </a>
                 </ng-container>
               </div>
             </span>
