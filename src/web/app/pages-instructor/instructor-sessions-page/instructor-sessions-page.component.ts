@@ -75,8 +75,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   SortOrder: typeof SortOrder = SortOrder;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = 
- SessionsTableHeaderColorScheme;
+  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
   // url params
   courseId: string = '';
@@ -190,47 +189,39 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     );
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
-        this.coursesOfModifiedSession = [];
-        this.modifiedSession = {};
-        this.copyFeedbackSession(
-          result.fromFeedbackSession,
-          result.newFeedbackSessionName,
-          result.copyToCourseId,
-          result.fromFeedbackSession.courseId,
-        ).pipe(finalize(() => {
-              this.isCopyOtherSessionLoading = false;
-        })).subscribe({
+      this.coursesOfModifiedSession = [];
+      this.modifiedSession = {};
+      this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
+        result.fromFeedbackSession.courseId)
+          .pipe(finalize(() => {
+            this.isCopyOtherSessionLoading = false;
+          }))
+          .subscribe({
             next: (createdFeedbackSession: FeedbackSession) => {
               if (this.coursesOfModifiedSession.length > 0) {
-                this.simpleModalService.openInformationModal(
-                  'Note On Tweaked Session Timestamps',
-                  SimpleModalType.WARNING,
-                  this.modifiedTimestampsModal,
-                  {
-                    onClosed: () =>
-                      this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                        courseid: createdFeedbackSession.courseId,
-                        fsname: createdFeedbackSession.feedbackSessionName,
-                      }),
-                  },
-                );
+                this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
+                    SimpleModalType.WARNING, this.modifiedTimestampsModal,
+                    {
+                      onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
+                          '/web/instructor/sessions/edit',
+                          {
+                            courseid: createdFeedbackSession.courseId,
+                            fsname: createdFeedbackSession.feedbackSessionName,
+                          }),
+                    });
               } else {
                 this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
-                  'The feedback session has been copied. Please modify settings/questions as necessary.',
-                  {
-                    courseid: createdFeedbackSession.courseId,
-                    fsname: createdFeedbackSession.feedbackSessionName,
-                  });
+                    'The feedback session has been copied. Please modify settings/questions as necessary.',
+                    { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
               }
             },
             error: (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(this.formatErrorMessage(resp.error.message));
             },
           });
-      })
-      .catch(() => {
-        this.isCopyOtherSessionLoading = false;
-      });
+    }).catch(() => {
+      this.isCopyOtherSessionLoading = false;
+    });
   }
 
   /**
@@ -238,23 +229,23 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   loadCandidatesCourse(): void {
     this.isCoursesLoading = true;
-    this.courseService
-      .getInstructorCoursesThatAreActive()
+    this.courseService.getInstructorCoursesThatAreActive()
       .pipe(finalize(() => {
           this.isCoursesLoading = false;
-      })).subscribe({
-        next: (courses: Courses) => {
-          this.courseCandidates = courses.courses;
+        }))
+        .subscribe({
+          next: (courses: Courses) => {
+            this.courseCandidates = courses.courses;
 
-          this.initDefaultValuesForSessionEditForm();
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.resetAllModels();
-          this.hasCourseLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-  }
+            this.initDefaultValuesForSessionEditForm();
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.resetAllModels();
+            this.hasCourseLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+   }
 
   /**
    * Sets default values for the session edit form.
@@ -309,38 +300,25 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.sessionEditFormModel.isSaving = true;
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
-      this.sessionEditFormModel.submissionStartDate,
-      this.sessionEditFormModel.submissionStartTime,
-      this.sessionEditFormModel.timeZone,
-      true,
-    );
+        this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
+        this.sessionEditFormModel.timeZone, true);
     const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
-      this.sessionEditFormModel.submissionEndDate,
-      this.sessionEditFormModel.submissionEndTime,
-      this.sessionEditFormModel.timeZone,
-      true,
-    );
+        this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
+        this.sessionEditFormModel.timeZone, true);
     let sessionVisibleTime: number = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.customSessionVisibleDate,
-        this.sessionEditFormModel.customSessionVisibleTime,
-        this.sessionEditFormModel.timeZone,
-        true,
-      );
+          this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
+          this.sessionEditFormModel.timeZone, true);
     }
     let responseVisibleTime: number = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.customResponseVisibleDate,
-        this.sessionEditFormModel.customResponseVisibleTime,
-        this.sessionEditFormModel.timeZone,
-        true,
-      );
+          this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
+          this.sessionEditFormModel.timeZone, true);
     }
 
-    this.feedbackSessionsService
-      .createFeedbackSession(this.sessionEditFormModel.courseId, {
+    this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
         feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
         instructions: this.sessionEditFormModel.instructions,
 
@@ -356,8 +334,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
         isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
         isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-      })
-      .subscribe({
+      }).subscribe({
         next: (feedbackSession: FeedbackSession) => {
           // begin to populate session with template
           const templateSession: TemplateSession | undefined = this.feedbackSessionsService
@@ -438,10 +415,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   loadFeedbackSessions(): void {
     this.isFeedbackSessionsLoading = true;
-    this.feedbackSessionsService
-      .getFeedbackSessionsForInstructor()
-      .pipe(
-        finalize(() => {
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor()
+      .pipe(finalize(() => {
           this.isFeedbackSessionsLoading = false;
         }),
       )
@@ -479,10 +454,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.recycleBinFeedbackSessionRowModelsSortBy = by;
     // reverse the sort order
     this.recycleBinFeedbackSessionRowModelsSortOrder =
-      this.recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+        this.recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.recycleBinFeedbackSessionRowModels.sort(
-      this.sortModelsBy(by, this.recycleBinFeedbackSessionRowModelsSortOrder),
-    );
+      this.sortModelsBy(by, this.recycleBinFeedbackSessionRowModelsSortOrder));
   }
   /**
    * Loads response rate of a feedback session.
