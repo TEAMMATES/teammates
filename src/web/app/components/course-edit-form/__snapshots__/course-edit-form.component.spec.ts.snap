@@ -27,7 +27,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
     class="card"
   >
     <div
-      class="card-header bg-primary text-white"
+      class="card-header bg-primary text-white add-mode"
     >
       <strong>
         Create a new Course
@@ -248,7 +248,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
     class="card"
   >
     <div
-      class="card-header bg-primary text-white"
+      class="card-header bg-primary text-white add-mode"
     >
       <strong>
         Create a new Course
