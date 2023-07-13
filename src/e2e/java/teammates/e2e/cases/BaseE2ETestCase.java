@@ -363,13 +363,5 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             return false;
         }
     }
-
-    void waitForSpecifiedTime(int milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            // continue
-        }
-    }
-
+    
 }
