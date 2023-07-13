@@ -452,7 +452,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               isLoadingResponseRate: false,
               instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
             };
-            this.sessionsTableRowModels.push(m);
+            this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
             this.statusMessageService.showSuccessToast('The feedback session has been restored.');
           },
           error: (resp: ErrorMessageOutput) => {
