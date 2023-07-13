@@ -396,8 +396,8 @@ export class SessionsTableComponent implements OnInit {
         'An email will be sent to students to inform them that the responses are ready for viewing.');
 
     modalRef.result.then(() => {
-        this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
-      }, () => {});
+      this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
+    }, () => {});
   }
 
   /**
@@ -413,8 +413,8 @@ export class SessionsTableComponent implements OnInit {
         SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
-        this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
-      }, () => {});
+      this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
+    }, () => {});
   }
 
   /**

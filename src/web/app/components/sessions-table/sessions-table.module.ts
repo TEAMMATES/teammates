@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../ajax-preload/ajax-preload.module';
 import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal.module';
