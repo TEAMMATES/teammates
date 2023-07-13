@@ -259,7 +259,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
             return model.course.courseId !== courseId;
           });
-          this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.`
+          this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived. `
              + 'You can retrieve it from the Courses page.');
         },
         error: (resp: ErrorMessageOutput) => {
