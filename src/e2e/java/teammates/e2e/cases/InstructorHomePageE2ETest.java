@@ -170,7 +170,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + course.getName() + "][Feedback Session: "
                 + feedbackSessionOpen.getFeedbackSessionName() + "]");
-        
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);
 
