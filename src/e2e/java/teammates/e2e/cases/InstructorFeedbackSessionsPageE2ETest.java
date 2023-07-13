@@ -225,7 +225,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 instructor.getGoogleId()));
 
         ______TS("permanently delete session");
-        FeedbackSessionAttributes[] sessionsForDelete = { copiedSession, copiedSession2, closedSession, openSession };
+        FeedbackSessionAttributes[] sessionsForDelete = { copiedSession, copiedSession2, closedSession,
+                openSession };
 
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.moveToRecycleBin(newSession);

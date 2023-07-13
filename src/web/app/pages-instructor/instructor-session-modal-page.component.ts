@@ -105,31 +105,23 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
           } as InstructorListInfoTableRowModel));
 
           modalRef.result.then((respondentsToRemind: any[]) => {
-              this.isSendReminderLoading = true;
-              this.feedbackSessionsService
-                .remindResultsLinkToRespondents(courseId, feedbackSessionName, {
-                  usersToRemind: respondentsToRemind.map((m: any) => m.email),
-                  isSendingCopyToInstructor: true,
-                })
-                .pipe(finalize(() => {
-                    this.isSendReminderLoading = false;
-                  }),
-                )
-                .subscribe({
-                  next: () => {
-                    this.statusMessageService.showSuccessToast(
+            this.isSendReminderLoading = true;
+            this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
+              usersToRemind: respondentsToRemind.map((m: any) => m.email), isSendingCopyToInstructor: true,
+            }).pipe(finalize(() => {
+              this.isSendReminderLoading = false;
+            }))
+            .subscribe({
+              next: () => {
+                  this.statusMessageService.showSuccessToast(
                       'Session published notification emails have been resent to those students and instructors. '
-                        + 'Please allow up to 1 hour for all the notification emails to be sent out.',
-                    );
-                  },
-                  error: (resp: ErrorMessageOutput) => {
-                    this.statusMessageService.showErrorToast(
-                      resp.error.message,
-                    );
-                  },
-                });
-            },
-            () => {});
+                      + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+              },
+              error: (resp: ErrorMessageOutput) => {
+                this.statusMessageService.showErrorToast(resp.error.message);
+              },
+            });
+          }, () => {});
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -150,70 +142,58 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
       this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }),
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
     ]).pipe(finalize(() => {
-          this.isSendReminderLoading = false;
-        })).subscribe({
-          next: (result: any[]) => {
-            const students: Student[] = (result[0] as Students).students;
-            const giverSet: Set<string> = new Set(
-              (result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
-            const instructors: Instructor[] = (result[2] as Instructors).instructors;
+      this.isSendReminderLoading = false;
+    })).subscribe({
+      next: (result: any[]) => {
+        const students: Student[] = (result[0] as Students).students;
+        const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
+        const instructors: Instructor[] = (result[2] as Instructors).instructors;
 
-            const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
+        const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
 
-            modalRef.componentInstance.courseId = courseId;
-            modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-            modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
-                    email: student.email,
-                    name: student.name,
-                    teamName: student.teamName,
-                    sectionName: student.sectionName,
+        modalRef.componentInstance.courseId = courseId;
+        modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
+        modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
+          email: student.email,
+          name: student.name,
+          teamName: student.teamName,
+          sectionName: student.sectionName,
 
-                    hasSubmittedSession: giverSet.has(student.email),
+          hasSubmittedSession: giverSet.has(student.email),
 
-                    isSelected:
-                      selectAllRespondents && !giverSet.has(student.email),
-                  } as StudentListInfoTableRowModel),
-              );
-            modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map((instructor: Instructor) => ({
-                    email: instructor.email,
-                    name: instructor.name,
+          isSelected: selectAllRespondents && !giverSet.has(student.email),
+        } as StudentListInfoTableRowModel));
+        modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map((instructor: Instructor) => ({
+          email: instructor.email,
+          name: instructor.name,
 
-                    hasSubmittedSession: giverSet.has(instructor.email),
+          hasSubmittedSession: giverSet.has(instructor.email),
 
-                    isSelected:
-                      selectAllRespondents && !giverSet.has(instructor.email),
-                  } as InstructorListInfoTableRowModel),
-              );
+          isSelected: selectAllRespondents && !giverSet.has(instructor.email),
+        } as InstructorListInfoTableRowModel));
 
-            modalRef.result.then((reminderResponse: ReminderResponseModel) => {
-                this.isSendReminderLoading = true;
-                this.feedbackSessionsService
-                  .remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
-                      usersToRemind: reminderResponse.respondentsToSend.map(
-                        (m) => m.email,
-                      ),
-                      isSendingCopyToInstructor:
-                        reminderResponse.isSendingCopyToInstructor,
-                    },
-                  ).pipe(finalize(() => {
-                      this.isSendReminderLoading = false;
-                  })).subscribe({
-                    next: () => {
-                      this.statusMessageService.showSuccessToast(
-                        'Reminder e-mails have been sent out to those students and instructors. '
-                          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-                    },
-                    error: (resp: ErrorMessageOutput) => {
-                      this.statusMessageService.showErrorToast(resp.error.message);
-                    },
-                  });
-              },
-              () => {},
-            );
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        modalRef.result.then((reminderResponse: ReminderResponseModel) => {
+          this.isSendReminderLoading = true;
+          this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
+            usersToRemind: reminderResponse.respondentsToSend.map((m) => m.email),
+            isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
+          }).pipe(finalize(() => {
+            this.isSendReminderLoading = false;
+          })).subscribe({
+            next: () => {
+              this.statusMessageService.showSuccessToast(
+                  'Reminder e-mails have been sent out to those students and instructors. '
+                  + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
+        }, () => {});
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 }
