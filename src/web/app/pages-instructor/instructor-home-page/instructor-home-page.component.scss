@@ -27,7 +27,9 @@
 .text-color-lightgray {
   color: lightgray;
 }
+
 @media screen and (max-width: 767px) {
+
   .card-header-mobile {
     display: flex;
     flex-direction: column;
@@ -41,7 +43,9 @@
     flex: 1;
     margin-bottom: 10px;
   }
+
   .btn-toolbar {
     justify-content: flex-start;
   }
+  
 }
