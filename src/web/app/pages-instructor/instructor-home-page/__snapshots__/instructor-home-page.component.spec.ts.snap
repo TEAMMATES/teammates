@@ -33,7 +33,6 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -111,7 +110,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -189,7 +187,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -236,20 +233,20 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             class="btn btn-light"
             id="sort-course-id"
           >
-             Course ID 
+            Course ID
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-             Course Name 
+            Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-             Creation Date 
+            Creation Date
           </button>
         </div>
       </div>
@@ -343,7 +340,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -390,20 +386,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             class="btn btn-light"
             id="sort-course-id"
           >
-             Course ID 
+            Course ID
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-             Course Name 
+            Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-             Creation Date 
+            Creation Date
           </button>
         </div>
       </div>
@@ -926,7 +922,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -973,20 +968,20 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             class="btn btn-light"
             id="sort-course-id"
           >
-             Course ID 
+            Course ID
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-             Course Name 
+            Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-             Creation Date 
+            Creation Date
           </button>
         </div>
       </div>
@@ -1669,7 +1664,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -1716,20 +1710,20 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
             class="btn btn-light"
             id="sort-course-id"
           >
-             Course ID 
+            Course ID
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-             Course Name 
+            Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-             Creation Date 
+            Creation Date
           </button>
         </div>
       </div>
@@ -1924,7 +1918,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -1971,20 +1964,20 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             class="btn btn-light"
             id="sort-course-id"
           >
-             Course ID 
+            Course ID
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-             Course Name 
+            Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-             Creation Date 
+            Creation Date
           </button>
         </div>
       </div>
@@ -2203,7 +2196,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
-  setMainTableStyle="false"
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -2250,20 +2242,20 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             class="btn btn-light"
             id="sort-course-id"
           >
-             Course ID 
+            Course ID
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-             Course Name 
+            Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-             Creation Date 
+            Creation Date
           </button>
         </div>
       </div>

@@ -44,7 +44,6 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -162,7 +161,6 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -280,7 +278,6 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -366,7 +363,6 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1309,7 +1305,6 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1427,7 +1422,6 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1545,7 +1539,6 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  setMainTableStyle={[Function Boolean]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

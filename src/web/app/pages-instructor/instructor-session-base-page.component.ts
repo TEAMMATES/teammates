@@ -29,13 +29,13 @@ import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-atte
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
+import { SessionEditFormModel } from '../components/session-edit-form/session-edit-form-model';
 import {
   CopySessionResult,
   SessionsTableColumn,
   SessionsTableColumnNames,
   SessionsTableRowModel,
 } from '../components/sessions-table/sessions-table-model';
-import { SessionEditFormModel } from '../components/session-edit-form/session-edit-form-model';
 import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import {
   ColumnData,

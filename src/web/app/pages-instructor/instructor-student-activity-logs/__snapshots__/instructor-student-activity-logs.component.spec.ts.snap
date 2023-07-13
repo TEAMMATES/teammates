@@ -1268,7 +1268,9 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                   class="table table-bordered table-striped"
                 >
                   <thead>
-                    <tr>
+                    <tr
+                      class="bg-primary text-white"
+                    >
                       <th
                         aria-sort="none"
                         class="sortable-header"
