@@ -69,8 +69,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   private static readonly coursesToLoad: number = 3;
   // enum
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme =
-    SessionsTableHeaderColorScheme;
+  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme =     SessionsTableHeaderColorScheme;
   SortBy: typeof SortBy = SortBy;
 
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
@@ -108,7 +107,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               private courseService: CourseService) {
     super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModal, simpleModalService,
-      progressBarService, feedbackSessionActionsService, timezoneService, studentService);
+        progressBarService, feedbackSessionActionsService, timezoneService, studentService);
   }
 
   ngOnInit(): void {
@@ -221,7 +220,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             });
           });
 
-          promise.then(() => {
+        promise.then(() => {
           this.courseService
               .getCourseAsInstructor(result.newCourseId)
               .subscribe((course: Course) => {
@@ -267,7 +266,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           });
           this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
             You can retrieve it from the Courses page.`);
-          },
+        },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
@@ -308,24 +307,23 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
     this.courseService.getInstructorCoursesThatAreActive()
-      .pipe(finalize(() => {
+        .pipe(finalize(() => {
           this.hasCoursesLoaded = true;
-        }),
-      )
-      .subscribe({
-        next: (courses: Courses) => {
-          courses.courses.forEach((course: Course) => {
-            this.allCoursesList.push(course);
-            this.initializeCourseTabModule(course);
-          });
-          this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
-          this.sortCoursesBy(this.instructorCoursesSortBy);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.hasCoursesLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+        }))
+        .subscribe({
+          next: (courses: Courses) => {
+            courses.courses.forEach((course: Course) => {
+              this.allCoursesList.push(course);
+              this.initializeCourseTabModule(course);
+            });
+            this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
+            this.sortCoursesBy(this.instructorCoursesSortBy);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.hasCoursesLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
     this.courseService.getAllCoursesAsInstructor('archived').subscribe({
       next: (resp: Courses) => {
         this.allCoursesList.push(...resp.courses);
@@ -415,8 +413,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Sorts the panels of courses in order.
    */
-  sortPanelsBy(by: SortBy): (a: { course: Course }, b: { course: Course }) => number {
-    return (a: { course: Course }, b: { course: Course }): number => {
+  sortPanelsBy(by: SortBy):
+      ((a: { course: Course }, b: { course: Course }) => number) {
+    return ((a: { course: Course }, b: { course: Course }): number => {
       let strA: string;
       let strB: string;
       let order: SortOrder;
@@ -442,7 +441,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           order = SortOrder.ASC;
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    };
+    });
   }
 
   /**
@@ -477,10 +476,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         .subscribe({
           next: () => {
             this.courseTabModels[tabIndex].sessionsTableRowModels.splice(
-              this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model), 1);
+                this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model), 1);
             this.statusMessageService.showSuccessToast(
-              "The feedback session has been deleted. You can restore it from the 'Sessions' tab.",
-            );
+                "The feedback session has been deleted. You can restore it from the 'Sessions' tab.");
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
@@ -497,14 +495,14 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.coursesOfModifiedSession = [];
     this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
-      this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+        this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
       this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
-            this.isCopyLoading = false;
-          }))
+          this.isCopyLoading = false;
+        }))
         .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
             newSessions.forEach((session: FeedbackSession) => {

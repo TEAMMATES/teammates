@@ -13,26 +13,30 @@ import { StudentService } from '../../services/student.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
 import { TimezoneService } from '../../services/timezone.service';
 import {
-    FeedbackSessionSubmittedGiverSet, Instructor, Instructors,
-    Student, Students,
+  FeedbackSessionSubmittedGiverSet, Instructor, Instructors,
+  Student, Students,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import {
-    ResendResultsLinkToRespondentModalComponent,
+  ResendResultsLinkToRespondentModalComponent,
 } from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import {
     InstructorListInfoTableRowModel,
     StudentListInfoTableRowModel,
 } from '../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import {
-    SendRemindersToRespondentsModalComponent,
+  SendRemindersToRespondentsModalComponent,
 } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import {
     ReminderResponseModel,
 } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
-import { SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
+import {
+  SessionsTableRowModel,
+} from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { InstructorSessionBasePageComponent } from './instructor-session-base-page.component';
+import {
+  InstructorSessionBasePageComponent,
+} from './instructor-session-base-page.component';
 
 /**
  * The base page for session related page.
@@ -52,11 +56,10 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         progressBarService: ProgressBarService,
                         feedbackSessionActionsService: FeedbackSessionActionsService,
                         timezoneService: TimezoneService,
-                        protected studentService: StudentService,
-  ) {
+                        protected studentService: StudentService) {
     super(instructorService, statusMessageService, navigationService,
-      feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
-      ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
+        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService);
   }
 
   /**
@@ -71,9 +74,8 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
       this.studentService.getStudentsFromCourse({ courseId }),
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
     ]).pipe(finalize(() => {
-          this.isSendReminderLoading = false;
-        }),
-      )
+      this.isSendReminderLoading = false;
+    }))
       .subscribe({
         next: (result: any[]) => {
           const students: Student[] = (result[0] as Students).students;
@@ -84,23 +86,23 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
           modalRef.componentInstance.courseId = courseId;
           modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
           modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
-                  email: student.email,
-                  name: student.name,
-                  teamName: student.teamName,
-                  sectionName: student.sectionName,
+            email: student.email,
+            name: student.name,
+            teamName: student.teamName,
+            sectionName: student.sectionName,
 
-                  hasSubmittedSession: false,
+            hasSubmittedSession: false,
 
-                  isSelected: false,
-            } as StudentListInfoTableRowModel));
+            isSelected: false,
+          } as StudentListInfoTableRowModel));
           modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map((instructor: Instructor) => ({
-                  email: instructor.email,
-                  name: instructor.name,
+            email: instructor.email,
+            name: instructor.name,
 
-                  hasSubmittedSession: false,
+            hasSubmittedSession: false,
 
-                  isSelected: false,
-                } as InstructorListInfoTableRowModel));
+            isSelected: false,
+          } as InstructorListInfoTableRowModel));
 
           modalRef.result.then((respondentsToRemind: any[]) => {
               this.isSendReminderLoading = true;

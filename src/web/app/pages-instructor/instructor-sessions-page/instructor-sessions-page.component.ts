@@ -75,8 +75,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   SortOrder: typeof SortOrder = SortOrder;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme =
-    SessionsTableHeaderColorScheme;
+  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = 
+ SessionsTableHeaderColorScheme;
 
   // url params
   courseId: string = '';

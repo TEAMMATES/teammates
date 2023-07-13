@@ -45,4 +45,4 @@ const routes: Routes = [
     ModifiedTimestampModalModule,
   ],
 })
-export class InstructorHomePageModule {}
+export class InstructorHomePageModule { }

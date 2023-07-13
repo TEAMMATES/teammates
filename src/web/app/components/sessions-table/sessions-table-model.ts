@@ -27,6 +27,7 @@ export interface CopySessionResult {
  * The column of the session table
  */
 export enum SessionsTableColumn {
+
   /**
    * Course ID column.
    */

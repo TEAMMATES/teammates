@@ -58,4 +58,4 @@ const routes: Routes = [
     ModifiedTimestampModalModule,
   ],
 })
-export class InstructorSessionsPageModule {}
+export class InstructorSessionsPageModule { }

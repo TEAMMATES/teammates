@@ -103,8 +103,7 @@
         <div class="card-body padding-0 table-responsive" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
           <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed"
             [message]="'Error loading feedback sessions'" (retryEvent)="loadFeedbackSessions(idx)">
-            <tm-sessions-table
-              *tmIsLoading="!courseTabModel.hasPopulated"
+            <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
               [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels"
               id = "sessions-table-{{ idx }}"
               [initialSortBy]="initialSortBy"
@@ -134,7 +133,7 @@
 </tm-loading-retry>
 
 <ng-template #modifiedTimestampsModal>
-  <tm-modified-timestamps-modal [coursesOfModifiedSession]="this.coursesOfModifiedSession" 
+  <tm-modified-timestamps-modal [coursesOfModifiedSession]="this.coursesOfModifiedSession"
     [modifiedSessions]="this.modifiedSession">
   </tm-modified-timestamps-modal>
 </ng-template>
