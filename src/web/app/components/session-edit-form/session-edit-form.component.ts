@@ -175,17 +175,17 @@ export class SessionEditFormComponent {
   /**
    * Gets the maximum date for a session to be opened.
    *
-   * <p> The maximum session opening datetime is 90 days from now.
+   * <p> The maximum session opening datetime is 12 months from now.
    */
   get maxDateForSubmissionStart(): DateFormat {
-    const ninetyDaysFromNow = moment().tz(this.model.timeZone).add(90, 'days');
-    return this.datetimeService.getDateInstance(ninetyDaysFromNow);
+    const twelveMonthsFromNow = moment().tz(this.model.timeZone).add(12, 'months');
+    return this.datetimeService.getDateInstance(twelveMonthsFromNow);
   }
 
   /**
    * Gets the maximum time for a session to be opened.
    *
-   * <p> The maximum session opening datetime is 90 days from now.
+   * <p> The maximum session opening time is 23:59h.
    */
   get maxTimeForSubmissionStart(): TimeFormat {
     return getLatestTimeFormat();
@@ -232,17 +232,17 @@ export class SessionEditFormComponent {
   /**
    * Gets the maximum date for a session to be closed.
    *
-   * <p> The maximum session closing datetime is 180 days from now.
+   * <p> The maximum session closing datetime is 12 months from now.
    */
   get maxDateForSubmissionEnd(): DateFormat {
-    const oneHundredAndEightyDaysFromNow = moment().tz(this.model.timeZone).add(180, 'days');
-    return this.datetimeService.getDateInstance(oneHundredAndEightyDaysFromNow);
+    const twelveMonthsFromNow = moment().tz(this.model.timeZone).add(12, 'months');
+    return this.datetimeService.getDateInstance(twelveMonthsFromNow);
   }
 
   /**
    * Gets the maximum time for a session to be closed.
    *
-   * <p> The maximum session closing datetime is 180 days from now.
+   * <p> The maximum session closing time is 23:59H.
    */
   get maxTimeForSubmissionEnd(): TimeFormat {
     return getLatestTimeFormat();
