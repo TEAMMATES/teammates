@@ -49,6 +49,7 @@ export interface SortableTableCellData {
   styleUrls: ['./sortable-table.component.scss'],
 })
 export class SortableTableComponent implements OnInit, OnChanges {
+
   // enum
   SortOrder: typeof SortOrder = SortOrder;
 
@@ -75,7 +76,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
   tableRows: SortableTableCellData[][] = [];
   setMainTableStyle: boolean = true;
 
-  constructor(private tableComparatorService: TableComparatorService) {}
+  constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.tableRows = this.rows;
@@ -106,7 +107,8 @@ export class SortableTableComponent implements OnInit, OnChanges {
     if (!this.columnToSortBy) {
       return;
     }
-    const columnIndex: number = this.columns.findIndex((column: ColumnData) => column.header === this.columnToSortBy);
+    const columnIndex: number = this.columns.findIndex(
+        (column: ColumnData) => column.header === this.columnToSortBy);
     if (columnIndex < 0) {
       return;
     }
@@ -117,11 +119,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
     this.tableRows.sort((row1: any[], row2: any[]) => {
       return this.tableComparatorService.compare(
-        sortBy,
-        this.sortOrder,
-        String(row1[columnIndex].value),
-        String(row2[columnIndex].value),
-      );
+          sortBy, this.sortOrder, String(row1[columnIndex].value), String(row2[columnIndex].value));
     });
   }
 
@@ -129,9 +127,8 @@ export class SortableTableComponent implements OnInit, OnChanges {
    * Sorts the table with an initial SortBy
    */
   initialSort(): void {
-    const indexOfColumnToSort: number = this.columns.findIndex(
-      (column: ColumnData) => column.sortBy === this.initialSortBy,
-    );
+    const indexOfColumnToSort: number =
+        this.columns.findIndex((column: ColumnData) => column.sortBy === this.initialSortBy);
     if (indexOfColumnToSort < 0) {
       return;
     }
