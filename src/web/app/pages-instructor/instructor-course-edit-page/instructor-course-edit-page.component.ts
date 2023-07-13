@@ -499,8 +499,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
             newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
             this.instructorDetailPanels.push(newDetailPanels);
-            this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully. `
-            + `An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
+            this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been added successfully. `
+            + `An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes.`);
 
             this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
