@@ -320,37 +320,35 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     }
 
     this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
-        feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
-        instructions: this.sessionEditFormModel.instructions,
+      feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
+      instructions: this.sessionEditFormModel.instructions,
 
-        submissionStartTimestamp: submissionStartTime,
-        submissionEndTimestamp: submissionEndTime,
-        gracePeriod: this.sessionEditFormModel.gracePeriod,
+      submissionStartTimestamp: submissionStartTime,
+      submissionEndTimestamp: submissionEndTime,
+      gracePeriod: this.sessionEditFormModel.gracePeriod,
 
-        sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-        customSessionVisibleTimestamp: sessionVisibleTime,
+      sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
+      customSessionVisibleTimestamp: sessionVisibleTime,
 
-        responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
-        customResponseVisibleTimestamp: responseVisibleTime,
+      responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
+      customResponseVisibleTimestamp: responseVisibleTime,
 
-        isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
-        isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-      }).subscribe({
-        next: (feedbackSession: FeedbackSession) => {
-          // begin to populate session with template
-          const templateSession: TemplateSession | undefined = this.feedbackSessionsService
-            .getTemplateSessions()
-            .find((t: TemplateSession) => t.name === this.sessionEditFormModel.templateSessionName);
-          if (!templateSession) {
-            return;
-          }
-          of(...templateSession.questions)
-            .pipe(
-              concatMap((question: FeedbackQuestion) => {
-                return this.feedbackQuestionsService.createFeedbackQuestion(
-                  feedbackSession.courseId,
-                  feedbackSession.feedbackSessionName,
-                  {
+      isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
+      isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+    }).subscribe({
+      next: (feedbackSession: FeedbackSession) => {
+
+        // begin to populate session with template
+        const templateSession: TemplateSession | undefined =
+            this.feedbackSessionsService.getTemplateSessions().find(
+                (t: TemplateSession) => t.name === this.sessionEditFormModel.templateSessionName);
+        if (!templateSession) {
+          return;
+        }
+        of(...templateSession.questions).pipe(
+            concatMap((question: FeedbackQuestion) => {
+              return this.feedbackQuestionsService.createFeedbackQuestion(
+                  feedbackSession.courseId, feedbackSession.feedbackSessionName, {
                     questionNumber: question.questionNumber,
                     questionBrief: question.questionBrief,
                     questionDescription: question.questionDescription,
@@ -417,7 +415,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadFeedbackSessions(): void {
     this.isFeedbackSessionsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
-      .pipe(finalize(() => {
+        .pipe(finalize(() => {
           this.isFeedbackSessionsLoading = false;
         }),
       )
@@ -473,29 +471,30 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
     this.isRestoreFeedbackSessionLoading = true;
-    this.feedbackSessionsService
-      .deleteSessionFromRecycleBin(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
-      .pipe(
-        finalize(() => {
+    this.feedbackSessionsService.deleteSessionFromRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
+        .pipe(finalize(() => {
           this.isRestoreFeedbackSessionLoading = false;
-        }),
-      )
-      .subscribe({
-        next: (feedbackSession: FeedbackSession) => {
-          this.recycleBinFeedbackSessionRowModels.splice(this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
-          const m: SessionsTableRowModel = {
-            feedbackSession,
-            responseRate: '',
-            isLoadingResponseRate: false,
-            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
-          };
-          this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
-          this.statusMessageService.showSuccessToast('The feedback session has been restored.');
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+        }))
+        .subscribe({
+          next: (feedbackSession: FeedbackSession) => {
+            this.recycleBinFeedbackSessionRowModels.splice(
+                this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
+            const m: SessionsTableRowModel = {
+              feedbackSession,
+              responseRate: '',
+              isLoadingResponseRate: false,
+              instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
+            };
+            this.sessionsTableRowModels.push(m);
+            this.statusMessageService.showSuccessToast('The feedback session has been restored.');
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
   }
 
   /**
@@ -504,26 +503,26 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   moveSessionToRecycleBinEventHandler(rowIndex: Index): void {
     this.isMoveToRecycleBinLoading = true;
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-    this.feedbackSessionsService
-      .moveSessionToRecycleBin(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
-      .pipe(
-        finalize(() => {
+    this.feedbackSessionsService.moveSessionToRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
+        .pipe(finalize(() => {
           this.isMoveToRecycleBinLoading = false;
         }))
-      .subscribe({
-        next: (feedbackSession: FeedbackSession) => {
-          this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
-          this.recycleBinFeedbackSessionRowModels.push({
-            feedbackSession,
-          });
-          this.statusMessageService.showSuccessToast(
-            'The feedback session has been deleted. You can restore it from the deleted sessions table below.',
-          );
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+        .subscribe({
+          next: (feedbackSession: FeedbackSession) => {
+            this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
+            this.recycleBinFeedbackSessionRowModels.push({
+              feedbackSession,
+            });
+            this.statusMessageService.showSuccessToast('The feedback session has been deleted. '
+                + 'You can restore it from the deleted sessions table below.');
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
   }
 
   /**
@@ -535,14 +534,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.coursesOfModifiedSession = [];
     this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
-      this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+        this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
       this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
-            this.isCopySessionLoading = false;
-          }))
+        this.isCopySessionLoading = false;
+      }))
         .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
             newSessions.forEach((session: FeedbackSession) => {
@@ -596,13 +595,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.feedbackSessionsService.getFeedbackSessionsInRecycleBinForInstructor()
       .pipe(finalize(() => {
           this.isRecycleBinLoading = false;
-        }),
-      )
-      .subscribe({
-        next: (response: FeedbackSessions) => {
-          response.feedbackSessions.forEach((session: FeedbackSession) => {
-            this.recycleBinFeedbackSessionRowModels.push({
-              feedbackSession: session,
+        }))
+        .subscribe({
+          next: (response: FeedbackSessions) => {
+            response.feedbackSessions.forEach((session: FeedbackSession) => {
+              this.recycleBinFeedbackSessionRowModels.push({
+                feedbackSession: session,
             });
           });
         },
@@ -702,11 +700,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             model.feedbackSession.courseId,
             model.feedbackSession.feedbackSessionName,
         ));
-        });
+      });
 
-        forkJoin(deleteRequests)
-          .pipe(
-            finalize(() => {
+      forkJoin(deleteRequests).pipe(finalize(() => {
               this.isPermanentDeleteLoading = false;
             }),
           )

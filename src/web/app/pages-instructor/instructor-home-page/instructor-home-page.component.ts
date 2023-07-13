@@ -214,9 +214,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                   if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
                     resolve();
                   }
-                }),
-              )
-              .subscribe();
+                }))
+                .subscribe();
             });
           });
 
