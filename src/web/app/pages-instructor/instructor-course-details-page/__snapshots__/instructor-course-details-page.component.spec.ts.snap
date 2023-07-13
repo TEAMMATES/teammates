@@ -514,7 +514,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     class="no-print align-center"
                   >
                     <a
-                      class="btn btn-light btn-sm btn-margin-right"
+                      class="btn btn-light btn-sm btn-margin-right custom-button"
                       href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
                       id="btn-view-details-CS101-0"
                       rel="noopener noreferrer"
@@ -523,7 +523,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                        View
                     </a>
                     <a
-                      class="btn btn-light btn-sm btn-margin-right"
+                      class="btn btn-light btn-sm btn-margin-right custom-button"
                       href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
                       id="btn-edit-details-CS101-0"
                       rel="noopener noreferrer"
@@ -532,19 +532,19 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                        Edit
                     </a>
                     <button
-                      class="btn btn-light btn-sm btn-margin-right"
+                      class="btn btn-light btn-sm btn-margin-right custom-button"
                       id="btn-send-invite-CS101-0"
                     >
                       Send Invite
                     </button>
                     <button
-                      class="btn btn-light btn-sm btn-margin-right"
+                      class="btn btn-light btn-sm btn-margin-right custom-button"
                       id="btn-delete-CS101-0"
                     >
                       Delete
                     </button>
                     <a
-                      class="btn btn-light btn-sm btn-margin-right"
+                      class="btn btn-light btn-sm btn-margin-right custom-button"
                       href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
                       id="btn-view-records-CS101-0"
                       rel="noopener noreferrer"
