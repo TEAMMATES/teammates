@@ -17,15 +17,19 @@ import {
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessionStats,
+  FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
+import { getDefaultDateFormat, getLatestTimeFormat } from '../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
+import { SessionEditFormModel } from '../components/session-edit-form/session-edit-form-model';
 import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
 import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../error-message-output';
@@ -42,6 +46,43 @@ export abstract class InstructorSessionBasePageComponent {
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+
+  sessionEditFormModel: SessionEditFormModel = {
+    courseId: '',
+    timeZone: 'UTC',
+    courseName: '',
+    feedbackSessionName: '',
+    instructions: '',
+
+    submissionStartTime: getLatestTimeFormat(),
+    submissionStartDate: getDefaultDateFormat(),
+    submissionEndTime: getLatestTimeFormat(),
+    submissionEndDate: getDefaultDateFormat(),
+    gracePeriod: 0,
+
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    customSessionVisibleTime: getLatestTimeFormat(),
+    customSessionVisibleDate: getDefaultDateFormat(),
+
+    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    customResponseVisibleTime: getLatestTimeFormat(),
+    customResponseVisibleDate: getDefaultDateFormat(),
+
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+
+    templateSessionName: '',
+
+    isSaving: false,
+    isEditable: false,
+    isDeleting: false,
+    isCopying: false,
+    hasVisibleSettingsPanelExpanded: false,
+    hasEmailSettingsPanelExpanded: false,
+  };
 
   protected constructor(protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
@@ -469,6 +510,46 @@ export abstract class InstructorSessionBasePageComponent {
     const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
     modal.componentInstance.requestId = resp.error.requestId;
     modal.componentInstance.errorMessage = resp.error.message;
+  }
+
+  triggerModelChange(data: SessionEditFormModel): void {
+    const { submissionStartDate, submissionEndDate, submissionStartTime, submissionEndTime } = data;
+
+    const startDate = new Date(submissionStartDate.year, submissionStartDate.month, submissionStartDate.day);
+    const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
+
+    if (startDate > endDate) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: submissionStartDate,
+        submissionEndTime:
+          submissionStartTime.hour > submissionEndTime.hour || (
+            submissionStartTime.hour === submissionEndTime.hour
+            && submissionStartTime.minute > submissionEndTime.minute
+          )
+            ? submissionStartTime
+            : submissionEndTime,
+      };
+    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour > submissionEndTime.hour) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: submissionStartDate,
+        submissionEndTime: {
+          ...submissionStartTime,
+          hour: submissionStartTime.hour,
+        },
+      };
+    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour === submissionEndTime.hour
+        && submissionStartTime.minute > submissionEndTime.minute) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: submissionStartDate,
+        submissionEndTime: {
+          ...submissionStartTime,
+          minute: submissionStartTime.minute,
+        },
+      };
+    }
   }
 }
 

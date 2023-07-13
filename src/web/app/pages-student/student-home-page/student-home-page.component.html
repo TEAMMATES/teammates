@@ -63,10 +63,10 @@
                       {{ session.isPublished | sessionResponseStatus }}
                     </span>
                   </td>
-                  <td>
+                  <td class="text-center">
                     <a [ngClass]="{'disabled' : !session.isPublished}"
                        tmRouterLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                       id="view-responses-btn-{{i}}" class="btn btn-light btn-sm btn-margin-right">
+                       id="view-responses-btn-{{i}}" class="btn btn-light btn-sm btn-margin-right custom-button">
                       View Responses
                     </a>
                     <a *ngIf="session.isWaitingToOpen" id="disabled-start-submit-btn-{{i}}" class="btn btn-light btn-sm disabled">
@@ -76,20 +76,20 @@
                        tmRouterLink="/web/student/sessions/submission"
                        [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                        id="start-submit-btn-{{i}}"
-                       class="btn btn-light btn-sm">
+                       class="btn btn-light btn-sm custom-button">
                       Start Submission
                     </a>
                     <a *ngIf="session.isOpened && session.isSubmitted"
                        tmRouterLink="/web/student/sessions/submission"
                        [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                        id="edit-submit-btn-{{i}}"
-                       class="btn btn-light btn-sm">
+                       class="btn btn-light btn-sm custom-button">
                       Edit Submission
                     </a>
                     <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
                        tmRouterLink="/web/student/sessions/submission"
                        [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                       id="view-submit-btn-{{i}}" class="btn btn-light btn-sm">
+                       id="view-submit-btn-{{i}}" class="btn btn-light btn-sm custom-button">
                       View Submission
                     </a>
                   </td>

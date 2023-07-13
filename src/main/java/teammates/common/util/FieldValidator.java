@@ -645,7 +645,7 @@ public final class FieldValidator {
      * Checks if the {@code startTime} is valid to be used as a session start time.
      * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p>The {@code startTime} is valid if it is after 2 hours before now, before 90 days from now
+     * <p>The {@code startTime} is valid if it is after 2 hours before now, before 12 months from now
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForNewStartTime(Instant startTime, String timeZone) {
@@ -655,18 +655,20 @@ public final class FieldValidator {
                 "2 hours before now", SESSION_START_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be earlier than %s.");
+
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
             return earlierThanThreeHoursBeforeNowError;
         }
 
-        Instant ninetyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(90);
-        String laterThanNinetyDaysFromNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
-                ninetyDaysFromNow, startTime, SESSION_NAME,
-                "90 days from now", SESSION_START_TIME_FIELD_NAME,
+        Instant twelveMonthsFromNow = TimeHelper.getInstantMonthsOffsetFromNow(12, timeZone);
+        String laterThanTwelveMonthsFromNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                twelveMonthsFromNow, startTime, SESSION_NAME,
+                "12 months from now", SESSION_START_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be later than %s.");
-        if (!laterThanNinetyDaysFromNowError.isEmpty()) {
-            return laterThanNinetyDaysFromNowError;
+
+        if (!laterThanTwelveMonthsFromNowError.isEmpty()) {
+            return laterThanTwelveMonthsFromNowError;
         }
 
         String notExactHourError = getInvalidityInfoForExactHourTime(startTime, timeZone, "start time");
@@ -681,7 +683,7 @@ public final class FieldValidator {
      * Checks if the {@code endTime} is valid to be used as a session end time.
      * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p>The {@code endTime} is valid if it is after 1 hour before now, before 180 days from now
+     * <p>The {@code endTime} is valid if it is after 1 hour before now, before 12 months from now
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForNewEndTime(Instant endTime, String timeZone) {
@@ -695,14 +697,14 @@ public final class FieldValidator {
             return earlierThanThreeHoursBeforeNowError;
         }
 
-        Instant oneHundredEightyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(180);
-        String laterThanOneHundredEightyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
-                oneHundredEightyDaysFromNow, endTime, SESSION_NAME,
-                "180 days from now", SESSION_END_TIME_FIELD_NAME,
+        Instant twelveMonthsFromNow = TimeHelper.getInstantMonthsOffsetFromNow(12, timeZone);
+        String laterThanTwelveMonthsError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                twelveMonthsFromNow, endTime, SESSION_NAME,
+                "12 months from now", SESSION_END_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be later than %s.");
-        if (!laterThanOneHundredEightyDaysError.isEmpty()) {
-            return laterThanOneHundredEightyDaysError;
+        if (!laterThanTwelveMonthsError.isEmpty()) {
+            return laterThanTwelveMonthsError;
         }
 
         String notExactHourError = getInvalidityInfoForExactHourTime(endTime, timeZone, "end time");
