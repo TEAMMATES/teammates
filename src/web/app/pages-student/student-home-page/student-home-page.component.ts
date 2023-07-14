@@ -66,7 +66,7 @@ export class StudentHomePageComponent implements OnInit {
 
   // Error messages
   allStudentFeedbackSessionsNotReturned: string =
-    'Something went wrong with fetching responses for all Feedback Sessions.';
+      'Something went wrong with fetching responses for all Feedback Sessions.';
 
   courses: StudentCourse[] = [];
   isCoursesLoading: boolean = false;
@@ -77,14 +77,12 @@ export class StudentHomePageComponent implements OnInit {
   sessionSubmissionStatusPipe = new SubmissionStatusPipe();
   formatDateDetailPipe = new FormatDateDetailPipe(this.timezoneService);
 
-  constructor(
-    private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private courseService: CourseService,
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
     private timezoneService: TimezoneService,
-    private tableComparatorService: TableComparatorService,
-  ) {
+    private tableComparatorService: TableComparatorService) {
     this.timezoneService.getTzVersion();
   }
 
@@ -101,13 +99,8 @@ export class StudentHomePageComponent implements OnInit {
     this.hasCoursesLoadingFailed = false;
     this.isCoursesLoading = true;
     this.courses = [];
-    this.courseService
-      .getAllCoursesAsStudent()
-      .pipe(
-        finalize(() => {
-          this.isCoursesLoading = false;
-        }),
-      )
+    this.courseService.getAllCoursesAsStudent()
+      .pipe(finalize(() => { this.isCoursesLoading = false; }))
       .subscribe({
         next: (resp: Courses) => {
           resp.courses.forEach((course: Course) => {
@@ -252,11 +245,7 @@ export class StudentHomePageComponent implements OnInit {
   getSubmissionStatus(session: StudentSession): string {
     const hasStudentExtension = this.hasStudentExtension(session.session);
     return this.sessionSubmissionStatusPipe.transform(
-      session.isOpened,
-      session.isWaitingToOpen,
-      session.isSubmitted,
-      hasStudentExtension,
-    );
+      session.isOpened, session.isWaitingToOpen, session.isSubmitted, hasStudentExtension);
   }
 
   /**
@@ -273,10 +262,8 @@ export class StudentHomePageComponent implements OnInit {
       return '';
     }
     const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
-    return (
-      `The session's original end date is ${originalEndTime}.`
-      + ' An instructor has granted you an extension to this date.'
-    );
+    return `The session's original end date is ${originalEndTime}.`
+      + ' An instructor has granted you an extension to this date.';
   }
 
   hasStudentExtension(session: FeedbackSession): boolean {
@@ -325,8 +312,8 @@ export class StudentHomePageComponent implements OnInit {
     });
   }
 
-  sortPanelsBy(by: SortBy): (a: StudentCourse, b: StudentCourse) => number {
-    return (a: StudentCourse, b: StudentCourse): number => {
+  sortPanelsBy(by: SortBy): ((a: StudentCourse, b: StudentCourse) => number) {
+    return ((a: StudentCourse, b: StudentCourse): number => {
       let strA: string;
       let strB: string;
       let sortOrder: SortOrder;
@@ -352,6 +339,6 @@ export class StudentHomePageComponent implements OnInit {
           sortOrder = SortOrder.ASC;
       }
       return this.tableComparatorService.compare(by, sortOrder, strA, strB);
-    };
+    });
   }
 }

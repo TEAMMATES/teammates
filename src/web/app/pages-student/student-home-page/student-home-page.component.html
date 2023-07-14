@@ -36,16 +36,10 @@
             this.loadFeedbackSessionsForCourse(course.courseId)
           "
         >
-          <strong class="text-break"
-            >[{{ course.courseId }}]: {{ course.courseName }}</strong
-          >
+          <strong class="text-break">[{{ course.courseId }}]: {{ course.courseName }}</strong>
           <div class="card-header-btn-toolbar">
-            <a
-              tmRouterLink="/web/student/course"
-              [queryParams]="{ courseid: course.courseId }"
-              id="view-team-btn-{{ i }}"
-              class="btn btn-primary btn-sm button text-nowrap me-2"
-            >
+            <a tmRouterLink="/web/student/course" [queryParams]="{ courseid: course.courseId }"
+              id="view-team-btn-{{ i }}" class="btn btn-primary btn-sm button text-nowrap me-2">
               View team
             </a>
             <tm-panel-chevron

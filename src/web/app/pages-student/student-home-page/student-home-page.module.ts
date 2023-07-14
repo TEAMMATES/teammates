@@ -39,4 +39,4 @@ const routes: Routes = [
     PanelChevronModule,
   ],
 })
-export class StudentHomePageModule {}
+export class StudentHomePageModule { }
