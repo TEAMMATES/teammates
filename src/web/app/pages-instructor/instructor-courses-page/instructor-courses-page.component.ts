@@ -260,8 +260,8 @@ export class InstructorCoursesPageComponent implements OnInit {
       next: (courseArchive: CourseArchive) => {
         if (courseArchive.isArchived) {
           this.changeModelFromActiveToArchived(courseId);
-          this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived.
-          It will not appear on the home page anymore.`);
+          this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived. `
+          + 'It will not appear on the home page anymore.');
         } else {
           this.changeModelFromArchivedToActive(courseId);
           this.statusMessageService.showSuccessToast('The course has been unarchived.');
