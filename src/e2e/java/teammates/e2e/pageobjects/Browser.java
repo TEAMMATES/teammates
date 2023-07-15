@@ -209,6 +209,7 @@ public class Browser {
             edgePrefs.put("download.prompt_for_download", false);
             EdgeOptions options = new EdgeOptions();
             options.setExperimentalOption("prefs", edgePrefs);
+            options.addArguments("--remote-allow-origins=*");
             if (TestProperties.isDevServer()) {
                 options.addArguments("-inprivate");
             }
