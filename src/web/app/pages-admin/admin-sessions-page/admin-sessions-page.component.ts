@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
-import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 
 interface OngoingSessionModel {
   ongoingSession: OngoingSession;
@@ -71,7 +71,6 @@ export class AdminSessionsPageComponent implements OnInit {
 ];
 
   selectedSort:SortBy = SortBy.NONE;
-  
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
@@ -106,13 +105,12 @@ export class AdminSessionsPageComponent implements OnInit {
 
     this.getFeedbackSessions();
   }
-  
   /**
    * Populates the Sortable Table Data to be displayed
    */
   populateSortableTable(): void {
-  this.sortableTable=[];
-  Object.entries(this.sessions).forEach((kvp)=>{
+  this.sortableTable = [];
+  Object.entries(this.sessions).forEach((kvp) => {
     this.sortableTable.push({
       institute:kvp[0],
       columns:this.column,
