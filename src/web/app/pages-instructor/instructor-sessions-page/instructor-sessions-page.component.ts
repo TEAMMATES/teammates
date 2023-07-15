@@ -125,6 +125,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       ...this.sessionEditFormModel,
       isEditable: true,
       gracePeriod: 15,
+      responseVisibleSetting: ResponseVisibleSetting.LATER,
+      instructions: 'Please answer all the given questions.',
     };
   }
   ngOnInit(): void {
