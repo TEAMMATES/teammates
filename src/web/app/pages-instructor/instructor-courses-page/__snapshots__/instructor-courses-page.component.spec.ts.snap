@@ -206,13 +206,13 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                 class="text-center actions-cell"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm custom-button-archived"
                   id="btn-unarchive-0"
                 >
                    Unarchive 
                 </button>
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm custom-button-archived"
                   id="btn-soft-delete-archived-0"
                   ngbtooltip="Delete the course and its corresponding students and sessions"
                 >
@@ -246,7 +246,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                 class="text-center actions-cell"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm custom-button-archived"
                   id="btn-unarchive-1"
                 >
                    Unarchive 
@@ -537,7 +537,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   class="text-center actions-cell"
                 >
                   <a
-                    class="btn btn-light btn-sm"
+                    class="btn btn-light btn-sm custom-button-active"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
@@ -551,7 +551,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
+                      class="dropdown-toggle btn btn-light btn-sm custom-button-active"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -661,7 +661,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
+                      class="dropdown-toggle btn btn-light btn-sm custom-button-active"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >
@@ -875,7 +875,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
         class="card"
       >
         <div
-          class="card-header bg-primary text-white"
+          class="card-header bg-primary text-white add-mode"
         >
           <strong
             style=""
@@ -1303,7 +1303,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   class="text-center actions-cell"
                 >
                   <a
-                    class="btn btn-light btn-sm"
+                    class="btn btn-light btn-sm custom-button-active"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
@@ -1317,7 +1317,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
+                      class="dropdown-toggle btn btn-light btn-sm custom-button-active"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -1427,7 +1427,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
+                      class="dropdown-toggle btn btn-light btn-sm custom-button-active"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >
@@ -1859,7 +1859,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   class="text-center actions-cell"
                 >
                   <a
-                    class="btn btn-light btn-sm"
+                    class="btn btn-light btn-sm custom-button-active"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
@@ -1873,7 +1873,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
+                      class="dropdown-toggle btn btn-light btn-sm custom-button-active"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -1993,7 +1993,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
+                      class="dropdown-toggle btn btn-light btn-sm custom-button-active"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >

@@ -499,8 +499,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
             newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
             this.instructorDetailPanels.push(newDetailPanels);
-            this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
-          An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
+            this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been added successfully. `
+            + `An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes.`);
 
             this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
@@ -779,8 +779,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(err.error.message);
       },
       complete: () => {
-        this.statusMessageService.showSuccessToast(`The selected instructor(s) have been added successfully.
-      An email containing how to 'join' this course will be sent to them in a few minutes.`);
+        this.statusMessageService.showSuccessToast('The selected instructor(s) have been added successfully. '
+        + 'An email containing how to \'join\' this course will be sent to them in a few minutes.');
       },
     });
   }
@@ -801,8 +801,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const emailSet: Set<string> = new Set();
         for (const instructor of allInstructorsAfterCopy) {
           if (emailSet.has(instructor.email)) {
-            this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} 
-            already exists in the course and/or you have selected more than one instructor with this email address.`);
+            this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} already `
+            + 'exists in the course and/or you have selected more than one instructor with this email address.');
             return false;
           }
           emailSet.add(instructor.email);

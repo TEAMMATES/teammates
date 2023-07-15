@@ -135,7 +135,7 @@
                 </span>
               </td>
               <td class="text-center actions-cell">
-                <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
+                <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm custom-button-active" *ngIf="course.canModifyStudent"
                   ngbTooltip="Enroll student into the course" tmRouterLink="/web/instructor/courses/enroll"
                   [queryParams]="{courseid: course.course.courseId}">
                   Enroll
@@ -145,7 +145,7 @@
                   Enroll
                 </button>
                 <div ngbDropdown class="d-inline-block">
-                  <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm" ngbDropdownToggle>Other
+                  <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm custom-button-active" ngbDropdownToggle>Other
                     Actions</button>
                   <div ngbDropdownMenu>
                     <a class="btn btn-primary btn-sm dropdown-item clickable"
@@ -272,11 +272,11 @@
                 | date:'d MMM yyyy'}}</span>
             </td>
             <td class="text-center actions-cell">
-              <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm"
+              <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm custom-button-archived"
                 (click)="changeArchiveStatus(course.course.courseId, false)">
                 Unarchive
               </button>
-              <button id="btn-soft-delete-archived-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"
+              <button id="btn-soft-delete-archived-{{ i }}" class="btn btn-light btn-sm custom-button-archived" *ngIf="course.canModifyCourse"
                 (click)="onDelete(course.course.courseId)"
                 ngbTooltip="Delete the course and its corresponding students and sessions">
                 Delete

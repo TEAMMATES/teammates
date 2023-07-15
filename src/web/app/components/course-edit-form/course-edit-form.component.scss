@@ -6,3 +6,13 @@
 .fill-plain {
   background-color: #EAEFF5;
 }
+
+@media (max-width: 576px) {
+  .add-mode {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}

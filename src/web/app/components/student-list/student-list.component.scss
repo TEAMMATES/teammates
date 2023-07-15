@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+@media (max-width: 768px) { //applies only to mobile screens
+  .custom-button {
+    width: 90px;
+    margin-bottom: 5px;
+  }
+}
+
 .table .thead-gray th {
   color: #495057;
   background-color: #DADADA;
