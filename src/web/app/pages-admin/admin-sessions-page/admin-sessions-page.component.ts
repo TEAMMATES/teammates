@@ -3,10 +3,10 @@ import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -112,13 +112,13 @@ export class AdminSessionsPageComponent implements OnInit {
   this.sortableTable = [];
   Object.entries(this.sessions).forEach((kvp) => {
     this.sortableTable.push({
-      institute:kvp[0],
-      columns:this.column,
-      rows: kvp[1].map((session):SortableTableCellData[]=>{
+      institute: kvp[0],
+      columns: this.column,
+      rows: kvp[1].map((session):SortableTableCellData[] => {
         return [
           { displayValue: session.ongoingSession.sessionStatus },
-          { displayValue: '['+session.ongoingSession.courseId+'] '+session.ongoingSession.feedbackSessionName },
-          { displayValue: ''},
+          { displayValue: '[' + session.ongoingSession.courseId + '] ' + session.ongoingSession.feedbackSessionName },
+          { displayValue: '' },
           { value: session.startTimeString },
           { value: session.endTimeString },
           { displayValue: session.ongoingSession.creatorEmail },
