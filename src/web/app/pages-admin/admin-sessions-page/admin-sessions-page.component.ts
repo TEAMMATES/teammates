@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
+import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
-import { SortBy } from 'src/web/types/sort-properties';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 
 interface OngoingSessionModel {
   ongoingSession: OngoingSession;
@@ -18,9 +19,9 @@ interface OngoingSessionModel {
   responseRate?: string;
 }
 interface SortableTable {
+  institute: string;
   columns: ColumnData[];
   rows: SortableTableCellData[][];
-  institute?: string;
 }
 /**
  * Admin sessions page.
@@ -58,19 +59,23 @@ export class AdminSessionsPageComponent implements OnInit {
 
   isLoadingOngoingSessions: boolean = false;
 
-  SortBy: typeof SortBy=SortBy;
-  sortableTables: SortableTable[]=[];
-  column: ColumnData[] = [ 
-    { header: 'Status'},
-    { header: '[Course ID] Session Name'},
-    { header: 'Response Rate'},
-    { header: 'Start Time', sortBy: SortBy.SESSION_START_DATE},
-    { header: 'End Time', sortBy: SortBy.SESSION_END_DATE},
-    { header: 'Creator'},
+  SortBy: typeof SortBy = SortBy;
+  sortableTable: SortableTable[] = [];
+  column: ColumnData[] = [
+    { header: 'Status' },
+    { header: '[Course ID] Session Name' },
+    { header: 'Response Rate' },
+    { header: 'Start Time', sortBy: SortBy.SESSION_START_DATE },
+    { header: 'End Time', sortBy: SortBy.SESSION_END_DATE },
+    { header: 'Creator' },
 ];
+
+  selectedSort:SortBy = SortBy.NONE;
+  
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
-              private feedbackSessionsService: FeedbackSessionsService) {}
+              private feedbackSessionsService: FeedbackSessionsService,
+              private tableComparatorService: TableComparatorService) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -101,29 +106,29 @@ export class AdminSessionsPageComponent implements OnInit {
 
     this.getFeedbackSessions();
   }
-  num: number=0;
+  
   /**
    * Populates the Sortable Table Data to be displayed
    */
   populateSortableTable(): void {
-  this.sortableTables=[];
-  this.num=0;
-  const key= Object.keys(this.sessions)
-    Object.values(this.sessions).forEach((ongoingSessionModelArray)=>{ 
-      this.sortableTables.push({
-        columns: this.column ,
-        rows: ongoingSessionModelArray.map((session): SortableTableCellData[]=>{
-          return [
-            { displayValue: session.ongoingSession.sessionStatus },
-            { displayValue: '['+session.ongoingSession.courseId+'] '+session.ongoingSession.feedbackSessionName },
-            { displayValue: ''},
-            { displayValue: session.startTimeString },
-            { displayValue: session.endTimeString },
-            { displayValue: session.ongoingSession.creatorEmail },
-          ]}),
-        institute: key[this.num],
-      } )
-    this.num++;
+  this.sortableTable=[];
+  Object.entries(this.sessions).forEach((kvp)=>{
+    this.sortableTable.push({
+      institute:kvp[0],
+      columns:this.column,
+      rows: kvp[1].map((session):SortableTableCellData[]=>{
+        return [
+          { displayValue: session.ongoingSession.sessionStatus },
+          { displayValue: '['+session.ongoingSession.courseId+'] '+session.ongoingSession.feedbackSessionName },
+          { displayValue: ''},
+          { value: session.startTimeString },
+          { value: session.endTimeString },
+          { displayValue: session.ongoingSession.creatorEmail },
+        ]
+      })
+    });
+    this.getResponseRate(kvp[0]);
+    
   })
 }
 
@@ -205,28 +210,25 @@ export class AdminSessionsPageComponent implements OnInit {
   }
 
   /**
-   * Gets the response rate of a feedback session.
+   * Gets the response rate of all ongoing sessions in a course.
    */
-  getResponseRate(institute: string, courseId: string, feedbackSessionName: string, event: any): void {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    this.feedbackSessionsService.loadSessionStatistics(courseId, feedbackSessionName)
-        .subscribe({
-          next: (resp: FeedbackSessionStats) => {
-            const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
-                session.ongoingSession.courseId === courseId
-                && session.ongoingSession.feedbackSessionName === feedbackSessionName,
-            );
-            if (sessions.length) {
-              sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-            }
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+  getResponseRate(institute: string): void {
+    this.sessions[institute].forEach((session)=>{
+      this.feedbackSessionsService.loadSessionStatistics(session.ongoingSession.courseId,session.ongoingSession.feedbackSessionName)
+      .subscribe({
+        next: (resp: FeedbackSessionStats) => {
+            this.sortableTable.forEach((data:SortableTable)=>{
+              data.rows.forEach((cellData:SortableTableCellData[])=>{
+                  if(cellData[1].displayValue==='['+session.ongoingSession.courseId+'] '+session.ongoingSession.feedbackSessionName)
+                  cellData[2].displayValue=`${resp.submittedTotal} / ${resp.expectedTotal}`
+              })
+            })
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+    })
   }
 
   updateDisplayedTimes(): void {
@@ -238,4 +240,36 @@ export class AdminSessionsPageComponent implements OnInit {
     }
   }
   
+  sortCoursesBy(by:SortBy):void{
+    this.selectedSort=by;
+    const copyTable:SortableTable[]=this.sortableTable;
+    copyTable.sort(this.sortPanelsBy(this.selectedSort))
+    this.sortableTable=copyTable;
+  }
+
+  sortPanelsBy(by: SortBy): ((a: SortableTable, b: SortableTable)
+  => number) {
+  return ((a: SortableTable, b: SortableTable): number => {
+    let strA: string;
+    let strB: string;
+    let sortOrder: SortOrder; 
+    switch (by) {
+      case SortBy.INSTITUTION_NAME:
+        strA = a.institute;
+        strB = b.institute
+        sortOrder = SortOrder.ASC
+        break;
+      case SortBy.INSTITUTION_SESSIONS_TOTAL:
+        strA = String(a.rows.length);
+        strB = String(b.rows.length);
+        sortOrder = SortOrder.DESC
+        break;
+      default:
+        strA = '';
+        strB = '';
+        sortOrder=SortOrder.ASC;
+    }
+    return this.tableComparatorService.compare(by, sortOrder, strA, strB);
+  });
+}
 }

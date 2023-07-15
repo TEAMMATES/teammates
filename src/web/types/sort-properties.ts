@@ -401,6 +401,16 @@ export enum SortBy {
      * The style of notification
      */
     NOTIFICATION_STYLE,
+
+    /**
+     * The name of the institution
+     */
+    INSTITUTION_NAME,
+
+    /**
+     * The total number of sessions of an institute
+     */
+    INSTITUTION_SESSIONS_TOTAL
 }
 
 /**

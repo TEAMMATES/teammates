@@ -111,16 +111,27 @@
         </select>
       </div>
     </div>
-    <div class="card bg-light margin-top-30px" *ngFor="let table of sortableTables">
-      <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[table.institute] = !institutionPanelsStatus[table.institute]">
-        <strong>{{table.institute}} - Number of sessions: {{ table.rows.length }}</strong>
-        <div class="card-header-btn-toolbar">
-          <tm-panel-chevron [isExpanded]="institutionPanelsStatus[table.institut]"></tm-panel-chevron>
+    <div class="row mt-3">
+      <div>
+        <div class="float-end">
+          <strong class="d-inline"> Sort By: </strong>
+          <div class="btn-group" data-toggle="buttons">
+            <button class="btn btn-light" [disabled]="selectedSort === SortBy.INSTITUTION_NAME" (click)="sortCoursesBy(SortBy.INSTITUTION_NAME)">Institution Name</button>
+            <button class="btn btn-light" [disabled]="selectedSort === SortBy.INSTITUTION_SESSIONS_TOTAL" (click)="sortCoursesBy(SortBy.INSTITUTION_SESSIONS_TOTAL)">Institution Sessions Total</button>
+          </div>
         </div>
       </div>
-      <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[table.institute]" @collapseAnim>
+    </div>
+    <div class="card bg-light margin-top-30px" *ngFor="let item of sortableTable">
+      <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[item.institute] = !institutionPanelsStatus[item.institute]">
+        <strong>{{item.institute}} - Number of sessions: {{ item.rows.length }}</strong>
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="institutionPanelsStatus[item.institute]"></tm-panel-chevron>
+        </div>
+      </div>
+      <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[item.institute]" @collapseAnim >
         <div class="table-responsive">
-          <tm-sortable-table [rows]="table.rows" [columns]="table.columns" [initialSortBy]="SortBy.SESSION_START_DATE"></tm-sortable-table>
+          <tm-sortable-table [rows]="item.rows" [columns]="item.columns" [initialSortBy]="SortBy.SESSION_START_DATE"></tm-sortable-table>
         </div>
       </div>
     </div>
