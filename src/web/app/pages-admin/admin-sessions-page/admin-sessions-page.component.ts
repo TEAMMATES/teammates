@@ -70,7 +70,7 @@ export class AdminSessionsPageComponent implements OnInit {
     { header: 'Creator' },
 ];
 
-  selectedSort:SortBy = SortBy.NONE;
+  selectedSort:SortBy = SortBy.INSTITUTION_NAME;
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
@@ -117,17 +117,19 @@ export class AdminSessionsPageComponent implements OnInit {
       rows: kvp[1].map((session):SortableTableCellData[] => {
         return [
           { displayValue: session.ongoingSession.sessionStatus },
-          { displayValue: '[' + session.ongoingSession.courseId + '] ' + session.ongoingSession.feedbackSessionName },
+          {
+            displayValue: '['.concat(session.ongoingSession.courseId.concat('] '
+            .concat(session.ongoingSession.feedbackSessionName))),
+          },
           { displayValue: '' },
           { value: session.startTimeString },
           { value: session.endTimeString },
           { displayValue: session.ongoingSession.creatorEmail },
-        ]
-      })
+        ];
+      }),
     });
     this.getResponseRate(kvp[0]);
-    
-  })
+  });
 }
 
   /**
@@ -194,7 +196,6 @@ export class AdminSessionsPageComponent implements OnInit {
                 };
               });
             });
-            
             this.institutionPanelsStatus = {};
             for (const institution of Object.keys(resp.sessions)) {
               this.institutionPanelsStatus[institution] = true;
@@ -211,22 +212,26 @@ export class AdminSessionsPageComponent implements OnInit {
    * Gets the response rate of all ongoing sessions in a course.
    */
   getResponseRate(institute: string): void {
-    this.sessions[institute].forEach((session)=>{
-      this.feedbackSessionsService.loadSessionStatistics(session.ongoingSession.courseId,session.ongoingSession.feedbackSessionName)
+    this.sessions[institute].forEach((session) => {
+      this.feedbackSessionsService.loadSessionStatistics(
+        session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName)
       .subscribe({
         next: (resp: FeedbackSessionStats) => {
-            this.sortableTable.forEach((data:SortableTable)=>{
-              data.rows.forEach((cellData:SortableTableCellData[])=>{
-                  if(cellData[1].displayValue==='['+session.ongoingSession.courseId+'] '+session.ongoingSession.feedbackSessionName)
-                  cellData[2].displayValue=`${resp.submittedTotal} / ${resp.expectedTotal}`
-              })
-            })
+            this.sortableTable.forEach((data:SortableTable) => {
+              data.rows.forEach((cellData:SortableTableCellData[]) => {
+                  if (cellData[1].displayValue
+                    === '['.concat(session.ongoingSession.courseId.concat('] '
+                    .concat(session.ongoingSession.feedbackSessionName)))) {
+                        cellData[2].displayValue = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+                    }
+              });
+            });
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-    })
+    });
   }
 
   updateDisplayedTimes(): void {
@@ -237,12 +242,11 @@ export class AdminSessionsPageComponent implements OnInit {
       }
     }
   }
-  
-  sortCoursesBy(by:SortBy):void{
-    this.selectedSort=by;
-    const copyTable:SortableTable[]=this.sortableTable;
-    copyTable.sort(this.sortPanelsBy(this.selectedSort))
-    this.sortableTable=copyTable;
+  sortCoursesBy(by:SortBy):void {
+    this.selectedSort = by;
+    const copyTable:SortableTable[] = this.sortableTable;
+    copyTable.sort(this.sortPanelsBy(this.selectedSort));
+    this.sortableTable = copyTable;
   }
 
   sortPanelsBy(by: SortBy): ((a: SortableTable, b: SortableTable)
@@ -250,22 +254,22 @@ export class AdminSessionsPageComponent implements OnInit {
   return ((a: SortableTable, b: SortableTable): number => {
     let strA: string;
     let strB: string;
-    let sortOrder: SortOrder; 
+    let sortOrder: SortOrder;
     switch (by) {
       case SortBy.INSTITUTION_NAME:
         strA = a.institute;
-        strB = b.institute
-        sortOrder = SortOrder.ASC
+        strB = b.institute;
+        sortOrder = SortOrder.ASC;
         break;
       case SortBy.INSTITUTION_SESSIONS_TOTAL:
         strA = String(a.rows.length);
         strB = String(b.rows.length);
-        sortOrder = SortOrder.DESC
+        sortOrder = SortOrder.DESC;
         break;
       default:
         strA = '';
         strB = '';
-        sortOrder=SortOrder.ASC;
+        sortOrder = SortOrder.ASC;
     }
     return this.tableComparatorService.compare(by, sortOrder, strA, strB);
   });

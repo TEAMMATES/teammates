@@ -410,7 +410,7 @@ export enum SortBy {
     /**
      * The total number of sessions of an institute
      */
-    INSTITUTION_SESSIONS_TOTAL
+    INSTITUTION_SESSIONS_TOTAL,
 }
 
 /**

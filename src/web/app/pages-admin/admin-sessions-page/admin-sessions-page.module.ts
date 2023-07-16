@@ -5,8 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
-import { AdminSessionsPageComponent } from './admin-sessions-page.component';
 import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
+import { AdminSessionsPageComponent } from './admin-sessions-page.component';
 
 const routes: Routes = [
   {
