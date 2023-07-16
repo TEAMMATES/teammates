@@ -669,6 +669,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <div
                       inviewport=""
                     >
+                      <div>
+                         50 characters left 
+                      </div>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -1449,11 +1452,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <div
                                   inviewport=""
                                 >
-                                  <div
-                                    style=""
-                                  >
-                                     499 words left 
-                                  </div>
                                 </div>
                               </tm-rich-text-editor>
                             </div>
@@ -2177,11 +2175,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <div
                                   inviewport=""
                                 >
-                                  <div
-                                    style=""
-                                  >
-                                     499 words left 
-                                  </div>
                                 </div>
                               </tm-rich-text-editor>
                             </div>
@@ -3333,6 +3326,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     <div
                       inviewport=""
                     >
+                      <div>
+                         50 characters left 
+                      </div>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -4076,11 +4072,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             <div
                               inviewport=""
                             >
-                              <div
-                                style=""
-                              >
-                                 500 words left 
-                              </div>
                             </div>
                           </tm-rich-text-editor>
                         </div>
