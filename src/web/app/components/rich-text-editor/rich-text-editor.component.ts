@@ -77,7 +77,7 @@ export class RichTextEditorComponent implements OnInit {
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
             this.characterCount = this.getCurrentCharacterCount(editor);
-          })
+          });
           editor.on('keypress', (event:any) => {
             const currentCharacterCount = this.getCurrentCharacterCount(editor);
             if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
@@ -89,11 +89,11 @@ export class RichTextEditorComponent implements OnInit {
               const currentCharacterCount = this.getCurrentCharacterCount(editor);
               if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
                 event.preventDefault();
-                const currentContent = editor.getContent({ format:'text' });
+                const currentContent = editor.getContent({ format: 'text' });
                 const limitContent = currentContent.substring(0, RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH);
                 editor.setContent(limitContent);
 
-                //This sets the cursor to the end of the text.
+                // This sets the cursor to the end of the text.
                 editor.selection.select(editor.getBody(), true);
                 editor.selection.collapse(false);
               }
