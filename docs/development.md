@@ -186,17 +186,34 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
-### How to enter masquerade mode
-Masquerade mode is a feature that enables the admin to create and log in as mock instructors and students for testing and situations where masquerading as another user is applicable.
-- To prepare for entering masquerade mode, do the following:
-    - Log in as an administrator to `http://localhost:8080/web/admin/home`.
-    - Create a new instructor by filling the Name, Email, and Institution fields in the form
-      provided and submit.
-    - Now, we have a new account that we can masquerade as.
-- To masquerade as an _instructor_:
-    - Use the instructor's URL at /web/instructor/home with the instructor's email appended as a query parameter, e.g. `http://localhost:8080/web/instructor/home?user=kelvin@gmail.com`.
-- To masquerade as a _student_:
-    - Use the student's URL at /web/student/home with the student's email appended as a query parameter, e.g. `http://localhost:8080/web/student/home?user=janethestudent@gmail.com`.
+### Masquerading as another user
+
+Masquerade mode is a feature that enables the admin to log in as mock instructors/students for testing and situations where masquerading as another user is applicable.
+
+Essentially, when you are logged into the administrator account, you will be able to conveniently and directly access the other instructor/student accounts. When in masquerade mode, you should see a `(M)` at the top right of the page you are on.
+
+**Note**:
+If you decide to use port `8080` for the following steps below, make sure you have run `npm run build` in your project root. For more information, refer to [Building front-end files](#building-front-end-files). Else, you may use port `4200` which is TEAMMATES' frontend URL.
+
+To prepare for _masquerade mode_, do the following:
+
+- Log in as an administrator via http://localhost:4200/web/admin/home.
+  - For more information, refer to the [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance) section above in this document.
+- Create a new instructor by filling in the Name, Email, and Institution fields in the form provided. Once done, click on _Add Instructor_, followed by _Add_ under the **Action** column.
+  - Copy the link address from the **_join link_**.
+- Log out from the administrator account. Use the link you copied in the previous step and paste it into your browser's search bar. Enter the new account's email and register for the course.
+  - Now, the registration is !!completed!! and we have a new account that we can masquerade as.
+- Lastly, log out from the current account and log back in as an administrator and follow the rest of the steps below.
+
+To masquerade as an **_instructor_**:
+
+- Use the instructor's path `/web/instructor/home` with the instructor's email appended as a query parameter, e.g., `http://localhost:4200/web/instructor/home?user=kelvin@gmail.com`.
+- For convenience, http://localhost:4200/web/instructor/home?user=INSTRUCTOR_EMAIL. Double click on `INSTRUCTOR_EMAIL` to replace it with the instructor's email.
+
+To masquerade as a **_student_**:
+
+- Use the student's path `/web/student/home` with the student's email appended as a query parameter, e.g., `http://localhost:4200/web/student/home?user=janethestudent@gmail.com`.
+- For convenience, http://localhost:4200/web/student/home?user=STUDENT_EMAIL. Double click on `STUDENT_EMAIL` to replace it with the student's email.
 
 ## Running the Datastore emulator
 
