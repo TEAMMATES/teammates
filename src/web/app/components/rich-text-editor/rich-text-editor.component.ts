@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TINYMCE_BASE_URL } from './tinymce';
 
-const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 50;
+const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
 
 /**
  * A rich text editor.
