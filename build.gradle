@@ -544,10 +544,9 @@ task e2eTests {
     def runUnstableTests = project.hasProperty('unstable')
     def outputFileName = runUnstableTests ? "e2e-unstable-test-try-" : "e2e-test-try-"
 
-
     task "e2eTestTry${id}"(type: Test) {
         useTestNG()
-        options.suites isFirstTry 
+        options.suites isFirstTry
                 ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e.xml" : "src/e2e/resources/testng-e2e.xml")
                 : file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml")
         options.outputDirectory = file("${buildDir}/reports/${outputFileName}${id}")

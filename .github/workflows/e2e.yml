@@ -54,3 +54,4 @@ jobs:
           ./wait-for-server.sh
       - name: Start Tests
         run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTests
+        
