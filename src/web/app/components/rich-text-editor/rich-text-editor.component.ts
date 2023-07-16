@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TINYMCE_BASE_URL } from './tinymce';
 
-const RICH_TEXT_EDITOR_MAX_WORD_LENGTH = 500;
-
-const SPACE_KEYCODE = 32;
+const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 50;
 
 /**
  * A rich text editor.
@@ -16,10 +14,13 @@ const SPACE_KEYCODE = 32;
 export class RichTextEditorComponent implements OnInit {
 
   // const
-  RICH_TEXT_EDITOR_MAX_WORD_LENGTH: number = RICH_TEXT_EDITOR_MAX_WORD_LENGTH;
+  RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
   @Input()
   isDisabled: boolean = false;
+
+  @Input()
+  hasCharacterLimit: boolean = false;
 
   @Input()
   minHeightInPx: number = 150;
@@ -32,6 +33,8 @@ export class RichTextEditorComponent implements OnInit {
 
   @Output()
   richTextChange: EventEmitter<string> = new EventEmitter();
+
+  characterCount: number = 0;
 
   // the argument passed to tinymce.init() in native JavaScript
   init: any = {};
@@ -71,15 +74,40 @@ export class RichTextEditorComponent implements OnInit {
 
       toolbar1: this.defaultToolbar,
       setup: (editor:any) => {
-        editor.on('keypress', (event:any) => {
-          const wordCountApi = editor.plugins.wordcount;
-          const wordCount = wordCountApi.body.getWordCount();
-          if (wordCount >= RICH_TEXT_EDITOR_MAX_WORD_LENGTH && event.keyCode === SPACE_KEYCODE) {
-            event.preventDefault();
-          }
-        });
+        if (this.hasCharacterLimit) {
+          editor.on('GetContent', () => {
+            this.characterCount = this.getCurrentCharacterCount(editor);
+          })
+          editor.on('keypress', (event:any) => {
+            const currentCharacterCount = this.getCurrentCharacterCount(editor);
+            if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
+              event.preventDefault();
+            }
+          });
+          editor.on('paste', (event: any) => {
+            setTimeout(() => {
+              const currentCharacterCount = this.getCurrentCharacterCount(editor);
+              if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
+                event.preventDefault();
+                const currentContent = editor.getContent({ format:'text' });
+                const limitContent = currentContent.substring(0, RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH);
+                editor.setContent(limitContent);
+
+                //This sets the cursor to the end of the text.
+                editor.selection.select(editor.getBody(), true);
+                editor.selection.collapse(false);
+              }
+            }, 0);
+          });
+        }
       },
     };
+  }
+
+  getCurrentCharacterCount(editor: any): number {
+    const wordCountApi = editor.plugins.wordcount;
+    const currentCharacterCount = wordCountApi.body.getCharacterCount();
+    return currentCharacterCount;
   }
 
   renderEditor(event: any): void {
