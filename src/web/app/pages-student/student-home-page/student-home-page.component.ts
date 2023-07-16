@@ -308,7 +308,9 @@ export class StudentHomePageComponent implements OnInit {
     // open the first three panels
     this.courses.forEach((course: StudentCourse, idx: number) => {
       course.isTabExpanded = idx < 3;
-      this.loadFeedbackSessionsForCourse(course.course.courseId);
+      if (idx < 3) {
+        this.loadFeedbackSessionsForCourse(course.course.courseId);
+      }
     });
   }
 
