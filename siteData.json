@@ -173,6 +173,7 @@
         "building-front-end-files": "Building front-end files",
         "logging-in-to-a-teammates-instance": "Logging in to a TEAMMATES instance",
         "logging-in-without-ui": "Logging in without UI",
+        "masquerading-as-another-user": "Masquerading as another user",
         "running-the-datastore-emulator": "Running the Datastore emulator",
         "stopping-the-emulator": "Stopping the emulator",
         "testing": "Testing",
