@@ -13,7 +13,8 @@ import teammates.ui.output.AuthInfo;
 /**
  * Action: gets user authentication information.
  *
- * <p>This does not log in or log out the user.
+ * <p>
+ * This does not log in or log out the user.
  */
 class GetAuthInfoAction extends Action {
 
@@ -42,26 +43,26 @@ class GetAuthInfoAction extends Action {
                         createLoginUrl(frontendUrl, Const.WebPageURIs.STUDENT_HOME_PAGE),
                         createLoginUrl(frontendUrl, Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
                         createLoginUrl(frontendUrl, Const.WebPageURIs.ADMIN_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.MAINTAINER_HOME_PAGE)
-                );
+                        createLoginUrl(frontendUrl, Const.WebPageURIs.MAINTAINER_HOME_PAGE));
             } else {
                 output = new AuthInfo(
                         createLoginUrl(frontendUrl, nextUrl),
                         createLoginUrl(frontendUrl, nextUrl),
                         createLoginUrl(frontendUrl, nextUrl),
-                        createLoginUrl(frontendUrl, nextUrl)
-                );
+                        createLoginUrl(frontendUrl, nextUrl));
             }
         } else {
             output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
         }
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());
-        String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
+        String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req,
+                Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (csrfToken.equals(existingCsrfToken)) {
             return new JsonResult(output);
         }
         Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, csrfToken);
+        csrfTokenCookie.setSecure(true);
         csrfTokenCookie.setPath("/");
         List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
         return new JsonResult(output, cookieList);
