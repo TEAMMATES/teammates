@@ -29,6 +29,11 @@
   </div>
 </div>
 
+<div *ngIf="isCopyingCourse" class="mb-4">
+  <p>Copy Progress</p>
+  <tm-progress-bar></tm-progress-bar>
+</div>
+
 <tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Something went wrong'"
   (retryEvent)="loadCourses()">
   <div *tmIsLoading="!hasCoursesLoaded || isCopyLoading">
@@ -81,6 +86,12 @@
                 <!--                <a class="btn btn-light btn-sm dropdown-item"-->
                 <!--                   tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs-->
                 <!--                </a>-->
+                <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
+                  <a class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    ngbTooltip="Copy the course and its corresponding sessions"
+                    (click)="!isCopyingCourse && onCopy(courseTabModel.course.courseId, courseTabModel.course.courseName, courseTabModel.course.timeZone)"> Copy
+                  </a>
+                </ng-container>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
                   <a class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     ngbTooltip="Delete the course and its corresponding students and sessions"

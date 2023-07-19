@@ -1,8 +1,7 @@
 .side-nav {
-  width: 150px;
   top: 100px;
-  right: 5%;
-  position: fixed;
+  position: sticky;
+  align-self: flex-start;
 }
 
 .flex-container {

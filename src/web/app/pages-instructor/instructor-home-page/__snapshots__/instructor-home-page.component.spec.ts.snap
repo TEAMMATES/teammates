@@ -6,6 +6,8 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -18,6 +20,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -25,13 +28,16 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -75,6 +81,8 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -87,6 +95,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -94,13 +103,16 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -144,6 +156,8 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -156,6 +170,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -163,13 +178,16 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -289,6 +307,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -301,6 +321,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -308,13 +329,16 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -496,6 +520,12 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
+                  </a>
+                  <a
+                    class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Copy the course and its corresponding sessions"
+                  >
+                     Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
@@ -795,6 +825,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -807,6 +839,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -814,13 +847,16 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -1453,6 +1489,8 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -1465,6 +1503,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -1472,13 +1511,16 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -1660,6 +1702,12 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                     tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
+                  </a>
+                  <a
+                    class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Copy the course and its corresponding sessions"
+                  >
+                     Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
@@ -1693,6 +1741,8 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -1705,6 +1755,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -1712,13 +1763,16 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -1900,6 +1954,12 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                     tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
+                  </a>
+                  <a
+                    class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Copy the course and its corresponding sessions"
+                  >
+                     Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
@@ -1957,6 +2017,8 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   __ngContext__={[Function Number]}
+  allCoursesList={[Function Array]}
+  copyProgressPercentage="0"
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -1969,6 +2031,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isCopyLoading="false"
+  isCopyingCourse="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -1976,13 +2039,16 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
+  sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <h1>
     Home
@@ -2164,6 +2230,12 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                     tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
+                  </a>
+                  <a
+                    class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Copy the course and its corresponding sessions"
+                  >
+                     Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
