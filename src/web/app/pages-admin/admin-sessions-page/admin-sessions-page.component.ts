@@ -5,14 +5,16 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
+import { OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { CreatorEmailComponent } from './cell-with-creator-email/cell-with-creator-email.component';
+import { ResponseRateComponent } from './cell-with-response-rate/cell-with-response-rate.component';
 
-interface OngoingSessionModel {
+export interface OngoingSessionModel {
   ongoingSession: OngoingSession;
   startTimeString: string;
   endTimeString: string;
@@ -121,14 +123,14 @@ export class AdminSessionsPageComponent implements OnInit {
             displayValue: '['.concat(session.ongoingSession.courseId.concat('] '
             .concat(session.ongoingSession.feedbackSessionName))),
           },
-          { displayValue: '' },
+          this.createCellWithResponseRateComponent(session.ongoingSession),
           { value: session.startTimeString },
           { value: session.endTimeString },
-          { displayValue: session.ongoingSession.creatorEmail },
+          this.createCellWithCreatorEmailComponent(session.ongoingSession.instructorHomePageLink,
+            session.ongoingSession.creatorEmail),
         ];
       }),
     });
-    this.getResponseRate(kvp[0]);
   });
 }
 
@@ -208,32 +210,6 @@ export class AdminSessionsPageComponent implements OnInit {
         });
   }
 
-  /**
-   * Gets the response rate of all ongoing sessions in a course.
-   */
-  getResponseRate(institute: string): void {
-    this.sessions[institute].forEach((session) => {
-      this.feedbackSessionsService.loadSessionStatistics(
-        session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName)
-      .subscribe({
-        next: (resp: FeedbackSessionStats) => {
-            this.sortableTable.forEach((data:SortableTable) => {
-              data.rows.forEach((cellData:SortableTableCellData[]) => {
-                  if (cellData[1].displayValue
-                    === '['.concat(session.ongoingSession.courseId.concat('] '
-                    .concat(session.ongoingSession.feedbackSessionName)))) {
-                        cellData[2].displayValue = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-                    }
-              });
-            });
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    });
-  }
-
   updateDisplayedTimes(): void {
     for (const sessions of Object.values(this.sessions)) {
       for (const session of sessions) {
@@ -256,22 +232,46 @@ export class AdminSessionsPageComponent implements OnInit {
     let strB: string;
     let sortOrder: SortOrder;
     switch (by) {
-      case SortBy.INSTITUTION_NAME:
-        strA = a.institute;
-        strB = b.institute;
-        sortOrder = SortOrder.ASC;
-        break;
-      case SortBy.INSTITUTION_SESSIONS_TOTAL:
-        strA = String(a.rows.length);
-        strB = String(b.rows.length);
-        sortOrder = SortOrder.DESC;
-        break;
-      default:
-        strA = '';
-        strB = '';
-        sortOrder = SortOrder.ASC;
-    }
-    return this.tableComparatorService.compare(by, sortOrder, strA, strB);
-  });
-}
+        case SortBy.INSTITUTION_NAME:
+          strA = a.institute;
+          strB = b.institute;
+          sortOrder = SortOrder.ASC;
+          break;
+        case SortBy.INSTITUTION_SESSIONS_TOTAL:
+          strA = String(a.rows.length);
+          strB = String(b.rows.length);
+          sortOrder = SortOrder.DESC;
+          break;
+        default:
+          strA = '';
+          strB = '';
+          sortOrder = SortOrder.ASC;
+        }
+      return this.tableComparatorService.compare(by, sortOrder, strA, strB);
+    });
+  }
+  createCellWithResponseRateComponent(ongoingSession: OngoingSession): SortableTableCellData {
+    const { courseId, feedbackSessionName } = ongoingSession;
+    return {
+      customComponent: {
+        component: ResponseRateComponent,
+        componentData: {
+            courseId,
+            feedbackSessionName,
+        },
+      },
+    };
+  }
+  createCellWithCreatorEmailComponent(instructorHomePageLink:string, creatorEmail: string): SortableTableCellData {
+    return {
+      customComponent: {
+        component: CreatorEmailComponent,
+        componentData: {
+            instructorHomePageLink,
+            creatorEmail,
+        },
+      },
+    };
+  }
+
 }
