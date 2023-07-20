@@ -67,7 +67,14 @@ If you have access to Docker, we have a Docker compose definition to run those s
 
 ```sh
 docker-compose up -d
+
 ```
+If the following command does not work, you may have the updated version (v2). So use this instead:
+
+```sh
+docker compose up -d
+```
+For more information refer to : https://docs.docker.com/compose/reference/
 
 ### Starting the dev server
 
