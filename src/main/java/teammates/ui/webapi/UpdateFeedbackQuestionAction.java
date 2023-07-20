@@ -67,7 +67,7 @@ class UpdateFeedbackQuestionAction extends Action {
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
 
         if (!questionDetailsErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
+            throw new InvalidHttpRequestBodyException(String.join("\n", questionDetailsErrors));
         }
 
         try {
