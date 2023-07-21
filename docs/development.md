@@ -66,15 +66,15 @@ The details on how to run them locally can be found [here (for local Datastore e
 If you have access to Docker, we have a Docker compose definition to run those services:
 
 ```sh
-docker-compose up -d
+docker compose up -d
 
 ```
-If the following command does not work, you may have the updated version (v2). So use this instead:
+If the following command does not work, you may not have the updated version (v2). So use this instead:
 
 ```sh
-docker compose up -d
+docker-compose up -d
 ```
-For more information refer to : https://docs.docker.com/compose/reference/
+For more information refer to the [Docker Documentation](https://docs.docker.com/compose/reference/)
 
 ### Starting the dev server
 
