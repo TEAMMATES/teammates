@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'tm-creator-email',
-    templateUrl: './cell-with-creator-email.component.html',
+    template: ' <a [href]="instructorHomePageLink">{{ creatorEmail }}</a> ',
     standalone: true,
 })
 export class CreatorEmailComponent {
