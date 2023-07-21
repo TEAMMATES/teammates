@@ -8,8 +8,6 @@ import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
-import { SortBy } from 'src/web/types/sort-properties';
 
 interface OngoingSessionModel {
   ongoingSession: OngoingSession;
@@ -17,11 +15,7 @@ interface OngoingSessionModel {
   endTimeString: string;
   responseRate?: string;
 }
-interface SortableTable {
-  columns: ColumnData[];
-  rows: SortableTableCellData[][];
-  institute?: string;
-}
+
 /**
  * Admin sessions page.
  */
@@ -58,16 +52,6 @@ export class AdminSessionsPageComponent implements OnInit {
 
   isLoadingOngoingSessions: boolean = false;
 
-  SortBy: typeof SortBy=SortBy;
-  sortableTables: SortableTable[]=[];
-  column: ColumnData[] = [ 
-    { header: 'Status'},
-    { header: '[Course ID] Session Name'},
-    { header: 'Response Rate'},
-    { header: 'Start Time', sortBy: SortBy.SESSION_START_DATE},
-    { header: 'End Time', sortBy: SortBy.SESSION_END_DATE},
-    { header: 'Creator'},
-];
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService) {}
@@ -101,29 +85,6 @@ export class AdminSessionsPageComponent implements OnInit {
 
     this.getFeedbackSessions();
   }
-  int: number=0;
-  /**
-   * Populates the Sortable Table Data to be displayed
-   */
-  populateSortableTable(): void {
-  const key= Object.keys(this.sessions)
-    Object.values(this.sessions).forEach((ongoingSessionModelArray)=>{ 
-      this.sortableTables.push({
-        columns: this.column ,
-        rows: ongoingSessionModelArray.map((session): SortableTableCellData[]=>{
-          return [
-            { displayValue: session.ongoingSession.sessionStatus },
-            { displayValue: '['+session.ongoingSession.courseId+'] '+session.ongoingSession.feedbackSessionName },
-            { displayValue: session.responseRate },
-            { displayValue: session.startTimeString },
-            { displayValue: session.endTimeString },
-            { displayValue: session.ongoingSession.creatorEmail },
-          ]}),
-        institute: key[this.int],
-      })
-    this.int++;
-  })
-}
 
   /**
    * Opens all institution panels.
@@ -194,7 +155,6 @@ export class AdminSessionsPageComponent implements OnInit {
             for (const institution of Object.keys(resp.sessions)) {
               this.institutionPanelsStatus[institution] = true;
             }
-            this.populateSortableTable();
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
@@ -235,5 +195,5 @@ export class AdminSessionsPageComponent implements OnInit {
       }
     }
   }
-  
+
 }

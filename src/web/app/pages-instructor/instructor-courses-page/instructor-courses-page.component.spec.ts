@@ -338,7 +338,7 @@ describe('InstructorCoursesPageComponent', () => {
   it('should get the course statistics', () => {
     component.activeCourses = [courseModelCS1231];
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    component.getCourseStats(0);
+    component.getCourseStats(component.activeCourses[0]);
 
     expect(studentSpy).toHaveBeenCalledTimes(1);
     expect(studentSpy).toHaveBeenLastCalledWith({ courseId: 'CS1231' });

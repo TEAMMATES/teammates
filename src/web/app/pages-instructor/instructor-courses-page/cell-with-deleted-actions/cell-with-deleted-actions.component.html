@@ -1,0 +1,18 @@
+<button id="btn-restore" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"
+(click)="onRestore(course.course.courseId)"
+ngbTooltip="Restore the deleted course and its corresponding students and sessions">
+Restore
+</button>
+<button id="btn-restore-disabled" class="btn btn-light btn-sm disabled"
+*ngIf="!course.canModifyCourse">
+Restore
+</button>
+<button id="btn-delete" class="btn btn-light btn-sm text-danger" *ngIf="course.canModifyCourse"
+(click)="onDeletePermanently(course.course.courseId)"
+ngbTooltip="Permanently delete the course and its corresponding students and sessions">
+Delete Permanently
+</button>
+<button id="btn-delete-disabled" class="btn btn-light btn-sm disabled text-danger"
+*ngIf="!course.canModifyCourse">
+Delete Permanently
+</button>

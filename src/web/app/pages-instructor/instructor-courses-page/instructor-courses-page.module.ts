@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
@@ -13,6 +13,7 @@ import {
 } from '../../components/modified-timestamps-modal/modified-timestamps-module.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
+import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
@@ -49,6 +50,10 @@ const routes: Routes = [
     ProgressBarModule,
     CourseEditFormModule,
     ModifiedTimestampModalModule,
+    SortableTableModule,
+  ],
+  providers: [
+    DatePipe,
   ],
 })
 export class InstructorCoursesPageModule { }

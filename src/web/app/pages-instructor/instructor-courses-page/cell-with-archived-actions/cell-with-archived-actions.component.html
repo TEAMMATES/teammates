@@ -1,0 +1,13 @@
+<button id="btn-unarchive" class="btn btn-light btn-sm custom-button-archived"
+(click)="changeArchiveStatus(course.course.courseId, false)">
+Unarchive
+</button>
+<button id="btn-soft-delete-archived" class="btn btn-light btn-sm custom-button-archived" *ngIf="course.canModifyCourse"
+(click)="onDelete(course.course.courseId)"
+ngbTooltip="Delete the course and its corresponding students and sessions">
+Delete
+</button>
+<button id="btn-soft-delete-archived-disabled" class="btn btn-light btn-sm disabled"
+*ngIf="!course.canModifyCourse">
+Delete
+</button>

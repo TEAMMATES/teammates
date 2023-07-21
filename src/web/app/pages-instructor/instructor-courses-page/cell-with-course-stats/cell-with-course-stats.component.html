@@ -1,0 +1,9 @@
+<div><span *ngIf="!courseStats[courseId]">
+  <a *ngIf="!isLoadingCourseStats" id="show-statistics"
+    (click)="getCourseStats()">
+    Show
+</a>
+</span>
+<span *ngIf="courseStats[courseId]">
+  {{ courseStats[courseId][column] }}
+</span></div>

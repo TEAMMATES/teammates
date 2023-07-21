@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -10,11 +11,11 @@ import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
+  CourseModel,
   Courses,
   FeedbackSession,
   FeedbackSessions,
@@ -35,16 +36,18 @@ import {
   DEFAULT_COURSE_ADD_FORM_MODEL,
 } from '../../components/course-edit-form/course-edit-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { ActionsComponent } from './cell-with-actions/cell-with-actions.component';
+import { ArchivedActionsComponent } from './cell-with-archived-actions/cell-with-archived-actions.component';
+import { CourseStatsComponent } from './cell-with-course-stats/cell-with-course-stats.component';
+import { DeletedActionsComponent } from './cell-with-deleted-actions/cell-with-deleted-actions.component';
 
-interface CourseModel {
-  course: Course;
-  canModifyCourse: boolean;
-  canModifyStudent: boolean;
-  isLoadingCourseStats: boolean;
+interface SortableTable {
+  columns: ColumnData[];
+  rows: SortableTableCellData[][];
 }
-
 /**
  * Instructor courses list page.
  */
@@ -96,16 +99,50 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
+  activeCoursesSortableTable: SortableTable = {
+    columns: [
+      { header: 'Course ID', sortBy: SortBy.COURSE_ID },
+      { header: 'Course Name', sortBy: SortBy.COURSE_NAME },
+      { header: 'Creation Date', sortBy: SortBy.COURSE_CREATION_DATE },
+      { header: 'Sections' },
+      { header: 'Teams' },
+      { header: 'Total Students' },
+      { header: 'Total Unregistered' },
+      { header: 'Action(s)' },
+    ],
+    rows: [],
+  };
+
+  archivedCoursesSortableTable: SortableTable = {
+    columns: [
+      { header: 'Course ID', sortBy: SortBy.COURSE_ID },
+      { header: 'Course Name', sortBy: SortBy.COURSE_NAME },
+      { header: 'Creation Date', sortBy: SortBy.COURSE_CREATION_DATE },
+      { header: 'Action(s)' },
+    ],
+    rows: [],
+  };
+
+  deletedCoursesSortableTable: SortableTable = {
+    columns: [
+      { header: 'Course ID', sortBy: SortBy.COURSE_ID },
+      { header: 'Course Name', sortBy: SortBy.COURSE_NAME },
+      { header: 'Creation Date', sortBy: SortBy.COURSE_CREATION_DATE },
+      { header: 'Deletion Date', sortBy: SortBy.COURSE_DELETION_DATE },
+      { header: 'Action(s)' },
+    ],
+    rows: [],
+  };
   constructor(private ngbModal: NgbModal,
               private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
               private simpleModalService: SimpleModalService,
-              private tableComparatorService: TableComparatorService,
               private feedbackSessionsService: FeedbackSessionsService,
               private progressBarService: ProgressBarService,
-              private timezoneService: TimezoneService) {}
+              private timezoneService: TimezoneService,
+              private datePipe: DatePipe) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -149,7 +186,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           };
           this.activeCourses.push(activeCourse);
         });
-        this.activeCoursesDefaultSort();
+        this.populateActiveCoursesSortableTable();
         this.isLoading = false;
       },
       error: (resp: ErrorMessageOutput) => {
@@ -174,7 +211,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
           };
           this.archivedCourses.push(archivedCourse);
-          this.archivedCoursesDefaultSort();
+          this.populateArchivedCoursesSortableTable();
         }
       },
       error: (resp: ErrorMessageOutput) => {
@@ -198,7 +235,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
           };
           this.softDeletedCourses.push(softDeletedCourse);
-          this.deletedCoursesDefaultSort();
+          this.populateDeletedCoursesSortableTable();
           if (!softDeletedCourse.canModifyCourse) {
             this.canDeleteAll = false;
             this.canRestoreAll = false;
@@ -218,8 +255,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Constructs the url for course stats from the given course id.
    */
-  getCourseStats(idx: number): void {
-    const course: CourseModel = this.activeCourses[idx];
+  getCourseStats(course: CourseModel): void {
     const courseId: string = course.course.courseId;
     if (!courseId) {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
@@ -266,6 +302,8 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.changeModelFromArchivedToActive(courseId);
           this.statusMessageService.showSuccessToast('The course has been unarchived.');
         }
+        this.populateActiveCoursesSortableTable();
+        this.populateArchivedCoursesSortableTable();
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -283,7 +321,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
     if (courseToBeRemoved !== undefined) {
       this.archivedCourses.push(courseToBeRemoved);
-      this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
     }
   }
 
@@ -297,7 +334,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (courseToBeRemoved !== undefined) {
       this.activeCourses.push(courseToBeRemoved);
       this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
-      this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
     }
   }
 
@@ -404,7 +440,6 @@ export class InstructorCoursesPageComponent implements OnInit {
                   this.copyProgressPercentage =
                       Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
                   this.progressBarService.updateProgress(this.copyProgressPercentage);
-
                   if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
                     resolve();
                   }
@@ -420,8 +455,8 @@ export class InstructorCoursesPageComponent implements OnInit {
                 this.activeCourses.push(this.getCourseModelFromCourse(course));
                 this.activeCoursesList.push(course);
                 this.allCoursesList.push(course);
-                this.activeCoursesDefaultSort();
                 this.setIsCopyingCourse(false);
+                this.populateActiveCoursesSortableTable();
                 if (Object.keys(this.modifiedSessions).length > 0) {
                   this.simpleModalService.openInformationModal('Note On Modified Session Timings',
                       SimpleModalType.WARNING, this.modifiedTimestampsModal);
@@ -620,6 +655,9 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
           this.statusMessageService.showSuccessToast(
               `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+          this.populateActiveCoursesSortableTable();
+          this.populateArchivedCoursesSortableTable();
+          this.populateDeletedCoursesSortableTable();
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -639,14 +677,12 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (activeCourseToBeRemoved) {
       activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
-      this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
     } else {
       const archivedCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
       this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
       if (archivedCourseToBeRemoved !== undefined) {
         archivedCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
         this.softDeletedCourses.push(archivedCourseToBeRemoved);
-        this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
       }
     }
   }
@@ -697,6 +733,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
           this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
           this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
+          this.populateDeletedCoursesSortableTable();
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -764,6 +801,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.allCoursesList.push(...this.activeCourses.map((courseModel: CourseModel) => courseModel.course));
           this.allCoursesList.push(...this.archivedCourses.map((courseModel: CourseModel) => courseModel.course));
           this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
+          this.populateDeletedCoursesSortableTable();
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -792,110 +830,101 @@ export class InstructorCoursesPageComponent implements OnInit {
     });
   }
 
-  /**
-   * Sorts the active courses table
-   */
-  sortCoursesEvent(by: SortBy): void {
-    this.activeTableSortOrder = this.activeTableSortBy === by && this.activeTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
-    this.activeTableSortBy = by;
-    this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
+  populateActiveCoursesSortableTable(): void {
+    this.activeCoursesSortableTable.rows = [];
+    this.activeCourses.forEach((courseModel: CourseModel) => {
+      this.activeCoursesSortableTable.rows.push([
+        { value: courseModel.course.courseId },
+        { value: courseModel.course.courseName },
+        { value: this.datePipe.transform(courseModel.course.creationTimestamp, 'd MMM yyyy') },
+        this.createCellWithCourseStatsComponent(courseModel, 'sections'),
+        this.createCellWithCourseStatsComponent(courseModel, 'teams'),
+        this.createCellWithCourseStatsComponent(courseModel, 'students'),
+        this.createCellWithCourseStatsComponent(courseModel, 'unregistered'),
+        this.createCellWithActionsComponent(courseModel),
+      ]);
+    });
   }
 
-  getAriaSortActive(by: SortBy): String {
-    if (by !== this.activeTableSortBy) {
-      return 'none';
-    }
-    return this.activeTableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  createCellWithActionsComponent(course:CourseModel): SortableTableCellData {
+    return {
+      customComponent: {
+        component: ActionsComponent,
+        componentData: {
+          course,
+          isCopyingCourse: this.isCopyingCourse,
+          onCopy: (courseId: string, courseName: string, timezone: string) =>
+          this.onCopy(courseId, courseName, timezone),
+          changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
+          onDelete: (courseId: string) => this.onDelete(courseId),
+        },
+      },
+    };
   }
 
-  /**
-   * Active courses default sort on page load
-   */
-  activeCoursesDefaultSort(): void {
-    this.activeTableSortBy = SortBy.COURSE_CREATION_DATE;
-    this.activeTableSortOrder = SortOrder.DESC;
-    this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
+  createCellWithCourseStatsComponent(courseModel: CourseModel, column: string): SortableTableCellData {
+    return {
+      customComponent: {
+        component: CourseStatsComponent,
+        componentData: {
+          courseId: courseModel.course.courseId,
+          column,
+          courseStats: this.courseStats,
+          isLoadingCourseStats: courseModel.isLoadingCourseStats,
+          getCourseStats: () => this.getCourseStats(courseModel),
+        },
+      },
+    };
   }
 
-  /**
-   * Sorts the archived courses table
-   */
-  sortArchivedCoursesEvent(by: SortBy): void {
-    this.archivedTableSortOrder = this.archivedTableSortBy === by && this.archivedTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
-    this.archivedTableSortBy = by;
-    this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
+  populateArchivedCoursesSortableTable(): void {
+    this.archivedCoursesSortableTable.rows = [];
+    this.archivedCourses.forEach((courseModel: CourseModel) => {
+      this.archivedCoursesSortableTable.rows.push([
+        { value: courseModel.course.courseId },
+        { value: courseModel.course.courseName },
+        { value: this.datePipe.transform(courseModel.course.creationTimestamp, 'd MMM yyyy') },
+        this.createCellWithArchivedActionsComponent(courseModel),
+      ]);
+    });
   }
 
-  getAriaSortArchived(by: SortBy): String {
-    if (by !== this.archivedTableSortBy) {
-      return 'none';
-    }
-    return this.archivedTableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  createCellWithArchivedActionsComponent(course: CourseModel): SortableTableCellData {
+    return {
+      customComponent: {
+        component: ArchivedActionsComponent,
+        componentData: {
+          course,
+          changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
+          onDelete: (courseId: string) => this.onDelete(courseId),
+        },
+      },
+    };
   }
 
-  /**
-   * Archived courses default sort on page load
-   */
-  archivedCoursesDefaultSort(): void {
-    this.archivedTableSortBy = SortBy.COURSE_CREATION_DATE;
-    this.archivedTableSortOrder = SortOrder.DESC;
-    this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
+  populateDeletedCoursesSortableTable(): void {
+    this.deletedCoursesSortableTable.rows = [];
+    this.softDeletedCourses.forEach((courseModel: CourseModel) => {
+      this.deletedCoursesSortableTable.rows.push([
+        { value: courseModel.course.courseId },
+        { value: courseModel.course.courseName },
+        { value: this.datePipe.transform(courseModel.course.creationTimestamp, 'd MMM yyyy') },
+        { value: this.datePipe.transform(courseModel.course.deletionTimestamp, 'd MMM yyyy') },
+        this.createCellWithDeletedActionsComponent(courseModel),
+      ]);
+    });
   }
 
-  /**
-   * Sorts the soft-deleted courses table
-   */
-  sortDeletedCoursesEvent(by: SortBy): void {
-    this.deletedTableSortOrder = this.deletedTableSortBy === by && this.deletedTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
-    this.deletedTableSortBy = by;
-    this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
-  }
-
-  getAriaSortDeleted(by: SortBy): String {
-    if (by !== this.deletedTableSortBy) {
-      return 'none';
-    }
-    return this.deletedTableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
-  }
-
-  /**
-   * Deleted courses default sort on page load
-   */
-  deletedCoursesDefaultSort(): void {
-    this.deletedTableSortBy = SortBy.COURSE_DELETION_DATE;
-    this.deletedTableSortOrder = SortOrder.DESC;
-    this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
-  }
-
-  /**
-   * Returns a function to determine the order of sort
-   */
-  sortBy(by: SortBy, order: SortOrder):
-      ((a: CourseModel, b: CourseModel) => number) {
-    return (a: CourseModel, b: CourseModel): number => {
-      let strA: string;
-      let strB: string;
-      switch (by) {
-        case SortBy.COURSE_ID:
-          strA = a.course.courseId ? a.course.courseId : '';
-          strB = b.course.courseId ? b.course.courseId : '';
-          break;
-        case SortBy.COURSE_NAME:
-          strA = a.course.courseName;
-          strB = b.course.courseName;
-          break;
-        case SortBy.COURSE_CREATION_DATE:
-          strA = a.course.creationTimestamp.toString();
-          strB = b.course.creationTimestamp.toString();
-          break;
-        default:
-          strA = '';
-          strB = '';
-      }
-      return this.tableComparatorService.compare(by, order, strA, strB);
+  createCellWithDeletedActionsComponent(course: CourseModel): SortableTableCellData {
+    return {
+      customComponent: {
+        component: DeletedActionsComponent,
+        componentData: {
+          course,
+          onRestore: (courseId: string) => this.onRestore(courseId),
+          onDeletePermanently: (courseId: string) => this.onDeletePermanently(courseId),
+        },
+      },
     };
   }
 }
