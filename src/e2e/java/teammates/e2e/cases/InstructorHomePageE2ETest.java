@@ -77,7 +77,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.sortCoursesById();
         int courseIndex = 1;
         int otherCourseIndex = 0;
-        // by default, sessions are sorted by session name in ascending order
+        // by default, sessions are sorted by session end date in ascending order
         FeedbackSessionAttributes[] courseSessions = { feedbackSessionOpen,
                 feedbackSessionPublished, feedbackSessionAwaiting, feedbackSessionClosed };
         FeedbackSessionAttributes[] otherCourseSessions = { otherCourseSession };
