@@ -2,10 +2,10 @@
    class="show-response-rate"
    *ngIf="empty && !isLoading"
    href="#"
-   (click)="getResponseRate(); $event.preventDefault()"
+   (click)="callGetResponseRate(); $event.preventDefault()"
    >Show</a
  >
  <div class="response-rate" *ngIf="!empty">
-   {{ responseRate }}
+   {{ session.responseRate }}
  </div>
  <tm-ajax-loading *ngIf="isLoading" [useBlueSpinner]="true"></tm-ajax-loading>

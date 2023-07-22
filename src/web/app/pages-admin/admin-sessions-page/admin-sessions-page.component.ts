@@ -5,7 +5,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { OngoingSession, OngoingSessions } from '../../../types/api-output';
+import { FeedbackSessionStats, OngoingSession, OngoingSessionModel, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
@@ -14,12 +14,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { CreatorEmailComponent } from './cell-with-creator-email/cell-with-creator-email.component';
 import { ResponseRateComponent } from './cell-with-response-rate/cell-with-response-rate.component';
 
-export interface OngoingSessionModel {
-  ongoingSession: OngoingSession;
-  startTimeString: string;
-  endTimeString: string;
-  responseRate?: string;
-}
 interface SortableTable {
   institute: string;
   columns: ColumnData[];
@@ -123,7 +117,7 @@ export class AdminSessionsPageComponent implements OnInit {
             displayValue: '['.concat(session.ongoingSession.courseId.concat('] '
             .concat(session.ongoingSession.feedbackSessionName))),
           },
-          this.createCellWithResponseRateComponent(session.ongoingSession),
+          this.createCellWithResponseRateComponent(session),
           { value: session.startTimeString },
           { value: session.endTimeString },
           this.createCellWithCreatorEmailComponent(session.ongoingSession.instructorHomePageLink,
@@ -210,6 +204,22 @@ export class AdminSessionsPageComponent implements OnInit {
         });
   }
 
+   /**
+    * Gets the response rate of the session
+    */
+   getResponseRate(session: OngoingSessionModel): void {
+    this.feedbackSessionsService.loadSessionStatistics(
+      session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName)
+    .subscribe({
+      next: (resp: FeedbackSessionStats) => {
+          session.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+}
+
   updateDisplayedTimes(): void {
     for (const sessions of Object.values(this.sessions)) {
       for (const session of sessions) {
@@ -250,14 +260,13 @@ export class AdminSessionsPageComponent implements OnInit {
       return this.tableComparatorService.compare(by, sortOrder, strA, strB);
     });
   }
-  createCellWithResponseRateComponent(ongoingSession: OngoingSession): SortableTableCellData {
-    const { courseId, feedbackSessionName } = ongoingSession;
+  createCellWithResponseRateComponent(ongoingSession: OngoingSessionModel): SortableTableCellData {
     return {
       customComponent: {
         component: ResponseRateComponent,
         componentData: {
-            courseId,
-            feedbackSessionName,
+          session: ongoingSession,
+          getResponseRate: () => this.getResponseRate(ongoingSession),
         },
       },
     };
