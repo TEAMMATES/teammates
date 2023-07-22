@@ -35,6 +35,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
@@ -112,6 +113,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
@@ -189,6 +191,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
@@ -342,6 +345,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
@@ -571,7 +575,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       <thead>
                         <tr>
                           <th
-                            aria-sort="ascending"
+                            aria-sort="none"
                             class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
@@ -589,9 +593,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               >
                                 <i
                                   class="fas fa-sort"
-                                />
-                                <i
-                                  class="fas fa-sort-up"
                                 />
                               </span>
                             </button>
@@ -620,7 +621,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             </button>
                           </th>
                           <th
-                            aria-sort="none"
+                            aria-sort="descending"
                             class="sortable-header"
                             style="text-align: start;"
                           >
@@ -638,6 +639,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               >
                                 <i
                                   class="fas fa-sort"
+                                />
+                                <i
+                                  class="fas fa-sort-down"
                                 />
                               </span>
                             </button>
@@ -924,6 +928,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
@@ -1134,7 +1139,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <thead>
                         <tr>
                           <th
-                            aria-sort="ascending"
+                            aria-sort="none"
                             class="sort-session-name sortable-header"
                             style="text-align: start;"
                           >
@@ -1152,9 +1157,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 <i
                                   class="fas fa-sort"
-                                />
-                                <i
-                                  class="fas fa-sort-up"
                                 />
                               </span>
                             </button>
@@ -1183,7 +1185,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             </button>
                           </th>
                           <th
-                            aria-sort="none"
+                            aria-sort="descending"
                             class="sortable-header"
                             style="text-align: start;"
                           >
@@ -1201,6 +1203,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 <i
                                   class="fas fa-sort"
+                                />
+                                <i
+                                  class="fas fa-sort-down"
                                 />
                               </span>
                             </button>
@@ -1251,7 +1256,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <tbody>
                         <tr>
                           <td>
-                            First Session
+                            Second Session
                           </td>
                           <td>
                             <ndc-dynamic />
@@ -1269,7 +1274,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <span
                                 class="ngb-tooltip-class"
                               >
-                                11 Jan 9:21 PM
+                                20 Jan 9:21 PM
                               </span>
                             </tm-cell-with-tooltip>
                           </td>
@@ -1299,7 +1304,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <div
                                 class="response-rate-0"
                               >
-                                 0 / 6
+                                 5 / 6
                               </div>
                             </tm-response-rate>
                           </td>
@@ -1356,14 +1361,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=Second%20Session"
                                       tmrouterlink="/web/instructor/sessions/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=Second%20Session"
                                       tmrouterlink="/web/instructor/sessions/report"
                                     >
                                       View Results (course-wide)
@@ -1435,7 +1440,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         </tr>
                         <tr>
                           <td>
-                            Second Session
+                            First Session
                           </td>
                           <td>
                             <ndc-dynamic />
@@ -1453,7 +1458,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <span
                                 class="ngb-tooltip-class"
                               >
-                                20 Jan 9:21 PM
+                                11 Jan 9:21 PM
                               </span>
                             </tm-cell-with-tooltip>
                           </td>
@@ -1483,7 +1488,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <div
                                 class="response-rate-1"
                               >
-                                 5 / 6
+                                 0 / 6
                               </div>
                             </tm-response-rate>
                           </td>
@@ -1540,14 +1545,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=Second%20Session"
+                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
                                       tmrouterlink="/web/instructor/sessions/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=Second%20Session"
+                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
                                       tmrouterlink="/web/instructor/sessions/report"
                                     >
                                       View Results (course-wide)
@@ -1666,6 +1671,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
@@ -1920,6 +1926,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
@@ -2198,6 +2205,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder="0"
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}

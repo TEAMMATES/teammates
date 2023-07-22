@@ -32,6 +32,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModelsVar={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
   submissionStatusName={[Function SubmissionStatusNamePipe]}
   submissionStatusTooltip={[Function SubmissionStatusTooltipPipe]}
@@ -551,6 +552,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModelsVar={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
   submissionStatusName={[Function SubmissionStatusNamePipe]}
   submissionStatusTooltip={[Function SubmissionStatusTooltipPipe]}
@@ -1036,6 +1038,7 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModelsVar={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
+  sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
   submissionStatusName={[Function SubmissionStatusNamePipe]}
   submissionStatusTooltip={[Function SubmissionStatusTooltipPipe]}
