@@ -62,6 +62,7 @@ class GetAuthInfoAction extends Action {
             return new JsonResult(output);
         }
         Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, csrfToken);
+        csrfTokenCookie.setSecure(true)
         csrfTokenCookie.setPath("/");
         List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
         return new JsonResult(output, cookieList);
