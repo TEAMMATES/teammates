@@ -64,10 +64,10 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   @Input()
   rows: SortableTableCellData[][] = [];
-  
+
   @Input()
   initialSortBy: SortBy = SortBy.NONE;
-  
+
   @Input()
   sortOrder: SortOrder = SortOrder.ASC;
 
