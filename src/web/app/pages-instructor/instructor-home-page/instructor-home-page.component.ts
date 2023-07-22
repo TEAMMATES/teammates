@@ -89,6 +89,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   copyProgressPercentage = 0;
 
   initialSortBy = SortBy.SESSION_END_DATE;
+  sortOrder = SortOrder.DESC;
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 

@@ -64,15 +64,17 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   @Input()
   rows: SortableTableCellData[][] = [];
-
+  
   @Input()
   initialSortBy: SortBy = SortBy.NONE;
+  
+  @Input()
+  sortOrder: SortOrder = SortOrder.ASC;
 
   @Output()
   sortEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
   columnToSortBy: string = '';
-  sortOrder: SortOrder = SortOrder.ASC;
   tableRows: SortableTableCellData[][] = [];
   setMainTableStyle: boolean = true;
 

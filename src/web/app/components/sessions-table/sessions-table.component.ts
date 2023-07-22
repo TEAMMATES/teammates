@@ -61,6 +61,9 @@ export class SessionsTableComponent implements OnInit {
   initialSortBy: SortBy = SortBy.COURSE_ID;
 
   @Input()
+  sortOrder: SortOrder = SortOrder.ASC;
+
+  @Input()
   courseCandidates: Course[] = [];
 
   @Input()
