@@ -31,12 +31,6 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
-
-    @Test
     public void testValidateQuestionDetails_emptyOption_errorReturned() {
         FeedbackRankOptionsQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
         List<String> errorResponse = new ArrayList<>();

@@ -43,7 +43,7 @@
           </button>
         </th>
         <th>Response</th>
-        <th *ngIf="canResponseHasComment">Comment for Response</th>
+        <th>Comment for Response</th>
         <th class="text-center no-print actions-cell" [ngClass]="{ 'actions-cell-narrow': question.questionType === 'CONTRIB' }">Actions</th>
       </tr>
     </thead>
@@ -65,7 +65,7 @@
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"
                               [giverEmail]="response.giverEmail" [recipientEmail]="response.recipientEmail" [statistics]="statistics"></tm-single-response>
         </td>
-        <td *ngIf="canResponseHasComment">
+        <td>
           <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
         </td>
         <td class="text-center no-print">
