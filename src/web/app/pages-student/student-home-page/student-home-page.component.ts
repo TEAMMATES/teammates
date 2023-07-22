@@ -17,6 +17,7 @@ import {
   HasResponses,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
@@ -26,6 +27,8 @@ interface StudentCourse {
   feedbackSessions: StudentSession[];
   isFeedbackSessionsLoading: boolean;
   hasFeedbackSessionsLoadingFailed: boolean;
+  isTabExpanded: boolean;
+  hasPopulated: boolean;
 }
 
 interface StudentSession {
@@ -43,9 +46,9 @@ interface StudentSession {
   selector: 'tm-student-home-page',
   templateUrl: './student-home-page.component.html',
   styleUrls: ['./student-home-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class StudentHomePageComponent implements OnInit {
-
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -100,24 +103,39 @@ export class StudentHomePageComponent implements OnInit {
       .pipe(finalize(() => { this.isCoursesLoading = false; }))
       .subscribe({
         next: (resp: Courses) => {
-          for (const course of resp.courses) {
+          resp.courses.forEach((course: Course) => {
             this.courses.push({
               course,
               feedbackSessions: [],
-              isFeedbackSessionsLoading: true,
+              isFeedbackSessionsLoading: false,
               hasFeedbackSessionsLoadingFailed: false,
+              isTabExpanded: false,
+              hasPopulated: false,
             });
-            this.loadFeedbackSessionsForCourse(course.courseId);
-          }
-          this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-              ((a.course.courseId > b.course.courseId) ? 1 : -1));
+          });
+
+          this.courses.sort((a: StudentCourse, b: StudentCourse) => (a.course.courseId > b.course.courseId ? 1 : -1));
+          this.courses.slice(0, 3).forEach((course: StudentCourse) => {
+            course.isTabExpanded = true;
+            this.loadFeedbackSessionsForCourse(course.course.courseId);
+          });
         },
         error: (e: ErrorMessageOutput) => {
           this.hasCoursesLoadingFailed = true;
           this.statusMessageService.showErrorToast(e.error.message);
         },
       });
+  }
+
+  /**
+   * Handles click events on the course tab model.
+   */
+  handleClick(event: Event, studentCourse: StudentCourse): boolean {
+    if (event.target && !(event.target as HTMLElement).className.includes('dropdown-toggle')) {
+      return !studentCourse.isTabExpanded;
     }
+    return studentCourse.isTabExpanded;
+  }
 
   /**
    * Load feedback sessions for a single course.
@@ -126,61 +144,73 @@ export class StudentHomePageComponent implements OnInit {
   loadFeedbackSessionsForCourse(courseId: string): void {
     // reference to the course within the this.courses array
     const courseRef = this.courses.find((c) => c.course.courseId === courseId)!;
+    if (courseRef.hasPopulated) {
+      return;
+    }
     courseRef.isFeedbackSessionsLoading = true;
     courseRef.hasFeedbackSessionsLoadingFailed = false;
-    this.feedbackSessionsService.getFeedbackSessionsForStudent('student', courseId)
-      .subscribe({
-        next: (fss: FeedbackSessions) => {
-          const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
+    courseRef.feedbackSessions = [];
+    this.feedbackSessionsService.getFeedbackSessionsForStudent('student', courseId).subscribe({
+      next: (fss: FeedbackSessions) => {
+        const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
-          this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(courseId)
-              .pipe(finalize(() => {
-                courseRef.isFeedbackSessionsLoading = false;
-              }))
-              .subscribe({
-                next: (hasRes: HasResponses) => {
-                  if (!hasRes.hasResponsesBySession) {
-                    this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-                    courseRef.hasFeedbackSessionsLoadingFailed = true;
-                    return;
-                  }
+        this.feedbackSessionsService
+          .hasStudentResponseForAllFeedbackSessionsInCourse(courseId)
+          .pipe(
+            finalize(() => {
+              courseRef.isFeedbackSessionsLoading = false;
+            }),
+          )
+          .subscribe({
+            next: (hasRes: HasResponses) => {
+              if (!hasRes.hasResponsesBySession) {
+                this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
+                courseRef.hasFeedbackSessionsLoadingFailed = true;
+                return;
+              }
 
-                  const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
-                  const isAllSessionsPresent: boolean =
-                      sortedFss.filter((fs: FeedbackSession) =>
-                          sessionsReturned.has(fs.feedbackSessionName)).length
-                      === sortedFss.length;
+              const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
+              const isAllSessionsPresent: boolean =
+                sortedFss.filter((fs: FeedbackSession) => sessionsReturned.has(fs.feedbackSessionName)).length
+                === sortedFss.length;
 
-                  if (!isAllSessionsPresent) {
-                    this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-                    courseRef.hasFeedbackSessionsLoadingFailed = true;
-                    return;
-                  }
+              if (!isAllSessionsPresent) {
+                this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
+                courseRef.hasFeedbackSessionsLoadingFailed = true;
+                return;
+              }
 
-                  for (const fs of sortedFss) {
-                    const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-                    const isWaitingToOpen: boolean =
-                        fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-                    const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+              for (const fs of sortedFss) {
+                const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
+                const isWaitingToOpen: boolean =
+                  fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
 
-                    const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
-                    courseRef.feedbackSessions.push({
-                      isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs,
-                    });
-                  }
-                },
-                error: (error: ErrorMessageOutput) => {
-                  courseRef.hasFeedbackSessionsLoadingFailed = true;
-                  this.statusMessageService.showErrorToast(error.error.message);
-                },
-              });
-        },
-        error: (error: ErrorMessageOutput) => {
-          courseRef.isFeedbackSessionsLoading = false;
-          courseRef.hasFeedbackSessionsLoadingFailed = true;
-          this.statusMessageService.showErrorToast(error.error.message);
-        },
-      });
+                const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
+                courseRef.feedbackSessions.push({
+                  isOpened,
+                  isWaitingToOpen,
+                  isPublished,
+                  isSubmitted,
+                  session: fs,
+                });
+              }
+
+              // only set true if all feedback sessions are loaded
+              courseRef.hasPopulated = true;
+            },
+            error: (error: ErrorMessageOutput) => {
+              courseRef.hasFeedbackSessionsLoadingFailed = true;
+              this.statusMessageService.showErrorToast(error.error.message);
+            },
+          });
+      },
+      error: (error: ErrorMessageOutput) => {
+        courseRef.isFeedbackSessionsLoading = false;
+        courseRef.hasFeedbackSessionsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(error.error.message);
+      },
+    });
   }
 
   /**
@@ -269,27 +299,48 @@ export class StudentHomePageComponent implements OnInit {
 
   sortCoursesBy(by: SortBy): void {
     this.sortBy = by;
-    this.courses.sort(this.sortPanelsBy(by));
+
+    // make a copy of the courses array and sort it
+    const copy: StudentCourse[] = JSON.parse(JSON.stringify(this.courses));
+    copy.sort(this.sortPanelsBy(by));
+    this.courses = copy;
+
+    // open the first three panels
+    this.courses.forEach((course: StudentCourse, idx: number) => {
+      course.isTabExpanded = idx < 3;
+      if (idx < 3) {
+        this.loadFeedbackSessionsForCourse(course.course.courseId);
+      }
+    });
   }
 
   sortPanelsBy(by: SortBy): ((a: StudentCourse, b: StudentCourse) => number) {
     return ((a: StudentCourse, b: StudentCourse): number => {
       let strA: string;
       let strB: string;
+      let sortOrder: SortOrder;
       switch (by) {
         case SortBy.COURSE_NAME:
           strA = a.course.courseName;
           strB = b.course.courseName;
+          sortOrder = SortOrder.ASC;
           break;
         case SortBy.COURSE_ID:
           strA = a.course.courseId;
           strB = b.course.courseId;
+          sortOrder = SortOrder.ASC;
+          break;
+        case SortBy.COURSE_CREATION_DATE:
+          strA = a.course.creationTimestamp.toString();
+          strB = b.course.creationTimestamp.toString();
+          sortOrder = SortOrder.DESC;
           break;
         default:
           strA = '';
           strB = '';
+          sortOrder = SortOrder.ASC;
       }
-      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
+      return this.tableComparatorService.compare(by, sortOrder, strA, strB);
     });
   }
 }
