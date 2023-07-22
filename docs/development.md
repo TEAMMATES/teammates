@@ -243,6 +243,11 @@ The Datastore emulator will be running in the port specified in the `build.prope
 We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
 
 ```sh
+docker compose run -p 8484:8484 datastore
+```
+If the above command does not work, you can use this command:
+
+```sh
 docker-compose run -p 8484:8484 datastore
 ```
 
