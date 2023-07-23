@@ -208,7 +208,12 @@
   <h2 class="h3 text-muted">
     <span class="fa fa-file-archive" aria-hidden="true"></span> Archived courses
   </h2>
-  <div class="card top-padded">
+  <ng-template #noArchiveAlert>
+    <div class="alert alert-warning margin-top-30px" role="alert">
+      There are no courses archived currently.
+    </div>
+  </ng-template>
+  <div class="card top-padded" *ngIf="archivedCourses.length else noArchiveAlert">
     <div id="archived-table-heading" class="card-header bg-info cursor-pointer"
       (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
       <b>Archive</b>
@@ -298,7 +303,12 @@
     <h2 class="h3 text-muted">
       <span class="fa fa-trash-alt" aria-hidden="true"></span> Deleted courses
     </h2>
-    <div class="card bg-light top-padded">
+    <ng-template #emptyBinAlert>
+      <div class="alert alert-warning margin-top-30px" role="alert">
+        There are no courses in the bin.
+      </div>
+    </ng-template>
+    <div class="card bg-light top-padded" *ngIf="softDeletedCourses.length else emptyBinAlert">
       <div id="deleted-table-heading" class="card-header bg-secondary text-white cursor-pointer"
         (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <b>Recycle Bin</b>
