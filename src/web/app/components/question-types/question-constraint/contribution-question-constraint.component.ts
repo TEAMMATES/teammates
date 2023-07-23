@@ -19,7 +19,7 @@ import { QuestionConstraintComponent } from './question-constraint.component';
   styleUrls: ['./contribution-question-constraint.component.scss'],
 })
 export class ContributionQuestionConstraintComponent
-    extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {
+  extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {
 
   constructor() {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
@@ -91,8 +91,9 @@ export class ContributionQuestionConstraintComponent
   }
 
   get isValid(): boolean {
-    return !this.questionDetails.isZeroSum || this.isAllFormsNotAnswered
-        || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
+    return !this.questionDetails.isZeroSum || !this.questionDetails.isNotSureAllowed
+      || this.isAllFormsNotAnswered
+      || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
   }
 
   get currentTotalString(): String {
