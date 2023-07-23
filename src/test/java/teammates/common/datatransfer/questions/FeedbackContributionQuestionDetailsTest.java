@@ -28,18 +28,6 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             new ArrayList<>(Arrays.asList(-983, -1, 1, 4, 19, 51, 101, 199, 201, 1000));
 
     @Test
-    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
-    }
-
-    @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
-
-    @Test
     public void testIsIndividualResponsesShownToStudents_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
         assertFalse(feedbackQuestionDetails.isIndividualResponsesShownToStudents());

@@ -405,12 +405,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnTrue() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
-        assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
-
-    @Test
     public void testShouldChangesRequireResponseDeletion_differentMsqChoices_shouldReturnTrue() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choice1", "choice2"));

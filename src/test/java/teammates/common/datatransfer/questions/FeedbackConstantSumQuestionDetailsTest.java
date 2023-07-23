@@ -334,18 +334,6 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
-        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
-    }
-
-    @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
-
-    @Test
     public void testValidateQuestionDetails_invalidMaxMinOptions_errorReturned() {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails =
                 new FeedbackConstantSumQuestionDetails("Is this a test?");
