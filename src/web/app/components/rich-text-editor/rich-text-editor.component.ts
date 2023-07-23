@@ -76,7 +76,9 @@ export class RichTextEditorComponent implements OnInit {
       setup: (editor:any) => {
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
-            this.characterCount = this.getCurrentCharacterCount(editor);
+            setTimeout(() => {
+              this.characterCount = this.getCurrentCharacterCount(editor);
+            }, 0);
           });
           editor.on('keypress', (event:any) => {
             const currentCharacterCount = this.getCurrentCharacterCount(editor);
