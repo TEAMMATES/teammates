@@ -10,8 +10,8 @@ import {
   FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 @Component({
   selector: 'tm-group-buttons',
