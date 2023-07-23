@@ -1261,7 +1261,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
           </div>
           <div>
             <div
-              class="card-body"
+              class="card-body mb-4"
             >
               <tm-sortable-table>
                 <table
