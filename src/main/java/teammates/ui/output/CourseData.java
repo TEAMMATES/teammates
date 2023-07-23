@@ -74,7 +74,6 @@ public class CourseData extends ApiOutput {
      * Hides some attributes to student.
      */
     public void hideInformationForStudent() {
-        setCreationTimestamp(0);
         setDeletionTimestamp(0);
     }
 }
