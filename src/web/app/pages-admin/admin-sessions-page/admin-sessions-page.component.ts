@@ -5,14 +5,17 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { FeedbackSessionStats, OngoingSession, OngoingSessionModel, OngoingSessions } from '../../../types/api-output';
+import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CreatorEmailComponent } from './cell-with-creator-email/cell-with-creator-email.component';
-import { ResponseRateComponent } from './cell-with-response-rate/cell-with-response-rate.component';
+import {
+  OngoingSessionModel,
+  ResponseRateComponent,
+ } from './cell-with-response-rate/cell-with-response-rate.component';
 
 interface SortableTable {
   institute: string;

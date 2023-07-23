@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { OngoingSessionModel } from '../../../../types/api-output';
+import { OngoingSession } from '../../../../types/api-output';
 import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
 
+export interface OngoingSessionModel {
+  ongoingSession: OngoingSession;
+  startTimeString: string;
+  endTimeString: string;
+  responseRate?: string;
+}
 @Component({
     selector: 'tm-response-rate',
     templateUrl: './cell-with-response-rate.component.html',
