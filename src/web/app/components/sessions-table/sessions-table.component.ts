@@ -10,6 +10,7 @@ import {
   ColumnData,
   SortableEvent,
   SortableTableCellData,
+  SortableTableHeaderColorScheme,
 } from '../sortable-table/sortable-table.component';
 import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
@@ -24,7 +25,6 @@ import {
   CopySessionResult,
   SessionsTableColumn,
   SessionsTableColumnData,
-  SessionsTableHeaderColorScheme,
   SessionsTableRowData,
   SessionsTableRowModel,
 } from './sessions-table-model';
@@ -52,7 +52,7 @@ export class SessionsTableComponent implements OnInit {
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
+  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 
   // variable
   rowClicked: number = -1;
@@ -70,7 +70,7 @@ export class SessionsTableComponent implements OnInit {
   columnsToShow: SessionsTableColumn[] = [SessionsTableColumn.COURSE_ID];
 
   @Input()
-  headerColorScheme: SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme.BLUE;
+  headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
 
   @Input()
   isSendReminderLoading: boolean = false;

@@ -29,12 +29,14 @@ import { CopyCourseModalComponent } from '../../components/copy-course-modal/cop
 import {
   CopySessionResult,
   SessionsTableColumn,
-  SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
 import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
+import {
+  SortableEvent,
+  SortableTableHeaderColorScheme,
+} from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -69,7 +71,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   private static readonly coursesToLoad: number = 3;
   // enum
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
+  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
   SortBy: typeof SortBy = SortBy;
 
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;

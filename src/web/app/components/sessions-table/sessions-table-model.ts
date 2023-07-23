@@ -75,18 +75,3 @@ export interface SessionsTableColumnData extends ColumnData {
 export interface SessionsTableRowData extends SortableTableCellData {
   columnType?: SessionsTableColumn;
 }
-
-/**
- * The color scheme of the header of the table
- */
-export enum SessionsTableHeaderColorScheme {
-  /**
-   * Blue background with white text.
-   */
-  BLUE,
-
-  /**
-   * White background with black text.
-   */
-  WHITE,
-}

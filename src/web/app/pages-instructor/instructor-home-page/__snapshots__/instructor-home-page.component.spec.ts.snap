@@ -3,8 +3,8 @@
 exports[`InstructorHomePageComponent should snap when courses are still loading 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
@@ -81,8 +81,8 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
 exports[`InstructorHomePageComponent should snap with default fields 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
@@ -159,8 +159,8 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
 exports[`InstructorHomePageComponent should snap with one course with error loading feedback sessions 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
@@ -313,8 +313,8 @@ exports[`InstructorHomePageComponent should snap with one course with error load
 exports[`InstructorHomePageComponent should snap with one course with one feedback session with instructor privilege 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
@@ -896,8 +896,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
 exports[`InstructorHomePageComponent should snap with one course with two feedback sessions with tutor privilege 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
@@ -1639,8 +1639,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
 exports[`InstructorHomePageComponent should snap with one course with unexpanded course tab 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
@@ -1894,8 +1894,8 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
 exports[`InstructorHomePageComponent should snap with one course with unpopulated feedback sessions 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
@@ -2173,8 +2173,8 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
 exports[`InstructorHomePageComponent should snap with one course without feedback session 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"

@@ -4,9 +4,9 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
@@ -121,9 +121,9 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
@@ -238,9 +238,9 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
@@ -323,9 +323,9 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
@@ -1265,9 +1265,9 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
@@ -1382,9 +1382,9 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
@@ -1499,9 +1499,9 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
-  SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  SortableTableHeaderColorScheme={[Function Object]}
   __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"

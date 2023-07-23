@@ -11,7 +11,7 @@ import {
 } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-import { SessionsTableHeaderColorScheme } from './sessions-table-model';
+import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';
 
 @Component({
   selector: 'tm-group-buttons',
@@ -64,6 +64,6 @@ export class GroupButtonsComponent {
     FeedbackSessionSubmissionStatus;
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus =
     FeedbackSessionPublishStatus;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme =
-    SessionsTableHeaderColorScheme;
+  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme =
+    SortableTableHeaderColorScheme;
 }

@@ -1,8 +1,21 @@
 import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output } from '@angular/core';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-/* eslint-disable-next-line import/no-cycle */
-import { SessionsTableHeaderColorScheme } from '../sessions-table/sessions-table-model';
+
+/**
+ * The color scheme of the header of the table
+ */
+export enum SortableTableHeaderColorScheme {
+  /**
+   * Blue background with white text.
+   */
+  BLUE,
+
+  /**
+   * White background with black text.
+   */
+  WHITE,
+}
 
 /**
  * Column data for sortable table
@@ -57,7 +70,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
   tableId: string = '';
 
   @Input()
-  headerColorScheme: SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme.BLUE;
+  headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
 
   @Input()
   columns: ColumnData[] = [];
@@ -83,7 +96,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.tableRows = this.rows;
     this.initialSort(); // Performs an initial sort on the table
-    this.setMainTableStyle = this.headerColorScheme === SessionsTableHeaderColorScheme.BLUE;
+    this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
   }
 
   ngOnChanges(): void {
