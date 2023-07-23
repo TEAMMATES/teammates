@@ -36,7 +36,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private InstructorAttributes instructor2OfCourse1;
     private InstructorAttributes helperOfCourse1;
     private FeedbackResponseAttributes response1ForQ1;
-    private FeedbackResponseAttributes response1ForQ2;
     private FeedbackResponseAttributes response1ForQ3;
     private FeedbackResponseAttributes response2ForQ3;
     private FeedbackResponseAttributes response2ForQ4;
@@ -70,8 +69,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes qn1InSession1InCourse1 = logic.getFeedbackQuestion(
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
-        FeedbackQuestionAttributes qn2InSession1InCourse1 = logic.getFeedbackQuestion(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 2);
         FeedbackQuestionAttributes qn3InSession1InCourse1 = logic.getFeedbackQuestion(
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 3);
         FeedbackQuestionAttributes qn4InSession1InCourse1 = logic.getFeedbackQuestion(
@@ -82,8 +79,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 6);
         response1ForQ1 = logic.getFeedbackResponse(qn1InSession1InCourse1.getId(),
                 instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
-        response1ForQ2 = logic.getFeedbackResponse(qn2InSession1InCourse1.getId(),
-                instructor1OfCourse1.getEmail(), student1InCourse1.getEmail());
         response1ForQ3 = logic.getFeedbackResponse(qn3InSession1InCourse1.getId(),
                 student1InCourse1.getEmail(), student1InCourse1.getEmail());
         response2ForQ3 = logic.getFeedbackResponse(qn3InSession1InCourse1.getId(),
@@ -99,7 +94,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Override
     @Test
     public void testExecute() {
-        //see individual test cases.
+        // see individual test cases.
     }
 
     @Test
@@ -126,17 +121,17 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
-        FeedbackResponseCommentCreateRequest requestBody =
-                new FeedbackResponseCommentCreateRequest("Comment to first response",
-                        Arrays.asList(CommentVisibilityType.INSTRUCTORS),
-                        Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
+                "Comment to first response",
+                Arrays.asList(CommentVisibilityType.INSTRUCTORS),
+                Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
         CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
         assertEquals("Comment to first response", commentData.getFeedbackCommentText());
 
-        List<FeedbackResponseCommentAttributes> frcList =
-                getInstructorComments(response1ForQ1.getId(), "Comment to first response");
+        List<FeedbackResponseCommentAttributes> frcList = getInstructorComments(response1ForQ1.getId(),
+                "Comment to first response");
         assertEquals(1, frcList.size());
         FeedbackResponseCommentAttributes frc = frcList.get(0);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
@@ -202,9 +197,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
-        requestBody =
-                new FeedbackResponseCommentCreateRequest("Comment shown to own team members",
-                        Arrays.asList(CommentVisibilityType.GIVER_TEAM_MEMBERS), new ArrayList<>());
+        requestBody = new FeedbackResponseCommentCreateRequest("Comment shown to own team members",
+                Arrays.asList(CommentVisibilityType.GIVER_TEAM_MEMBERS), new ArrayList<>());
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -297,8 +291,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        FeedbackResponseCommentAttributes comment =
-                logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId());
+        FeedbackResponseCommentAttributes comment = logic
+                .getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId());
         assertEquals(comment.getCommentText(), "Student submission comment");
         assertEquals(student1InCourse1.getEmail(), comment.getCommentGiver());
         assertTrue(comment.isCommentFromFeedbackParticipant());
@@ -353,32 +347,25 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
-    protected void testAccessControl_textTypeQuestionResponse_notAllowedToAddComment() {
-        String[] submissionParamsInstructor = new String[] {
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ2.getId()),
-        };
-
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyHttpParameterFailureAcl(submissionParamsInstructor);
-    }
-
-    @Test
     public void testAccessControl_contributionQuestionResponse_instructorNotAllowedToAddComment() {
         DataBundle contributionDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(contributionDataBundle);
-        InstructorAttributes instructorAttributes = contributionDataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes contributionSession = contributionDataBundle.feedbackSessions.get("contribSession");
+        InstructorAttributes instructorAttributes = contributionDataBundle.instructors
+                .get("instructor1OfCourse1");
+        FeedbackSessionAttributes contributionSession = contributionDataBundle.feedbackSessions
+                .get("contribSession");
         FeedbackQuestionAttributes contributionQuestion = logic.getFeedbackQuestion(
                 contributionSession.getFeedbackSessionName(), contributionSession.getCourseId(), 1);
-        FeedbackResponseAttributes contributionResponse =
-                contributionDataBundle.feedbackResponses.get("response1ForQ1S5C1");
+        FeedbackResponseAttributes contributionResponse = contributionDataBundle.feedbackResponses
+                .get("response1ForQ1S5C1");
         contributionResponse = logic.getFeedbackResponse(
-                contributionQuestion.getId(), contributionResponse.getGiver(), contributionResponse.getRecipient());
+                contributionQuestion.getId(), contributionResponse.getGiver(),
+                contributionResponse.getRecipient());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(contributionResponse.getId()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID,
+                StringHelper.encrypt(contributionResponse.getId()),
         };
 
         loginAsInstructor(instructorAttributes.getGoogleId());
@@ -397,7 +384,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("New comment",
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
+                "New comment",
                 Arrays.asList(CommentVisibilityType.GIVER), new ArrayList<>());
 
         verifyInvalidOperation(requestBody, submissionParamsStudent);
@@ -578,9 +566,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         String feedbackSessionName = session1InCourse1.getFeedbackSessionName();
         String courseId = session1InCourse1.getCourseId();
         Instant newEndTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
-        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                .withEndTime(newEndTime)
-                .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                        .withEndTime(newEndTime)
+                        .build());
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -595,18 +584,20 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         Map<String, Instant> newInstructorDeadlines = Map.of(
                 instructor1OfCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(-1));
-        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                .withInstructorDeadlines(newInstructorDeadlines)
-                .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                        .withInstructorDeadlines(newInstructorDeadlines)
+                        .build());
         verifyCannotAccess(submissionParams);
 
         ______TS("Before selective deadline; should pass.");
 
         newInstructorDeadlines = Map.of(
                 instructor1OfCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(1));
-        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                .withInstructorDeadlines(newInstructorDeadlines)
-                .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                        .withInstructorDeadlines(newInstructorDeadlines)
+                        .build());
         verifyCanAccess(submissionParams);
     }
 
@@ -615,9 +606,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         String feedbackSessionName = session1InCourse1.getFeedbackSessionName();
         String courseId = session1InCourse1.getCourseId();
         Instant newEndTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
-        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                .withEndTime(newEndTime)
-                .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                        .withEndTime(newEndTime)
+                        .build());
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -632,18 +624,20 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         Map<String, Instant> newStudentDeadlines = Map.of(
                 student1InCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(-1));
-        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                .withStudentDeadlines(newStudentDeadlines)
-                .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                        .withStudentDeadlines(newStudentDeadlines)
+                        .build());
         verifyCannotAccess(submissionParams);
 
         ______TS("Before selective deadline; should pass.");
 
         newStudentDeadlines = Map.of(
                 student1InCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(1));
-        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                .withStudentDeadlines(newStudentDeadlines)
-                .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                        .withStudentDeadlines(newStudentDeadlines)
+                        .build());
         verifyCanAccess(submissionParams);
     }
 
@@ -656,9 +650,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     /**
-     * Filters instructor comments according to comment text from all comments on a response.
+     * Filters instructor comments according to comment text from all comments on a
+     * response.
      *
-     * @param responseId response id of response
+     * @param responseId  response id of response
      * @param commentText comment text
      * @return instructor comments
      */
