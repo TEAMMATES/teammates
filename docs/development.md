@@ -74,7 +74,7 @@ If the above command does not work, you may not have the updated v2 version of D
 ```sh
 docker-compose up -d
 ```
-For more information refer to the [Docker Documentation](https://docs.docker.com/compose/reference/)
+For more information on Docker, you may wish to refer to the [Docker Documentation](https://docs.docker.com/compose/reference/).
 
 ### Starting the dev server
 
