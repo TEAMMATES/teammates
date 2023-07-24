@@ -19,7 +19,8 @@ We have provided a Docker compose definition to run dependent services, includin
 ```sh
 docker compose run -p 8983:8983 solr
 ```
-If the command does not work, you should probably go for this:
+If the above command does not work, you may want to try this instead:
+
 ```sh
 docker-compose run -p 8983:8983 solr
 ```
