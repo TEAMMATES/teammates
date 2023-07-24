@@ -245,7 +245,7 @@ We have a Docker compose definition to run dependent services, including local D
 ```sh
 docker compose run -p 8484:8484 datastore
 ```
-If the above command does not work, you can use this command:
+If the above command does not work, you may want to try this instead:
 
 ```sh
 docker-compose run -p 8484:8484 datastore
