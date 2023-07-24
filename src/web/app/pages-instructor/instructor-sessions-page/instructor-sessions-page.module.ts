@@ -37,6 +37,13 @@ const routes: Routes = [
  * Module for instructor sessions page.
  */
 @NgModule({
+  declarations: [
+    InstructorSessionsPageComponent,
+    CopyFromOtherSessionsModalComponent,
+    SessionPermanentDeletionConfirmModalComponent,
+    SessionsPermanentDeletionConfirmModalComponent,
+  ],
+  exports: [InstructorSessionsPageComponent],
   imports: [
     CommonModule,
     SessionEditFormModule,
@@ -49,15 +56,6 @@ const routes: Routes = [
     LoadingRetryModule,
     TeammatesRouterModule,
     ModifiedTimestampModalModule,
-  ],
-  declarations: [
-    InstructorSessionsPageComponent,
-    CopyFromOtherSessionsModalComponent,
-    SessionPermanentDeletionConfirmModalComponent,
-    SessionsPermanentDeletionConfirmModalComponent,
-  ],
-  exports: [
-    InstructorSessionsPageComponent,
   ],
 })
 export class InstructorSessionsPageModule { }

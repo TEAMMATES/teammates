@@ -6,7 +6,7 @@
       </strong>
     </div>
   </div>
-  <div class="row">
+  <div class="row mb-4">
     <div class="col-sm-12 table-responsive">
       <tm-sortable-table [rows]="summaryRowsData" [columns]="summaryColumnsData" [initialSortBy]="SortBy.MSQ_PERCENTAGE"></tm-sortable-table>
     </div>
@@ -14,7 +14,9 @@
       <strong class="text-color-gray">
         Per Recipient Statistics
       </strong>
-      <tm-sortable-table [rows]="perRecipientRowsData" [columns]="perRecipientColumnsData" [initialSortBy]="SortBy.MSQ_WEIGHT_AVERAGE"></tm-sortable-table>
+      <div class="mb-4">
+        <tm-sortable-table [rows]="perRecipientRowsData" [columns]="perRecipientColumnsData" [initialSortBy]="SortBy.MSQ_WEIGHT_AVERAGE"></tm-sortable-table>
+      </div>
     </div>
   </div>
 </div>

@@ -88,27 +88,44 @@ export class ContributionQuestionStatisticsComponent
           value: statistics.results[email].claimed,
           customComponent: {
             component: ContributionComponent,
-            componentData: { value: statistics.results[email].claimed },
+            componentData: () => {
+              return {
+                value: statistics.results[email].claimed,
+              };
+            },
           },
         },
         {
           value: statistics.results[email].perceived,
           customComponent: {
             component: ContributionComponent,
-            componentData: { value: statistics.results[email].perceived },
+            componentData: () => {
+              return {
+                value: statistics.results[email].perceived,
+              };
+            },
           },
         },
         {
           value: this.emailToDiff[email],
           customComponent: {
             component: ContributionComponent,
-            componentData: { value: this.emailToDiff[email], diffOnly: true },
+            componentData: () => {
+              return {
+                value: this.emailToDiff[email],
+                diffOnly: true,
+              };
+            },
           },
         },
         {
           customComponent: {
             component: ContributionRatingsListComponent,
-            componentData: { ratingsList: statistics.results[email].perceivedOthers },
+            componentData: () => {
+              return {
+                ratingsList: statistics.results[email].perceivedOthers,
+              };
+            },
           },
         },
       ];
