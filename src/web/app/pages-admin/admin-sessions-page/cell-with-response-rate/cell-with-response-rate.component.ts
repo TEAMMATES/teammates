@@ -17,9 +17,9 @@ export interface OngoingSessionModel {
 })
 export class ResponseRateComponent {
     @Input() session!: OngoingSessionModel;
-    @Input() getResponseRate!: () => void;
     empty: boolean = true;
     isLoading: boolean = false;
+    @Input() getResponseRate!: () => void;
 
     callGetResponseRate(): void {
       this.isLoading = true;

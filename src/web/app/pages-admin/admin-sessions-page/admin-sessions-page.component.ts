@@ -267,9 +267,11 @@ export class AdminSessionsPageComponent implements OnInit {
     return {
       customComponent: {
         component: ResponseRateComponent,
-        componentData: {
-          session: ongoingSession,
-          getResponseRate: () => this.getResponseRate(ongoingSession),
+        componentData: () => {
+          return {
+            session: ongoingSession,
+            getResponseRate: () => this.getResponseRate(ongoingSession),
+          }
         },
       },
     };
@@ -278,9 +280,11 @@ export class AdminSessionsPageComponent implements OnInit {
     return {
       customComponent: {
         component: CreatorEmailComponent,
-        componentData: {
-            instructorHomePageLink,
-            creatorEmail,
+        componentData: () => {
+            return { 
+              instructorHomePageLink,
+              creatorEmail,
+            }
         },
       },
     };
