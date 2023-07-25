@@ -83,9 +83,6 @@
                 <a class="btn btn-light btn-sm dropdown-item" tmRouterLink='/web/instructor/courses/edit'
                   [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
-                <!--                <a class="btn btn-light btn-sm dropdown-item"-->
-                <!--                   tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs-->
-                <!--                </a>-->
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
                   <a class="btn-copy-course btn btn-light btn-sm dropdown-item"
                     ngbTooltip="Copy the course and its corresponding sessions"
@@ -108,10 +105,15 @@
             [message]="'Error loading feedback sessions'" (retryEvent)="loadFeedbackSessions(idx)">
             <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
               [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels"
-              [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
-              [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder"
-              [courseCandidates]="courseCandidates" [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE"
-              [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+              id = "sessions-table-{{ idx }}"
+              [initialSortBy]="initialSortBy"
+              [sortOrder]="sortOrder"
+              [courseCandidates]="courseCandidates"
+              [headerColorScheme]="SortableTableHeaderColorScheme.WHITE"
+              [columnsToShow]="[
+                SessionsTableColumn.START_DATE,
+                SessionsTableColumn.END_DATE
+              ]"
               [isSendReminderLoading]="isSendReminderLoading"
               (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
               (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)"

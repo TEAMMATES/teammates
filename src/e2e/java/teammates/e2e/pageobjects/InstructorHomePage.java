@@ -151,7 +151,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     private WebElement getSessionsTable(int courseTabIndex) {
-        return getCourseTab(courseTabIndex).findElement(By.className("sessions-table"));
+        return getCourseTab(courseTabIndex).findElement(By.id("sessions-table-" + courseTabIndex));
     }
 
     private String getDateString(Instant instant, String timeZone) {
