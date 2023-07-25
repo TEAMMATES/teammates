@@ -10,7 +10,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { SortBy } from '../../../types/sort-properties';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
@@ -117,7 +116,6 @@ describe('SessionsTableComponent', () => {
 
   it('should snap like in home page with 2 sessions sorted by start date', () => {
     component.columnsToShow = [SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE];
-    component.sessionsTableRowModelsSortBy = SortBy.SESSION_START_DATE;
     component.sessionsTableRowModels = [sessionTable1, sessionTable2];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -125,7 +123,6 @@ describe('SessionsTableComponent', () => {
 
   it('should snap like in sessions page with 2 sessions sorted by session name', () => {
     component.columnsToShow = [SessionsTableColumn.COURSE_ID];
-    component.sessionsTableRowModelsSortBy = SortBy.SESSION_NAME;
     component.sessionsTableRowModels = [sessionTable1, sessionTable2];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

@@ -198,10 +198,10 @@ describe('InstructorSessionsPageComponent', () => {
     expect(sessionSpy).toHaveBeenCalledTimes(1);
 
     expect(component.sessionsTableRowModels.length).toEqual(2);
-    expect(component.sessionsTableRowModels[0].feedbackSession.courseId).toEqual('CS3281');
-    expect(component.sessionsTableRowModels[0].feedbackSession.feedbackSessionName).toEqual('Second Session');
-    expect(component.sessionsTableRowModels[1].feedbackSession.courseId).toEqual('CS1231');
-    expect(component.sessionsTableRowModels[1].feedbackSession.feedbackSessionName).toEqual('First Session');
+    expect(component.sessionsTableRowModels[0].feedbackSession.courseId).toEqual('CS1231');
+    expect(component.sessionsTableRowModels[0].feedbackSession.feedbackSessionName).toEqual('First Session');
+    expect(component.sessionsTableRowModels[1].feedbackSession.courseId).toEqual('CS3281');
+    expect(component.sessionsTableRowModels[1].feedbackSession.feedbackSessionName).toEqual('Second Session');
   });
 
   it('should load all feedback sessions in recycle bin that can be accessed by instructor', () => {
