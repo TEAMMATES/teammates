@@ -26,9 +26,8 @@ const routes: Routes = [
  * Module for instructor home page.
  */
 @NgModule({
-  declarations: [
-    InstructorHomePageComponent,
-  ],
+  declarations: [InstructorHomePageComponent],
+  exports: [InstructorHomePageComponent],
   imports: [
     CommonModule,
     SessionsTableModule,
@@ -44,9 +43,6 @@ const routes: Routes = [
     CopyCourseModalModule,
     ProgressBarModule,
     ModifiedTimestampModalModule,
-  ],
-  exports: [
-    InstructorHomePageComponent,
   ],
 })
 export class InstructorHomePageModule { }
