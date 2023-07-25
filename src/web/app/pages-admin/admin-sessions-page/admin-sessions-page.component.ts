@@ -210,18 +210,22 @@ export class AdminSessionsPageComponent implements OnInit {
    /**
     * Gets the response rate of the session
     */
-   getResponseRate(session: OngoingSessionModel): void {
-    this.feedbackSessionsService.loadSessionStatistics(
-      session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName)
-    .subscribe({
-      next: (resp: FeedbackSessionStats) => {
-          session.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
+  getResponseRate(session: OngoingSessionModel): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.feedbackSessionsService.loadSessionStatistics(
+        session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName)
+      .subscribe({
+        next: (resp: FeedbackSessionStats) => {
+            session.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+            resolve();
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          reject();
+        },
+      });
     });
-}
+  }
 
   updateDisplayedTimes(): void {
     for (const sessions of Object.values(this.sessions)) {

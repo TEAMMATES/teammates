@@ -19,12 +19,13 @@ export class ResponseRateComponent {
     @Input() session!: OngoingSessionModel;
     empty: boolean = true;
     isLoading: boolean = false;
-    @Input() getResponseRate!: () => void;
+    @Input() getResponseRate!: () => Promise<void>;
 
-    callGetResponseRate(): void {
+    async callGetResponseRate(): Promise<void> {
       this.isLoading = true;
-      this.getResponseRate();
-      this.empty = false;
-      this.isLoading = false;
+      await this.getResponseRate().then(() => {
+        this.empty = false;
+        this.isLoading = false;
+      });
     }
 }
