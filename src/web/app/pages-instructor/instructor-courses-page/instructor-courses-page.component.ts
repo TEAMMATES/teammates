@@ -15,7 +15,6 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
-  CourseModel,
   Courses,
   FeedbackSession,
   FeedbackSessions,
@@ -44,6 +43,12 @@ import { ArchivedActionsComponent } from './cell-with-archived-actions/cell-with
 import { CourseStatsComponent } from './cell-with-course-stats/cell-with-course-stats.component';
 import { DeletedActionsComponent } from './cell-with-deleted-actions/cell-with-deleted-actions.component';
 
+interface CourseModel {
+  course: Course;
+  canModifyCourse: boolean;
+  canModifyStudent: boolean;
+  isLoadingCourseStats: boolean;
+}
 interface SortableTable {
   columns: ColumnData[];
   rows: SortableTableCellData[][];
