@@ -66,8 +66,15 @@ The details on how to run them locally can be found [here (for local Datastore e
 If you have access to Docker, we have a Docker compose definition to run those services:
 
 ```sh
+docker compose up -d
+
+```
+If the above command does not work, you may not have the updated v2 version of Docker. You may want to try this instead:
+
+```sh
 docker-compose up -d
 ```
+For more information on Docker, you may wish to refer to the [Docker Documentation](https://docs.docker.com/compose/reference/).
 
 ### Starting the dev server
 
@@ -234,6 +241,11 @@ The Datastore emulator will be running in the port specified in the `build.prope
 <panel header="**Using Docker-based tooling**">
 
 We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
+
+```sh
+docker compose run -p 8484:8484 datastore
+```
+If the above command does not work, you may want to try this instead:
 
 ```sh
 docker-compose run -p 8484:8484 datastore

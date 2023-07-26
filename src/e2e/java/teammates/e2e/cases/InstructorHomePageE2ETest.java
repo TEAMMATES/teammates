@@ -207,8 +207,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.sortCoursesByCreationDate();
         courseIndex = 1;
         otherCourseIndex = 0;
-        FeedbackSessionAttributes[] otherCourseSessionsWithCopy2 = { copiedSession2, otherCourseSession };
-        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopy2);
+        FeedbackSessionAttributes[] otherCourseSessionsWithCopyTwo = { copiedSession2, otherCourseSession };
+        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
         assertNotNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
                 instructor.getGoogleId()));
 

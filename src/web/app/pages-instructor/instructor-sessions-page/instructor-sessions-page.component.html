@@ -30,10 +30,13 @@
         *ngIf="sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading">
         You have not created any sessions yet. Use the form above to create a session.
       </div>
-      <tm-sessions-table *tmIsLoading="isFeedbackSessionsLoading" [sessionsTableRowModels]="sessionsTableRowModels"
-        [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy"
-        [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-        [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]" [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
+      <tm-sessions-table
+        id="sessions-table"
+        *tmIsLoading="isFeedbackSessionsLoading"
+        [sessionsTableRowModels]="sessionsTableRowModels"
+        [courseCandidates]="courseCandidates"
+        [columnsToShow]="[SessionsTableColumn.COURSE_ID]"
+        [headerColorScheme]="SortableTableHeaderColorScheme.BLUE"
         [isSendReminderLoading]="isSendReminderLoading"
         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
         (loadResponseRateEvent)="loadResponseRateEventHandler($event)"
