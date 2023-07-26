@@ -30,7 +30,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isCopyingCourse="false"
   isLoadingActiveCourses={[Function Boolean]}
   isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeleteCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
@@ -175,7 +175,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isCopyingCourse="false"
   isLoadingActiveCourses={[Function Boolean]}
   isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeleteCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
@@ -320,7 +320,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
   isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeleteCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
@@ -752,7 +752,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
   isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeleteCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
@@ -1121,7 +1121,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
   isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeleteCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
@@ -1553,7 +1553,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isCopyingCourse="false"
   isLoadingActiveCourses={[Function Boolean]}
   isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeleteCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
@@ -1698,7 +1698,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
   isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeleteCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}

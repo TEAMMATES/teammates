@@ -79,7 +79,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   isLoadingActiveCourses: boolean = false;
   isLoadingArchivedCourses: boolean = false;
-  isLoadingSoftDeleteCourses: boolean = false;
+  isLoadingSoftDeletedCourses: boolean = false;
   hasLoadingFailed: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
@@ -130,7 +130,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.hasLoadingFailed = false;
     this.isLoadingActiveCourses = true;
     this.isLoadingArchivedCourses = true;
-    this.isLoadingSoftDeleteCourses = true;
+    this.isLoadingSoftDeletedCourses = true;
     this.activeCourses = [];
     this.archivedCourses = [];
     this.softDeletedCourses = [];
@@ -210,10 +210,10 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.canRestoreAll = false;
           }
         }
-        this.isLoadingSoftDeleteCourses = false;
+        this.isLoadingSoftDeletedCourses = false;
       },
       error: (resp: ErrorMessageOutput) => {
-        this.isLoadingSoftDeleteCourses = false;
+        this.isLoadingSoftDeletedCourses = false;
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },

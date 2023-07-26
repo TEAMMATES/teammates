@@ -481,7 +481,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable restore and permanently delete buttons when instructor cannot modify deleted course', () => {
     component.softDeletedCourses = [courseModelST4234];
-    component.isLoadingSoftDeleteCourses = false;
+    component.isLoadingSoftDeletedCourses = false;
     component.isRecycleBinExpanded = true;
     fixture.detectChanges();
 
