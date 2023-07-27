@@ -131,7 +131,7 @@
       </div>
       <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[item.institute]" @collapseAnim >
         <div class="table-responsive">
-          <tm-sortable-table [rows]="item.rows" [columns]="item.columns" [initialSortBy]="SortBy.SESSION_START_DATE" id="ongoing-sessions-table"></tm-sortable-table>
+          <tm-sortable-table [rows]="item.rows" [columns]="item.columns" [initialSortBy]="SortBy.INSTITUTION_NAME" id="ongoing-sessions-table"></tm-sortable-table>
         </div>
       </div>
     </div>

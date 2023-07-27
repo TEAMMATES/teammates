@@ -111,6 +111,20 @@ export class TableComparatorService {
   }
 
   /**
+   * Compares two dates
+   */
+  compareDates(datestr1: string, datestr2: string, order: SortOrder): number {
+    const date1 = new Date(datestr1);
+    const date2 = new Date(datestr2);
+    
+    const diff = date1.getTime() - date2.getTime();
+    if(order == SortOrder.ASC) {
+      return diff;
+    }
+    else return -diff;
+  }
+
+  /**
    * Compares two strings depending on element to sort by and the order given.
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
@@ -147,8 +161,6 @@ export class TableComparatorService {
       case SortBy.COURSE_NAME:
       case SortBy.COURSE_CREATION_DATE:
       case SortBy.SESSION_COMPLETION_STATUS:
-      case SortBy.SESSION_START_DATE:
-      case SortBy.SESSION_END_DATE:
       case SortBy.SESSION_CREATION_DATE:
       case SortBy.SESSION_DELETION_DATE:
       case SortBy.NOTIFICATION_START_TIME:
@@ -197,6 +209,9 @@ export class TableComparatorService {
         return this.compareChronologically(strA, strB, order);
       case SortBy.INSTRUCTOR_PERMISSION_ROLE:
         return this.compareRoles(strA, strB, order);
+      case SortBy.SESSION_START_DATE:
+      case SortBy.SESSION_END_DATE:
+        return this.compareDates(strA, strB, order);
       default:
         return 0;
     }
