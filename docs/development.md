@@ -66,8 +66,15 @@ The details on how to run them locally can be found [here (for local Datastore e
 If you have access to Docker, we have a Docker compose definition to run those services:
 
 ```sh
+docker compose up -d
+
+```
+If the above command does not work, you may not have the updated v2 version of Docker. You may want to try this instead:
+
+```sh
 docker-compose up -d
 ```
+For more information on Docker, you may wish to refer to the [Docker Documentation](https://docs.docker.com/compose/reference/).
 
 ### Starting the dev server
 
@@ -186,6 +193,35 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
+### Masquerading as another user
+
+Masquerade mode is a feature that enables the admin to log in as mock instructors/students for testing and situations where masquerading as another user is applicable.
+
+Essentially, when you are logged into the administrator account, you will be able to conveniently and directly access the other instructor/student accounts. When in masquerade mode, you should see a `(M)` at the top right of the page you are on.
+
+**Note**:
+If you decide to use port `8080` for the following steps below, make sure you have run `npm run build` in your project root. For more information, refer to [Building front-end files](#building-front-end-files). Else, you may use port `4200` which is TEAMMATES' frontend URL.
+
+To prepare for _masquerade mode_, do the following:
+
+- Log in as an administrator via http://localhost:4200/web/admin/home.
+  - For more information, refer to the [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance) section above in this document.
+- Create a new instructor by filling in the Name, Email, and Institution fields in the form provided. Once done, click on _Add Instructor_, followed by _Add_ under the **Action** column.
+  - Copy the link address from the **_join link_**.
+- Log out from the administrator account. Use the link you copied in the previous step and paste it into your browser's search bar. Enter the new account's email and register for the course.
+  - Now, the registration is !!completed!! and we have a new account that we can masquerade as.
+- Lastly, log out from the current account and log back in as an administrator and follow the rest of the steps below.
+
+To masquerade as an **_instructor_**:
+
+- Use the instructor's path `/web/instructor/home` with the instructor's email appended as a query parameter, e.g., `http://localhost:4200/web/instructor/home?user=kelvin@gmail.com`.
+- For convenience, http://localhost:4200/web/instructor/home?user=INSTRUCTOR_EMAIL. Double click on `INSTRUCTOR_EMAIL` to replace it with the instructor's email.
+
+To masquerade as a **_student_**:
+
+- Use the student's path `/web/student/home` with the student's email appended as a query parameter, e.g., `http://localhost:4200/web/student/home?user=janethestudent@gmail.com`.
+- For convenience, http://localhost:4200/web/student/home?user=STUDENT_EMAIL. Double click on `STUDENT_EMAIL` to replace it with the student's email.
+
 ## Running the Datastore emulator
 
 The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
@@ -205,6 +241,11 @@ The Datastore emulator will be running in the port specified in the `build.prope
 <panel header="**Using Docker-based tooling**">
 
 We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
+
+```sh
+docker compose run -p 8484:8484 datastore
+```
+If the above command does not work, you may want to try this instead:
 
 ```sh
 docker-compose run -p 8484:8484 datastore
