@@ -1256,7 +1256,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <tbody>
                         <tr>
                           <td>
-                            First Session
+                            Second Session
                           </td>
                           <td>
                             <ndc-dynamic />
@@ -1274,7 +1274,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <span
                                 class="ngb-tooltip-class"
                               >
-                                11 Jan 9:21 PM
+                                20 Jan 9:21 PM
                               </span>
                             </tm-cell-with-tooltip>
                           </td>
@@ -1304,7 +1304,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <div
                                 class="response-rate-0"
                               >
-                                 0 / 6
+                                 5 / 6
                               </div>
                             </tm-response-rate>
                           </td>
@@ -1361,14 +1361,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=Second%20Session"
                                       tmrouterlink="/web/instructor/sessions/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=Second%20Session"
                                       tmrouterlink="/web/instructor/sessions/report"
                                     >
                                       View Results (course-wide)
@@ -1440,7 +1440,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         </tr>
                         <tr>
                           <td>
-                            Second Session
+                            First Session
                           </td>
                           <td>
                             <ndc-dynamic />
@@ -1458,7 +1458,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <span
                                 class="ngb-tooltip-class"
                               >
-                                20 Jan 9:21 PM
+                                11 Jan 9:21 PM
                               </span>
                             </tm-cell-with-tooltip>
                           </td>
@@ -1488,7 +1488,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <div
                                 class="response-rate-1"
                               >
-                                 5 / 6
+                                 0 / 6
                               </div>
                             </tm-response-rate>
                           </td>
@@ -1545,14 +1545,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=Second%20Session"
+                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
                                       tmrouterlink="/web/instructor/sessions/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=Second%20Session"
+                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
                                       tmrouterlink="/web/instructor/sessions/report"
                                     >
                                       View Results (course-wide)

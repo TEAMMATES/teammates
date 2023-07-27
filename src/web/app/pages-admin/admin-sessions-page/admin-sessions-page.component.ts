@@ -16,6 +16,7 @@ import {
   OngoingSessionModel,
   ResponseRateComponent,
  } from './cell-with-response-rate/cell-with-response-rate.component';
+import { CellWithToolTipComponent } from '../../components/sessions-table/cell-with-tooltip.component';
 
 interface SortableTable {
   institute: string;
@@ -121,8 +122,8 @@ export class AdminSessionsPageComponent implements OnInit {
             .concat(session.ongoingSession.feedbackSessionName))),
           },
           this.createCellWithResponseRateComponent(session),
-          { value: session.startTimeString },
-          { value: session.endTimeString },
+          this.createDateCellWithToolTipComponent(session.startTimeString),
+          this.createDateCellWithToolTipComponent(session.endTimeString),
           this.createCellWithCreatorEmailComponent(session.ongoingSession.instructorHomePageLink,
             session.ongoingSession.creatorEmail),
         ];
@@ -267,7 +268,7 @@ export class AdminSessionsPageComponent implements OnInit {
       return this.tableComparatorService.compare(by, sortOrder, strA, strB);
     });
   }
-  createCellWithResponseRateComponent(ongoingSession: OngoingSessionModel): SortableTableCellData {
+  private createCellWithResponseRateComponent(ongoingSession: OngoingSessionModel): SortableTableCellData {
     return {
       customComponent: {
         component: ResponseRateComponent,
@@ -280,7 +281,7 @@ export class AdminSessionsPageComponent implements OnInit {
       },
     };
   }
-  createCellWithCreatorEmailComponent(instructorHomePageLink:string, creatorEmail: string): SortableTableCellData {
+  private createCellWithCreatorEmailComponent(instructorHomePageLink:string, creatorEmail: string): SortableTableCellData {
     return {
       customComponent: {
         component: CreatorEmailComponent,
@@ -294,4 +295,17 @@ export class AdminSessionsPageComponent implements OnInit {
     };
   }
 
+  private createDateCellWithToolTipComponent(date: string): SortableTableCellData {
+    return {
+      customComponent: {
+        component: CellWithToolTipComponent,
+        componentData: () => {
+          return {
+            toolTip: date,
+            value: "",
+          }
+        }
+      }
+    }
+  }
 }
