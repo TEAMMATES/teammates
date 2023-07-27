@@ -855,13 +855,15 @@ export class InstructorCoursesPageComponent implements OnInit {
     return {
       customComponent: {
         component: ActionsComponent,
-        componentData: {
-          course,
-          isCopyingCourse: this.isCopyingCourse,
-          onCopy: (courseId: string, courseName: string, timezone: string) =>
-          this.onCopy(courseId, courseName, timezone),
-          changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
-          onDelete: (courseId: string) => this.onDelete(courseId),
+        componentData: () => {
+          return {
+            course,
+            isCopyingCourse: this.isCopyingCourse,
+            onCopy: (courseId: string, courseName: string, timezone: string) =>
+            this.onCopy(courseId, courseName, timezone),
+            changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
+            onDelete: (courseId: string) => this.onDelete(courseId),
+          }
         },
       },
     };
@@ -871,12 +873,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     return {
       customComponent: {
         component: CourseStatsComponent,
-        componentData: {
-          courseId: courseModel.course.courseId,
-          column,
-          courseStats: this.courseStats,
-          isLoadingCourseStats: courseModel.isLoadingCourseStats,
-          getCourseStats: () => this.getCourseStats(courseModel),
+        componentData: () => {
+          return {
+            courseId: courseModel.course.courseId,
+            column,
+            courseStats: this.courseStats,
+            isLoadingCourseStats: courseModel.isLoadingCourseStats,
+            getCourseStats: () => this.getCourseStats(courseModel),
+          }
         },
       },
     };
@@ -898,10 +902,12 @@ export class InstructorCoursesPageComponent implements OnInit {
     return {
       customComponent: {
         component: ArchivedActionsComponent,
-        componentData: {
-          course,
-          changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
-          onDelete: (courseId: string) => this.onDelete(courseId),
+        componentData: () => {
+          return {
+            course,
+            changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
+            onDelete: (courseId: string) => this.onDelete(courseId),
+          }
         },
       },
     };
@@ -924,10 +930,12 @@ export class InstructorCoursesPageComponent implements OnInit {
     return {
       customComponent: {
         component: DeletedActionsComponent,
-        componentData: {
-          course,
-          onRestore: (courseId: string) => this.onRestore(courseId),
-          onDeletePermanently: (courseId: string) => this.onDeletePermanently(courseId),
+        componentData: () => {
+          return {
+            course,
+            onRestore: (courseId: string) => this.onRestore(courseId),
+            onDeletePermanently: (courseId: string) => this.onDeletePermanently(courseId),
+          }
         },
       },
     };
