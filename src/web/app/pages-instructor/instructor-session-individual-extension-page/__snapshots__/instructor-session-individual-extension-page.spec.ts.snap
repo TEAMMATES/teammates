@@ -945,40 +945,14 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
           </thead>
           <tbody>
             <tr
-              class="table-warning"
               id="instructor-row-0"
             >
               <td
                 class="align-center"
               >
                 <input
-                  aria-label="Select tester2HasExtension"
-                  id="instructor-checkbox-0"
-                  type="checkbox"
-                />
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
-              >
-                <input
                   aria-label="Select tester1"
-                  id="instructor-checkbox-1"
+                  id="instructor-checkbox-0"
                   type="checkbox"
                 />
               </td>
@@ -993,6 +967,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              class="table-warning"
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </tbody>
@@ -1490,40 +1490,14 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
           </thead>
           <tbody>
             <tr
-              class="table-warning"
               id="instructor-row-0"
             >
               <td
                 class="align-center"
               >
                 <input
-                  aria-label="Select tester2HasExtension"
-                  id="instructor-checkbox-0"
-                  type="checkbox"
-                />
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
-              >
-                <input
                   aria-label="Select tester1"
-                  id="instructor-checkbox-1"
+                  id="instructor-checkbox-0"
                   type="checkbox"
                 />
               </td>
@@ -1538,6 +1512,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              class="table-warning"
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </tbody>
@@ -2035,40 +2035,14 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
           </thead>
           <tbody>
             <tr
-              class="table-warning"
               id="instructor-row-0"
             >
               <td
                 class="align-center"
               >
                 <input
-                  aria-label="Select tester2HasExtension"
-                  id="instructor-checkbox-0"
-                  type="checkbox"
-                />
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
-              >
-                <input
                   aria-label="Select tester1"
-                  id="instructor-checkbox-1"
+                  id="instructor-checkbox-0"
                   type="checkbox"
                 />
               </td>
@@ -2083,6 +2057,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              class="table-warning"
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </tbody>
@@ -3262,40 +3262,14 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
           </thead>
           <tbody>
             <tr
-              class="table-warning"
               id="instructor-row-0"
             >
               <td
                 class="align-center"
               >
                 <input
-                  aria-label="Select tester2HasExtension"
-                  id="instructor-checkbox-0"
-                  type="checkbox"
-                />
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
-              >
-                <input
                   aria-label="Select tester1"
-                  id="instructor-checkbox-1"
+                  id="instructor-checkbox-0"
                   type="checkbox"
                 />
               </td>
@@ -3310,6 +3284,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              class="table-warning"
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </tbody>
@@ -3809,40 +3809,14 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
           </thead>
           <tbody>
             <tr
-              class="table-warning"
               id="instructor-row-0"
             >
               <td
                 class="align-center"
               >
                 <input
-                  aria-label="Select tester2HasExtension"
-                  id="instructor-checkbox-0"
-                  type="checkbox"
-                />
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
-              >
-                <input
                   aria-label="Select tester1"
-                  id="instructor-checkbox-1"
+                  id="instructor-checkbox-0"
                   type="checkbox"
                 />
               </td>
@@ -3857,6 +3831,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              class="table-warning"
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </tbody>
@@ -6045,40 +6045,14 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
           </thead>
           <tbody>
             <tr
-              class="table-warning"
               id="instructor-row-0"
             >
               <td
                 class="align-center"
               >
                 <input
-                  aria-label="Select tester2HasExtension"
-                  id="instructor-checkbox-0"
-                  type="checkbox"
-                />
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
-              >
-                <input
                   aria-label="Select tester1"
-                  id="instructor-checkbox-1"
+                  id="instructor-checkbox-0"
                   type="checkbox"
                 />
               </td>
@@ -6093,6 +6067,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              class="table-warning"
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </tbody>
@@ -6492,40 +6492,14 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
           </thead>
           <tbody>
             <tr
-              class="table-warning"
               id="instructor-row-0"
             >
               <td
                 class="align-center"
               >
                 <input
-                  aria-label="Select tester2HasExtension"
-                  id="instructor-checkbox-0"
-                  type="checkbox"
-                />
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
-              >
-                <input
                   aria-label="Select tester1"
-                  id="instructor-checkbox-1"
+                  id="instructor-checkbox-0"
                   type="checkbox"
                 />
               </td>
@@ -6542,6 +6516,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
                 Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
+            <tr
+              class="table-warning"
+              id="instructor-row-1"
+            >
+              <td
+                class="align-center"
+              >
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -6552,6 +6552,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
     <div>
       <button
         class="btn btn-success"
+        disabled=""
         id="extend-btn"
         type="button"
       >
