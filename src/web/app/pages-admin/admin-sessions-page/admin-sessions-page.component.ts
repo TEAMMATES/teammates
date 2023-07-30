@@ -16,7 +16,6 @@ import {
   OngoingSessionModel,
   ResponseRateComponent,
  } from './cell-with-response-rate/cell-with-response-rate.component';
-import { CellWithToolTipComponent } from '../../components/sessions-table/cell-with-tooltip.component';
 
 interface SortableTable {
   institute: string;
@@ -74,7 +73,7 @@ export class AdminSessionsPageComponent implements OnInit {
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private tableComparatorService: TableComparatorService) {}
+              private tableComparatorService: TableComparatorService,) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -122,8 +121,10 @@ export class AdminSessionsPageComponent implements OnInit {
             .concat(session.ongoingSession.feedbackSessionName))),
           },
           this.createCellWithResponseRateComponent(session),
-          this.createDateCellWithToolTipComponent(session.startTimeString),
-          this.createDateCellWithToolTipComponent(session.endTimeString),
+          { displayValue: session.startTimeString, 
+            value: String(new Date(session.startTimeString).getTime()) },
+          { displayValue: session.endTimeString, 
+            value: String(new Date(session.endTimeString).getTime()) },
           this.createCellWithCreatorEmailComponent(session.ongoingSession.instructorHomePageLink,
             session.ongoingSession.creatorEmail),
         ];
@@ -293,19 +294,5 @@ export class AdminSessionsPageComponent implements OnInit {
         },
       },
     };
-  }
-
-  private createDateCellWithToolTipComponent(date: string): SortableTableCellData {
-    return {
-      customComponent: {
-        component: CellWithToolTipComponent,
-        componentData: () => {
-          return {
-            toolTip: date,
-            value: "",
-          }
-        }
-      }
-    }
   }
 }
