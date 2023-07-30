@@ -73,7 +73,7 @@ export class AdminSessionsPageComponent implements OnInit {
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private tableComparatorService: TableComparatorService,) {}
+              private tableComparatorService: TableComparatorService) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -121,10 +121,14 @@ export class AdminSessionsPageComponent implements OnInit {
             .concat(session.ongoingSession.feedbackSessionName))),
           },
           this.createCellWithResponseRateComponent(session),
-          { displayValue: session.startTimeString, 
-            value: String(new Date(session.startTimeString).getTime()) },
-          { displayValue: session.endTimeString, 
-            value: String(new Date(session.endTimeString).getTime()) },
+          {
+            displayValue: session.startTimeString,
+            value: String(new Date(session.startTimeString).getTime()),
+          },
+          {
+            displayValue: session.endTimeString,
+            value: String(new Date(session.endTimeString).getTime()),
+          },
           this.createCellWithCreatorEmailComponent(session.ongoingSession.instructorHomePageLink,
             session.ongoingSession.creatorEmail),
         ];
@@ -282,7 +286,8 @@ export class AdminSessionsPageComponent implements OnInit {
       },
     };
   }
-  private createCellWithCreatorEmailComponent(instructorHomePageLink:string, creatorEmail: string): SortableTableCellData {
+  private createCellWithCreatorEmailComponent(instructorHomePageLink:string, creatorEmail: string)
+  : SortableTableCellData {
     return {
       customComponent: {
         component: CreatorEmailComponent,
