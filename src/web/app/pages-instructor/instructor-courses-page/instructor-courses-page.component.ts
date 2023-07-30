@@ -861,9 +861,10 @@ export class InstructorCoursesPageComponent implements OnInit {
             isCopyingCourse: this.isCopyingCourse,
             onCopy: (courseId: string, courseName: string, timezone: string) =>
             this.onCopy(courseId, courseName, timezone),
-            changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
+            changeArchiveStatus: (courseId: string, toArchive: boolean) =>
+            this.changeArchiveStatus(courseId, toArchive),
             onDelete: (courseId: string) => this.onDelete(courseId),
-          }
+          };
         },
       },
     };
@@ -880,7 +881,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             courseStats: this.courseStats,
             isLoadingCourseStats: courseModel.isLoadingCourseStats,
             getCourseStats: () => this.getCourseStats(courseModel),
-          }
+          };
         },
       },
     };
@@ -905,9 +906,10 @@ export class InstructorCoursesPageComponent implements OnInit {
         componentData: () => {
           return {
             course,
-            changeArchiveStatus: (courseId: string, toArchive: boolean) => this.changeArchiveStatus(courseId, toArchive),
+            changeArchiveStatus: (courseId: string, toArchive: boolean) =>
+            this.changeArchiveStatus(courseId, toArchive),
             onDelete: (courseId: string) => this.onDelete(courseId),
-          }
+          };
         },
       },
     };
@@ -935,7 +937,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             course,
             onRestore: (courseId: string) => this.onRestore(courseId),
             onDeletePermanently: (courseId: string) => this.onDeletePermanently(courseId),
-          }
+          };
         },
       },
     };

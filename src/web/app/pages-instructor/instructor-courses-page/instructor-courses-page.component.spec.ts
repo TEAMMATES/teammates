@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -20,7 +21,6 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
-import { DatePipe } from '@angular/common';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -285,7 +285,7 @@ describe('InstructorCoursesPageComponent', () => {
       ],
       providers: [
         DatePipe,
-      ]
+      ],
     })
     .compileComponents();
   }));
