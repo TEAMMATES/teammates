@@ -91,27 +91,27 @@ export class StudentListComponent implements OnInit {
         {
             header: 'Section',
             sortBy: SortBy.SECTION_NAME,
-            headerClass: 'sort-by-section'
+            headerClass: 'sort-by-section',
         },
         {
             header: 'Team',
             sortBy: SortBy.TEAM_NAME,
-            headerClass: 'sort-by-team'
+            headerClass: 'sort-by-team',
         },
         {
             header: 'Student Name',
             sortBy: SortBy.RESPONDENT_NAME,
-            headerClass: 'sort-by-name'
+            headerClass: 'sort-by-name',
         },
         {
             header: 'Status',
             sortBy: SortBy.JOIN_STATUS,
-            headerClass: 'sort-by-status'
+            headerClass: 'sort-by-status',
         },
         {
             header: 'Email',
             sortBy: SortBy.RESPONDENT_EMAIL,
-            headerClass: 'sort-by-email'
+            headerClass: 'sort-by-email',
 
         },
         {
