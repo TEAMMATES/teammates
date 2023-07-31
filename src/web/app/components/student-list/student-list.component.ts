@@ -46,11 +46,16 @@ export class StudentListComponent implements OnInit {
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
   @Input() customHeaderStyle: string = 'bg-light';
 
+  @Input() set studentsModels(studentRowModels: StudentListRowModel[]) {
+    this.students = studentRowModels;
+    this.setRowData();
+  }
+
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
   @Output() sortStudentListEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
-  rowData: SortableTableCellData[][] = [];
-  columnData: ColumnData[] = [];
+  rowsData: SortableTableCellData[][] = [];
+  columnsData: ColumnData[] = [];
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -72,8 +77,8 @@ export class StudentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setColumnData();
     this.setRowData();
+    this.setColumnData();
     this.setHeaderStyle();
   }
 
@@ -82,7 +87,7 @@ export class StudentListComponent implements OnInit {
   }
 
   setColumnData(): void {
-    this.columnData = [
+    this.columnsData = [
         {
             header: 'Section',
             sortBy: SortBy.SECTION_NAME,
@@ -111,7 +116,7 @@ export class StudentListComponent implements OnInit {
   }
 
   setRowData(): void {
-    this.rowData = this.students.map((studentModel: StudentListRowModel) => {
+    this.rowsData = this.students.map((studentModel: StudentListRowModel) => {
       const rowData: SortableTableCellData[] = [
         {
           value: studentModel.student.sectionName,
@@ -189,6 +194,8 @@ export class StudentListComponent implements OnInit {
         `Delete student <strong>${studentModel.student.name}</strong>?`, SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       this.removeStudentFromCourse(studentModel.student.email);
+      this.students = this.students.filter((student: StudentListRowModel) => student.student.email !== studentModel.student.email)
+      this.setRowData();
     }, () => {});
   }
 
