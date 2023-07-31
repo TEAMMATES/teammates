@@ -7,7 +7,6 @@ import {
 import { InstructorPermissionSet } from 'src/web/types/api-request';
 import { JoinState } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
-import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 @Component({
@@ -25,7 +24,6 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
 
 export class CellWithActionsComponent {
   @Input() idx: number = 0;
-  @Input() fsName: string = '';
   @Input() courseId: string = '';
   @Input() email: string = '';
   @Input() isSendReminderLoading: boolean = false;
@@ -43,15 +41,7 @@ export class CellWithActionsComponent {
     canModifySessionCommentsInSections: false,
   };
 
-  @Input() copySession: () => void = () => {};
-  @Input() sendRemindersToAllNonSubmitters: () => void = () => {};
-  @Input() sendRemindersToSelectedNonSubmitters: () => void = () => {};
   @Input() remindStudentFromCourse: () => void = () => {};
   @Input() removeStudentFromCourse : () => void = () => {};
-
-  JoinState: typeof JoinState = JoinState;
-
-  // enum
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme =
-    SortableTableHeaderColorScheme;
+    
 }
