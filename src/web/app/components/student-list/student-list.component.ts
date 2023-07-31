@@ -6,6 +6,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import {
     ColumnData,
@@ -70,7 +71,8 @@ export class StudentListComponent implements OnInit {
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
-              private simpleModalService: SimpleModalService) {
+              private simpleModalService: SimpleModalService,
+              private searchTermsHighlighterPipe: SearchTermsHighlighterPipe) {
   }
 
   /**
@@ -133,18 +135,22 @@ export class StudentListComponent implements OnInit {
       const rowData: SortableTableCellData[] = [
         {
           value: studentModel.student.sectionName,
+          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.sectionName, this.searchString),
         },
         {
           value: studentModel.student.teamName,
+          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.teamName, this.searchString),
         },
         {
           value: studentModel.student.name,
+          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.name, this.searchString),
         },
         {
           value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
         },
         {
           value: studentModel.student.email,
+          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.email, this.searchString),
         },
         this.createActionsCell(studentModel),
       ];
