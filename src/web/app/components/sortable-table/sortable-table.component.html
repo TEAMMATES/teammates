@@ -1,6 +1,6 @@
 <table class="table table-bordered table-striped">
   <thead>
-    <tr [ngClass]="setMainTableStyle ? 'bg-primary text-white' : setOtherTableStyle ? customHeaderStyle : ''">
+    <tr [ngClass]="setMainTableStyle ? 'bg-primary text-white' : customHeaderStyle">
       <th *ngFor="let column of columns" [ngClass]="{ 'sortable-header': column.sortBy }" class="{{column?.headerClass}}"
         [ngStyle]="getAlignment(column)" (click)="column.sortBy && onClickHeader(column.header)" [attr.aria-sort]="getAriaSort(column.header)"
       >
