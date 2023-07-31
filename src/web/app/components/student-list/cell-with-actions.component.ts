@@ -5,7 +5,6 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorPermissionSet } from 'src/web/types/api-request';
-import { JoinState } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
@@ -43,5 +42,5 @@ export class CellWithActionsComponent {
 
   @Input() remindStudentFromCourse: () => void = () => {};
   @Input() removeStudentFromCourse : () => void = () => {};
-    
+
 }

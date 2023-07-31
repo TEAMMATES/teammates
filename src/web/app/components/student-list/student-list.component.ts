@@ -194,7 +194,8 @@ export class StudentListComponent implements OnInit {
         `Delete student <strong>${studentModel.student.name}</strong>?`, SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       this.removeStudentFromCourse(studentModel.student.email);
-      this.students = this.students.filter((student: StudentListRowModel) => student.student.email !== studentModel.student.email)
+      this.students = this.students.filter((student: StudentListRowModel) =>
+      student.student.email !== studentModel.student.email);
       this.setRowData();
     }, () => {});
   }
