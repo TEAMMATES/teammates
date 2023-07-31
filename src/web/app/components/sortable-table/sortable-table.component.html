@@ -25,7 +25,9 @@
                      [ngComponentOutlet]="item.customComponent.component"
                      [ndcDynamicInputs]="item.customComponent.componentData(idx)"
         ></ndc-dynamic>
-        <ng-container *ngIf="!item.customComponent && item.displayValue">{{ item.displayValue }}</ng-container>
+        <ng-container *ngIf="!item.customComponent && item.displayValue">
+          <span [innerHTML]="item.displayValue"></span>
+        </ng-container>
         <ng-container *ngIf="!item.customComponent && !item.displayValue">{{ item.value }}</ng-container>
       </td>
     </tr>
