@@ -87,7 +87,7 @@ export class RichTextEditorComponent implements OnInit {
             }
           });
           editor.on('paste', (event: any) => {
-            const contentBeforePasteEvent = editor.getContent({ format: 'text' });  
+            const contentBeforePasteEvent = editor.getContent({ format: 'text' });
             setTimeout(() => {
               const currentCharacterCount = this.getCurrentCharacterCount(editor);
               if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
@@ -95,20 +95,24 @@ export class RichTextEditorComponent implements OnInit {
                 const contentAfterPasteEvent = editor.getContent({ format: 'text' });
                 let firstDifferentIndex = 0;
                 while (contentBeforePasteEvent[firstDifferentIndex] === contentAfterPasteEvent[firstDifferentIndex]) {
-                  ++firstDifferentIndex;
+                  firstDifferentIndex += 1;
                 }
                 const contentBeforeFirstDifferentIndex = contentBeforePasteEvent.substring(0, firstDifferentIndex);
                 const contentAfterFirstDifferentIndex = contentBeforePasteEvent.substring(firstDifferentIndex);
                 const lengthExceed = currentCharacterCount - RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
                 const pasteContentLength = contentAfterPasteEvent.length - contentBeforePasteEvent.length;
-                const pasteContent = contentAfterPasteEvent.substring(firstDifferentIndex, firstDifferentIndex + pasteContentLength);
+                const pasteContent = contentAfterPasteEvent.substring(
+                  firstDifferentIndex,
+                  firstDifferentIndex + pasteContentLength,
+                );
                 const truncatedPastedText = pasteContent.substring(0, pasteContentLength - lengthExceed);
-                const finalContent = contentBeforeFirstDifferentIndex + truncatedPastedText + contentAfterFirstDifferentIndex;
+                const finalContent = contentBeforeFirstDifferentIndex + truncatedPastedText
+                  + contentAfterFirstDifferentIndex;
                 editor.setContent(finalContent);
 
                 // This sets the cursor to the end of the text.
                 const selection = editor.selection.getRng();
-                const newCursorPosition = firstDifferentIndex + truncatedPastedText.length
+                const newCursorPosition = firstDifferentIndex + truncatedPastedText.length;
                 const newRange = editor.dom.createRng();
                 newRange.setStart(selection.startContainer, newCursorPosition);
                 newRange.collapse(true);
