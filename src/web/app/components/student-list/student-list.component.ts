@@ -13,12 +13,7 @@ import {
     SortableTableCellData,
     SortableTableHeaderColorScheme,
 } from '../sortable-table/sortable-table.component';
-import { StudentListActionsComponent } from './student-list-action-cell.component';
-import {
-    StudentListColumnData,
-    StudentListRowData,
-    StudentListColumns,
-} from './student-list-model';
+import { CellWithActionsComponent } from './cell-with-actions.component';
 
 /**
  * Model of row of student data containing details about a student and their section.
@@ -61,7 +56,6 @@ export class StudentListComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
   JoinState: typeof JoinState = JoinState;
-  StudentListColumns: typeof StudentListColumns = StudentListColumns;
   SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 
   constructor(private statusMessageService: StatusMessageService,
@@ -87,86 +81,54 @@ export class StudentListComponent implements OnInit {
     this.customHeaderStyle = this.useGrayHeading ? 'bg-light' : 'bg-info';
   }
 
-  createColumnData(config: StudentListColumnData): ColumnData[] {
-
-    const columnData: ColumnData = {
-      header: config.header,
-      ...(config.sortBy && { sortBy: config.sortBy }),
-      ...(config.headerToolTip && { headerToolTip: config.headerToolTip }),
-      ...(config.alignment && { alignment: config.alignment }),
-      ...(config.headerClass && { headerClass: config.headerClass }),
-    };
-
-    return [columnData];
-  }
-
   setColumnData(): void {
     this.columnData = [
-        ...this.createColumnData({
-            columnType: StudentListColumns.SECTION,
+        {
             header: 'Section',
             sortBy: SortBy.SECTION_NAME,
-        }),
-        ...this.createColumnData({
-            columnType: StudentListColumns.TEAM,
+        },
+        {
             header: 'Team',
             sortBy: SortBy.TEAM_NAME,
-        }),
-        ...this.createColumnData({
-            columnType: StudentListColumns.STUDENT_NAME,
+        },
+        {
             header: 'Student Name',
             sortBy: SortBy.RESPONDENT_NAME,
-        }),
-        ...this.createColumnData({
-            columnType: StudentListColumns.STATUS,
+        },
+        {
             header: 'Status',
             sortBy: SortBy.JOIN_STATUS,
-        }),
-        ...this.createColumnData({
-            columnType: StudentListColumns.EMAIL,
+        },
+        {
             header: 'Email',
             sortBy: SortBy.RESPONDENT_EMAIL,
-        }),
-        ...this.createColumnData({ columnType: StudentListColumns.ACTIONS, header: 'Action(s)', alignment: 'center' }),
+        },
+        {
+            header: 'Action(s)',
+            alignment: 'center',
+        },
     ];
-  }
-
-  createRowData(config: StudentListRowData): SortableTableCellData[] {
-  
-    const rowData: SortableTableCellData = {
-      ...(config.value && { value: config.value }),
-      ...(config.displayValue && { displayValue: config.displayValue }),
-      ...(config.customComponent && { customComponent: config.customComponent }),
-      ...(config.style && { style: config.style }),
-    };
-
-    return [rowData];
   }
 
   setRowData(): void {
     this.rowData = this.students.map((studentModel: StudentListRowModel) => {
       const rowData: SortableTableCellData[] = [
-        ...this.createRowData({
-          columnType: StudentListColumns.SECTION,
+        {
           value: studentModel.student.sectionName,
-        }),
-        ...this.createRowData({
-          columnType: StudentListColumns.TEAM,
+        },
+        {
           value: studentModel.student.teamName,
-        }),
-        ...this.createRowData({
-          columnType: StudentListColumns.STUDENT_NAME,
+        },
+        {
           value: studentModel.student.name,
-        }),
-        ...this.createRowData({
-          columnType: StudentListColumns.STATUS,
+        },
+        {
           value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
-        }),
-        ...this.createRowData({
-          columnType: StudentListColumns.EMAIL,
+        },
+        {
           value: studentModel.student.email,
-        }),
-        ...this.createRowData(this.createActionsCell(studentModel)),
+        },
+        this.createActionsCell(studentModel),
       ];
 
       return rowData;
@@ -174,23 +136,21 @@ export class StudentListComponent implements OnInit {
   }
 
   createActionsCell(studentModel: StudentListRowModel): SortableTableCellData {
-    const actionsCell: StudentListRowData = {
-      columnType: StudentListColumns.ACTIONS,
+    const actionsCell: SortableTableCellData = {
       customComponent: {
-      component: StudentListActionsComponent,
+      component: CellWithActionsComponent,
       componentData: (idx: number) => ({
         idx,
         courseId: this.courseId,
         email: studentModel.student.email,
-        hasJoined: studentModel.student.joinState === JoinState.JOINED,
-        removeStudentFromCourse: () => this.openDeleteModal(studentModel),
-        remindStudentFromCourse: () => this.openRemindModal(studentModel),
+        enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
         instructorPrivileges: {
             canModifyStudent: studentModel.isAllowedToModifyStudent,
             canViewStudentInSections: studentModel.isAllowedToViewStudentInSection,
         },
-        enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
         isActionButtonsEnabled: this.isActionButtonsEnabled,
+        removeStudentFromCourse: () => this.openDeleteModal(studentModel),
+        remindStudentFromCourse: () => this.openRemindModal(studentModel),
       }),
       },
     };
