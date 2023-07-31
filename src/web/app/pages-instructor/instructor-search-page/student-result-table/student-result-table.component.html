@@ -9,7 +9,6 @@
       [isActionButtonsEnabled]="isActionButtonsEnabled"
       [tableSortBy]="studentSortBy" [tableSortOrder]="studentSortOrder"
       [searchString]="searchString"
-      (sortStudentListEvent)="sortStudentList(course.students, $event)"
       (removeStudentFromCourseEvent)="removeStudent(course.students, $event)">
     </tm-student-list>
   </div>
