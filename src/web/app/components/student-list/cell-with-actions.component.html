@@ -31,8 +31,7 @@
         }">
     </ng-container>
     <ng-container *ngIf="enableRemindButton">
-        <ng-container
-            *ngIf="!hasJoined">
+        <ng-container>
             <button id="btn-send-invite-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right custom-button"
                 [ngClass]="{'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
                 [disabled]=!isActionButtonsEnabled

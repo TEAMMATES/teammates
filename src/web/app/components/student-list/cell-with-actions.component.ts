@@ -12,7 +12,7 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
 
 @Component({
   selector: 'tm-group-buttons',
-  templateUrl: './student-list-action-cell.component.html',
+  templateUrl: './cell-with-actions.component.html',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,12 +22,12 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
     NgbTooltipModule,
   ],
 })
-export class StudentListActionsComponent {
+
+export class CellWithActionsComponent {
   @Input() idx: number = 0;
   @Input() fsName: string = '';
   @Input() courseId: string = '';
   @Input() email: string = '';
-  @Input() hasJoined: boolean = false;
   @Input() isSendReminderLoading: boolean = false;
   @Input() enableRemindButton: boolean = false;
   @Input() isActionButtonsEnabled: boolean = true;
