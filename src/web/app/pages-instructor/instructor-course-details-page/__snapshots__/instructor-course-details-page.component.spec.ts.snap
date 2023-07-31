@@ -405,7 +405,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   >
                     <th
                       aria-sort="none"
-                      class="sortable-header"
+                      class="sort-by-section sortable-header"
                       style="text-align: start;"
                     >
                       <button
@@ -428,7 +428,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     </th>
                     <th
                       aria-sort="none"
-                      class="sortable-header"
+                      class="sort-by-team sortable-header"
                       style="text-align: start;"
                     >
                       <button
@@ -451,7 +451,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     </th>
                     <th
                       aria-sort="none"
-                      class="sortable-header"
+                      class="sort-by-name sortable-header"
                       style="text-align: start;"
                     >
                       <button
@@ -474,7 +474,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     </th>
                     <th
                       aria-sort="none"
-                      class="sortable-header"
+                      class="sort-by-status sortable-header"
                       style="text-align: start;"
                     >
                       <button
@@ -497,7 +497,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     </th>
                     <th
                       aria-sort="none"
-                      class="sortable-header"
+                      class="sort-by-email sortable-header"
                       style="text-align: start;"
                     >
                       <button

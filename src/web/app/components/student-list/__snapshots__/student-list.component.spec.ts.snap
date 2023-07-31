@@ -38,7 +38,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -61,7 +61,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -84,7 +84,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -107,7 +107,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -130,7 +130,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button
@@ -209,7 +209,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -232,7 +232,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -255,7 +255,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -278,7 +278,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -301,7 +301,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button
@@ -628,7 +628,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -651,7 +651,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -674,7 +674,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -697,7 +697,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -720,7 +720,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1041,7 +1041,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1064,7 +1064,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1087,7 +1087,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1110,7 +1110,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1133,7 +1133,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1448,7 +1448,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1471,7 +1471,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1494,7 +1494,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1517,7 +1517,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1540,7 +1540,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1855,7 +1855,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1878,7 +1878,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1901,7 +1901,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1924,7 +1924,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -1947,7 +1947,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2262,7 +2262,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2285,7 +2285,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2308,7 +2308,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2331,7 +2331,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2354,7 +2354,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2492,7 +2492,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-section sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2515,7 +2515,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-team sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2538,7 +2538,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-name sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2561,7 +2561,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-status sortable-header"
               style="text-align: start;"
             >
               <button
@@ -2584,7 +2584,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-email sortable-header"
               style="text-align: start;"
             >
               <button

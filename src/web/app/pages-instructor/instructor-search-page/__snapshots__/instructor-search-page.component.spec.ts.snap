@@ -167,7 +167,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     >
                       <th
                         aria-sort="none"
-                        class="sortable-header"
+                        class="sort-by-section sortable-header"
                         style="text-align: start;"
                       >
                         <button
@@ -190,7 +190,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </th>
                       <th
                         aria-sort="none"
-                        class="sortable-header"
+                        class="sort-by-team sortable-header"
                         style="text-align: start;"
                       >
                         <button
@@ -213,7 +213,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </th>
                       <th
                         aria-sort="none"
-                        class="sortable-header"
+                        class="sort-by-name sortable-header"
                         style="text-align: start;"
                       >
                         <button
@@ -236,7 +236,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </th>
                       <th
                         aria-sort="none"
-                        class="sortable-header"
+                        class="sort-by-status sortable-header"
                         style="text-align: start;"
                       >
                         <button
@@ -259,7 +259,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </th>
                       <th
                         aria-sort="none"
-                        class="sortable-header"
+                        class="sort-by-email sortable-header"
                         style="text-align: start;"
                       >
                         <button
