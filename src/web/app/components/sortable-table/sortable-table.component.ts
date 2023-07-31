@@ -15,6 +15,11 @@ export enum SortableTableHeaderColorScheme {
    * White background with black text.
    */
   WHITE,
+
+  /**
+   * Custom background setting
+   */
+  OTHERS,
 }
 
 /**
@@ -73,6 +78,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
   headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
 
   @Input()
+  customHeaderStyle: string = '';
+
+  @Input()
   columns: ColumnData[] = [];
 
   @Input()
@@ -90,6 +98,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
   columnToSortBy: string = '';
   tableRows: SortableTableCellData[][] = [];
   setMainTableStyle: boolean = true;
+  setOtherTableStyle: boolean = false;
 
   constructor(private tableComparatorService: TableComparatorService) { }
 
@@ -97,6 +106,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     this.tableRows = this.rows;
     this.initialSort(); // Performs an initial sort on the table
     this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
+    this.setOtherTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.OTHERS;
   }
 
   ngOnChanges(): void {
