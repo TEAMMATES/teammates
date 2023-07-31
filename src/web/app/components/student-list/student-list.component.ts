@@ -50,7 +50,7 @@ export class StudentListComponent implements OnInit {
     this.students = studentRowModels;
     this.setRowData();
   }
-  
+
   @Input() set hiddenStudents(hiddenStudents: string[]) {
     this.listOfStudentsToHide = hiddenStudents;
     this.setRowData();
