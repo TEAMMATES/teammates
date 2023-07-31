@@ -286,7 +286,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public void sortBySessionsName() {
-            click(waitForElementPresence(By.className("sort-session-name")));
+        click(waitForElementPresence(By.className("sort-session-name")));
     }
 
     public void sortByCourseId() {
