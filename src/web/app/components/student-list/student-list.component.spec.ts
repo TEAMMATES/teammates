@@ -51,7 +51,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data', () => {
-    component.studentsModels = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -106,7 +106,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data when not allowed to modify student for a specific section', () => {
-    component.studentsModels = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -163,7 +163,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with enable remind button set to true and two students yet to join', () => {
-    component.studentsModels = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -222,7 +222,7 @@ describe('StudentListComponent', () => {
 
   it('should snap with enable remind button set to true, one student yet to join when not allowed to modify'
       + ' student', () => {
-    component.studentsModels = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -280,7 +280,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data and some students to hide', () => {
-    component.studentsModels = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -331,7 +331,7 @@ describe('StudentListComponent', () => {
       },
     ];
 
-    component.listOfStudentsToHide = [
+    component.hiddenStudents = [
       'alice.b.tmms@gmail.tmt',
       'tester@tester.com',
     ];
@@ -341,7 +341,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data with no sections', () => {
-    component.studentsModels = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -362,7 +362,7 @@ describe('StudentListComponent', () => {
 
   it('should display "Send Invite" button when a student has not joined the course', () => {
     component.enableRemindButton = true;
-    component.studentsModels = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',

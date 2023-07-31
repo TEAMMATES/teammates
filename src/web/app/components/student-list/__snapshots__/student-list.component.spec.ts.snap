@@ -1582,65 +1582,6 @@ exports[`StudentListComponent should snap with some student list data and some s
               Team 1
             </td>
             <td>
-              tester
-            </td>
-            <td>
-              Joined
-            </td>
-            <td>
-              tester@tester.com
-            </td>
-            <td>
-              <ndc-dynamic />
-              <tm-group-buttons>
-                <div
-                  class="text-center"
-                >
-                  <a
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-                    id="btn-view-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                     View 
-                  </a>
-                  <a
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-                    id="btn-edit-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                     Edit 
-                  </a>
-                  <button
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    id="btn-delete--0"
-                  >
-                     Delete 
-                  </button>
-                  <a
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-                    id="btn-view-records--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                     All Records 
-                  </a>
-                </div>
-              </tm-group-buttons>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tutorial Group 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
               Benny Charles
             </td>
             <td>
@@ -1658,7 +1599,7 @@ exports[`StudentListComponent should snap with some student list data and some s
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-                    id="btn-view-details--1"
+                    id="btn-view-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -1667,7 +1608,7 @@ exports[`StudentListComponent should snap with some student list data and some s
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-                    id="btn-edit-details--1"
+                    id="btn-edit-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -1675,73 +1616,14 @@ exports[`StudentListComponent should snap with some student list data and some s
                   </a>
                   <button
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    id="btn-delete--1"
+                    id="btn-delete--0"
                   >
                      Delete 
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-                    id="btn-view-records--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                     All Records 
-                  </a>
-                </div>
-              </tm-group-buttons>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tutorial Group 2
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              Alice Betsy
-            </td>
-            <td>
-              Joined
-            </td>
-            <td>
-              alice.b.tmms@gmail.tmt
-            </td>
-            <td>
-              <ndc-dynamic />
-              <tm-group-buttons>
-                <div
-                  class="text-center"
-                >
-                  <a
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-                    id="btn-view-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                     View 
-                  </a>
-                  <a
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-                    id="btn-edit-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                     Edit 
-                  </a>
-                  <button
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    id="btn-delete--2"
-                  >
-                     Delete 
-                  </button>
-                  <a
-                    class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-                    id="btn-view-records--2"
+                    id="btn-view-records--0"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -1776,7 +1658,7 @@ exports[`StudentListComponent should snap with some student list data and some s
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-                    id="btn-view-details--3"
+                    id="btn-view-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -1785,7 +1667,7 @@ exports[`StudentListComponent should snap with some student list data and some s
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-                    id="btn-edit-details--3"
+                    id="btn-edit-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -1793,14 +1675,14 @@ exports[`StudentListComponent should snap with some student list data and some s
                   </a>
                   <button
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    id="btn-delete--3"
+                    id="btn-delete--1"
                   >
                      Delete 
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-                    id="btn-view-records--3"
+                    id="btn-view-records--1"
                     rel="noopener noreferrer"
                     target="_blank"
                   >

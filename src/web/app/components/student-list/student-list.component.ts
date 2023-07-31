@@ -46,8 +46,13 @@ export class StudentListComponent implements OnInit {
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
   @Input() customHeaderStyle: string = 'bg-light';
 
-  @Input() set studentsModels(studentRowModels: StudentListRowModel[]) {
+  @Input() set studentModels(studentRowModels: StudentListRowModel[]) {
     this.students = studentRowModels;
+    this.setRowData();
+  }
+  
+  @Input() set hiddenStudents(hiddenStudents: string[]) {
+    this.listOfStudentsToHide = hiddenStudents;
     this.setRowData();
   }
 
@@ -122,7 +127,9 @@ export class StudentListComponent implements OnInit {
   }
 
   setRowData(): void {
-    this.rowsData = this.students.map((studentModel: StudentListRowModel) => {
+    this.rowsData = this.students
+    .filter((studentModel: StudentListRowModel) => !this.isStudentToHide(studentModel.student.email))
+    .map((studentModel: StudentListRowModel) => {
       const rowData: SortableTableCellData[] = [
         {
           value: studentModel.student.sectionName,
