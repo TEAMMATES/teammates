@@ -533,19 +533,27 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <tbody>
                   <tr>
                     <td>
-                      Tutorial Group 1
+                      <span>
+                        Tutorial Group 1
+                      </span>
                     </td>
                     <td>
-                      Team 1
+                      <span>
+                        Team 1
+                      </span>
                     </td>
                     <td>
-                      Jamie
+                      <span>
+                        Jamie
+                      </span>
                     </td>
                     <td>
                       Yet to Join
                     </td>
                     <td>
-                      jamie@gmail.com
+                      <span>
+                        jamie@gmail.com
+                      </span>
                     </td>
                     <td>
                       <ndc-dynamic />

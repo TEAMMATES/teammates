@@ -295,19 +295,27 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                   <tbody>
                     <tr>
                       <td>
-                        Tutorial Group 1
+                        <span>
+                          Tutorial Group 1
+                        </span>
                       </td>
                       <td>
-                        Team 1
+                        <span>
+                          Team 1
+                        </span>
                       </td>
                       <td>
-                        tester
+                        <span>
+                          tester
+                        </span>
                       </td>
                       <td>
                         Joined
                       </td>
                       <td>
-                        tester@tester.com
+                        <span>
+                          tester@tester.com
+                        </span>
                       </td>
                       <td>
                         <ndc-dynamic />
@@ -354,19 +362,27 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     </tr>
                     <tr>
                       <td>
-                        Tutorial Group 1
+                        <span>
+                          Tutorial Group 1
+                        </span>
                       </td>
                       <td>
-                        Team 1
+                        <span>
+                          Team 1
+                        </span>
                       </td>
                       <td>
-                        Benny Charles
+                        <span>
+                          Benny Charles
+                        </span>
                       </td>
                       <td>
                         Joined
                       </td>
                       <td>
-                        benny.c.tmms@gmail.tmt
+                        <span>
+                          benny.c.tmms@gmail.tmt
+                        </span>
                       </td>
                       <td>
                         <ndc-dynamic />
@@ -413,19 +429,27 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     </tr>
                     <tr>
                       <td>
-                        Tutorial Group 1
+                        <span>
+                          Tutorial Group 1
+                        </span>
                       </td>
                       <td>
-                        Team 1
+                        <span>
+                          Team 1
+                        </span>
                       </td>
                       <td>
-                        Alice Betsy
+                        <span>
+                          Alice Betsy
+                        </span>
                       </td>
                       <td>
                         Joined
                       </td>
                       <td>
-                        alice.b.tmms@gmail.tmt
+                        <span>
+                          alice.b.tmms@gmail.tmt
+                        </span>
                       </td>
                       <td>
                         <ndc-dynamic />
@@ -472,19 +496,27 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     </tr>
                     <tr>
                       <td>
-                        Tutorial Group 1
+                        <span>
+                          Tutorial Group 1
+                        </span>
                       </td>
                       <td>
-                        Team 1
+                        <span>
+                          Team 1
+                        </span>
                       </td>
                       <td>
-                        Danny Engrid
+                        <span>
+                          Danny Engrid
+                        </span>
                       </td>
                       <td>
                         Joined
                       </td>
                       <td>
-                        danny.e.tmms@gmail.tmt
+                        <span>
+                          danny.e.tmms@gmail.tmt
+                        </span>
                       </td>
                       <td>
                         <ndc-dynamic />

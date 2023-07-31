@@ -19,6 +19,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
@@ -190,6 +191,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
@@ -337,19 +339,27 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tbody>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              tester
+              <span>
+                tester
+              </span>
             </td>
             <td>
               Yet to Join
             </td>
             <td>
-              tester@tester.com
+              <span>
+                tester@tester.com
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -402,19 +412,27 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           </tr>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Benny Charles
+              <span>
+                Benny Charles
+              </span>
             </td>
             <td>
               Yet to Join
             </td>
             <td>
-              benny.c.tmms@gmail.tmt
+              <span>
+                benny.c.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -467,19 +485,27 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Alice Betsy
+              <span>
+                Alice Betsy
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              alice.b.tmms@gmail.tmt
+              <span>
+                alice.b.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -526,19 +552,27 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Danny Engrid
+              <span>
+                Danny Engrid
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              danny.e.tmms@gmail.tmt
+              <span>
+                danny.e.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -609,6 +643,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
@@ -756,19 +791,27 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tbody>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              tester
+              <span>
+                tester
+              </span>
             </td>
             <td>
               Yet to Join
             </td>
             <td>
-              tester@tester.com
+              <span>
+                tester@tester.com
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -821,19 +864,27 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           </tr>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Benny Charles
+              <span>
+                Benny Charles
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              benny.c.tmms@gmail.tmt
+              <span>
+                benny.c.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -880,19 +931,27 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Alice Betsy
+              <span>
+                Alice Betsy
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              alice.b.tmms@gmail.tmt
+              <span>
+                alice.b.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -939,19 +998,27 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Danny Engrid
+              <span>
+                Danny Engrid
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              danny.e.tmms@gmail.tmt
+              <span>
+                danny.e.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1022,6 +1089,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
@@ -1169,19 +1237,27 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tbody>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              tester
+              <span>
+                tester
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              tester@tester.com
+              <span>
+                tester@tester.com
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1228,19 +1304,27 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           </tr>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Benny Charles
+              <span>
+                Benny Charles
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              benny.c.tmms@gmail.tmt
+              <span>
+                benny.c.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1287,19 +1371,27 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Alice Betsy
+              <span>
+                Alice Betsy
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              alice.b.tmms@gmail.tmt
+              <span>
+                alice.b.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1346,19 +1438,27 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Danny Engrid
+              <span>
+                Danny Engrid
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              danny.e.tmms@gmail.tmt
+              <span>
+                danny.e.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1429,6 +1529,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
@@ -1576,19 +1677,27 @@ exports[`StudentListComponent should snap with some student list data and some s
         <tbody>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Benny Charles
+              <span>
+                Benny Charles
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              benny.c.tmms@gmail.tmt
+              <span>
+                benny.c.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1635,19 +1744,27 @@ exports[`StudentListComponent should snap with some student list data and some s
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Danny Engrid
+              <span>
+                Danny Engrid
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              danny.e.tmms@gmail.tmt
+              <span>
+                danny.e.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1718,6 +1835,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
@@ -1865,19 +1983,27 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tbody>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              tester
+              <span>
+                tester
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              tester@tester.com
+              <span>
+                tester@tester.com
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1924,19 +2050,27 @@ exports[`StudentListComponent should snap with some student list data when not a
           </tr>
           <tr>
             <td>
-              Tutorial Group 1
+              <span>
+                Tutorial Group 1
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Benny Charles
+              <span>
+                Benny Charles
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              benny.c.tmms@gmail.tmt
+              <span>
+                benny.c.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -1983,19 +2117,27 @@ exports[`StudentListComponent should snap with some student list data when not a
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Alice Betsy
+              <span>
+                Alice Betsy
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              alice.b.tmms@gmail.tmt
+              <span>
+                alice.b.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -2042,19 +2184,27 @@ exports[`StudentListComponent should snap with some student list data when not a
           </tr>
           <tr>
             <td>
-              Tutorial Group 2
+              <span>
+                Tutorial Group 2
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              Danny Engrid
+              <span>
+                Danny Engrid
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              danny.e.tmms@gmail.tmt
+              <span>
+                danny.e.tmms@gmail.tmt
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -2125,6 +2275,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
@@ -2272,19 +2423,27 @@ exports[`StudentListComponent should snap with some student list data with no se
         <tbody>
           <tr>
             <td>
-              None
+              <span>
+                None
+              </span>
             </td>
             <td>
-              Team 1
+              <span>
+                Team 1
+              </span>
             </td>
             <td>
-              tester
+              <span>
+                tester
+              </span>
             </td>
             <td>
               Joined
             </td>
             <td>
-              tester@tester.com
+              <span>
+                tester@tester.com
+              </span>
             </td>
             <td>
               <ndc-dynamic />
@@ -2355,6 +2514,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
+  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
   simpleModalService={[Function SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
   statusMessageService={[Function StatusMessageService]}
