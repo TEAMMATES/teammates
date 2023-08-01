@@ -1843,15 +1843,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a>
-                         Show 
-                      </a>
-                    </span>
-                  </td>
-                  <td>
-                    <span>
                       <a
-                        id="show-statistics-0"
+                        class="clickable"
+                        tabindex="0"
                       >
                          Show 
                       </a>
@@ -1859,14 +1853,31 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <a
+                        class="clickable"
+                        id="show-statistics-0"
+                        tabindex="0"
+                      >
                          Show 
                       </a>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <a
+                        class="clickable"
+                        tabindex="0"
+                      >
+                         Show 
+                      </a>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <a
+                        class="clickable"
+                        tabindex="0"
+                      >
                          Show 
                       </a>
                     </span>
@@ -1966,15 +1977,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a>
-                         Show 
-                      </a>
-                    </span>
-                  </td>
-                  <td>
-                    <span>
                       <a
-                        id="show-statistics-1"
+                        class="clickable"
+                        tabindex="0"
                       >
                          Show 
                       </a>
@@ -1982,14 +1987,31 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <a
+                        class="clickable"
+                        id="show-statistics-1"
+                        tabindex="0"
+                      >
                          Show 
                       </a>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <a
+                        class="clickable"
+                        tabindex="0"
+                      >
+                         Show 
+                      </a>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <a
+                        class="clickable"
+                        tabindex="0"
+                      >
                          Show 
                       </a>
                     </span>

@@ -93,7 +93,12 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)"
+                    <a
+                      *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      class="clickable"
+                      tabindex="0"
+                      (click)="getCourseStats(i)"
+                      (keyup.enter)="getCourseStats(i)"
                       [tmRouterLink]="">
                       Show
                     </a>
@@ -104,8 +109,14 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}"
-                      (click)="getCourseStats(i)" [tmRouterLink]="">
+                    <a
+                      *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      id="show-statistics-{{ i }}"
+                      class="clickable"
+                      tabindex="0"
+                      (click)="getCourseStats(i)"
+                      (keyup.enter)="getCourseStats(i)"
+                      [tmRouterLink]="">
                       Show
                     </a>
                   </span>
@@ -115,7 +126,12 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)"
+                    <a
+                      *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      class="clickable"
+                      tabindex="0"
+                      (click)="getCourseStats(i)"
+                      (keyup.enter)="getCourseStats(i)"
                       [tmRouterLink]="">
                       Show
                     </a>
@@ -126,7 +142,12 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)"
+                    <a
+                      *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      class="clickable"
+                      tabindex="0"
+                      (click)="getCourseStats(i)"
+                      (keyup.enter)="getCourseStats(i)"
                       [tmRouterLink]="">
                       Show
                     </a>
