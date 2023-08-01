@@ -839,6 +839,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 </div>
                                 <div
                                   class="d-inline-block dropdown"
+                                  container="body"
                                   ngbdropdown=""
                                   ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                                 >
@@ -1397,6 +1398,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 </div>
                                 <div
                                   class="d-inline-block dropdown"
+                                  container="body"
                                   ngbdropdown=""
                                   ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                                 >
@@ -1581,6 +1583,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 </div>
                                 <div
                                   class="d-inline-block dropdown"
+                                  container="body"
                                   ngbdropdown=""
                                   ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                                 >
