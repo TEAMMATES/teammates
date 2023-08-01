@@ -1845,7 +1845,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
-                        tabindex="0"
+                        href="/web/instructor/courses"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
@@ -1855,8 +1856,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
+                        href="/web/instructor/courses"
                         id="show-statistics-0"
-                        tabindex="0"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
@@ -1866,7 +1868,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
-                        tabindex="0"
+                        href="/web/instructor/courses"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
@@ -1876,7 +1879,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
-                        tabindex="0"
+                        href="/web/instructor/courses"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
@@ -1979,7 +1983,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
-                        tabindex="0"
+                        href="/web/instructor/courses"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
@@ -1989,8 +1994,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
+                        href="/web/instructor/courses"
                         id="show-statistics-1"
-                        tabindex="0"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
@@ -2000,7 +2006,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
-                        tabindex="0"
+                        href="/web/instructor/courses"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
@@ -2010,7 +2017,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <a
                         class="clickable"
-                        tabindex="0"
+                        href="/web/instructor/courses"
+                        tmrouterlink="/web/instructor/courses"
                       >
                          Show 
                       </a>
