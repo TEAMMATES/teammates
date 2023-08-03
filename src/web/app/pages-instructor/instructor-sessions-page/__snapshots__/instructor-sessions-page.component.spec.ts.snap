@@ -631,6 +631,9 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       <div
                         inviewport=""
                       >
+                        <div>
+                           2000 characters left 
+                        </div>
                       </div>
                     </tm-rich-text-editor>
                   </div>
