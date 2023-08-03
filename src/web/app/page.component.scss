@@ -133,3 +133,7 @@ nav {
 .dropdown-menu-right {
   margin-bottom: .5rem;
 }
+
+button.bg-transparent.btn.btn-link.nav-link:active {
+  color : white !important;
+}
