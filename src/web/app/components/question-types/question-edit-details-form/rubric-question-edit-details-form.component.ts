@@ -5,6 +5,7 @@ import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 
 /**
  * Question details edit form component for rubric question.
@@ -16,6 +17,9 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 })
 export class RubricQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
+    
+  // constant
+  readonly NO_VALUE: number = NO_VALUE;
 
   rowToHighlight: number = -1;
   columnToHighlight: number = -1;
@@ -59,7 +63,7 @@ export class RubricQuestionEditDetailsFormComponent
    */
   triggerRubricWeightChange(value: number, row: number, col: number): void {
     const newWeightsForEachCell: number[][] = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
-    newWeightsForEachCell[row][col] = value;
+    newWeightsForEachCell[row][col] = value === null ? NO_VALUE : value;
 
     this.triggerModelChange('rubricWeightsForEachCell', newWeightsForEachCell);
   }
@@ -254,5 +258,11 @@ export class RubricQuestionEditDetailsFormComponent
       rubricDescriptions: newDescriptions,
       rubricWeightsForEachCell: newWeights,
     });
+  }
+
+  displayWeight(row: number, col: number): any {
+    return this.model.rubricWeightsForEachCell[row][col] === NO_VALUE
+      ? ''
+      : this.model.rubricWeightsForEachCell[row][col];
   }
 }
