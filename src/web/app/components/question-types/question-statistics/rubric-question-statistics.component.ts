@@ -7,6 +7,7 @@ import {
   PerRecipientStats,
   RubricQuestionStatisticsCalculation,
 } from './question-statistics-calculation/rubric-question-statistics-calculation';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 
 /**
  * Statistics for rubric questions.
@@ -54,13 +55,13 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
             return {
               value: `${this.percentagesExcludeSelf[questionIndex][choiceIndex]}%`
                   + ` (${this.answersExcludeSelf[questionIndex][choiceIndex]})`
-                  + `${this.isWeightStatsVisible ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+                  + `${this.isWeightStatsVisible ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]` : ''}`,
             };
           }
           return {
             value: `${this.percentages[questionIndex][choiceIndex]}%`
                 + ` (${this.answers[questionIndex][choiceIndex]})`
-                + `${this.isWeightStatsVisible ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+                + `${this.isWeightStatsVisible ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]` : ''}`,
           };
         }),
       ];
@@ -103,7 +104,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
             return {
               value: `${perRecipientStats.percentages[questionIndex][choiceIndex]}%`
                   + ` (${perRecipientStats.answers[questionIndex][choiceIndex]})`
-                  + ` [${this.weights[questionIndex][choiceIndex]}]`,
+                  + ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`,
             };
           }),
           { value: perRecipientStats.subQuestionTotalChosenWeight[questionIndex] },
@@ -132,7 +133,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
           return {
             value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
                 + ` (${perRecipientStats.answersSum[choiceIndex]})`
-                + ` [${perRecipientStats.weightsAverage[choiceIndex]}]`,
+                + ` [${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`,
           };
         }),
         { value: perRecipientStats.overallWeightedSum },
@@ -140,5 +141,9 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { value: perRecipientStats.subQuestionWeightAverage.toString() },
       ]);
     });
+  }
+
+  private getDisplayWeight(weight: number): any {
+    return weight === NO_VALUE ? '' : weight;
   }
 }
