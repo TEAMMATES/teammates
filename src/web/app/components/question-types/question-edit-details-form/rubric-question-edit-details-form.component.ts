@@ -260,7 +260,7 @@ export class RubricQuestionEditDetailsFormComponent
     });
   }
 
-  displayWeight(row: number, col: number): any {
+  getDisplayWeight(row: number, col: number): any {
     return this.model.rubricWeightsForEachCell[row][col] === NO_VALUE
       ? ''
       : this.model.rubricWeightsForEachCell[row][col];
