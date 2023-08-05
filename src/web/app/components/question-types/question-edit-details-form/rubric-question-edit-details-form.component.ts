@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
-import { NO_VALUE } from '../../../../types/feedback-response-details';
 
 /**
  * Question details edit form component for rubric question.
@@ -17,7 +17,7 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
 })
 export class RubricQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
-    
+
   // constant
   readonly NO_VALUE: number = NO_VALUE;
 

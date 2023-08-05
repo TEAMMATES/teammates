@@ -1,13 +1,13 @@
 import { Component, OnChanges } from '@angular/core';
 import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import {
   PerRecipientStats,
   RubricQuestionStatisticsCalculation,
 } from './question-statistics-calculation/rubric-question-statistics-calculation';
-import { NO_VALUE } from '../../../../types/feedback-response-details';
 
 /**
  * Statistics for rubric questions.
@@ -55,13 +55,17 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
             return {
               value: `${this.percentagesExcludeSelf[questionIndex][choiceIndex]}%`
                   + ` (${this.answersExcludeSelf[questionIndex][choiceIndex]})`
-                  + `${this.isWeightStatsVisible ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]` : ''}`,
+                  + `${this.isWeightStatsVisible
+                      ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`
+                      : ''}`,
             };
           }
           return {
             value: `${this.percentages[questionIndex][choiceIndex]}%`
                 + ` (${this.answers[questionIndex][choiceIndex]})`
-                + `${this.isWeightStatsVisible ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]` : ''}`,
+                + `${this.isWeightStatsVisible
+                    ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`
+                    : ''}`,
           };
         }),
       ];

@@ -3,9 +3,9 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
 } from '../../../../../types/api-output';
-import { 
-  NO_VALUE, 
-  RUBRIC_ANSWER_NOT_CHOSEN, 
+import {
+  NO_VALUE,
+  RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../../../../../types/feedback-response-details';
 import { QuestionStatistics } from '../question-statistics';
 
@@ -173,7 +173,8 @@ export class RubricQuestionStatisticsCalculation
       if (sums[subQuestionIdx] === 0) {
         return 0;
       }
-      const weightAverage: number = subQuestionAnswer.reduce((prevValue: number, currValue: number, currentIndex: number): number =>
+      const weightAverage: number =
+          subQuestionAnswer.reduce((prevValue: number, currValue: number, currentIndex: number): number =>
               (this.weights[subQuestionIdx][currentIndex] === NO_VALUE
                   ? prevValue
                   : prevValue + currValue * this.weights[subQuestionIdx][currentIndex]), 0) / sums[subQuestionIdx];
@@ -205,7 +206,7 @@ export class RubricQuestionStatisticsCalculation
     for (let c: number = 0; c < matrix[0].length; c += 1) {
       let sum: number = 0;
       for (let r: number = 0; r < matrix.length; r += 1) {
-        sum += matrix[r][c] == NO_VALUE ? 0 : matrix[r][c];
+        sum += matrix[r][c] === NO_VALUE ? 0 : matrix[r][c];
       }
       sums[c] = sum;
     }
@@ -218,7 +219,7 @@ export class RubricQuestionStatisticsCalculation
     for (let c: number = 0; c < matrix[0].length; c += 1) {
       let count: number = 0;
       for (let r: number = 0; r < matrix.length; r += 1) {
-        count += matrix[r][c] == NO_VALUE ? 0 : 1;
+        count += matrix[r][c] === NO_VALUE ? 0 : 1;
       }
       counts[c] = count;
     }

@@ -7,6 +7,7 @@ import {
   FeedbackQuestionType,
   FeedbackRubricQuestionDetails, QuestionOutput,
 } from '../api-output';
+import { NO_VALUE } from '../feedback-response-details';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
@@ -64,7 +65,9 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
         ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
           return `${statsCalculation.percentages[questionIndex][choiceIndex]}% \
 (${statsCalculation.answers[questionIndex][choiceIndex]}) \
-${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choiceIndex]}]` : ''}`;
+${statsCalculation.hasWeights
+    ? `[${this.getDisplayWeight(statsCalculation.weights[questionIndex][choiceIndex])}]`
+    : ''}`;
         }),
       ];
       if (statsCalculation.hasWeights) {
@@ -103,7 +106,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
               ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
                 return `${perRecipientStats.percentages[questionIndex][choiceIndex]}% \
 (${perRecipientStats.answers[questionIndex][choiceIndex]}) \
-[${statsCalculation.weights[questionIndex][choiceIndex]}]`;
+[${this.getDisplayWeight(statsCalculation.weights[questionIndex][choiceIndex])}]`;
               }),
               String(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]),
               String(perRecipientStats.subQuestionWeightAverage[questionIndex]),
@@ -135,7 +138,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
           return `${perRecipientStats.percentagesAverage[choiceIndex]}% \
 (${perRecipientStats.answersSum[choiceIndex]}) \
-[${perRecipientStats.weightsAverage[choiceIndex]}]`;
+[${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`;
           }),
           String(perRecipientStats.overallWeightedSum),
           String(perRecipientStats.overallWeightAverage),
@@ -152,5 +155,9 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
 
   isInstructorCommentsOnResponsesAllowed(): boolean {
     return true;
+  }
+
+  private getDisplayWeight(weight: number): any {
+    return weight === NO_VALUE ? '' : weight;
   }
 }
