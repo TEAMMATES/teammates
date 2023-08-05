@@ -3,7 +3,10 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
 } from '../../../../../types/api-output';
-import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../../types/feedback-response-details';
+import { 
+  NO_VALUE, 
+  RUBRIC_ANSWER_NOT_CHOSEN, 
+} from '../../../../../types/feedback-response-details';
 import { QuestionStatistics } from '../question-statistics';
 
 /**
@@ -123,7 +126,7 @@ export class RubricQuestionStatisticsCalculation
         }
         this.perRecipientStatsMap[response.recipientEmail || response.recipient].answers[i][subAnswer] += 1;
         this.perRecipientStatsMap[response.recipientEmail || response.recipient].subQuestionTotalChosenWeight[i] +=
-            +this.weights[i][subAnswer].toFixed(5);
+            this.weights[i][subAnswer] === NO_VALUE ? 0 : +this.weights[i][subAnswer].toFixed(5);
       }
     }
 
@@ -131,29 +134,45 @@ export class RubricQuestionStatisticsCalculation
       const perRecipientStats: PerRecipientStats = this.perRecipientStatsMap[recipient];
 
       // Answers sum = number of answers in each column
-      perRecipientStats.answersSum = this.calculateAnswersSum(perRecipientStats.answers);
+      perRecipientStats.answersSum = this.sumValidValuesByColumn(perRecipientStats.answers);
       perRecipientStats.percentages = this.calculatePercentages(perRecipientStats.answers);
       perRecipientStats.percentagesAverage = this.calculatePercentagesAverage(perRecipientStats.answersSum);
       perRecipientStats.subQuestionWeightAverage =
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
+      console.log(this.weights);
       perRecipientStats.weightsAverage = this.calculateWeightsAverage(this.weights);
-      // Overall weighted sum = sum of total chosen weight for all sub questions
+      // Overall weighted sum = sum of total chosen non-null weight for all sub questions
       perRecipientStats.overallWeightedSum =
         +(perRecipientStats.subQuestionTotalChosenWeight.reduce((a, b) => a + b)).toFixed(2);
-      // Overall weighted average = overall weighted sum / total number of responses
+      // Overall weighted average = overall weighted sum / total number of responses with non-null weights
       perRecipientStats.overallWeightAverage = +(perRecipientStats.overallWeightedSum
           / this.calculateNumResponses(perRecipientStats.answersSum)).toFixed(2);
     }
   }
 
   private calculateSubQuestionWeightAverage(answers: number[][]): number[] {
-    const sums: number[] = answers.map((weightedAnswers: number[]) =>
-        weightedAnswers.reduce((a: number, b: number) => a + b, 0));
+    // Calculate non-null weights
+    const sums: number[] = [];
+    // const sums: number[] = answers.map((weightedAnswers: number[]) =>
+    //     weightedAnswers.reduce((prevValue: number, currValue: number, currentIndex: number) => 
+    //         prevValue + currValue, 0));
+    for (let r: number = 0; r < answers.length; r += 1) {
+        let sum: number = 0;
+        for (let c: number = 0; c < answers[0].length; c += 1) {
+            if (this.weights[r][c] === NO_VALUE) {
+                continue;
+            }
+            sum += answers[r][c];
+        }
+        sums[r] = sum;
+    }
 
     return answers.map((subQuestionAnswer: number[], subQuestionIdx: number): number => {
       const weightAverage: number = sums[subQuestionIdx] === 0 ? 0
           : subQuestionAnswer.reduce((prevValue: number, currValue: number, currentIndex: number): number =>
-              prevValue + currValue * this.weights[subQuestionIdx][currentIndex], 0) / sums[subQuestionIdx];
+              (this.weights[subQuestionIdx][currentIndex] === NO_VALUE
+                  ? prevValue
+                  : prevValue + currValue * this.weights[subQuestionIdx][currentIndex]), 0) / sums[subQuestionIdx];
       return +weightAverage.toFixed(2);
     });
   }
@@ -176,27 +195,40 @@ export class RubricQuestionStatisticsCalculation
     return percentages;
   }
 
-  // Calculate sum of answers for each column
-  private calculateAnswersSum(answers: number[][]): number[] {
+  // Calculate sum of non-null values for each column
+  private sumValidValuesByColumn(matrix: number[][]): number[] {
     const sums: number[] = [];
-    for (let i: number = 0; i < answers[0].length; i += 1) {
+    for (let c: number = 0; c < matrix[0].length; c += 1) {
       let sum: number = 0;
-      for (let j: number = 0; j < answers.length; j += 1) {
-        sum += answers[j][i];
+      for (let r: number = 0; r < matrix.length; r += 1) {
+        sum += matrix[r][c] == NO_VALUE ? 0 : matrix[r][c];
       }
-      sums[i] = sum;
+      sums[c] = sum;
     }
     return sums;
   }
 
-  // Calculate weight average for each column
+  // Count number of non-null values for each column
+  private countValidValuesByColumn(matrix: number[][]): number[] {
+    const counts: number[] = [];
+    for (let c: number = 0; c < matrix[0].length; c += 1) {
+      let count: number = 0;
+      for (let r: number = 0; r < matrix.length; r += 1) {
+        count += matrix[r][c] == NO_VALUE ? 0 : 1;
+      }
+      counts[c] = count;
+    }
+    return counts;
+  }
+
+  // Calculate non-null weight average for each column
   private calculateWeightsAverage(weights: number[][]): number[] {
-    // Calculate sum of weights for each column
-    const sums: number[] = this.calculateAnswersSum(weights);
+    const sums: number[] = this.sumValidValuesByColumn(weights);
+    const counts: number[] = this.countValidValuesByColumn(weights);
     const averages: number[] = [];
-    // Divide each weight sum by number of weights
+    // Divide each weight sum by number of non-null weights
     for (let i: number = 0; i < sums.length; i += 1) {
-      averages[i] = +(sums[i] / weights.length).toFixed(2);
+      averages[i] = counts[i] ? +(sums[i] / counts[i]).toFixed(2) : 0;
     }
     return averages;
   }
