@@ -1,9 +1,15 @@
-<div class="row card-body recycle-bin-body" *ngIf="recycleBinFeedbackSessionRowModels.length !== 0">
+<div class="row card-body recycle-bin-body">
   <div class="col-12">
     <h2 class="text-muted">
       <i class="fas fa-trash-alt"></i> Deleted Feedback Sessions
     </h2>
-      <div class="card bg-light top-padded">
+    <div>
+      <ng-template #emptyBinAlert>
+        <div class="alert alert-warning margin-top-30px" role="alert">
+          There are no sessions in the bin.
+        </div>
+      </ng-template>
+      <div class="card bg-light top-padded" *ngIf="recycleBinFeedbackSessionRowModels.length !== 0 else emptyBinAlert">
         <div id="deleted-sessions-heading" class="card-header bg-secondary text-white cursor-pointer" (click)="recycleBinExpandEvent.emit()">
           <b>Recycle Bin</b>
           <div class="card-header-btn-toolbar">
@@ -90,6 +96,7 @@
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   </div>
 </div>
