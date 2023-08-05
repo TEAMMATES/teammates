@@ -2,7 +2,7 @@
   <div class="col-12 text-start">
     <div class="form-group form-check">
       <label class="form-check-label tool-tip-decorate ngb-tooltip-class"
-             ngbTooltip="Assign weights to the columns for calculating statistics.">
+             ngbTooltip="Assign weights to the columns for calculating statistics. An empty weight (i.e. Not enough information to evaluate) can be assigned by leaving the input box empty.">
         <input id="weights-checkbox" type="checkbox" class="form-check-input" [disabled]="!isEditable"
                [ngModel]="model.hasAssignedWeights" (ngModelChange)="triggerChoicesWeight($event)">Choices are weighted</label>
     </div>
