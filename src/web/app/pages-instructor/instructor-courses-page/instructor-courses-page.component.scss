@@ -107,6 +107,13 @@
   position: inherit;
 }
 
-a.clickable {
-  cursor: pointer;
+.link-button {
+  border: none;
+  text-decoration: underline;
+  color: var(--bs-link-color);
+  padding: 0;
+}
+
+.link-button:hover {
+  color: var(--bs-link-hover-color);
 }

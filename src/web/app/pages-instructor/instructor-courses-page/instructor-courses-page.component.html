@@ -93,12 +93,9 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
-                      class="clickable"
-                      (click)="getCourseStats(i)"
-                      tmRouterLink="./">
-                      Show
-                    </a>
+                    <button *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      (click)="getCourseStats(i)" class="link-button" > Show
+                    </button>
                   </span>
                   <span *ngIf="courseStats[course.course.courseId]">
                     {{ courseStats[course.course.courseId]['sections'] }}
@@ -106,13 +103,9 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
-                      id="show-statistics-{{ i }}"
-                      class="clickable"
-                      (click)="getCourseStats(i)"
-                      tmRouterLink="./">
-                      Show
-                    </a>
+                    <button *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      (click)="getCourseStats(i)" class="link-button" > Show
+                    </button>
                   </span>
                   <span *ngIf="courseStats[course.course.courseId]">
                     {{ courseStats[course.course.courseId]['teams'] }}
@@ -120,12 +113,9 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
-                      class="clickable"
-                      (click)="getCourseStats(i)"
-                      tmRouterLink="./">
-                      Show
-                    </a>
+                    <button *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      (click)="getCourseStats(i)" class="link-button" > Show
+                    </button>
                   </span>
                   <span *ngIf="courseStats[course.course.courseId]">
                     {{ courseStats[course.course.courseId]['students'] }}
@@ -133,12 +123,9 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
-                      class="clickable"
-                      (click)="getCourseStats(i)"
-                      tmRouterLink="./">
-                      Show
-                    </a>
+                    <button *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                      (click)="getCourseStats(i)" class="link-button" > Show
+                    </button>
                   </span>
                   <span *ngIf="courseStats[course.course.courseId]">
                     {{ courseStats[course.course.courseId]['unregistered'] }}

@@ -1843,47 +1843,38 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        id="show-statistics-0"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td
@@ -1981,47 +1972,38 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        id="show-statistics-1"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
-                        class="clickable"
-                        href="/"
-                        tmrouterlink="./"
+                      <button
+                        class="link-button"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td
