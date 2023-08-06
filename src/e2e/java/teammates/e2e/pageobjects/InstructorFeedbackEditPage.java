@@ -741,8 +741,8 @@ public class InstructorFeedbackEditPage extends AppPage {
             for (int i = 0; i < numSubQn; i++) {
                 List<WebElement> rubricWeights = getRubricWeights(questionNum, i + 2);
                 for (int j = 0; j < numChoices; j++) {
-                    assertEquals(getDoubleString(weights.get(i).get(j)), 
-                        rubricWeights.get(j).getAttribute("value"));
+                    assertEquals(getDoubleString(weights.get(i).get(j)),
+                            rubricWeights.get(j).getAttribute("value"));
                 }
             }
         } else {

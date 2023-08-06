@@ -63,7 +63,7 @@ export class RubricQuestionEditDetailsFormComponent
    */
   triggerRubricWeightChange(value: number, row: number, col: number): void {
     const newWeightsForEachCell: number[][] = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
-    newWeightsForEachCell[row][col] = value === null ? NO_VALUE : value;
+    newWeightsForEachCell[row][col] = value;
 
     this.triggerModelChange('rubricWeightsForEachCell', newWeightsForEachCell);
   }
@@ -258,11 +258,5 @@ export class RubricQuestionEditDetailsFormComponent
       rubricDescriptions: newDescriptions,
       rubricWeightsForEachCell: newWeights,
     });
-  }
-
-  getDisplayWeight(row: number, col: number): any {
-    return this.model.rubricWeightsForEachCell[row][col] === NO_VALUE
-      ? ''
-      : this.model.rubricWeightsForEachCell[row][col];
   }
 }
