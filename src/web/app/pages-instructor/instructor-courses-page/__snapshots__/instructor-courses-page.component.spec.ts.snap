@@ -1863,6 +1863,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <button
                         class="link-button"
+                        id="show-statistics-0"
                       >
                          Show 
                       </button>
@@ -1992,6 +1993,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <span>
                       <button
                         class="link-button"
+                        id="show-statistics-1"
                       >
                          Show 
                       </button>
