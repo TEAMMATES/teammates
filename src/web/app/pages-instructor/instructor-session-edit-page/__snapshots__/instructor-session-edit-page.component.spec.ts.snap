@@ -675,6 +675,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <div
                       inviewport=""
                     >
+                      <div>
+                         2000 characters left 
+                      </div>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -3330,6 +3333,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     <div
                       inviewport=""
                     >
+                      <div>
+                         2000 characters left 
+                      </div>
                     </div>
                   </tm-rich-text-editor>
                 </div>
