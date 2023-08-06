@@ -114,7 +114,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         copiedSession.setTimeZone(otherCourse.getTimeZone());
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 
-        homePage.waitForConfirmationModalAndClickOk();
+        // homePage.waitForConfirmationModalAndClickOk();
         homePage = getNewPageInstance(url, InstructorHomePage.class);
         homePage.sortCoursesByName();
         // flip index after sorting

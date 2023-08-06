@@ -82,16 +82,18 @@ public class InstructorHomePage extends AppPage {
         click(remindSelectedButtons.get(remindSelectedButtons.size() - 1));
         selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
+        click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
     }
 
     public void sendReminderEmailToNonSubmitters(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
         List<WebElement> remindSelectedButtons = browser.driver.findElements(
-                By.className("btn-remind-selected-" + sessionIndex)
+                By.className("btn-remind-all-" + sessionIndex)
             );
         click(remindSelectedButtons.get(remindSelectedButtons.size() - 1));
         click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
+        click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
     }
 
     public void resendResultsLink(int courseTabIndex, int sessionIndex, StudentAttributes student) {
