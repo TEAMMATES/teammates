@@ -522,7 +522,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 >
                   <a
                     class="btn-archive-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    tmrouterlink="./"
                   >
                      Archive 
                   </a>
@@ -535,13 +537,17 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   </a>
                   <a
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
+                    tmrouterlink="./"
                   >
                      Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
+                    tmrouterlink="./"
                   >
                      Delete 
                   </a>
@@ -1099,7 +1105,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 >
                   <a
                     class="btn-archive-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    tmrouterlink="./"
                   >
                      Archive 
                   </a>
@@ -1851,7 +1859,9 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 >
                   <a
                     class="btn-archive-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    tmrouterlink="./"
                   >
                      Archive 
                   </a>
@@ -1864,13 +1874,17 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   </a>
                   <a
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
+                    tmrouterlink="./"
                   >
                      Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
+                    tmrouterlink="./"
                   >
                      Delete 
                   </a>
@@ -2106,7 +2120,9 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 >
                   <a
                     class="btn-archive-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    tmrouterlink="./"
                   >
                      Archive 
                   </a>
@@ -2119,13 +2135,17 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   </a>
                   <a
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
+                    tmrouterlink="./"
                   >
                      Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
+                    tmrouterlink="./"
                   >
                      Delete 
                   </a>
@@ -2385,7 +2405,9 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 >
                   <a
                     class="btn-archive-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    tmrouterlink="./"
                   >
                      Archive 
                   </a>
@@ -2398,13 +2420,17 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   </a>
                   <a
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
+                    tmrouterlink="./"
                   >
                      Copy 
                   </a>
                   <a
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
+                    href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
+                    tmrouterlink="./"
                   >
                      Delete 
                   </a>

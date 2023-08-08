@@ -3,4 +3,7 @@
           [init]="init" [disabled]="isDisabled"
           [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
   </editor>
+  <div *ngIf="hasCharacterLimit">
+    {{ RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH > characterCount ? RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH - characterCount : 0}} characters left
+  </div>
 </div>
