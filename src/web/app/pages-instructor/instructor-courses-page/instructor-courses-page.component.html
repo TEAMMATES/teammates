@@ -103,7 +103,7 @@
                 </td>
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
-                    <button *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
+                    <button *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}"
                       (click)="getCourseStats(i)" class="link-button" > Show
                     </button>
                   </span>
@@ -114,8 +114,7 @@
                 <td>
                   <span *ngIf="!courseStats[course.course.courseId]">
                     <button *ngIf="!course.isLoadingCourseStats; else loadingSpinner"
-                      id="show-statistics-{{ i }}" (click)="getCourseStats(i)"
-                      class="link-button" > Show
+                      (click)="getCourseStats(i)" class="link-button" > Show
                     </button>
                   </span>
                   <span *ngIf="courseStats[course.course.courseId]">
