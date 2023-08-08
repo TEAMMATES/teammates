@@ -7,7 +7,6 @@ import {
   FeedbackQuestionType,
   FeedbackRubricQuestionDetails, QuestionOutput,
 } from '../api-output';
-import { NO_VALUE } from '../feedback-response-details';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
@@ -158,6 +157,6 @@ ${statsCalculation.hasWeights
   }
 
   private getDisplayWeight(weight: number): any {
-    return weight === NO_VALUE ? '' : weight;
+    return weight === null ? '' : weight;
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnChanges } from '@angular/core';
 import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import {
@@ -148,6 +147,6 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
   }
 
   private getDisplayWeight(weight: number): any {
-    return weight === NO_VALUE ? '' : weight;
+    return weight === null ? '' : weight;
   }
 }

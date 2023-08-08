@@ -3,10 +3,7 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
 } from '../../../../../types/api-output';
-import {
-  NO_VALUE,
-  RUBRIC_ANSWER_NOT_CHOSEN,
-} from '../../../../../types/feedback-response-details';
+import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../../types/feedback-response-details';
 import { QuestionStatistics } from '../question-statistics';
 
 /**
@@ -126,7 +123,7 @@ export class RubricQuestionStatisticsCalculation
         }
         this.perRecipientStatsMap[response.recipientEmail || response.recipient].answers[i][subAnswer] += 1;
         this.perRecipientStatsMap[response.recipientEmail || response.recipient].subQuestionTotalChosenWeight[i] +=
-            this.weights[i][subAnswer] === NO_VALUE ? 0 : +this.weights[i][subAnswer].toFixed(5);
+            this.weights[i][subAnswer] === null ? 0 : +this.weights[i][subAnswer].toFixed(5);
       }
     }
 
@@ -156,7 +153,7 @@ export class RubricQuestionStatisticsCalculation
     for (let r: number = 0; r < answers.length; r += 1) {
         let sum: number = 0;
         for (let c: number = 0; c < answers[0].length; c += 1) {
-            if (this.weights[r][c] === NO_VALUE) {
+            if (this.weights[r][c] === null) {
                 continue;
             }
             sum += answers[r][c];
@@ -175,7 +172,7 @@ export class RubricQuestionStatisticsCalculation
       }
       const weightAverage: number =
           subQuestionAnswer.reduce((prevValue: number, currValue: number, currentIndex: number): number =>
-              (this.weights[subQuestionIdx][currentIndex] === NO_VALUE
+              (this.weights[subQuestionIdx][currentIndex] === null
                   ? prevValue
                   : prevValue + currValue * this.weights[subQuestionIdx][currentIndex]), 0) / sums[subQuestionIdx];
       return +weightAverage.toFixed(2);
@@ -206,7 +203,7 @@ export class RubricQuestionStatisticsCalculation
     for (let c: number = 0; c < matrix[0].length; c += 1) {
       let sum: number = 0;
       for (let r: number = 0; r < matrix.length; r += 1) {
-        sum += matrix[r][c] === NO_VALUE ? 0 : matrix[r][c];
+        sum += matrix[r][c] === null ? 0 : matrix[r][c];
       }
       sums[c] = sum;
     }
@@ -219,7 +216,7 @@ export class RubricQuestionStatisticsCalculation
     for (let c: number = 0; c < matrix[0].length; c += 1) {
       let count: number = 0;
       for (let r: number = 0; r < matrix.length; r += 1) {
-        count += matrix[r][c] === NO_VALUE ? 0 : 1;
+        count += matrix[r][c] === null ? 0 : 1;
       }
       counts[c] = count;
     }
@@ -233,7 +230,7 @@ export class RubricQuestionStatisticsCalculation
     const averages: number[] = [];
     // Divide each weight sum by number of non-null weights
     for (let i: number = 0; i < sums.length; i += 1) {
-      averages[i] = counts[i] ? +(sums[i] / counts[i]).toFixed(2) : NO_VALUE;
+      averages[i] = counts[i] ? +(sums[i] / counts[i]).toFixed(2) : 0;
     }
     return averages;
   }
