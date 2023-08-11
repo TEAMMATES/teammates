@@ -27,6 +27,10 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
+  ceil(value: number): number {
+    return value === null  ? value : Math.ceil(value);
+  }
+
   get hasMaxPoint(): boolean {
     return this.model.maxPoint !== undefined;
   }

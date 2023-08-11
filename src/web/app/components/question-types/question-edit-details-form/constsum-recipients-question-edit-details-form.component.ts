@@ -27,6 +27,10 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
   }
 
+  ceil(value: number): number {
+    return value === null  ? value : Math.ceil(value);
+  }
+
   /**
    * Changes force uneven distribution option.
    */
