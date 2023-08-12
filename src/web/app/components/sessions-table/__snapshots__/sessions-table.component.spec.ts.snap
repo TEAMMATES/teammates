@@ -289,6 +289,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   </div>
                   <div
                     class="d-inline-block dropdown"
+                    container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                   >
@@ -473,6 +474,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   </div>
                   <div
                     class="d-inline-block dropdown"
+                    container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                   >
@@ -787,6 +789,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   </div>
                   <div
                     class="d-inline-block dropdown"
+                    container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                   >
@@ -958,6 +961,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   </div>
                   <div
                     class="d-inline-block dropdown"
+                    container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                   >
