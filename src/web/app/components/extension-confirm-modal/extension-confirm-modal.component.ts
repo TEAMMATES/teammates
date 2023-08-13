@@ -44,7 +44,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
   feedbackSessionTimeZone: string = '';
 
   @Input()
-  headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
+  headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.WHITE;
   
   @Input() set studentData (studentData: StudentExtensionTableColumnModel[]) {
     this.selectedStudents = studentData;
