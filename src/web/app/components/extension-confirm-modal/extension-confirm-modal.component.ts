@@ -114,27 +114,27 @@ export class ExtensionConfirmModalComponent implements OnInit {
         {
             header: 'Section',
             sortBy: SortBy.SECTION_NAME,
-            headerClass: 'sort-by-section',
+            headerClass: 'student-sort-by-section',
         },
         {
             header: 'Team',
             sortBy: SortBy.TEAM_NAME,
-            headerClass: 'sort-by-team',
+            headerClass: 'student-sort-by-team',
         },
         {
             header: 'Name',
             sortBy: SortBy.RESPONDENT_NAME,
-            headerClass: 'sort-by-name',
+            headerClass: 'student-sort-by-name',
         },
         {
             header: 'Email',
             sortBy: SortBy.RESPONDENT_EMAIL,
-            headerClass: 'sort-by-email',
+            headerClass: 'student-sort-by-email',
         },
         {
             header: this.isDeleteModal() || this.isSessionDeleteModal() ? 'Current Deadline' : 'Original Deadline',
             sortBy: SortBy.SESSION_END_DATE,
-            headerClass: 'sort-by-deadline',
+            headerClass: 'student-sort-by-deadline',
         },
        ];
      }
@@ -169,22 +169,22 @@ export class ExtensionConfirmModalComponent implements OnInit {
         {
             header: 'Name',
             sortBy: SortBy.RESPONDENT_NAME,
-            headerClass: 'sort-by-name',
+            headerClass: 'instructor-sort-by-name',
         },
         {
             header: 'Email',
             sortBy: SortBy.RESPONDENT_EMAIL,
-            headerClass: 'sort-by-email',
+            headerClass: 'instructor-sort-by-email',
         },
         {
             header: 'Role',
             sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE,
-            headerClass: 'sort-by-role',
+            headerClass: 'instructor-sort-by-role',
         },
         {
             header: this.isDeleteModal() || this.isSessionDeleteModal() ? 'Current Deadline' : 'Original Deadline',
             sortBy: SortBy.SESSION_END_DATE,
-            headerClass: 'sort-by-deadline',
+            headerClass: 'instructor-sort-by-deadline',
         },
         ];
     }
