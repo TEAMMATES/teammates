@@ -156,7 +156,8 @@ export class ExtensionConfirmModalComponent implements OnInit {
                 value: studentData.email,
               },
               {
-                value: this.dateDetailPipe.transform(studentData.extensionDeadline, this.feedbackSessionTimeZone),
+                value: studentData.extensionDeadline,
+                displayValue: this.dateDetailPipe.transform(studentData.extensionDeadline, this.feedbackSessionTimeZone),
               },
             ];
             return rowData;
@@ -199,12 +200,14 @@ export class ExtensionConfirmModalComponent implements OnInit {
                     value: instructorData.email,
                 },
                 {
-                    value: instructorData.role
+                    value: instructorData.role,
+                    displayValue: instructorData.role
                     ? this.instructorRoleNamePipe.transform(instructorData.role)
                     : instructorData.role,
                 },
                 {
-                    value: this.dateDetailPipe.transform(
+                    value: instructorData.extensionDeadline,
+                    displayValue: this.dateDetailPipe.transform(
                     instructorData.extensionDeadline,
                     this.feedbackSessionTimeZone),
                 },
