@@ -89,7 +89,7 @@ describe('ExtensionConfirmModalComponent', () => {
   });
 
   it('should snap with the extended students and instructors', () => {
-    component.selectedStudents = [studentModel1, studentModel2, studentModel3];
+    component.studentData = [studentModel1, studentModel2, studentModel3];
     component.extensionTimestamp = testFeedbackSession.submissionEndTimestamp;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
