@@ -45,15 +45,15 @@ export class ExtensionConfirmModalComponent implements OnInit {
 
   @Input()
   headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.WHITE;
-  
-  @Input() set studentData (studentData: StudentExtensionTableColumnModel[]) {
+
+  @Input() set studentData(studentData: StudentExtensionTableColumnModel[]) {
     this.selectedStudents = studentData;
     if (this.selectedStudents.length > 0) {
       this.setStudentTableData();
     }
   }
-  
-  @Input() set instructorData (instructorData: InstructorExtensionTableColumnModel[]) {
+
+  @Input() set instructorData(instructorData: InstructorExtensionTableColumnModel[]) {
       this.selectedInstructors = instructorData;
       if (this.selectedInstructors.length > 0) {
         this.setInstructorTableData();

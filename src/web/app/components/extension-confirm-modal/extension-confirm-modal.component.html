@@ -37,14 +37,14 @@
     </div>
     
     <div>
-      <tm-sortable-table
-              [columns]="instructorColumnsData"
-              [rows]="instructorRowsData"
-              [sortOrder]="sortInstructorsBy"
-              [sortOrder]="sortInstructorOrder"
-              [headerColorScheme]="headerColorScheme"
+      <tm-sortable-table 
+        [columns]="instructorColumnsData"
+        [rows]="instructorRowsData"
+        [sortOrder]="sortInstructorsBy"
+        [sortOrder]="sortInstructorOrder"
+        [headerColorScheme]="headerColorScheme"
 
-              (sortEvent)="sortInstructorsColumnsByEventHandler($event)"
+        (sortEvent)="sortInstructorsColumnsByEventHandler($event)"
       ></tm-sortable-table>
     </div>
 
