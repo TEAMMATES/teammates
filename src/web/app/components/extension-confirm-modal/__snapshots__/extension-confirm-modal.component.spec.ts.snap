@@ -245,23 +245,6 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
           </table>
         </tm-sortable-table>
       </div>
-      <div>
-        <h1>
-          Instructors
-        </h1>
-        <tm-sortable-table>
-          <table
-            class="table table-bordered table-striped"
-          >
-            <thead>
-              <tr>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </tm-sortable-table>
-      </div>
       <div
         class="form-check"
       >

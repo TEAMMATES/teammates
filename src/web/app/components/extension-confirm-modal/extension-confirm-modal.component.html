@@ -24,7 +24,7 @@
       <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
     </div>
 
-    <div>
+    <div *ngIf="selectedStudents.length !== 0">
       <h1>Students</h1>
       <tm-sortable-table
         [columns]="studentColumnsData"
@@ -37,7 +37,7 @@
         ></tm-sortable-table>
     </div>
 
-    <div>
+    <div *ngIf="selectedInstructors.length !== 0">
       <h1>Instructors</h1>
       <tm-sortable-table
         [columns]="instructorColumnsData"
