@@ -157,7 +157,9 @@ export class ExtensionConfirmModalComponent implements OnInit {
               },
               {
                 value: studentData.extensionDeadline,
-                displayValue: this.dateDetailPipe.transform(studentData.extensionDeadline, this.feedbackSessionTimeZone),
+                displayValue: this.dateDetailPipe.transform(
+                studentData.extensionDeadline,
+                this.feedbackSessionTimeZone),
               },
             ];
             return rowData;
