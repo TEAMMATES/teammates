@@ -63,6 +63,9 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
          instructor(s): 
       </div>
       <div>
+        <h1>
+          Students
+        </h1>
         <tm-sortable-table>
           <table
             class="table table-bordered table-striped"
@@ -71,7 +74,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
               <tr>
                 <th
                   aria-sort="none"
-                  class="sort-by-section sortable-header"
+                  class="student-sort-by-section sortable-header"
                   style="text-align: start;"
                 >
                   <button
@@ -94,7 +97,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
                 </th>
                 <th
                   aria-sort="none"
-                  class="sort-by-team sortable-header"
+                  class="student-sort-by-team sortable-header"
                   style="text-align: start;"
                 >
                   <button
@@ -117,7 +120,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
                 </th>
                 <th
                   aria-sort="none"
-                  class="sort-by-name sortable-header"
+                  class="student-sort-by-name sortable-header"
                   style="text-align: start;"
                 >
                   <button
@@ -140,7 +143,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
                 </th>
                 <th
                   aria-sort="none"
-                  class="sort-by-email sortable-header"
+                  class="student-sort-by-email sortable-header"
                   style="text-align: start;"
                 >
                   <button
@@ -163,7 +166,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
                 </th>
                 <th
                   aria-sort="none"
-                  class="sort-by-deadline sortable-header"
+                  class="student-sort-by-deadline sortable-header"
                   style="text-align: start;"
                 >
                   <button
@@ -243,6 +246,9 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
         </tm-sortable-table>
       </div>
       <div>
+        <h1>
+          Instructors
+        </h1>
         <tm-sortable-table>
           <table
             class="table table-bordered table-striped"
