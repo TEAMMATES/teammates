@@ -23,7 +23,7 @@
       <b>{{ selectedInstructors.length }}</b> instructor(s) will be deleted, as they are before your new session end time of
       <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
     </div>
-    
+
     <div>
       <h1>Students</h1>
       <tm-sortable-table 
@@ -32,11 +32,11 @@
         [sortOrder]="sortStudentsBy"
         [sortOrder]="sortStudentOrder"
         [headerColorScheme]="headerColorScheme"
-        
+
         (sortEvent)="sortStudentColumnsByEventHandler($event)"
         ></tm-sortable-table>
     </div>
-    
+
     <div>
       <h1>Instructors</h1>
       <tm-sortable-table 
