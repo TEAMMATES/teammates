@@ -9,7 +9,7 @@
         <div class="col-sm-3">
           <input id="total-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
                  (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Checkbox">
-          <input id="total-points" type="number" class="form-control" 
+          <input id="total-points" type="number" class="form-control"
                  [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', ceil($event))" [disabled]="!isEditable || model.pointsPerOption" [step]="1" aria-label="Total Points Input">
         </div>
         <div class="col-sm-9 text-start">
@@ -22,7 +22,7 @@
         <div class="col-sm-3">
           <input id="per-option-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
                  (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Times Number of Recipients Checkbox">
-          <input id="per-option-points" type="number" class="form-control" 
+          <input id="per-option-points" type="number" class="form-control"
                  [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', ceil($event))" [disabled]="!isEditable || !model.pointsPerOption" [step]="1"  aria-label="Points Input">
         </div>
         <div class="col-sm-9 text-start">

@@ -28,7 +28,7 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
   }
 
   ceil(value: number): number {
-    return value === null  ? value : Math.ceil(value);
+    return value === null ? value : Math.ceil(value);
   }
 
   /**

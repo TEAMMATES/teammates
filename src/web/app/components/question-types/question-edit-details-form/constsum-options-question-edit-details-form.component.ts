@@ -28,7 +28,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   }
 
   ceil(value: number): number {
-    return value === null  ? value : Math.ceil(value);
+    return value === null ? value : Math.ceil(value);
   }
 
   get hasMaxPoint(): boolean {
