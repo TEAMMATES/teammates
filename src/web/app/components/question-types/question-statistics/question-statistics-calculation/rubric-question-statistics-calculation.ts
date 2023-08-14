@@ -3,7 +3,7 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
 } from '../../../../../types/api-output';
-import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../../types/feedback-response-details';
+import { NO_VALUE, RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../../types/feedback-response-details';
 import { QuestionStatistics } from '../question-statistics';
 
 /**
@@ -18,6 +18,7 @@ export interface PerRecipientStats {
   percentages: number[][];
   percentagesAverage: number[];
   weightsAverage: number[];
+  areSubQuestionChosenWeightsAllNull: boolean[];
   subQuestionTotalChosenWeight: number[];
   subQuestionWeightAverage: number[];
   overallWeightedSum: number;
@@ -113,6 +114,7 @@ export class RubricQuestionStatisticsCalculation
           percentages: [],
           percentagesAverage: [],
           weightsAverage: [],
+          areSubQuestionChosenWeightsAllNull: this.subQuestions.map(() => true),
           subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
           subQuestionWeightAverage: [],
         };
@@ -122,8 +124,12 @@ export class RubricQuestionStatisticsCalculation
           continue;
         }
         this.perRecipientStatsMap[response.recipientEmail || response.recipient].answers[i][subAnswer] += 1;
-        this.perRecipientStatsMap[response.recipientEmail || response.recipient].subQuestionTotalChosenWeight[i] +=
-            this.weights[i][subAnswer] === null ? 0 : +this.weights[i][subAnswer].toFixed(5);
+        if (this.weights[i][subAnswer] !== null) {
+            this.perRecipientStatsMap[response.recipientEmail || response.recipient].subQuestionTotalChosenWeight[i] +=
+                +this.weights[i][subAnswer].toFixed(5);
+            this.perRecipientStatsMap[
+                response.recipientEmail || response.recipient].areSubQuestionChosenWeightsAllNull[i] = false;
+        }
       }
     }
 
@@ -134,16 +140,23 @@ export class RubricQuestionStatisticsCalculation
       perRecipientStats.answersSum = this.sumValidValuesByColumn(perRecipientStats.answers);
       perRecipientStats.percentages = this.calculatePercentages(perRecipientStats.answers);
       perRecipientStats.percentagesAverage = this.calculatePercentagesAverage(perRecipientStats.answersSum);
+      perRecipientStats.subQuestionTotalChosenWeight =
+          perRecipientStats.subQuestionTotalChosenWeight.map((val: number, i: number) =>
+              (perRecipientStats.areSubQuestionChosenWeightsAllNull[i] ? NO_VALUE : val));
       perRecipientStats.subQuestionWeightAverage =
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
       perRecipientStats.weightsAverage = this.calculateWeightsAverage(this.weights);
       // Overall weighted sum = sum of total chosen non-null weight for all sub questions
       perRecipientStats.overallWeightedSum =
-        +(perRecipientStats.subQuestionTotalChosenWeight.reduce((a, b) => a + b)).toFixed(2);
+        perRecipientStats.areSubQuestionChosenWeightsAllNull.every(Boolean)
+            ? NO_VALUE
+            : +(perRecipientStats.subQuestionTotalChosenWeight.reduce((a, b) => a + b)).toFixed(2);
       // Overall weighted average = overall weighted sum / total number of responses with non-null weights
-      perRecipientStats.overallWeightAverage = +(perRecipientStats.overallWeightedSum
-          / this.calculateNumResponses(this.countResponsesByRowWithValidWeight(perRecipientStats.answers)))
-          .toFixed(2);
+      perRecipientStats.overallWeightAverage = perRecipientStats.overallWeightedSum === NO_VALUE
+          ? NO_VALUE
+          : +(perRecipientStats.overallWeightedSum
+              / this.calculateNumResponses(this.countResponsesByRowWithValidWeight(perRecipientStats.answers)))
+              .toFixed(2);
     }
   }
 
@@ -168,7 +181,7 @@ export class RubricQuestionStatisticsCalculation
 
     return answers.map((subQuestionAnswer: number[], subQuestionIdx: number): number => {
       if (sums[subQuestionIdx] === 0) {
-        return 0;
+        return NO_VALUE;
       }
       const weightAverage: number =
           subQuestionAnswer.reduce((prevValue: number, currValue: number, currentIndex: number): number =>
@@ -230,7 +243,7 @@ export class RubricQuestionStatisticsCalculation
     const averages: number[] = [];
     // Divide each weight sum by number of non-null weights
     for (let i: number = 0; i < sums.length; i += 1) {
-      averages[i] = counts[i] ? +(sums[i] / counts[i]).toFixed(2) : 0;
+      averages[i] = counts[i] ? +(sums[i] / counts[i]).toFixed(2) : NO_VALUE;
     }
     return averages;
   }
