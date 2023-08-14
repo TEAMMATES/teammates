@@ -72,11 +72,11 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       if (this.isWeightStatsVisible) {
         if (this.excludeSelf) {
           currRow.push({
-            value: this.getDisplayAggregateWeight(this.subQuestionWeightAverageExcludeSelf[questionIndex]),
+            value: this.getDisplayWeight(this.subQuestionWeightAverageExcludeSelf[questionIndex]),
           });
         } else {
           currRow.push({
-            value: this.getDisplayAggregateWeight(this.subQuestionWeightAverage[questionIndex]),
+            value: this.getDisplayWeight(this.subQuestionWeightAverage[questionIndex]),
           });
         }
       }
@@ -115,8 +115,8 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
                   + ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`,
             };
           }),
-          { value: this.getDisplayAggregateWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]) },
-          { value: this.getDisplayAggregateWeight(perRecipientStats.subQuestionWeightAverage[questionIndex]) },
+          { value: this.getDisplayWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]) },
+          { value: this.getDisplayWeight(perRecipientStats.subQuestionWeightAverage[questionIndex]) },
         ]);
       });
     });
@@ -135,7 +135,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
     Object.values(this.perRecipientStatsMap).forEach((perRecipientStats: PerRecipientStats) => {
       const perCriterionAverage: string =
           perRecipientStats.subQuestionWeightAverage.map((val: number) =>
-          this.getDisplayAggregateWeight(val)).toString();
+          this.getDisplayWeight(val)).toString();
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
@@ -144,21 +144,17 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
           return {
             value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
                 + ` (${perRecipientStats.answersSum[choiceIndex]})`
-                + ` [${this.getDisplayAggregateWeight(perRecipientStats.weightsAverage[choiceIndex])}]`,
+                + ` [${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`,
           };
         }),
-        { value: this.getDisplayAggregateWeight(perRecipientStats.overallWeightedSum) },
-        { value: this.getDisplayAggregateWeight(perRecipientStats.overallWeightAverage) },
+        { value: this.getDisplayWeight(perRecipientStats.overallWeightedSum) },
+        { value: this.getDisplayWeight(perRecipientStats.overallWeightAverage) },
         { value: perCriterionAverage },
       ]);
     });
   }
 
   private getDisplayWeight(weight: number): any {
-    return weight === null ? '' : weight;
-  }
-
-  private getDisplayAggregateWeight(weight: number): any {
-    return weight === NO_VALUE ? '-' : weight;
+    return weight === null || weight === NO_VALUE ? '-' : weight;
   }
 }
