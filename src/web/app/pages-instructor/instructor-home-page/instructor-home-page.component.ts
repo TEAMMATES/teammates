@@ -499,7 +499,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
+      this.copySingleSession(requestList[0].pipe(finalize(() => {
+        this.isCopyLoading = false;
+      })), this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
