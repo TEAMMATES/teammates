@@ -146,11 +146,8 @@ export class RubricQuestionStatisticsCalculation
       perRecipientStats.subQuestionWeightAverage =
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
       perRecipientStats.weightsAverage = this.calculateWeightsAverage(this.weights);
-      // Overall weighted sum = sum of total chosen non-null weight for all sub questions
-      perRecipientStats.overallWeightedSum =
-        perRecipientStats.areSubQuestionChosenWeightsAllNull.every(Boolean)
-            ? NO_VALUE
-            : +(perRecipientStats.subQuestionTotalChosenWeight.reduce((a, b) => a + b)).toFixed(2);
+      perRecipientStats.overallWeightedSum = this.calculateOverallWeightedSum(
+          perRecipientStats.areSubQuestionChosenWeightsAllNull, perRecipientStats.subQuestionTotalChosenWeight);
       // Overall weighted average = overall weighted sum / total number of responses with non-null weights
       perRecipientStats.overallWeightAverage = perRecipientStats.overallWeightedSum === NO_VALUE
           ? NO_VALUE
@@ -263,5 +260,17 @@ export class RubricQuestionStatisticsCalculation
   // Calculate total number of responses
   private calculateNumResponses(answersSum: number[]): number {
     return answersSum.reduce((a, b) => a + b);
+  }
+
+  // Overall weighted sum is sum of total chosen non-null weight for all sub questions
+  private calculateOverallWeightedSum(areChosenWeightsAllNull: boolean[], totalChosenWeights: number[]): number {
+    if (areChosenWeightsAllNull.every(Boolean)) {
+        return NO_VALUE;
+    }
+    let sum: number = 0;
+    for (const totalChosenWeight of totalChosenWeights) {
+        sum += totalChosenWeight === NO_VALUE ? 0 : totalChosenWeight;
+    }
+    return +(sum).toFixed(2);
   }
 }
