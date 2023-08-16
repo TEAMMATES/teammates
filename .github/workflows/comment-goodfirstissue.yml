@@ -1,0 +1,26 @@
+name: Comment on Good First Issue
+
+on:
+  issues:
+    types:
+      - labeled
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if labeled as "good first issue"
+        id: check_label
+        run: |
+          echo ::set-output name=is_good_first_issue::${{ contains(github.event.issue.labels.*.name, 'good first issue') }}
+
+      - name: Add comment
+        if: steps.check_label.outputs.is_good_first_issue == 'true'
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const message = ` **Good First Issue - Notes for Contributors**`;
+            const comment = context.issue({ body: message });
+            return github.issues.createComment(comment);
