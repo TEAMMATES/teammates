@@ -25,7 +25,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `**Welcome**, new contributor!
+            body: `**Good First Issue - Notes for Contributors**
 
-                Please make sure you've read our [contributing guide](https://teammates.github.io/teammates/contributing-doc.html) and we look forward to reviewing your Pull request shortly ✨`
+                This issue is for **first-time contributors only**. If you are new to TEAMMATES, feel free to submit a PR for this issue.`
             })
