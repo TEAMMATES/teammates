@@ -21,7 +21,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const message = ` **Good First Issue - Notes for Contributors**
+            let body = `**Good First Issue - Notes for Contributors**
 
                   This issue is for **first-time contributors only**. If you are new to TEAMMATES, feel free to submit a PR for this issue.
 
@@ -32,8 +32,8 @@ jobs:
                   **To get started**, do read through our [contributing guidelines](https://teammates.github.io/teammates/contributing-doc.html) carefully, and [set up a development environment on your local machine](https://teammates.github.io/teammates/setting-up.html) before making a PR.
 
                   If you need any clarifications on our [developer guide](https://teammates.github.io/teammates/index.html), or are facing issues that are not found in our [troubleshooting guide](https://teammates.github.io/teammates/troubleshooting-guide.html), please [post a message in our discussion forum](https://github.com/TEAMMATES/teammates/discussions).`;
-            return github.rest.issues.createComment({
-                    issue_number: context.issue.number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    body: message})
+            await github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body,})
