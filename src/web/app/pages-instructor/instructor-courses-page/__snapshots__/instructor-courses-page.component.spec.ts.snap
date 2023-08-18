@@ -1843,32 +1843,39 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <button
+                        class="link-button"
+                      >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
+                      <button
+                        class="link-button"
                         id="show-statistics-0"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <button
+                        class="link-button"
+                      >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <button
+                        class="link-button"
+                      >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td
@@ -1966,32 +1973,39 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <button
+                        class="link-button"
+                      >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a
+                      <button
+                        class="link-button"
                         id="show-statistics-1"
                       >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <button
+                        class="link-button"
+                      >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td>
                     <span>
-                      <a>
+                      <button
+                        class="link-button"
+                      >
                          Show 
-                      </a>
+                      </button>
                     </span>
                   </td>
                   <td
