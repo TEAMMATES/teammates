@@ -506,6 +506,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     if (requestList.length === 1) {
       this.copySingleSession(requestList[0].pipe(finalize(() => {
         this.isCopySessionLoading = false;
+        if (Object.keys(this.failedToCopySessions).length > 0) {
+          this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+        }
       })), this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
