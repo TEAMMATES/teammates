@@ -40,7 +40,7 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
   }
 
   /**
-   * Rounds up and returns the smallest integer greater than or equal to 
+   * Rounds up and returns the smallest integer greater than or equal to
    * the given number if not null
    */
   ceil(value: number): number {
