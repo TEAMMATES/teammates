@@ -38,4 +38,12 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
   triggerModelChangeBatch(obj: Partial<D>): void {
     this.detailsChange.emit({ ...this.model, ...obj });
   }
+
+  /**
+   * Rounds up and returns the smallest integer greater than or equal to 
+   * the given number if not null
+   */
+  ceil(value: number): number {
+    return value === null ? value : Math.ceil(value);
+  }
 }

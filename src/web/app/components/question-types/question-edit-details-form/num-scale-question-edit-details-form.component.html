@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Minimum acceptable response value">Minimum value:</span>
-    <input id="min-value" type="number" class="form-control" [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1" aria-label="Minimum Value Input">
+    <input id="min-value" type="number" class="form-control" [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', ceil($event))" [disabled]="!isEditable" [step]="1" aria-label="Minimum Value Input">
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Value to be increased/decreased each step">Increment:</span>
@@ -10,7 +10,7 @@
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Maximum acceptable response value">Maximum value:</span>
-    <input id="max-value" type="number" class="form-control" [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1" min="{{ Math.ceil(model.minScale + model.step) }}" aria-label="Maximum Value Input">
+    <input id="max-value" type="number" class="form-control" [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', ceil($event))" [disabled]="!isEditable" [step]="1" min="{{ ceil(model.minScale + model.step) }}" aria-label="Maximum Value Input">
   </div>
 </div>
 <br>
