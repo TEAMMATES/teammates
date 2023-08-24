@@ -39,7 +39,7 @@
   <div *tmIsLoading="!hasCoursesLoaded || isCopyLoading">
     <div *ngIf="courseTabModels.length > 0">
       <div id="course-tab-{{ idx }}" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-        <div class="card-header bg-primary text-white cursor-pointer"
+        <button class="card-header bg-primary text-white cursor-pointer border-0"
           (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
           <b class="course-details text-break">[{{ courseTabModel.course.courseId }}]: {{
             courseTabModel.course.courseName }}</b>
@@ -102,7 +102,7 @@
             </span>
           </div>
           <tm-panel-chevron [isExpanded]="courseTabModel.isTabExpanded"></tm-panel-chevron>
-        </div>
+        </button>
         <div class="card-body padding-0 table-responsive" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
           <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed"
             [message]="'Error loading feedback sessions'" (retryEvent)="loadFeedbackSessions(idx)">
