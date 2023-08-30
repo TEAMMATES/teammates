@@ -85,7 +85,6 @@ export class QuestionResponsePanelComponent {
       // Do not re-fetch data
       return;
     }
-   
     this.feedbackSessionsService.getFeedbackSessionResults({
       questionId: question.feedbackQuestion.feedbackQuestionId,
       courseId: this.session.courseId,
