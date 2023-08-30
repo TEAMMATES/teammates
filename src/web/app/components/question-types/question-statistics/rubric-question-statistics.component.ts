@@ -1,6 +1,7 @@
 import { Component, OnChanges } from '@angular/core';
 import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import {
@@ -54,21 +55,29 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
             return {
               value: `${this.percentagesExcludeSelf[questionIndex][choiceIndex]}%`
                   + ` (${this.answersExcludeSelf[questionIndex][choiceIndex]})`
-                  + `${this.isWeightStatsVisible ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+                  + `${this.isWeightStatsVisible
+                      ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`
+                      : ''}`,
             };
           }
           return {
             value: `${this.percentages[questionIndex][choiceIndex]}%`
                 + ` (${this.answers[questionIndex][choiceIndex]})`
-                + `${this.isWeightStatsVisible ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+                + `${this.isWeightStatsVisible
+                    ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`
+                    : ''}`,
           };
         }),
       ];
       if (this.isWeightStatsVisible) {
         if (this.excludeSelf) {
-          currRow.push({ value: this.subQuestionWeightAverageExcludeSelf[questionIndex] });
+          currRow.push({
+            value: this.getDisplayWeight(this.subQuestionWeightAverageExcludeSelf[questionIndex]),
+          });
         } else {
-          currRow.push({ value: this.subQuestionWeightAverage[questionIndex] });
+          currRow.push({
+            value: this.getDisplayWeight(this.subQuestionWeightAverage[questionIndex]),
+          });
         }
       }
 
@@ -103,11 +112,11 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
             return {
               value: `${perRecipientStats.percentages[questionIndex][choiceIndex]}%`
                   + ` (${perRecipientStats.answers[questionIndex][choiceIndex]})`
-                  + ` [${this.weights[questionIndex][choiceIndex]}]`,
+                  + ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`,
             };
           }),
-          { value: perRecipientStats.subQuestionTotalChosenWeight[questionIndex] },
-          { value: perRecipientStats.subQuestionWeightAverage[questionIndex] },
+          { value: this.getDisplayWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]) },
+          { value: this.getDisplayWeight(perRecipientStats.subQuestionWeightAverage[questionIndex]) },
         ]);
       });
     });
@@ -124,6 +133,9 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
 
     this.perRecipientOverallRowsData = [];
     Object.values(this.perRecipientStatsMap).forEach((perRecipientStats: PerRecipientStats) => {
+      const perCriterionAverage: string =
+          perRecipientStats.subQuestionWeightAverage.map((val: number) =>
+          this.getDisplayWeight(val)).toString();
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
@@ -132,13 +144,17 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
           return {
             value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
                 + ` (${perRecipientStats.answersSum[choiceIndex]})`
-                + ` [${perRecipientStats.weightsAverage[choiceIndex]}]`,
+                + ` [${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`,
           };
         }),
-        { value: perRecipientStats.overallWeightedSum },
-        { value: perRecipientStats.overallWeightAverage },
-        { value: perRecipientStats.subQuestionWeightAverage.toString() },
+        { value: this.getDisplayWeight(perRecipientStats.overallWeightedSum) },
+        { value: this.getDisplayWeight(perRecipientStats.overallWeightAverage) },
+        { value: perCriterionAverage },
       ]);
     });
+  }
+
+  private getDisplayWeight(weight: number): any {
+    return weight === null || weight === NO_VALUE ? '-' : weight;
   }
 }
