@@ -72,10 +72,9 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
     return `${id}-row${row}-col${col}-${platform}`;
   }
 
-  resetRubricQuestion() {
+  resetRubricQuestion(): void {
     let newAnswer: number[] = [];
     newAnswer = Array(this.questionDetails.rubricSubQuestions.length).fill(RUBRIC_ANSWER_NOT_CHOSEN);
     this.triggerResponseDetailsChange('answer', newAnswer);
   }
-
 }

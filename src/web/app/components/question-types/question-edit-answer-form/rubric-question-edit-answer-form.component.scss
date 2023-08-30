@@ -10,7 +10,6 @@ button.btn {
   margin: 20px 0;
 }
 
-
 @media (max-width: 768px) {
   .desktop-view {
     display: none;
@@ -25,6 +24,7 @@ button.btn {
   .mobile-view {
     display: none;
   }
+
   .desktop-view {
     display: block;
   }
