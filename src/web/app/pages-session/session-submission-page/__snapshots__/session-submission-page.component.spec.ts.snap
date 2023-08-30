@@ -2954,6 +2954,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </div>
                         </div>
                       </div>
+                      <button
+                        class="btn btn-success"
+                      >
+                        <span>
+                          Reset rubric question
+                        </span>
+                      </button>
                     </tm-rubric-question-edit-answer-form>
                   </div>
                   <div
@@ -5816,6 +5823,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </div>
                         </div>
                       </div>
+                      <button
+                        class="btn btn-success"
+                      >
+                        <span>
+                          Reset rubric question
+                        </span>
+                      </button>
                     </tm-rubric-question-edit-answer-form>
                   </div>
                   <div
