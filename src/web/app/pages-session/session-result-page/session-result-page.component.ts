@@ -327,7 +327,7 @@ export class SessionResultPageComponent implements OnInit {
                     otherResponses: [],
                     isLoading: false,
                     isLoaded: false,
-                    hasResponse: true,
+                    hasResponse: false,
                     hasResponseButNotVisibleForPreview: false,
                     hasCommentNotVisibleForPreview: false,
                   });

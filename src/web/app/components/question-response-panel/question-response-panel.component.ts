@@ -85,6 +85,7 @@ export class QuestionResponsePanelComponent {
       // Do not re-fetch data
       return;
     }
+   
     this.feedbackSessionsService.getFeedbackSessionResults({
       questionId: question.feedbackQuestion.feedbackQuestionId,
       courseId: this.session.courseId,
@@ -96,6 +97,7 @@ export class QuestionResponsePanelComponent {
       next: (sessionResults: SessionResults) => {
         const responses: QuestionOutput = sessionResults.questions[0];
         if (responses) {
+          question.hasResponse = true;
           question.feedbackQuestion = responses.feedbackQuestion;
           question.allResponses = responses.allResponses;
           question.otherResponses = responses.otherResponses;
@@ -105,7 +107,6 @@ export class QuestionResponsePanelComponent {
           question.hasResponseButNotVisibleForPreview = responses.hasResponseButNotVisibleForPreview;
           question.hasCommentNotVisibleForPreview = responses.hasCommentNotVisibleForPreview;
         } else {
-          question.hasResponse = false;
           if (question.errorMessage) {
             this.statusMessageService.showSuccessToast('Question '
               .concat(question.feedbackQuestion.questionNumber.toString())
