@@ -6,14 +6,26 @@
   background-color: #D9EDF7 !important;
 }
 
+button.btn {
+  margin: 20px 0;
+}
+
+
 @media (max-width: 768px) {
   .desktop-view {
     display: none;
+  }
+
+  .mobile-view {
+    display: block;
   }
 }
 
 @media (min-width: 768px) {
   .mobile-view {
     display: none;
+  }
+  .desktop-view {
+    display: block;
   }
 }
