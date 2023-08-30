@@ -105,12 +105,11 @@ export class QuestionResponsePanelComponent {
           question.responsesToSelf = responses.responsesToSelf;
           question.hasResponseButNotVisibleForPreview = responses.hasResponseButNotVisibleForPreview;
           question.hasCommentNotVisibleForPreview = responses.hasCommentNotVisibleForPreview;
-        } else {
-          if (question.errorMessage) {
-            this.statusMessageService.showSuccessToast('Question '
-              .concat(question.feedbackQuestion.questionNumber.toString())
-              .concat(' has no responses.'));
-          }
+        } 
+        if (question.errorMessage) {
+          this.statusMessageService.showSuccessToast('Question '
+            .concat(question.feedbackQuestion.questionNumber.toString())
+            .concat(' has no responses.'));
         }
       },
       complete: () => {
