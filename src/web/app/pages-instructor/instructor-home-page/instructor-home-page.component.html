@@ -39,13 +39,13 @@
   <div *tmIsLoading="!hasCoursesLoaded || isCopyLoading">
     <div *ngIf="courseTabModels.length > 0">
       <div id="course-tab-{{ idx }}" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-        <div class="card-header bg-primary text-white cursor-pointer"
+        <button class="card-header bg-primary text-white cursor-pointer border-0"
           (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
           <b class="course-details text-break">[{{ courseTabModel.course.courseId }}]: {{
             courseTabModel.course.courseName }}</b>
           <div class="card-header-btn-toolbar flex-lg-shrink-0" *ngIf="courseTabModel.isAjaxSuccess">
             <span ngbDropdown>
-              <button class="btn btn-primary btn-sm" ngbDropdownToggle> Students </button>
+              <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
                   <a class="btn btn-info btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/enroll"
@@ -58,7 +58,7 @@
               </div>
             </span>
             <span ngbDropdown>
-              <button class="btn btn-primary btn-sm" ngbDropdownToggle> Instructors </button>
+              <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle> Instructors </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/edit"
                   [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
@@ -66,7 +66,7 @@
               </div>
             </span>
             <span ngbDropdown>
-              <button class="btn btn-primary btn-sm" ngbDropdownToggle> Sessions </button>
+              <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle> Sessions </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/sessions"
                   [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
@@ -74,7 +74,7 @@
               </div>
             </span>
             <span ngbDropdown>
-              <button class="btn-course btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
+              <button type="button" class="btn-course btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn-archive-course btn btn-light btn-sm dropdown-item"
                   ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
@@ -100,9 +100,9 @@
                 </ng-container>
               </div>
             </span>
+            <tm-panel-chevron [isExpanded]="courseTabModel.isTabExpanded"></tm-panel-chevron>
           </div>
-          <tm-panel-chevron [isExpanded]="courseTabModel.isTabExpanded"></tm-panel-chevron>
-        </div>
+        </button>
         <div class="card-body padding-0 table-responsive" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
           <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed"
             [message]="'Error loading feedback sessions'" (retryEvent)="loadFeedbackSessions(idx)">

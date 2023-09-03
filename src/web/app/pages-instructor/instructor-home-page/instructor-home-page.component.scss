@@ -35,9 +35,12 @@
 
   .card-header-btn-toolbar {
     text-align: right;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
+  }
+  tm-panel-chevron {
+    margin-left: auto;
   }
 }
