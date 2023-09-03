@@ -497,7 +497,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Edits the feedback session.
    */
   copySessionEventHandler(result: CopySessionResult): void {
-    console.log("Edw")
     this.isCopySessionLoading = true;
     this.failedToCopySessions = {};
     this.coursesOfModifiedSession = [];
