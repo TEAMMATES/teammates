@@ -39,11 +39,25 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     this.detailsChange.emit({ ...this.model, ...obj });
   }
 
-  /**
-   * Rounds up and returns the smallest integer greater than or equal to
-   * the given number if not null
-   */
-  ceil(value: number): number {
-    return value === null ? value : Math.ceil(value);
+  onPointsInput(event: KeyboardEvent): void {
+    const { key } = event;
+    const isBackspace = key === 'Backspace';
+    const isDigit = /[0-9]/.test(key);
+    if (!isBackspace && !isDigit) {
+      event.preventDefault();
+    }
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    const { clipboardData } = event;
+    if (clipboardData == null) {
+      return;
+    }
+    const pastedText = clipboardData.getData('text');
+    const isDigit = /^\d+$/.test(pastedText);
+    if (!isDigit) {
+      event.preventDefault();
+    }
+
   }
 }
