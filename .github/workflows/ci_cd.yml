@@ -47,10 +47,7 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci
-            
-      - name: Build with Node.js
-        run: npm run build --if-present
-            
+                        
       - name: Run Node.js tests
         run: npm test
 
