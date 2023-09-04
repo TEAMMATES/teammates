@@ -49,6 +49,6 @@ jobs:
         run: npm ci
 
       - name: Upload Code Coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         env: 
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
