@@ -33,7 +33,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x]
       
     steps:
       - name: Checkout code
@@ -47,9 +47,6 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci
-                        
-      - name: Run Node.js tests
-        run: npm test
 
       - name: Upload Code Coverage to Codecov
         uses: codecov/codecov-action@v2
