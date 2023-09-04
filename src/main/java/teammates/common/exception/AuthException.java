@@ -5,8 +5,4 @@ package teammates.common.exception;
  */
 public class AuthException extends Exception {
 
-    public AuthException(Throwable cause) {
-        super(cause);
-    }
-
 }
