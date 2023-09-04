@@ -2956,6 +2956,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                       <button
                         class="btn btn-success"
+                        type="reset"
                       >
                         <span>
                           Reset rubric question
@@ -5825,6 +5826,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                       <button
                         class="btn btn-success"
+                        type="reset"
                       >
                         <span>
                           Reset rubric question
