@@ -408,6 +408,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               </ul>
             </div>
             <div
+              class="table-responsive"
+            >
+            </div>
+            <div
               class="margin-top-15px visibility-message"
             >
                This is the visibility hint as seen by the feedback giver: 
