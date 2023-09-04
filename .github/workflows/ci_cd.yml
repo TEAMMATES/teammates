@@ -1,4 +1,4 @@
-name: CI/CD with Java, Gradle and Node.js
+name: CI CD
 
 on:
   push:
