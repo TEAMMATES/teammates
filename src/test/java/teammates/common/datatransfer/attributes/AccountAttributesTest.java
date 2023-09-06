@@ -48,13 +48,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.getGoogleId(), account.getName(),
-                account.getEmail(), account.getReadNotifications());
+                account.getEmail(), account.getDescription(), account.getReadNotifications());
 
         Account actualAccount = account.toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
+        assertEquals(expectedAccount.getDescription(), actualAccount.getDescription());
         assertEquals(expectedAccount.getReadNotifications(), actualAccount.getReadNotifications());
     }
 
@@ -134,13 +135,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", "joe@example.com", new HashMap<>());
+        Account genericAccount = new Account("id", "Joe", "joe@example.com", "A software engineering student.", new HashMap<>());
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 
         assertEquals(genericAccount.getGoogleId(), observedAccountAttributes.getGoogleId());
         assertEquals(genericAccount.getName(), observedAccountAttributes.getName());
         assertEquals(genericAccount.getEmail(), observedAccountAttributes.getEmail());
+        assertEquals(genericAccount.getDescription(), observedAccountAttributes.getDescription());
         assertEquals(genericAccount.getCreatedAt(), observedAccountAttributes.getCreatedAt());
     }
 
