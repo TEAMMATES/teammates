@@ -25,6 +25,8 @@ public class Account extends BaseEntity {
 
     private String email;
 
+    private String description;
+
     @Unindex
     @Serialize
     private Map<String, Instant> readNotifications;
@@ -45,10 +47,11 @@ public class Account extends BaseEntity {
      * @param email The official email of the user.
      * @param readNotifications The notifications that the user has read, stored in a map of ID to end time.
      */
-    public Account(String googleId, String name, String email, Map<String, Instant> readNotifications) {
+    public Account(String googleId, String name, String email, String description, Map<String, Instant> readNotifications) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
+        this.setDescription(description);
         this.setReadNotifications(readNotifications);
         this.setCreatedAt(Instant.now());
     }
@@ -75,6 +78,14 @@ public class Account extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
