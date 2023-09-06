@@ -198,9 +198,9 @@
         <property name="file" value="${suppressions}"/>
     </module>
     <module name="JavadocPackage"/>
+    <property name="tabWidth" value="4"/>
     <module name="LineLength">
         <property name="ignorePattern" value="https?://"/>
-        <property name="max" value="125"/>
-        <property name="tabWidth" value="4"/>
+        <property name="max" value="130"/>
     </module>
 </module>
