@@ -135,6 +135,35 @@ export class SessionEditFormComponent {
   }
 
   /**
+   * Triggers the change of the model when the submission opening date changes.
+   */
+  triggerSubmissionOpeningDateModelChange(field: string, date: DateFormat): void {
+    const minDate: DateFormat = this.minDateForSubmissionStart;
+    if (JSON.stringify(minDate) === JSON.stringify(date)) {
+      const minTime: TimeFormat = this.minTimeForSubmissionStart;
+      this.configureSubmissionOpeningTime(minTime);
+      this.model.submissionStartTime = minTime;
+    }
+    this.modelChange.emit({
+      ...this.model,
+      [field]: date,
+    });
+  }
+
+  /**
+   * Configures the time for the submission opening time.
+   */
+  configureSubmissionOpeningTime(time : TimeFormat) : void {
+    if (time.hour < 24 && time.minute > 0) {
+      // Case where minutes is not 0 since the earliest time with 0 minutes is the hour before
+      time.hour += 1;
+      time.minute = 0;
+    } else if (time.hour === 23 && time.minute > 0) {
+      time.minute = 59;
+    }
+  }
+
+  /**
    * Handles course Id change event.
    *
    * <p>Used in ADD mode.
