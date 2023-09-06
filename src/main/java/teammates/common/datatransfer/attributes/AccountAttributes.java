@@ -20,6 +20,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
     private String googleId;
     private String name;
     private String email;
+    private String description;
     private Map<String, Instant> readNotifications;
     private Instant createdAt;
 
@@ -36,6 +37,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = a.getName();
         accountAttributes.email = a.getEmail();
+        accountAttributes.description = a.getDescription();
         accountAttributes.readNotifications = a.getReadNotifications();
         accountAttributes.createdAt = a.getCreatedAt();
 
@@ -57,6 +59,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = this.name;
         accountAttributes.email = this.email;
+        accountAttributes.description = this.description;
         accountAttributes.readNotifications = this.readNotifications;
         accountAttributes.createdAt = this.createdAt;
 
@@ -85,6 +88,15 @@ public final class AccountAttributes extends EntityAttributes<Account> {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+
     }
 
     public Map<String, Instant> getReadNotifications() {
@@ -120,13 +132,13 @@ public final class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public Account toEntity() {
-        return new Account(googleId, name, email, readNotifications);
+        return new Account(googleId, name, email, description, readNotifications);
     }
 
     @Override
     public String toString() {
         return "AccountAttributes [googleId=" + googleId + ", name=" + name
-               + ", email=" + email + "]";
+               + ", email=" + email + ", description= " + description + "]";
     }
 
     @Override
