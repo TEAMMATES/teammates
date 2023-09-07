@@ -17,7 +17,7 @@ jobs:
 
       - name: Add comment
         if: steps.check_label.outputs.is_good_first_issue == 'true'
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
