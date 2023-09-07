@@ -504,7 +504,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
+      this.copySingleSession(requestList[0].pipe(finalize(() => {
+        this.isCopySessionLoading = false;
+      })), this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
