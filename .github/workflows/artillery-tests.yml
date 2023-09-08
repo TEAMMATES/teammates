@@ -1,0 +1,32 @@
+name: Run Artillery Tests on PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out main repository
+        uses: actions/checkout@v6
+
+      - name: Clone Artillery Repository
+        run: |
+          git clone https://github.com/cedricongjh/test-artillery-repo.git
+        working-directory: ./artillery-repo
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install Artillery
+        run: npm install -g artillery
+
+      - name: Run Artillery Tests
+        run: |
+          cd ./artillery-repo
+          artillery run home-load-test.yml
