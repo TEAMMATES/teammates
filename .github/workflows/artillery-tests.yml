@@ -16,7 +16,6 @@ jobs:
       - name: Clone Artillery Repository
         run: |
           git clone https://github.com/cedricongjh/test-artillery-repo.git
-          mkdir -p ./artillery-repo  # Create the directory if it doesn't exist
         working-directory: .
 
       - name: Install Node.js and npm
@@ -29,5 +28,5 @@ jobs:
 
       - name: Run Artillery Tests
         run: |
-          cd ./artillery-repo
+          cd ./test-artillery-repo
           artillery run home-load-test.yml
