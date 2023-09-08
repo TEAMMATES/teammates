@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Check out main repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v2
 
       - name: Clone Artillery Repository
         run: |
