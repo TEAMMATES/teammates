@@ -3,7 +3,7 @@ name: Run Artillery Tests on PR
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
