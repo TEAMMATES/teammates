@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -427,6 +427,24 @@ describe('InstructorSessionsPageComponent', () => {
     component.isRecycleBinExpanded = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should call copySingleSession when requestList contains only one item', () => {
+    const result = {
+      sessionToCopyRowIndex: 0,
+      newFeedbackSessionName: 'New feedback session',
+      copyToCourseList: [],
+      sessionToCopyCourseId: '1'
+    }
+    const mockRequest = of({} as FeedbackSession)
+    jest.spyOn(component, 'createSessionCopyRequestsFromRowModel').mockReturnValue([mockRequest]);
+    const copySingleSessionSpy = jest.spyOn(component, 'copySingleSession');
+
+    component.copySessionEventHandler(result);
+
+    expect(component.createSessionCopyRequestsFromRowModel).toHaveBeenCalled();
+    expect(copySingleSessionSpy).toHaveBeenCalledWith(expect.any(Observable), component.modifiedTimestampsModal);
+    expect(component.isCopyOtherSessionLoading).toBeFalsy()
   });
 
 });
