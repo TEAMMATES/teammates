@@ -33,4 +33,34 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should prevent alphabetical character inputs in onPointsInput', () => {
+    const event = new KeyboardEvent('keypress', {
+      key: 'b', 
+    });
+
+    const eventSpy = jest.spyOn(event, 'preventDefault');
+    component.onPointsInput(event);
+    expect(eventSpy).toHaveBeenCalled();
+  });
+
+  it('should prevent decimal point inputs in onPointsInput', () => {
+    const event = new KeyboardEvent('keypress', {
+      key: '.', 
+    });
+
+    const eventSpy = jest.spyOn(event, 'preventDefault')
+    component.onPointsInput(event);
+    expect(eventSpy).toHaveBeenCalled();
+  });
+
+  it('should allow digit inputs in onPointsInput', () => {
+    const event = new KeyboardEvent('keypress', {
+      key: '7', 
+    });
+
+    const eventSpy = jest.spyOn(event, 'preventDefault');
+    component.onPointsInput(event);
+    expect(eventSpy).not.toHaveBeenCalled();
+  });
 });
