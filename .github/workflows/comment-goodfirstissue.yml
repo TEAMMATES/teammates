@@ -7,16 +7,11 @@ on:
 
 jobs:
   comment:
+    if: github.event.label.name == 'good first issue'
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Check if labeled as "good first issue"
-        id: check_label
-        run: |
-          echo ::set-output name=is_good_first_issue::${{ contains(github.event.issue.labels.*.name, 'good first issue') }}
-
       - name: Add comment
-        if: steps.check_label.outputs.is_good_first_issue == 'true'
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
