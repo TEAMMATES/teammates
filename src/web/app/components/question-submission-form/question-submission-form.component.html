@@ -1,6 +1,6 @@
 <div id="question-submission-form-qn-{{ model.questionNumber }}" class="card">
   <div class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
-    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'" [attr.aria-expanded]="this.model.isTabExpanded">
+    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="model.isTabExpanded"></tm-panel-chevron>
     </div>
