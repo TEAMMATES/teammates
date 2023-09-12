@@ -261,15 +261,15 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           class="card"
           id="course-tab-0"
         >
-          <button
-            class="card-header bg-primary text-white cursor-pointer border-0"
+          <div
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
             >
               [CS3281]: Thematic Systems I
             </b>
-          </button>
+          </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -406,8 +406,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           class="card"
           id="course-tab-0"
         >
-          <button
-            class="card-header bg-primary text-white cursor-pointer border-0"
+          <div
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -558,7 +558,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </tm-panel-chevron>
             </div>
-          </button>
+          </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1000,8 +1000,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           class="card"
           id="course-tab-0"
         >
-          <button
-            class="card-header bg-primary text-white cursor-pointer border-0"
+          <div
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -1129,7 +1129,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </tm-panel-chevron>
             </div>
-          </button>
+          </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1751,8 +1751,8 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           class="card"
           id="course-tab-0"
         >
-          <button
-            class="card-header bg-primary text-white cursor-pointer border-0"
+          <div
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -1903,7 +1903,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </tm-panel-chevron>
             </div>
-          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2016,8 +2016,8 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           class="card"
           id="course-tab-0"
         >
-          <button
-            class="card-header bg-primary text-white cursor-pointer border-0"
+          <div
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -2168,7 +2168,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </tm-panel-chevron>
             </div>
-          </button>
+          </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -2305,8 +2305,8 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           class="card"
           id="course-tab-0"
         >
-          <button
-            class="card-header bg-primary text-white cursor-pointer border-0"
+          <div
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -2457,7 +2457,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </tm-panel-chevron>
             </div>
-          </button>
+          </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
