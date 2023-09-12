@@ -892,7 +892,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-1"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -1159,7 +1158,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -1378,7 +1376,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-2"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
@@ -1486,7 +1483,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-4"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -1787,7 +1783,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-5"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -1998,7 +1993,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-6"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -2223,7 +2217,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-7"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -2678,7 +2671,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-8"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -3018,7 +3010,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-9"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -3296,7 +3287,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-10"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -3738,7 +3728,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-1"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -4010,7 +3999,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -4230,7 +4218,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-2"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
@@ -4338,7 +4325,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-4"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -4645,7 +4631,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-5"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -4858,7 +4843,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-6"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -5085,7 +5069,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-7"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -5542,7 +5525,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-8"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -5892,7 +5874,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-9"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
@@ -6172,7 +6153,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-10"
         >
           <div
-            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
