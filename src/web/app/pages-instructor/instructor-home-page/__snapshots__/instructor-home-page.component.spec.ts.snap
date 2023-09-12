@@ -549,13 +549,16 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -1120,13 +1123,16 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -1894,13 +1900,16 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="false"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-down"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -2159,13 +2168,16 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -2448,13 +2460,16 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>

@@ -901,13 +901,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1167,13 +1170,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1385,13 +1391,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <h2
@@ -1492,13 +1501,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1792,13 +1804,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2002,13 +2017,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2226,13 +2244,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2680,13 +2701,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3019,13 +3043,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3296,13 +3323,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3737,13 +3767,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4008,13 +4041,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4227,13 +4263,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <h2
@@ -4334,13 +4373,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4640,13 +4682,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4852,13 +4897,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5078,13 +5126,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5534,13 +5585,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5883,13 +5937,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -6162,13 +6219,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron
                 aria-hidden="true"
               >
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Open table with sessions for this course"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
