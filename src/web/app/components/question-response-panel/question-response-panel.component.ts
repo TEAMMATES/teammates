@@ -112,6 +112,7 @@ export class QuestionResponsePanelComponent {
               .concat(question.feedbackQuestion.questionNumber.toString())
               .concat(' has no responses.'));
           }
+        }
       },
       complete: () => {
         question.isLoaded = true;
