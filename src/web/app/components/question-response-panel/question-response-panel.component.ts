@@ -105,8 +105,7 @@ export class QuestionResponsePanelComponent {
           question.responsesToSelf = responses.responsesToSelf;
           question.hasResponseButNotVisibleForPreview = responses.hasResponseButNotVisibleForPreview;
           question.hasCommentNotVisibleForPreview = responses.hasCommentNotVisibleForPreview;
-        }
-       else {
+      } else {
           question.hasResponse = false;
           if (question.errorMessage) {
             this.statusMessageService.showSuccessToast('Question '
