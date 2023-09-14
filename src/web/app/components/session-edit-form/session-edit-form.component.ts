@@ -139,11 +139,15 @@ export class SessionEditFormComponent {
    */
   triggerSubmissionOpeningDateModelChange(field: string, date: DateFormat): void {
     const minDate: DateFormat = this.minDateForSubmissionStart;
-    if (JSON.stringify(minDate) === JSON.stringify(date)) {
-      const minTime: TimeFormat = this.minTimeForSubmissionStart;
+    const minTime: TimeFormat = this.minTimeForSubmissionStart;
+
+    // Case where date is same as earliest date and time is earlier than earliest possible time
+    if (DateTimeService.compareDateFormat(date, minDate) === 0
+    && DateTimeService.compareTimeFormat(this.model.submissionStartTime, minTime) === -1) {
       this.configureSubmissionOpeningTime(minTime);
       this.model.submissionStartTime = minTime;
     }
+
     this.modelChange.emit({
       ...this.model,
       [field]: date,
@@ -154,12 +158,12 @@ export class SessionEditFormComponent {
    * Configures the time for the submission opening time.
    */
   configureSubmissionOpeningTime(time : TimeFormat) : void {
-    if (time.hour < 24 && time.minute > 0) {
+    if (time.hour === 23 && time.minute > 0) {
+      time.minute = 59;
+    } else if (time.hour < 23 && time.minute > 0) {
       // Case where minutes is not 0 since the earliest time with 0 minutes is the hour before
       time.hour += 1;
       time.minute = 0;
-    } else if (time.hour === 23 && time.minute > 0) {
-      time.minute = 59;
     }
   }
 
