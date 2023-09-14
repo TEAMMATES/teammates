@@ -106,11 +106,13 @@ export class QuestionResponsePanelComponent {
           question.hasResponseButNotVisibleForPreview = responses.hasResponseButNotVisibleForPreview;
           question.hasCommentNotVisibleForPreview = responses.hasCommentNotVisibleForPreview;
         }
-        if (question.errorMessage) {
-          this.statusMessageService.showSuccessToast('Question '
-            .concat(question.feedbackQuestion.questionNumber.toString())
-            .concat(' has no responses.'));
-        }
+       else {
+          question.hasResponse = false;
+          if (question.errorMessage) {
+            this.statusMessageService.showSuccessToast('Question '
+              .concat(question.feedbackQuestion.questionNumber.toString())
+              .concat(' has no responses.'));
+          }
       },
       complete: () => {
         question.isLoaded = true;
