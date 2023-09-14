@@ -900,7 +900,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -1166,7 +1166,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -1384,7 +1384,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -1491,7 +1491,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -1791,7 +1791,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -2001,7 +2001,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -2225,7 +2225,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -2679,7 +2679,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -3018,7 +3018,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -3295,7 +3295,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -3736,7 +3736,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -4007,7 +4007,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -4226,7 +4226,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -4333,7 +4333,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -4639,7 +4639,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -4851,7 +4851,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -5077,7 +5077,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -5533,7 +5533,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -5882,7 +5882,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -6161,7 +6161,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >

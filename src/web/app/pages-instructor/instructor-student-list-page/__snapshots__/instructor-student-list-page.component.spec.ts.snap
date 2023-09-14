@@ -88,7 +88,7 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
             <tm-panel-chevron>
               <button
                 aria-expanded="true"
-                aria-label="Open table with sessions for this course"
+                aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
               >

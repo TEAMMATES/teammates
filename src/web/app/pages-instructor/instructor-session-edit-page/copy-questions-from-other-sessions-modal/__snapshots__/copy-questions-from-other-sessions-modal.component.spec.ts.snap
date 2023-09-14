@@ -82,7 +82,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
             <tm-panel-chevron>
               <button
                 aria-expanded="true"
-                aria-label="Open table with sessions for this course"
+                aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
               >
@@ -293,7 +293,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
             <tm-panel-chevron>
               <button
                 aria-expanded="true"
-                aria-label="Open table with sessions for this course"
+                aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
               >
@@ -428,7 +428,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
             <tm-panel-chevron>
               <button
                 aria-expanded="true"
-                aria-label="Open table with sessions for this course"
+                aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
               >
@@ -649,7 +649,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
             <tm-panel-chevron>
               <button
                 aria-expanded="false"
-                aria-label="Open table with sessions for this course"
+                aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
               >
@@ -682,7 +682,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
             <tm-panel-chevron>
               <button
                 aria-expanded="false"
-                aria-label="Open table with sessions for this course"
+                aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
               >

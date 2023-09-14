@@ -551,7 +551,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -1125,7 +1125,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -1902,7 +1902,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               <tm-panel-chevron>
                 <button
                   aria-expanded="false"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -2170,7 +2170,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -2462,7 +2462,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >

@@ -82,7 +82,7 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
               <tm-panel-chevron>
                 <button
                   aria-expanded="false"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -114,7 +114,7 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
               <tm-panel-chevron>
                 <button
                   aria-expanded="false"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -261,7 +261,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -318,7 +318,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -444,7 +444,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -501,7 +501,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -627,7 +627,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
@@ -684,7 +684,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               <tm-panel-chevron>
                 <button
                   aria-expanded="true"
-                  aria-label="Open table with sessions for this course"
+                  aria-label="Expand panel"
                   class="chevron btn-course btn btn-primary btn-sm"
                   type="button"
                 >
