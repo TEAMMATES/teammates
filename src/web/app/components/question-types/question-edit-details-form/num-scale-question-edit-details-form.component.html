@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Minimum acceptable response value">Minimum value:</span>
-    <input id="min-value" type="number" class="form-control" (keypress)="onPointsInput($event)" (paste)="onPaste($event)" min="1" max="2147483647"
+    <input id="min-value" type="number" class="form-control" (keypress)="onPointsInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictPointsLength($event, true)"
            [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event)" [disabled]="!isEditable" aria-label="Minimum Value Input">
   </div>
   <div class="col-sm-4">
@@ -11,7 +11,7 @@
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Maximum acceptable response value">Maximum value:</span>
-    <input id="max-value" type="number" class="form-control" (keypress)="onPointsInput($event)" (paste)="onPaste($event)" min="1" max="2147483647"
+    <input id="max-value" type="number" class="form-control" (keypress)="onPointsInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictPointsLength($event, false)"
            [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event)" [disabled]="!isEditable" min="{{ Math.ceil(model.minScale + model.step) }}" aria-label="Maximum Value Input">
   </div>
 </div>
