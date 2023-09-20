@@ -1,12 +1,12 @@
 <div id="question-submission-form-qn-{{ model.questionNumber }}" class="card">
-  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
-    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'" [attr.aria-expanded]="this.model.isTabExpanded">
+  <div class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
+    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
     <div class="collapse-caret">
-      <tm-panel-chevron [isExpanded]="model.isTabExpanded" aria-hidden="true"></tm-panel-chevron>
+      <tm-panel-chevron [isExpanded]="model.isTabExpanded"></tm-panel-chevron>
     </div>
     <i class="fas fa-check me-2" *ngIf="isSaved" aria-hidden="true"></i>
     <h2 class="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h2>
-  </button>
+  </div>
 
   <div *ngIf="model.isTabExpanded" @collapseAnim>
     <div class="card-body" *tmIsLoading="model.isLoading">
