@@ -96,6 +96,7 @@ export class QuestionResponsePanelComponent {
       next: (sessionResults: SessionResults) => {
         const responses: QuestionOutput = sessionResults.questions[0];
         if (responses) {
+          question.hasResponse = true;
           question.feedbackQuestion = responses.feedbackQuestion;
           question.allResponses = responses.allResponses;
           question.otherResponses = responses.otherResponses;
@@ -104,7 +105,7 @@ export class QuestionResponsePanelComponent {
           question.responsesToSelf = responses.responsesToSelf;
           question.hasResponseButNotVisibleForPreview = responses.hasResponseButNotVisibleForPreview;
           question.hasCommentNotVisibleForPreview = responses.hasCommentNotVisibleForPreview;
-        } else {
+      } else {
           question.hasResponse = false;
           if (question.errorMessage) {
             this.statusMessageService.showSuccessToast('Question '
