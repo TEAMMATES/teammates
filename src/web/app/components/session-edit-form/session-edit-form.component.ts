@@ -148,10 +148,7 @@ export class SessionEditFormComponent {
       this.model.submissionStartTime = minTime;
     }
 
-    this.modelChange.emit({
-      ...this.model,
-      [field]: date,
-    });
+    this.triggerModelChange(field, date);
   }
 
   /**
