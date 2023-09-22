@@ -391,7 +391,7 @@ describe('SessionResultPageComponent', () => {
       otherResponses: [],
       isLoading: false,
       isLoaded: false,
-      hasResponse: true,
+      hasResponse: false,
       hasResponseButNotVisibleForPreview: false,
       hasCommentNotVisibleForPreview: false,
     };

@@ -80,13 +80,16 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-down"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -109,13 +112,16 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-down"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -253,13 +259,16 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -307,13 +316,16 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -430,13 +442,16 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -484,13 +499,16 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -607,13 +625,16 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -661,13 +682,16 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
