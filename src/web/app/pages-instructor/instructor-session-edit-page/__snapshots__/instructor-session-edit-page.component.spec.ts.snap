@@ -1298,13 +1298,16 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="collapse-caret"
               >
                 <tm-panel-chevron>
-                  <div
-                    class="chevron"
+                  <button
+                    aria-expanded="true"
+                    aria-label="Expand panel"
+                    class="chevron btn-course btn btn-primary btn-sm"
+                    type="button"
                   >
                     <i
                       class="fas fa-chevron-up"
                     />
-                  </div>
+                  </button>
                 </tm-panel-chevron>
               </div>
               <div
@@ -2025,13 +2028,16 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="collapse-caret"
               >
                 <tm-panel-chevron>
-                  <div
-                    class="chevron"
+                  <button
+                    aria-expanded="true"
+                    aria-label="Expand panel"
+                    class="chevron btn-course btn btn-primary btn-sm"
+                    type="button"
                   >
                     <i
                       class="fas fa-chevron-up"
                     />
-                  </div>
+                  </button>
                 </tm-panel-chevron>
               </div>
               <div
@@ -3964,13 +3970,16 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             class="collapse-caret"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-up"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
           <div

@@ -891,23 +891,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-1"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -922,7 +922,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1157,23 +1157,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-3"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1188,7 +1188,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1375,23 +1375,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-2"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <h2
@@ -1402,7 +1402,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1482,23 +1482,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-4"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1513,7 +1513,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               MSQ question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1782,23 +1782,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-5"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1813,7 +1813,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               numerical scale question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1992,23 +1992,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-6"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2023,7 +2023,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               constant sum question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -2216,23 +2216,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-7"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2247,7 +2247,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               contribution question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -2670,23 +2670,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-8"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2701,7 +2701,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -3017,23 +3017,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-9"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3048,7 +3048,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -3294,23 +3294,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-10"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3325,7 +3325,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -3735,23 +3735,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-1"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3766,7 +3766,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4006,23 +4006,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-3"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4037,7 +4037,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4225,23 +4225,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-2"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <h2
@@ -4252,7 +4252,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4332,23 +4332,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-4"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4363,7 +4363,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               MSQ question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4638,23 +4638,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-5"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4669,7 +4669,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               numerical scale question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4850,23 +4850,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-6"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4881,7 +4881,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               constant sum question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -5076,23 +5076,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-7"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5107,7 +5107,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               contribution question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -5532,23 +5532,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-8"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5563,7 +5563,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -5889,23 +5889,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-9"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5920,7 +5920,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -6168,23 +6168,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-10"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -6199,7 +6199,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
