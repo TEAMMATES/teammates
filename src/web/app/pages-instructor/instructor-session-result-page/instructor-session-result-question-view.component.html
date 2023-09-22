@@ -4,10 +4,6 @@
     <div>
       <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
                                       [questionDetails]="question.question.questionDetails"
-                                      [shouldShowDownloadQuestionResult]="true"
-                                      (downloadQuestionResultEvent)="triggerDownloadQuestionResult({
-              questionNumber: question.question.questionNumber,
-              questionId: question.question.feedbackQuestionId})"
     ></tm-question-text-with-info>
     </div>
     <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
