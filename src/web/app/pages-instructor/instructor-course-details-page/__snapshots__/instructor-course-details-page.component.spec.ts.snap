@@ -394,168 +394,219 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
         id="student-list"
       >
         <tm-student-list>
-          <div
-            class="table-responsive"
-          >
-            <table
-              class="table table-bordered table-striped m-0"
-            >
-              <thead
-                class="thead-gray"
+          <div>
+            <tm-sortable-table>
+              <table
+                class="table table-bordered table-striped"
               >
-                <tr>
-                  <th
-                    aria-sort="none"
-                    class="sortable-header"
+                <thead>
+                  <tr
+                    class="bg-light"
                   >
-                    <button>
-                       Section 
-                      <span
-                        aria-hidden="true"
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                    </button>
-                  </th>
-                  <th
-                    aria-sort="none"
-                    class="sortable-header"
-                  >
-                    <button>
-                       Team 
-                      <span
-                        aria-hidden="true"
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                    </button>
-                  </th>
-                  <th
-                    aria-sort="none"
-                    class="sort-by-name sortable-header"
-                  >
-                    <button>
-                       Student Name 
-                      <span
-                        aria-hidden="true"
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                    </button>
-                  </th>
-                  <th
-                    aria-sort="none"
-                    class="sort-by-status sortable-header"
-                  >
-                    <button>
-                       Status 
-                      <span
-                        aria-hidden="true"
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                    </button>
-                  </th>
-                  <th
-                    aria-sort="none"
-                    class="sortable-header"
-                  >
-                    <button>
-                       Email 
-                      <span
-                        aria-hidden="true"
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                    </button>
-                  </th>
-                  <th
-                    class="align-center"
-                  >
-                    Action(s)
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  s=""
-                >
-                  <td>
-                    Tutorial Group 1
-                  </td>
-                  <td>
-                    Team 1
-                  </td>
-                  <td>
-                    Jamie
-                  </td>
-                  <td>
-                    Yet to Join
-                  </td>
-                  <td>
-                    jamie@gmail.com
-                  </td>
-                  <td
-                    class="no-print align-center"
-                  >
-                    <a
-                      class="btn btn-light btn-sm btn-margin-right custom-button"
-                      href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-details-CS101-0"
-                      rel="noopener noreferrer"
-                      target="_blank"
+                    <th
+                      aria-sort="none"
+                      class="sort-by-section sortable-header"
+                      style="text-align: start;"
                     >
-                       View
-                    </a>
-                    <a
-                      class="btn btn-light btn-sm btn-margin-right custom-button"
-                      href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-edit-details-CS101-0"
-                      rel="noopener noreferrer"
-                      target="_blank"
+                      <button
+                        class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Section
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      class="sort-by-team sortable-header"
+                      style="text-align: start;"
                     >
-                       Edit
-                    </a>
-                    <button
-                      class="btn btn-light btn-sm btn-margin-right custom-button"
-                      id="btn-send-invite-CS101-0"
+                      <button
+                        class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Team
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      class="sort-by-name sortable-header"
+                      style="text-align: start;"
                     >
-                      Send Invite
-                    </button>
-                    <button
-                      class="btn btn-light btn-sm btn-margin-right custom-button"
-                      id="btn-delete-CS101-0"
+                      <button
+                        class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Student Name
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      class="sort-by-status sortable-header"
+                      style="text-align: start;"
                     >
-                      Delete
-                    </button>
-                    <a
-                      class="btn btn-light btn-sm btn-margin-right custom-button"
-                      href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-records-CS101-0"
-                      rel="noopener noreferrer"
-                      target="_blank"
+                      <button
+                        class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Status
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      class="sort-by-email sortable-header"
+                      style="text-align: start;"
                     >
-                       All Records
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <button
+                        class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Email
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </button>
+                    </th>
+                    <th
+                      aria-sort="none"
+                      style="text-align: center;"
+                    >
+                      <span
+                        container="body"
+                      >
+                        Action(s)
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span>
+                        Tutorial Group 1
+                      </span>
+                    </td>
+                    <td>
+                      <span>
+                        Team 1
+                      </span>
+                    </td>
+                    <td>
+                      <span>
+                        Jamie
+                      </span>
+                    </td>
+                    <td>
+                      Yet to Join
+                    </td>
+                    <td>
+                      <span>
+                        jamie@gmail.com
+                      </span>
+                    </td>
+                    <td>
+                      <ndc-dynamic />
+                      <tm-group-buttons>
+                        <div
+                          class="text-center"
+                        >
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right custom-button"
+                            href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
+                            id="btn-view-details-CS101-0"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             View 
+                          </a>
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right custom-button"
+                            href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
+                            id="btn-edit-details-CS101-0"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             Edit 
+                          </a>
+                          <button
+                            class="btn btn-light btn-sm btn-margin-right custom-button"
+                            id="btn-send-invite-CS101-0"
+                          >
+                             Send Invite 
+                          </button>
+                          <button
+                            class="btn btn-light btn-sm btn-margin-right custom-button"
+                            id="btn-delete-CS101-0"
+                          >
+                             Delete 
+                          </button>
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right custom-button"
+                            href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
+                            id="btn-view-records-CS101-0"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records 
+                          </a>
+                        </div>
+                      </tm-group-buttons>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </tm-sortable-table>
           </div>
         </tm-student-list>
       </div>

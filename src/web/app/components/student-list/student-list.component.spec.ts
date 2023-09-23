@@ -1,13 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JoinState } from '../../../types/api-output';
 import { Pipes } from '../../pipes/pipes.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-import { JoinStatePipe } from './join-state.pipe';
 import { StudentListComponent } from './student-list.component';
+import { StudentListModule } from './student-list.module';
 
 describe('StudentListComponent', () => {
   let component: StudentListComponent;
@@ -15,7 +16,7 @@ describe('StudentListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentListComponent, JoinStatePipe],
+    declarations: [StudentListComponent],
       imports: [
         HttpClientTestingModule,
         TeammatesRouterModule,
@@ -23,6 +24,7 @@ describe('StudentListComponent', () => {
         NgbModule,
         TeammatesCommonModule,
         Pipes,
+        StudentListModule,
       ],
     })
     .compileComponents();
@@ -49,7 +51,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data', () => {
-    component.students = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -99,13 +101,12 @@ describe('StudentListComponent', () => {
         isAllowedToModifyStudent: true,
       },
     ];
-
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with some student list data when not allowed to modify student for a specific section', () => {
-    component.students = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -162,7 +163,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with enable remind button set to true and two students yet to join', () => {
-    component.students = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -221,7 +222,7 @@ describe('StudentListComponent', () => {
 
   it('should snap with enable remind button set to true, one student yet to join when not allowed to modify'
       + ' student', () => {
-    component.students = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -279,7 +280,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data and some students to hide', () => {
-    component.students = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -330,7 +331,7 @@ describe('StudentListComponent', () => {
       },
     ];
 
-    component.listOfStudentsToHide = [
+    component.hiddenStudents = [
       'alice.b.tmms@gmail.tmt',
       'tester@tester.com',
     ];
@@ -340,7 +341,7 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data with no sections', () => {
-    component.students = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -361,7 +362,7 @@ describe('StudentListComponent', () => {
 
   it('should display "Send Invite" button when a student has not joined the course', () => {
     component.enableRemindButton = true;
-    component.students = [
+    component.studentModels = [
       {
         student: {
           name: 'tester',
@@ -378,9 +379,8 @@ describe('StudentListComponent', () => {
 
     fixture.detectChanges();
 
-    const buttons: any = fixture.nativeElement.querySelectorAll('button');
-    const sendInviteButton: any = Array.from(buttons)
-        .find((button: any) => button.firstChild.nodeValue === 'Send Invite');
+    const buttons: any = fixture.debugElement.queryAll(By.css('button'));
+    const sendInviteButton = buttons.find((button : any) => button.nativeElement.textContent.includes('Send Invite'));
     expect(sendInviteButton).toBeTruthy();
   });
 });
