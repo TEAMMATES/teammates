@@ -204,7 +204,9 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
                   testStudent1@gmail.com
                 </td>
                 <td>
-                  5 Apr 2000 2:00:00
+                  <span>
+                    5 Apr 2000 2:00:00
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -221,7 +223,9 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
                   testStudent2@gmail.com
                 </td>
                 <td>
-                  5 Apr 2000 2:00:00
+                  <span>
+                    5 Apr 2000 2:00:00
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -238,7 +242,9 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
                   testStudent3@gmail.com
                 </td>
                 <td>
-                  5 Apr 2000 2:00:00
+                  <span>
+                    5 Apr 2000 2:00:00
+                  </span>
                 </td>
               </tr>
             </tbody>
