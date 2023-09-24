@@ -419,6 +419,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.statusMessageService.showSuccessToast('The feedback session has been updated.');
       },
       error: (resp: ErrorMessageOutput) => {
+        this.sessionEditFormModel.isEditable = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
