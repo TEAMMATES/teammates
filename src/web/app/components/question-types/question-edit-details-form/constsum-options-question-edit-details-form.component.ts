@@ -127,18 +127,4 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
       this.triggerModelChange('minPoint', undefined);
     }
   }
-
-  restrictPointsLength(event : InputEvent, isMin : boolean, isMax : boolean) : void {
-    const target : HTMLInputElement = event.target as HTMLInputElement;
-    if (target.value != null && target.value.length > 9 && !isMin && !isMax) {
-      this.triggerModelChange('points', this.model.points);
-      target.value = target.value.substring(0, 9);
-    } else if (target.value != null && target.value.length > 9 && isMin) {
-      this.triggerModelChange('minPoint', this.model.minPoint);
-      target.value = target.value.substring(0, 9);
-    } else if (target.value != null && target.value.length > 9 && isMax) {
-      this.triggerModelChange('maxPoint', this.model.maxPoint);
-      target.value = target.value.substring(0, 9);
-    }
-  }
 }

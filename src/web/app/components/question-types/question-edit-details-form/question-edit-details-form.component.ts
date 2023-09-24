@@ -58,6 +58,13 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     if (!isDigit) {
       event.preventDefault();
     }
+  }
 
+  restrictPointsLength(event : InputEvent, field: keyof D) : void {
+    const target : HTMLInputElement = event.target as HTMLInputElement;
+    if (target.value != null && target.value.length > 9) {
+      target.value = target.value.substring(0, 9);
+      this.triggerModelChange(field, parseInt(target.value, 10) as any);
+    }
   }
 }

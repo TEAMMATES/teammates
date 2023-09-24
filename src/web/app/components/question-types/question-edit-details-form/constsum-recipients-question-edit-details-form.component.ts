@@ -37,12 +37,4 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
           : FeedbackConstantSumDistributePointsType.NONE,
     });
   }
-
-  restrictPointsLength(event : InputEvent) : void {
-    const target : HTMLInputElement = event.target as HTMLInputElement;
-    if (target.value != null && target.value.length > 9) {
-      this.triggerModelChange('points', this.model.points);
-      target.value = target.value.substring(0, 9);
-    }
-  }
 }

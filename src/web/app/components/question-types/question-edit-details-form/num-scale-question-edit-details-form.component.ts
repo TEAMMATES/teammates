@@ -56,15 +56,4 @@ export class NumScaleQuestionEditDetailsFormComponent
     }
     return `[${possibleValuesString}]`;
   }
-
-  restrictPointsLength(event : InputEvent, isMin : boolean) : void {
-    const target : HTMLInputElement = event.target as HTMLInputElement;
-    if (target.value != null && target.value.length > 9 && isMin) {
-      this.triggerModelChange('minScale', this.model.minScale);
-      target.value = target.value.substring(0, 9);
-    } else if (target.value != null && target.value.length > 9) {
-      this.triggerModelChange('maxScale', this.model.maxScale);
-      target.value = target.value.substring(0, 9);
-    }
-  }
 }

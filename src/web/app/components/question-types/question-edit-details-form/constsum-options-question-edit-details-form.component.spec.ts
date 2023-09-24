@@ -1,6 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import {
   ConstsumOptionsQuestionEditDetailsFormComponent,
@@ -62,5 +63,23 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     const eventSpy = jest.spyOn(event, 'preventDefault');
     component.onPointsInput(event);
     expect(eventSpy).not.toHaveBeenCalled();
+  });
+
+  it('should allow a 5 digit number input', () => {
+    const inputElement = fixture.debugElement.query(By.css('#max-point')).nativeElement as HTMLInputElement;
+    const inputEvent = new InputEvent('input');
+    inputElement.dispatchEvent(inputEvent);
+    (inputEvent.target as HTMLInputElement).value = '12345';
+    component.restrictPointsLength(inputEvent, 'points');
+    expect((inputEvent.target as HTMLInputElement).value).toEqual('12345');
+  });
+
+  it('should restrict a 15 digit number input', () => {
+    const inputElement = fixture.debugElement.query(By.css('#max-point')).nativeElement as HTMLInputElement;
+    const inputEvent = new InputEvent('input');
+    inputElement.dispatchEvent(inputEvent);
+    (inputEvent.target as HTMLInputElement).value = '123456789012345';
+    component.restrictPointsLength(inputEvent, 'points');
+    expect((inputEvent.target as HTMLInputElement).value).toEqual('123456789');
   });
 });
