@@ -135,7 +135,7 @@
             </div>
             <div class="row text-center align-items-center">
               <div id="submission-start-date" class="col-md-7 col-xs-center">
-                <tm-datepicker [isDisabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('submissionStartDate', $event)"
+                <tm-datepicker [isDisabled]="!model.isEditable" (dateChangeCallback)="triggerSubmissionOpeningDateModelChange('submissionStartDate', $event)"
                                [minDate]="minDateForSubmissionStart" [maxDate]="maxDateForSubmissionStart"
                                [date]="model.submissionStartDate"></tm-datepicker>
               </div>
