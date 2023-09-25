@@ -1,6 +1,6 @@
 <table class="table table-bordered table-striped">
   <thead>
-    <tr [ngClass]="{ 'bg-primary': setMainTableStyle, 'text-white': setMainTableStyle}">
+    <tr [ngClass]="setMainTableStyle ? 'bg-primary text-white' : customHeaderStyle">
       <th *ngFor="let column of columns" [ngClass]="{ 'sortable-header': column.sortBy }" class="{{column?.headerClass}}"
         [ngStyle]="getAlignment(column)" (click)="column.sortBy && onClickHeader(column.header)" [attr.aria-sort]="getAriaSort(column.header)"
       >
@@ -25,7 +25,9 @@
                      [ngComponentOutlet]="item.customComponent.component"
                      [ndcDynamicInputs]="item.customComponent.componentData(idx)"
         ></ndc-dynamic>
-        <ng-container *ngIf="!item.customComponent && item.displayValue">{{ item.displayValue }}</ng-container>
+        <ng-container *ngIf="!item.customComponent && item.displayValue">
+          <span [innerHTML]="item.displayValue"></span>
+        </ng-container>
         <ng-container *ngIf="!item.customComponent && !item.displayValue">{{ item.value }}</ng-container>
       </td>
     </tr>
