@@ -13,6 +13,6 @@ import { Component, Input } from '@angular/core';
 export class PanelChevronComponent {
 
   @Input() isExpanded: boolean = false;
-  
+
   @Input() chevronColor: string = 'white';
 }
