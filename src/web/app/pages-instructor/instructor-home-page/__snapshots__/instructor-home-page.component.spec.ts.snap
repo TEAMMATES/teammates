@@ -557,6 +557,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -1131,6 +1132,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -1908,6 +1910,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 >
                   <i
                     class="fas fa-chevron-down"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -2176,6 +2179,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -2468,6 +2472,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>

@@ -1257,6 +1257,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -1442,6 +1443,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>

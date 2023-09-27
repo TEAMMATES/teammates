@@ -88,6 +88,7 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
                 >
                   <i
                     class="fas fa-chevron-down"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -120,6 +121,7 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
                 >
                   <i
                     class="fas fa-chevron-down"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -267,6 +269,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -324,6 +327,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -450,6 +454,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -507,6 +512,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -633,6 +639,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
@@ -690,6 +697,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
                 </button>
               </tm-panel-chevron>
