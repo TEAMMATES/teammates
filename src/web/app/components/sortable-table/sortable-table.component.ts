@@ -15,6 +15,11 @@ export enum SortableTableHeaderColorScheme {
    * White background with black text.
    */
   WHITE,
+
+  /**
+   * Custom background setting
+   */
+  OTHERS,
 }
 
 /**
@@ -71,6 +76,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   @Input()
   headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
+
+  @Input()
+  customHeaderStyle: string = '';
 
   @Input()
   columns: ColumnData[] = [];

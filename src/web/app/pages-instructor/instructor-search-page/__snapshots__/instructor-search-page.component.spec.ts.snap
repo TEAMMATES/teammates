@@ -156,330 +156,414 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
           class="card-body p-0"
         >
           <tm-student-list>
-            <div
-              class="table-responsive"
-            >
-              <table
-                class="table table-bordered table-striped m-0"
-              >
-                <thead
-                  class="thead-gray"
+            <div>
+              <tm-sortable-table>
+                <table
+                  class="table table-bordered table-striped"
                 >
-                  <tr>
-                    <th
-                      aria-sort="none"
-                      class="sortable-header"
+                  <thead>
+                    <tr
+                      class="bg-light"
                     >
-                      <button>
-                         Section 
-                        <span
-                          aria-hidden="true"
-                          class="fa-stack"
+                      <th
+                        aria-sort="none"
+                        class="sort-by-section sortable-header"
+                        style="text-align: start;"
+                      >
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
                         >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      aria-sort="none"
-                      class="sortable-header"
-                    >
-                      <button>
-                         Team 
-                        <span
-                          aria-hidden="true"
-                          class="fa-stack"
+                          <span
+                            container="body"
+                          >
+                            Section
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-sort="none"
+                        class="sort-by-team sortable-header"
+                        style="text-align: start;"
+                      >
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
                         >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      aria-sort="none"
-                      class="sort-by-name sortable-header"
-                    >
-                      <button>
-                         Student Name 
-                        <span
-                          aria-hidden="true"
-                          class="fa-stack"
+                          <span
+                            container="body"
+                          >
+                            Team
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-sort="none"
+                        class="sort-by-name sortable-header"
+                        style="text-align: start;"
+                      >
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
                         >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      aria-sort="none"
-                      class="sort-by-status sortable-header"
-                    >
-                      <button>
-                         Status 
-                        <span
-                          aria-hidden="true"
-                          class="fa-stack"
+                          <span
+                            container="body"
+                          >
+                            Student Name
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-sort="none"
+                        class="sort-by-status sortable-header"
+                        style="text-align: start;"
+                      >
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
                         >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      aria-sort="none"
-                      class="sortable-header"
-                    >
-                      <button>
-                         Email 
-                        <span
-                          aria-hidden="true"
-                          class="fa-stack"
+                          <span
+                            container="body"
+                          >
+                            Status
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-sort="none"
+                        class="sort-by-email sortable-header"
+                        style="text-align: start;"
+                      >
+                        <button
+                          class="d-lg-flex align-items-center gap-lg-1 d-inline"
                         >
-                          <i
-                            class="fas fa-sort"
-                          />
+                          <span
+                            container="body"
+                          >
+                            Email
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-sort="none"
+                        style="text-align: center;"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Action(s)
                         </span>
-                      </button>
-                    </th>
-                    <th
-                      class="align-center"
-                    >
-                      Action(s)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    s=""
-                  >
-                    <td>
-                      Tutorial Group 1
-                    </td>
-                    <td>
-                      Team 1
-                    </td>
-                    <td>
-                      tester
-                    </td>
-                    <td>
-                      Joined
-                    </td>
-                    <td>
-                      tester@tester.com
-                    </td>
-                    <td
-                      class="no-print align-center"
-                    >
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
-                        id="btn-view-details-test-exa.demo-0"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         View
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
-                        id="btn-edit-details-test-exa.demo-0"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         Edit
-                      </a>
-                      <button
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        id="btn-delete-test-exa.demo-0"
-                      >
-                        Delete
-                      </button>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
-                        id="btn-view-records-test-exa.demo-0"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         All Records
-                      </a>
-                    </td>
-                  </tr>
-                  <tr
-                    s=""
-                  >
-                    <td>
-                      Tutorial Group 1
-                    </td>
-                    <td>
-                      Team 1
-                    </td>
-                    <td>
-                      Benny Charles
-                    </td>
-                    <td>
-                      Joined
-                    </td>
-                    <td>
-                      benny.c.tmms@gmail.tmt
-                    </td>
-                    <td
-                      class="no-print align-center"
-                    >
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                        id="btn-view-details-test-exa.demo-1"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         View
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                        id="btn-edit-details-test-exa.demo-1"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         Edit
-                      </a>
-                      <button
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        id="btn-delete-test-exa.demo-1"
-                      >
-                        Delete
-                      </button>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                        id="btn-view-records-test-exa.demo-1"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         All Records
-                      </a>
-                    </td>
-                  </tr>
-                  <tr
-                    s=""
-                  >
-                    <td>
-                      Tutorial Group 1
-                    </td>
-                    <td>
-                      Team 1
-                    </td>
-                    <td>
-                      Alice Betsy
-                    </td>
-                    <td>
-                      Joined
-                    </td>
-                    <td>
-                      alice.b.tmms@gmail.tmt
-                    </td>
-                    <td
-                      class="no-print align-center"
-                    >
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                        id="btn-view-details-test-exa.demo-2"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         View
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                        id="btn-edit-details-test-exa.demo-2"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         Edit
-                      </a>
-                      <button
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        id="btn-delete-test-exa.demo-2"
-                      >
-                        Delete
-                      </button>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                        id="btn-view-records-test-exa.demo-2"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         All Records
-                      </a>
-                    </td>
-                  </tr>
-                  <tr
-                    s=""
-                  >
-                    <td>
-                      Tutorial Group 1
-                    </td>
-                    <td>
-                      Team 1
-                    </td>
-                    <td>
-                      Danny Engrid
-                    </td>
-                    <td>
-                      Joined
-                    </td>
-                    <td>
-                      danny.e.tmms@gmail.tmt
-                    </td>
-                    <td
-                      class="no-print align-center"
-                    >
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                        id="btn-view-details-test-exa.demo-3"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         View
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                        id="btn-edit-details-test-exa.demo-3"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         Edit
-                      </a>
-                      <button
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        id="btn-delete-test-exa.demo-3"
-                      >
-                        Delete
-                      </button>
-                      <a
-                        class="btn btn-light btn-sm btn-margin-right custom-button"
-                        href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                        id="btn-view-records-test-exa.demo-3"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                         All Records
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span>
+                          Tutorial Group 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          Team 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          tester
+                        </span>
+                      </td>
+                      <td>
+                        Joined
+                      </td>
+                      <td>
+                        <span>
+                          tester@tester.com
+                        </span>
+                      </td>
+                      <td>
+                        <ndc-dynamic />
+                        <tm-group-buttons>
+                          <div
+                            class="text-center"
+                          >
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
+                              id="btn-view-details-test-exa.demo-0"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               View 
+                            </a>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
+                              id="btn-edit-details-test-exa.demo-0"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               Edit 
+                            </a>
+                            <button
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              id="btn-delete-test-exa.demo-0"
+                            >
+                               Delete 
+                            </button>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
+                              id="btn-view-records-test-exa.demo-0"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               All Records 
+                            </a>
+                          </div>
+                        </tm-group-buttons>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>
+                          Tutorial Group 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          Team 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          Benny Charles
+                        </span>
+                      </td>
+                      <td>
+                        Joined
+                      </td>
+                      <td>
+                        <span>
+                          benny.c.tmms@gmail.tmt
+                        </span>
+                      </td>
+                      <td>
+                        <ndc-dynamic />
+                        <tm-group-buttons>
+                          <div
+                            class="text-center"
+                          >
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                              id="btn-view-details-test-exa.demo-1"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               View 
+                            </a>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                              id="btn-edit-details-test-exa.demo-1"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               Edit 
+                            </a>
+                            <button
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              id="btn-delete-test-exa.demo-1"
+                            >
+                               Delete 
+                            </button>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                              id="btn-view-records-test-exa.demo-1"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               All Records 
+                            </a>
+                          </div>
+                        </tm-group-buttons>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>
+                          Tutorial Group 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          Team 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          Alice Betsy
+                        </span>
+                      </td>
+                      <td>
+                        Joined
+                      </td>
+                      <td>
+                        <span>
+                          alice.b.tmms@gmail.tmt
+                        </span>
+                      </td>
+                      <td>
+                        <ndc-dynamic />
+                        <tm-group-buttons>
+                          <div
+                            class="text-center"
+                          >
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                              id="btn-view-details-test-exa.demo-2"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               View 
+                            </a>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                              id="btn-edit-details-test-exa.demo-2"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               Edit 
+                            </a>
+                            <button
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              id="btn-delete-test-exa.demo-2"
+                            >
+                               Delete 
+                            </button>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                              id="btn-view-records-test-exa.demo-2"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               All Records 
+                            </a>
+                          </div>
+                        </tm-group-buttons>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>
+                          Tutorial Group 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          Team 1
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          Danny Engrid
+                        </span>
+                      </td>
+                      <td>
+                        Joined
+                      </td>
+                      <td>
+                        <span>
+                          danny.e.tmms@gmail.tmt
+                        </span>
+                      </td>
+                      <td>
+                        <ndc-dynamic />
+                        <tm-group-buttons>
+                          <div
+                            class="text-center"
+                          >
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                              id="btn-view-details-test-exa.demo-3"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               View 
+                            </a>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                              id="btn-edit-details-test-exa.demo-3"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               Edit 
+                            </a>
+                            <button
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              id="btn-delete-test-exa.demo-3"
+                            >
+                               Delete 
+                            </button>
+                            <a
+                              class="btn btn-light btn-sm btn-margin-right custom-button"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                              id="btn-view-records-test-exa.demo-3"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                               All Records 
+                            </a>
+                          </div>
+                        </tm-group-buttons>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </tm-sortable-table>
             </div>
           </tm-student-list>
         </div>

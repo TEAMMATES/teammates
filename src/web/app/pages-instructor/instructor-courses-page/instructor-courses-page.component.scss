@@ -106,3 +106,15 @@
 .d-inline-block {
   position: inherit;
 }
+
+.link-button {
+  border: none;
+  text-decoration: underline;
+  color: var(--bs-link-color);
+  padding: 0;
+  background: none;
+}
+
+.link-button:hover {
+  color: var(--bs-link-hover-color);
+}

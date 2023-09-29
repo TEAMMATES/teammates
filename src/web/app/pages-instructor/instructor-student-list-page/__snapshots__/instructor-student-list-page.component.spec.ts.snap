@@ -86,13 +86,17 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
             class="card-header-btn-toolbar"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
         </div>

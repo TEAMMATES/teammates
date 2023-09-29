@@ -116,7 +116,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         ______TS("delete student");
         detailsPage.sortByName();
         detailsPage.sortByStatus();
-        StudentAttributes[] studentsAfterDelete = { students[3], students[0], students[1] };
+        StudentAttributes[] studentsAfterDelete = { students[0], students[3], students[1] };
         detailsPage.deleteStudent(student);
 
         detailsPage.verifyStatusMessage("Student is successfully deleted from course \""
