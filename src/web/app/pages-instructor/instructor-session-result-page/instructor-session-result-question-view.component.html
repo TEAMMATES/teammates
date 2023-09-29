@@ -1,14 +1,22 @@
 <div id="question-panel-{{ question.question.questionNumber }}" class="card margin-bottom-15px" *ngFor="let question of questionsOrder">
   <div class="card-header bg-info cursor-pointer" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
-    <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
-                                [questionDetails]="question.question.questionDetails"
-                                [shouldShowDownloadQuestionResult]="true"
-                                (downloadQuestionResultEvent)="triggerDownloadQuestionResult({
-        questionNumber: question.question.questionNumber,
-        questionId: question.question.feedbackQuestionId})"
+   <div class="d-flex w-100 flex-fill flex-md-row flex-column align-items-md-center align-items-start">
+    <div>
+      <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
+                                      [questionDetails]="question.question.questionDetails"
     ></tm-question-text-with-info>
-    <div class="card-header-btn-toolbar">
-      <tm-panel-chevron [isExpanded]="question.isTabExpanded"></tm-panel-chevron>
+    </div>
+    <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
+      <button type="button" class="btn btn-info btn-sm" (click)="triggerDownloadQuestionResult({
+        questionNumber: question.question.questionNumber,
+        questionId: question.question.feedbackQuestionId});
+        $event.stopPropogation();">
+      Download Results
+    </button>
+   </div>
+   </div>
+   <div class="chevron-collapse">
+      <tm-panel-chevron chevronColor="black" [isExpanded]="question.isTabExpanded"></tm-panel-chevron>
     </div>
   </div>
   <div *ngIf="question.isTabExpanded" @collapseAnim>

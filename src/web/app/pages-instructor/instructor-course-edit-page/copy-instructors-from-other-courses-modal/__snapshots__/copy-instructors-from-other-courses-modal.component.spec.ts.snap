@@ -89,6 +89,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
               </button>
             </tm-panel-chevron>
@@ -229,6 +230,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
               </button>
             </tm-panel-chevron>
@@ -492,6 +494,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
               </button>
             </tm-panel-chevron>
@@ -629,6 +632,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
               >
                 <i
                   class="fas fa-chevron-down"
+                  style="color: white;"
                 />
               </button>
             </tm-panel-chevron>
@@ -660,6 +664,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
               >
                 <i
                   class="fas fa-chevron-down"
+                  style="color: white;"
                 />
               </button>
             </tm-panel-chevron>

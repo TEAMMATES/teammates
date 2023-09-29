@@ -94,6 +94,7 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
               </button>
             </tm-panel-chevron>

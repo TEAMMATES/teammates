@@ -1306,6 +1306,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   >
                     <i
                       class="fas fa-chevron-up"
+                      style="color: white;"
                     />
                   </button>
                 </tm-panel-chevron>
@@ -2036,6 +2037,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   >
                     <i
                       class="fas fa-chevron-up"
+                      style="color: white;"
                     />
                   </button>
                 </tm-panel-chevron>
@@ -3978,6 +3980,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
               </button>
             </tm-panel-chevron>
