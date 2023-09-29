@@ -135,7 +135,7 @@ This instruction set applies for both dev server and production server, with sli
   You will be granted access only if your account has admin permission as defined in `build.properties`.
 
 1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students. 
-   For more information, refer to [Masquerading as another user](https://teammates.github.io/teammates/development.html#masquerading-as-another-user).
+   For more information, refer to [Masquerading as another user](#masquerading-as-another-user).
 
 </panel>
 
