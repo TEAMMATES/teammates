@@ -60,7 +60,7 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
     expect(eventSpy).not.toHaveBeenCalled();
   });
 
-  it('should allow a 5 digit number input', () => {
+  it('should allow number input with less than or equal to 9 digits', () => {
     const inputElement = fixture.debugElement.query(By.css('#total-points')).nativeElement as HTMLInputElement;
     const inputEvent = new InputEvent('input');
     inputElement.dispatchEvent(inputEvent);
@@ -69,7 +69,7 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
     expect((inputEvent.target as HTMLInputElement).value).toEqual('12345');
   });
 
-  it('should restrict a 15 digit number input', () => {
+  it('should restrict number input with more than 9 digits to 9 digits', () => {
     const inputElement = fixture.debugElement.query(By.css('#total-points')).nativeElement as HTMLInputElement;
     const inputEvent = new InputEvent('input');
     inputElement.dispatchEvent(inputEvent);
