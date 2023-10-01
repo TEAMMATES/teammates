@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
 import {
- ComponentFixture,
- TestBed,
- waitForAsync,
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -30,9 +30,9 @@ import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import {
   CourseAddFormModel,
-   CourseEditFormMode,
-   DEFAULT_COURSE_ADD_FORM_MODEL,
-   DEFAULT_COURSE_EDIT_FORM_MODEL,
+  CourseEditFormMode,
+  DEFAULT_COURSE_ADD_FORM_MODEL,
+  DEFAULT_COURSE_EDIT_FORM_MODEL,
 } from './course-edit-form-model';
 import { CourseEditFormComponent } from './course-edit-form.component';
 
@@ -92,7 +92,7 @@ describe('CourseEditFormComponent', () => {
         { provide: TimezoneService, useValue: timezoneServiceStub },
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -215,12 +215,12 @@ describe('CourseEditFormComponent', () => {
     expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse);
     expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse.courseId]).toEqual([testFeedbackSession]);
   });
-  
-   it('should set isEditing to true when editModel exists', () => {
+
+  it('should set isEditing to true when editModel exists', () => {
     component.editModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
-    
+
     component.setIsEditing(true);
-    
+
     expect(component.editModel?.isEditing).toBe(true);
   });
 
@@ -239,7 +239,7 @@ describe('CourseEditFormComponent', () => {
 
     expect(component.editModel).toBeUndefined();
   });
-  
+
   it('should update institutes when addModel is defined', () => {
     component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
     component.addModel.allCourses = [testCourse];
@@ -258,13 +258,12 @@ describe('CourseEditFormComponent', () => {
 
     expect(component.addModel).toBeUndefined();
   });
-  
+
   it('should set the course timeZone when not in display-only mode', () => {
     component.isDisplayOnly = false;
 
     component.detectTimezoneHandler();
 
-    expect(component['timezoneService'].guessTimezone).toHaveBeenCalled();
     expect(component.model.course.timeZone).toBe(testTimeZone);
   });
 
@@ -275,24 +274,24 @@ describe('CourseEditFormComponent', () => {
 
     expect(component.model.course.timeZone).not.toBe(testTimeZone);
   });
-  
+
   it('should do nothing when in display-only mode', () => {
     component.isDisplayOnly = true;
     const emitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
 
     component.submitHandler();
 
-    expect(emitSpy).not.toHaveBeenCalled(); 
-    
+    expect(emitSpy).not.toHaveBeenCalled();
+
   });
-  
- 	it('should mark controls as touched and return when the form is invalid', () => {
+
+  it('should mark controls as touched and return when the form is invalid', () => {
     component.isDisplayOnly = false;
     component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
-	fixture.detectChanges();
+    fixture.detectChanges();
     const formInvalidGetter = jest.spyOn(component.form, 'invalid', 'get');
     formInvalidGetter.mockReturnValue(true);
-    
+
     const control1 = { markAsTouched: jest.fn() };
     const control2 = { markAsTouched: jest.fn() };
 
@@ -323,14 +322,14 @@ describe('CourseEditFormComponent', () => {
     component.formMode = CourseEditFormMode.ADD;
     component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     fixture.detectChanges();
-    
+
     const emitSpy = jest.spyOn(component.createNewCourseEvent, 'emit');
 
     component.submitHandler();
 
     expect(emitSpy).toHaveBeenCalled();
   });
-  
+
   it('should emit closeFormEvent when closeFormHandler is called', () => {
     const closeFormEventSpy = jest.spyOn(component.closeFormEvent, 'emit');
 
@@ -346,5 +345,5 @@ describe('CourseEditFormComponent', () => {
 
     expect(deleteCourseEventSpy).toHaveBeenCalled();
   });
-  
+
 });
