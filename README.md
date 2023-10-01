@@ -5,10 +5,13 @@
 [![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 
-TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
-It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
+Welcome to the TEAMMATES developer website! TEAMMATES is a powerful, free online tool designed to streamline peer evaluations and facilitate effective feedback mechanisms for students. Our cloud-based service is utilized by hundreds of universities worldwide, making educational feedback management efficient and insightful.
 
 <img src="src/web/assets/images/overview.png" width="600">
+
+## Start Here!
+
+For detailed guidance on using and contributing to TEAMMATES, refer to our Documentation for Developers :book:. You can also explore the Version History or check out our Project Stats for an overview of the project's activity.
 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
 
@@ -16,9 +19,9 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
 [Project Stats](https://www.openhub.net/p/teammatesonline)
 
-## Interested to join TEAMMATES developer team?
+## Join the TEAMMATES Developer Team!
 
-We welcome contributions from developers, especially students. Here are some resources:
+Are you interested in making a meaningful contribution to TEAMMATES? We enthusiastically welcome developers, especially students, to join our community. Here are some valuable resources to get you started:
 * [**Contributor Orientation Guide**](https://teammates.github.io/teammates/contributing-doc.html): This document describes what you need to know/do to become a contributor.
 * [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
 
@@ -38,4 +41,6 @@ TEAMMATES team wishes to thank the following invaluable contributions:
 
 The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
-Alternatively (less preferred), you can email us at **teammates@comp.nus.edu.sg**.
+Alternatively (though less preferred), you can email us at **teammates@comp.nus.edu.sg**.
+
+We look forward to hearing from you and collaborating towards enhancing TEAMMATES!
