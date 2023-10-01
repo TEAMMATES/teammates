@@ -215,4 +215,136 @@ describe('CourseEditFormComponent', () => {
     expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse);
     expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse.courseId]).toEqual([testFeedbackSession]);
   });
+  
+   it('should set isEditing to true when editModel exists', () => {
+    component.editModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+    
+    component.setIsEditing(true);
+    
+    expect(component.editModel?.isEditing).toBe(true);
+  });
+
+  it('should set isEditing to false when editModel exists', () => {
+    component.editModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+
+    component.setIsEditing(false);
+
+    expect(component.editModel?.isEditing).toBe(false);
+  });
+
+  it('should not modify isEditing when editModel is undefined', () => {
+    component.editModel = undefined;
+
+    component.setIsEditing(true);
+
+    expect(component.editModel).toBeUndefined();
+  });
+  
+  it('should update institutes when addModel is defined', () => {
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel.allCourses = [testCourse];
+    component.addModel.course = testCourse;
+
+    component.updateInstitutes();
+
+    expect(component.addModel.institutes).toEqual([validInstitute]);
+    expect(component.addModel.course.institute).toBe(validInstitute);
+  });
+
+  it('should not update institutes when addModel is not defined', () => {
+    component.addModel = undefined;
+
+    component.updateInstitutes();
+
+    expect(component.addModel).toBeUndefined();
+  });
+  
+  it('should set the course timeZone when not in display-only mode', () => {
+    component.isDisplayOnly = false;
+
+    component.detectTimezoneHandler();
+
+    expect(component['timezoneService'].guessTimezone).toHaveBeenCalled();
+    expect(component.model.course.timeZone).toBe(testTimeZone);
+  });
+
+  it('should not set the course timeZone when in display-only mode', () => {
+    component.isDisplayOnly = true;
+
+    component.detectTimezoneHandler();
+
+    expect(component.model.course.timeZone).not.toBe(testTimeZone);
+  });
+  
+  it('should do nothing when in display-only mode', () => {
+    component.isDisplayOnly = true;
+    const emitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
+
+    component.submitHandler();
+
+    expect(emitSpy).not.toHaveBeenCalled(); 
+    
+  });
+  
+ 	it('should mark controls as touched and return when the form is invalid', () => {
+    component.isDisplayOnly = false;
+    component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+	fixture.detectChanges();
+    const formInvalidGetter = jest.spyOn(component.form, 'invalid', 'get');
+    formInvalidGetter.mockReturnValue(true);
+    
+    const control1 = { markAsTouched: jest.fn() };
+    const control2 = { markAsTouched: jest.fn() };
+
+    jest.spyOn(Object, 'values').mockReturnValue([control1, control2]);
+
+    component.submitHandler();
+
+    expect(formInvalidGetter).toHaveBeenCalled();
+    expect(Object.values).toHaveBeenCalledWith(component.form.controls);
+    expect(control1.markAsTouched).toHaveBeenCalled();
+    expect(control2.markAsTouched).toHaveBeenCalled();
+  });
+
+  it('should emit updateCourseEvent when the form is valid in EDIT mode', () => {
+    component.isDisplayOnly = false;
+    component.formMode = CourseEditFormMode.EDIT;
+    component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+    fixture.detectChanges();
+    const emitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
+
+    component.submitHandler();
+
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('should emit createNewCourseEvent when the form is valid in ADD mode', () => {
+    component.isDisplayOnly = false;
+    component.formMode = CourseEditFormMode.ADD;
+    component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+    fixture.detectChanges();
+    
+    const emitSpy = jest.spyOn(component.createNewCourseEvent, 'emit');
+
+    component.submitHandler();
+
+    expect(emitSpy).toHaveBeenCalled();
+  });
+  
+  it('should emit closeFormEvent when closeFormHandler is called', () => {
+    const closeFormEventSpy = jest.spyOn(component.closeFormEvent, 'emit');
+
+    component.closeFormHandler();
+
+    expect(closeFormEventSpy).toHaveBeenCalled();
+  });
+
+  it('should emit deleteCourseEvent when deleteCourseHandler is called', () => {
+    const deleteCourseEventSpy = jest.spyOn(component.deleteCourseEvent, 'emit');
+
+    component.deleteCourseHandler();
+
+    expect(deleteCourseEventSpy).toHaveBeenCalled();
+  });
+  
 });
