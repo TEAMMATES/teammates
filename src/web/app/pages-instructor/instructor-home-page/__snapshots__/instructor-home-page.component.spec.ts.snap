@@ -269,15 +269,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             >
               [CS3281]: Thematic Systems I
             </b>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
@@ -434,6 +425,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Students 
                 </button>
@@ -465,6 +457,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Instructors 
                 </button>
@@ -489,6 +482,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Sessions 
                 </button>
@@ -513,6 +507,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Course 
                 </button>
@@ -553,16 +548,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   </a>
                 </div>
               </span>
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
             </div>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
@@ -1024,6 +1023,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Students 
                 </button>
@@ -1048,6 +1048,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Instructors 
                 </button>
@@ -1072,6 +1073,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Sessions 
                 </button>
@@ -1096,6 +1098,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   aria-expanded="false"
                   class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Course 
                 </button>
@@ -1120,16 +1123,20 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   </a>
                 </div>
               </span>
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
             </div>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
@@ -1771,6 +1778,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Students 
                 </button>
@@ -1802,6 +1810,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Instructors 
                 </button>
@@ -1826,6 +1835,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Sessions 
                 </button>
@@ -1850,6 +1860,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   aria-expanded="false"
                   class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Course 
                 </button>
@@ -1890,16 +1901,20 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   </a>
                 </div>
               </span>
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
             </div>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-down"
-                />
-              </div>
-            </tm-panel-chevron>
           </div>
         </div>
       </div>
@@ -2032,6 +2047,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Students 
                 </button>
@@ -2063,6 +2079,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Instructors 
                 </button>
@@ -2087,6 +2104,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Sessions 
                 </button>
@@ -2111,6 +2129,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   aria-expanded="false"
                   class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Course 
                 </button>
@@ -2151,16 +2170,20 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   </a>
                 </div>
               </span>
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
             </div>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
@@ -2317,6 +2340,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Students 
                 </button>
@@ -2348,6 +2372,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Instructors 
                 </button>
@@ -2372,6 +2397,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   aria-expanded="false"
                   class="dropdown-toggle btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Sessions 
                 </button>
@@ -2396,6 +2422,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   aria-expanded="false"
                   class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
+                  type="button"
                 >
                    Course 
                 </button>
@@ -2436,16 +2463,20 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   </a>
                 </div>
               </span>
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
             </div>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"

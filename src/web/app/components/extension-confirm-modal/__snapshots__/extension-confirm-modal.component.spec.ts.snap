@@ -7,18 +7,28 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
   __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
+  headerColorScheme={[Function Number]}
+  instructorColumnsData={[Function Array]}
+  instructorRoleNamePipe={[Function InstructorRoleNamePipe]}
+  instructorRowsData={[Function Array]}
   isNotifyDeadlines="false"
   isSubmitting="false"
   modalType="0"
   selectedInstructors={[Function Array]}
   selectedStudents={[Function Array]}
+  sortInstructorListEvent={[Function EventEmitter_]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
+  sortStudentListEvent={[Function EventEmitter_]}
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
+  studentColumnsData={[Function Array]}
+  studentRowsData={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  timeZoneService={[Function TimezoneService]}
 >
   <fieldset>
     <div
@@ -52,157 +62,194 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
         </b>
          instructor(s): 
       </div>
-      <div
-        class="table-responsive"
-      >
+      <div>
         <h1>
           Students
         </h1>
-        <table
-          class="table table-bordered mb-3"
-          id="student-list-table"
-        >
-          <thead>
-            <tr>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Section 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
+        <tm-sortable-table>
+          <table
+            class="table table-bordered table-striped"
+          >
+            <thead>
+              <tr>
+                <th
+                  aria-sort="none"
+                  class="student-sort-by-section sortable-header"
+                  style="text-align: start;"
+                >
+                  <button
+                    class="d-lg-flex align-items-center gap-lg-1 d-inline"
                   >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Team 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
+                    <span
+                      container="body"
+                    >
+                      Section
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="student-sort-by-team sortable-header"
+                  style="text-align: start;"
+                >
+                  <button
+                    class="d-lg-flex align-items-center gap-lg-1 d-inline"
                   >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Name 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
+                    <span
+                      container="body"
+                    >
+                      Team
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="student-sort-by-name sortable-header"
+                  style="text-align: start;"
+                >
+                  <button
+                    class="d-lg-flex align-items-center gap-lg-1 d-inline"
                   >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Email 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
+                    <span
+                      container="body"
+                    >
+                      Name
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="student-sort-by-email sortable-header"
+                  style="text-align: start;"
+                >
+                  <button
+                    class="d-lg-flex align-items-center gap-lg-1 d-inline"
                   >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="descending"
-                class="sortable-header"
-              >
-                <button>
+                    <span
+                      container="body"
+                    >
+                      Email
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="student-sort-by-deadline sortable-header"
+                  style="text-align: start;"
+                >
+                  <button
+                    class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                  >
+                    <span
+                      container="body"
+                    >
+                      Original Deadline
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Test Section 1
+                </td>
+                <td>
+                  Test Section 1
+                </td>
+                <td>
+                  Test Student 1
+                </td>
+                <td>
+                  testStudent1@gmail.com
+                </td>
+                <td>
                   <span>
-                    Original Deadline 
+                    5 Apr 2000 2:00:00
                   </span>
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Test Section 2
+                </td>
+                <td>
+                  Test Section 2
+                </td>
+                <td>
+                  Test Student 2
+                </td>
+                <td>
+                  testStudent2@gmail.com
+                </td>
+                <td>
+                  <span>
+                    5 Apr 2000 2:00:00
                   </span>
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tr>
-            <td>
-              Test Section 1
-            </td>
-            <td>
-              Test Section 1
-            </td>
-            <td>
-              Test Student 1
-            </td>
-            <td>
-              testStudent1@gmail.com
-            </td>
-            <td>
-              5 Apr 2000 2:00:00
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Test Section 2
-            </td>
-            <td>
-              Test Section 2
-            </td>
-            <td>
-              Test Student 2
-            </td>
-            <td>
-              testStudent2@gmail.com
-            </td>
-            <td>
-              5 Apr 2000 2:00:00
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Test Section 3
-            </td>
-            <td>
-              Test Section 3
-            </td>
-            <td>
-              Test Student 3
-            </td>
-            <td>
-              testStudent3@gmail.com
-            </td>
-            <td>
-              5 Apr 2000 2:00:00
-            </td>
-          </tr>
-        </table>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Test Section 3
+                </td>
+                <td>
+                  Test Section 3
+                </td>
+                <td>
+                  Test Student 3
+                </td>
+                <td>
+                  testStudent3@gmail.com
+                </td>
+                <td>
+                  <span>
+                    5 Apr 2000 2:00:00
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </tm-sortable-table>
       </div>
       <div
         class="form-check"
