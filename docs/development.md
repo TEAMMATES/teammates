@@ -134,8 +134,8 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
   You will be granted access only if your account has admin permission as defined in `build.properties`.
 
-1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
-  e.g `http://localhost:8080/web/student/home?user=johnKent`.
+1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students. 
+   For more information, refer to [Masquerading as another user](#masquerading-as-another-user).
 
 </panel>
 
