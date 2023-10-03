@@ -39,11 +39,21 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     this.detailsChange.emit({ ...this.model, ...obj });
   }
 
-  onPointsInput(event: KeyboardEvent): void {
+  onIntegerInput(event: KeyboardEvent): void {
     const { key } = event;
     const isBackspace = key === 'Backspace';
     const isDigit = /[0-9]/.test(key);
     if (!isBackspace && !isDigit) {
+      event.preventDefault();
+    }
+  }
+
+  onFloatInput(event: KeyboardEvent): void {
+    const { key } = event;
+    const isBackspace = key === 'Backspace';
+    const isDecimal = key === '.';
+    const isDigit = /[0-9]/.test(key);
+    if (!isBackspace && !isDigit && !isDecimal) {
       event.preventDefault();
     }
   }
@@ -60,11 +70,20 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     }
   }
 
-  restrictPointsLength(event : InputEvent, field: keyof D) : void {
+  restrictIntegerInputLength(event : InputEvent, field: keyof D) : void {
     const target : HTMLInputElement = event.target as HTMLInputElement;
     if (target.value != null && target.value.length > 9) {
       target.value = target.value.substring(0, 9);
       this.triggerModelChange(field, parseInt(target.value, 10) as any);
     }
   }
+
+  restrictFloatInputLength(event : InputEvent, field: keyof D) : void {
+    const target : HTMLInputElement = event.target as HTMLInputElement;
+    if (target.value != null && target.value.length > 9) {
+      target.value = target.value.substring(0, 9);
+      this.triggerModelChange(field, parseFloat(target.value) as any);
+    }
+  }
+
 }
