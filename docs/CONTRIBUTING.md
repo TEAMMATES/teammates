@@ -10,9 +10,9 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 Understand what TEAMMATES is about, both as a product (users' point of view) and a project (developers' point of view).
 
-* [Product intro page](https://teammatesv4.appspot.com) shown to potential users
-* [Features overview](https://teammatesv4.appspot.com/web/front/features)
-* [Project vision, challenges, and principles](overview.md)
+- [Product intro page](https://teammatesv4.appspot.com) shown to potential users
+- [Features overview](https://teammatesv4.appspot.com/web/front/features)
+- [Project vision, challenges, and principles](overview.md)
 
 ### Code of Conduct
 
@@ -32,11 +32,11 @@ If you are certain that you are reporting a new issue, [open a new issue](https:
 We welcome anyone manually testing our product and reporting bugs or suggestions for enhancements in the issue tracker.
 
 If you want to undertake such a role without actually contributing code, [get an instructor account from TEAMMATES](https://teammatesv4.appspot.com/web/front/request).
-Remember to mention the purpose of your request under "Any other comments/queries". *Note that we may need to assign a different institute from your request in order to prevent fraudulent usages.*
+Remember to mention the purpose of your request under "Any other comments/queries". _Note that we may need to assign a different institute from your request in order to prevent fraudulent usages._
 
 ### Submitting a pull request
 
-We accept patches/fixes in form of pull requests (PRs). Make sure that the pull request addresses an open issue in the issue tracker.
+We accept patches/fixes in the form of pull requests (PRs). Make sure that the pull request addresses an open issue in the issue tracker.
 Remember to follow the [TEAMMATES Development Process](process.md).
 
 By submitting a PR, you agree to allow the project team to license your work under the terms of the [GNU GPL v2 License](https://github.com/TEAMMATES/teammates/blob/master/LICENSE).
@@ -57,35 +57,35 @@ Of course we are happy to guide you if you encounter any difficulties when doing
 Although TEAMMATES uses many tools and technologies, you need not know all of them before you can contribute. The diagram below shows which technologies you need to learn to contribute in different roles.
 
 | Tool                 | Web page Developer | Front-end Developer | Test Developer | DevOps Developer | Back-end Developer |
-|:---------------------|--------------------|---------------------|----------------|:-----------------|:-------------------|
-| Git                  | ✅                  | ✅                   | ✅              | ✅                | ✅                  |
-| HTML                 | ✅                  | ✅                   |                |                  |                    |
-| SCSS, Bootstrap      | ✅                  | ✅                   |                |                  |                    |
-| Angular, TypeScript  |                    | ✅                   | ✅              | ✅                |                    |
-| Jest                 |                    | ✅                   | ✅              |                  |                    |
-| Node.js              |                    |                     |                | ✅                |                    |
-| Java                 |                    |                     | ✅              | ✅                | ✅                  |
-| Datastore, Objectify |                    |                     |                |                  | ✅                  |
-| TestNG               |                    |                     | ✅              |                  | ✅                  |
-| Gradle               |                    |                     |                | ✅                |                    |
-| Selenium             |                    |                     | ✅              |                  |                    |
+| :------------------- | ------------------ | ------------------- | -------------- | :--------------- | :----------------- |
+| Git                  | ✅                 | ✅                  | ✅             | ✅               | ✅                 |
+| HTML                 | ✅                 | ✅                  |                |                  |                    |
+| SCSS, Bootstrap      | ✅                 | ✅                  |                |                  |                    |
+| Angular, TypeScript  |                    | ✅                  | ✅             | ✅               |                    |
+| Jest                 |                    | ✅                  | ✅             |                  |                    |
+| Node.js              |                    |                     |                | ✅               |                    |
+| Java                 |                    |                     | ✅             | ✅               | ✅                 |
+| Datastore, Objectify |                    |                     |                |                  | ✅                 |
+| TestNG               |                    |                     | ✅             |                  | ✅                 |
+| Gradle               |                    |                     |                | ✅               |                    |
+| Selenium             |                    |                     | ✅             |                  |                    |
 
 Note that these roles are not fixed or formally assigned; it is simply for guidance only.
 
 Roles:
 
-* **Web page developer**: Works on static web pages, such as those used in the TEAMMATES product website.
-* **Front-end developer**: Works on the front-end of the app, i.e. the dynamically-generated user interface.
-* **Test developer**: Works on automating system tests.
-* **Back-end developer**: Works on the back-end logic of the app, including data storage.
-* **DevOps developer**: Works on automations (CI, static analysis, scripting) and operations (logging, monitoring, troubleshooting).
+- **Web page developer**: Works on static web pages, such as those used in the TEAMMATES product website.
+- **Front-end developer**: Works on the front-end of the app, i.e. the dynamically-generated user interface.
+- **Test developer**: Works on automating system tests.
+- **Back-end developer**: Works on the back-end logic of the app, including data storage.
+- **DevOps developer**: Works on automations (CI, static analysis, scripting) and operations (logging, monitoring, troubleshooting).
 
 ### Orientation task list
 
 #### Phase A: Set up locally
 
 1. [Set up TEAMMATES development environment on your computer.](setting-up.md)
-   * **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
+   - **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
 1. Get all component tests to pass (more info in [_Development Guidelines_ document](development.md)).
 1. (Optional) Get all E2E tests to pass.
    It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
