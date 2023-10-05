@@ -1,16 +1,18 @@
 <div class="row">
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Minimum acceptable response value">Minimum value:</span>
-    <input id="min-value" type="number" class="form-control" [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1" aria-label="Minimum Value Input">
+    <input id="min-value" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'minScale')"
+           [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event)" [disabled]="!isEditable" aria-label="Minimum Value Input">
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Value to be increased/decreased each step">Increment:</span>
-    <input id="increment-value" type="number" class="form-control" [ngModel]="model.step" (ngModelChange)="triggerModelChange('step', $event)" [disabled]="!isEditable"
-           step="any" min="0" aria-label="Increment Value Input">
+    <input id="increment-value" type="number" (keypress)="onFloatInput($event)" class="form-control" [ngModel]="model.step" (ngModelChange)="triggerModelChange('step', $event)" [disabled]="!isEditable" (input) = "restrictFloatInputLength($event, 'step')"
+           step="any" min="0" max="999999999" aria-label="Increment Value Input">
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Maximum acceptable response value">Maximum value:</span>
-    <input id="max-value" type="number" class="form-control" [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1" min="{{ Math.ceil(model.minScale + model.step) }}" aria-label="Maximum Value Input">
+    <input id="max-value" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'maxScale')"
+           [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event)" [disabled]="!isEditable" aria-label="Maximum Value Input">
   </div>
 </div>
 <br>
