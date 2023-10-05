@@ -2,9 +2,10 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -613,16 +614,24 @@ public final class FeedbackSessionsLogic {
             return;
         }
         updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, isInstructor,
-                deadlines -> deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress)));
+                deadlines -> {
+                    Map<String, Instant> newDeadlines = new HashMap<String, Instant>(deadlines);
+                    newDeadlines.put(newEmailAddress, newDeadlines.remove(oldEmailAddress));
+                    return newDeadlines;
+                });
     }
 
     private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor) {
         updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, isInstructor,
-                deadlines -> deadlines.remove(emailAddress));
+                deadlines -> {
+                    Map<String, Instant> newDeadlines = new HashMap<String, Instant>(deadlines);
+                    newDeadlines.remove(emailAddress);
+                    return newDeadlines;
+                });
     }
 
     private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
-            Consumer<Map<String, Instant>> deadlinesUpdater) {
+            Function<Map<String, Instant>, Map<String, Instant>> deadlinesUpdater) {
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(feedbackSession -> {
             FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
@@ -632,15 +641,15 @@ public final class FeedbackSessionsLogic {
                 if (!instructorDeadlines.containsKey(emailAddress)) {
                     return;
                 }
-                deadlinesUpdater.accept(instructorDeadlines);
-                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
+                Map<String, Instant> newInstructorDeadlines = deadlinesUpdater.apply(instructorDeadlines);
+                updateOptionsBuilder.withInstructorDeadlines(newInstructorDeadlines);
             } else {
                 Map<String, Instant> studentDeadlines = feedbackSession.getStudentDeadlines();
                 if (!studentDeadlines.containsKey(emailAddress)) {
                     return;
                 }
-                deadlinesUpdater.accept(studentDeadlines);
-                updateOptionsBuilder.withStudentDeadlines(studentDeadlines);
+                Map<String, Instant> newStudentDeadlines = deadlinesUpdater.apply(studentDeadlines);
+                updateOptionsBuilder.withStudentDeadlines(newStudentDeadlines);
             }
             try {
                 fsDb.updateFeedbackSession(updateOptionsBuilder.build());
