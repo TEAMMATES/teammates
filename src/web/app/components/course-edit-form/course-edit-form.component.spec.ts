@@ -9,7 +9,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -55,9 +55,10 @@ describe('CourseEditFormComponent', () => {
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
+  const errorMssg = 'Error occured';
 
   const spyStatusMessageService: any = {
-    showErrorToast: jest.fn(),
+    showErrorToast: jest.fn(() => errorMssg),
     showSuccessToast: jest.fn(),
   };
   const timezoneServiceStub: any = {
@@ -216,6 +217,46 @@ describe('CourseEditFormComponent', () => {
     expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse.courseId]).toEqual([testFeedbackSession]);
   });
 
+  it('should handle errors in copyCourseHandler when promise is rejected', () => {
+    component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+    component.formMode = CourseEditFormMode.ADD;
+    fixture.detectChanges();
+
+    const mockModalRef: any = createMockNgbModalRef({
+      isCopyFromOtherSession: false,
+      courses: [],
+      courseToFeedbackSession: {},
+      fetchFeedbackSessionsEvent: new EventEmitter<string>(),
+    }, Promise.reject(new Error(errorMssg)));
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+
+    component.copyCourseHandler();
+
+    expect(spyStatusMessageService.showErrorToast()).toBe(errorMssg);
+  });
+
+  it('should handle errors in copyCourseHandler when observable throws an error', () => {
+    component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+    component.formMode = CourseEditFormMode.ADD;
+    fixture.detectChanges();
+
+    const mockModalRef: any = createMockNgbModalRef({
+      isCopyFromOtherSession: false,
+      courses: [],
+      courseToFeedbackSession: {},
+      fetchFeedbackSessionsEvent: new Observable<number>((observer) => {
+        observer.error({
+          error: { message: errorMssg },
+        });
+      }),
+    });
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+
+    component.copyCourseHandler();
+
+    expect(spyStatusMessageService.showErrorToast()).toBe(errorMssg);
+  });
+
   it('should set isEditing to true when editModel exists', () => {
     component.editModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
 
@@ -240,9 +281,20 @@ describe('CourseEditFormComponent', () => {
     expect(component.editModel).toBeUndefined();
   });
 
-  it('should update institutes when addModel is defined', () => {
+  it('should update institutes when addModel is defined and when there is only one institute', () => {
     component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
     component.addModel.allCourses = [testCourse];
+    component.addModel.course = testCourse;
+
+    component.updateInstitutes();
+
+    expect(component.addModel.institutes).toEqual([validInstitute]);
+    expect(component.addModel.course.institute).toBe(validInstitute);
+  });
+
+  it('should update institutes when addModel is defined and when there is more than one institute', () => {
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel.allCourses = [testCourse, testCourse];
     component.addModel.course = testCourse;
 
     component.updateInstitutes();
@@ -277,11 +329,13 @@ describe('CourseEditFormComponent', () => {
 
   it('should do nothing when in display-only mode', () => {
     component.isDisplayOnly = true;
-    const emitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
+    const updateEmitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
+    const createEmitSpy = jest.spyOn(component.createNewCourseEvent, 'emit');
 
     component.submitHandler();
 
-    expect(emitSpy).not.toHaveBeenCalled();
+    expect(updateEmitSpy).not.toHaveBeenCalled();
+    expect(createEmitSpy).not.toHaveBeenCalled();
 
   });
 
