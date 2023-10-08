@@ -50,12 +50,13 @@ describe('CommentTableModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create a new instance', () => {
     expect(component).toBeTruthy();
   });
 
   it('should set isAddingNewComment to true in the model', () => {
-    component.model = {
+    const ngOnChangesSpy: SpyInstance = jest.spyOn(component.modelChange, 'emit');
+    const testModel: CommentTableModel = {
       commentRows: [],
       newCommentRow: {
         commentEditFormModel: {
@@ -69,31 +70,37 @@ describe('CommentTableModalComponent', () => {
       isAddingNewComment: false,
       isReadOnly: false,
     };
-    fixture.detectChanges();
+    component.model = testModel;
     component.ngOnChanges();
-    expect(component.model.isAddingNewComment).toBe(true);
+    expect(ngOnChangesSpy).toHaveBeenCalledWith({
+      ...testModel,
+      isAddingNewComment: true,
+    });
   });
 
   it('should trigger an event to delete comment from comments table', () => {
-    const triggerDeleteCommentSpy: SpyInstance = jest.spyOn(component.deleteCommentEvent, 'emit');
-    component.triggerDeleteCommentEvent(1);
-    expect(triggerDeleteCommentSpy).toHaveBeenCalledWith(1);
+    const deleteCommentEventSpy: SpyInstance = jest.spyOn(component.deleteCommentEvent, 'emit');
+    const testIndex = 1;
+    component.triggerDeleteCommentEvent(testIndex);
+    expect(deleteCommentEventSpy).toHaveBeenCalledWith(testIndex);
   });
 
   it('should trigger an event to update comment from comments table', () => {
-    const triggerUpdateCommentSpy: SpyInstance = jest.spyOn(component.updateCommentEvent, 'emit');
-    component.triggerUpdateCommentEvent(0);
-    expect(triggerUpdateCommentSpy).toHaveBeenCalledWith(0);
+    const updateCommentEventSpy: SpyInstance = jest.spyOn(component.updateCommentEvent, 'emit');
+    const testIndex = 0;
+    component.triggerUpdateCommentEvent(testIndex);
+    expect(updateCommentEventSpy).toHaveBeenCalledWith(testIndex);
   });
 
-  it('Should trigger an event to add a new comment to the comments table', () => {
-    const triggerSaveNewCommentEventSpy: SpyInstance = jest.spyOn(component.saveNewCommentEvent, 'emit');
+  it('should trigger an event to add a new comment to the comments table', () => {
+    const saveNewCommentEventSpy: SpyInstance = jest.spyOn(component.saveNewCommentEvent, 'emit');
     component.triggerSaveNewCommentEvent();
-    expect(triggerSaveNewCommentEventSpy).toHaveBeenCalled();  
+    expect(saveNewCommentEventSpy).toHaveBeenCalled();
   });
 
-  it('Should trigger an event to change the model of the form' , () => {
-    const testModel:CommentTableModel = {
+  it('should trigger an event to change the model of the form', () => {
+    const changeFormModelEventSpy = jest.spyOn(component.modelChange, 'emit');
+    const testModel: CommentTableModel = {
       commentRows: [],
       newCommentRow: {
         commentEditFormModel: {
@@ -107,8 +114,7 @@ describe('CommentTableModalComponent', () => {
       isAddingNewComment: false,
       isReadOnly: false,
     };
-    const triggerModelChangeSpy: SpyInstance = jest.spyOn(component.modelChange, 'emit');
     component.triggerModelChange(testModel);
-    expect(triggerModelChangeSpy).toBeCalledWith(testModel);
+    expect(changeFormModelEventSpy).toHaveBeenCalledWith(testModel);
   });
 });
