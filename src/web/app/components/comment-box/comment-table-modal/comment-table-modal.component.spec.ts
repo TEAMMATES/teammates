@@ -50,12 +50,12 @@ describe('CommentTableModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create a new instance', () => {
     expect(component).toBeTruthy();
   });
 
   it('should set isAddingNewComment to true in the model', () => {
-    component.model = {
+    const testModel: CommentTableModel = {
       commentRows: [],
       newCommentRow: {
         commentEditFormModel: {
@@ -69,9 +69,10 @@ describe('CommentTableModalComponent', () => {
       isAddingNewComment: false,
       isReadOnly: false,
     };
-    fixture.detectChanges();
+    const ngOnChangesSpy: SpyInstance = jest.spyOn(component.modelChange,'emit')
+    component.model = testModel;
     component.ngOnChanges();
-    expect(component.model.isAddingNewComment).toBe(true);
+    expect(ngOnChangesSpy).toHaveBeenCalledWith({...testModel,isAddingNewComment: true,});
   });
 
   it('should trigger an event to delete comment from comments table', () => {
