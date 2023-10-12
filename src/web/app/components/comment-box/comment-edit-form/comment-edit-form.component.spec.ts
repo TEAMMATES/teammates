@@ -12,7 +12,6 @@ import {
 } from '../comment-visibility-setting.pipe';
 import { CommentEditFormComponent } from './comment-edit-form.component';
 
-
 describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;
   let fixture: ComponentFixture<CommentEditFormComponent>;
