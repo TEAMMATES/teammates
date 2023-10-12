@@ -2,6 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommentVisibilityType } from '../../../../types/api-output';
+import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import {
@@ -9,8 +11,7 @@ import {
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
 import { CommentEditFormComponent } from './comment-edit-form.component';
-import {CommentVisibilityType} from "../../../../types/api-output";
-import {CommentVisibilityControl} from "../../../../types/comment-visibility-control";
+
 
 describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;
@@ -65,7 +66,7 @@ describe('CommentEditFormComponent', () => {
     expect(component.isVisibilityTableExpanded).toBeFalsy();
   });
 
-  //triggerModelChange
+  // triggerModelChange
   it('should trigger model change with updated field', () => {
     const testField = 'commentText';
     const testData = 'Updated comment text';
@@ -81,7 +82,7 @@ describe('CommentEditFormComponent', () => {
     });
   });
 
-  //triggerModelChangeBatch
+  // triggerModelChangeBatch
   it('should emit the updated model when triggerModelChangeBatch is called', () => {
     component.model = {
       commentText: 'Initial Comment',
@@ -114,7 +115,7 @@ describe('CommentEditFormComponent', () => {
     expect(closeCommentBoxEventSpy).toHaveBeenCalled();
   });
 
-  //triggerSaveCommentEvent
+  // triggerSaveCommentEvent
   it('should emit the saveCommentEvent when triggerSaveCommentEvent is called', () => {
     const saveCommentEventSpy = jest.spyOn(component.saveCommentEvent, 'emit');
     component.triggerSaveCommentEvent();
@@ -122,7 +123,7 @@ describe('CommentEditFormComponent', () => {
     expect(saveCommentEventSpy).toHaveBeenCalled();
   });
 
-  //modifyVisibilityControl
+  // modifyVisibilityControl
   it('should allow and disallow visibility control and trigger model change', () => {
     const isAllowed = true;
     const visibilityType = CommentVisibilityType.GIVER;
