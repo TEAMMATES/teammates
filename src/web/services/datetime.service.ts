@@ -123,4 +123,54 @@ export class DateTimeService {
             minute: mmt.minute(),
         };
     }
+
+    /**
+     * Compares the first date with the second date and checks whether the first
+     * date is earlier, same or later than the second date.
+     * Returns 1 if the first date is later than second date, 0 if the first date is the
+     * same as the second date and -1 if the first date is earlier than the second date.
+     */
+    static compareDateFormat(firstDate : DateFormat, secondDate : DateFormat) : number {
+        if (firstDate.year > secondDate.year) {
+            return 1;
+        }
+        if (firstDate.year < secondDate.year) {
+            return -1;
+        }
+        if (firstDate.month > secondDate.month) {
+            return 1;
+        }
+        if (firstDate.month < secondDate.month) {
+            return -1;
+        }
+        if (firstDate.day > secondDate.day) {
+            return 1;
+        }
+        if (firstDate.day < secondDate.day) {
+            return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * Compares the first timing with the second timing and checks whether the first
+     * timing is earlier, same or later than the second timing.
+     * Returns 1 if the first timing is later than second timing, 0 if the first timing is the
+     * same as the second timing and -1 if the first timing is earlier than the second timing.
+     */
+    static compareTimeFormat(firstTiming : TimeFormat, secondTiming : TimeFormat) : number {
+        if (firstTiming.hour > secondTiming.hour) {
+            return 1;
+        }
+        if (firstTiming.hour < secondTiming.hour) {
+            return -1;
+        }
+        if (firstTiming.minute > secondTiming.minute) {
+            return 1;
+        }
+        if (firstTiming.minute < secondTiming.minute) {
+            return -1;
+        }
+        return 0;
+    }
 }

@@ -27,3 +27,21 @@
 .text-color-lightgray {
   color: lightgray;
 }
+
+@media (max-width: 450px) {
+  .card-header {
+    display: block;
+  }
+
+  .card-header-btn-toolbar {
+    text-align: right;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  tm-panel-chevron {
+    margin-left: auto;
+  }
+}

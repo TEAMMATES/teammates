@@ -8,7 +8,6 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
-  shouldShowDownloadQuestionResult="false"
 >
   <span
     class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -35,7 +34,6 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
-  shouldShowDownloadQuestionResult="false"
 >
   <span
     class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -67,7 +65,6 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
-  shouldShowDownloadQuestionResult="false"
 >
   <span
     class="d-flex flex-column flex-sm-row align-items-sm-center"
