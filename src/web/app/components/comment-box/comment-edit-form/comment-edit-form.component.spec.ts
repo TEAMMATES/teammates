@@ -1,11 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   CommentOutput,
   CommentVisibilityType, FeedbackQuestionType,
-  FeedbackResponseDetails
+  FeedbackResponseDetails,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
