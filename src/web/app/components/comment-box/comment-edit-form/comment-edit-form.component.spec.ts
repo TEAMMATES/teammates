@@ -1,21 +1,21 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {
   CommentOutput,
   CommentVisibilityType, FeedbackQuestionType,
   FeedbackResponseDetails
 } from '../../../../types/api-output';
-import {CommentVisibilityControl} from '../../../../types/comment-visibility-control';
-import {RichTextEditorModule} from '../../rich-text-editor/rich-text-editor.module';
-import {TeammatesCommonModule} from '../../teammates-common/teammates-common.module';
+import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
+import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe,
   CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
-import {CommentEditFormComponent} from './comment-edit-form.component';
+import { CommentEditFormComponent } from './comment-edit-form.component';
 
 describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;
@@ -71,7 +71,7 @@ describe('CommentEditFormComponent', () => {
         recipientTeam: 'string',
         recipientSection: 'string',
         responseDetails: feedbackResponseDetails,
-        instructorComments: commentOutputs
+        instructorComments: commentOutputs,
       };
       const response = component.response;
 
