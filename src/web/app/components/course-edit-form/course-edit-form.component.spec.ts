@@ -75,7 +75,7 @@ describe('CourseEditFormComponent', () => {
   };
 
   const spyStatusMessageService: any = {
-    showErrorToast: jest.fn(),
+    showErrorToast: jest.fn(() => errorMssg),
     showSuccessToast: jest.fn(),
   };
   const timezoneServiceStub: any = {
