@@ -24,6 +24,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
@@ -44,21 +45,37 @@ describe('CourseEditFormComponent', () => {
 
   const validCourseId: string = 'CS1101S';
   const validTimeZone: string = 'Asia/Singapore';
-  const validInstitute: string = 'Test Institute';
+  const validInstitute1: string = 'Test Institute1';
+  const validInstitute2: string = 'Test Institute2';
   const testTimeZone: string = 'Australia/Adelaide';
   const timeZoneOffsets1: Record<string, number> = { GMT: 570 };
-  const testCourse: Course = {
-    courseId: 'testId',
-    courseName: 'Test Course',
+  const testCourse1: Course = {
+    courseId: 'testId1',
+    courseName: 'Test Course1',
     timeZone: validTimeZone,
-    institute: validInstitute,
+    institute: validInstitute1,
+    creationTimestamp: 0,
+    deletionTimestamp: 1000,
+  };
+  const testCourse2: Course = {
+    courseId: 'testId2',
+    courseName: 'Test Course2',
+    timeZone: validTimeZone,
+    institute: validInstitute2,
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
   const errorMssg = 'Error occured';
 
+  const customError: ErrorMessageOutput = {
+    error: {
+      message: errorMssg,
+    },
+    status: 0,
+  };
+
   const spyStatusMessageService: any = {
-    showErrorToast: jest.fn(() => errorMssg),
+    showErrorToast: jest.fn(),
     showSuccessToast: jest.fn(),
   };
   const timezoneServiceStub: any = {
@@ -68,7 +85,7 @@ describe('CourseEditFormComponent', () => {
 
   const spyCourseService: any = {
     createCourse: jest.fn(() => of({})),
-    getAllCoursesAsInstructor: jest.fn(() => of({ courses: [testCourse] })),
+    getAllCoursesAsInstructor: jest.fn(() => of({ courses: [testCourse1, testCourse1] })),
   };
 
   beforeEach(waitForAsync(() => {
@@ -206,18 +223,18 @@ describe('CourseEditFormComponent', () => {
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     const model: CourseAddFormModel = component.model as CourseAddFormModel;
-    model.activeCourses = [testCourse];
+    model.activeCourses = [testCourse1];
 
     component.copyCourseHandler();
-    mockModalRef.componentInstance.fetchFeedbackSessionsEvent.emit(testCourse.courseId);
+    mockModalRef.componentInstance.fetchFeedbackSessionsEvent.emit(testCourse1.courseId);
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);
-    expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse);
-    expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse.courseId]).toEqual([testFeedbackSession]);
+    expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse1);
+    expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse1.courseId]).toEqual([testFeedbackSession]);
   });
 
-  it('should handle errors in copyCourseHandler when promise is rejected', () => {
+  it('should handle errors in copyCourseHandler when promise is rejected', async () => {
     component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.formMode = CourseEditFormMode.ADD;
     fixture.detectChanges();
@@ -227,12 +244,12 @@ describe('CourseEditFormComponent', () => {
       courses: [],
       courseToFeedbackSession: {},
       fetchFeedbackSessionsEvent: new EventEmitter<string>(),
-    }, Promise.reject(new Error(errorMssg)));
+    }, Promise.reject(customError));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.copyCourseHandler();
 
-    expect(spyStatusMessageService.showErrorToast()).toBe(errorMssg);
+    expect(await spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
   });
 
   it('should handle errors in copyCourseHandler when observable throws an error', () => {
@@ -245,16 +262,14 @@ describe('CourseEditFormComponent', () => {
       courses: [],
       courseToFeedbackSession: {},
       fetchFeedbackSessionsEvent: new Observable<number>((observer) => {
-        observer.error({
-          error: { message: errorMssg },
-        });
+        observer.error(customError);
       }),
     });
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.copyCourseHandler();
 
-    expect(spyStatusMessageService.showErrorToast()).toBe(errorMssg);
+    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
   });
 
   it('should set isEditing to true when editModel exists', () => {
@@ -273,42 +288,46 @@ describe('CourseEditFormComponent', () => {
     expect(component.editModel?.isEditing).toBe(false);
   });
 
-  it('should not modify isEditing when editModel is undefined', () => {
-    component.editModel = undefined;
+  it('should update isEditing to true when editModel exists and isEditing is set as false', () => {
+    const defaultCourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+    defaultCourseEditFormModel.isEditing = false;
+    component.editModel = defaultCourseEditFormModel;
 
     component.setIsEditing(true);
 
-    expect(component.editModel).toBeUndefined();
+    expect(component.editModel?.isEditing).toBe(true);
   });
 
   it('should update institutes when addModel is defined and when there is only one institute', () => {
     component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
-    component.addModel.allCourses = [testCourse];
-    component.addModel.course = testCourse;
+    component.addModel.allCourses = [testCourse1];
+    component.addModel.course = testCourse1;
 
     component.updateInstitutes();
 
-    expect(component.addModel.institutes).toEqual([validInstitute]);
-    expect(component.addModel.course.institute).toBe(validInstitute);
+    expect(component.addModel.institutes).toEqual([validInstitute1]);
+    expect(component.addModel.course.institute).toBe(validInstitute1);
   });
 
   it('should update institutes when addModel is defined and when there is more than one institute', () => {
     component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
-    component.addModel.allCourses = [testCourse, testCourse];
-    component.addModel.course = testCourse;
+    component.addModel.allCourses = [testCourse1, testCourse2];
+    component.addModel.course = testCourse1;
 
     component.updateInstitutes();
 
-    expect(component.addModel.institutes).toEqual([validInstitute]);
-    expect(component.addModel.course.institute).toBe(validInstitute);
+    expect(component.addModel.institutes).toEqual([validInstitute1, validInstitute2]);
+    expect(component.addModel.course.institute).toBe(validInstitute1);
   });
 
-  it('should not update institutes when addModel is not defined', () => {
-    component.addModel = undefined;
+  it('should not update institutes when allCourses of the component is empty', () => {
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel.allCourses = [];
+    component.addModel.course = testCourse2;
 
     component.updateInstitutes();
 
-    expect(component.addModel).toBeUndefined();
+    expect(component.addModel.course.institute).toBe(validInstitute2);
   });
 
   it('should set the course timeZone when not in display-only mode', () => {
@@ -319,12 +338,13 @@ describe('CourseEditFormComponent', () => {
     expect(component.model.course.timeZone).toBe(testTimeZone);
   });
 
-  it('should not set the course timeZone when in display-only mode', () => {
+  it('should not update the course timeZone when in display-only mode', () => {
     component.isDisplayOnly = true;
+    component.model.course.timeZone = 'Asia/Singapore';
 
     component.detectTimezoneHandler();
 
-    expect(component.model.course.timeZone).not.toBe(testTimeZone);
+    expect(component.model.course.timeZone).toBe('Asia/Singapore');
   });
 
   it('should do nothing when in display-only mode', () => {
