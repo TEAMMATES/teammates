@@ -3,12 +3,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import SpyInstance = jest.SpyInstance;
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
 import { CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentTableComponent, CommentTableModel } from '../comment-table/comment-table.component';
-import SpyInstance = jest.SpyInstance;
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
