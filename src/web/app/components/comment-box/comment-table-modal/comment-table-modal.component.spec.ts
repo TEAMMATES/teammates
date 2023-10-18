@@ -9,6 +9,7 @@ import { TeammatesCommonModule } from '../../teammates-common/teammates-common.m
 import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
 import { CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentTableComponent, CommentTableModel } from '../comment-table/comment-table.component';
+
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
@@ -50,7 +51,7 @@ describe('CommentTableModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create a new instance', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
