@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { ErrorReportComponent } from './error-report.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ErrorReportComponent', () => {
   let component: ErrorReportComponent;
@@ -14,10 +14,7 @@ describe('ErrorReportComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorReportComponent],
-      imports: [
-        FormsModule,
-        HttpClientTestingModule,
-      ],
+      imports: [FormsModule, HttpClientModule],
       providers: [HttpRequestService, NgbActiveModal],
     })
     .compileComponents();
@@ -32,6 +29,14 @@ describe('ErrorReportComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should inject ErrorReportService and NgbActiveModal', () => {
+    const errorReportService = (component as any).errorReportService;
+    const ngbActiveModal = (component as any).ngbActiveModal;
+
+    expect(errorReportService).toBeTruthy();
+    expect(ngbActiveModal).toBeTruthy();
   });
 
   it('should get user input from Subject form', () => {
@@ -76,5 +81,11 @@ describe('ErrorReportComponent', () => {
   it('should snap with default view', () => {
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should disable error reporting if CSRF error message is detected', () => {
+      component.errorMessage = 'Missing CSRF token.';
+      component.ngOnInit();
+      expect(component.errorReportEnabled).toBe(false);
+    });
 
 });
