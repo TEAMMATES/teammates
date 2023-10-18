@@ -14,7 +14,10 @@ describe('ErrorReportComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorReportComponent],
-      imports: [FormsModule, HttpClientTestingModule],
+      imports: [
+        FormsModule,
+        HttpClientTestingModule
+      ],
       providers: [HttpRequestService, NgbActiveModal],
     })
     .compileComponents();
