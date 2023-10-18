@@ -16,7 +16,7 @@ describe('ErrorReportComponent', () => {
       declarations: [ErrorReportComponent],
       imports: [
         FormsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       providers: [HttpRequestService, NgbActiveModal],
     })
