@@ -9,7 +9,6 @@ import { TeammatesCommonModule } from '../../teammates-common/teammates-common.m
 import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
 import { CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentTableComponent, CommentTableModel } from '../comment-table/comment-table.component';
-
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
@@ -19,7 +18,6 @@ import { CommentTableModalComponent } from './comment-table-modal.component';
 describe('CommentTableModalComponent', () => {
   let component: CommentTableModalComponent;
   let fixture: ComponentFixture<CommentTableModalComponent>;
-
   const testModel: CommentTableModel = {
     commentRows: [],
     newCommentRow: {
