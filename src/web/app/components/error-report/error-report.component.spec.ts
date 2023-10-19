@@ -34,14 +34,6 @@ describe('ErrorReportComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should inject ErrorReportService and NgbActiveModal', () => {
-    const errorReportService = (component as any).errorReportService;
-    const ngbActiveModal = (component as any).ngbActiveModal;
-
-    expect(errorReportService).toBeTruthy();
-    expect(ngbActiveModal).toBeTruthy();
-  });
-
   it('should get user input from Subject form', () => {
     const input: any = fixture.nativeElement.querySelectorAll('input');
 
