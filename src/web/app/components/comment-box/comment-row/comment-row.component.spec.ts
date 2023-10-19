@@ -1,5 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  CommentVisibilityType,
+} from '../../../../types/api-output';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
@@ -44,5 +47,92 @@ describe('CommentRowComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+
+    it('should properly handle visibility settings if originalComment is defined', () => {
+      component.model = {
+        originalComment: {
+          isVisibilityFollowingFeedbackQuestion: true,
+          commentGiver: 'mockCommentGiver',
+          lastEditorEmail: 'mockEditor@example.com',
+          feedbackResponseCommentId: 12345,
+          commentText: 'Mock comment text',
+          showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+          createdAt: new Date().getTime(),
+          lastEditedAt: new Date().getTime(),
+          showGiverNameTo: [],
+        },
+          commentEditFormModel: {
+            commentText: 'Mock comment text for form',
+            isUsingCustomVisibilities: false,
+            showCommentTo: [CommentVisibilityType.GIVER],
+            showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
+          },
+          isEditing: true,
+      };
+
+      component.ngOnChanges();
+
+    });
+
+
+    it('should emit closeEditing event', () => {
+        component.closeEditingEvent.emit = jest.fn();
+
+        component.triggerCloseEditing();
+
+        expect(component.closeEditingEvent.emit).toHaveBeenCalled();
+    });
+
+
+    it('should emit saveComment event', () => {
+        const spy = jest.spyOn(component.saveCommentEvent, 'emit');
+        component.triggerSaveCommentEvent();
+        expect(spy).toHaveBeenCalled();
+    });
+
+
+    it('should emit deleteComment event after modal confirmation', (done) => {
+      const mockModalRef = { result: new Promise((resolve) => resolve(true)) };
+
+      jest.spyOn((component as any).simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
+      const emitSpy = jest.spyOn(component.deleteCommentEvent, 'emit');
+
+      component.triggerDeleteCommentEvent();
+
+      mockModalRef.result.then(() => {
+        expect(emitSpy).toHaveBeenCalled();
+        done();
+      });
+
+    });
+
+  it('should allow all applicable types to see when isVisibilityFollowingFeedbackQuestion is true', () => {
+    component.model = {
+      originalComment: {
+        isVisibilityFollowingFeedbackQuestion: true,
+        commentGiver: 'mockCommentGiver',
+        lastEditorEmail: 'mockEditor@example.com',
+        feedbackResponseCommentId: 12345,
+        commentText: 'Mock comment text',
+        showCommentTo: [],
+        createdAt: new Date().getTime(),
+        lastEditedAt: new Date().getTime(),
+        showGiverNameTo: [],
+      },
+      commentEditFormModel: {
+        commentText: 'Mock comment text for form',
+        isUsingCustomVisibilities: false,
+        showCommentTo: [CommentVisibilityType.GIVER],
+        showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
+      },
+        isEditing: true,
+    };
+    const spy = jest.spyOn(component.visibilityStateMachine, 'allowAllApplicableTypesToSee');
+
+    component.ngOnChanges();
+
+    expect(spy).not.toHaveBeenCalled();
   });
 });
