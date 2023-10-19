@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityType } from '../../../../types/api-output';
+import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
@@ -15,6 +16,16 @@ import { CommentRowComponent } from './comment-row.component';
 describe('CommentRowComponent', () => {
   let component: CommentRowComponent;
   let fixture: ComponentFixture<CommentRowComponent>;
+
+  const spyVisibilityStateMachine: any = {
+    allowAllApplicableTypesToSee: jest.fn(),
+    applyVisibilitySettings: jest.fn(),
+    getVisibilityTypesUnderVisibilityControl: jest.fn()
+  }
+
+  const spyCommentService: any = {
+    getNewVisibilityStateMachine: jest.fn().mockReturnValue(spyVisibilityStateMachine)
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -33,6 +44,9 @@ describe('CommentRowComponent', () => {
         NgbModule,
         RichTextEditorModule,
       ],
+      providers: [
+        { provide: FeedbackResponseCommentService, useValue: spyCommentService },
+      ]
     })
     .compileComponents();
   }));
@@ -74,6 +88,10 @@ describe('CommentRowComponent', () => {
 
       expect(component.visibilityStateMachine).toBeDefined();
       expect(component.visibilityStateMachine.allowAllApplicableTypesToSee).toBeDefined();
+
+      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
+
+      expect(spyCommentService.getNewVisibilityStateMachine).toHaveBeenCalled();
     });
 
     it('should allow all applicable types to see when isVisibilityFollowingFeedbackQuestion is true', () => {
@@ -97,18 +115,16 @@ describe('CommentRowComponent', () => {
         },
         isEditing: true,
       };
-
-      const spy = jest.spyOn(component.visibilityStateMachine, 'allowAllApplicableTypesToSee');
       component.ngOnChanges();
-      expect(spy).not.toHaveBeenCalled();
+      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
     });
   });
 
   describe('triggerCloseEditing', () => {
     it('should emit closeEditing event', () => {
-        component.closeEditingEvent.emit = jest.fn();
+        const emitSpy = jest.spyOn(component.closeEditingEvent, 'emit');
         component.triggerCloseEditing();
-        expect(component.closeEditingEvent.emit).toHaveBeenCalled();
+        expect(emitSpy).toHaveBeenCalled();
     });
   });
 
@@ -151,9 +167,12 @@ describe('CommentRowComponent', () => {
       },
       isEditing: true,
     };
-    const spy = jest.spyOn(component.visibilityStateMachine, 'applyVisibilitySettings');
     component.ngOnChanges();
-    expect(spy).not.toHaveBeenCalled();
+
+    expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
+      SHOW_COMMENT: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+      SHOW_GIVER_NAME: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS]
+    });
   });
   });
 });
