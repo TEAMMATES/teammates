@@ -2,8 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CommentVisibilityType } from '../../../../types/api-output';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import { CommentVisibilityType } from '../../../../types/api-output';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
@@ -20,11 +20,11 @@ describe('CommentRowComponent', () => {
   const spyVisibilityStateMachine: any = {
     allowAllApplicableTypesToSee: jest.fn(),
     applyVisibilitySettings: jest.fn(),
-    getVisibilityTypesUnderVisibilityControl: jest.fn()
-  }
+    getVisibilityTypesUnderVisibilityControl: jest.fn(),
+  };
 
   const spyCommentService: any = {
-    getNewVisibilityStateMachine: jest.fn().mockReturnValue(spyVisibilityStateMachine)
+    getNewVisibilityStateMachine: jest.fn().mockReturnValue(spyVisibilityStateMachine),
   };
 
   beforeEach(waitForAsync(() => {
@@ -46,7 +46,7 @@ describe('CommentRowComponent', () => {
       ],
       providers: [
         { provide: FeedbackResponseCommentService, useValue: spyCommentService },
-      ]
+      ],
     })
     .compileComponents();
   }));
@@ -171,7 +171,7 @@ describe('CommentRowComponent', () => {
 
     expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
       SHOW_COMMENT: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-      SHOW_GIVER_NAME: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS]
+      SHOW_GIVER_NAME: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
     });
   });
   });
