@@ -29,7 +29,6 @@ describe('FeedbackPathPanelComponent', () => {
     component = fixture.componentInstance;
     component.allowedFeedbackPaths = new Map([
       [FeedbackParticipantType.TEAMS, [FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS]],
-      [FeedbackParticipantType.INSTRUCTORS, [FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS]]
     ]);
     fixture.detectChanges();
   });
@@ -78,7 +77,7 @@ describe('FeedbackPathPanelComponent', () => {
   describe('changeGiverRecipientType', () => {
     it('should reset visibility settings if not using custom feedback path', () => {
       component.model.isUsingOtherFeedbackPath = false;
-      component.changeGiverRecipientType(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS);
+      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.STUDENTS);
       expect(component.model.isUsingOtherFeedbackPath).toEqual(false);
       expect(component.model.isUsingOtherVisibilitySetting).toEqual(false);
       expect(component.model.showResponsesTo).toEqual([]);
@@ -88,7 +87,7 @@ describe('FeedbackPathPanelComponent', () => {
 
     it('should not reset visibility settings if using custom feedback path', () => {
       component.model.isUsingOtherFeedbackPath = true;
-      component.changeGiverRecipientType(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS);
+      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.STUDENTS);
       expect(component.model.commonVisibilitySettingName).not.toEqual('Please select a visibility option');
       expect(component.model.isUsingOtherFeedbackPath).toEqual(true);
     });
