@@ -74,4 +74,22 @@ describe('FeedbackPathPanelComponent', () => {
     expect(emitSpy).toHaveBeenCalledWith(true);
   });
 
+  describe('changeGiverRecipientType', () => {
+    it('should reset visibility settings if not using custom feedback path', () => {
+      component.model.isUsingOtherFeedbackPath = false;
+      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.STUDENTS);
+      expect(component.model.isUsingOtherFeedbackPath).toEqual(false);
+      expect(component.model.isUsingOtherVisibilitySetting).toEqual(false);
+      expect(component.model.showResponsesTo).toEqual([]);
+      expect(component.model.showGiverNameTo).toEqual([]);
+      expect(component.model.showRecipientNameTo).toEqual([]);
+    });
+
+    it('should not reset visibility settings if using custom feedback path', () => {
+      component.model.isUsingOtherFeedbackPath = true;
+      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.STUDENTS);
+      expect(component.model.commonVisibilitySettingName).not.toEqual('Please select a visibility option');
+      expect(component.model.isUsingOtherFeedbackPath).toEqual(true);
+    });
+  });
 });
