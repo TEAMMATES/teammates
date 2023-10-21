@@ -113,7 +113,6 @@ describe('CopySessionModalComponent', () => {
     component.copyToCourseSet.add('Course1');
     component.copyToCourseSet.add('Course2');
 
-
     const closeSpy = jest.spyOn(activeModal, 'close');
     component.copy();
     expect(closeSpy).toHaveBeenCalledWith({
