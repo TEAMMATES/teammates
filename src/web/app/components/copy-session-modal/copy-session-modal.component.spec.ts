@@ -16,6 +16,7 @@ import { CopySessionModalComponent } from './copy-session-modal.component';
 describe('CopySessionModalComponent', () => {
   let component: CopySessionModalComponent;
   let fixture: ComponentFixture<CopySessionModalComponent>;
+  let activeModal: NgbActiveModal;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -34,7 +35,9 @@ describe('CopySessionModalComponent', () => {
     fixture = TestBed.createComponent(CopySessionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    // activeModal = TestBed.inject(NgbActiveModal);
   });
+
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -103,6 +106,93 @@ describe('CopySessionModalComponent', () => {
 
     const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
     expect(copyButton.nativeElement.disabled).toBeFalsy();
+  });
+
+
+
+
+
+
+  it('should close the modal with the correct data', () => {
+    // Set test data for the component's properties
+    component.newFeedbackSessionName = 'Test Feedback Session';
+    component.sessionToCopyCourseId = 'TestCourseID';
+    component.copyToCourseSet.add('Course1');
+    component.copyToCourseSet.add('Course2');
+
+    // Spy on the NgbActiveModal's close method
+    const closeSpy = jest.spyOn(activeModal, 'close');
+
+    // Call the copy method
+    component.copy();
+
+    // Expect the NgbActiveModal's close method to have been called with the correct data
+    expect(closeSpy).toHaveBeenCalledWith({
+      newFeedbackSessionName: 'Test Feedback Session',
+      sessionToCopyCourseId: 'TestCourseID',
+      copyToCourseList: ['Course1', 'Course2'],
+    });
+  });
+
+
+
+
+  it('should add a courseId to copyToCourseSet when it is not already present', () => {
+    const courseId = 'Course1';
+
+    // Ensure the set doesn't contain the courseId initially
+    expect(component.copyToCourseSet.has(courseId)).toBe(false);
+
+    // Call the select method to add the courseId
+    component.select(courseId);
+
+    // Expect the set to contain the courseId after calling select
+    expect(component.copyToCourseSet.has(courseId)).toBe(true);
+  });
+
+  it('should remove a courseId from copyToCourseSet when it is already present', () => {
+    const courseId = 'Course1';
+
+    // Add courseId to the set initially
+    component.copyToCourseSet.add(courseId);
+
+    // Ensure the set contains the courseId before calling select
+    expect(component.copyToCourseSet.has(courseId)).toBe(true);
+
+    // Call the select method to remove the courseId
+    component.select(courseId);
+
+    // Expect the set not to contain the courseId after calling select
+    expect(component.copyToCourseSet.has(courseId)).toBe(false);
+  });
+
+  it('should toggle courseId in copyToCourseSet', () => {
+    const courseId = 'Course1';
+
+    // Initially, the set doesn't contain the courseId
+    expect(component.copyToCourseSet.has(courseId)).toBe(false);
+
+    // Call select to add it
+    component.select(courseId);
+
+    // Now it should be in the set
+    expect(component.copyToCourseSet.has(courseId)).toBe(true);
+
+    // Call select again to remove it
+    component.select(courseId);
+
+    // It should be removed from the set
+    expect(component.copyToCourseSet.has(courseId)).toBe(false);
+  });
+
+  it('should create', () => {
+    var constructComponent = new CopySessionModalComponent(activeModal);
+    expect(constructComponent).toBeTruthy();
+  });
+
+  it('should have NgbActiveModal injected', () => {
+    var constructComponent = new CopySessionModalComponent(activeModal);
+    expect(constructComponent.activeModal).toBe(activeModal);
   });
 
 });
