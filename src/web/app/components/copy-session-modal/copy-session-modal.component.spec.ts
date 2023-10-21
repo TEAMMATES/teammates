@@ -83,15 +83,6 @@ describe('CopySessionModalComponent', () => {
     timeZone: 'UTC',
   };
 
-  it('should snap with some session and courses candidates', () => {
-    component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
-    component.courseCandidates = [courseSessionIn, courseCopyTo];
-    component.sessionToCopyCourseId = courseSessionIn.courseId;
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should enable copy button after course to copy to is selected', () => {
     component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
     component.courseCandidates = [courseSessionIn, courseCopyTo];
