@@ -1,6 +1,45 @@
 import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output } from '@angular/core';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { Logger } from 'path-to-logger-service';
+
+export class SortableTableComponent implements OnInit, OnChanges {
+
+  constructor(private tableComparatorService: TableComparatorService, private logger: Logger) { } // 添加logger服务
+
+  ngOnInit(): void {
+    this.logger.info('Initializing SortableTableComponent...');
+    this.tableRows = this.rows;
+    this.initialSort(); // Performs an initial sort on the table
+    this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
+  }
+
+  ngOnChanges(): void {
+    this.logger.info('Changes detected in SortableTableComponent. Updating rows...');
+    this.tableRows = this.rows;
+    this.sortRows();
+  }
+
+  onClickHeader(columnHeader: string): void {
+    this.logger.info(`Header clicked: ${columnHeader}. Sorting rows...`);
+    this.sortOrder = this.columnToSortBy === columnHeader && this.sortOrder === SortOrder.ASC
+        ? SortOrder.DESC : SortOrder.ASC;
+    this.columnToSortBy = columnHeader;
+    this.sortRows();
+  }
+
+  sortRows(): void {
+    this.logger.info(`Sorting rows by column: ${this.columnToSortBy}`);
+  }
+
+  initialSort(): void {
+    this.logger.info('Performing initial sort...');
+  }
+
+
+}
+
+
 
 /**
  * The color scheme of the header of the table
