@@ -27,17 +27,10 @@ describe('FeedbackPathPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FeedbackPathPanelComponent);
     component = fixture.componentInstance;
-
-    component.customNumberOfEntitiesToGiveFeedbackTo.subscribe((value) => {
-      component.model.customNumberOfEntitiesToGiveFeedbackTo = value;
-    });
-    component.numberOfEntitiesToGiveFeedbackToSetting.subscribe((value) => {
-      component.model.numberOfEntitiesToGiveFeedbackToSetting = value;
-    });
-    component.customFeedbackPath.subscribe((value) => {
-      component.model.isUsingOtherFeedbackPath = value;
-    });
-
+    component.allowedFeedbackPaths = new Map([
+      [FeedbackParticipantType.TEAMS, [FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS]],
+      [FeedbackParticipantType.INSTRUCTORS, [FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS]]
+    ]);
     fixture.detectChanges();
   });
 
@@ -64,22 +57,40 @@ describe('FeedbackPathPanelComponent', () => {
 
   it('should trigger custom number of entities', () => {
     const customNumber = 5;
+    const emitSpy = jest.spyOn(component.customNumberOfEntitiesToGiveFeedbackTo, 'emit');
     component.triggerCustomNumberOfEntities(customNumber);
-    const result = component.model.customNumberOfEntitiesToGiveFeedbackTo;
-    expect(result).toEqual(customNumber);
+    expect(emitSpy).toHaveBeenCalledWith(customNumber);
   });
 
   it('should trigger number of entities setting', () => {
     const setting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
+    const emitSpy = jest.spyOn(component.numberOfEntitiesToGiveFeedbackToSetting, 'emit');
     component.triggerNumberOfEntitiesSetting(setting);
-    const result = component.model.numberOfEntitiesToGiveFeedbackToSetting;
-     expect(result).toEqual(setting);
+    expect(emitSpy).toHaveBeenCalledWith(setting);
   });
 
   it('should trigger custom feedback path', () => {
+    const emitSpy = jest.spyOn(component.customFeedbackPath, 'emit');
     component.triggerCustomFeedbackPath();
-    const result = component.model.isUsingOtherFeedbackPath;
-    expect(result).toBe(true);
+    expect(emitSpy).toHaveBeenCalledWith(true);
   });
 
+  describe('changeGiverRecipientType', () => {
+    it('should reset visibility settings if not using custom feedback path', () => {
+      component.model.isUsingOtherFeedbackPath = false;
+      component.changeGiverRecipientType(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS);
+      expect(component.model.isUsingOtherFeedbackPath).toEqual(false);
+      expect(component.model.isUsingOtherVisibilitySetting).toEqual(false);
+      expect(component.model.showResponsesTo).toEqual([]);
+      expect(component.model.showGiverNameTo).toEqual([]);
+      expect(component.model.showRecipientNameTo).toEqual([]);
+    });
+
+    it('should not reset visibility settings if using custom feedback path', () => {
+      component.model.isUsingOtherFeedbackPath = true;
+      component.changeGiverRecipientType(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS);
+      expect(component.model.commonVisibilitySettingName).not.toEqual('Please select a visibility option');
+      expect(component.model.isUsingOtherFeedbackPath).toEqual(true);
+    });
+  });
 });
