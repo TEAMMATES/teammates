@@ -24,7 +24,6 @@ describe('ExceptionLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should create stack trace string', () => {
     const details: ExceptionLogDetails = {
       event: LogEvent.EXCEPTION_LOG,
@@ -35,11 +34,10 @@ describe('ExceptionLogDetailsComponent', () => {
       loggerSourceLocation: { file: 'file', line: 1, function: 'function' },
     };
 
-    const stackTrace = component['createStackTraceString'](details);
+    const stackTrace = component.createStackTraceString(details);
     expect(stackTrace).toContain('exceptionClass1: exceptionMessage1');
     expect(stackTrace).toContain('at exceptionStackTrace');
   });
-
 
   // Test for get log
   it('should return a valid GeneralLogEntry', () => {
@@ -57,15 +55,14 @@ describe('ExceptionLogDetailsComponent', () => {
     expect(component.log).toEqual(log);
   });
 
-
   it('should clear details when exceptionStackTrace exists', () => {
-    const details_for_parse: ExceptionLogDetails = {
+    const detailsForParse: ExceptionLogDetails = {
       event: LogEvent.EXCEPTION_LOG,
       exceptionClass: 'exceptionClass',
       exceptionClasses: ['exceptionClass'],
       exceptionStackTraces: [['exceptionStackTrace']],
       exceptionMessages: ['exceptionMessage'],
-      loggerSourceLocation:{ file: 'log.txt', line: 43, function: 'test_function' },
+      loggerSourceLocation: { file: 'log.txt', line: 43, function: 'test_function' },
     };
 
     const log = {
@@ -75,9 +72,8 @@ describe('ExceptionLogDetailsComponent', () => {
       resourceIdentifier: {},
       sourceLocation: { file: 'log.txt', line: 42, function: 'test_function' },
       timestamp: Date.now(),
-      details: details_for_parse,
+      details: detailsForParse,
     };
-    
     component.log = log;
     
     expect(component.details.exceptionClasses).toBeUndefined();
