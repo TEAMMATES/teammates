@@ -59,26 +59,26 @@ describe('FeedbackPathPanelComponent', () => {
   });
 
   it('should trigger custom number of entities', () => {
-      const customNumber = 5;
-      const customNumberOfEntitiesToGiveFeedbackToEmitSpy =
-        jest.spyOn(component.customNumberOfEntitiesToGiveFeedbackTo, 'emit');
-      component.triggerCustomNumberOfEntities(customNumber);
-      expect(customNumberOfEntitiesToGiveFeedbackToEmitSpy).toHaveBeenCalledWith(customNumber);
-    });
+    const customNumber = 5;
+    const customNumberOfEntitiesToGiveFeedbackToEmitSpy =
+      jest.spyOn(component.customNumberOfEntitiesToGiveFeedbackTo, 'emit');
+    component.triggerCustomNumberOfEntities(customNumber);
+    expect(customNumberOfEntitiesToGiveFeedbackToEmitSpy).toHaveBeenCalledWith(customNumber);
+  });
 
-    it('should trigger number of entities setting', () => {
-      const setting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
-      const numberOfEntitiesToGiveFeedbackToSettingEmitSpy =
-        jest.spyOn(component.numberOfEntitiesToGiveFeedbackToSetting, 'emit');
-      component.triggerNumberOfEntitiesSetting(setting);
-      expect(numberOfEntitiesToGiveFeedbackToSettingEmitSpy).toHaveBeenCalledWith(setting);
-    });
+  it('should trigger number of entities setting', () => {
+    const setting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
+    const numberOfEntitiesToGiveFeedbackToSettingEmitSpy =
+      jest.spyOn(component.numberOfEntitiesToGiveFeedbackToSetting, 'emit');
+    component.triggerNumberOfEntitiesSetting(setting);
+    expect(numberOfEntitiesToGiveFeedbackToSettingEmitSpy).toHaveBeenCalledWith(setting);
+  });
 
-    it('should trigger custom feedback path', () => {
-      const customFeedbackPathEmitSpy = jest.spyOn(component.customFeedbackPath, 'emit');
-      component.triggerCustomFeedbackPath();
-      expect(customFeedbackPathEmitSpy).toHaveBeenCalledWith(true);
-    });
+  it('should trigger custom feedback path', () => {
+    const customFeedbackPathEmitSpy = jest.spyOn(component.customFeedbackPath, 'emit');
+    component.triggerCustomFeedbackPath();
+    expect(customFeedbackPathEmitSpy).toHaveBeenCalledWith(true);
+  });
 
   describe('changeGiverRecipientType', () => {
     it('should set default recipientType if recipientType is not allowed for giverType', () => {
