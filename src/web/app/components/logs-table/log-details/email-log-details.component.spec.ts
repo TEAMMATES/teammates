@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { EmailLogDetailsComponent } from './email-log-details.component';
 import { GeneralLogEntry, LogEvent, LogSeverity } from '../../../../types/api-output';
+import { EmailLogDetailsComponent } from './email-log-details.component';
 
 describe('EmailLogDetailsComponent', () => {
   let component: EmailLogDetailsComponent;
@@ -19,7 +19,6 @@ describe('EmailLogDetailsComponent', () => {
     fixture.detectChanges();
   });
 
-  
   it('should create', () => {
     expect(component).toBeTruthy();
   });
