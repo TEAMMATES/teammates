@@ -1,15 +1,24 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { GeneralLogEntry, LogEvent, LogSeverity, ExceptionLogDetails } from '../../../../types/api-output';
 import { ExceptionLogDetailsComponent } from './exception-log-details.component';
 
 describe('ExceptionLogDetailsComponent', () => {
-@@ -19,7 +19,109 @@ describe('ExceptionLogDetailsComponent', () => {
+  let component: ExceptionLogDetailsComponent;
+  let fixture: ComponentFixture<ExceptionLogDetailsComponent>;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExceptionLogDetailsComponent],
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
   describe('Component Initialization', () => {
     it('should instantiate the component', () => {
       expect(component).toBeTruthy();
