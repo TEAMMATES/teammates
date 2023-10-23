@@ -33,19 +33,6 @@ describe('RequestLogDetailsComponent', () => {
       timestamp: Date.now(),
       details: {
         event: LogEvent.REQUEST_LOG,
-        // responseStatus: 200,
-        // responseTime: 100,
-        // requestMethod: '',
-        // requestUrl: '',
-        // userAgent: '',
-        // instanceId: '',
-        // webVersion: '',
-        // referrer: '',
-        // requestParams: { param1: '', param2: '' },
-        // requestHeaders: { header1: '', header2: '' },
-        // requestBody: '{}',
-        // actionClass: '',
-        // userInfo: { userId: '', username: '' },
       },
     };
   });
@@ -57,7 +44,7 @@ describe('RequestLogDetailsComponent', () => {
   });
 
   describe('Setting and Retrieving Logs', () => {
-    it('should correctly set and retrieve the log and details', () => {
+    it('should correctly set and retrieve the log and details without requestBody', () => {
       const log = requestLog;
       const requestLogDetails: RequestLogDetails = {
         event: LogEvent.REQUEST_LOG,
@@ -72,7 +59,6 @@ describe('RequestLogDetailsComponent', () => {
         userInfo: { regkey: '', email: '', googleId: '' },
       };
       log.details = requestLogDetails;
-
       component.log = log;
       const details: RequestLogDetails = JSON.parse(
         JSON.stringify(log.details),
@@ -85,6 +71,36 @@ describe('RequestLogDetailsComponent', () => {
       expect(component.details).toEqual(details);
       expect(component.userInfo).toEqual(requestLogDetails.userInfo);
       expect(component.requestBody).toEqual(undefined);
+    });
+
+    it('should correctly set and retrieve the log and details with json requestBody', () => {
+      const log = requestLog;
+      const requestLogDetails: RequestLogDetails = {
+        event: LogEvent.REQUEST_LOG,
+        responseStatus: 200,
+        responseTime: 123,
+        requestBody: '{}',
+        requestMethod: '',
+        requestUrl: '',
+        userAgent: '',
+        instanceId: '',
+        webVersion: '',
+        referrer: '',
+        userInfo: { regkey: '', email: '', googleId: '' },
+      };
+      log.details = requestLogDetails;
+      component.log = log;
+      const details: RequestLogDetails = JSON.parse(
+        JSON.stringify(log.details),
+      ) as RequestLogDetails;
+      component.userInfo = details.userInfo;
+      details.userInfo = undefined;
+      component.details = details;
+
+      expect(component.logValue).toEqual(log);
+      expect(component.details).toEqual(details);
+      expect(component.userInfo).toEqual(requestLogDetails.userInfo);
+      expect(component.requestBody).toEqual({});
     });
 
     it('should assign and retrieve a valid GeneralLogEntry', () => {
