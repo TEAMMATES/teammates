@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +10,7 @@ import { FeedbackPathPanelComponent } from './feedback-path-panel.component';
 describe('FeedbackPathPanelComponent', () => {
   let component: FeedbackPathPanelComponent;
   let fixture: ComponentFixture<FeedbackPathPanelComponent>;
+  let emitSpy: jest.SpyInstance;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -30,6 +32,8 @@ describe('FeedbackPathPanelComponent', () => {
     component.allowedFeedbackPaths = new Map([
       [FeedbackParticipantType.TEAMS, [FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS]],
     ]);
+    component.triggerModelChangeBatch = new EventEmitter<any>();
+    emitSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
     fixture.detectChanges();
   });
 
@@ -55,41 +59,59 @@ describe('FeedbackPathPanelComponent', () => {
   });
 
   it('should trigger custom number of entities', () => {
-    const customNumber = 5;
-    const emitSpy = jest.spyOn(component.customNumberOfEntitiesToGiveFeedbackTo, 'emit');
-    component.triggerCustomNumberOfEntities(customNumber);
-    expect(emitSpy).toHaveBeenCalledWith(customNumber);
-  });
-
-  it('should trigger number of entities setting', () => {
-    const setting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
-    const emitSpy = jest.spyOn(component.numberOfEntitiesToGiveFeedbackToSetting, 'emit');
-    component.triggerNumberOfEntitiesSetting(setting);
-    expect(emitSpy).toHaveBeenCalledWith(setting);
-  });
-
-  it('should trigger custom feedback path', () => {
-    const emitSpy = jest.spyOn(component.customFeedbackPath, 'emit');
-    component.triggerCustomFeedbackPath();
-    expect(emitSpy).toHaveBeenCalledWith(true);
-  });
-
-  describe('changeGiverRecipientType', () => {
-    it('should reset visibility settings if not using custom feedback path', () => {
-      component.model.isUsingOtherFeedbackPath = false;
-      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.STUDENTS);
-      expect(component.model.isUsingOtherFeedbackPath).toEqual(false);
-      expect(component.model.isUsingOtherVisibilitySetting).toEqual(false);
-      expect(component.model.showResponsesTo).toEqual([]);
-      expect(component.model.showGiverNameTo).toEqual([]);
-      expect(component.model.showRecipientNameTo).toEqual([]);
+      const customNumber = 5;
+      const customNumberOfEntitiesToGiveFeedbackToEmitSpy =
+        jest.spyOn(component.customNumberOfEntitiesToGiveFeedbackTo, 'emit');
+      component.triggerCustomNumberOfEntities(customNumber);
+      expect(customNumberOfEntitiesToGiveFeedbackToEmitSpy).toHaveBeenCalledWith(customNumber);
     });
 
-    it('should not reset visibility settings if using custom feedback path', () => {
+    it('should trigger number of entities setting', () => {
+      const setting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
+      const numberOfEntitiesToGiveFeedbackToSettingEmitSpy =
+        jest.spyOn(component.numberOfEntitiesToGiveFeedbackToSetting, 'emit');
+      component.triggerNumberOfEntitiesSetting(setting);
+      expect(numberOfEntitiesToGiveFeedbackToSettingEmitSpy).toHaveBeenCalledWith(setting);
+    });
+
+    it('should trigger custom feedback path', () => {
+      const customFeedbackPathEmitSpy = jest.spyOn(component.customFeedbackPath, 'emit');
+      component.triggerCustomFeedbackPath();
+      expect(customFeedbackPathEmitSpy).toHaveBeenCalledWith(true);
+    });
+
+  describe('changeGiverRecipientType', () => {
+    it('should set default recipientType if recipientType is not allowed for giverType', () => {
+      component.allowedFeedbackPaths.set(FeedbackParticipantType.TEAMS,
+        [FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS]);
+      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.INSTRUCTORS);
+      expect(component.model.recipientType).toEqual(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+    });
+
+    it('checks if custom path remains & emits false if input unchanged', () => {
       component.model.isUsingOtherFeedbackPath = true;
+      component.model.giverType = FeedbackParticipantType.TEAMS;
+      component.model.recipientType = FeedbackParticipantType.STUDENTS;
       component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.STUDENTS);
-      expect(component.model.commonVisibilitySettingName).not.toEqual('Please select a visibility option');
-      expect(component.model.isUsingOtherFeedbackPath).toEqual(true);
+      expect(emitSpy).toHaveBeenCalledWith({
+        isUsingOtherFeedbackPath: false,
+      });
+    });
+
+    it('resets settings & emits params if giverType/recipientType changed', () => {
+      component.model.giverType = FeedbackParticipantType.TEAMS;
+      component.model.recipientType = FeedbackParticipantType.STUDENTS;
+      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.OWN_TEAM_MEMBERS);
+      expect(emitSpy).toHaveBeenCalledWith({
+        giverType: FeedbackParticipantType.TEAMS,
+        recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+        commonVisibilitySettingName: 'Please select a visibility option',
+        isUsingOtherFeedbackPath: false,
+        isUsingOtherVisibilitySetting: false,
+        showResponsesTo: [],
+        showGiverNameTo: [],
+        showRecipientNameTo: [],
+      });
     });
   });
 });
