@@ -16,14 +16,13 @@ describe('RequestLogDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RequestLogDetailsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); 
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  
   it('should set log and details when input is provided', () => {
     const log = {
       severity: LogSeverity.INFO,
@@ -51,7 +50,7 @@ describe('RequestLogDetailsComponent', () => {
     };
 
     component.log = log;
-    
+
     // Act set details.userInfo = undefined;
     const details: RequestLogDetails = JSON.parse(JSON.stringify(log.details)) as RequestLogDetails;
     component.userInfo = details.userInfo;
@@ -71,7 +70,7 @@ describe('RequestLogDetailsComponent', () => {
       referrer: 'sample-referrer',
       requestParams: { param1: 'value1', param2: 'value2' },
       requestHeaders: { header1: 'value1', header2: 'value2' },
-      requestBody: "{}", // JSON
+      requestBody: '{}', // JSON
       actionClass: 'SampleActionClass',
       userInfo: undefined, // Ensure userInfo is cleared
     });
@@ -83,7 +82,7 @@ describe('RequestLogDetailsComponent', () => {
     const log = {
       severity: LogSeverity.INFO,
       trace: 'sample-trace',
-      insertId: 'sample-insert-id', 
+      insertId: 'sample-insert-id',
       resourceIdentifier: { resource: 'sample' },
       sourceLocation: { file: 'sample-file', line: 1, function: 'sample-function' },
       timestamp: Date.now(),
@@ -99,11 +98,10 @@ describe('RequestLogDetailsComponent', () => {
     expect(component.userInfo).toBeUndefined();
     expect(component.requestBody).toBeUndefined();
   });
-  
 
   it('should emit the user info when addUserInfoToFilter is called', () => {
     const emitSpy = jest.spyOn(component.addUserInfoEvent, 'emit');
-    const userInfo ={regkey:"", email:"", googleId:""};
+    const userInfo = { regkey: '', email: '', googleId: '' };
     component.addUserInfoToFilter(userInfo);
     expect(emitSpy).toHaveBeenCalledWith(userInfo);
     emitSpy.mockRestore();
@@ -124,6 +122,5 @@ describe('RequestLogDetailsComponent', () => {
     component.logValue = log;
     expect(component.log).toEqual(log);
   });
-
 
 });

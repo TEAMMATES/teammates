@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { GeneralLogEntry, LogSeverity} from '../../../../types/api-output';
+import { GeneralLogEntry, LogSeverity } from '../../../../types/api-output';
 
 import { GenericLogDetailsComponent } from './generic-log-details.component';
 
-describe('GenericLogDetailsComponent', () => { 
+describe('GenericLogDetailsComponent', () => {
   let component: GenericLogDetailsComponent;
   let fixture: ComponentFixture<GenericLogDetailsComponent>;
 
@@ -24,7 +24,6 @@ describe('GenericLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  
   it('should set and get log', () => {
     const log: GeneralLogEntry = {
       severity: LogSeverity.INFO,

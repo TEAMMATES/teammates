@@ -75,38 +75,37 @@ describe('ExceptionLogDetailsComponent', () => {
       details: detailsForParse,
     };
     component.log = log;
-    
+
     expect(component.details.exceptionClasses).toBeUndefined();
     expect(component.details.exceptionMessages).toBeUndefined();
     expect(component.details.exceptionStackTraces).toBeUndefined();
   });
-  
+
   it('should return an empty string if exceptionClasses and exceptionStackTraces mismatch', () => {
     const details: ExceptionLogDetails = {
       event: LogEvent.EXCEPTION_LOG,
       exceptionClass: 'exceptionClass',
       exceptionClasses: ['exceptionClass'],
-      exceptionStackTraces: [['exceptionStackTrace'],['another exceptionStackTrace']],
-      exceptionMessages: ['exceptionMessage','another exceptionMessage'],
+      exceptionStackTraces: [['exceptionStackTrace'], ['another exceptionStackTrace']],
+      exceptionMessages: ['exceptionMessage', 'another exceptionMessage'],
       loggerSourceLocation: { file: 'file', line: 1, function: 'function' },
     };
-    
-    const stackTrace = component['createStackTraceString'](details);
+
+    const stackTrace = component.createStackTraceString(details);
     expect(stackTrace).toBe('');
   });
-  
-  
-  it('should return an empty string if exceptionMessages count mismatch with exceptionClasses and exceptionStackTraces', () => {
+
+  it('should return an empty string if exceptionMessages count mismatch with exceptionClasses', () => {
     const details: ExceptionLogDetails = {
       event: LogEvent.EXCEPTION_LOG,
       exceptionClass: 'exceptionClass',
       exceptionClasses: ['exceptionClass'],
       exceptionStackTraces: [['exceptionStackTrace']],
-      exceptionMessages: ['exceptionMessage','another exceptionMessage'],
+      exceptionMessages: ['exceptionMessage', 'another exceptionMessage'],
       loggerSourceLocation: { file: 'file', line: 1, function: 'function' },
     };
-    
-    const stackTrace = component['createStackTraceString'](details);
+
+    const stackTrace = component.createStackTraceString(details);
     expect(stackTrace).toBe('');
   });
 
