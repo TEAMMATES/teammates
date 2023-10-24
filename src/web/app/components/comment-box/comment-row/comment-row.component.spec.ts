@@ -89,9 +89,9 @@ describe('CommentRowComponent', () => {
       expect(component.visibilityStateMachine).toBeDefined();
       expect(component.visibilityStateMachine.allowAllApplicableTypesToSee).toBeDefined();
 
-      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
+      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalledWith();
 
-      expect(spyCommentService.getNewVisibilityStateMachine).toHaveBeenCalled();
+      expect(spyCommentService.getNewVisibilityStateMachine).toHaveBeenCalledWith([]);
     });
 
     it('should allow all applicable types to see when isVisibilityFollowingFeedbackQuestion is true', () => {
@@ -116,7 +116,7 @@ describe('CommentRowComponent', () => {
         isEditing: true,
       };
       component.ngOnChanges();
-      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
+      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalledWith();
     });
   });
 
