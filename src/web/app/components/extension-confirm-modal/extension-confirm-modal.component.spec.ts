@@ -11,6 +11,7 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
+import { SortableTableCellData } from '../sortable-table/sortable-table.component';
 import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
 import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
 
@@ -141,16 +142,168 @@ describe('ExtensionConfirmModalComponent', () => {
   it('use ngOnInit to initialise', () => {
     component.selectedStudents = [studentModel3];
     component.selectedInstructors = [instructorModel3];
+    const setStudentTableDataSpy = jest.spyOn(component, 'setStudentTableData');
+    const setInstructorTableDataSpy = jest.spyOn(component, 'setInstructorTableData');
     component.ngOnInit();
     component.extensionTimestamp = testFeedbackSession.submissionEndTimestamp;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
+    expect(setStudentTableDataSpy).toHaveBeenCalled();
+    expect(setInstructorTableDataSpy).toHaveBeenCalled();
+  });
+
+  it('ngOnInit to initialise with empty arrays', () => {
+    component.selectedStudents = [];
+    component.selectedInstructors = [];
+    const setStudentTableDataSpy = jest.spyOn(component, 'setStudentTableData');
+    const setInstructorTableDataSpy = jest.spyOn(component, 'setInstructorTableData');
+    component.ngOnInit();
+    component.extensionTimestamp = testFeedbackSession.submissionEndTimestamp;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+    expect(setStudentTableDataSpy).not.toHaveBeenCalled();
+    expect(setInstructorTableDataSpy).not.toHaveBeenCalled();
+  });
+
+  it('test setStudentRowData', () => {
+    component.selectedStudents = [studentModel1, studentModel2];
+    component.setStudentRowData();
+    const expectedData = component.selectedStudents.map((studentData: StudentExtensionTableColumnModel) => {
+    const rowData: SortableTableCellData[] = [
+        {
+          value: studentData.sectionName,
+        },
+        {
+          value: studentData.teamName,
+        },
+        {
+          value: studentData.name,
+        },
+        {
+          value: studentData.email,
+        },
+        {
+          value: studentData.extensionDeadline,
+          displayValue: component.dateDetailPipe.transform(
+          studentData.extensionDeadline,
+          component.feedbackSessionTimeZone),
+        },
+      ];
+      return rowData;
+    });
+    expect(component.studentRowsData).toEqual(expectedData);
+  });
+
+  it('test setStudentColumnData', () => {
+    component.setStudentColumnData();
+    const expectedData = [
+      {
+        header: 'Section',
+        sortBy: SortBy.SECTION_NAME,
+        headerClass: 'student-sort-by-section',
+      },
+      {
+          header: 'Team',
+          sortBy: SortBy.TEAM_NAME,
+          headerClass: 'student-sort-by-team',
+      },
+      {
+          header: 'Name',
+          sortBy: SortBy.RESPONDENT_NAME,
+          headerClass: 'student-sort-by-name',
+      },
+      {
+          header: 'Email',
+          sortBy: SortBy.RESPONDENT_EMAIL,
+          headerClass: 'student-sort-by-email',
+      },
+      {
+          header: component.isDeleteModal() || component.isSessionDeleteModal()
+          ? 'Current Deadline' : 'Original Deadline',
+          sortBy: SortBy.SESSION_END_DATE,
+          headerClass: 'student-sort-by-deadline',
+      },
+    ];
+    expect(component.studentColumnsData).toEqual(expectedData);
+  });
+
+  it('test setStudentTableData', () => {
+    const setStudentColumnDataSpy = jest.spyOn(component, 'setStudentColumnData');
+    const setStudentRowDataSpy = jest.spyOn(component, 'setStudentRowData');
+    component.setStudentTableData();
+    expect(setStudentColumnDataSpy).toHaveBeenCalled();
+    expect(setStudentRowDataSpy).toHaveBeenCalled();
+  });
+
+  it('test setInstructorRowData', () => {
+    component.selectedInstructors = [instructorModel1, instructorModel2];
+    component.setInstructorRowData();
+    const expectedData = component.selectedInstructors.map((instructorData: InstructorExtensionTableColumnModel) => {
+          const rowData: SortableTableCellData[] = [
+              {
+                  value: instructorData.name,
+              },
+              {
+                  value: instructorData.email,
+              },
+              {
+                  value: instructorData.role,
+                  displayValue: instructorData.role
+                  ? component.instructorRoleNamePipe.transform(instructorData.role)
+                  : instructorData.role,
+              },
+              {
+                  value: instructorData.extensionDeadline,
+                  displayValue: component.dateDetailPipe.transform(
+                  instructorData.extensionDeadline,
+                  component.feedbackSessionTimeZone),
+              },
+          ];
+          return rowData;
+      });
+      expect(component.instructorRowsData).toEqual(expectedData);
+  });
+
+  it('test setInstructorColumnData', () => {
+    component.setInstructorColumnData();
+    const expectedData = [
+      {
+        header: 'Name',
+        sortBy: SortBy.RESPONDENT_NAME,
+        headerClass: 'instructor-sort-by-name',
+      },
+      {
+        header: 'Email',
+        sortBy: SortBy.RESPONDENT_EMAIL,
+        headerClass: 'instructor-sort-by-email',
+      },
+      {
+        header: 'Role',
+        sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE,
+        headerClass: 'instructor-sort-by-role',
+      },
+      {
+        header: 'Original Deadline', // Adjust this based on your logic
+        sortBy: SortBy.SESSION_END_DATE,
+        headerClass: 'instructor-sort-by-deadline',
+      },
+    ];
+    expect(component.instructorColumnsData).toEqual(expectedData);
+  });
+
+  it('test setInstructorTableData', () => {
+    const setInstructorColumnDataSpy = jest.spyOn(component, 'setInstructorColumnData');
+    const setInstructorRowDataSpy = jest.spyOn(component, 'setInstructorRowData');
+    component.setInstructorTableData();
+    expect(setInstructorColumnDataSpy).toHaveBeenCalled();
+    expect(setInstructorRowDataSpy).toHaveBeenCalled();
   });
 
   it('test emit from onConfirm()', () => {
     const spy = jest.spyOn(component.confirmExtensionCallbackEvent, 'emit');
     component.onConfirm();
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.isSubmitting).toBe(true);
   });
 
   it('test sortBy for students', () => {

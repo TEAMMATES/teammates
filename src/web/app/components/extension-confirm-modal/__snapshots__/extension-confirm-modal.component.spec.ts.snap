@@ -738,6 +738,107 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
 </tm-extension-confirm-modal>
 `;
 
+exports[`ExtensionConfirmModalComponent ngOnInit to initialise with empty arrays 1`] = `
+<tm-extension-confirm-modal
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
+  activeModal={[Function NgbActiveModal]}
+  confirmExtensionCallbackEvent={[Function EventEmitter_]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
+  extensionTimestamp={[Function Number]}
+  feedbackSessionTimeZone={[Function String]}
+  headerColorScheme={[Function Number]}
+  instructorColumnsData={[Function Array]}
+  instructorRoleNamePipe={[Function InstructorRoleNamePipe]}
+  instructorRowsData={[Function Array]}
+  isNotifyDeadlines="false"
+  isSubmitting="false"
+  modalType="0"
+  selectedInstructors={[Function Array]}
+  selectedStudents={[Function Array]}
+  setInstructorTableData={[Function Function]}
+  setStudentTableData={[Function Function]}
+  sortInstructorListEvent={[Function EventEmitter_]}
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentListEvent={[Function EventEmitter_]}
+  sortStudentOrder={[Function Number]}
+  sortStudentsBy={[Function Number]}
+  studentColumnsData={[Function Array]}
+  studentRowsData={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <fieldset>
+    <div
+      class="modal-header alert-primary"
+    >
+      <h5
+        class="modal-title"
+      >
+        Confirm extension of feedback session
+      </h5>
+      <button
+        class="btn-close"
+        type="button"
+      />
+    </div>
+    <div
+      class="modal-body"
+    >
+      <div>
+         The new deadline of 
+        <b>
+          5 Apr 2000 2:00:00
+        </b>
+         will be applied to the following 
+        <b>
+          0
+        </b>
+         student(s) and 
+        <b>
+          0
+        </b>
+         instructor(s): 
+      </div>
+      <div
+        class="form-check"
+      >
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="flexCheckChecked"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="flexCheckChecked"
+        >
+           Notify affected students and/or instructors by email about this extension 
+        </label>
+      </div>
+    </div>
+    <br />
+    <div
+      class="modal-footer py-1 px-3"
+    >
+      <button
+        class="btn btn-light"
+        type="button"
+      >
+        No, cancel the Operation
+      </button>
+      <button
+        class="btn btn-success modal-btn-ok"
+        type="button"
+      >
+        Confirm
+      </button>
+    </div>
+  </fieldset>
+</tm-extension-confirm-modal>
+`;
+
 exports[`ExtensionConfirmModalComponent should snap with the extended students and instructors 1`] = `
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
@@ -1205,6 +1306,8 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
   modalType="0"
   selectedInstructors={[Function Array]}
   selectedStudents={[Function Array]}
+  setInstructorTableData={[Function Function]}
+  setStudentTableData={[Function Function]}
   sortInstructorListEvent={[Function EventEmitter_]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
