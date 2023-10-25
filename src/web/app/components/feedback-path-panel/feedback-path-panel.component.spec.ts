@@ -45,6 +45,7 @@ describe('FeedbackPathPanelComponent', () => {
     const menu = FeedbackParticipantType.STUDENTS;
     component.toggleSubMenu(menu);
     const firstToggle = component.isSubMenuOpen(menu);
+    expect(firstToggle).toBe(true);
     component.toggleSubMenu(menu);
     const secondToggle = component.isSubMenuOpen(menu);
     expect(firstToggle).toBe(!secondToggle);
@@ -112,6 +113,13 @@ describe('FeedbackPathPanelComponent', () => {
         showGiverNameTo: [],
         showRecipientNameTo: [],
       });
+    });
+    it('checks if emitSpy is not called when isUsingOtherFeedbackPath is false', () => {
+      component.model.isUsingOtherFeedbackPath = false;
+      component.model.giverType = FeedbackParticipantType.TEAMS;
+      component.model.recipientType = FeedbackParticipantType.STUDENTS;
+      component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.STUDENTS);
+      expect(emitSpy).not.toHaveBeenCalled();
     });
   });
 });
