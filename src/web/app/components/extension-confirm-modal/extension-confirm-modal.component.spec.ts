@@ -2,11 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TimezoneService } from '../../../services/timezone.service';
-import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
 import { InstructorPermissionRole, ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
@@ -69,7 +69,7 @@ describe('ExtensionConfirmModalComponent', () => {
     extensionDeadline: 1000000000,
     hasExtension: true,
     isSelected: false,
-  }
+  };
 
   const instructorModel2: InstructorExtensionTableColumnModel = {
     name: 'Test Instructor 2',
@@ -77,7 +77,7 @@ describe('ExtensionConfirmModalComponent', () => {
     extensionDeadline: 1100000000,
     hasExtension: true,
     isSelected: false,
-  }
+  };
 
   const instructorModel3: InstructorExtensionTableColumnModel = {
     name: 'Test InstructorManager 3',
@@ -86,7 +86,7 @@ describe('ExtensionConfirmModalComponent', () => {
     extensionDeadline: 1200000000,
     hasExtension: true,
     isSelected: true,
-  }
+  };
 
   const instructorModel4: InstructorExtensionTableColumnModel = {
     name: 'Test Instructor 4',
@@ -94,7 +94,7 @@ describe('ExtensionConfirmModalComponent', () => {
     extensionDeadline: 1300000000,
     hasExtension: true,
     isSelected: true,
-  }
+  };
 
   const testTimeString = '5 Apr 2000 2:00:00';
 
@@ -150,29 +150,28 @@ describe('ExtensionConfirmModalComponent', () => {
   it('test emit from onConfirm()', () => {
     const spy = jest.spyOn(component.confirmExtensionCallbackEvent, 'emit');
     component.onConfirm();
-    expect(spy).toBeCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('test sortBy for students', () => {
     sortBy = SortBy.SECTION_NAME;
     sortOrder = SortOrder.ASC;
-    const event = {sortBy, sortOrder};
+    const event = { sortBy, sortOrder };
 
     const spy = jest.spyOn(component.sortStudentListEvent, 'emit');
     component.sortStudentColumnsByEventHandler(event);
-    expect(spy).toBeCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('test sortBy for students only', () => {
     sortBy = SortBy.RESPONDENT_NAME;
     sortOrder = SortOrder.DESC;
-    const event = {sortBy, sortOrder};
+    const event = { sortBy, sortOrder };
 
     const spy = jest.spyOn(component.sortInstructorListEvent, 'emit');
     component.sortInstructorsColumnsByEventHandler(event);
-    expect(spy).toBeCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
-
 
   /**
    * Tests for getAriaSortStudent
@@ -189,14 +188,13 @@ describe('ExtensionConfirmModalComponent', () => {
     const value = component.getAriaSortStudent(sortBy);
     expect(value).toEqual('ascending');
   });
-  
+
   it('test getAriaSortStudent return descending', () => {
     sortBy = SortBy.SESSION_END_DATE;
     component.sortStudentOrder = SortOrder.DESC;
     const value = component.getAriaSortStudent(sortBy);
     expect(value).toEqual('descending');
   });
-
 
   /**
    * Tests for getAriaSortInstructor
@@ -221,15 +219,14 @@ describe('ExtensionConfirmModalComponent', () => {
     expect(value).toEqual('descending');
   });
 
-
   /**
    * Tests for sortStudentPanelBy
-  */
+   */
   beforeEach(() => {
     students = [studentModel2, studentModel1, studentModel3];
     component.sortStudentOrder = SortOrder.ASC;
-  })
-  
+  });
+
   it('test sortStudentPanelsBy section_name', () => {
     sortBy = SortBy.SECTION_NAME;
     sortedStudents = students.sort(component.sortStudentPanelsBy(sortBy));
@@ -280,14 +277,13 @@ describe('ExtensionConfirmModalComponent', () => {
     expect(sortedStudents[2]).toEqual(studentModel3);
   });
 
-
   /**
    * Tests for sortInstructorPanelBy
-  */
+   */
   beforeEach(() => {
     instructors = [instructorModel2, instructorModel4, instructorModel1, instructorModel3];
     component.sortInstructorOrder = SortOrder.DESC;
-  })
+  });
 
   it('test sortInstructorPanelsBy respondent_name', () => {
     sortBy = SortBy.RESPONDENT_NAME;
@@ -336,7 +332,6 @@ describe('ExtensionConfirmModalComponent', () => {
     expect(sortedInstructors[3]).toEqual(instructorModel3);
   });
 
-
   /**
    * Test ExtentionModalType.DELETE branch
    */
@@ -359,7 +354,6 @@ describe('ExtensionConfirmModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-
   /**
    * Test ExtentionModalType.SESSION_DELETE branch
    */
@@ -370,7 +364,7 @@ describe('ExtensionConfirmModalComponent', () => {
     extensionDeadline: 1250000000,
     hasExtension: true,
     isSelected: true,
-  }
+  };
 
   const studentModel5: StudentExtensionTableColumnModel = {
     sectionName: 'Test Section 5',
@@ -380,7 +374,7 @@ describe('ExtensionConfirmModalComponent', () => {
     extensionDeadline: 1550000000000,
     hasExtension: true,
     isSelected: true,
-  }
+  };
 
   it('Test ExtentionModalType.SESSION_DELETE branch', () => {
     component.modalType = ExtensionModalType.SESSION_DELETE;
