@@ -163,7 +163,7 @@ describe('ExtensionConfirmModalComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('test sortBy for students only', () => {
+  it('test sortBy for instructors', () => {
     sortBy = SortBy.RESPONDENT_NAME;
     sortOrder = SortOrder.DESC;
     const event = { sortBy, sortOrder };
