@@ -313,3 +313,15 @@ label {
   --bs-navbar-color: rgba(255, 255, 255, .75);
   --bs-navbar-hover-color: white;
 }
+
+// mouse hover on the icon "i"
+a:hover {
+    cursor: pointer;
+}
+
+// dotted line below the icon "i"
+a i.fa-info-circle {
+    border-bottom: 2px dotted #000;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+}
