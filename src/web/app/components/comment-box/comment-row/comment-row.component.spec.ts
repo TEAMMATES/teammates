@@ -168,7 +168,6 @@ describe('CommentRowComponent', () => {
       isEditing: true,
     };
     component.ngOnChanges();
-
     expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
       SHOW_COMMENT: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
       SHOW_GIVER_NAME: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
