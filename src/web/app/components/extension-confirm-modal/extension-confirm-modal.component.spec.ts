@@ -166,20 +166,20 @@ describe('ExtensionConfirmModalComponent', () => {
     component.setStudentRowData();
     const expectedData = [
       [
-        {"value": "Test Section 1"}, 
-        {"value": "Test Section 1"}, 
-        {"value": "Test Student 1"}, 
-        {"value": "testStudent1@gmail.com"}, 
-        {"displayValue": "5 Apr 2000 2:00:00", "value": 1500000000000}
+        { value: 'Test Section 1' },
+        { value: 'Test Section 1' },
+        { value: 'Test Student 1' },
+        { value: 'testStudent1@gmail.com' },
+        { displayValue: '5 Apr 2000 2:00:00', value: 1500000000000 },
       ],
       [
-        {"value": "Test Section 2"}, 
-        {"value": "Test Section 2"}, 
-        {"value": "Test Student 2"}, 
-        {"value": "testStudent2@gmail.com"}, 
-        {"displayValue": "5 Apr 2000 2:00:00", "value": 1510000000000}
-      ]
-    ]
+        { value: 'Test Section 2' },
+        { value: 'Test Section 2' },
+        { value: 'Test Student 2' },
+        { value: 'testStudent2@gmail.com' },
+        { displayValue: '5 Apr 2000 2:00:00', value: 1510000000000 },
+      ],
+    ];
     expect(component.studentRowsData).toEqual(expectedData);
   });
 
@@ -229,18 +229,18 @@ describe('ExtensionConfirmModalComponent', () => {
     component.setInstructorRowData();
     const expectedData = [
       [
-        {"value": "Test InstructorTutor 1"},
-        {"value": "testInstructorTutor1@gmail.com"}, 
-        {"displayValue": "Tutor", "value": "INSTRUCTOR_PERMISSION_ROLE_TUTOR"}, 
-        {"displayValue": "5 Apr 2000 2:00:00", "value": 1000000000}
+        { value: 'Test InstructorTutor 1' },
+        { value: 'testInstructorTutor1@gmail.com' },
+        { displayValue: 'Tutor', value: 'INSTRUCTOR_PERMISSION_ROLE_TUTOR' },
+        { displayValue: '5 Apr 2000 2:00:00', value: 1000000000 },
       ],
       [
-        {"value": "Test Instructor 2"},
-        {"value": "testInstructor2@gmail.com"}, 
-        {"displayValue": undefined, "value": undefined}, 
-        {"displayValue": "5 Apr 2000 2:00:00", "value": 1100000000}
-      ]
-    ]
+        { value: 'Test Instructor 2' },
+        { value: 'testInstructor2@gmail.com' },
+        { displayValue: undefined, value: undefined },
+        { displayValue: '5 Apr 2000 2:00:00', value: 1100000000 },
+      ],
+    ];
       expect(component.instructorRowsData).toEqual(expectedData);
   });
 
