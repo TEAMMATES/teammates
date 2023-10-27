@@ -2,17 +2,17 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Course } from 'src/web/types/api-output';
-import { TimeFormat } from 'src/web/types/datetime-const';
+import { DateFormat, TimeFormat } from 'src/web/types/datetime-const';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SessionEditFormMode } from './session-edit-form-model';
-
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { SessionEditFormModule } from './session-edit-form.module';
 
 describe('SessionEditFormComponent', () => {
   let component: SessionEditFormComponent;
   let fixture: ComponentFixture<SessionEditFormComponent>;
-  const mockModalRef = { result: Promise.resolve(true) };
+  const mockModal = { result: Promise.resolve(true) };
+  const submissionStartDateField = 'submissionStartDate';
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -55,6 +55,29 @@ describe('SessionEditFormComponent', () => {
     component.configureSubmissionOpeningTime(time);
     expect(time.hour).toEqual(21);
     expect(time.minute).toEqual(0);
+  });
+
+  it('should set the submission start time correctly when the date is same as'
+  + 'earliest date and time is earlier than earliest possible time', () => {
+    const date: DateFormat = component.minDateForSubmissionStart;
+    const minTime: TimeFormat = component.minTimeForSubmissionStart;
+    const time: TimeFormat = { hour: minTime.hour - 1, minute: minTime.minute };
+    const configureSubmissionOpeningTimeSpy = jest.spyOn(component, 'configureSubmissionOpeningTime');
+    component.model.submissionStartTime = time;
+    component.triggerSubmissionOpeningDateModelChange(submissionStartDateField, date);
+    component.configureSubmissionOpeningTime(minTime);
+    expect(component.model.submissionStartTime).toStrictEqual(minTime);
+    expect(configureSubmissionOpeningTimeSpy).toHaveBeenCalledWith(minTime);
+  });
+
+  it('should trigger the change of the model when the submission opening date changes', () => {
+    const date: DateFormat = component.minDateForSubmissionStart;
+    const minTime: TimeFormat = component.minTimeForSubmissionStart;
+    const time: TimeFormat = { hour: minTime.hour + 1, minute: minTime.minute };
+    const triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
+    component.model.submissionStartTime = time;
+    component.triggerSubmissionOpeningDateModelChange(submissionStartDateField, date);
+    expect(triggerModelChangeSpy).toHaveBeenCalledWith(submissionStartDateField, date);
   });
 
   it('should emit a model change event with the updated field when triggerModelChange is called', () => {
@@ -108,18 +131,18 @@ describe('SessionEditFormComponent', () => {
   });
 
   it('should emit a cancelEditingSession event after modal confimation', async () => {
-    jest.spyOn((component as any).simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
+    jest.spyOn((component as any).simpleModalService, 'openConfirmationModal').mockReturnValue(mockModal);
     const cancelEditingSessionSpy = jest.spyOn(component.cancelEditingSessionEvent, 'emit');
     component.cancelHandler();
-    await mockModalRef.result;
+    await mockModal.result;
     expect(cancelEditingSessionSpy).toHaveBeenCalled();
   });
 
   it('should emit a deleteExistingSession event after modal confimation', async () => {
-    jest.spyOn((component as any).simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
+    jest.spyOn((component as any).simpleModalService, 'openConfirmationModal').mockReturnValue(mockModal);
     const deleteExistingSessionSpy = jest.spyOn(component.deleteExistingSessionEvent, 'emit');
     component.deleteHandler();
-    await mockModalRef.result;
+    await mockModal.result;
     expect(deleteExistingSessionSpy).toHaveBeenCalled();
   });
 
