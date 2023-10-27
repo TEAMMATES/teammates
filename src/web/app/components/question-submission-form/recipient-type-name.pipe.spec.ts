@@ -26,10 +26,10 @@ describe('RecipientTypeNamePipe', () => {
 
   describe('for OWN_TEAM_MEMBERS and OWN_TEAM_MEMBERS_INCLUDING_SELF', () => {
     it('should return "Student" when giverType is STUDENTS', () => {
-      expect(pipe.transform(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS)).
-      toEqual('Student');
-      expect(pipe.transform(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, FeedbackParticipantType.STUDENTS)).
-      toEqual('Student');
+      expect(pipe.transform(FeedbackParticipantType.OWN_TEAM_MEMBERS,
+        FeedbackParticipantType.STUDENTS)).toEqual('Student');
+      expect(pipe.transform(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+        FeedbackParticipantType.STUDENTS)).toEqual('Student');
     });
 
     it('should return "Instructor" when giverType is INSTRUCTORS', () => {
