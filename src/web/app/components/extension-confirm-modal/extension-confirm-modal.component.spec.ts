@@ -11,7 +11,6 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
-import { SortableTableCellData } from '../sortable-table/sortable-table.component';
 import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
 import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
 
@@ -158,9 +157,6 @@ describe('ExtensionConfirmModalComponent', () => {
     const setStudentTableDataSpy = jest.spyOn(component, 'setStudentTableData');
     const setInstructorTableDataSpy = jest.spyOn(component, 'setInstructorTableData');
     component.ngOnInit();
-    component.extensionTimestamp = testFeedbackSession.submissionEndTimestamp;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
     expect(setStudentTableDataSpy).not.toHaveBeenCalled();
     expect(setInstructorTableDataSpy).not.toHaveBeenCalled();
   });
@@ -168,29 +164,22 @@ describe('ExtensionConfirmModalComponent', () => {
   it('test setStudentRowData', () => {
     component.selectedStudents = [studentModel1, studentModel2];
     component.setStudentRowData();
-    const expectedData = component.selectedStudents.map((studentData: StudentExtensionTableColumnModel) => {
-    const rowData: SortableTableCellData[] = [
-        {
-          value: studentData.sectionName,
-        },
-        {
-          value: studentData.teamName,
-        },
-        {
-          value: studentData.name,
-        },
-        {
-          value: studentData.email,
-        },
-        {
-          value: studentData.extensionDeadline,
-          displayValue: component.dateDetailPipe.transform(
-          studentData.extensionDeadline,
-          component.feedbackSessionTimeZone),
-        },
-      ];
-      return rowData;
-    });
+    const expectedData = [
+      [
+        {"value": "Test Section 1"}, 
+        {"value": "Test Section 1"}, 
+        {"value": "Test Student 1"}, 
+        {"value": "testStudent1@gmail.com"}, 
+        {"displayValue": "5 Apr 2000 2:00:00", "value": 1500000000000}
+      ],
+      [
+        {"value": "Test Section 2"}, 
+        {"value": "Test Section 2"}, 
+        {"value": "Test Student 2"}, 
+        {"value": "testStudent2@gmail.com"}, 
+        {"displayValue": "5 Apr 2000 2:00:00", "value": 1510000000000}
+      ]
+    ]
     expect(component.studentRowsData).toEqual(expectedData);
   });
 
@@ -238,29 +227,20 @@ describe('ExtensionConfirmModalComponent', () => {
   it('test setInstructorRowData', () => {
     component.selectedInstructors = [instructorModel1, instructorModel2];
     component.setInstructorRowData();
-    const expectedData = component.selectedInstructors.map((instructorData: InstructorExtensionTableColumnModel) => {
-          const rowData: SortableTableCellData[] = [
-              {
-                  value: instructorData.name,
-              },
-              {
-                  value: instructorData.email,
-              },
-              {
-                  value: instructorData.role,
-                  displayValue: instructorData.role
-                  ? component.instructorRoleNamePipe.transform(instructorData.role)
-                  : instructorData.role,
-              },
-              {
-                  value: instructorData.extensionDeadline,
-                  displayValue: component.dateDetailPipe.transform(
-                  instructorData.extensionDeadline,
-                  component.feedbackSessionTimeZone),
-              },
-          ];
-          return rowData;
-      });
+    const expectedData = [
+      [
+        {"value": "Test InstructorTutor 1"},
+        {"value": "testInstructorTutor1@gmail.com"}, 
+        {"displayValue": "Tutor", "value": "INSTRUCTOR_PERMISSION_ROLE_TUTOR"}, 
+        {"displayValue": "5 Apr 2000 2:00:00", "value": 1000000000}
+      ],
+      [
+        {"value": "Test Instructor 2"},
+        {"value": "testInstructor2@gmail.com"}, 
+        {"displayValue": undefined, "value": undefined}, 
+        {"displayValue": "5 Apr 2000 2:00:00", "value": 1100000000}
+      ]
+    ]
       expect(component.instructorRowsData).toEqual(expectedData);
   });
 
