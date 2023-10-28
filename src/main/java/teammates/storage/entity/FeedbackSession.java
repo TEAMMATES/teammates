@@ -10,6 +10,8 @@ import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
+
+
 /**
  * Represents an instructor-created Feedback Session.
  */
@@ -326,6 +328,17 @@ public class FeedbackSession extends BaseEntity {
                 + ", studentDeadlines=" + studentDeadlines
                 + ", instructorDeadlines=" + instructorDeadlines
                 + "]";
+    }
+    /**
+     * Updates the email key in the studentDeadlines map after a student's email address is changed.
+     */
+
+    public void updateStudentEmail(String oldEmail, String newEmail) {
+        if (studentDeadlines.containsKey(oldEmail)) {
+            Instant deadline = studentDeadlines.get(oldEmail);
+            studentDeadlines.remove(oldEmail);
+            studentDeadlines.put(newEmail, deadline);
+        }
     }
 
 }
