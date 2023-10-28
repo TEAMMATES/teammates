@@ -24,7 +24,7 @@ describe('LogsHistogramComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  
+
   //test whether there will be 2 bars
   it('should display bars based on provided data',()=>{
     //set the attributes of data
