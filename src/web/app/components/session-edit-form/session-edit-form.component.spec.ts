@@ -52,5 +52,4 @@ describe('SessionEditFormComponent', () => {
     expect(time.hour).toEqual(21);
     expect(time.minute).toEqual(0);
   });
-  
 });
