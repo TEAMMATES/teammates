@@ -8,6 +8,7 @@ import { QuestionTypeHelpPathPipe } from '../teammates-common/question-type-help
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
+import { By } from '@angular/platform-browser';
 
 describe('AddingQuestionPanelComponent', () => {
   let component: AddingQuestionPanelComponent;
@@ -48,4 +49,19 @@ describe('AddingQuestionPanelComponent', () => {
     const expectedSearchQuery = `?questionId=${questionId}&section=questions`;
     expect(firstAnchorElement).toHaveProperty('search', expectedSearchQuery);
   });
+
+  it('should not display help link when isLinkDisabled is true', () => {
+    component.isLinkDisabled = true;
+    fixture.detectChanges();
+    const linkElement = fixture.debugElement.query(By.css('a[aria-label="Help for questions"]'));
+    expect(linkElement).toBeNull();
+  });
+
+  it('should display help link when isLinkDisabled is false', () => {
+    component.isLinkDisabled = false;
+    fixture.detectChanges();
+    const linkElement = fixture.debugElement.query(By.css('a[aria-label="Help for questions"]'));
+    expect(linkElement).not.toBeNull();
+  });
+
 });
