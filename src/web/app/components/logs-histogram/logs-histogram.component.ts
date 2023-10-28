@@ -1,6 +1,9 @@
+// @ts-ignore
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+// @ts-ignore
 import * as d3 from 'd3';
 import { LogsHistogramDataModel } from './logs-histogram-model';
+
 
 /**
  * Histogram for displaying logs frequency.

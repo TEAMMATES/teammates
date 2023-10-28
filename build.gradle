@@ -41,6 +41,7 @@ def objectify = "com.googlecode.objectify:objectify:6.0.7"
 def testng = "org.testng:testng:7.6.1"
 
 dependencies {
+    implementation 'org.testng:testng:7.1.0'
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
     staticAnalysis("net.sourceforge.pmd:pmd-java:${pmdVersion}")
     staticAnalysis("com.github.spotbugs:spotbugs:${spotbugsVersion}")
@@ -624,3 +625,4 @@ task jacocoReport(type: JacocoReport) {
         })
     }
 }
+

@@ -23,6 +23,7 @@ import teammates.common.util.Const;
 @Index
 public class FeedbackQuestion extends BaseEntity {
 
+    private static final int MAX_QUESTION_TEXT_LENGTH = 500;
     @Id
     private Long feedbackQuestionId;
 
@@ -158,6 +159,9 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public void setQuestionText(String questionText) {
+        if (questionText != null && questionText.length() > MAX_QUESTION_TEXT_LENGTH) {
+            throw new IllegalArgumentException("Question text exceeds the maximum allowed length of " + MAX_QUESTION_TEXT_LENGTH + " characters.");
+        }
         this.questionText = questionText;
     }
 

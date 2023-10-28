@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\test\\java",
+    "\\src\\test\\java\\teammates",
+    "\\src\\test\\java\\teammates\\architecture",
+    "\\src\\web",
+    "\\src\\web\\app",
+    "\\src\\web\\app\\pages-student"
+  ],
+  "SelectedNode": "\\src\\web\\app\\login-page.component.html",
+  "PreviewInSolutionExplorer": false
+}

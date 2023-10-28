@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>submission-page</title>
+</head>
+
+
+<div class="bg-light" *ngIf="moderatedPerson">
+    <div class="col-12 text-center text-break">
+        <h5>You are moderating responses for
+            <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
+            <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
+            {{ personName }} ({{ moderatedPerson }})
+            <button type="button" class="btn btn-link" *ngIf="!isModerationHintExpanded" (click)="isModerationHintExpanded = true">[More]</button>
+            <button type="button" class="btn btn-link" *ngIf="isModerationHintExpanded" (click)="isModerationHintExpanded = false">[Less]</button>
+        </h5>
+        <div *ngIf="isModerationHintExpanded" class="text-start">
+            <p>
+                The page below resembles the submission page as seen by the respondent {{ personName }} ({{ moderatedPerson }}).
+                You can use it to moderate responses submitted by the respondent or submit responses on behalf of the respondent.
+            </p>
+            <p>
+                Note that due to visibility settings, questions that are not supposed to show responses to instructors (i.e you) are not shown in the page below.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="bg-light" *ngIf="previewAsPerson">
+    <div class="col-12 text-center text-break">
+        <h4>Previewing Session as
+            <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
+            <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
+            {{ personName }} ({{ previewAsPerson }})
+        </h4>
+    </div>
+</div>
+<div class="row" *ngIf="regKey">
+    <div class="col-12">
+        <div class="alert alert-primary" role="alert">
+            <div *ngIf="loggedInUser">
+                You are submitting feedback as <mark><b>{{ personName }}</b></mark>. If you wish to link your Google account ({{ loggedInUser }}) with this user,
+                <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">click here</a>.
+            </div>
+            <div *ngIf="!loggedInUser">
+                You are submitting feedback as <mark><b>{{ personName }}</b></mark>. You may submit feedback for sessions that are currently open and view results without logging in.
+                To access other features you need to <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">log in using a Google account</a> (optional).
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mobile-invisible" *ngIf="feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN">
+    <div class="col-12">
+        <div class="alert alert-primary" role="alert">
+            <i class="fas fa-exclamation-circle"></i> Notes:
+            <ul>
+                <li>
+                    You can use the <b>Submit Response for Question _</b> buttons to submit one-response-at-a-time.
+                    <br>Alternatively, you can submit all responses in one go using the <b>Submit Responses for All Questions</b> button at the bottom of this page.
+                </li>
+                <li>You may edit your submission any number of times before the closing time of this session.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card card-plain" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
+    <div class="card-body">
+        <div class="row text-center">
+            <label class="col-md-2 text-md-end">Course ID:</label>
+            <div id="course-id" class="col-md-10 text-md-start">{{ courseId }}</div>
+        </div>
+        <div class="row text-center" *ngIf="courseName">
+            <label class="col-md-2 text-md-end">Course name:</label>
+            <div id="course-name" class="col-md-10 text-md-start">{{ courseName }}</div>
+        </div>
+        <div class="row text-center" *ngIf="courseInstitute">
+            <label class="col-md-2 text-md-end">Course institute:</label>
+            <div id="course-institute" class="col-md-10 text-md-start">{{ courseInstitute }}</div>
+        </div>
+        <div class="row text-center">
+            <label class="col-md-2 text-md-end">Session:</label>
+            <div id="fs-name" class="col-md-10 text-md-start">{{ feedbackSessionName }}</div>
+        </div>
+        <div class="row text-center">
+            <label class="col-md-2 text-md-end">Opening time:</label>
+            <div id="opening-time" class="col-md-10 text-md-start">{{ formattedSessionOpeningTime }}</div>
+        </div>
+        <div class="row text-center">
+            <label class="col-md-2 text-md-end">Closing time:</label>
+            <div id="closing-time" class="col-md-10 text-md-start">{{ formattedSessionClosingTime }}</div>
+        </div>
+        <div class="row text-center">
+            <label class="col-md-2 text-md-end">Instructions:</label>
+            <div id="instructions" class="col-md-10 text-md-start" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+        </div>
+    </div>
+</div>
+
+<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
+    <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
+        <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
+                                     [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                     inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
+                                     [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                     [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                     [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
+                                     (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                     [isQuestionCountOne]="isQuestionCountOne"
+                                     [(isSubmitAllClicked)]="isSubmitAllClicked"
+        ></tm-question-submission-form>
+
+        <div class="row" *ngIf="questionsNeedingSubmission.length === 0">
+            <div class="col-12 text-center">
+                <div class="alert alert-info" role="alert">
+                    There are no questions for you to answer here!
+                </div>
+            </div>
+        </div>
+        <!-- Do not display if only one question can be answered, as a button to submit individual response exists -->
+        <div class="row" *ngIf="questionsNeedingSubmission.length > 1">
+            <div class="col-12 text-center">
+                <button id="btn-submit" type="submit" class="btn btn-success"
+                        ngbTooltip="You can save your responses at any time and come back later to continue."
+                        (click)="saveFeedbackResponses(questionSubmissionForms)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+                ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for All Questions</button>
+            </div>
+        </div>
+    </div>
+</tm-loading-retry>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,3 +1,54 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>submission-page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .navbar {
+        position: relative;
+        width: 100%;
+
+    }
+    .navbar img {
+        display: block;
+        width: 100%;
+        height: 80px;
+    }
+    .nav-links {
+        position: absolute;
+        top: 30%;  /* adjust the position of text links  */
+        left: 30%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 20px;  /* gaps between links */
+    }
+    .nav-links a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: bold;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px; /* padding inside the button */
+        border-radius: 5px; /* border */
+    }
+    .nav-links a:hover {
+        background-color: rgba(0, 0, 0, 0.7); /* hovering color*/
+    }
+  </style>
+</head>
+<div class="navbar">
+  <img src="#" alt="TEAMMATES">
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <a href="#">Terms</a>
+    <a href="#">Help</a>
+  </div>
+</div>
+
+
 <div class="bg-light" *ngIf="moderatedPerson">
   <div class="col-12 text-center text-break">
     <h5>You are moderating responses for
@@ -120,3 +171,6 @@
     </div>
   </div>
 </tm-loading-retry>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
