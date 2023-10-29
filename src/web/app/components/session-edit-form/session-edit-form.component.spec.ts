@@ -327,6 +327,13 @@ describe('SessionEditFormComponent', () => {
     expect(addNewSessionSpy).toHaveBeenCalled();
   });
 
+  it('should emit editExistingSessionEvent when session edit form Mode is EDIT', () => {
+    component.formMode = SessionEditFormMode.EDIT;
+    const editExistingSessionSpy = jest.spyOn(component.editExistingSessionEvent, 'emit');
+    component.submitFormHandler();
+    expect(editExistingSessionSpy).toHaveBeenCalled();
+  });
+
   it('should display warning when discarding edit to current feedback session', async () => {
     const promise: Promise<void> = Promise.resolve();
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
@@ -349,13 +356,6 @@ describe('SessionEditFormComponent', () => {
       .toHaveBeenLastCalledWith(`Delete the session <strong>${component.model.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING, 'The session will be moved to the recycle bin. This action can be reverted '
         + 'by going to the "Sessions" tab and restoring the desired session(s).');
-  });
-
-  it('should emit editExistingSessionEvent when session edit form Mode is EDIT', () => {
-    component.formMode = SessionEditFormMode.EDIT;
-    const editExistingSessionSpy = jest.spyOn(component.editExistingSessionEvent, 'emit');
-    component.submitFormHandler();
-    expect(editExistingSessionSpy).toHaveBeenCalled();
   });
 
   it('should emit copyCurrentSessionEvent when copyHandler is called', () => {
