@@ -58,7 +58,7 @@ export class PublicPageComponent {
       return;
     }
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.authService.getAuthUser(queryParams.user).subscribe(() => {
+      this.authService.getAuthUser(queryParams.user).subscribe(() =>{
         // No need to do anything with result; this is necessary to get CSRF token
       });
     });
