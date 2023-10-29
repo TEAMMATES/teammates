@@ -156,7 +156,7 @@ describe('SessionEditFormComponent', () => {
     component.model.submissionStartTime = time;
     const minTimeForSubmissionEnd = component.minTimeForSubmissionEnd;
     expect(minTimeForSubmissionEnd).toStrictEqual(oneHourBeforeNow);
-});
+  });
 
   it('should return the minimum date for session visibility as 30 days before session opening datetime', () => {
     const expectedMinDateForSessionVisible = service.getDateInstance(
