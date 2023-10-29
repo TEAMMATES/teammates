@@ -10,7 +10,6 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 
-
 describe('AddingQuestionPanelComponent', () => {
   let component: AddingQuestionPanelComponent;
   let fixture: ComponentFixture<AddingQuestionPanelComponent>;
@@ -64,5 +63,4 @@ describe('AddingQuestionPanelComponent', () => {
     const linkElement = fixture.debugElement.query(By.css('a[aria-label="Help for questions"]'));
     expect(linkElement).not.toBeNull();
   });
-
 });
