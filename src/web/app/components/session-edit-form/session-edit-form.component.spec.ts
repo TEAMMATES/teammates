@@ -18,7 +18,7 @@ describe('SessionEditFormComponent', () => {
   let component: SessionEditFormComponent;
   let fixture: ComponentFixture<SessionEditFormComponent>;
   let simpleModalService: SimpleModalService;
-  let service: DateTimeService;
+  let dateTimeService: DateTimeService;
 
   const submissionStartDateField = 'submissionStartDate';
 
@@ -37,7 +37,7 @@ describe('SessionEditFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SessionEditFormComponent);
     simpleModalService = TestBed.inject(SimpleModalService);
-    service = TestBed.inject(DateTimeService);
+    dateTimeService = TestBed.inject(DateTimeService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -86,10 +86,12 @@ describe('SessionEditFormComponent', () => {
     const date: DateFormat = component.minDateForSubmissionStart;
     const minTime: TimeFormat = component.minTimeForSubmissionStart;
     const time: TimeFormat = { hour: minTime.hour + 1, minute: minTime.minute };
+    const configureSubmissionOpeningTimeSpy = jest.spyOn(component, 'configureSubmissionOpeningTime');
     const triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
     component.model.submissionStartTime = time;
     component.triggerSubmissionOpeningDateModelChange(submissionStartDateField, date);
     expect(triggerModelChangeSpy).toHaveBeenCalledWith(submissionStartDateField, date);
+    expect(configureSubmissionOpeningTimeSpy).not.toHaveBeenCalled();
   });
 
   it('should emit a modelChange event with the updated field when triggerModelChange is called', () => {
@@ -138,186 +140,170 @@ describe('SessionEditFormComponent', () => {
   it('should return the minimum session closing datetime as the session opening datetime '
       + 'if it is later than one hour before now', () => {
     const now = moment().tz(component.model.timeZone);
-    const date = service.getDateInstance(now.add(1, 'days'));
-    const time = service.getTimeInstance(now);
+    const date = dateTimeService.getDateInstance(now.add(1, 'days'));
+    const time = dateTimeService.getTimeInstance(now);
     component.model.submissionStartDate = date;
     component.model.submissionStartTime = time;
-    const minTimeForSubmissionEnd = component.minTimeForSubmissionEnd;
-    expect(minTimeForSubmissionEnd).toStrictEqual(time);
+    expect(component.minTimeForSubmissionEnd).toStrictEqual(time);
   });
 
   it('should return the minimum session closing datetime as one hour before now '
       + 'if it is later than the session opening datetime', () => {
     const now = moment().tz(component.model.timeZone);
-    const date = service.getDateInstance(now.subtract(1, 'days'));
-    const time = service.getTimeInstance(now);
-    const oneHourBeforeNow = service.getTimeInstance(now.subtract(1, 'hours'));
+    const date = dateTimeService.getDateInstance(now.subtract(1, 'days'));
+    const time = dateTimeService.getTimeInstance(now);
+    const oneHourBeforeNow = dateTimeService.getTimeInstance(now.subtract(1, 'hours'));
     component.model.submissionStartDate = date;
     component.model.submissionStartTime = time;
-    const minTimeForSubmissionEnd = component.minTimeForSubmissionEnd;
-    expect(minTimeForSubmissionEnd).toStrictEqual(oneHourBeforeNow);
+    expect(component.minTimeForSubmissionEnd).toStrictEqual(oneHourBeforeNow);
   });
 
   it('should return the minimum date for session visibility as 30 days before session opening datetime', () => {
-    const expectedMinDateForSessionVisible = service.getDateInstance(
-      service.getMomentInstanceFromDate(component.model.submissionStartDate).subtract(30, 'days'),
+    const expectedMinDateForSessionVisible = dateTimeService.getDateInstance(
+      dateTimeService.getMomentInstanceFromDate(component.model.submissionStartDate).subtract(30, 'days'),
     );
-    const minDateForSessionVisible = component.minDateForSessionVisible;
-    expect(minDateForSessionVisible).toEqual(expectedMinDateForSessionVisible);
+    expect(component.minDateForSessionVisible).toEqual(expectedMinDateForSessionVisible);
   });
 
   it('should return the minimum time for session visibility as 30 days before session opening datetime', () => {
-    const expectedMinTimeForSessionVisible = service.getTimeInstance(
-      service.getMomentInstanceFromDate(component.model.submissionStartDate).subtract(30, 'days'),
+    const expectedMinTimeForSessionVisible = dateTimeService.getTimeInstance(
+      dateTimeService.getMomentInstanceFromDate(component.model.submissionStartDate).subtract(30, 'days'),
     );
-    const minTimeForSessionVisible = component.minTimeForSessionVisible;
-    expect(minTimeForSessionVisible).toEqual(expectedMinTimeForSessionVisible);
+    expect(component.minTimeForSessionVisible).toEqual(expectedMinTimeForSessionVisible);
   });
 
   it('should return the submissionStartDate as the maximum date for session visibility '
       + 'when response visible setting is LATER', () => {
     component.model.responseVisibleSetting = ResponseVisibleSetting.LATER;
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
-    const maxDateForSessionVisible = component.maxDateForSessionVisible;
-    expect(maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
+        dateTimeService.getDateInstance(moment().tz(component.model.timeZone));
+    expect(component.maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
   });
 
   it('should return the submissionStartDate as the maximum date for session visibility '
       + 'when response visible setting is AT_VISIBLE', () => {
     component.model.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
-    const maxDateForSessionVisible = component.maxDateForSessionVisible;
-    expect(maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
+        dateTimeService.getDateInstance(moment().tz(component.model.timeZone));
+    expect(  component.maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
   });
 
   it('should return the submissionStartDate as the maximum date for session visibility '
       + 'when response visible setting is CUSTOM and submissionStartDate is before customResponseVisibleDate', () => {
+    const now = moment().tz(component.model.timeZone);
     component.model.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
+        dateTimeService.getDateInstance(now);
     component.model.customResponseVisibleDate =
-        service.getDateInstance(moment().tz(component.model.timeZone).add(1, 'days'));
-    const maxDateForSessionVisible = component.maxDateForSessionVisible;
-    expect(maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
+        dateTimeService.getDateInstance(now.add(1, 'days'));
+    expect(component.maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
   });
 
   it('should return the customResponseVisibleDate as the maximum date for session visibility '
       + 'when response visible setting is CUSTOM and submissionStartDate is after customResponseVisibleDate', () => {
+    const now = moment().tz(component.model.timeZone);
     component.model.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone).add(1, 'days'));
+        dateTimeService.getDateInstance(now.add(1, 'days'));
     component.model.customResponseVisibleDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
-    const maxDateForSessionVisible = component.maxDateForSessionVisible;
-    expect(maxDateForSessionVisible).toEqual(component.model.customResponseVisibleDate);
+        dateTimeService.getDateInstance(now);
+    expect(component.maxDateForSessionVisible).toEqual(component.model.customResponseVisibleDate);
   });
 
   it('should return the default date format if response visible setting is not defined', () => {
-    const maxDateForSessionVisible = component.maxDateForSessionVisible;
-    expect(maxDateForSessionVisible).toEqual(getDefaultDateFormat());
+    expect(component.maxDateForSessionVisible).toEqual(getDefaultDateFormat());
   });
 
   it('should return the submissionStartTime as the maximum time for session visibility '
       + 'when response visible setting is LATER', () => {
     component.model.responseVisibleSetting = ResponseVisibleSetting.LATER;
-    component.model.submissionStartTime = service.getTimeInstance(moment());
-    const maxTimeForSessionVisible = component.maxTimeForSessionVisible;
-    expect(maxTimeForSessionVisible).toEqual(component.model.submissionStartTime);
+    component.model.submissionStartTime = dateTimeService.getTimeInstance(moment());
+    expect(component.maxTimeForSessionVisible).toEqual(component.model.submissionStartTime);
   });
 
   it('should return the submissionStartTime as the maximum time for session visibility '
       + 'when response visible setting is AT_VISIBLE', () => {
     component.model.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
-    component.model.submissionStartTime = service.getTimeInstance(moment());
-    const maxTimeForSessionVisible = component.maxTimeForSessionVisible;
-    expect(maxTimeForSessionVisible).toEqual(component.model.submissionStartTime);
+    component.model.submissionStartTime = dateTimeService.getTimeInstance(moment());
+    expect(component.maxTimeForSessionVisible).toEqual(component.model.submissionStartTime);
   });
 
   it('should return submissionStartTime as the maximum time for session visibility '
       + 'when response visible setting is CUSTOM and submissionStartDate is before customResponseVisibleDate', () => {
+    const dateTime = moment();
     component.model.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
     component.model.submissionStartTime =
-        service.getTimeInstance(moment());
+        dateTimeService.getTimeInstance(dateTime);
     component.model.customResponseVisibleTime =
-        service.getTimeInstance(moment());
+        dateTimeService.getTimeInstance(dateTime);
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
+        dateTimeService.getDateInstance(dateTime.tz(component.model.timeZone));
     component.model.customResponseVisibleDate =
-        service.getDateInstance(moment().tz(component.model.timeZone).add(1, 'days'));
-    const maxTimeForSessionVisible = component.maxTimeForSessionVisible;
-    expect(maxTimeForSessionVisible).toEqual(component.model.submissionStartTime);
+        dateTimeService.getDateInstance(dateTime.tz(component.model.timeZone).add(1, 'days'));
+    expect(component.maxTimeForSessionVisible).toEqual(component.model.submissionStartTime);
   });
 
   it('should return customResponseVisibleTime as the maximum time for session visibility '
       + 'when response visible setting is CUSTOM and submissionStartDate is after customResponseVisibleDate', () => {
+    const dateTime = moment();
     component.model.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
     component.model.submissionStartTime =
-        service.getTimeInstance(moment());
+        dateTimeService.getTimeInstance(dateTime);
     component.model.customResponseVisibleTime =
-        service.getTimeInstance(moment());
+        dateTimeService.getTimeInstance(dateTime);
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone).add(1, 'days'));
+        dateTimeService.getDateInstance(dateTime.tz(component.model.timeZone).add(1, 'days'));
     component.model.customResponseVisibleDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
-    const maxTimeForSessionVisible = component.maxTimeForSessionVisible;
-    expect(maxTimeForSessionVisible).toEqual(component.model.customResponseVisibleTime);
+        dateTimeService.getDateInstance(dateTime.tz(component.model.timeZone));
+    expect(component.maxTimeForSessionVisible).toEqual(component.model.customResponseVisibleTime);
   });
 
   it('should return the default time format if response visible setting is not recognized', () => {
-    const maxTimeForSessionVisible = component.maxTimeForSessionVisible;
-    expect(maxTimeForSessionVisible).toEqual(getDefaultTimeFormat());
+    expect(component.maxTimeForSessionVisible).toEqual(getDefaultTimeFormat());
   });
 
   it('should return submissionStartDate as the minimum date for response visibility'
     + ' when session visible setting is AT_OPEN', () => {
     component.model.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
-    const minDateForResponseVisible = component.minDateForResponseVisible;
-    expect(minDateForResponseVisible).toEqual(component.model.submissionStartDate);
+        dateTimeService.getDateInstance(moment().tz(component.model.timeZone));
+    expect(component.minDateForResponseVisible).toEqual(component.model.submissionStartDate);
   });
 
   it('should return customSessionVisibleDate as the minimum date for response visibility '
       + 'when session visible setting is CUSTOM', () => {
     component.model.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
     component.model.submissionStartDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
+        dateTimeService.getDateInstance(moment().tz(component.model.timeZone));
     component.model.customSessionVisibleDate =
-        service.getDateInstance(moment().tz(component.model.timeZone));
-    const minDateForResponseVisible = component.minDateForResponseVisible;
-    expect(minDateForResponseVisible).toEqual(component.model.customSessionVisibleDate);
+        dateTimeService.getDateInstance(moment().tz(component.model.timeZone).add(1,'days'));
+    expect(component.minDateForResponseVisible).toEqual(component.model.customSessionVisibleDate);
   });
 
   it('should return the default date format if session visible setting is not recognized', () => {
-    const minDateForResponseVisible = component.minDateForResponseVisible;
-    expect(minDateForResponseVisible).toEqual(getDefaultDateFormat());
+    expect(component.minDateForResponseVisible).toEqual(getDefaultDateFormat());
   });
 
   it('should return submissionStartTime as the minimum time for response visibility '
       + 'when session visible setting is AT_OPEN', () => {
     component.model.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
     component.model.submissionStartTime =
-        service.getTimeInstance(moment().tz(component.model.timeZone));
-    const minTimeForResponseVisible = component.minTimeForResponseVisible;
-    expect(minTimeForResponseVisible).toEqual(component.model.submissionStartTime);
+        dateTimeService.getTimeInstance(moment().tz(component.model.timeZone));
+    expect(component.minTimeForResponseVisible).toEqual(component.model.submissionStartTime);
   });
 
   it('should return customSessionVisibleTime as the minimum time for response visibility '
       + 'when session visible setting is CUSTOM', () => {
     component.model.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
     component.model.submissionStartTime =
-        service.getTimeInstance(moment().tz(component.model.timeZone));
+        dateTimeService.getTimeInstance(moment().tz(component.model.timeZone));
     component.model.customSessionVisibleTime =
-        service.getTimeInstance(moment().tz(component.model.timeZone));
-    const minTimeForResponseVisible = component.minTimeForResponseVisible;
-    expect(minTimeForResponseVisible).toEqual(component.model.customSessionVisibleTime);
+        dateTimeService.getTimeInstance(moment().tz(component.model.timeZone).add(1,'days'));
+    expect(component.minTimeForResponseVisible).toEqual(component.model.customSessionVisibleTime);
   });
 
   it('should return the default time format if session visible setting is not defined', () => {
-    const minTimeForResponseVisible = component.minTimeForResponseVisible;
-    expect(minTimeForResponseVisible).toEqual(getDefaultTimeFormat());
+    expect(component.minTimeForResponseVisible).toEqual(getDefaultTimeFormat());
   });
 
   it('should emit addNewSessionEvent when session edit form mode is ADD', () => {
