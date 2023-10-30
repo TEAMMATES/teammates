@@ -185,7 +185,7 @@ describe('SessionEditFormComponent', () => {
     component.model.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
     component.model.submissionStartDate =
         dateTimeService.getDateInstance(moment().tz(component.model.timeZone));
-    expect(  component.maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
+    expect(component.maxDateForSessionVisible).toEqual(component.model.submissionStartDate);
   });
 
   it('should return the submissionStartDate as the maximum date for session visibility '
@@ -276,7 +276,7 @@ describe('SessionEditFormComponent', () => {
     component.model.submissionStartDate =
         dateTimeService.getDateInstance(moment().tz(component.model.timeZone));
     component.model.customSessionVisibleDate =
-        dateTimeService.getDateInstance(moment().tz(component.model.timeZone).add(1,'days'));
+        dateTimeService.getDateInstance(moment().tz(component.model.timeZone).add(1, 'days'));
     expect(component.minDateForResponseVisible).toEqual(component.model.customSessionVisibleDate);
   });
 
@@ -298,7 +298,7 @@ describe('SessionEditFormComponent', () => {
     component.model.submissionStartTime =
         dateTimeService.getTimeInstance(moment().tz(component.model.timeZone));
     component.model.customSessionVisibleTime =
-        dateTimeService.getTimeInstance(moment().tz(component.model.timeZone).add(1,'days'));
+        dateTimeService.getTimeInstance(moment().tz(component.model.timeZone).add(1, 'days'));
     expect(component.minTimeForResponseVisible).toEqual(component.model.customSessionVisibleTime);
   });
 
