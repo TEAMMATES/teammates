@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -788,7 +786,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.updateFeedbackSessionsStudentDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress);
 
         // Clear the Objectify cache to fetch the latest FeedbackSessions from the db
-        ofy().clear();
+        clearObjectifyCache();
 
         assertTrue(fsLogic.getFeedbackSessionsForCourse(courseId)
                 .stream()
