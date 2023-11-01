@@ -59,19 +59,7 @@ describe('RequestLogDetailsComponent', () => {
 
     expect(component.logValue).toEqual(log);
     expect(component.details).toEqual({
-      event: LogEvent.REQUEST_LOG,
-      responseStatus: 200,
-      responseTime: 100,
-      requestMethod: 'GET',
-      requestUrl: '/sample/url',
-      userAgent: 'Sample User Agent',
-      instanceId: 'sample-instance-id',
-      webVersion: '1.0.0',
-      referrer: 'sample-referrer',
-      requestParams: { param1: 'value1', param2: 'value2' },
-      requestHeaders: { header1: 'value1', header2: 'value2' },
-      requestBody: '{}', // JSON
-      actionClass: 'SampleActionClass',
+      ...log
       userInfo: undefined, // Ensure userInfo is cleared
     });
     expect(component.userInfo).toEqual(log.details.userInfo);
