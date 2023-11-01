@@ -633,7 +633,7 @@ public final class FeedbackSessionsLogic {
                 if (!instructorDeadlines.containsKey(emailAddress)) {
                     return;
                 }
-                Map<String, Instant> newInstructorDeadlines = new HashMap<>(instructorDeadlines); 
+                Map<String, Instant> newInstructorDeadlines = new HashMap<>(instructorDeadlines);
                 deadlinesUpdater.accept(newInstructorDeadlines);
                 updateOptionsBuilder.withInstructorDeadlines(newInstructorDeadlines);
             } else {
