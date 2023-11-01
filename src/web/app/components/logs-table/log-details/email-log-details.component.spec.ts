@@ -80,4 +80,28 @@ describe('EmailLogDetailsComponent', () => {
     expect(component.log).toEqual(log);
   });
 
+  it('should handle emailContent correctly', () => {
+  const log: GeneralLogEntry = {
+    severity: LogSeverity.DEFAULT,
+    trace: 'test_trace',
+    insertId: '1',
+    resourceIdentifier: { id: '2' },
+    sourceLocation: { file: 'log.txt', line: 42, function: 'test_function' },
+    timestamp: Date.now(),
+    message: 'test_message',
+    details: {
+      event: LogEvent.EMAIL_SENT,
+      message: 'email_sent',
+      emailContent: 'This is the email content',
+    },
+  };
+
+  component.log = log;
+
+  expect(component.logValue).toEqual(log);
+  expect(component.details.emailContent).toBeUndefined();
+  expect(component.emailContent).toBe(log.details.emailContent);
+});
+
+
 });
