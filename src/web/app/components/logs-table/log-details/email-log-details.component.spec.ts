@@ -102,6 +102,4 @@ describe('EmailLogDetailsComponent', () => {
   expect(component.details.emailContent).toBeUndefined();
   expect(component.emailContent).toBe(log.details.emailContent);
 });
-
-
 });
