@@ -60,7 +60,7 @@ describe('ExceptionLogDetailsComponent', () => {
       expect(component.exceptionStackTrace).toContain('        at ');
     });
 
-    it('should return an empty string if the number of exceptionClasses and exceptionStackTraces is the same', () => {
+    it('should return an empty string if the number of exceptionClasses and exceptionStackTraces is different', () => {
       exceptionDetails.exceptionClasses = [''];
       exceptionDetails.exceptionStackTraces = [[''], ['']];
       exceptionDetails.exceptionMessages = ['', ''];
