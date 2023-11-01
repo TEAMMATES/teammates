@@ -614,7 +614,7 @@ public final class FeedbackSessionsLogic {
             return;
         }
         updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, isInstructor,
-            deadlines -> deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress)));
+                deadlines -> deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress)));
     }
 
     private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor) {
@@ -623,7 +623,7 @@ public final class FeedbackSessionsLogic {
     }
 
     private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
-        Consumer<Map<String, Instant>> deadlinesUpdater) {
+            Consumer<Map<String, Instant>> deadlinesUpdater) {
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(feedbackSession -> {
             FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
