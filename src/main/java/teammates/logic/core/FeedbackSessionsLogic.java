@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -614,24 +614,16 @@ public final class FeedbackSessionsLogic {
             return;
         }
         updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, isInstructor,
-                deadlines -> {
-                    Map<String, Instant> newDeadlines = new HashMap<String, Instant>(deadlines);
-                    newDeadlines.put(newEmailAddress, newDeadlines.remove(oldEmailAddress));
-                    return newDeadlines;
-                });
+            deadlines -> deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress)));
     }
 
     private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor) {
         updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, isInstructor,
-                deadlines -> {
-                    Map<String, Instant> newDeadlines = new HashMap<String, Instant>(deadlines);
-                    newDeadlines.remove(emailAddress);
-                    return newDeadlines;
-                });
+                deadlines -> deadlines.remove(emailAddress));
     }
 
     private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
-            Function<Map<String, Instant>, Map<String, Instant>> deadlinesUpdater) {
+        Consumer<Map<String, Instant>> deadlinesUpdater) {
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(feedbackSession -> {
             FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
@@ -641,14 +633,16 @@ public final class FeedbackSessionsLogic {
                 if (!instructorDeadlines.containsKey(emailAddress)) {
                     return;
                 }
-                Map<String, Instant> newInstructorDeadlines = deadlinesUpdater.apply(instructorDeadlines);
+                Map<String, Instant> newInstructorDeadlines = new HashMap<>(instructorDeadlines); 
+                deadlinesUpdater.accept(newInstructorDeadlines);
                 updateOptionsBuilder.withInstructorDeadlines(newInstructorDeadlines);
             } else {
                 Map<String, Instant> studentDeadlines = feedbackSession.getStudentDeadlines();
                 if (!studentDeadlines.containsKey(emailAddress)) {
                     return;
                 }
-                Map<String, Instant> newStudentDeadlines = deadlinesUpdater.apply(studentDeadlines);
+                Map<String, Instant> newStudentDeadlines = new HashMap<>(studentDeadlines);
+                deadlinesUpdater.accept(newStudentDeadlines);
                 updateOptionsBuilder.withStudentDeadlines(newStudentDeadlines);
             }
             try {
