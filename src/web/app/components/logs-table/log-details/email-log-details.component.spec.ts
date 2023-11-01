@@ -23,7 +23,6 @@ describe('EmailLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // Test for set log
   it('should set log value and details when log is set', () => {
     const log: GeneralLogEntry = {
       severity: LogSeverity.DEFAULT,
@@ -45,7 +44,6 @@ describe('EmailLogDetailsComponent', () => {
     expect(component.details).toEqual(log.details);
   });
 
-  // Test for Branch
   it('should not set details when log details event is not EMAIL_SENT', () => {
     const log: GeneralLogEntry = {
       severity: LogSeverity.DEFAULT,
@@ -67,7 +65,6 @@ describe('EmailLogDetailsComponent', () => {
     expect(component.details).toBeUndefined();
   });
 
-  // Test for get log
   it('should return a valid GeneralLogEntry', () => {
     const log: GeneralLogEntry = {
       severity: LogSeverity.INFO,
