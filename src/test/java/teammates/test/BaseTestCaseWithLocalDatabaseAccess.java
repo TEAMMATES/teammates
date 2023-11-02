@@ -86,10 +86,10 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         LOCAL_DATASTORE_HELPER.reset();
     }
 
-    @AfterSuite
-    public void tearDownLocalDatastoreHelper() throws Exception {
-        LOCAL_DATASTORE_HELPER.stop();
-    }
+    // @AfterSuite
+    // public void tearDownLocalDatastoreHelper() throws Exception {
+    //     LOCAL_DATASTORE_HELPER.stop();
+    // }
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
