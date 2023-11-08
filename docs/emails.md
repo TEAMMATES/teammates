@@ -4,12 +4,12 @@
 
 # Using alternative email providers
 
-In order for actual emails to be sent by the system, we need to use third-party email service.
+In order for actual emails to be sent by the system, we need to use a third-party email service.
 
 This document will outline some of the email services that can be used in TEAMMATES.
 
-In many cases, you have to register your domain name with the email service and configure your DNS provider so that the service can start sending email for you.
-The details for this can be seen on the documentation of each service.
+In many cases, you have to register your domain name with the email service and configure your DNS provider so that the service can start sending emails for you.
+The details for this can be seen on the documentation pages of each service.
 
 ## SendGrid
 

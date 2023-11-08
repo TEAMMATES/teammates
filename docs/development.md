@@ -9,7 +9,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
 
 - Replace `./gradlew` to `gradlew.bat` if you are using Windows.
-- All the commands are assumed to be run from the root project folder, unless otherwise specified.
+- All the commands are to be ran from the root project folder, unless otherwise specified.
 - It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).
 
 > If you encounter any problems during the any of the processes, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request on our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
@@ -18,7 +18,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 <box type="definition">
 
-Dev server is the server run in your local machine.
+Dev server is the server ran on your local machine.
 </box>
 
 <box type="definition">
@@ -38,7 +38,7 @@ To start the dev server, run the following command until you see something like 
 npm run start
 ```
 
-The dev server URL will be given at the console output, e.g. `http://localhost:4200`.
+The dev server URL will be listed at the console output, e.g. `http://localhost:4200`.
 
 To stop the dev server, press `Ctrl + C`.
 
@@ -69,18 +69,20 @@ If you have access to Docker, we have a Docker compose definition to run those s
 docker compose up -d
 
 ```
+
 If the above command does not work, you may not have the updated v2 version of Docker. You may want to try this instead:
 
 ```sh
 docker-compose up -d
 ```
+
 For more information on Docker, you may wish to refer to the [Docker Documentation](https://docs.docker.com/compose/reference/).
 
 ### Starting the dev server
 
 <box type="wrong">
 
-Some IDEs may offer a shortcut to run the Application main class directly. Do not run the server this way.
+Some IDEs may offer a shortcut to run the Application main class directly. **Do not run the server this way**.
 </box>
 
 To start the server in the background, run the following command
@@ -107,7 +109,7 @@ If the server is running in the foreground, press `Ctrl + C` (or equivalent in y
 
 ## Building front-end files
 
-In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be *bundled and transpiled* (afterwards `built`).
+In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be _bundled and transpiled_ (afterwards `built`).
 
 Run the following commands to build the front-end files for the application's use in production mode:
 
@@ -123,7 +125,7 @@ After this, the back-end dev server will also be able to serve the front-end.
 
 ## Logging in to a TEAMMATES instance
 
-This instruction set applies for both dev server and production server, with slight differences explained where applicable.
+This instruction set applies for both the dev server and production server, with slight differences explained where applicable.
 
 - The local dev server is assumed to be accessible at `http://localhost:8080`.
   - This instruction also works when the local front-end dev server and back-end dev server are separate. In that case, the dev server address will be the front-end's, e.g. `http://localhost:4200`. However, a back-end server needs to be running in order for the authentication logic to work.
@@ -132,9 +134,9 @@ This instruction set applies for both dev server and production server, with sli
 <panel header="**As administrator**">
 
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
-  You will be granted access only if your account has admin permission as defined in `build.properties`.
+   You will be granted access only if your account has admin permission as defined in `build.properties`.
 
-1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students. 
+1. When logged in as administrator, **_masquerade mode_** can be used to impersonate instructors and students.
    For more information, refer to [Masquerading as another user](#masquerading-as-another-user).
 
 </panel>
@@ -153,7 +155,7 @@ You need an instructor account which can be created by administrators.
 
 Alternatively, an instructor can create other instructors for a course if s/he has sufficient privileges. A course co-owner, for example, will have such a privilege.
 
-1. Ensure that there is a course to add instructors to and an instructor in that course with the privilege to add instructors.
+1. Ensure that there is a course to add instructors to and an instructor in that course has the privilege to add additional instructors.
 1. Log in as that instructor.
 1. Add the instructors for the course (`Instructors` → `View/Edit`).
 1. The system will send an email containing the join link to each added instructor. Again, this will not happen on the dev server, so additional steps are required.
@@ -200,7 +202,7 @@ Masquerade mode is a feature that enables the admin to log in as mock instructor
 Essentially, when you are logged into the administrator account, you will be able to conveniently and directly access the other instructor/student accounts. When in masquerade mode, you should see a `(M)` at the top right of the page you are on.
 
 **Note**:
-If you decide to use port `8080` for the following steps below, make sure you have run `npm run build` in your project root. For more information, refer to [Building front-end files](#building-front-end-files). Else, you may use port `4200` which is TEAMMATES' frontend URL.
+If you decide to use port `8080` for the following steps below, make sure you run `npm run build` in your project root. For more information, refer to [Building front-end files](#building-front-end-files). Else, you may use port `4200` which is TEAMMATES' frontend URL.
 
 To prepare for _masquerade mode_, do the following:
 
@@ -209,7 +211,7 @@ To prepare for _masquerade mode_, do the following:
 - Create a new instructor by filling in the Name, Email, and Institution fields in the form provided. Once done, click on _Add Instructor_, followed by _Add_ under the **Action** column.
   - Copy the link address from the **_join link_**.
 - Log out from the administrator account. Use the link you copied in the previous step and paste it into your browser's search bar. Enter the new account's email and register for the course.
-  - Now, the registration is !!completed!! and we have a new account that we can masquerade as.
+  - Now, the account has been registered, and we have a new account that we can masquerade as.
 - Lastly, log out from the current account and log back in as an administrator and follow the rest of the steps below.
 
 To masquerade as an **_instructor_**:
@@ -245,6 +247,7 @@ We have a Docker compose definition to run dependent services, including local D
 ```sh
 docker compose run -p 8484:8484 datastore
 ```
+
 If the above command does not work, you may want to try this instead:
 
 ```sh
@@ -290,7 +293,7 @@ If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to 
 There are two big categories of testing in TEAMMATES:
 
 - **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
-- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](e2e-testing.md).  
+- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](e2e-testing.md).
 
 #### Running the tests
 
@@ -312,10 +315,10 @@ To run all tests in a test file (or all test files matching a pattern), you can 
 
 Back-end component tests follow this configuration:
 
-Test suite | Command | Results can be viewed in
----|---|---
-`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
-Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
+| Test suite                    | Command                                          | Results can be viewed in                                         |
+| ----------------------------- | ------------------------------------------------ | ---------------------------------------------------------------- |
+| `Component tests`             | `./gradlew componentTests`                       | `{project folder}/build/reports/tests/componentTests/index.html` |
+| Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html` |
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
 
@@ -338,8 +341,8 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
-* If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
-* It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
+- If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
+- It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
 
 ## Config points
 
@@ -347,34 +350,36 @@ There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 
-* `build.properties`: Contains the general purpose configuration values to be used by the web API.
-* `config.ts`: Contains the general purpose configuration values to be used by the web application.
-* `test.properties`: Contains the configuration values for the test driver.
-  * There are two separate `test.properties`; one for component tests and one for E2E tests.
-* `client.properties`: Contains some configuration values used in client scripts.
-* `app.yaml`: Contains the configuration for deploying the application on GAE.
+- `build.properties`: Contains the general purpose configuration values to be used by the web API.
+- `config.ts`: Contains the general purpose configuration values to be used by the web application.
+- `test.properties`: Contains the configuration values for the test driver.
+  - There are two separate `test.properties`; one for component tests and one for E2E tests.
+- `client.properties`: Contains some configuration values used in client scripts.
+- `app.yaml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
 
-* `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
-* `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
-* `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
-* `angular.json`: Contains the Angular application configuration.
+- `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
+- `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
+- `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
+- `angular.json`: Contains the Angular application configuration.
 
 **GitHub Actions**: These are workflow files for GitHub Actions. They are placed under `.github/workflows` directory.
 
-* `component.yml`: Configuration for component tests.
-* `e2e.yml`: Configuration for E2E tests.
-* `e2e-cross.yml`: Configuration for cross-browser E2E tests.
-* `lnp.yml`: Configuration for load & performance tests.
-* `dev-docs.yml`: Configuration for developer documentation site.
+- `component.yml`: Configuration for component tests.
+- `e2e.yml`: Configuration for E2E tests.
+- `e2e-cross.yml`: Configuration for cross-browser E2E tests.
+- `lnp.yml`: Configuration for load & performance tests.
+- `dev-docs.yml`: Configuration for developer documentation site.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
-* `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
+
+- `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
 
 **Other**: These are rarely, if ever will be, subjected to changes.
-* `logging.properties`: Contains the java.util.logging configuration.
-* `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.yaml`: Contains the cron jobs specification.
-* `queue.yaml`: Contains the task queues configuration.
-* `index.yaml`: Contains the Google Cloud Datastore indexes configuration.
+
+- `logging.properties`: Contains the java.util.logging configuration.
+- `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
+- `cron.yaml`: Contains the cron jobs specification.
+- `queue.yaml`: Contains the task queues configuration.
+- `index.yaml`: Contains the Google Cloud Datastore indexes configuration.
