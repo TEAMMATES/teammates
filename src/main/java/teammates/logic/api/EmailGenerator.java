@@ -1071,6 +1071,7 @@ public final class EmailGenerator {
      * Generates additional contact information for User Email Templates.
      * @return The contact information after replacing the placeholders.
      */
+    //sadfaf
     private String getAdditionalContactInformationFragment(CourseAttributes course, boolean isInstructor) {
         String particulars = isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
                 : "team/student data (e.g. wrong team, misspelled name)";
