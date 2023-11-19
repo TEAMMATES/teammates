@@ -27,7 +27,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_choicesLessThanMinRequirement_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(Collections.singletonList("Choice 2"));
+        mcqDetails.setMcqChoices(Collections.singletonList("choice 2"));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
@@ -38,7 +38,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_numberOfChoicesGreaterThanWeights_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setMcqWeights(Collections.singletonList(1.22));
         mcqDetails.setHasAssignedWeights(true);
 
@@ -50,7 +50,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_noValidationError_errorListShouldBeEmpty() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setHasAssignedWeights(true);
         mcqDetails.setMcqWeights(Arrays.asList(1.22, 1.55));
 
@@ -61,7 +61,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_negativeWeights_errorsReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setMcqWeights(Arrays.asList(1.22, -1.55));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
@@ -72,7 +72,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_negativeOtherWeight_errorsReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setMcqWeights(Arrays.asList(1.22, 1.55));
         mcqDetails.setHasAssignedWeights(true);
         mcqDetails.setMcqOtherWeight(-2);
@@ -86,14 +86,14 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     public void testValidateQuestionDetails_duplicateMcqOptions_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
 
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 1"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 1"));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
 
         // duplicate cases that has trailing and leading spaces
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", " Choice 1 "));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", " choice 1 "));
         errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
@@ -102,7 +102,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_emptyMcqOption_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", ""));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", ""));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
 
@@ -113,7 +113,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_negativeOtherWeight_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setMcqWeights(List.of(1.22, 1.33));
         mcqDetails.setMcqOtherWeight(-1.22);
         mcqDetails.setHasAssignedWeights(true);
@@ -134,10 +134,10 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testShouldChangesRequireResponseDeletion_differentMqcChoices_shouldReturnTrue() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(List.of("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(List.of("choice 1", "choice 2"));
 
         FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
-        newMcqDetails.setMcqChoices(List.of("Choice 1", "Choice 3"));
+        newMcqDetails.setMcqChoices(List.of("choice 1", "choice 3"));
 
         assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
     }
@@ -167,12 +167,12 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testShouldChangesRequireResponseDeletion_sameQuestionsDifferentOrder_shouldReturnFalse() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(List.of("Choice 1", "Choice 2", "Choice 3"));
+        mcqDetails.setMcqChoices(List.of("choice 1", "choice 2", "choice 3"));
         mcqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
         mcqDetails.setOtherEnabled(false);
 
         FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
-        newMcqDetails.setMcqChoices(List.of("Choice 2", "Choice 3", "Choice 1"));
+        newMcqDetails.setMcqChoices(List.of("choice 2", "choice 3", "choice 1"));
         newMcqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
         newMcqDetails.setOtherEnabled(false);
 
@@ -182,10 +182,10 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateResponsesDetails_answerNotPartOfMcq_shouldReturnError() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(List.of("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(List.of("choice 1", "choice 2"));
 
         FeedbackMcqResponseDetails response = new FeedbackMcqResponseDetails();
-        response.setAnswer("Choice 3");
+        response.setAnswer("choice 3");
         response.setOther(false);
         List<FeedbackResponseDetails> responses = List.of(response);
 
@@ -199,7 +199,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateResponsesDetails_otherOptionNoText_shouldReturnError() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(List.of("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(List.of("choice 1", "choice 2"));
 
         FeedbackMcqResponseDetails response = new FeedbackMcqResponseDetails();
         response.setAnswer("");
@@ -215,7 +215,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateResponsesDetails_noValidationError_errorListShouldBeEmpty() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        mcqDetails.setMcqChoices(List.of("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(List.of("choice 1", "choice 2"));
 
         FeedbackMcqResponseDetails response = new FeedbackMcqResponseDetails();
         response.setAnswer("choice1");
@@ -245,7 +245,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     public void testValidateQuestionDetails_weightsNotEnabledButWeightListNotEmpty_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         mcqDetails.setMcqWeights(Arrays.asList(1.22, -1.55));
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setHasAssignedWeights(false);
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(FeedbackParticipantType.NONE, mcqDetails.getGenerateOptionsFor());
@@ -273,7 +273,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setHasAssignedWeights(true);
         mcqDetails.setOtherEnabled(true);
         mcqDetails.setMcqOtherWeight(1.5);
-        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
