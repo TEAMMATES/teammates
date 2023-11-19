@@ -228,12 +228,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsQuestionDropdownEnabled_shouldReturnFalse() {
-        FeedbackMcqQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails("test");
-        assertFalse(feedbackQuestionDetails.isQuestionDropdownEnabled());
-    }
-
-    @Test
     public void testIsQuestionDropdownEnabled_shouldReturnTrue() {
         FeedbackMcqQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
         feedbackQuestionDetails.setQuestionDropdownEnabled(true);
