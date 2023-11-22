@@ -34,6 +34,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.test.AssertHelper;
 
+import static teammates.common.datatransfer.FeedbackParticipantType.*;
+
 /**
  * SUT: {@link FeedbackResponsesLogic}.
  */
@@ -523,12 +525,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         fq.setRecipientType(FeedbackParticipantType.TEAMS);
         fq.getShowRecipientNameTo().clear();
-        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
+        fq.getShowRecipientNameTo().add(RECEIVER);
         fr.setRecipient(student.getTeam());
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
 
-        fq.setRecipientType(FeedbackParticipantType.STUDENTS);
+        fq.setRecipientType(STUDENTS);
         fr.setRecipient(student.getEmail());
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student2.getEmail(), false, false, roster));
@@ -540,7 +542,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
 
-        fq.setRecipientType(FeedbackParticipantType.STUDENTS);
+        fq.setRecipientType(STUDENTS);
         fr.setRecipient(student.getEmail());
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
@@ -565,8 +567,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // Only members of the recipient team should be able to see the recipient name
         fq.setRecipientType(FeedbackParticipantType.TEAMS);
         fq.getShowRecipientNameTo().clear();
-        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
-        fq.getShowResponsesTo().add(FeedbackParticipantType.STUDENTS);
+        fq.getShowRecipientNameTo().add(RECEIVER);
+        fq.getShowResponsesTo().add(STUDENTS);
         fr.setRecipient("Team 1.1");
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.getEmail(), false, false, roster));
 
@@ -1076,7 +1078,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response3ForQ2S1C1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         // giver is student
-        assertEquals(FeedbackParticipantType.STUDENTS,
+        assertEquals(STUDENTS,
                 fqLogic.getFeedbackQuestion(fra.getFeedbackQuestionId()).getGiverType());
         // student is the recipient
         assertEquals(fra.getRecipient(), student2InCourse1.getEmail());
@@ -1710,6 +1712,123 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(4, responseForQuestion.size());
+    }
+
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT1(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(STUDENTS);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, true);
+    }
+
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT2(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(RECEIVER);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .withRecipientType(FeedbackParticipantType.STUDENTS)
+                .withGiverType(STUDENTS)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, true);
+    }
+
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT3(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(RECEIVER);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .withRecipientType(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
+                .withGiverType(STUDENTS)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, true);
+    }
+
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT4(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(RECEIVER);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .withRecipientType(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION)
+                .withGiverType(STUDENTS)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, true);
+    }
+
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT5(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(RECEIVER);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                .withGiverType(STUDENTS)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, true);
+    }
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT6(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(RECEIVER);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .withRecipientType(FeedbackParticipantType.GIVER)
+                .withGiverType(STUDENTS)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, true);
+    }
+
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT7(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(RECEIVER_TEAM_MEMBERS);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .withRecipientType(NONE)
+                .withGiverType(NONE)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, false);
+    }
+
+    @Test
+    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT8(){
+
+        List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
+        showResponseTo.add(OWN_TEAM_MEMBERS);
+
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withShowResponsesTo(showResponseTo)
+                .withRecipientType(NONE)
+                .withGiverType(TEAMS)
+                .build();
+        boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
+        assertEquals(response, true);
     }
 
     private FeedbackQuestionAttributes getQuestionFromDatabase(DataBundle dataBundle, String jsonId) {
