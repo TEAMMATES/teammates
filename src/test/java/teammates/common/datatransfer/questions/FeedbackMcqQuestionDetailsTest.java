@@ -298,7 +298,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     public void testValidateQuestionDetails_hasAssignedWeightsNonEmptyWeights_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         mcqDetails.setHasAssignedWeights(true);
-        mcqDetails.setMcqWeights(Collections.singletonList(1.5));
+        mcqDetails.setMcqWeights(Arrays.asList(1.5));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(2, errors.size());
