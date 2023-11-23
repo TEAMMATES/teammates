@@ -64,4 +64,35 @@ describe('SortableService', () => {
     expect(service.compareNumbers('-', 'NaN', SortOrder.ASC)).toEqual(1);
     expect(service.compareNumbers('NaN', '-', SortOrder.DESC)).toEqual(1);
   });
+  test('should return a negative value when the first date is earlier than the second date in ascending order', () => {
+    expect(service.compareChronologically('2020-01-01', '2020-01-02', SortOrder.ASC)).toBeLessThan(0);
+  });
+  test('should return a positive value when the first date is later than the second date in ascending order', () => {
+    expect(service.compareChronologically('2020-01-02', '2020-01-01', SortOrder.ASC)).toBeGreaterThan(0);
+  });
+  test('should return 0 when both dates are equal in ascending order', () => {
+    expect(service.compareChronologically('2020-01-01', '2020-01-01', SortOrder.ASC)).toBe(0);
+  });
+  test('should return a positive value when the first date is earlier than the second date in descending order', () => {
+    expect(service.compareChronologically('2020-01-01', '2020-01-02', SortOrder.DESC)).toBeGreaterThan(0);
+  });
+  test('should return a negative value when the first date is later than the second date in descending order', () => {
+    expect(service.compareChronologically('2020-01-02', '2020-01-01', SortOrder.DESC)).toBeLessThan(0);
+  });
+  test('should return 0 when both dates are equal in descending order', () => {
+    expect(service.compareChronologically('2020-01-01', '2020-01-01', SortOrder.DESC)).toBe(0);
+  });
+  test('should return 1 when the first date is invalid', () => {
+    expect(service.compareChronologically('invalid-date', '2020-01-01', SortOrder.ASC)).toBe(1);
+  });
+  test('should return -1 when the second date is invalid', () => {
+    expect(service.compareChronologically('2020-01-01', 'invalid-date', SortOrder.ASC)).toBe(-1);
+  });
+  test('should handle both dates being invalid', () => {
+    expect(service.compareChronologically('invalid-date', 'another-invalid-date', SortOrder.ASC)).toBe(1);
+  });
+  test('should return 0 when order is neither ASC nor DESC', () => {
+    const result = service.compareChronologically('2020-01-01', '2020-01-02', 3);
+    expect(result).toBe(0);
+  });
 });
