@@ -1715,7 +1715,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT1(){
+    public void testResponseVisibleToStudentWhenShownToStudents(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(STUDENTS);
@@ -1728,7 +1728,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT2(){
+    public void testResponseVisibleToStudentWhenReceiverIsStudent(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(RECEIVER);
@@ -1743,7 +1743,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT3(){
+    public void testResponseVisibleToStudentWhenReceiverExcludesSelf(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(RECEIVER);
@@ -1758,7 +1758,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT4(){
+    public void testResponseVisibleToStudentInSameSection(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(RECEIVER);
@@ -1773,7 +1773,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT5(){
+    public void testResponseVisibleToStudentWhenReceiverIsOwnTeamMember(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(RECEIVER);
@@ -1787,7 +1787,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(response, true);
     }
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT6(){
+    public void testResponseVisibleToStudentWhenReceiverIsGiver(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(RECEIVER);
@@ -1802,7 +1802,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT7(){
+    public void testResponseNotVisibleToStudentWhenReceiverTeamMembers(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(RECEIVER_TEAM_MEMBERS);
@@ -1817,7 +1817,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testIsResponseOfFeedbackQuestionVisibleToStudentCT8(){
+    public void testResponseVisibleToStudentWhenShownToOwnTeamMembers(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(OWN_TEAM_MEMBERS);
