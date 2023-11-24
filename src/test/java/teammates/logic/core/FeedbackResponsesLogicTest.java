@@ -34,7 +34,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.test.AssertHelper;
 
-
 /**
  * SUT: {@link FeedbackResponsesLogic}.
  */
