@@ -1715,7 +1715,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @Test
     public void testResponseVisibleToStudentWhenShownToStudents(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.STUDENTS);
 
@@ -1728,7 +1727,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @Test
     public void testResponseVisibleToStudentWhenReceiverIsStudent(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
@@ -1743,7 +1741,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @Test
     public void testResponseVisibleToStudentWhenReceiverExcludesSelf(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
@@ -1758,7 +1755,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @Test
     public void testResponseVisibleToStudentInSameSection(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
@@ -1773,7 +1769,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @Test
     public void testResponseVisibleToStudentWhenReceiverIsOwnTeamMember(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
@@ -1785,9 +1780,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, true);
     }
+
     @Test
     public void testResponseVisibleToStudentWhenReceiverIsGiver(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
@@ -1802,7 +1797,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @Test
     public void testResponseNotVisibleToStudentWhenReceiverTeamMembers(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
 
@@ -1817,7 +1811,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @Test
     public void testResponseVisibleToStudentWhenShownToOwnTeamMembers(){
-
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
         showResponseTo.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
