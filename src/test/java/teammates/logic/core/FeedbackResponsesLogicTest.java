@@ -34,7 +34,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.test.AssertHelper;
 
-import static teammates.common.datatransfer.FeedbackParticipantType.*;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.
@@ -525,12 +524,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         fq.setRecipientType(FeedbackParticipantType.TEAMS);
         fq.getShowRecipientNameTo().clear();
-        fq.getShowRecipientNameTo().add(RECEIVER);
+        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
         fr.setRecipient(student.getTeam());
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
 
-        fq.setRecipientType(STUDENTS);
+        fq.setRecipientType(FeedbackParticipantType.STUDENTS);
         fr.setRecipient(student.getEmail());
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student2.getEmail(), false, false, roster));
@@ -542,7 +541,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
 
-        fq.setRecipientType(STUDENTS);
+        fq.setRecipientType(FeedbackParticipantType.STUDENTS);
         fr.setRecipient(student.getEmail());
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
@@ -567,8 +566,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // Only members of the recipient team should be able to see the recipient name
         fq.setRecipientType(FeedbackParticipantType.TEAMS);
         fq.getShowRecipientNameTo().clear();
-        fq.getShowRecipientNameTo().add(RECEIVER);
-        fq.getShowResponsesTo().add(STUDENTS);
+        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
+        fq.getShowResponsesTo().add(FeedbackParticipantType.STUDENTS);
         fr.setRecipient("Team 1.1");
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.getEmail(), false, false, roster));
 
@@ -1078,7 +1077,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response3ForQ2S1C1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         // giver is student
-        assertEquals(STUDENTS,
+        assertEquals(FeedbackParticipantType.STUDENTS,
                 fqLogic.getFeedbackQuestion(fra.getFeedbackQuestionId()).getGiverType());
         // student is the recipient
         assertEquals(fra.getRecipient(), student2InCourse1.getEmail());
@@ -1718,7 +1717,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseVisibleToStudentWhenShownToStudents(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(STUDENTS);
+        showResponseTo.add(FeedbackParticipantType.STUDENTS);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
@@ -1731,12 +1730,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseVisibleToStudentWhenReceiverIsStudent(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(RECEIVER);
+        showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
                 .withRecipientType(FeedbackParticipantType.STUDENTS)
-                .withGiverType(STUDENTS)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
                 .build();
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, true);
@@ -1746,12 +1745,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseVisibleToStudentWhenReceiverExcludesSelf(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(RECEIVER);
+        showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
                 .withRecipientType(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
-                .withGiverType(STUDENTS)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
                 .build();
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, true);
@@ -1761,12 +1760,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseVisibleToStudentInSameSection(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(RECEIVER);
+        showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
                 .withRecipientType(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION)
-                .withGiverType(STUDENTS)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
                 .build();
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, true);
@@ -1776,12 +1775,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseVisibleToStudentWhenReceiverIsOwnTeamMember(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(RECEIVER);
+        showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
                 .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                .withGiverType(STUDENTS)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
                 .build();
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, true);
@@ -1790,12 +1789,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseVisibleToStudentWhenReceiverIsGiver(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(RECEIVER);
+        showResponseTo.add(FeedbackParticipantType.RECEIVER);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
                 .withRecipientType(FeedbackParticipantType.GIVER)
-                .withGiverType(STUDENTS)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
                 .build();
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, true);
@@ -1805,12 +1804,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseNotVisibleToStudentWhenReceiverTeamMembers(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(RECEIVER_TEAM_MEMBERS);
+        showResponseTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
-                .withRecipientType(NONE)
-                .withGiverType(NONE)
+                .withRecipientType(FeedbackParticipantType.NONE)
+                .withGiverType(FeedbackParticipantType.NONE)
                 .build();
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, false);
@@ -1820,12 +1819,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     public void testResponseVisibleToStudentWhenShownToOwnTeamMembers(){
 
         List<FeedbackParticipantType> showResponseTo = new ArrayList<>();
-        showResponseTo.add(OWN_TEAM_MEMBERS);
+        showResponseTo.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withShowResponsesTo(showResponseTo)
-                .withRecipientType(NONE)
-                .withGiverType(TEAMS)
+                .withRecipientType(FeedbackParticipantType.NONE)
+                .withGiverType(FeedbackParticipantType.TEAMS)
                 .build();
         boolean response = FeedbackResponsesLogic.inst().isResponseOfFeedbackQuestionVisibleToStudent(question);
         assertEquals(response, true);
