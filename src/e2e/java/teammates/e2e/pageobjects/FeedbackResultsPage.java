@@ -467,13 +467,12 @@ public class FeedbackResultsPage extends AppPage {
 
     private WebElement getGivenResponseField(int questionNum, String receiver) {
         WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
-        List<WebElement> givenResponses = questionResponsesSection.findElements(By.className("given-responses"));
-        for (int i = 0; i < givenResponses.size(); i++) {
-            List<WebElement> recipients = givenResponses.get(i).findElements(By.className("response-recipient"));
-            for (int j = 0; j < recipients.size(); j++) {
-                if (recipients.get(j).getText().split("To: ")[1].equals(receiver)) {
-                    return givenResponses.get(i).findElements(By.tagName("tm-single-response")).get(j);
-                }
+        WebElement givenResponses = questionResponsesSection.findElement(By.className("given-responses"));
+
+        List<WebElement> recipients = givenResponses.findElements(By.className("response-recipient"));
+        for (int i = 0; i < recipients.size(); i++) {
+            if (recipients.get(i).getText().split("To: ")[1].equals(receiver)) {
+                return givenResponses.findElements(By.tagName("tm-single-response")).get(i);
             }
             // List<WebElement> responseComponents = givenResponses.get(i).findElements(By.tagName("tm-single-response"));
             // for (int j = 0; j < responseComponents.size(); j++) {
