@@ -466,13 +466,39 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private WebElement getGivenResponseField(int questionNum, String receiver) {
-        int recipientIndex = getGivenRecipientIndex(questionNum, receiver);
-        return getQuestionResponsesSection(questionNum)
-                .findElements(By.cssSelector(".given-responses tm-single-response"))
-                .get(recipientIndex);
+        WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
+        List<WebElement> givenResponses = questionResponsesSection.findElements(By.className("given-responses"));
+        for (int i = 0; i < givenResponses.size(); i++) {
+            List<WebElement> responseComponents = givenResponses.get(i).findElements(By.tagName("tm-single-response"));
+            for (int j = 0; j < responseComponents.size(); j++) {
+                WebElement recipient = responseComponents.get(j).findElement(By.className("response-recipient"));
+                if (recipient.getText().split("To: ")[1].equals(receiver)) {
+                    return responseComponents.get(j);
+                }
+            }
+        }
+        throw new AssertionError("Recipient not found: " + receiver);
+
+        // int recipientIndex = getGivenRecipientIndex(questionNum, receiver);
+        // return getQuestionResponsesSection(questionNum)
+        //         .findElements(By.cssSelector(".given-responses tm-single-response"))
+        //         .get(recipientIndex);
     }
 
+    /*
     private int getGivenRecipientIndex(int questionNum, String recipient) {
+        // WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
+        // List<WebElement> responses = questionResponsesSection.findElements(By.className("given-responses"));
+        // for (int i = 0; i < responses.size(); i++) {
+        //     List<WebElement> recipients = responses.get(i).findElements(By.className("response-recipient"));
+        //     for (int j = 0; j < recipients.size(); j++) {
+        //         if (recipients.get(j).getText().split("To: ")[1].equals(recipient)) {
+        //             return j;
+        //         }
+        //     }
+        // }
+        // throw new AssertionError("Recipient not found: " + recipient);
+         
         List<WebElement> recipients = getQuestionResponsesSection(questionNum)
                 .findElements(By.cssSelector(".given-responses .response-recipient"));
         for (int i = 0; i < recipients.size(); i++) {
@@ -482,6 +508,7 @@ public class FeedbackResultsPage extends AppPage {
         }
         throw new AssertionError("Recipient not found: " + recipient);
     }
+    */
 
     private String getAdditionalInfoString(FeedbackQuestionAttributes question) {
         switch (question.getQuestionType()) {
