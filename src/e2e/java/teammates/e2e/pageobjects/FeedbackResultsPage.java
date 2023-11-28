@@ -467,9 +467,9 @@ public class FeedbackResultsPage extends AppPage {
 
     private WebElement getGivenResponseField(int questionNum, String receiver) {
         WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
-        throw new AssertionError("Recipient not found: " + questionResponsesSection.getText());
+        // throw new AssertionError("Recipient not found: " + questionResponsesSection.getText());
 
-        /*
+        
         WebElement givenResponses = questionResponsesSection.findElement(By.className("given-responses"));
 
         List<WebElement> recipients = givenResponses.findElements(By.className("response-recipient"));
@@ -488,7 +488,7 @@ public class FeedbackResultsPage extends AppPage {
             // }
         }
         throw new AssertionError("Recipient not found: " + receiver);
-        */
+        
 
         // int recipientIndex = getGivenRecipientIndex(questionNum, receiver);
         // return getQuestionResponsesSection(questionNum)
