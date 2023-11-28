@@ -469,15 +469,21 @@ public class FeedbackResultsPage extends AppPage {
         WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
         List<WebElement> givenResponses = questionResponsesSection.findElements(By.className("given-responses"));
         for (int i = 0; i < givenResponses.size(); i++) {
-            List<WebElement> responseComponents = givenResponses.get(i).findElements(By.tagName("tm-single-response"));
-            for (int j = 0; j < responseComponents.size(); j++) {
-                List<WebElement> recipients = responseComponents.get(j).findElements(By.className("response-recipient"));
-                for (WebElement recipient : recipients) {     
-                    if (recipient.getText().split("To: ")[1].equals(receiver)) {
-                        return responseComponents.get(j);
-                    }
+            List<WebElement> recipients = givenResponses.get(i).findElements(By.className("response-recipient"));
+            for (int j = 0; j < recipients.size(); j++) {
+                if (recipients.get(j).getText().split("To: ")[1].equals(receiver)) {
+                    return givenResponses.get(i).findElements(By.tagName("tm-single-response")).get(j);
                 }
             }
+            // List<WebElement> responseComponents = givenResponses.get(i).findElements(By.tagName("tm-single-response"));
+            // for (int j = 0; j < responseComponents.size(); j++) {
+            //     List<WebElement> recipients = responseComponents.get(j).findElements(By.className("response-recipient"));
+            //     for (WebElement recipient : recipients) {     
+            //         if (recipient.getText().split("To: ")[1].equals(receiver)) {
+            //             return responseComponents.get(j);
+            //         }
+            //     }
+            // }
         }
         throw new AssertionError("Recipient not found: " + receiver);
 
