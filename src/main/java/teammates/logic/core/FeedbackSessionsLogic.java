@@ -1,12 +1,5 @@
 package teammates.logic.core;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -18,7 +11,15 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
+import teammates.logic.api.EmailGenerator;
 import teammates.storage.api.FeedbackSessionsDb;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Handles operations related to feedback sessions.
@@ -51,6 +52,7 @@ public final class FeedbackSessionsLogic {
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
     private DeadlineExtensionsLogic deLogic;
+    private EmailGenerator emailGenerator;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -574,7 +576,7 @@ public final class FeedbackSessionsLogic {
      */
     public boolean isFeedbackSessionViewableToUserType(FeedbackSessionAttributes session, boolean isInstructor) {
         // Allow user to view the feedback session if there are questions for them
-        if (isFeedbackSessionForUserTypeToAnswer(session, isInstructor)) {
+        if (emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, isInstructor)) {
             return true;
         }
 
@@ -592,19 +594,6 @@ public final class FeedbackSessionsLogic {
         }
 
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
-    }
-
-    /**
-     * Returns true if there are any questions for the specified user type (students/instructors) to answer.
-     */
-    public boolean isFeedbackSessionForUserTypeToAnswer(FeedbackSessionAttributes session, boolean isInstructor) {
-        if (!session.isVisible()) {
-            return false;
-        }
-
-        return isInstructor
-                ? fqLogic.hasFeedbackQuestionsForInstructors(session, false)
-                : fqLogic.hasFeedbackQuestionsForStudents(session);
     }
 
     private void updateFeedbackSessionsDeadlinesWithNewEmail(String courseId, String oldEmailAddress,

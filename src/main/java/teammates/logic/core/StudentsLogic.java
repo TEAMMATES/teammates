@@ -24,7 +24,7 @@ import teammates.storage.api.StudentsDb;
  * @see StudentAttributes
  * @see StudentsDb
  */
-public final class StudentsLogic {
+public final class StudentsLogic extends FeedbackVariables {
 
     static final String ERROR_INVALID_TEAM_NAME =
             "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
@@ -39,9 +39,6 @@ public final class StudentsLogic {
 
     private final StudentsDb studentsDb = StudentsDb.inst();
 
-    private FeedbackResponsesLogic frLogic;
-    private FeedbackSessionsLogic fsLogic;
-    private DeadlineExtensionsLogic deLogic;
 
     private StudentsLogic() {
         // prevent initialization
@@ -49,12 +46,6 @@ public final class StudentsLogic {
 
     public static StudentsLogic inst() {
         return instance;
-    }
-
-    void initLogicDependencies() {
-        frLogic = FeedbackResponsesLogic.inst();
-        fsLogic = FeedbackSessionsLogic.inst();
-        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**

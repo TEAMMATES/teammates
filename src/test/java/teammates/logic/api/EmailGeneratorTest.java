@@ -728,6 +728,29 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
     }
 
+    @Test
+    public void testIsFeedbackSessionForUserTypeToAnswer() {
+        ______TS("Non-visible session should not be for any types of user to answer");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("awaiting.session");
+        assertFalse(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, false));
+        assertFalse(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, true));
+
+        ______TS("Empty session should not be for any types of user to answer");
+        session = dataBundle.feedbackSessions.get("empty.session");
+        assertFalse(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, false));
+        assertFalse(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, true));
+
+        ______TS("Session without student question should not be for students to answer");
+        session = dataBundle.feedbackSessions.get("archiveCourse.session1");
+        assertFalse(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, false));
+        assertTrue(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, true));
+
+        ______TS("Session without instructor question should not be for instructors to answer");
+        session = dataBundle.feedbackSessions.get("session2InCourse1");
+        assertFalse(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, true));
+        assertTrue(emailGenerator.isFeedbackSessionForUserTypeToAnswer(session, false));
+    }
+
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
             throws Exception {
         // check recipient

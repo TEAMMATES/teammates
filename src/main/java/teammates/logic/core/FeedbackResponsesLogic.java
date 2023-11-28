@@ -1,27 +1,7 @@
 package teammates.logic.core;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResultFetchType;
-import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.*;
+import teammates.common.datatransfer.attributes.*;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -31,6 +11,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.storage.api.FeedbackResponsesDb;
+
+import javax.annotation.Nullable;
+import java.time.Instant;
+import java.util.*;
 
 /**
  * Handles operations related to feedback responses.
@@ -368,7 +352,7 @@ public final class FeedbackResponsesLogic {
         // related questions, responses, and comment
         Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
         Map<String, FeedbackQuestionAttributes> relatedQuestionsNotVisibleForPreviewMap = new HashMap<>();
-        Set<String> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
+        Set<String> unseenCommentQuestions = new HashSet<>();
         Map<String, FeedbackResponseAttributes> relatedResponsesMap = new HashMap<>();
         Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
         if (isCourseWide) {
@@ -447,7 +431,7 @@ public final class FeedbackResponsesLogic {
             // if previewing results and the comment should not be visible to instructors,
             // note down the corresponding question and do not add the comment
             if (isPreviewResults && !canInstructorsSeeComment(frc)) {
-                relatedQuestionsWithCommentNotVisibleForPreview.add(frc.getFeedbackQuestionId());
+                unseenCommentQuestions.add(frc.getFeedbackQuestionId());
                 continue;
             }
 
@@ -467,7 +451,7 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         return new SessionResultsBundle(relatedQuestionsMap, relatedQuestionsNotVisibleForPreviewMap,
-                relatedQuestionsWithCommentNotVisibleForPreview,
+                unseenCommentQuestions,
                 existingResponses, missingResponses, responseGiverVisibilityTable, responseRecipientVisibilityTable,
                 relatedCommentsMap, commentVisibilityTable, roster);
     }

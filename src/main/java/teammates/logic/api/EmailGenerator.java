@@ -25,6 +25,7 @@ import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -61,6 +62,8 @@ public final class EmailGenerator {
 
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
@@ -82,8 +85,8 @@ public final class EmailGenerator {
     private List<EmailWrapper> generateFeedbackSessionOpeningOrClosingEmails(
             FeedbackSessionAttributes session, EmailType emailType) {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
-        boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
+        boolean isEmailNeededForStudents = isFeedbackSessionForUserTypeToAnswer(session, false);
+        boolean isEmailNeededForInstructors = isFeedbackSessionForUserTypeToAnswer(session, true);
         List<InstructorAttributes> instructorsToNotify = isEmailNeededForStudents
                 ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();
@@ -501,9 +504,9 @@ public final class EmailGenerator {
                 deadlineExtensions.stream().filter(x -> x.getIsInstructor()).collect(Collectors.toList());
 
         boolean isEmailNeededForStudents =
-                !studentDeadlines.isEmpty() && fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
+                !studentDeadlines.isEmpty() && isFeedbackSessionForUserTypeToAnswer(session, false);
         boolean isEmailNeededForInstructors =
-                !instructorDeadlines.isEmpty() && fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
+                !instructorDeadlines.isEmpty() && isFeedbackSessionForUserTypeToAnswer(session, true);
 
         List<StudentAttributes> students = new ArrayList<>();
         if (isEmailNeededForStudents) {
@@ -1077,5 +1080,18 @@ public final class EmailGenerator {
                 "${particulars}", particulars,
                 "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
+    }
+
+    /**
+     * Returns true if there are any questions for the specified user type (students/instructors) to answer.
+     */
+    public boolean isFeedbackSessionForUserTypeToAnswer(FeedbackSessionAttributes session, boolean isInstructor) {
+        if (!session.isVisible()) {
+            return false;
+        }
+
+        return isInstructor
+                ? fqLogic.hasFeedbackQuestionsForInstructors(session, false)
+                : fqLogic.hasFeedbackQuestionsForStudents(session);
     }
 }

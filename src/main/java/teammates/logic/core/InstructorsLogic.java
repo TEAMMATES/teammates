@@ -26,7 +26,7 @@ import teammates.storage.api.InstructorsDb;
  * @see InstructorAttributes
  * @see InstructorsDb
  */
-public final class InstructorsLogic {
+public final class InstructorsLogic extends FeedbackVariables {
 
     private static final Logger log = Logger.getLogger();
 
@@ -34,26 +34,12 @@ public final class InstructorsLogic {
 
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
-    private FeedbackResponsesLogic frLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
-    private FeedbackQuestionsLogic fqLogic;
-    private FeedbackSessionsLogic fsLogic;
-    private DeadlineExtensionsLogic deLogic;
-
     private InstructorsLogic() {
         // prevent initialization
     }
 
     public static InstructorsLogic inst() {
         return instance;
-    }
-
-    void initLogicDependencies() {
-        fqLogic = FeedbackQuestionsLogic.inst();
-        frLogic = FeedbackResponsesLogic.inst();
-        frcLogic = FeedbackResponseCommentsLogic.inst();
-        fsLogic = FeedbackSessionsLogic.inst();
-        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
