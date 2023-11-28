@@ -1,5 +1,13 @@
 package teammates.logic.core;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -621,15 +629,17 @@ public final class FeedbackSessionsLogic {
                 if (!instructorDeadlines.containsKey(emailAddress)) {
                     return;
                 }
-                deadlinesUpdater.accept(instructorDeadlines);
-                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
+                Map<String, Instant> newInstructorDeadlines = new HashMap<>(instructorDeadlines);
+                deadlinesUpdater.accept(newInstructorDeadlines);
+                updateOptionsBuilder.withInstructorDeadlines(newInstructorDeadlines);
             } else {
                 Map<String, Instant> studentDeadlines = feedbackSession.getStudentDeadlines();
                 if (!studentDeadlines.containsKey(emailAddress)) {
                     return;
                 }
-                deadlinesUpdater.accept(studentDeadlines);
-                updateOptionsBuilder.withStudentDeadlines(studentDeadlines);
+                Map<String, Instant> newStudentDeadlines = new HashMap<>(studentDeadlines);
+                deadlinesUpdater.accept(newStudentDeadlines);
+                updateOptionsBuilder.withStudentDeadlines(newStudentDeadlines);
             }
             try {
                 fsDb.updateFeedbackSession(updateOptionsBuilder.build());
