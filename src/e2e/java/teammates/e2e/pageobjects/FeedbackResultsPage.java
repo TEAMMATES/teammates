@@ -293,7 +293,8 @@ public class FeedbackResultsPage extends AppPage {
         FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
-            WebElement rubricRow = responseField.findElements(By.cssSelector("#rubric-answers tr")).get(i);
+            WebElement rubricTableBody = responseField.findElement(By.className("rubric-answers"));
+            WebElement rubricRow = rubricTableBody.findElements(By.cssSelector("tr")).get(i);
             WebElement rubricCell = rubricRow.findElements(By.tagName("td")).get(answers.get(i) + 1);
             if (rubricCell.findElements(By.className("fa-check")).size() == 0) {
                 return false;
