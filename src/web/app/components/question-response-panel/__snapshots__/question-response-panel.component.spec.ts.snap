@@ -60,7 +60,6 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </div>
             <div
               class="mt-4"
-              id="given-responses"
             >
               <strong>
                 Your own responses (to others):
@@ -74,7 +73,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -92,7 +91,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -165,7 +164,6 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </div>
             <div
               class="mt-4"
-              id="given-responses"
             >
               <strong>
                 Your own responses (to others):
@@ -179,7 +177,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -197,7 +195,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -226,7 +224,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -244,7 +242,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -317,7 +315,6 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </div>
             <div
               class="mt-4"
-              id="given-responses"
             >
               <strong>
                 Your own responses (to others):
@@ -331,7 +328,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -349,7 +346,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -392,7 +389,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                                                   class="text-secondary"
                                                 >
                                                   <span
-                                                    id="comment-giver-name"
+                                                    class="comment-giver-name"
                                                   >
                                                     comment-giver-1 commented at 
                                                   </span>
@@ -497,7 +494,6 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </div>
             <div
               class="mt-4"
-              id="given-responses"
             >
               <strong>
                 Your own responses (to others):
@@ -511,7 +507,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -529,7 +525,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -558,7 +554,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -576,7 +572,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -605,7 +601,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -623,7 +619,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -691,7 +687,6 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </div>
             <div
               class="mt-4"
-              id="given-responses"
             >
               <strong>
                 Your own responses (to others):
@@ -705,7 +700,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -723,7 +718,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -868,7 +863,6 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
             </div>
             <div
               class="mt-4"
-              id="given-responses"
             >
               <strong>
                 Your own responses (to others):
@@ -882,7 +876,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -900,7 +894,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
@@ -943,7 +937,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
                                                   class="text-secondary"
                                                 >
                                                   <span
-                                                    id="comment-giver-name"
+                                                    class="comment-giver-name"
                                                   >
                                                     comment-giver-1 commented at 
                                                   </span>
@@ -1033,7 +1027,6 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
             </div>
             <div
               class="mt-4"
-              id="given-responses"
             >
               <strong>
                 Your own responses (to others):
@@ -1047,7 +1040,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
                       class="card-header bg-info"
                     >
                       <span
-                        id="response-recipient"
+                        class="response-recipient"
                       >
                         <b>
                           To:
@@ -1065,7 +1058,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
                         <tbody>
                           <tr>
                             <td
-                              id="response-giver"
+                              class="response-giver"
                             >
                               <strong>
                                 From:
