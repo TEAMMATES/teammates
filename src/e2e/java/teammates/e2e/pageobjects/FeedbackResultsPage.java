@@ -612,7 +612,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private int getRecipientIndex(int questionNum, String recipient) {
-        List<WebElement> recipients = getQuestionResponsesSection(questionNum).findElements(By.className("response-recipient"));
+        List<WebElement> recipients = 
+                getQuestionResponsesSection(questionNum).findElements(By.className("response-recipient"));
         for (int i = 0; i < recipients.size(); i++) {
             if (recipients.get(i).getText().split("To: ")[1].equals(recipient)) {
                 return i;

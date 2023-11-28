@@ -59,7 +59,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               Responses are not visible to you. 
             </div>
             <div
-              class="mt-4"
+              class="given-responses mt-4"
             >
               <strong>
                 Your own responses (to others):
@@ -163,7 +163,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               Responses are not visible to you. 
             </div>
             <div
-              class="mt-4"
+              class="given-responses mt-4"
             >
               <strong>
                 Your own responses (to others):
@@ -314,7 +314,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               Responses are not visible to you. 
             </div>
             <div
-              class="mt-4"
+              class="given-responses mt-4"
             >
               <strong>
                 Your own responses (to others):
@@ -493,7 +493,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               Responses are not visible to you. 
             </div>
             <div
-              class="mt-4"
+              class="given-responses mt-4"
             >
               <strong>
                 Your own responses (to others):
@@ -686,7 +686,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               Responses are not visible to you. 
             </div>
             <div
-              class="mt-4"
+              class="given-responses mt-4"
             >
               <strong>
                 Your own responses (to others):
@@ -862,7 +862,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
               Responses are not visible to you. 
             </div>
             <div
-              class="mt-4"
+              class="given-responses mt-4"
             >
               <strong>
                 Your own responses (to others):
@@ -1026,7 +1026,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
               </div>
             </div>
             <div
-              class="mt-4"
+              class="given-responses mt-4"
             >
               <strong>
                 Your own responses (to others):
