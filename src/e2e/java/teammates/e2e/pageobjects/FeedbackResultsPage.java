@@ -471,9 +471,11 @@ public class FeedbackResultsPage extends AppPage {
         for (int i = 0; i < givenResponses.size(); i++) {
             List<WebElement> responseComponents = givenResponses.get(i).findElements(By.tagName("tm-single-response"));
             for (int j = 0; j < responseComponents.size(); j++) {
-                WebElement recipient = responseComponents.get(j).findElement(By.className("response-recipient"));
-                if (recipient.getText().split("To: ")[1].equals(receiver)) {
-                    return responseComponents.get(j);
+                List<WebElement> recipients = responseComponents.get(j).findElements(By.className("response-recipient"));
+                for (WebElement recipient : recipients) {     
+                    if (recipient.getText().split("To: ")[1].equals(receiver)) {
+                        return responseComponents.get(j);
+                    }
                 }
             }
         }
