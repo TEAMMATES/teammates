@@ -35,7 +35,7 @@
               <strong>Other responses (to you): </strong>Responses are not visible to you.
             </div>
           </ng-template>
-          <div id="given-responses" class="mt-4" *ngIf="question.responsesFromSelf.length">
+          <div class="given-responses mt-4" *ngIf="question.responsesFromSelf.length">
             <strong>Your own responses (to others):</strong>
             <div *ngFor="let responseFromSelf of question.responsesFromSelf">
               <tm-student-view-responses [responses]="[responseFromSelf]" [isSelfResponses]="true" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
