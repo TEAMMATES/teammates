@@ -1019,7 +1019,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getCommentGiver(WebElement commentField) {
-        String commentGiverDescription = commentField.findElement(By.id("comment-giver-name")).getText();
+        String commentGiverDescription = commentField.findElement(By.className("comment-giver-name")).getText();
         return commentGiverDescription.split(" commented")[0];
     }
 
