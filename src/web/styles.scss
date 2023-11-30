@@ -313,3 +313,8 @@ label {
   --bs-navbar-color: rgba(255, 255, 255, .75);
   --bs-navbar-hover-color: white;
 }
+
+// overrides default table-responsive scrolling
+.table-responsive {
+  -webkit-overflow-scrolling: auto;
+}

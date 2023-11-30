@@ -251,7 +251,7 @@ public class FeedbackResultsPage extends AppPage {
                                              List<FeedbackResponseAttributes> expectedResponses,
                                              boolean isGiverVisible) {
         List<WebElement> anonymousViews = getAllResponseViews(question.getQuestionNumber()).stream()
-                .filter(v -> isAnonymous(v.findElement(By.id("response-recipient")).getText()))
+                .filter(v -> isAnonymous(v.findElement(By.className("response-recipient")).getText()))
                 .collect(Collectors.toList());
         if (anonymousViews.isEmpty()) {
             fail("No anonymous views found");
@@ -293,7 +293,8 @@ public class FeedbackResultsPage extends AppPage {
         FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
-            WebElement rubricRow = responseField.findElements(By.cssSelector("#rubric-answers tr")).get(i);
+            WebElement rubricTableBody = responseField.findElement(By.className("rubric-answers"));
+            WebElement rubricRow = rubricTableBody.findElements(By.cssSelector("tr")).get(i);
             WebElement rubricCell = rubricRow.findElements(By.tagName("td")).get(answers.get(i) + 1);
             if (rubricCell.findElements(By.className("fa-check")).size() == 0) {
                 return false;
@@ -308,7 +309,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private boolean isAnyAnonymousResponseEqual(FeedbackQuestionAttributes question, WebElement responseView,
                                                 FeedbackResponseAttributes response) {
-        List<WebElement> giverNames = responseView.findElements(By.id("response-giver"));
+        List<WebElement> giverNames = responseView.findElements(By.className("response-giver"));
         List<WebElement> responseFields = getAllResponseFields(responseView);
         for (int i = 0; i < giverNames.size(); i++) {
             if (isAnonymous(giverNames.get(i).getText()) && isResponseEqual(question, responseFields.get(i), response)) {
@@ -465,21 +466,15 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private WebElement getGivenResponseField(int questionNum, String receiver) {
-        int recipientIndex = getGivenRecipientIndex(questionNum, receiver);
-        return getQuestionResponsesSection(questionNum)
-                .findElements(By.cssSelector("#given-responses tm-single-response"))
-                .get(recipientIndex);
-    }
-
-    private int getGivenRecipientIndex(int questionNum, String recipient) {
-        List<WebElement> recipients = getQuestionResponsesSection(questionNum)
-                .findElements(By.cssSelector("#given-responses #response-recipient"));
+        WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
+        WebElement givenResponses = questionResponsesSection.findElement(By.className("given-responses"));
+        List<WebElement> recipients = givenResponses.findElements(By.className("response-recipient"));
         for (int i = 0; i < recipients.size(); i++) {
-            if (recipients.get(i).getText().split("To: ")[1].equals(recipient)) {
-                return i;
+            if (recipients.get(i).getText().split("To: ")[1].equals(receiver)) {
+                return givenResponses.findElements(By.tagName("tm-single-response")).get(i);
             }
         }
-        throw new AssertionError("Recipient not found: " + recipient);
+        throw new AssertionError("Recipient not found: " + receiver);
     }
 
     private String getAdditionalInfoString(FeedbackQuestionAttributes question) {
@@ -583,7 +578,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getCommentGiver(WebElement commentField) {
-        String commentGiverDescription = commentField.findElement(By.id("comment-giver-name")).getText();
+        String commentGiverDescription = commentField.findElement(By.className("comment-giver-name")).getText();
         return commentGiverDescription.split(" commented")[0];
     }
 
@@ -607,7 +602,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private int getGiverIndex(WebElement response, String giver) {
-        List<WebElement> givers = response.findElements(By.id("response-giver"));
+        List<WebElement> givers = response.findElements(By.className("response-giver"));
         for (int i = 0; i < givers.size(); i++) {
             if (givers.get(i).getText().contains(giver)) {
                 return i;
@@ -617,7 +612,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private int getRecipientIndex(int questionNum, String recipient) {
-        List<WebElement> recipients = getQuestionResponsesSection(questionNum).findElements(By.id("response-recipient"));
+        List<WebElement> recipients =
+                getQuestionResponsesSection(questionNum).findElements(By.className("response-recipient"));
         for (int i = 0; i < recipients.size(); i++) {
             if (recipients.get(i).getText().split("To: ")[1].equals(recipient)) {
                 return i;
