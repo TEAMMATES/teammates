@@ -77,4 +77,10 @@ describe('ErrorReportComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should disable error reporting if CSRF error message is detected', () => {
+      component.errorMessage = 'Missing CSRF token.';
+      component.ngOnInit();
+      expect(component.errorReportEnabled).toBe(false);
+    });
+
 });
