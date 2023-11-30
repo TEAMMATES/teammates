@@ -785,6 +785,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         fsLogic.updateFeedbackSessionsStudentDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress);
 
+        // Clear the Objectify cache to fetch the latest FeedbackSessions from the db
+        clearObjectifyCache();
+
         assertTrue(fsLogic.getFeedbackSessionsForCourse(courseId)
                 .stream()
                 .noneMatch(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
