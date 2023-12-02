@@ -588,7 +588,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="ngb-tooltip-class"
                       ngbtooltip="Enter the name of the feedback session e.g. Feedback Session 1."
                     >
-                      Session Name
+                      Session Name*
                     </span>
                   </div>
                   <div
@@ -596,12 +596,23 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   >
                     <div>
                       <input
-                        class="form-control ng-untouched ng-pristine ng-valid"
+                        class="form-control ng-untouched ng-pristine ng-invalid"
                         id="add-session-name"
                         maxlength="64"
                         placeholder="e.g. Feedback for Project Presentation 1"
+                        required=""
                         type="text"
                       />
+                      <div
+                        class="invalid-field"
+                        hidden=""
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="fa fa-exclamation-circle"
+                        />
+                         The field Session Name should not be empty. 
+                      </div>
                       <div>
                          64 characters left 
                       </div>
