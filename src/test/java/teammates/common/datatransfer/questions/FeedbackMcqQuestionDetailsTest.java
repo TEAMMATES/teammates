@@ -26,6 +26,14 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testSetter_generateOptionsFor_correctValue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+
+        assertEquals(FeedbackParticipantType.STUDENTS, mcqDetails.getGenerateOptionsFor());
+    }
+
+    @Test
     public void testValidateQuestionDetails_choicesLessThanMinRequirement_errorReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         mcqDetails.setMcqChoices(Collections.singletonList("Choice 2"));
