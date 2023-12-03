@@ -22,6 +22,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertFalse(mcqDetails.isHasAssignedWeights());
         assertTrue(mcqDetails.getMcqWeights().isEmpty());
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
+        assertEquals(FeedbackParticipantType.NONE, mcqDetails.getGenerateOptionsFor());
     }
 
     @Test
@@ -248,7 +249,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setHasAssignedWeights(false);
         List<String> errors = mcqDetails.validateQuestionDetails();
-        assertEquals(FeedbackParticipantType.NONE, mcqDetails.getGenerateOptionsFor());
         assertEquals(1, errors.size());
         assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
