@@ -185,6 +185,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                         <div
                           inviewport=""
                         >
+                          <div
+                            style=""
+                          >
+                             2000 characters left 
+                          </div>
                         </div>
                       </tm-rich-text-editor>
                     </div>
