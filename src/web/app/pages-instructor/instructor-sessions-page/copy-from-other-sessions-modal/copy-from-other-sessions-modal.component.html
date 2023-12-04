@@ -13,9 +13,13 @@
         </select>
       </div>
       <div class="form-group">
-        <label><b>Name for new session</b></label>
+        <label><b>Name for new session*</b></label>
         <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="38"
-               placeholder="e.g. Feedback for Project Presentation 1">
+               placeholder="e.g. Feedback for Project Presentation 1" required #newSessionName="ngModel">
+        <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          The field "Name for new session" should not be empty.
+        </div>
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       <div class="form-group">
