@@ -325,3 +325,8 @@ a i.fa-info-circle {
   padding-bottom: 2px;
   box-sizing: border-box;
 }
+
+// overrides default table-responsive scrolling
+.table-responsive {
+  -webkit-overflow-scrolling: auto;
+}
