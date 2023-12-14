@@ -72,7 +72,7 @@ export class StudentHomePageComponent implements OnInit {
   isCoursesLoading: boolean = false;
   hasCoursesLoadingFailed: boolean = false;
 
-  sortBy: SortBy = SortBy.NONE;
+  sortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   sessionSubmissionStatusPipe = new SubmissionStatusPipe();
   formatDateDetailPipe = new FormatDateDetailPipe(this.timezoneService);
