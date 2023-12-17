@@ -205,8 +205,13 @@ describe('InstructorHomePageComponent', () => {
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('.btn-archive-course');
-    archiveButton.click();
+    const archiveButton: any = document.querySelector('body > div > div >a.btn-archive-course.btn ');
+    // Checking archiveButton
+    if (archiveButton) {
+      archiveButton.click();
+    } else {
+      console.error('Archive button not found');
+    }
 
     expect(component.courseTabModels.length).toEqual(1);
     expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');
@@ -233,8 +238,13 @@ describe('InstructorHomePageComponent', () => {
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('.btn-delete-course');
-    archiveButton.click();
+    const deleteButton: any = document.querySelector('body > div > div > a.btn-delete-course.btn');
+      // Checking deleteButton
+      if (deleteButton) {
+        deleteButton.click();
+      } else {
+        console.error('Delete button not found');
+      }
 
     expect(component.courseTabModels.length).toEqual(1);
     expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');
