@@ -119,7 +119,7 @@ public class InstructorHomePage extends AppPage {
     public void archiveCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-course")));
-        clickAndConfirm(courseTab.findElement(By.className("a.btn-archive-course")));
+        clickAndConfirm(courseTab.findElement(By.cssSelector("a.btn-archive-course.btn.btn-light.btn-sm.dropdown-item.ng-tns-c164-1")));
         waitUntilAnimationFinish();
     }
 
