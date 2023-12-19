@@ -126,7 +126,7 @@ public class InstructorHomePage extends AppPage {
     public void deleteCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-course")));
-        clickAndConfirm(courseTab.findElement(By.cssSelector("a.btn-delete-course")));
+        clickAndConfirm(browser.driver.findElement(By.cssSelector("body > div > div > a.btn-delete-course.btn")));
         waitUntilAnimationFinish();
     }
 
