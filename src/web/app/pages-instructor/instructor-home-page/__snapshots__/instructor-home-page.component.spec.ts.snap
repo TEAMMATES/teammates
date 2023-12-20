@@ -262,7 +262,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           id="course-tab-0"
         >
           <div
-            class="card-header bg-primary text-white cursor-pointer overflow-hidden"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -407,7 +407,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           id="course-tab-0"
         >
           <div
-            class="card-header bg-primary text-white cursor-pointer overflow-hidden"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -1009,7 +1009,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           id="course-tab-0"
         >
           <div
-            class="card-header bg-primary text-white cursor-pointer overflow-hidden"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -1768,7 +1768,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           id="course-tab-0"
         >
           <div
-            class="card-header bg-primary text-white cursor-pointer overflow-hidden"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -2041,7 +2041,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           id="course-tab-0"
         >
           <div
-            class="card-header bg-primary text-white cursor-pointer overflow-hidden"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
@@ -2338,7 +2338,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           id="course-tab-0"
         >
           <div
-            class="card-header bg-primary text-white cursor-pointer overflow-hidden"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b
               class="course-details text-break"
