@@ -67,7 +67,6 @@ If you have access to Docker, we have a Docker compose definition to run those s
 
 ```sh
 docker compose up -d
-
 ```
 If the above command does not work, you may not have the updated v2 version of Docker. You may want to try this instead:
 
