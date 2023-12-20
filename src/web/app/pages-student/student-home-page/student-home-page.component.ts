@@ -114,8 +114,7 @@ export class StudentHomePageComponent implements OnInit {
             });
           });
 
-          this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-            (a.course.creationTimestamp < b.course.creationTimestamp ? 1 : -1));
+          this.sortCoursesBy(SortBy.COURSE_CREATION_DATE);
           this.courses.slice(0, 3).forEach((course: StudentCourse) => {
             course.isTabExpanded = true;
             this.loadFeedbackSessionsForCourse(course.course.courseId);
