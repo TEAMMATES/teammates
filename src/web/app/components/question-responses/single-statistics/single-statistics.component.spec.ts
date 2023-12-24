@@ -30,20 +30,20 @@ describe('SingleStatisticsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return empty when response is missing & question type is not contrib', () => {
+  it('should return empty responsesToUse when missing response & feedback question type is not contrib', () => {
     component.responses = getResponseOutput(true, FeedbackQuestionType.TEXT);
     fixture.detectChanges()
     expect(component.responsesToUse.length).toBe(0)
   })
 
-  it('should return empty when is using response to self', () => {
+  it('should return empty when is using response to self & response recipient is not You', () => {
     component.isStudent = true
     component.responses = getResponseOutput(false, FeedbackQuestionType.NUMSCALE);
     fixture.detectChanges();
     expect(component.responsesToUse.length).toBe(0)
   });
 
-  it('should return response based on selected section',  () => {
+  it('should return responses based on selected section when ngOnInit is called',  () => {
     component.isStudent = false
     component.responses = getResponseOutput(false, FeedbackQuestionType.CONTRIB, 'You');
     component.ngOnInit()
@@ -58,7 +58,7 @@ describe('SingleStatisticsComponent', () => {
         isMissingResponse: isMissingResponse,
         responseId: 'some_id',
         giver: 'some_giver',
-        giverTeam: 'some_giverteam',
+        giverTeam: 'some_team',
         giverSection: 'section_1',
         recipient: recipient,
         recipientTeam: 'recipient_1_team',
