@@ -205,7 +205,7 @@ describe('InstructorHomePageComponent', () => {
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('.btn-archive-course');
+    const archiveButton: any = document.querySelector('body > div > div > .btn-archive-course');
     archiveButton.click();
 
     expect(component.courseTabModels.length).toEqual(1);
@@ -233,8 +233,8 @@ describe('InstructorHomePageComponent', () => {
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('.btn-delete-course');
-    archiveButton.click();
+    const deleteButton: any = document.querySelector('body > div > div > .btn-delete-course');
+    deleteButton.click();
 
     expect(component.courseTabModels.length).toEqual(1);
     expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');
