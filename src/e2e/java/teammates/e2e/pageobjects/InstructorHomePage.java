@@ -119,14 +119,14 @@ public class InstructorHomePage extends AppPage {
     public void archiveCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-course")));
-        clickAndConfirm(courseTab.findElement(By.className("btn-archive-course")));
+        clickAndConfirm(browser.driver.findElement(By.cssSelector("body > div > div > .btn-archive-course")));
         waitUntilAnimationFinish();
     }
 
     public void deleteCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-course")));
-        clickAndConfirm(courseTab.findElement(By.className("btn-delete-course")));
+        clickAndConfirm(browser.driver.findElement(By.cssSelector("body > div > div > .btn-delete-course")));
         waitUntilAnimationFinish();
     }
 

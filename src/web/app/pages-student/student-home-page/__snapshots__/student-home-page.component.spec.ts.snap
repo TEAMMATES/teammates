@@ -13,7 +13,7 @@ exports[`StudentHomePageComponent should snap when courses are still loading 1`]
   isCoursesLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -58,7 +58,7 @@ exports[`StudentHomePageComponent should snap when there is course loading faile
   isCoursesLoading="false"
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -106,7 +106,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   isCoursesLoading="false"
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -152,6 +152,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               </button>
               <button
                 class="btn btn-light"
+                disabled=""
                 id="sort-course-date-btn"
               >
                  Creation Date 
@@ -488,7 +489,7 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   isCoursesLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -533,7 +534,7 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
   isCoursesLoading="false"
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -598,7 +599,7 @@ exports[`StudentHomePageComponent should snap with no course 1`] = `
   isCoursesLoading="false"
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -641,7 +642,7 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
   isCoursesLoading="false"
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -687,6 +688,7 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
               </button>
               <button
                 class="btn btn-light"
+                disabled=""
                 id="sort-course-date-btn"
               >
                  Creation Date 
@@ -777,7 +779,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   isCoursesLoading="false"
   route={[Function ActivatedRoute]}
   sessionSubmissionStatusPipe={[Function SubmissionStatusPipe]}
-  sortBy="0"
+  sortBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}

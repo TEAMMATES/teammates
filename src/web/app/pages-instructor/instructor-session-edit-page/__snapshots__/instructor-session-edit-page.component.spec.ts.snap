@@ -1141,12 +1141,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     class="row text-center"
                   >
                     <div
-                      class="ngb-tooltip-class col-12 text-md-start ms-md-2"
-                      ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                      class="col-12 text-md-start ms-md-2"
                     >
                       <label
-                        class="control-label font-bold"
+                        class="ngb-tooltip-class control-label font-bold"
                         for="grace-period"
+                        ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
                       >
                          Grace period 
                       </label>
@@ -3825,12 +3825,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     class="row text-center"
                   >
                     <div
-                      class="ngb-tooltip-class col-12 text-md-start ms-md-2"
-                      ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                      class="col-12 text-md-start ms-md-2"
                     >
                       <label
-                        class="control-label font-bold"
+                        class="ngb-tooltip-class control-label font-bold"
                         for="grace-period"
+                        ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
                       >
                          Grace period 
                       </label>
