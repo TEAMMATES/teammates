@@ -1078,12 +1078,12 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="row text-center"
                     >
                       <div
-                        class="ngb-tooltip-class col-12 text-md-start ms-md-2"
-                        ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                        class="col-12 text-md-start ms-md-2"
                       >
                         <label
-                          class="control-label font-bold"
+                          class="ngb-tooltip-class control-label font-bold"
                           for="grace-period"
+                          ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
                         >
                            Grace period 
                         </label>
