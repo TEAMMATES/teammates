@@ -44,7 +44,7 @@
           <b class="course-details text-break">[{{ courseTabModel.course.courseId }}]: {{
             courseTabModel.course.courseName }}</b>
           <div class="card-header-btn-toolbar flex-lg-shrink-0" *ngIf="courseTabModel.isAjaxSuccess">
-            <span ngbDropdown>
+            <span ngbDropdown container="body">
               <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
@@ -57,7 +57,7 @@
                 </a>
               </div>
             </span>
-            <span ngbDropdown>
+            <span ngbDropdown container="body">
               <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle> Instructors </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/edit"
@@ -65,7 +65,7 @@
                 </a>
               </div>
             </span>
-            <span ngbDropdown>
+            <span ngbDropdown container="body">
               <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle> Sessions </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/sessions"
@@ -73,7 +73,7 @@
                 </a>
               </div>
             </span>
-            <span ngbDropdown>
+            <span ngbDropdown container="body">
               <button type="button" class="btn-course btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn-archive-course btn btn-light btn-sm dropdown-item"
