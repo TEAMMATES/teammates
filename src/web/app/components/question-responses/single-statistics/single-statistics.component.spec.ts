@@ -8,6 +8,7 @@ import { SingleStatisticsComponent } from './single-statistics.component';
 describe('SingleStatisticsComponent', () => {
   let component: SingleStatisticsComponent;
   let fixture: ComponentFixture<SingleStatisticsComponent>;
+  let feedbackResponsesService: FeedbackResponsesService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -22,6 +23,7 @@ describe('SingleStatisticsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SingleStatisticsComponent);
+    feedbackResponsesService = TestBed.inject(FeedbackResponsesService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -64,7 +66,7 @@ describe('SingleStatisticsComponent', () => {
     expect(component.responsesToUse.length).toBe(0);
   });
 
-  it('should return empty when is using response to self & response recipient is not You', () => {
+  it('should return empty responsesToUse when is isUsingResponsesToSelf & response recipient is not You', () => {
     component.isStudent = true;
     component.responses = getResponseOutput(false, FeedbackQuestionType.NUMSCALE);
     fixture.detectChanges();
@@ -72,9 +74,14 @@ describe('SingleStatisticsComponent', () => {
   });
 
   it('should return responses based on selected section when ngOnInit is called', () => {
+    const isFeedbackResponsesDisplayedOnSection = jest.spyOn(feedbackResponsesService,
+        'isFeedbackResponsesDisplayedOnSection');
     component.isStudent = false;
     component.responses = getResponseOutput(false, FeedbackQuestionType.CONTRIB, 'You');
     component.ngOnInit();
-    expect(component.responsesToUse.length).toBe(1);
+    expect(isFeedbackResponsesDisplayedOnSection).toHaveBeenCalledWith(
+        ...component.responses,
+        component.section,
+        component.sectionType);
   });
 });
