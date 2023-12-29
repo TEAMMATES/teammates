@@ -148,7 +148,7 @@
           <div id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}" class="col-12 margin-bottom-20px margin-top-10px indent">
             <div *ngIf="recipientSubmissionFormModel.commentByGiver">
               <div class="card-body visibility-card">
-                <p class="text-secondary">The following persons can see your comments:</p>
+                <p class="text-secondary">Only the following persons can see your comments: </p>
                 <ul class="visibility-list text-secondary">
                   <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
                   <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
