@@ -386,19 +386,15 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                                                 class="col-12"
                                               >
                                                 <span
-                                                  class="text-secondary"
+                                                  class="comment-giver-name"
                                                 >
-                                                  <span
-                                                    class="comment-giver-name"
-                                                  >
-                                                    comment-giver-1 commented at 
-                                                  </span>
-                                                  <span
-                                                    class="ngb-tooltip-class"
-                                                    style="margin-right: .25rem;"
-                                                  >
-                                                     17 Jan 1:09 PM
-                                                  </span>
+                                                  comment-giver-1 commented at 
+                                                </span>
+                                                <span
+                                                  class="ngb-tooltip-class"
+                                                  style="margin-right: .25rem;"
+                                                >
+                                                   17 Jan 1:09 PM
                                                 </span>
                                                 <i
                                                   aria-hidden="true"
@@ -934,19 +930,15 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
                                                 class="col-12"
                                               >
                                                 <span
-                                                  class="text-secondary"
+                                                  class="comment-giver-name"
                                                 >
-                                                  <span
-                                                    class="comment-giver-name"
-                                                  >
-                                                    comment-giver-1 commented at 
-                                                  </span>
-                                                  <span
-                                                    class="ngb-tooltip-class"
-                                                    style="margin-right: .25rem;"
-                                                  >
-                                                     17 Jan 1:09 PM
-                                                  </span>
+                                                  comment-giver-1 commented at 
+                                                </span>
+                                                <span
+                                                  class="ngb-tooltip-class"
+                                                  style="margin-right: .25rem;"
+                                                >
+                                                   17 Jan 1:09 PM
                                                 </span>
                                                 <i
                                                   aria-hidden="true"
