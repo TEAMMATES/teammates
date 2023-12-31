@@ -1085,7 +1085,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          The following persons can see your comments:
+                          Only the following persons can see your comments: 
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -1322,7 +1322,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          The following persons can see your comments:
+                          Only the following persons can see your comments: 
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -1742,7 +1742,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          The following persons can see your comments:
+                          Only the following persons can see your comments: 
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -3997,7 +3997,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          The following persons can see your comments:
+                          Only the following persons can see your comments: 
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -4236,7 +4236,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          The following persons can see your comments:
+                          Only the following persons can see your comments: 
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -4660,7 +4660,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          The following persons can see your comments:
+                          Only the following persons can see your comments: 
                         </p>
                         <ul
                           class="visibility-list text-secondary"
