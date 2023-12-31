@@ -67,7 +67,6 @@ If you have access to Docker, we have a Docker compose definition to run those s
 
 ```sh
 docker compose up -d
-
 ```
 If the above command does not work, you may not have the updated v2 version of Docker. You may want to try this instead:
 
@@ -294,11 +293,20 @@ There are two big categories of testing in TEAMMATES:
 
 #### Running the tests
 
+##### Frontend tests
+
 To run all front-end component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
 
 ```sh
 npm run test
 ```
+
+To update snapshots, run the following command:
+```sh
+npm run test
+```
+
+Followed by `a` to run all the test cases. Check through the snapshots to make sure that the changes are as expected, and press `u` to update them.
 
 To run all front-end component tests once and generate coverage data afterwards, run the following command:
 
@@ -309,6 +317,8 @@ npm run coverage
 To run an individual test in a test file, change `it` in the `*.spec.ts` file to `fit`.
 
 To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.
+
+##### Backend tests
 
 Back-end component tests follow this configuration:
 

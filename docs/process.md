@@ -182,11 +182,14 @@ Your code will be reviewed, in this sequence, by:
 * GitHub Actions: by running static analysis.<br>
   Most of the tools will display the cause of the failures in the console;
   if this is not the case, you can run any of the static analysis tools and obtain the reports locally.<br>
+  You can check how to run the static analysis locally [here](static-analysis.md#running-static-analysis)<br>
   Ensure that the static analysis passes before triggering another build.
 * GitHub Actions: by building and running tests.<br>
   If there are failed tests, the build will be marked as a failure.
   You can consult the CI log to find which tests.<br>
-  Ensure that all tests pass before triggering another build.
+  Ensure that all tests pass before triggering another build.<br>
+  A short summary on how to run the tests locally can be found [here](development.md#running-the-tests)
+
 * Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR or suggest changes.
   * Depending on the complexity of the issue, there may be multiple reviewers assigned to the PR.
   * Sometimes, the additional reviewer(s) will focus on code style and maintainability.
