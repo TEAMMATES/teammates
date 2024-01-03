@@ -1079,6 +1079,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Other students in the course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
                       <tm-comment-row>
                         <div
                           class="card"
@@ -1294,6 +1315,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="col-12 margin-bottom-20px margin-top-10px indent"
                     id="comment-section-qn-3-idx-0"
                   >
+                    <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Your team members can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                     <div
                       style="display: inline-block;"
                     >
@@ -1693,6 +1735,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="col-12 margin-bottom-20px margin-top-10px indent"
                     id="comment-section-qn-4-idx-0"
                   >
+                    <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             The receiving students can see your response, the name of the recipient, and your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, the name of the recipient, and your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                     <div>
                       <tm-comment-row>
                         <div
@@ -3928,6 +3991,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Other students in the course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
                       <tm-comment-row>
                         <div
                           class="card"
@@ -4145,6 +4229,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="col-12 margin-bottom-20px margin-top-10px indent"
                     id="comment-section-qn-3-idx-0"
                   >
+                    <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Your team members can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                     <div
                       style="display: inline-block;"
                     >
@@ -4548,6 +4653,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="col-12 margin-bottom-20px margin-top-10px indent"
                     id="comment-section-qn-4-idx-0"
                   >
+                    <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             The receiving students can see your response, the name of the recipient, and your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, the name of the recipient, and your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                     <div>
                       <tm-comment-row>
                         <div
