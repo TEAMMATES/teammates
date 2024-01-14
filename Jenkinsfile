@@ -15,7 +15,7 @@ kind: Pod
 spec:
   containers:
   - name: shell
-    image: gradle:latest
+    image: teammates:1.0 
     command:
     - sleep
     args:
