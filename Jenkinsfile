@@ -1,15 +1,7 @@
 pipeline {
   agent {
-        kubernetes {
-            // Rather than inline YAML, in a multibranch Pipeline you could use: yamlFile 'jenkins-pod.yaml'
-            // Or, to avoid YAML:
-            // containerTemplate {
-            //     name 'shell'
-            //     image 'ubuntu'
-            //     command 'sleep'
-            //     args 'infinity'
-            // }
-            yaml '''
+    kubernetes {
+      yaml '''
 apiVersion: v1
 kind: Pod
 spec:
@@ -21,18 +13,25 @@ spec:
     args:
     - infinity
 '''
-            // Can also wrap individual steps:
-            // container('shell') {
-            //     sh 'hostname'
-            // }
-            defaultContainer 'shell'
-        }
+      defaultContainer 'shell'
     }
+
+  }
   stages {
-    stage('Build') {
+    stage('Create config') {
       steps {
         withGradle() {
-          sh './gradlew createConfigs'
+          sh './gradlew --no-daemon createConfigs'
+        }
+
+      }
+    }
+
+    stage('Build Web UI') {
+      steps {
+        withGradle() {
+          sh '''./gradlew --no-daemon generateTypes
+npm run build'''
         }
 
       }
