@@ -1,3 +1,4 @@
+# test
 FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y default-jdk unzip wget curl
 RUN curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh && bash ./nodesource_setup.sh
