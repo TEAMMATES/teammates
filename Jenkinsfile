@@ -21,7 +21,8 @@ spec:
     stage('Create config') {
       steps {
         withGradle() {
-          sh './gradlew --no-daemon createConfigs'
+          sh '''./gradlew --no-daemon createConfigs
+npm ci'''
         }
 
       }
