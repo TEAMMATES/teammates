@@ -32,7 +32,7 @@ spec:
     stage('Build') {
       steps {
         withGradle() {
-          sh '/gradlew createConfigs'
+          sh './gradlew createConfigs'
         }
 
       }
