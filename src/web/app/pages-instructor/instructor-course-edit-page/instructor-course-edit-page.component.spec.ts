@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { instructorBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
@@ -41,26 +42,19 @@ const testCourse: Course = {
   deletionTimestamp: 1000,
 };
 
-const testInstructor1: Instructor = {
-  courseId: 'exampleId',
-  email: 'instructor1@gmail.com',
-  joinState: JoinState.JOINED,
-  name: 'Instructor 1',
-};
+const testInstructor1: Instructor = instructorBuilder.email('instructor1@gmail.com').name('Instructor 1').build();
 
-const testInstructor2: Instructor = {
-  courseId: 'exampleId',
-  email: 'instructor2@gmail.com',
-  joinState: JoinState.NOT_JOINED,
-  name: 'Instructor 2',
-};
+const testInstructor2 = instructorBuilder
+  .email('instructor2@gmail.com')
+  .joinState(JoinState.NOT_JOINED)
+  .name('Instructor 2')
+  .build();
 
-const testInstructor3: Instructor = {
-  courseId: 'exampleId',
-  email: 'instructor3@gmail.com',
-  joinState: JoinState.NOT_JOINED,
-  name: 'Instructor 3',
-};
+const testInstructor3 = instructorBuilder
+  .email('instructor3@gmail.com')
+  .joinState(JoinState.NOT_JOINED)
+  .name('Instructor 3')
+  .build();
 
 const emptyInstructorPanel: InstructorEditPanel = {
   googleId: '',
