@@ -1258,6 +1258,67 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </tm-comment-row>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-1-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
+                          <div
+                            class="card"
+                          >
+                            <div
+                              class="card-body"
+                            >
+                              <div
+                                class="row comment-row"
+                              >
+                                <div
+                                  class="col-12"
+                                >
+                                  <span
+                                    class="by-response-giver text-secondary"
+                                  >
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
+                                  >
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
+                                </div>
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </tm-comment-row>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1497,6 +1558,70 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </button>
                         </tm-comment-edit-form>
                       </tm-comment-row>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-3-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                      </div>
+                      <div>
+                        <tm-comment-row>
+                          <tm-comment-edit-form>
+                            <div
+                              class="row"
+                            >
+                              <div
+                                class="col-6"
+                              >
+                                 Your comment about the above response 
+                              </div>
+                              <div
+                                class="col-6"
+                              >
+                                <div
+                                  class="float-end"
+                                >
+                                  <span>
+                                  </span>
+                                  <span
+                                    style="margin-left: 10px;"
+                                  >
+                                    <button
+                                      aria-label="Close"
+                                      class="btn-close"
+                                      type="button"
+                                    />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              style="margin: 10px 0;"
+                            >
+                              <tm-rich-text-editor
+                                placeholdertext="Enter your comment here"
+                              >
+                                <div
+                                  inviewport=""
+                                >
+                                </div>
+                              </tm-rich-text-editor>
+                            </div>
+                            <button
+                              class="btn btn-light btn-sm float-end"
+                              type="button"
+                            >
+                              <i
+                                class="fas fa-times"
+                              />
+                               Cancel
+                            </button>
+                          </tm-comment-edit-form>
+                        </tm-comment-row>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1915,6 +2040,67 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </tm-comment-row>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-4-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
+                          <div
+                            class="card"
+                          >
+                            <div
+                              class="card-body"
+                            >
+                              <div
+                                class="row comment-row"
+                              >
+                                <div
+                                  class="col-12"
+                                >
+                                  <span
+                                    class="by-response-giver text-secondary"
+                                  >
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
+                                  >
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
+                                </div>
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </tm-comment-row>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2126,6 +2312,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-5-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2332,6 +2535,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         />
                          [Optional] Comment on your response 
                       </button>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-6-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2804,6 +3024,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-7-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3146,6 +3383,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-8-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3424,6 +3678,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-9-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3647,6 +3918,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         />
                          [Optional] Comment on your response 
                       </button>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-10-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -4213,6 +4502,69 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </tm-comment-row>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-1-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
+                          <div
+                            class="card"
+                          >
+                            <div
+                              class="card-body"
+                            >
+                              <div
+                                class="row comment-row"
+                              >
+                                <div
+                                  class="col-12"
+                                >
+                                  <span
+                                    class="by-response-giver text-secondary"
+                                  >
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
+                                  >
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      disabled=""
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      disabled=""
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
+                                </div>
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </tm-comment-row>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -4453,6 +4805,71 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </button>
                         </tm-comment-edit-form>
                       </tm-comment-row>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-3-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                      </div>
+                      <div>
+                        <tm-comment-row>
+                          <tm-comment-edit-form>
+                            <div
+                              class="row"
+                            >
+                              <div
+                                class="col-6"
+                              >
+                                 Your comment about the above response 
+                              </div>
+                              <div
+                                class="col-6"
+                              >
+                                <div
+                                  class="float-end"
+                                >
+                                  <span>
+                                  </span>
+                                  <span
+                                    style="margin-left: 10px;"
+                                  >
+                                    <button
+                                      aria-label="Close"
+                                      class="btn-close"
+                                      type="button"
+                                    />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              style="margin: 10px 0;"
+                            >
+                              <tm-rich-text-editor
+                                placeholdertext="Enter your comment here"
+                              >
+                                <div
+                                  inviewport=""
+                                >
+                                </div>
+                              </tm-rich-text-editor>
+                            </div>
+                            <button
+                              class="btn btn-light btn-sm float-end"
+                              disabled=""
+                              type="button"
+                            >
+                              <i
+                                class="fas fa-times"
+                              />
+                               Cancel
+                            </button>
+                          </tm-comment-edit-form>
+                        </tm-comment-row>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -4876,6 +5293,69 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </tm-comment-row>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-4-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
+                          <div
+                            class="card"
+                          >
+                            <div
+                              class="card-body"
+                            >
+                              <div
+                                class="row comment-row"
+                              >
+                                <div
+                                  class="col-12"
+                                >
+                                  <span
+                                    class="by-response-giver text-secondary"
+                                  >
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
+                                  >
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      disabled=""
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      disabled=""
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
+                                </div>
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </tm-comment-row>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5089,6 +5569,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-5-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5297,6 +5795,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         />
                          [Optional] Comment on your response 
                       </button>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-6-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -5771,6 +6287,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-7-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -6123,6 +6657,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-8-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -6403,6 +6955,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                          [Optional] Comment on your response 
                       </button>
                     </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-9-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -6627,6 +7197,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         />
                          [Optional] Comment on your response 
                       </button>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-10-idx-0"
+                    >
+                      <div
+                        style="display: inline-block;"
+                      >
+                        <button
+                          class="btn-add-comment btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          <i
+                            class="fas fa-comment"
+                          />
+                           [Optional] Comment on your response 
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
