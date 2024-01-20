@@ -435,14 +435,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -1037,7 +1037,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -1796,14 +1796,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -2069,14 +2069,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -2366,14 +2366,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/details"
                   >
