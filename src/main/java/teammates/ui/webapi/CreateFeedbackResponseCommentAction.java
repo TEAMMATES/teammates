@@ -62,8 +62,6 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, session);
-
-            validQuestionForCommentInSubmission(question);
             verifyResponseOwnerShipForStudent(studentAttributes, response, question);
             break;
         case INSTRUCTOR_SUBMISSION:
@@ -79,8 +77,6 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
-
-            validQuestionForCommentInSubmission(question);
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         case INSTRUCTOR_RESULT:

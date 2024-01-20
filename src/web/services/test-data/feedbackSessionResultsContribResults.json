@@ -78,6 +78,15 @@
             "answer": 130,
             "questionType": "CONTRIB"
           },
+          "participantComment": {
+            "feedbackResponseCommentId": 64376,
+            "commentText": "Student 1 comment",
+            "createdAt": 1237692740010,
+            "lastEditedAt": 2245692743000,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
+          },
           "instructorComments": []
         },
         {
@@ -149,6 +158,15 @@
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
+          },
+          "participantComment": {
+            "feedbackResponseCommentId": 6097,
+            "commentText": "Student 2 comment",
+            "createdAt": 1237692740010,
+            "lastEditedAt": 2245692743000,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
           },
           "instructorComments": []
         },

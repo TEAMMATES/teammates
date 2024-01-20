@@ -14,8 +14,20 @@ nav {
 
 .main-content {
   margin-top: 50px;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 102px);
   padding: 20px 70px;
+}
+
+@media (max-width: 575px) {
+  .main-content {
+    min-height: calc(100vh - 144px);
+  }
+}
+
+@media (min-width: 576px) and (max-width: 589px) {
+  .main-content {
+    min-height: calc(100vh - 123px);
+  }
 }
 
 .footer {
@@ -120,4 +132,8 @@ nav {
 
 .dropdown-menu-right {
   margin-bottom: .5rem;
+}
+
+button.bg-transparent.btn.btn-link.nav-link:active {
+  color: white !important;
 }

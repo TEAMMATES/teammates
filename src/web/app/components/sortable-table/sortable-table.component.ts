@@ -1,6 +1,26 @@
-import { Component, Input, OnChanges, OnInit, Type } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output } from '@angular/core';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+
+/**
+ * The color scheme of the header of the table
+ */
+export enum SortableTableHeaderColorScheme {
+  /**
+   * Blue background with white text.
+   */
+  BLUE,
+
+  /**
+   * White background with black text.
+   */
+  WHITE,
+
+  /**
+   * Custom background setting
+   */
+  OTHERS,
+}
 
 /**
  * Column data for sortable table
@@ -9,7 +29,14 @@ export interface ColumnData {
   header: string;
   headerToolTip?: string;
   sortBy?: SortBy; // optional if the column is not sortable
+  alignment?: 'start' | 'center' | 'end'; // defaults to start
+  headerClass?: string; // additional stylings
 }
+
+export type SortableEvent = {
+  sortBy: SortBy,
+  sortOrder: SortOrder,
+};
 
 /**
  * Data provided for each table cell
@@ -24,7 +51,7 @@ export interface SortableTableCellData {
   style?: string; // Optional value used to set style of data
   customComponent?: {
     component: Type<any>,
-    componentData: Record<string, any>, // @Input values for component
+    componentData: (idx: number) => Record<string, any>, // @Input values for component
   };
 }
 
@@ -45,6 +72,15 @@ export class SortableTableComponent implements OnInit, OnChanges {
   SortOrder: typeof SortOrder = SortOrder;
 
   @Input()
+  tableId: string = '';
+
+  @Input()
+  headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
+
+  @Input()
+  customHeaderStyle: string = '';
+
+  @Input()
   columns: ColumnData[] = [];
 
   @Input()
@@ -53,19 +89,26 @@ export class SortableTableComponent implements OnInit, OnChanges {
   @Input()
   initialSortBy: SortBy = SortBy.NONE;
 
-  columnToSortBy: string = '';
+  @Input()
   sortOrder: SortOrder = SortOrder.ASC;
+
+  @Output()
+  sortEvent: EventEmitter<SortableEvent> = new EventEmitter();
+
+  columnToSortBy: string = '';
   tableRows: SortableTableCellData[][] = [];
+  setMainTableStyle: boolean = true;
 
   constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
-    this.tableRows = this.rows.slice(); // Shallow clone to avoid reordering original array
+    this.tableRows = this.rows;
     this.initialSort(); // Performs an initial sort on the table
+    this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
   }
 
   ngOnChanges(): void {
-    this.tableRows = this.rows.slice(); // Shallow clone to avoid reordering original array
+    this.tableRows = this.rows;
     this.sortRows();
   }
 
@@ -96,7 +139,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     if (!sortBy) {
       return;
     }
-
+    this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
     this.tableRows.sort((row1: any[], row2: any[]) => {
       return this.tableComparatorService.compare(
           sortBy, this.sortOrder, String(row1[columnIndex].value), String(row2[columnIndex].value));
@@ -119,5 +162,11 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   getStyle(cellData: SortableTableCellData): string | undefined {
     return cellData.style;
+  }
+
+  getAlignment(column: ColumnData): { 'text-align': ColumnData['alignment'] } {
+    return {
+      'text-align': `${column?.alignment || 'start'}`,
+    };
   }
 }

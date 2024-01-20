@@ -10,6 +10,9 @@ import { CopySessionModalModule } from '../../components/copy-session-modal/copy
 import { ExtensionConfirmModalModule } from '../../components/extension-confirm-modal/extension-confirm-modal.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import {
+  ModifiedTimestampModalModule,
+} from '../../components/modified-timestamps-modal/modified-timestamps-module.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
@@ -52,6 +55,7 @@ const routes: Routes = [
     PreviewSessionPanelModule,
     PanelChevronModule,
     ExtensionConfirmModalModule,
+    ModifiedTimestampModalModule,
   ],
   declarations: [
     InstructorSessionEditPageComponent,

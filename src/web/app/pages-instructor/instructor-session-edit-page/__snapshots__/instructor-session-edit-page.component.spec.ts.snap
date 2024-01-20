@@ -40,6 +40,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -131,6 +132,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -222,6 +224,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -316,6 +319,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -407,6 +411,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -498,6 +503,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -669,6 +675,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <div
                       inviewport=""
                     >
+                      <div>
+                         2000 characters left 
+                      </div>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -1132,12 +1141,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     class="row text-center"
                   >
                     <div
-                      class="ngb-tooltip-class col-12 text-md-start ms-md-2"
-                      ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                      class="col-12 text-md-start ms-md-2"
                     >
                       <label
-                        class="control-label font-bold"
+                        class="ngb-tooltip-class control-label font-bold"
                         for="grace-period"
+                        ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
                       >
                          Grace period 
                       </label>
@@ -1289,13 +1298,17 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="collapse-caret"
               >
                 <tm-panel-chevron>
-                  <div
-                    class="chevron"
+                  <button
+                    aria-expanded="true"
+                    aria-label="Expand panel"
+                    class="chevron btn-course btn btn-primary btn-sm"
+                    type="button"
                   >
                     <i
                       class="fas fa-chevron-up"
+                      style="color: white;"
                     />
-                  </div>
+                  </button>
                 </tm-panel-chevron>
               </div>
               <div
@@ -1449,6 +1462,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <div
                                   inviewport=""
                                 >
+                                  <div
+                                    style=""
+                                  >
+                                     2000 characters left 
+                                  </div>
                                 </div>
                               </tm-rich-text-editor>
                             </div>
@@ -1522,7 +1540,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
+                        class="dropdown-toggle btn btn-light white-space-normal mw-100 d-inline-block"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
@@ -1770,181 +1788,185 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </li>
                       </ul>
                     </div>
-                    <table
-                      aria-label="Custom Visibility Options Table"
-                      class="table margin-top-15px background-color-white table-striped"
-                      style=""
+                    <div
+                      class="table-responsive"
                     >
-                      <thead>
-                        <tr>
-                          <th
-                            class="text-start"
-                            scope="col"
-                          >
-                            User/Group
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see answer
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see giver's name
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see recipient's name
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        id="custom-visibility-table"
+                      <table
+                        aria-label="Custom Visibility Options Table"
+                        class="table margin-top-15px background-color-white table-striped"
+                        style=""
                       >
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                        <thead>
+                          <tr>
+                            <th
+                              class="text-start"
+                              scope="col"
                             >
-                              Recipient(s)
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Recipient(s) can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Recipient(s) can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Recipient(s) can see Recipient's Name"
-                              disabled=""
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                              User/Group
+                            </th>
+                            <th
+                              class="text-center"
+                              scope="col"
                             >
-                              Giver's Team Members
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Giver's Team Members can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Giver's Team Members can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Giver's Team Members can see Recipient's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                              Can see answer
+                            </th>
+                            <th
+                              class="text-center"
+                              scope="col"
                             >
-                              Other students
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Other Students can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Other Students can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Other Students can see Recipient's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                              Can see giver's name
+                            </th>
+                            <th
+                              class="text-center"
+                              scope="col"
                             >
-                              Instructors
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Instructors can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Instructors can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Instructors can see Recipient's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                              Can see recipient's name
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          id="custom-visibility-table"
+                        >
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Recipient(s)
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Recipient(s) can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Recipient(s) can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Recipient(s) can see Recipient's Name"
+                                disabled=""
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Giver's Team Members
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Giver's Team Members can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Giver's Team Members can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Giver's Team Members can see Recipient's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Other students
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Other Students can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Other Students can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Other Students can see Recipient's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Instructors
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Instructors can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Instructors can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Instructors can see Recipient's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                     <div
                       class="margin-top-15px visibility-message"
                     >
@@ -2012,13 +2034,17 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="collapse-caret"
               >
                 <tm-panel-chevron>
-                  <div
-                    class="chevron"
+                  <button
+                    aria-expanded="true"
+                    aria-label="Expand panel"
+                    class="chevron btn-course btn btn-primary btn-sm"
+                    type="button"
                   >
                     <i
                       class="fas fa-chevron-up"
+                      style="color: white;"
                     />
-                  </div>
+                  </button>
                 </tm-panel-chevron>
               </div>
               <div
@@ -2172,6 +2198,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <div
                                   inviewport=""
                                 >
+                                  <div
+                                    style=""
+                                  >
+                                     2000 characters left 
+                                  </div>
                                 </div>
                               </tm-rich-text-editor>
                             </div>
@@ -2245,7 +2276,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
+                        class="dropdown-toggle btn btn-light white-space-normal mw-100 d-inline-block"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
@@ -2493,181 +2524,185 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </li>
                       </ul>
                     </div>
-                    <table
-                      aria-label="Custom Visibility Options Table"
-                      class="table margin-top-15px background-color-white table-striped"
-                      style=""
+                    <div
+                      class="table-responsive"
                     >
-                      <thead>
-                        <tr>
-                          <th
-                            class="text-start"
-                            scope="col"
-                          >
-                            User/Group
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see answer
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see giver's name
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see recipient's name
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        id="custom-visibility-table"
+                      <table
+                        aria-label="Custom Visibility Options Table"
+                        class="table margin-top-15px background-color-white table-striped"
+                        style=""
                       >
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                        <thead>
+                          <tr>
+                            <th
+                              class="text-start"
+                              scope="col"
                             >
-                              Recipient(s)
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Recipient(s) can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Recipient(s) can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Recipient(s) can see Recipient's Name"
-                              disabled=""
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                              User/Group
+                            </th>
+                            <th
+                              class="text-center"
+                              scope="col"
                             >
-                              Giver's Team Members
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Giver's Team Members can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Giver's Team Members can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Giver's Team Members can see Recipient's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                              Can see answer
+                            </th>
+                            <th
+                              class="text-center"
+                              scope="col"
                             >
-                              Other students
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Other Students can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Other Students can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Other Students can see Recipient's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
+                              Can see giver's name
+                            </th>
+                            <th
+                              class="text-center"
+                              scope="col"
                             >
-                              Instructors
-                            </span>
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Instructors can see Answer"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Instructors can see Giver's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              aria-label="Instructors can see Recipient's Name"
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                              Can see recipient's name
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          id="custom-visibility-table"
+                        >
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Recipient(s)
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Recipient(s) can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Recipient(s) can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Recipient(s) can see Recipient's Name"
+                                disabled=""
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Giver's Team Members
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Giver's Team Members can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Giver's Team Members can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Giver's Team Members can see Recipient's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Other students
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Other Students can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Other Students can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Other Students can see Recipient's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span
+                                class="ngb-tooltip-class"
+                                container="body"
+                              >
+                                Instructors
+                              </span>
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Instructors can see Answer"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Instructors can see Giver's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                            <td
+                              class="text-center"
+                            >
+                              <input
+                                aria-label="Instructors can see Recipient's Name"
+                                type="checkbox"
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                     <div
                       class="margin-top-15px visibility-message"
                     >
@@ -2738,7 +2773,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     >
       <tm-adding-question-panel>
         <div
-          class="card-body background-color-light-blue text-center"
+          class="card-body background-color-light-blue text-center responsive-padding"
         >
           <div
             class="d-inline-block"
@@ -2746,7 +2781,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           >
             <button
               aria-expanded="false"
-              class="dropdown-toggle btn btn-primary"
+              class="dropdown-toggle btn btn-primary btn-small-padding"
               id="btn-new-question"
               ngbdropdowntoggle=""
             >
@@ -3019,7 +3054,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           </div>
           <a
             aria-label="Help for questions"
-            class="btn btn-link"
+            class="btn btn-link px-1 px-sm-3"
             href="/web/instructor/help?questionId=questions&section=questions"
             rel="noopener noreferrer"
             target="_blank"
@@ -3031,7 +3066,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             />
           </a>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary btn-small-padding"
             id="btn-copy-question"
           >
             Copy Question
@@ -3051,45 +3086,61 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="row align-items-center"
           >
             <div
-              class="col-lg-2 text-lg-end"
+              class="mb-3 mb-lg-0 col-lg-2 text-lg-end"
             >
               <b>
                 Preview Session:
               </b>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 mb-3 mb-lg-0 col-lg-5"
             >
-              <select
-                aria-label="Select student to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-student"
+              <div
+                class="row align-items-center justify-content-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-student"
-              >
-                Preview as Student
-              </button>
+                <select
+                  aria-label="Select student to preview as"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
+                  id="preview-student"
+                >
+                </select>
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-student"
+                  >
+                     Preview as Student 
+                  </button>
+                </div>
+              </div>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 col-lg-5"
             >
-              <select
-                aria-label="Select instructor to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-instructor"
+              <div
+                class="row align-items-center justify-content-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-instructor"
-              >
-                Preview as Instructor
-              </button>
+                <select
+                  aria-label="Select instructor to preview as"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
+                  id="preview-instructor"
+                >
+                </select>
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-instructor"
+                  >
+                     Preview as Instructor 
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -3139,6 +3190,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
+  publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -3307,6 +3359,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     <div
                       inviewport=""
                     >
+                      <div>
+                         2000 characters left 
+                      </div>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -3770,12 +3825,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     class="row text-center"
                   >
                     <div
-                      class="ngb-tooltip-class col-12 text-md-start ms-md-2"
-                      ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                      class="col-12 text-md-start ms-md-2"
                     >
                       <label
-                        class="control-label font-bold"
+                        class="ngb-tooltip-class control-label font-bold"
                         for="grace-period"
+                        ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
                       >
                          Grace period 
                       </label>
@@ -3927,13 +3982,17 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             class="collapse-caret"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
           <div
@@ -4050,6 +4109,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             <div
                               inviewport=""
                             >
+                              <div
+                                style=""
+                              >
+                                 2000 characters left 
+                              </div>
                             </div>
                           </tm-rich-text-editor>
                         </div>
@@ -4123,7 +4187,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <button
                     aria-expanded="false"
-                    class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
+                    class="dropdown-toggle btn btn-light white-space-normal mw-100 d-inline-block"
                     id="btn-feedback-path"
                     ngbdropdowntoggle=""
                   >
@@ -4517,215 +4581,219 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     </li>
                   </ul>
                 </div>
-                <table
-                  aria-label="Custom Visibility Options Table"
-                  class="table margin-top-15px background-color-white table-striped"
-                  style=""
+                <div
+                  class="table-responsive"
                 >
-                  <thead>
-                    <tr>
-                      <th
-                        class="text-start"
-                        scope="col"
-                      >
-                        User/Group
-                      </th>
-                      <th
-                        class="text-center"
-                        scope="col"
-                      >
-                        Can see answer
-                      </th>
-                      <th
-                        class="text-center"
-                        scope="col"
-                      >
-                        Can see giver's name
-                      </th>
-                      <th
-                        class="text-center"
-                        scope="col"
-                      >
-                        Can see recipient's name
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    id="custom-visibility-table"
+                  <table
+                    aria-label="Custom Visibility Options Table"
+                    class="table margin-top-15px background-color-white table-striped"
+                    style=""
                   >
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-start"
+                          scope="col"
                         >
-                          Recipient(s)
-                        </span>
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Recipient(s) can see Answer"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Recipient(s) can see Giver's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Recipient(s) can see Recipient's Name"
-                          disabled=""
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
+                          User/Group
+                        </th>
+                        <th
+                          class="text-center"
+                          scope="col"
                         >
-                          Giver's Team Members
-                        </span>
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Giver's Team Members can see Answer"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Giver's Team Members can see Giver's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Giver's Team Members can see Recipient's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
+                          Can see answer
+                        </th>
+                        <th
+                          class="text-center"
+                          scope="col"
                         >
-                          Recipient's Team Members
-                        </span>
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Recipient's Team Members can see Answer"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Recipient's Team Members can see Giver's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Recipient's Team Members can see Recipient's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
+                          Can see giver's name
+                        </th>
+                        <th
+                          class="text-center"
+                          scope="col"
                         >
-                          Other students
-                        </span>
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Other Students can see Answer"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Other Students can see Giver's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Other Students can see Recipient's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
+                          Can see recipient's name
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      id="custom-visibility-table"
+                    >
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Recipient(s)
+                          </span>
+                        </td>
+                        <td
+                          class="text-center"
                         >
-                          Instructors
-                        </span>
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Instructors can see Answer"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Instructors can see Giver's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          aria-label="Instructors can see Recipient's Name"
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <input
+                            aria-label="Recipient(s) can see Answer"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Recipient(s) can see Giver's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Recipient(s) can see Recipient's Name"
+                            disabled=""
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Giver's Team Members
+                          </span>
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Giver's Team Members can see Answer"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Giver's Team Members can see Giver's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Giver's Team Members can see Recipient's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Recipient's Team Members
+                          </span>
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Recipient's Team Members can see Answer"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Recipient's Team Members can see Giver's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Recipient's Team Members can see Recipient's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Other students
+                          </span>
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Other Students can see Answer"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Other Students can see Giver's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Other Students can see Recipient's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Instructors
+                          </span>
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Instructors can see Answer"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Instructors can see Giver's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            aria-label="Instructors can see Recipient's Name"
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 <div
                   class="margin-top-15px visibility-message"
                 >
@@ -4788,45 +4856,61 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             class="row align-items-center"
           >
             <div
-              class="col-lg-2 text-lg-end"
+              class="mb-3 mb-lg-0 col-lg-2 text-lg-end"
             >
               <b>
                 Preview Session:
               </b>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 mb-3 mb-lg-0 col-lg-5"
             >
-              <select
-                aria-label="Select student to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-student"
+              <div
+                class="row align-items-center justify-content-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-student"
-              >
-                Preview as Student
-              </button>
+                <select
+                  aria-label="Select student to preview as"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
+                  id="preview-student"
+                >
+                </select>
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-student"
+                  >
+                     Preview as Student 
+                  </button>
+                </div>
+              </div>
             </div>
             <div
-              class="col-lg-5"
+              class="col-12 col-lg-5"
             >
-              <select
-                aria-label="Select instructor to preview as"
-                class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
-                id="preview-instructor"
+              <div
+                class="row align-items-center justify-content-center"
               >
-              </select>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                id="btn-preview-instructor"
-              >
-                Preview as Instructor
-              </button>
+                <select
+                  aria-label="Select instructor to preview as"
+                  class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select ng-untouched ng-pristine ng-valid"
+                  id="preview-instructor"
+                >
+                </select>
+                <div
+                  class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-preview-instructor"
+                  >
+                     Preview as Instructor 
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

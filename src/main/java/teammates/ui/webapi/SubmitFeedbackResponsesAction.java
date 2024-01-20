@@ -216,7 +216,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                         .validateResponsesDetails(responseDetails, numRecipients);
 
         if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
+            throw new InvalidHttpRequestBodyException(String.join("\n", questionSpecificErrors));
         }
 
         if (!isSingleRecipientSubmission) {

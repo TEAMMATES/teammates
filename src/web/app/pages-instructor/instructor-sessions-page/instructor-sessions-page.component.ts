@@ -21,26 +21,26 @@ import {
   Courses,
   FeedbackQuestion,
   FeedbackSession,
-  FeedbackSessionPublishStatus,
   FeedbackSessions,
-  FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   SessionEditFormMode,
-  SessionEditFormModel,
 } from '../../components/session-edit-form/session-edit-form-model';
 import {
   CopySessionResult,
   SessionsTableColumn,
-  SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import {
+  SortableEvent,
+  SortableTableHeaderColorScheme,
+} from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -74,7 +74,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   SortOrder: typeof SortOrder = SortOrder;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
+  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 
   // url params
   courseId: string = '';
@@ -83,49 +83,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   courseCandidates: Course[] = [];
   templateSessions: TemplateSession[] = [];
 
-  // models
-  sessionEditFormModel: SessionEditFormModel = {
-    courseId: '',
-    timeZone: 'UTC',
-    courseName: '',
-    feedbackSessionName: '',
-    instructions: 'Please answer all the given questions.',
-
-    submissionStartTime: getLatestTimeFormat(),
-    submissionStartDate: getDefaultDateFormat(),
-    submissionEndTime: getLatestTimeFormat(),
-    submissionEndDate: getDefaultDateFormat(),
-    gracePeriod: 15,
-
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: getLatestTimeFormat(),
-    customSessionVisibleDate: getDefaultDateFormat(),
-
-    responseVisibleSetting: ResponseVisibleSetting.LATER,
-    customResponseVisibleTime: getLatestTimeFormat(),
-    customResponseVisibleDate: getDefaultDateFormat(),
-
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-
-    templateSessionName: '',
-
-    isSaving: false,
-    isEditable: true,
-    isDeleting: false,
-    isCopying: false,
-    hasVisibleSettingsPanelExpanded: false,
-    hasEmailSettingsPanelExpanded: false,
-  };
-
   isSessionEditFormExpanded: boolean = false;
 
   sessionsTableRowModels: SessionsTableRowModel[] = [];
-  sessionsTableRowModelsSortBy: SortBy = SortBy.NONE;
-  sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
   isRecycleBinExpanded: boolean = false;
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
@@ -161,9 +121,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               private route: ActivatedRoute) {
     super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModalService,
-        simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService, studentService);
-  }
+      simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService, studentService);
 
+    this.sessionEditFormModel = {
+      ...this.sessionEditFormModel,
+      isEditable: true,
+      gracePeriod: 15,
+      responseVisibleSetting: ResponseVisibleSetting.LATER,
+      instructions: 'Please answer all the given questions.',
+    };
+  }
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
@@ -366,33 +333,39 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                     showResponsesTo: question.showResponsesTo,
                     showGiverNameTo: question.showGiverNameTo,
                     showRecipientNameTo: question.showRecipientNameTo,
+                  },
+                );
+              }),
+            )
+            .subscribe({
+              next: () => {},
+              error: (resp: ErrorMessageOutput) => {
+                this.sessionEditFormModel.isSaving = false;
+                this.statusMessageService.showErrorToast(
+                  `The session is created but the template questions cannot be created: ${resp.error.message}`,
+                );
+              },
+              complete: () => {
+                this.navigationService
+                  .navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
+                    courseid: feedbackSession.courseId,
+                    fsname: feedbackSession.feedbackSessionName,
+                  })
+                  .then(() => {
+                    this.statusMessageService.showSuccessToast(
+                      'The feedback session has been added.'
+                        + 'Click the "Add New Question" button below to begin adding questions '
+                        + 'for the feedback session.',
+                    );
                   });
-            }),
-        ).subscribe({
-          next: () => {},
-          error: (resp: ErrorMessageOutput) => {
-            this.sessionEditFormModel.isSaving = false;
-            this.statusMessageService.showErrorToast(
-                `The session is created but the template questions cannot be created: ${resp.error.message}`);
-          },
-          complete: () => {
-            this.navigationService.navigateByURLWithParamEncoding(
-                '/web/instructor/sessions/edit',
-                { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
-                .then(() => {
-                  this.statusMessageService.showSuccessToast('The feedback session has been added.'
-                      + 'Click the "Add New Question" button below to begin adding questions '
-                      + 'for the feedback session.');
-                });
-          },
-        });
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.sessionEditFormModel.isSaving = false;
-        this.statusMessageService.showErrorToast(
-            this.formatErrorMessage(resp.error.message));
-      },
-    });
+              },
+            });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.sessionEditFormModel.isSaving = false;
+          this.statusMessageService.showErrorToast(this.formatErrorMessage(resp.error.message));
+        },
+      });
   }
 
   formatErrorMessage(errorMessage: string): string {
@@ -412,37 +385,33 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
         .pipe(finalize(() => {
           this.isFeedbackSessionsLoading = false;
-        }))
-        .subscribe({
-          next: (response: FeedbackSessions) => {
-            response.feedbackSessions.forEach((session: FeedbackSession) => {
-              const model: SessionsTableRowModel = {
-                feedbackSession: session,
-                responseRate: '',
-                isLoadingResponseRate: false,
-                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
-              };
-              this.sessionsTableRowModels.push(model);
-            });
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.resetAllModels();
-            this.hasFeedbackSessionLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-          complete: () => this.sortSessionsTableRowModelsEvent(SortBy.COURSE_ID),
-        });
+        }),
+      )
+      .subscribe({
+        next: (response: FeedbackSessions) => {
+          response.feedbackSessions.forEach((session: FeedbackSession) => {
+            const model: SessionsTableRowModel = {
+              feedbackSession: session,
+              responseRate: '',
+              isLoadingResponseRate: false,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
+            };
+            this.sessionsTableRowModels.push(model);
+          });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.resetAllModels();
+          this.hasFeedbackSessionLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModelsEvent(by: SortBy): void {
-    this.sessionsTableRowModelsSortBy = by;
-    // reverse the sort order
-    this.sessionsTableRowModelsSortOrder =
-        this.sessionsTableRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.sessionsTableRowModels.sort(this.sortModelsBy(by, this.sessionsTableRowModelsSortOrder));
+  sortSessionsTableRowModelsEvent(event: SortableEvent): void {
+    this.sessionsTableRowModels.sort(this.sortModelsBy(event.sortBy, event.sortOrder));
   }
 
   /**
@@ -459,8 +428,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRateEventHandler(rowIndex: number): void {
-    this.loadResponseRate(this.sessionsTableRowModels[rowIndex]);
+  loadResponseRateEventHandler(rowIdx: Index): void {
+    this.loadResponseRate((models: SessionsTableRowModel[]): void => {
+      this.sessionsTableRowModels = [...models];
+    }, this.sessionsTableRowModels, rowIdx);
   }
 
   /**
@@ -485,7 +456,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               isLoadingResponseRate: false,
               instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
             };
-            this.sessionsTableRowModels.push(m);
+            this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
             this.statusMessageService.showSuccessToast('The feedback session has been restored.');
           },
           error: (resp: ErrorMessageOutput) => {
@@ -497,7 +468,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Moves the feedback session to the recycle bin.
    */
-  moveSessionToRecycleBinEventHandler(rowIndex: number): void {
+  moveSessionToRecycleBinEventHandler(rowIndex: Index): void {
     this.isMoveToRecycleBinLoading = true;
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     this.feedbackSessionsService.moveSessionToRecycleBin(
@@ -533,7 +504,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
+      this.copySingleSession(requestList[0].pipe(finalize(() => {
+        this.isCopySessionLoading = false;
+      })), this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -559,28 +532,28 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   /**
    * Submits the feedback session as instructor.
    */
-  submitSessionAsInstructorEventHandler(rowIndex: number): void {
+  submitSessionAsInstructorEventHandler(rowIndex: Index): void {
     this.submitSessionAsInstructor(this.sessionsTableRowModels[rowIndex]);
   }
 
   /**
    * Publishes a feedback session.
    */
-  publishSessionEventHandler(rowIndex: number): void {
-    this.publishSession(this.sessionsTableRowModels[rowIndex]);
+  publishSessionEventHandler(event: MutateEvent): void {
+    this.publishSession(this.sessionsTableRowModels[event.idx], event.rowData, event.columnsData);
   }
 
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSessionEventHandler(rowIndex: number): void {
-    this.unpublishSession(this.sessionsTableRowModels[rowIndex]);
+  unpublishSessionEventHandler(event: MutateEvent): void {
+    this.unpublishSession(this.sessionsTableRowModels[event.idx], event.rowData, event.columnsData);
   }
 
   /**
    * Downloads the result of a feedback session in csv.
    */
-  downloadSessionResultEventHandler(rowIndex: number): void {
+  downloadSessionResultEventHandler(rowIndex: Index): void {
     this.downloadSessionResult(this.sessionsTableRowModels[rowIndex]);
   }
 
@@ -590,7 +563,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadRecycleBinFeedbackSessions(): void {
     this.isRecycleBinLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsInRecycleBinForInstructor()
-        .pipe(finalize(() => {
+      .pipe(finalize(() => {
           this.isRecycleBinLoading = false;
         }))
         .subscribe({
@@ -598,16 +571,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             response.feedbackSessions.forEach((session: FeedbackSession) => {
               this.recycleBinFeedbackSessionRowModels.push({
                 feedbackSession: session,
-              });
             });
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.resetAllModels();
-            this.hasFeedbackSessionLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-          complete: () => this.sortRecycleBinFeedbackSessionRowsEvent(SortBy.SESSION_DELETION_DATE),
-        });
+          });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.resetAllModels();
+          this.hasFeedbackSessionLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+        complete: () => this.sortRecycleBinFeedbackSessionRowsEvent(SortBy.SESSION_DELETION_DATE),
+      });
   }
 
   /**
@@ -637,7 +610,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               isLoadingResponseRate: false,
               instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
             };
-            this.sessionsTableRowModels.push(m);
+            this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
           });
           this.statusMessageService.showSuccessToast('All sessions have been restored.');
         },
@@ -700,20 +673,22 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       });
 
       forkJoin(deleteRequests).pipe(finalize(() => {
+              this.isPermanentDeleteLoading = false;
+            }),
+          )
+          .subscribe({
+            next: () => {
+              this.recycleBinFeedbackSessionRowModels = [];
+              this.statusMessageService.showSuccessToast('All sessions have been permanently deleted.');
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
+      })
+      .catch(() => {
         this.isPermanentDeleteLoading = false;
-      }))
-        .subscribe({
-          next: () => {
-            this.recycleBinFeedbackSessionRowModels = [];
-            this.statusMessageService.showSuccessToast('All sessions have been permanently deleted.');
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-    }).catch(() => {
-      this.isPermanentDeleteLoading = false;
-    });
+      });
   }
 
   /**

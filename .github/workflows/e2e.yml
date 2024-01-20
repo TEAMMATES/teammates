@@ -18,6 +18,7 @@ jobs:
       fail-fast: false #ensure both tests run even if one fails
       matrix:
         browser: [firefox]
+        tests: [stable, unstable]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -52,4 +53,5 @@ jobs:
           ./gradlew serverRun &
           ./wait-for-server.sh
       - name: Start Tests
-        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests
+        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTests
+        

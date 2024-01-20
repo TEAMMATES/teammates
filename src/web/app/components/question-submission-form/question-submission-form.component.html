@@ -1,15 +1,14 @@
 <div id="question-submission-form-qn-{{ model.questionNumber }}" class="card">
-  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
+  <div class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
           [ngClass]="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ?
             (isSavedForRecipient(recipientId) ? 'bg-success' : 'bg-primary') :
-            (isSaved ? 'bg-success' : 'bg-primary')"
-          [attr.aria-expanded]="shouldTabExpand()">
+            (isSaved ? 'bg-success' : 'bg-primary')">
     <div class="collapse-caret">
-      <tm-panel-chevron [isExpanded]="shouldTabExpand()" aria-hidden="true"></tm-panel-chevron>
+      <tm-panel-chevron [isExpanded]="shouldTabExpand()"></tm-panel-chevron>
     </div>
     <i class="fas fa-check me-2" *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ? isSavedForRecipient(recipientId) : isSaved" aria-hidden="true"></i>
     <h2 class="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h2>
-  </button>
+  </div>
 
   <div *ngIf="shouldTabExpand()" @collapseAnim>
     <div class="card-body" *tmIsLoading="model.isLoading">
@@ -151,7 +150,21 @@
               </tm-constsum-recipients-question-edit-answer-form>
             </div>
 
-            <div id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
+            <div id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}" class="col-12 margin-bottom-20px margin-top-10px indent">
+              <div *ngIf="recipientSubmissionFormModel.commentByGiver">
+                <div class="card-body visibility-card">
+                  <p class="text-secondary">Only the following persons can see your comments: </p>
+                  <ul class="visibility-list text-secondary">
+                    <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
+                    <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+                      <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
+                        {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+                      </li>
+                    </ng-container>
+                    <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
+                  </ul>
+                </div>
+              </div>
               <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
                 <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
                                 [model]="recipientSubmissionFormModel.commentByGiver"
@@ -166,28 +179,45 @@
                   You must provide a valid response in order to give a comment or your comment will not be saved!
                 </div>
               </div>
-              <ng-template #newComment>
-                <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
-                  <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn-add-comment btn btn-light btn-sm"
-                          (click)="addNewParticipantCommentToResponse(i)"
-                          [disabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
-                    <i class="fas fa-comment"></i> [Optional] Comment on your response
-                  </button>
-                </div>
-                <div *ngIf="recipientSubmissionFormModel.commentByGiver">
-                  <tm-comment-row [mode]="CommentRowMode.ADD" [isVisibilityOptionEnabled]="false"
+
+              <div id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}" class="col-12 margin-bottom-20px margin-top-10px indent">
+                <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
+                  <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
+                                  [model]="recipientSubmissionFormModel.commentByGiver"
+                                  (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
                                   [isFeedbackParticipantComment]="true"
                                   [questionShowResponsesTo]="model.showResponsesTo"
                                   [shouldHideSavingButton]="true"
-                                  [model]="recipientSubmissionFormModel.commentByGiver"
-                                  (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
-                                  (closeEditingEvent)="cancelAddingNewParticipantComment(i)"
+                                  (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
+                                  (closeEditingEvent)="discardEditedParticipantComment(i)"
                                   [isDisabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
                   <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
                     You must provide a valid response in order to give a comment or your comment will not be saved!
                   </div>
                 </div>
-              </ng-template>
+                <ng-template #newComment>
+                  <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
+                    <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn-add-comment btn btn-light btn-sm"
+                            (click)="addNewParticipantCommentToResponse(i)"
+                            [disabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
+                      <i class="fas fa-comment"></i> [Optional] Comment on your response
+                    </button>
+                  </div>
+                  <div *ngIf="recipientSubmissionFormModel.commentByGiver">
+                    <tm-comment-row [mode]="CommentRowMode.ADD" [isVisibilityOptionEnabled]="false"
+                                    [isFeedbackParticipantComment]="true"
+                                    [questionShowResponsesTo]="model.showResponsesTo"
+                                    [shouldHideSavingButton]="true"
+                                    [model]="recipientSubmissionFormModel.commentByGiver"
+                                    (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
+                                    (closeEditingEvent)="cancelAddingNewParticipantComment(i)"
+                                    [isDisabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
+                    <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
+                      You must provide a valid response in order to give a comment or your comment will not be saved!
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
             </div>
           </ng-container>
         </div>
@@ -221,7 +251,8 @@
         <div class="col-12 text-center">
           <button id="btn-submit-qn-{{ model.questionNumber }}" type="submit" class="btn btn-success"
                   ngbTooltip="You can save your responses for this question at any time and come back later to continue."
-                  (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionDisabled">
+                  #tooltip="ngbTooltip" (mouseenter)="tooltip.open()"
+                  (click)="saveFeedbackResponses(); tooltip.close();"[disabled]="isSavingResponses || isSubmissionDisabled">
             <tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>
             <span>{{ isQuestionCountOne ? "Submit Response" : "Submit Response for Question " + model.questionNumber }}</span>
           </button>

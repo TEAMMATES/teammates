@@ -39,13 +39,17 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         class="collapse-caret"
       >
         <tm-panel-chevron>
-          <div
-            class="chevron"
+          <button
+            aria-expanded="true"
+            aria-label="Expand panel"
+            class="chevron btn-course btn btn-primary btn-sm"
+            type="button"
           >
             <i
               class="fas fa-chevron-up"
+              style="color: white;"
             />
-          </div>
+          </button>
         </tm-panel-chevron>
       </div>
       <div
@@ -181,6 +185,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                         <div
                           inviewport=""
                         >
+                          <div
+                            style=""
+                          >
+                             2000 characters left 
+                          </div>
                         </div>
                       </tm-rich-text-editor>
                     </div>
@@ -256,7 +265,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <button
                 aria-expanded="false"
-                class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
+                class="dropdown-toggle btn btn-light white-space-normal mw-100 d-inline-block"
                 disabled=""
                 id="btn-feedback-path"
                 ngbdropdowntoggle=""
@@ -406,6 +415,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   </button>
                 </li>
               </ul>
+            </div>
+            <div
+              class="table-responsive"
+            >
             </div>
             <div
               class="margin-top-15px visibility-message"

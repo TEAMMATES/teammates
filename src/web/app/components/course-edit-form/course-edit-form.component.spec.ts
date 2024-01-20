@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
 import {
- ComponentFixture,
- TestBed,
- waitForAsync,
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -24,15 +24,16 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import {
   CourseAddFormModel,
-   CourseEditFormMode,
-   DEFAULT_COURSE_ADD_FORM_MODEL,
-   DEFAULT_COURSE_EDIT_FORM_MODEL,
+  CourseEditFormMode,
+  DEFAULT_COURSE_ADD_FORM_MODEL,
+  DEFAULT_COURSE_EDIT_FORM_MODEL,
 } from './course-edit-form-model';
 import { CourseEditFormComponent } from './course-edit-form.component';
 
@@ -44,20 +45,37 @@ describe('CourseEditFormComponent', () => {
 
   const validCourseId: string = 'CS1101S';
   const validTimeZone: string = 'Asia/Singapore';
-  const validInstitute: string = 'Test Institute';
+  const validInstitute1: string = 'Test Institute1';
+  const validInstitute2: string = 'Test Institute2';
   const testTimeZone: string = 'Australia/Adelaide';
   const timeZoneOffsets1: Record<string, number> = { GMT: 570 };
-  const testCourse: Course = {
-    courseId: 'testId',
-    courseName: 'Test Course',
+  const testCourse1: Course = {
+    courseId: 'testId1',
+    courseName: 'Test Course1',
     timeZone: validTimeZone,
-    institute: validInstitute,
+    institute: validInstitute1,
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
+  const testCourse2: Course = {
+    courseId: 'testId2',
+    courseName: 'Test Course2',
+    timeZone: validTimeZone,
+    institute: validInstitute2,
+    creationTimestamp: 0,
+    deletionTimestamp: 1000,
+  };
+  const errorMssg = 'Error occured';
+
+  const customError: ErrorMessageOutput = {
+    error: {
+      message: errorMssg,
+    },
+    status: 0,
+  };
 
   const spyStatusMessageService: any = {
-    showErrorToast: jest.fn(),
+    showErrorToast: jest.fn(() => errorMssg),
     showSuccessToast: jest.fn(),
   };
   const timezoneServiceStub: any = {
@@ -67,7 +85,7 @@ describe('CourseEditFormComponent', () => {
 
   const spyCourseService: any = {
     createCourse: jest.fn(() => of({})),
-    getAllCoursesAsInstructor: jest.fn(() => of({ courses: [testCourse] })),
+    getAllCoursesAsInstructor: jest.fn(() => of({ courses: [testCourse1, testCourse1] })),
   };
 
   beforeEach(waitForAsync(() => {
@@ -92,7 +110,7 @@ describe('CourseEditFormComponent', () => {
         { provide: TimezoneService, useValue: timezoneServiceStub },
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -205,14 +223,201 @@ describe('CourseEditFormComponent', () => {
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     const model: CourseAddFormModel = component.model as CourseAddFormModel;
-    model.activeCourses = [testCourse];
+    model.activeCourses = [testCourse1];
 
     component.copyCourseHandler();
-    mockModalRef.componentInstance.fetchFeedbackSessionsEvent.emit(testCourse.courseId);
+    mockModalRef.componentInstance.fetchFeedbackSessionsEvent.emit(testCourse1.courseId);
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);
-    expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse);
-    expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse.courseId]).toEqual([testFeedbackSession]);
+    expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse1);
+    expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse1.courseId]).toEqual([testFeedbackSession]);
   });
+
+  it('should handle errors in copyCourseHandler when promise is rejected', async () => {
+    component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+    component.formMode = CourseEditFormMode.ADD;
+    fixture.detectChanges();
+
+    const mockModalRef: any = createMockNgbModalRef({
+      isCopyFromOtherSession: false,
+      courses: [],
+      courseToFeedbackSession: {},
+      fetchFeedbackSessionsEvent: new EventEmitter<string>(),
+    }, Promise.reject(customError));
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+
+    component.copyCourseHandler();
+
+    expect(await spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
+  });
+
+  it('should handle errors in copyCourseHandler when observable throws an error', () => {
+    component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+    component.formMode = CourseEditFormMode.ADD;
+    fixture.detectChanges();
+
+    const mockModalRef: any = createMockNgbModalRef({
+      isCopyFromOtherSession: false,
+      courses: [],
+      courseToFeedbackSession: {},
+      fetchFeedbackSessionsEvent: new Observable<number>((observer) => {
+        observer.error(customError);
+      }),
+    });
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+
+    component.copyCourseHandler();
+
+    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
+  });
+
+  it('should set isEditing to true when editModel exists', () => {
+    component.editModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+
+    component.setIsEditing(true);
+
+    expect(component.editModel?.isEditing).toBe(true);
+  });
+
+  it('should set isEditing to false when editModel exists', () => {
+    component.editModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+
+    component.setIsEditing(false);
+
+    expect(component.editModel?.isEditing).toBe(false);
+  });
+
+  it('should update isEditing to true when editModel exists and isEditing is set as false', () => {
+    const defaultCourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+    defaultCourseEditFormModel.isEditing = false;
+    component.editModel = defaultCourseEditFormModel;
+
+    component.setIsEditing(true);
+
+    expect(component.editModel?.isEditing).toBe(true);
+  });
+
+  it('should update institutes when addModel is defined and when there is only one institute', () => {
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel.allCourses = [testCourse1];
+    component.addModel.course = testCourse1;
+
+    component.updateInstitutes();
+
+    expect(component.addModel.institutes).toEqual([validInstitute1]);
+    expect(component.addModel.course.institute).toBe(validInstitute1);
+  });
+
+  it('should update institutes when addModel is defined and when there is more than one institute', () => {
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel.allCourses = [testCourse1, testCourse2];
+    component.addModel.course = testCourse1;
+
+    component.updateInstitutes();
+
+    expect(component.addModel.institutes).toEqual([validInstitute1, validInstitute2]);
+    expect(component.addModel.course.institute).toBe(validInstitute1);
+  });
+
+  it('should not update institutes when allCourses of the component is empty', () => {
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel.allCourses = [];
+    component.addModel.course = testCourse2;
+
+    component.updateInstitutes();
+
+    expect(component.addModel.course.institute).toBe(validInstitute2);
+  });
+
+  it('should set the course timeZone when not in display-only mode', () => {
+    component.isDisplayOnly = false;
+
+    component.detectTimezoneHandler();
+
+    expect(component.model.course.timeZone).toBe(testTimeZone);
+  });
+
+  it('should not update the course timeZone when in display-only mode', () => {
+    component.isDisplayOnly = true;
+    component.model.course.timeZone = 'Asia/Singapore';
+
+    component.detectTimezoneHandler();
+
+    expect(component.model.course.timeZone).toBe('Asia/Singapore');
+  });
+
+  it('should do nothing when in display-only mode', () => {
+    component.isDisplayOnly = true;
+    const updateEmitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
+    const createEmitSpy = jest.spyOn(component.createNewCourseEvent, 'emit');
+
+    component.submitHandler();
+
+    expect(updateEmitSpy).not.toHaveBeenCalled();
+    expect(createEmitSpy).not.toHaveBeenCalled();
+
+  });
+
+  it('should mark controls as touched and return when the form is invalid', () => {
+    component.isDisplayOnly = false;
+    component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+    fixture.detectChanges();
+    const formInvalidGetter = jest.spyOn(component.form, 'invalid', 'get');
+    formInvalidGetter.mockReturnValue(true);
+
+    const control1 = { markAsTouched: jest.fn() };
+    const control2 = { markAsTouched: jest.fn() };
+
+    jest.spyOn(Object, 'values').mockReturnValue([control1, control2]);
+
+    component.submitHandler();
+
+    expect(formInvalidGetter).toHaveBeenCalled();
+    expect(Object.values).toHaveBeenCalledWith(component.form.controls);
+    expect(control1.markAsTouched).toHaveBeenCalled();
+    expect(control2.markAsTouched).toHaveBeenCalled();
+  });
+
+  it('should emit updateCourseEvent when the form is valid in EDIT mode', () => {
+    component.isDisplayOnly = false;
+    component.formMode = CourseEditFormMode.EDIT;
+    component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+    fixture.detectChanges();
+    const emitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
+
+    component.submitHandler();
+
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('should emit createNewCourseEvent when the form is valid in ADD mode', () => {
+    component.isDisplayOnly = false;
+    component.formMode = CourseEditFormMode.ADD;
+    component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+    fixture.detectChanges();
+
+    const emitSpy = jest.spyOn(component.createNewCourseEvent, 'emit');
+
+    component.submitHandler();
+
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('should emit closeFormEvent when closeFormHandler is called', () => {
+    const closeFormEventSpy = jest.spyOn(component.closeFormEvent, 'emit');
+
+    component.closeFormHandler();
+
+    expect(closeFormEventSpy).toHaveBeenCalled();
+  });
+
+  it('should emit deleteCourseEvent when deleteCourseHandler is called', () => {
+    const deleteCourseEventSpy = jest.spyOn(component.deleteCourseEvent, 'emit');
+
+    component.deleteCourseHandler();
+
+    expect(deleteCourseEventSpy).toHaveBeenCalled();
+  });
+
 });

@@ -1,4 +1,4 @@
-import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -22,6 +22,12 @@ import { VisibilityControl } from '../../../types/visibility-control';
 import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { ConstsumRecipientsQuestionConstraintComponent }
+  from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
+import { ContributionQuestionConstraintComponent }
+  from '../question-types/question-constraint/contribution-question-constraint.component';
+import { RankRecipientsQuestionConstraintComponent }
+  from '../question-types/question-constraint/rank-recipients-question-constraint.component';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import {
   FeedbackRecipientLabelType,
@@ -69,15 +75,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
     this.visibilityStateMachine =
-        this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
+      this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
     const visibilitySetting: { [TKey in VisibilityControl]: FeedbackVisibilityType[] } = {
       SHOW_RESPONSE: model.showResponsesTo,
       SHOW_GIVER_NAME: model.showGiverNameTo,
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
     };
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
-    this.allowedToHaveParticipantComment =
-        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
     this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
 
     // Initialise the "hasResponseChanged" variable and the "isTabExpandedForRecipients" variable
@@ -113,6 +117,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Output()
   responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
+
+  @ViewChild(ContributionQuestionConstraintComponent)
+  private contributionQuestionConstraint!: ContributionQuestionConstraintComponent;
+
+  @ViewChild(RankRecipientsQuestionConstraintComponent)
+  private rankRecipientsQuestionConstraint!: RankRecipientsQuestionConstraintComponent;
+
+  @ViewChild(ConstsumRecipientsQuestionConstraintComponent)
+  private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
     isLoading: false,
@@ -153,14 +166,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
-  allowedToHaveParticipantComment: boolean = false;
   isEveryRecipientSorted: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
-              private feedbackResponseService: FeedbackResponsesService) {
+    private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
-        this.feedbackQuestionsService.getNewVisibilityStateMachine(
-            this.model.giverType, this.model.recipientType);
+      this.feedbackQuestionsService.getNewVisibilityStateMachine(
+        this.model.giverType, this.model.recipientType);
   }
 
   get hasSectionTeam(): boolean {
@@ -231,12 +243,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,
-     secondRecipient: FeedbackResponseRecipient): number {
+    secondRecipient: FeedbackResponseRecipient): number {
     return firstRecipient.recipientName.localeCompare(secondRecipient.recipientName);
   }
 
   private compareBySection(firstRecipient: FeedbackResponseRecipient,
-     secondRecipient: FeedbackResponseRecipient): number {
+    secondRecipient: FeedbackResponseRecipient): number {
 
     if (firstRecipient.recipientSection && secondRecipient.recipientSection) {
       return firstRecipient.recipientSection.localeCompare(secondRecipient.recipientSection);
@@ -254,7 +266,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   private compareByTeam(firstRecipient: FeedbackResponseRecipient,
-     secondRecipient: FeedbackResponseRecipient): number {
+    secondRecipient: FeedbackResponseRecipient): number {
 
     if (firstRecipient.recipientTeam && secondRecipient.recipientTeam) {
       return firstRecipient.recipientTeam.localeCompare(secondRecipient.recipientTeam);
@@ -297,7 +309,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
         return this.compareBySection(firstRecipient, secondRecipient)
           || this.compareByTeam(firstRecipient, secondRecipient);
-        });
+      });
 
     } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
       this.model.recipientList.sort(this.compareByTeam);
@@ -319,8 +331,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   getRecipientName(recipientIdentifier: string): string {
     const recipient: FeedbackResponseRecipient | undefined =
-        this.model.recipientList.find(
-            (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
+      this.model.recipientList.find(
+        (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
     return recipient ? recipient.recipientName : 'Unknown';
   }
 
@@ -329,8 +341,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   isRecipientSelected(recipient: FeedbackResponseRecipient): boolean {
     return this.model.recipientSubmissionForms.some(
-        (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-            recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
+      (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+        recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
   }
 
   /**
@@ -342,18 +354,31 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.isSubmitAllClickedChange.emit(false);
       this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
 
-      const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-          this.model.recipientSubmissionForms.slice();
-      recipientSubmissionForms[index] = {
-        ...recipientSubmissionForms[index],
+      this.model.recipientSubmissionForms[index] =
+      {
+        ...this.model.recipientSubmissionForms[index],
         [field]: data,
       };
 
-      this.formModelChange.emit({
-        ...this.model,
-        recipientSubmissionForms,
-      });
+      this.updateIsValidByQuestionConstraint();
+      this.formModelChange.emit(this.model);
     }
+  }
+
+  updateIsValidByQuestionConstraint(): void {
+    let isValid: boolean = false;
+    const questionType: string = this.model.questionType;
+    if (questionType === FeedbackQuestionType.CONTRIB) {
+      isValid = this.contributionQuestionConstraint.isValid;
+    } else if (questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+      isValid = this.rankRecipientsQuestionConstraint.isValid;
+    } else if (questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+      isValid = this.constsumRecipientQuesitonConstraint.isValid;
+    } else {
+      return;
+    }
+
+    this.updateValidity(isValid);
   }
 
   /**
@@ -392,13 +417,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return;
     }
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver',
-        {
-          ...commentModel,
-          commentEditFormModel: {
-            commentText: commentModel.originalComment.commentText,
-          },
-          isEditing: false,
-        });
+      {
+        ...commentModel,
+        commentEditFormModel: {
+          commentText: commentModel.originalComment.commentText,
+        },
+        isEditing: false,
+      });
   }
 
   /**
@@ -406,7 +431,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   isFeedbackResponseDetailsEmpty(responseDetails: FeedbackResponseDetails): boolean {
     return this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
-        this.model.questionType, responseDetails);
+      this.model.questionType, responseDetails);
   }
 
   /**
@@ -414,13 +439,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   updateValidity(isValid: boolean): void {
     if (this.model.recipientSubmissionForms.length === 0) { return; }
-    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-        this.model.recipientSubmissionForms.slice().map(
-            (model: FeedbackResponseRecipientSubmissionFormModel) => ({ ...model, isValid }));
-    this.formModelChange.emit({
-      ...this.model,
-      recipientSubmissionForms,
-    });
+
+    for (const recipientSubmissionForm of this.model.recipientSubmissionForms) {
+      recipientSubmissionForm.isValid = isValid;
+    }
+
+    this.formModelChange.emit(this.model);
   }
 
   /**
@@ -469,7 +493,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   toggleSectionTeam(event: Event): void {
-    const checkbox : HTMLInputElement = event.target as HTMLInputElement;
+    const checkbox: HTMLInputElement = event.target as HTMLInputElement;
     if (checkbox.checked) {
       this.isSectionTeamShown = true;
       this.sortRecipientsBySectionTeam();

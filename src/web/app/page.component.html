@@ -9,7 +9,8 @@
     <ul class="nav navbar-nav flex-nowrap me-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ navItem.display }}</a>
+          <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
+                  data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ navItem.display }}</button>
           <div class="dropdown-menu" ngbDropdownMenu>
             <a *ngFor="let childItem of navItem.children" class="dropdown-item" [tmRouterLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
           </div>
@@ -22,21 +23,23 @@
     <ul class="nav navbar-nav me-auto" *ngIf="!isValidUser"></ul>
     <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
       <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="!user">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0" ngbDropdownToggle>Login</a>
+        <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
+           data-toggle="dropdown" tabindex="0" ngbDropdownToggle>Login</button>
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
           <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
       </li>
       <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="user">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ user }}</a>
+        <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
+                data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ user }}</button>
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" tmRouterLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
           <a class="dropdown-item" tmRouterLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
           <a class="dropdown-item" tmRouterLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
           <a class="dropdown-item" tmRouterLink="/web/maintainer" *ngIf="isMaintainer" (click)="closeModal()">To maintainer pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin || isMaintainer"></div>
-          <a class="dropdown-item" id="logout-btn" style="cursor: pointer;" (click)="logout()">Log Out</a>
+          <a class="dropdown-item" tmRouterLink="/web/front/home" id="logout-btn" style="cursor: pointer;" (click)="logout()">Log Out</a>
         </div>
       </li>
     </ul>

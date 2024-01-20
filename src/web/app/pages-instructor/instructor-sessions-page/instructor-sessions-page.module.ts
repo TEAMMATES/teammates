@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import {
+  ModifiedTimestampModalModule,
+} from '../../components/modified-timestamps-modal/modified-timestamps-module.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import {
   SessionsRecycleBinTableModule,
@@ -34,6 +37,13 @@ const routes: Routes = [
  * Module for instructor sessions page.
  */
 @NgModule({
+  declarations: [
+    InstructorSessionsPageComponent,
+    CopyFromOtherSessionsModalComponent,
+    SessionPermanentDeletionConfirmModalComponent,
+    SessionsPermanentDeletionConfirmModalComponent,
+  ],
+  exports: [InstructorSessionsPageComponent],
   imports: [
     CommonModule,
     SessionEditFormModule,
@@ -45,15 +55,7 @@ const routes: Routes = [
     LoadingSpinnerModule,
     LoadingRetryModule,
     TeammatesRouterModule,
-  ],
-  declarations: [
-    InstructorSessionsPageComponent,
-    CopyFromOtherSessionsModalComponent,
-    SessionPermanentDeletionConfirmModalComponent,
-    SessionsPermanentDeletionConfirmModalComponent,
-  ],
-  exports: [
-    InstructorSessionsPageComponent,
+    ModifiedTimestampModalModule,
   ],
 })
 export class InstructorSessionsPageModule { }

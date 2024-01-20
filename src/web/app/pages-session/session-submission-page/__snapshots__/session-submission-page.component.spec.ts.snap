@@ -994,23 +994,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-1"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1025,7 +1026,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1181,6 +1182,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Other students in the course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
                       <tm-comment-row>
                         <div
                           class="card"
@@ -1260,23 +1282,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-3"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1291,7 +1314,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1391,6 +1414,91 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-text-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-3-idx-0"
+                  >
+                    <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Your team members can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      style="display: inline-block;"
+                    >
+                    </div>
+                    <div>
+                      <tm-comment-row>
+                        <tm-comment-edit-form>
+                          <div
+                            class="row"
+                          >
+                            <div
+                              class="col-6"
+                            >
+                               Your comment about the above response 
+                            </div>
+                            <div
+                              class="col-6"
+                            >
+                              <div
+                                class="float-end"
+                              >
+                                <span>
+                                </span>
+                                <span
+                                  style="margin-left: 10px;"
+                                >
+                                  <button
+                                    aria-label="Close"
+                                    class="btn-close"
+                                    type="button"
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            style="margin: 10px 0;"
+                          >
+                            <tm-rich-text-editor
+                              placeholdertext="Enter your comment here"
+                            >
+                              <div
+                                inviewport=""
+                              >
+                              </div>
+                            </tm-rich-text-editor>
+                          </div>
+                          <button
+                            class="btn btn-light btn-sm float-end"
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-times"
+                            />
+                             Cancel
+                          </button>
+                        </tm-comment-edit-form>
+                      </tm-comment-row>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -1414,23 +1522,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-2"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <h2
@@ -1441,7 +1550,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1521,23 +1630,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-4"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1552,7 +1662,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               MSQ question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1729,6 +1839,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-4-idx-0"
                   >
                     <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             The receiving students can see your response, the name of the recipient, and your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, the name of the recipient, and your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
                       <tm-comment-row>
                         <div
                           class="card"
@@ -1821,23 +1952,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-5"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -1852,7 +1984,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               numerical scale question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -1978,6 +2110,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       <br />
                     </tm-num-scale-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-5-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -2014,23 +2163,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-6"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2045,7 +2195,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               constant sum question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -2167,6 +2317,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-constsum-recipients-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-6-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -2221,23 +2388,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-7"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2252,7 +2420,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               contribution question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -2620,6 +2788,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-contribution-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-7-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -2658,23 +2843,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-8"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -2689,7 +2875,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -2944,6 +3130,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rubric-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-8-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -2980,23 +3183,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-9"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3011,7 +3215,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -3204,6 +3408,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rank-options-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-9-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -3240,23 +3461,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-10"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3271,7 +3493,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -3408,6 +3630,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </select>
                       </div>
                     </tm-rank-recipients-question-edit-answer-form>
+                  </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-10-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3704,23 +3944,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-1"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -3735,7 +3976,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -3894,6 +4135,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Other students in the course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
                       <tm-comment-row>
                         <div
                           class="card"
@@ -3975,23 +4237,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-3"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4006,7 +4269,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4106,6 +4369,92 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-text-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-3-idx-0"
+                  >
+                    <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             Your team members can see your response, but not the name of the recipient, or your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, but not the name of the recipient, or your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      style="display: inline-block;"
+                    >
+                    </div>
+                    <div>
+                      <tm-comment-row>
+                        <tm-comment-edit-form>
+                          <div
+                            class="row"
+                          >
+                            <div
+                              class="col-6"
+                            >
+                               Your comment about the above response 
+                            </div>
+                            <div
+                              class="col-6"
+                            >
+                              <div
+                                class="float-end"
+                              >
+                                <span>
+                                </span>
+                                <span
+                                  style="margin-left: 10px;"
+                                >
+                                  <button
+                                    aria-label="Close"
+                                    class="btn-close"
+                                    type="button"
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            style="margin: 10px 0;"
+                          >
+                            <tm-rich-text-editor
+                              placeholdertext="Enter your comment here"
+                            >
+                              <div
+                                inviewport=""
+                              >
+                              </div>
+                            </tm-rich-text-editor>
+                          </div>
+                          <button
+                            class="btn btn-light btn-sm float-end"
+                            disabled=""
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-times"
+                            />
+                             Cancel
+                          </button>
+                        </tm-comment-edit-form>
+                      </tm-comment-row>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -4129,23 +4478,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-2"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <h2
@@ -4156,7 +4506,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4236,23 +4586,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-4"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4267,7 +4618,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               MSQ question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4447,6 +4798,27 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-4-idx-0"
                   >
                     <div>
+                      <div
+                        class="card-body visibility-card"
+                      >
+                        <p
+                          class="text-secondary"
+                        >
+                          Only the following persons can see your comments: 
+                        </p>
+                        <ul
+                          class="visibility-list text-secondary"
+                        >
+                          <li>
+                             The receiving students can see your response, the name of the recipient, and your name 
+                          </li>
+                          <li>
+                             Instructors in this course can see your response, the name of the recipient, and your name 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
                       <tm-comment-row>
                         <div
                           class="card"
@@ -4542,23 +4914,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-5"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4573,7 +4946,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               numerical scale question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4699,6 +5072,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       <br />
                     </tm-num-scale-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-5-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -4736,23 +5127,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-6"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4767,7 +5159,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               constant sum question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -4889,6 +5281,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-constsum-recipients-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-6-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -4944,23 +5354,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-7"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -4975,7 +5386,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               contribution question
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -5343,6 +5754,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-contribution-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-7-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -5382,23 +5811,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-8"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5413,7 +5843,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -5676,6 +6106,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rubric-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-8-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -5713,23 +6161,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-9"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -5744,7 +6193,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -5937,6 +6386,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rank-options-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-9-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -5974,23 +6441,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           class="card"
           id="question-submission-form-qn-10"
         >
-          <button
-            aria-expanded="true"
+          <div
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron
-                aria-hidden="true"
-              >
-                <div
-                  class="chevron"
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
             <i
@@ -6005,7 +6473,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </b>
               question brief
             </h2>
-          </button>
+          </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
@@ -6142,6 +6610,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </select>
                       </div>
                     </tm-rank-recipients-question-edit-answer-form>
+                  </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-10-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
