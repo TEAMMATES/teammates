@@ -28,12 +28,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
-        long startTime;
-        try {
-            startTime = Long.parseLong(startTimeString);
-        } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException(INVALID_START_TIME, e);
-        }
+        long startTime = parseTimeStringIfValid(startTimeString, INVALID_START_TIME);
         try {
             // test for bounds
             Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
@@ -42,12 +37,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         }
 
         String endTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
-        long endTime;
-        try {
-            endTime = Long.parseLong(endTimeString);
-        } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException(INVALID_END_TIME, e);
-        }
+        long endTime = parseTimeStringIfValid(endTimeString, INVALID_END_TIME);
         try {
             // test for bounds
             Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
@@ -120,5 +110,15 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             }
         }
         return null;
+    }
+
+    private long parseTimeStringIfValid(String timeString, String exceptionMessageIfInvalid) {
+        long time;
+        try {
+            time = Long.parseLong(timeString);
+        } catch (NumberFormatException e) {
+            throw new InvalidHttpParameterException(exceptionMessageIfInvalid, e);
+        }
+        return time;
     }
 }
