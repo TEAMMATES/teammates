@@ -170,6 +170,23 @@ public final class UsersLogic {
     }
 
     /**
+     * Deletes an instructor and cascades deletion to
+     * associated feedback responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the instructor does not exist.
+     */
+    public void deleteInstructorCascade(String courseId, String email) {
+        Instructor instructor = getInstructorForEmail(courseId, email);
+        if (instructor == null) {
+            return;
+        }
+
+        feedbackResponsesLogic.deleteFeedbackResponsesForCourseCascade(courseId, email);
+        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(instructor);
+        deleteUser(instructor);
+    }
+
+    /**
      * Gets the list of instructors with co-owner privileges in a course.
      */
     public List<Instructor> getCoOwnersForCourse(String courseId) {
@@ -467,7 +484,7 @@ public final class UsersLogic {
         }
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
-        usersDb.deleteUser(student);
+        deleteUser(student);
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
     }
 

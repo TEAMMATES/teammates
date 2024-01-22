@@ -3,6 +3,8 @@ package teammates.ui.output;
 import java.time.Instant;
 
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * Output format of deadline extension data.
@@ -32,6 +34,15 @@ public class DeadlineExtensionData extends ApiOutput {
         this.userEmail = deadlineExtension.getUserEmail();
         this.isInstructor = deadlineExtension.getIsInstructor();
         this.sentClosingEmail = deadlineExtension.getSentClosingEmail();
+        this.endTime = deadlineExtension.getEndTime().toEpochMilli();
+    }
+
+    public DeadlineExtensionData(DeadlineExtension deadlineExtension) {
+        this.courseId = deadlineExtension.getFeedbackSession().getCourse().getId();
+        this.feedbackSessionName = deadlineExtension.getFeedbackSession().getName();
+        this.userEmail = deadlineExtension.getUser().getEmail();
+        this.isInstructor = deadlineExtension.getUser() instanceof Instructor;
+        this.sentClosingEmail = deadlineExtension.isClosingSoonEmailSent();
         this.endTime = deadlineExtension.getEndTime().toEpochMilli();
     }
 

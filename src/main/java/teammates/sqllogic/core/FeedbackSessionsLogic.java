@@ -33,6 +33,9 @@ public final class FeedbackSessionsLogic {
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
             + "Session has already been unpublished.";
 
+    private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+    private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
+
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
     private FeedbackSessionsDb fsDb;
@@ -343,4 +346,37 @@ public final class FeedbackSessionsLogic {
         return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
     }
 
+    /**
+     * After an update to feedback session's fields, may need to adjust the email status of the session.
+     * @param session recently updated session.
+     */
+    public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
+        // reset isOpenEmailSent if the session has opened but is being un-opened
+        // now, or else leave it as sent if so.
+        if (session.isOpenEmailSent()) {
+            session.setOpenEmailSent(session.isOpened());
+
+            // also reset isOpeningSoonEmailSent
+            session.setOpeningSoonEmailSent(
+                    session.isOpened() || session.isOpeningInHours(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
+            );
+        }
+
+        // reset isClosedEmailSent if the session has closed but is being un-closed
+        // now, or else leave it as sent if so.
+        if (session.isClosedEmailSent()) {
+            session.setClosedEmailSent(session.isClosed());
+
+            // also reset isClosingSoonEmailSent
+            session.setClosingSoonEmailSent(
+                    session.isClosed() || session.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
+            );
+        }
+
+        // reset isPublishedEmailSent if the session has been published but is
+        // going to be unpublished now, or else leave it as sent if so.
+        if (session.isPublishedEmailSent()) {
+            session.setPublishedEmailSent(session.isPublished());
+        }
+    }
 }

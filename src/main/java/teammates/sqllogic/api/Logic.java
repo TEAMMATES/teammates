@@ -542,6 +542,15 @@ public class Logic {
     }
 
     /**
+     * After an update to feedback session's fields, may need to adjust the email status of the session.
+     * @param session recently updated session.
+     */
+    public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
+        assert session != null;
+        feedbackSessionsLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
@@ -836,6 +845,22 @@ public class Logic {
      */
     public <T extends User> void deleteUser(T user) {
         usersLogic.deleteUser(user);
+    }
+
+    /**
+     * Deletes an instructor and cascades deletion to
+     * associated feedback responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the instructor does not exist.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteInstructorCascade(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        usersLogic.deleteInstructorCascade(courseId, email);
     }
 
     public List<Notification> getAllNotifications() {
