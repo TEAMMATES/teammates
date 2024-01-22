@@ -16,6 +16,10 @@ export class NumScaleQuestionStatisticsCalculation
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
   recipientEmails: Record<string, string> = {};
 
+  constructor(question: FeedbackNumericalScaleQuestionDetails) {
+    super(question);
+  }
+
   calculateStatistics(): void {
     this.teamToRecipientToScores = {};
 

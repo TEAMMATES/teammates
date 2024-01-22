@@ -17,6 +17,10 @@ export class ConstsumOptionsQuestionStatisticsCalculation
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
 
+  constructor(question: FeedbackConstantSumQuestionDetails) {
+    super(question);
+  }
+
   calculateStatistics(): void {
     this.pointsPerOption = {};
     this.totalPointsPerOption = {};

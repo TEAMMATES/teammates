@@ -24,6 +24,10 @@ export class MsqQuestionStatisticsCalculation
   perRecipientResponses: Record<string, any> = {};
   hasAnswers: boolean = false;
 
+  constructor(question: FeedbackMsqQuestionDetails) {
+    super(question);
+  }
+
   calculateStatistics(): void {
     this.answerFrequency = {};
     this.percentagePerOption = {};

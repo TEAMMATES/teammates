@@ -160,7 +160,7 @@ if (environment.maintenance) {
     BrowserAnimationsModule,
     HttpClientModule,
     NgbDropdownModule,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, {}),
     ErrorReportModule,
     ToastModule,
     LoaderBarModule,
