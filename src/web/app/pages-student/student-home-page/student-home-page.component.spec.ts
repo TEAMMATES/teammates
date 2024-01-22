@@ -17,6 +17,7 @@ import {
 } from '../../../types/api-output';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
@@ -306,6 +307,7 @@ describe('StudentHomePageComponent', () => {
         TeammatesRouterModule,
         NgbCollapseModule,
         BrowserAnimationsModule,
+        PanelChevronModule,
       ],
     }).compileComponents();
   }));

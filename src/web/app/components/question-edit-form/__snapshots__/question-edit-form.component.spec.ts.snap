@@ -8,7 +8,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   NumberOfEntitiesToGiveFeedbackToSetting={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   VisibilityControl={[Function Object]}
-  __ngContext__={[Function Number]}
   allowedFeedbackPaths={[Function Map]}
   commonFeedbackPaths={[Function Map]}
   commonFeedbackVisibilitySettings={[Function Array]}
@@ -121,7 +120,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
     </button>
     <div
       class="ng-trigger ng-trigger-collapseAnim"
-      style=""
     >
       <div
         class="card-body"
@@ -158,7 +156,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                         class="form-control ng-untouched ng-pristine ng-valid"
                         disabled=""
                         id="question-brief"
-                        placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                        placeholder="A concise version of the question e.g. "How well did the team member communicate?""
                       />
                     </div>
                   </div>

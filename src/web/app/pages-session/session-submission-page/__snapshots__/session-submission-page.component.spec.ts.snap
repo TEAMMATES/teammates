@@ -5,7 +5,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -43,8 +42,8 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -162,7 +161,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -200,8 +198,8 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -316,7 +314,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -354,8 +351,8 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -470,7 +467,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -508,8 +504,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
   previewAsPerson=""
@@ -757,7 +753,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -795,8 +790,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -1029,7 +1024,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -1271,9 +1265,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    id="btn-submit-qn-1"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 1
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1322,7 +1329,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -1394,7 +1400,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       id="recipient-name-qn-3-idx-0"
                     >
                       <b>
-                        Unknown 
+                        Gene Harris 
                       </b>
                       <span>
                         (Instructor)
@@ -1409,7 +1415,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
-                          aria-label="Response for To-Be-Selected"
+                          aria-label="Response for Gene Harris"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
@@ -1516,9 +1522,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    id="btn-submit-qn-3"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 3
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1563,7 +1582,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -1675,7 +1693,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -2002,7 +2019,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -2218,7 +2234,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -2448,7 +2463,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -2908,7 +2922,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -3253,7 +3266,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -3536,7 +3548,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -3752,7 +3763,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -3790,8 +3800,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -4024,7 +4034,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -4271,9 +4280,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    disabled=""
+                    id="btn-submit-qn-1"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 1
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -4288,7 +4311,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
@@ -4307,10 +4330,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </button>
               </tm-panel-chevron>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
             <h2
               class="question-details"
             >
@@ -4322,7 +4341,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -4394,7 +4412,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       id="recipient-name-qn-3-idx-0"
                     >
                       <b>
-                        Unknown 
+                        Gene Harris 
                       </b>
                       <span>
                         (Instructor)
@@ -4409,7 +4427,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
-                          aria-label="Response for To-Be-Selected"
+                          aria-label="Response for Gene Harris"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
@@ -4517,9 +4535,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    disabled=""
+                    id="btn-submit-qn-3"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 3
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -4564,7 +4596,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -4676,7 +4707,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5009,7 +5039,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5227,7 +5256,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5459,7 +5487,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5921,7 +5948,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -6276,7 +6302,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -6561,7 +6586,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -6779,7 +6803,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -6817,8 +6840,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
   previewAsPerson=""
@@ -6934,7 +6957,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -6972,8 +6994,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
   previewAsPerson=""

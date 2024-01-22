@@ -5,7 +5,6 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -139,7 +138,6 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed={[Function Boolean]}
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -186,7 +184,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -277,7 +274,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -335,7 +331,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -370,7 +365,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -462,7 +456,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -520,7 +513,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -555,7 +547,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -647,7 +638,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -705,7 +695,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -740,7 +729,6 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications={[Function Boolean]}
   notificationService={[Function NotificationService]}
@@ -788,7 +776,6 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
