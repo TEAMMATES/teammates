@@ -2,13 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import SpyInstance = jest.SpyInstance;
+import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
-import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
 
 describe('IndividualExtensionDateModalComponent', () => {
   const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';

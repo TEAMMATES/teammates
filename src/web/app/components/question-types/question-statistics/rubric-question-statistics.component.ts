@@ -1,13 +1,13 @@
 import { Component, OnChanges } from '@angular/core';
+import {
+  PerRecipientStats,
+  RubricQuestionStatisticsCalculation,
+} from './question-statistics-calculation/rubric-question-statistics-calculation';
 import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
-import {
-  PerRecipientStats,
-  RubricQuestionStatisticsCalculation,
-} from './question-statistics-calculation/rubric-question-statistics-calculation';
 
 /**
  * Statistics for rubric questions.

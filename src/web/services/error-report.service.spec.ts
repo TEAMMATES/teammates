@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { ErrorReportService } from './error-report.service';
+import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { ErrorReportRequest } from '../types/api-request';
-import { ErrorReportService } from './error-report.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('ErrorReportService', () => {
   let spyHttpRequestService: any;

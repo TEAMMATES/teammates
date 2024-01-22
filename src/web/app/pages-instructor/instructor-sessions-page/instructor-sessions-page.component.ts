@@ -4,6 +4,16 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
+import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
+import {
+  CopyFromOtherSessionsModalComponent,
+} from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
+import {
+  SessionPermanentDeletionConfirmModalComponent,
+} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
+import {
+  SessionsPermanentDeletionConfirmModalComponent,
+} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
@@ -44,16 +54,6 @@ import {
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
-import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
-import {
-  CopyFromOtherSessionsModalComponent,
-} from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
-  SessionsPermanentDeletionConfirmModalComponent,
-} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 
 interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;

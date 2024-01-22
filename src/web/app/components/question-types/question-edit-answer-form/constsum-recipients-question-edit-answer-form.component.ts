@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The constsum question recipients submission form for a recipient.

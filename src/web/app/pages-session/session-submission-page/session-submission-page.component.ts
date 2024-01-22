@@ -5,6 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -52,7 +53,6 @@ import {
 } from '../../components/question-submission-form/question-submission-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];

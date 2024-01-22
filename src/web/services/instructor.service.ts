@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, InstructorPrivilege, Instructors, RegenerateKey } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles instructor related logic provision.

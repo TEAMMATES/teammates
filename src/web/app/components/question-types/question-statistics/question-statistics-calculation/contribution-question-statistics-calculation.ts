@@ -28,6 +28,7 @@ export class ContributionQuestionStatisticsCalculation
   questionOverallStatistics?: ContributionStatistics;
   questionStatisticsForStudent?: ContributionStatisticsEntryExt;
 
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackContributionQuestionDetails) {
     super(question);
   }

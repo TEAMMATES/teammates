@@ -1,10 +1,10 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 
 describe('MsqQuestionEditDetailsFormComponent', () => {
   let component: MsqQuestionEditDetailsFormComponent;

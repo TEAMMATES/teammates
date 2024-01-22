@@ -2,9 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { first } from 'rxjs/operators';
-import { InstructorData } from '../instructor-data';
-
 import { NewInstructorDataRowComponent } from './new-instructor-data-row.component';
+import { InstructorData } from '../instructor-data';
 
 describe('NewInstructorDataRowComponent', () => {
   let component: NewInstructorDataRowComponent;

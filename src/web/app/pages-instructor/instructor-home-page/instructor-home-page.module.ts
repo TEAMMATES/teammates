@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { InstructorHomePageComponent } from './instructor-home-page.component';
 import { CopyCourseModalModule } from '../../components/copy-course-modal/copy-course-modal.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -13,7 +14,6 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { InstructorHomePageComponent } from './instructor-home-page.component';
 
 const routes: Routes = [
   {

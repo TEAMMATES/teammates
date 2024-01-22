@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TimezonePageComponent } from './timezone-page.component';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 
 describe('TimezonePageComponent', () => {
   let component: TimezonePageComponent;

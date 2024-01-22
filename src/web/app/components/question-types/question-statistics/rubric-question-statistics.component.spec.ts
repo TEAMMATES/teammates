@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackRubricResponseDetails } from '../../../../types/api-output';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { Response } from './question-statistics';
 import { PerRecipientStats } from './question-statistics-calculation/rubric-question-statistics-calculation';
 import { RubricQuestionStatisticsComponent } from './rubric-question-statistics.component';
 import ResponseTestData from './test-data/rubricQuestionResponses.json';
+import { FeedbackRubricResponseDetails } from '../../../../types/api-output';
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 
 describe('RubricQuestionStatisticsComponent', () => {
   let component: RubricQuestionStatisticsComponent;

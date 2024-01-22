@@ -2,8 +2,8 @@ import { LocationStrategy } from '@angular/common';
 import { ElementRef, Renderer2 } from '@angular/core';
 import { inject } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MasqueradeModeService } from '../../../services/masquerade-mode.service';
 import { TeammatesRouterDirective } from './teammates-router.directive';
+import { MasqueradeModeService } from '../../../services/masquerade-mode.service';
 
 describe('TeammatesRouterDirective', () => {
   it('should create an instance', () => {

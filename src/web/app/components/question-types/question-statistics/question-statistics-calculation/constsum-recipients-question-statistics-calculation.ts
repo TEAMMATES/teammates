@@ -21,6 +21,7 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
   averagePointsPerOption: Record<string, number> = {};
   averagePointsExcludingSelf: Record<string, number> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackConstantSumQuestionDetails) {
     super(question);
   }

@@ -6,6 +6,7 @@ import {
   FeedbackTextResponseDetails, ResponseOutput,
 } from 'src/web/types/api-output';
 import SpyInstance = jest.SpyInstance;
+import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   CommentVisibilityType, FeedbackParticipantType, FeedbackQuestionType,
@@ -20,7 +21,6 @@ import { CommentTableModel } from '../../comment-box/comment-table/comment-table
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
-import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 
 describe('PerQuestionViewResponsesComponent', () => {
   let component: PerQuestionViewResponsesComponent;

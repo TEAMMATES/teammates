@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
+import { McqMsqQuestionStatisticsCalculation } from './mcq-msq-question-statistics-calculation';
 import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../../types/api-output';
 import { QuestionStatistics } from '../question-statistics';
-import { McqMsqQuestionStatisticsCalculation } from './mcq-msq-question-statistics-calculation';
 
 /**
  * Class to calculate stats for mcq question.
@@ -18,6 +18,7 @@ export class McqQuestionStatisticsCalculation
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackMcqQuestionDetails) {
     super(question);
   }

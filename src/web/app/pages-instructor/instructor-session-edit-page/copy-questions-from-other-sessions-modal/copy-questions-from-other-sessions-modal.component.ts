@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
@@ -7,7 +8,6 @@ import { FeedbackQuestion, FeedbackQuestions } from '../../../../types/api-outpu
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../../error-message-output';
-import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 
 /**
  * Modal to select questions to copy from other sessions.
@@ -103,7 +103,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
     return model.questionsTableRowModelsSortBy === by && model.questionsTableRowModelsSortOrder === order;
   }
 
-  getAriaSort(model: FeedbackSessionTabModel, by: SortBy): String {
+  getAriaSort(model: FeedbackSessionTabModel, by: SortBy): string {
     if (model.questionsTableRowModelsSortBy !== by) {
       return 'none';
     }

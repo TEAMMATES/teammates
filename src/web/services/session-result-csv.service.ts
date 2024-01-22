@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { CsvHelper } from './csv-helper';
+import { FeedbackResponsesService } from './feedback-responses.service';
+import { StringHelper } from './string-helper';
 import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -14,9 +17,6 @@ import {
 } from '../types/api-output';
 import { FeedbackQuestionDetailsFactory } from '../types/question-details-impl/feedback-question-details-factory';
 import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/feedback-response-details-factory';
-import { CsvHelper } from './csv-helper';
-import { FeedbackResponsesService } from './feedback-responses.service';
-import { StringHelper } from './string-helper';
 
 /**
  * Service to generate CSV for a feedback session result.

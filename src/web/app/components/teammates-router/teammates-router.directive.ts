@@ -18,7 +18,7 @@ export class TeammatesRouterDirective extends RouterLink {
   }
 
   @Input()
-  // @ts-ignore
+  // @ts-expect-error query params is redefined in this class
   set queryParams(params: { [k: string]: any }) {
     this.queryParamsInternal = params;
   }

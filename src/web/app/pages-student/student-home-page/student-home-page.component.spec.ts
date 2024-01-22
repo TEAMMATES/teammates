@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { StudentHomePageComponent } from './student-home-page.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import {
@@ -22,7 +23,6 @@ import { TeammatesCommonModule } from '../../components/teammates-common/teammat
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
-import { StudentHomePageComponent } from './student-home-page.component';
 
 const studentCourseA: any = {
   course: {

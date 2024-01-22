@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import SpyInstance = jest.SpyInstance;
+import { CopyCourseModalComponent } from './copy-course-modal.component';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
@@ -14,7 +15,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { CopyCourseModalComponent } from './copy-course-modal.component';
 
 describe('CopyCourseModalComponent', () => {
   let component: CopyCourseModalComponent;

@@ -1,6 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
+import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -11,8 +13,6 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
-import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
-import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
 
 describe('ExtensionConfirmModalComponent', () => {
   const testFeedbackSession: FeedbackSession = {
