@@ -21,6 +21,10 @@ import teammates.ui.output.OngoingSessionsData;
  */
 class GetOngoingSessionsAction extends AdminOnlyAction {
 
+    private static final String INVALID_START_TIME = "Invalid start time.";
+    private static final String INVALID_END_TIME = "Invalid end time.";
+    private static final String INVALID_RANGE = "The filter range is not valid. End time should be after start time.";
+
     @Override
     public JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
@@ -28,13 +32,13 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         try {
             startTime = Long.parseLong(startTimeString);
         } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException("Invalid startTime parameter", e);
+            throw new InvalidHttpParameterException(INVALID_START_TIME, e);
         }
         try {
             // test for bounds
             Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
         } catch (ArithmeticException e) {
-            throw new InvalidHttpParameterException("Invalid startTime parameter", e);
+            throw new InvalidHttpParameterException(INVALID_START_TIME, e);
         }
 
         String endTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
@@ -42,17 +46,17 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         try {
             endTime = Long.parseLong(endTimeString);
         } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException("Invalid endTime parameter", e);
+            throw new InvalidHttpParameterException(INVALID_END_TIME, e);
         }
         try {
             // test for bounds
             Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
         } catch (ArithmeticException e) {
-            throw new InvalidHttpParameterException("Invalid endTime parameter", e);
+            throw new InvalidHttpParameterException(INVALID_END_TIME, e);
         }
 
         if (startTime > endTime) {
-            throw new InvalidHttpParameterException("The filter range is not valid. End time should be after start time.");
+            throw new InvalidHttpParameterException(INVALID_RANGE);
         }
 
         List<FeedbackSessionAttributes> allOngoingSessions =
