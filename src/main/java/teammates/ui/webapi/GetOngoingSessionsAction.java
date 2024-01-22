@@ -29,25 +29,9 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
     public JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
         long startTime = parseTimeStringIfValid(startTimeString, INVALID_START_TIME);
-        try {
-            // test for bounds
-            Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (ArithmeticException e) {
-            throw new InvalidHttpParameterException(INVALID_START_TIME, e);
-        }
-
         String endTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
         long endTime = parseTimeStringIfValid(endTimeString, INVALID_END_TIME);
-        try {
-            // test for bounds
-            Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (ArithmeticException e) {
-            throw new InvalidHttpParameterException(INVALID_END_TIME, e);
-        }
-
-        if (startTime > endTime) {
-            throw new InvalidHttpParameterException(INVALID_RANGE);
-        }
+        validateTimeParameters(startTime, endTime);
 
         List<FeedbackSessionAttributes> allOngoingSessions =
                 logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
@@ -120,5 +104,23 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException(exceptionMessageIfInvalid, e);
         }
         return time;
+    }
+
+    private void validateTimeParameters(long startTime, long endTime) {
+        try {
+            // test for bounds
+            Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
+        } catch (ArithmeticException e) {
+            throw new InvalidHttpParameterException(INVALID_START_TIME, e);
+        }
+        try {
+            // test for bounds
+            Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
+        } catch (ArithmeticException e) {
+            throw new InvalidHttpParameterException(INVALID_END_TIME, e);
+        }
+        if (startTime > endTime) {
+            throw new InvalidHttpParameterException(INVALID_RANGE);
+        }
     }
 }
