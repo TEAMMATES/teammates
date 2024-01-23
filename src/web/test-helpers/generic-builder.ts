@@ -4,7 +4,7 @@ type GenericBuilder<T> = {
   [K in keyof T]: (value: T[K]) => GenericBuilder<T>;
 } & { build(): T };
 
-export function createBuilder<T>(initialValues: T): GenericBuilder<T> {
+export function createBuilder<T extends object>(initialValues: T): GenericBuilder<T> {
   const builder: any = {};
 
   (Object.keys(initialValues) as (keyof T)[]).forEach((key) => {
