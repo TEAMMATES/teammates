@@ -3,10 +3,8 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -41,7 +39,6 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         int totalClosedSessions = 0;
         int totalAwaitingSessions = 0;
 
-        Set<String> courseIds = new HashSet<>();
         Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap = new HashMap<>();
         for (FeedbackSessionAttributes fs : allOngoingSessions) {
             if (fs.isOpened()) {
@@ -55,17 +52,18 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             }
 
             String courseId = fs.getCourseId();
-            courseIds.add(courseId);
             courseIdToFeedbackSessionsMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
         }
 
         Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap = new HashMap<>();
-        for (String courseId : courseIds) {
+        for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsMap.entrySet()) {
+            String courseId = courseIdFeedbackSessionList.getKey();
+            List<FeedbackSessionAttributes> feedbackSessions = courseIdFeedbackSessionList.getValue();
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
             AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
 
             String institute = logic.getCourseInstitute(courseId);
-            List<OngoingSession> sessions = courseIdToFeedbackSessionsMap.get(courseId).stream()
+            List<OngoingSession> sessions = feedbackSessions.stream()
                     .map(session -> new OngoingSession(session, account))
                     .collect(Collectors.toList());
 
