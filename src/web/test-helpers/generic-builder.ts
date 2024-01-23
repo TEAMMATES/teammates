@@ -1,4 +1,4 @@
-import { Course, Instructor, JoinState } from "../types/api-output";
+import { Course, Instructor, JoinState } from '../types/api-output';
 
 type GenericBuilder<T> = {
   [K in keyof T]: (value: T[K]) => GenericBuilder<T>;
@@ -26,12 +26,11 @@ export const courseBuilder = createBuilder<Course>({
   institute: '',
   creationTimestamp: 0,
   deletionTimestamp: 0,
-})
-
+});
 
 export const instructorBuilder = createBuilder<Instructor>({
   courseId: 'exampleId',
   email: '',
   name: '',
-  joinState: JoinState.JOINED
-})
+  joinState: JoinState.JOINED,
+});
