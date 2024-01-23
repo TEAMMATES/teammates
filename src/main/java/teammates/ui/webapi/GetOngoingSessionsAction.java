@@ -33,24 +33,8 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
 
         List<FeedbackSessionAttributes> allOngoingSessions =
                 logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
-
-        int totalOngoingSessions = allOngoingSessions.size();
-        int totalOpenSessions = 0;
-        int totalClosedSessions = 0;
-        int totalAwaitingSessions = 0;
-
         Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap = new HashMap<>();
         for (FeedbackSessionAttributes fs : allOngoingSessions) {
-            if (fs.isOpened()) {
-                totalOpenSessions++;
-            }
-            if (fs.isClosed()) {
-                totalClosedSessions++;
-            }
-            if (fs.isWaitingToOpen()) {
-                totalAwaitingSessions++;
-            }
-
             String courseId = fs.getCourseId();
             courseIdToFeedbackSessionsMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
         }
@@ -69,19 +53,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
 
             instituteToFeedbackSessionsMap.computeIfAbsent(institute, k -> new ArrayList<>()).addAll(sessions);
         }
-
-        long totalInstitutes = instituteToFeedbackSessionsMap.keySet().stream()
-                .filter(key -> !Const.UNKNOWN_INSTITUTION.equals(key))
-                .count();
-
-        OngoingSessionsData output = new OngoingSessionsData();
-        output.setTotalOngoingSessions(totalOngoingSessions);
-        output.setTotalOpenSessions(totalOpenSessions);
-        output.setTotalClosedSessions(totalClosedSessions);
-        output.setTotalAwaitingSessions(totalAwaitingSessions);
-        output.setTotalInstitutes(totalInstitutes);
-        output.setSessions(instituteToFeedbackSessionsMap);
-
+        OngoingSessionsData output = createOutput(allOngoingSessions, instituteToFeedbackSessionsMap);
         return new JsonResult(output);
     }
 
@@ -120,5 +92,35 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         if (startTime > endTime) {
             throw new InvalidHttpParameterException(INVALID_RANGE);
         }
+    }
+
+    private OngoingSessionsData createOutput(List<FeedbackSessionAttributes> allOngoingSessions,
+            Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap) {
+        int totalOngoingSessions = allOngoingSessions.size();
+        int totalOpenSessions = 0;
+        int totalClosedSessions = 0;
+        int totalAwaitingSessions = 0;
+        for (FeedbackSessionAttributes fs : allOngoingSessions) {
+            if (fs.isOpened()) {
+                totalOpenSessions++;
+            }
+            if (fs.isClosed()) {
+                totalClosedSessions++;
+            }
+            if (fs.isWaitingToOpen()) {
+                totalAwaitingSessions++;
+            }
+        }
+        long totalInstitutes = instituteToFeedbackSessionsMap.keySet().stream()
+                .filter(key -> !Const.UNKNOWN_INSTITUTION.equals(key))
+                .count();
+        OngoingSessionsData output = new OngoingSessionsData();
+        output.setTotalOngoingSessions(totalOngoingSessions);
+        output.setTotalOpenSessions(totalOpenSessions);
+        output.setTotalClosedSessions(totalClosedSessions);
+        output.setTotalAwaitingSessions(totalAwaitingSessions);
+        output.setTotalInstitutes(totalInstitutes);
+        output.setSessions(instituteToFeedbackSessionsMap);
+        return output;
     }
 }
