@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { mapReplacer, mapReviver } from '../../../test-helpers/json-helpers';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -93,7 +94,21 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   isLoading: false,
   isLoaded: true,
+
+  hasResponseChangedForRecipients: new Map<string, boolean>([
+    ['rogers-alan-id', false],
+    ['buck-arthur-id', false],
+    ['harris-barry-id', false],
+    ['hans-charlie-id', false],
+  ]),
+
   isTabExpanded: true,
+  isTabExpandedForRecipients: new Map<string, boolean>([
+    ['rogers-alan-id', true],
+    ['buck-arthur-id', true],
+    ['harris-barry-id', true],
+    ['hans-charlie-id', true],
+  ]),
 };
 
 describe('QuestionSubmissionFormComponent', () => {
@@ -145,8 +160,8 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Sorted recipient list)',
    () => {
-    const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
-
+    const model: QuestionSubmissionFormModel = JSON.parse(
+        JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer), mapReviver);
     component.formModel = model;
     component.ngDoCheck();
 
@@ -155,7 +170,8 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)',
     () => {
-      const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
+      const model: QuestionSubmissionFormModel = JSON.parse(
+          JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer), mapReviver);
 
       // Change recipient list to unsorted
       model.recipientList = [{ recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id' },
