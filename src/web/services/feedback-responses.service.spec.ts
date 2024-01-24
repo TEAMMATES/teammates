@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { InstructorSessionResultSectionType }
   from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumResponseDetails,
@@ -58,12 +59,7 @@ describe('FeedbackResponsesService', () => {
   ]);
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
