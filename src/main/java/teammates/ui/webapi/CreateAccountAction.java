@@ -69,7 +69,8 @@ class CreateAccountAction extends Action {
         String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
+            // persists sample data such as course, students, instructor and feedback sessions
+            courseId = importAndPersistDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             // There should not be any invalid parameter here
             // EntityAlreadyExistsException should not be thrown as the generated demo course id should not exist.
@@ -83,6 +84,7 @@ class CreateAccountAction extends Action {
         assert !instructorList.isEmpty();
 
         try {
+            // join the instructor to the course created previously
             sqlLogic.joinCourseForInstructor(userInfo.id, instructorList.get(0));
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
@@ -131,7 +133,7 @@ class CreateAccountAction extends Action {
      * @throws EntityAlreadyExistsException if the generated demo course ID already exists in the database.
      * However, this should never occur and hence should be handled as a programmatic error.
      */
-    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
+    private String importAndPersistDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         String courseId = generateDemoCourseId(instructorEmail);

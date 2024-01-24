@@ -729,7 +729,6 @@ public class Logic {
         if (googleId == null) {
             throw new InvalidParametersException("Instructor's googleId cannot be null");
         }
-
         if (instructor == null) {
             throw new InvalidParametersException("Instructor cannot be null");
         }
@@ -738,6 +737,12 @@ public class Logic {
         return usersLogic.joinCourseForInstructor(googleId, instructor);
     }
 
+    /**
+     * Validates that the instructor can join the course it has as courseId field.
+     *
+     * @return true if the instructor can join the course.
+     * @throws Exception if the instructor cannot join the course.
+     */
     private boolean validateJoinCourseRequest(String googleId, Instructor instructor)
         throws EntityAlreadyExistsException, EntityDoesNotExistException {
         if (instructor == null) {

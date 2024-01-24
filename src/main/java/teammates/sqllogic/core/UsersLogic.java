@@ -207,7 +207,6 @@ public final class UsersLogic {
         if (googleId == null) {
             throw new InvalidParametersException("Instructor's googleId cannot be null");
         }
-
         if (instructor == null) {
             throw new InvalidParametersException("Instructor cannot be null");
         }
