@@ -221,6 +221,15 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets all instructors.
+     */
+    public <T extends User> T updateUser(T user) {
+        assert user != null;
+
+        return merge(user);
+    }
+
+    /**
      * Deletes a user.
      */
     public <T extends User> void deleteUser(T user) {

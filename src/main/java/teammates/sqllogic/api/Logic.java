@@ -98,6 +98,23 @@ public class Logic {
     }
 
     /**
+     * Gets the account request with the given (@code registrationKey).
+     */
+    public AccountRequest getAccountRequestByRegistrationKey(String registrationKey) {
+        return accountRequestLogic.getAccountRequestByRegistrationKey(registrationKey);
+    }
+
+    /**
+     * Updates the given account request.
+     *
+     * @return the updated account request.
+     */
+    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestLogic.updateAccountRequest(accountRequest);
+    }
+
+    /**
      * Creates/Resets the account request with the given email and institute
      * such that it is not registered.
      *
@@ -697,6 +714,57 @@ public class Logic {
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createInstructor(instructor);
+    }
+
+
+    /**
+     * Validates that the join course request is valid, then
+     * makes the instructor join the course, i.e. associate an account to the instructor with the given googleId.
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions:
+     * Parameters regkey and googleId are non-null.
+     */
+    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
+        throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (googleId == null) {
+            throw new InvalidParametersException("Instructor's googleId cannot be null");
+        }
+
+        if (instructor == null) {
+            throw new InvalidParametersException("Instructor cannot be null");
+        }
+
+        validateJoinCourseRequest(googleId, instructor);
+        return usersLogic.joinCourseForInstructor(googleId, instructor);
+    }
+
+    private boolean validateJoinCourseRequest(String googleId, Instructor instructor)
+        throws EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (instructor == null) {
+            throw new EntityDoesNotExistException("Instructor not found");
+        }
+
+        // check course exists and has not been deleted
+        Course course = coursesLogic.getCourse(instructor.getCourseId());
+
+        if (course == null) {
+            throw new EntityDoesNotExistException("Course with id " + instructor.getCourseId() + " does not exist");
+        }
+        if (course.isCourseDeleted()) {
+            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
+        }
+
+        if (instructor.isRegistered()) {
+            throw new EntityAlreadyExistsException("Instructor has already joined course");
+        } else {
+            // Check if this Google ID has already joined this course with courseId
+            Instructor existingInstructor =
+                    usersLogic.getInstructorByGoogleId(instructor.getCourseId(), googleId);
+            if (existingInstructor != null) {
+                throw new EntityAlreadyExistsException("Instructor has already joined course");
+            }
+        }
+        return true;
     }
 
     /**

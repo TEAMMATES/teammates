@@ -17,6 +17,7 @@ import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
@@ -193,6 +194,46 @@ public final class UsersLogic {
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         assert googleId != null;
         return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Make the instructor join the course, i.e. associate an account to the instructor with the given googleId.
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions:
+     * Parameters regkey and googleId are non-null.
+     */
+    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
+            throws InvalidParametersException {
+        if (googleId == null) {
+            throw new InvalidParametersException("Instructor's googleId cannot be null");
+        }
+
+        if (instructor == null) {
+            throw new InvalidParametersException("Instructor cannot be null");
+        }
+
+        // setting account for instructor sets it as registered
+        if (instructor.getAccount() == null) {
+            Account account = new Account(googleId, instructor.getName(), instructor.getEmail());
+            instructor.setAccount(account);
+        } else {
+            instructor.setGoogleId(googleId);
+        }
+        usersDb.updateUser(instructor);
+
+        // Update the googleId of the student entity for the instructor which was created from sample data.
+        Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
+        if (student != null) {
+            if (student.getAccount() == null) {
+                Account account = new Account(googleId, student.getName(), student.getEmail());
+                student.setAccount(account);
+            } else {
+                student.getAccount().setGoogleId(googleId);
+            }
+            usersDb.updateUser(student);
+        }
+
+        return instructor;
     }
 
     /**
@@ -541,4 +582,5 @@ public final class UsersLogic {
 
         return emailUserMap;
     }
+
 }
