@@ -19,8 +19,8 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -240,8 +240,8 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -465,8 +465,8 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -681,8 +681,8 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div

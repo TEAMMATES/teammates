@@ -2,7 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import createSpyFromClass from '../../../../test-helpers/create-spy-from-class';
 import { CommentVisibilityType, FeedbackVisibilityType } from '../../../../types/api-output';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
@@ -17,15 +19,10 @@ describe('CommentRowComponent', () => {
   let component: CommentRowComponent;
   let fixture: ComponentFixture<CommentRowComponent>;
 
-  const spyVisibilityStateMachine: any = {
-    allowAllApplicableTypesToSee: jest.fn(),
-    applyVisibilitySettings: jest.fn(),
-    getVisibilityTypesUnderVisibilityControl: jest.fn(),
-  };
+  const spyVisibilityStateMachine = createSpyFromClass(CommentVisibilityStateMachine);
 
-  const spyCommentService: any = {
-    getNewVisibilityStateMachine: jest.fn().mockReturnValue(spyVisibilityStateMachine),
-  };
+  const spyCommentService = createSpyFromClass(FeedbackResponseCommentService);
+  spyCommentService.getNewVisibilityStateMachine.mockReturnValue(spyVisibilityStateMachine);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

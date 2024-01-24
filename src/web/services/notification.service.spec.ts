@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { NotificationBasicRequest, NotificationStyle, NotificationTargetUser } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -19,12 +20,7 @@ describe('NotificationService', () => {
   let service: NotificationService;
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [{ provide: HttpRequestService, useValue: spyHttpRequestService }],
