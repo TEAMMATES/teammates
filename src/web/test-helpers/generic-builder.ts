@@ -4,6 +4,31 @@ type GenericBuilder<T> = {
   [K in keyof T]: (value: T[K]) => GenericBuilder<T>;
 } & { build(): T };
 
+/**
+ * A generic builder function that creates a builder object for constructing objects with specified initial values.
+ *
+ * @template T - The type of object being constructed.
+ * @param initialValues - The initial values for the object being constructed.
+ * @returns A generic builder object.
+ * @example
+ * // Create a course builder with initial values.
+ * const courseBuilder = createBuilder<Course>({
+ *   courseId: 'exampleId',
+ *   courseName: '',
+ *   timeZone: '',
+ *   institute: '',
+ *   creationTimestamp: 0,
+ *   deletionTimestamp: 0,
+ * });
+ *
+ * // Usage of builder:
+ * const myCourse = courseBuilder
+ *   .courseName('Introduction to TypeScript')
+ *   .timeZone('UTC+0')
+ *   .institute('My University')
+ *   .creationTimestamp(Date.now())
+ *   .build();
+ */
 export function createBuilder<T extends object>(initialValues: T): GenericBuilder<T> {
   const builder: any = {};
 
