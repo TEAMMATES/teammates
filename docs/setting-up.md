@@ -54,7 +54,7 @@ If you want to develop front-end, you need to install the following:
    ```sh
    npm install -g @angular/cli@14
    ```
-   **Verification:** Run `ng` and you should see a list of available Angular CLI commands.
+   **Verification:** Run `ng --help` and you should see a list of available Angular CLI commands.
 
 ## Step 3: Set up project-specific settings and dependencies
 
