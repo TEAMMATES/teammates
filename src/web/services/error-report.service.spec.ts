@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { ErrorReportRequest } from '../types/api-request';
 import { ErrorReportService } from './error-report.service';
@@ -10,12 +11,7 @@ describe('ErrorReportService', () => {
   let service: ErrorReportService;
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
