@@ -24,6 +24,12 @@
       "name": "Instructor Of Unregistered Course",
       "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt"
     },
+    "instructorOfCourse2WithUniqueDisplayName": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "googleId": "instructorOfCourse2WithUniqueDisplayName",
+      "name": "Instructor Of Course 2 With Unique Display Name",
+      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
+    },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "idOfStudent1Course1",
@@ -267,8 +273,36 @@
         "sessionLevel": {}
       }
     },
+    "instructorOfCourse2WithUniqueDisplayName": {
+      "id": "00000000-0000-4000-8000-000000000505",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000005"
+      },
+      "course": {
+        "id": "course-2"
+      },
+      "name": "Instructor Of Course 2 With Unique Display Name",
+      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Wilson Kurniawan",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
     "instructor1OfCourse3": {
-      "id": "00000000-0000-4000-8000-000000000501",
+      "id": "00000000-0000-4000-8000-000000000506",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },

@@ -218,15 +218,15 @@ abstract class SearchManager<T extends BaseEntity> {
 
         for (SolrDocument document : documents) {
             T entity = getEntityFromDocument(document);
-            // Disabled for now
+
             // Entity will be null if document corresponds to entity in datastore
-            // if (entity == null) {
-            // // search engine out of sync as SearchManager may fail to delete documents
-            // // the chance is low and it is generally not a big problem
-            // String id = (String) document.getFirstValue("id");
-            // deleteDocuments(Collections.singletonList(id));
-            // continue;
-            // }
+            if (entity == null) {
+                // search engine out of sync as SearchManager may fail to delete documents
+                // the chance is low and it is generally not a big problem
+                String id = (String) document.getFirstValue("id");
+                deleteDocuments(Collections.singletonList(id));
+                continue;
+            }
             result.add(entity);
         }
         sortResult(result);
