@@ -712,7 +712,7 @@ public class Logic {
 
         return usersLogic.searchInstructorsInWholeSystem(queryString);
     }
-  
+
     /**
      * Updates an instructor and cascades to responses and comments if needed.
      *
