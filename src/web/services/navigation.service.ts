@@ -53,7 +53,7 @@ export class NavigationService {
   /**
    * Navigates to the selected URL with URL param encoding
    */
-  navigateByURLWithParamEncoding(urlWithoutParams: string, params: Record<string, string>): Promise<Boolean> {
+  navigateByURLWithParamEncoding(urlWithoutParams: string, params: Record<string, string>): Promise<boolean> {
     return this.navigateByURL(urlWithoutParams, params);
   }
 

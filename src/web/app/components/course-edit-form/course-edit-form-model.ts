@@ -93,20 +93,20 @@ const DefaultCourseEditFormModel: CourseEditFormModel = {
 /**
  * Returns default course form model.
  */
-export const DEFAULT_COURSE_FORM_MODEL: Function = (): CourseEditFormModel => {
+export const DEFAULT_COURSE_FORM_MODEL = (): CourseEditFormModel => {
     return JSON.parse(JSON.stringify(DefaultCourseModel));
 };
 
 /**
  * Returns default course edit form model.
  */
-export const DEFAULT_COURSE_EDIT_FORM_MODEL: Function = (): CourseEditFormModel => {
+export const DEFAULT_COURSE_EDIT_FORM_MODEL = (): CourseEditFormModel => {
     return JSON.parse(JSON.stringify(DefaultCourseEditFormModel));
 };
 
 /**
  * Returns default course add form model.
  */
-export const DEFAULT_COURSE_ADD_FORM_MODEL: Function = (): CourseAddFormModel => {
+export const DEFAULT_COURSE_ADD_FORM_MODEL = (): CourseAddFormModel => {
     return JSON.parse(JSON.stringify(DefaultCourseAddFormModel));
 };

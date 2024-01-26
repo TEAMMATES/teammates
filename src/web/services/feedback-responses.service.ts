@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
 import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -38,7 +39,6 @@ import {
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED, RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../types/feedback-response-details';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * A collection of feedback responses.

@@ -3,6 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
+import {
+  FeedbackSessionTabModel,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { DateTimeService } from '../../../services/datetime.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -67,13 +74,6 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../instructor-session-individual-extension-page/extension-table-column-model';
-import {
-  FeedbackSessionTabModel,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
-import {
-  CopyQuestionsFromOtherSessionsModalComponent,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
-import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 /**
  * Instructor feedback session edit page.

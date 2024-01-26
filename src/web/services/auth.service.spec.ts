@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { AuthService } from './auth.service';
+import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { Intent } from '../types/api-request';
-import { AuthService } from './auth.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('AuthService', () => {
   const frontendUrl: string = environment.frontendUrl;

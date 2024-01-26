@@ -6,7 +6,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -156,7 +155,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -351,7 +349,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -621,7 +618,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -772,7 +768,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}

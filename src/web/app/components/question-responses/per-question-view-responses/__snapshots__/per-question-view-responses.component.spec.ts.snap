@@ -4,7 +4,6 @@ exports[`PerQuestionViewResponsesComponent should snap response with comments 1`
 <tm-per-question-view-responses
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   deleteCommentEvent={[Function EventEmitter_]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   groupByTeam={[Function Boolean]}
@@ -13,7 +12,7 @@ exports[`PerQuestionViewResponsesComponent should snap response with comments 1`
   instructorCommentTableModelChange={[Function EventEmitter_]}
   isDisplayOnly="false"
   isExpandAll="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   question={[Function Object]}
   responses={[Function Array]}
   responsesToShow={[Function Array]}

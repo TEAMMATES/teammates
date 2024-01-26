@@ -8,7 +8,7 @@
 }
 
 // small
-@media screen and (max-width: 576px) {
+@media screen and (width <= 576px) {
   .preview-select {
     width: 100%;
   }

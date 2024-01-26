@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HttpRequestService } from './http-request.service';
+import { SessionResultCsvService } from './session-result-csv.service';
+import { StudentService } from './student.service';
 import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -27,9 +30,6 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
-import { SessionResultCsvService } from './session-result-csv.service';
-import { StudentService } from './student.service';
 
 /**
  * A template session.

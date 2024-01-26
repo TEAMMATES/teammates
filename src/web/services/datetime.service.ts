@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment-timezone';
-import { DateFormat, TimeFormat } from '../types/datetime-const';
 import { TimezoneService } from './timezone.service';
+import { DateFormat, TimeFormat } from '../types/datetime-const';
 
 @Injectable({
     providedIn: 'root',

@@ -1,3 +1,4 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   ConstsumRecipientsQuestionStatisticsCalculation,
 } from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-recipients-question-statistics-calculation';
@@ -6,7 +7,6 @@ import {
   FeedbackConstantSumQuestionDetails,
   FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackConstantSumQuestionDetails}.

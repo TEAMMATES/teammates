@@ -1,10 +1,10 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import {
   ConstsumRecipientsQuestionStatisticsCalculation,
 } from './question-statistics-calculation/constsum-recipients-question-statistics-calculation';
+import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for constsum recipients questions.

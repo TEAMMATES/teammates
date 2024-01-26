@@ -12,13 +12,13 @@
   width: 50%;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (width <= 1100px) {
   .preview-example-select {
     width: 45%;
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (width <= 576px) {
   .preview-select,
   .preview-example-select {
     width: 100%;

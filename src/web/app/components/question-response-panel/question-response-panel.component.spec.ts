@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { QuestionResponsePanelComponent } from './question-response-panel.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import {
   FeedbackContributionQuestionDetails,
@@ -23,7 +24,6 @@ import {
   StudentViewResponsesModule,
 } from '../question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../question-text-with-info/question-text-with-info.module';
-import { QuestionResponsePanelComponent } from './question-response-panel.component';
 
 describe('QuestionResponsePanelComponent', () => {
 

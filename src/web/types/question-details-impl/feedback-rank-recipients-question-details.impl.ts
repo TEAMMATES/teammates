@@ -1,3 +1,4 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   RankRecipientsQuestionStatisticsCalculation,
 } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-recipients-question-statistics-calculation';
@@ -6,7 +7,6 @@ import {
   FeedbackRankRecipientsQuestionDetails, QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackRankRecipientsQuestionDetails}.

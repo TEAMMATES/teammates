@@ -48,6 +48,11 @@ export class RubricQuestionStatisticsCalculation
 
   perRecipientStatsMap: Record<string, PerRecipientStats> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(question: FeedbackRubricQuestionDetails) {
+    super(question);
+  }
+
   calculateStatistics(): void {
     this.answers = [];
     this.percentages = [];

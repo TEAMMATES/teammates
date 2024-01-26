@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { FeedbackPathPanelComponent } from './feedback-path-panel.component';
 import { FeedbackParticipantType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../types/api-output';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import { FeedbackPathPanelComponent } from './feedback-path-panel.component';
 
 describe('FeedbackPathPanelComponent', () => {
   let component: FeedbackPathPanelComponent;
