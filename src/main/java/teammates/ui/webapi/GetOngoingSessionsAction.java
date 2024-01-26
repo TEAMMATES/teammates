@@ -33,12 +33,8 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
 
         List<FeedbackSessionAttributes> allOngoingSessions =
                 logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
-        Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap = new HashMap<>();
-        for (FeedbackSessionAttributes fs : allOngoingSessions) {
-            String courseId = fs.getCourseId();
-            courseIdToFeedbackSessionsMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
-        }
-
+        Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap =
+                createCourseIdToFeedbackSessionsMap(allOngoingSessions);
         Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap = new HashMap<>();
         for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsMap.entrySet()) {
             String courseId = courseIdFeedbackSessionList.getKey();
@@ -92,6 +88,16 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         if (startTime > endTime) {
             throw new InvalidHttpParameterException(INVALID_RANGE);
         }
+    }
+
+    private Map<String, List<FeedbackSessionAttributes>> createCourseIdToFeedbackSessionsMap(
+            List<FeedbackSessionAttributes> allOngoingSessions) {
+        Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap = new HashMap<>();
+        for (FeedbackSessionAttributes fs : allOngoingSessions) {
+            String courseId = fs.getCourseId();
+            courseIdToFeedbackSessionsMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
+        }
+        return courseIdToFeedbackSessionsMap;
     }
 
     private OngoingSessionsData createOutput(List<FeedbackSessionAttributes> allOngoingSessions,
