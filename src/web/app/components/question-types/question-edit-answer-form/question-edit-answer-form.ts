@@ -19,7 +19,7 @@ export abstract class QuestionEditAnswerFormComponent<
   responseDetails: R;
 
   @Input()
-  recipient: String = '';
+  recipient: string = '';
 
   @Output()
   responseDetailsChange: EventEmitter<FeedbackResponseDetails> = new EventEmitter();
@@ -29,7 +29,7 @@ export abstract class QuestionEditAnswerFormComponent<
     this.responseDetails = responseDetails;
   }
 
-  getAriaLabel(): String {
+  getAriaLabel(): string {
     if (this.recipient === '' || this.recipient === '%GENERAL%' || this.recipient === 'Myself') {
       return 'Response';
     }

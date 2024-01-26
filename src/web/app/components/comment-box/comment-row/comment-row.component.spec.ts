@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommentRowComponent } from './comment-row.component';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import createSpyFromClass from '../../../../test-helpers/create-spy-from-class';
@@ -13,7 +14,6 @@ import {
   CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe,
   CommentVisibilityTypesJointNamePipe,
 } from '../comment-visibility-setting.pipe';
-import { CommentRowComponent } from './comment-row.component';
 
 describe('CommentRowComponent', () => {
   let component: CommentRowComponent;

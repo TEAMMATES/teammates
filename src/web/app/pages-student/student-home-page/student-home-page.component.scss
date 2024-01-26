@@ -2,7 +2,8 @@
   margin: 0;
 }
 
-@media (max-width: 768px) { //applies only to mobile screens
+// applies only to mobile screens
+@media (width <= 768px) {
   .custom-button {
     width: 100px;
     margin-bottom: 5px;

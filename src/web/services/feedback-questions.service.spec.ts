@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { FeedbackQuestionsService } from './feedback-questions.service';
+import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { Intent } from '../types/api-request';
-import { FeedbackQuestionsService } from './feedback-questions.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('FeedbackQuestionsService', () => {
   let spyHttpRequestService: any;

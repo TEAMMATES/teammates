@@ -3,7 +3,6 @@
 exports[`QuestionResponsePanelComponent should snap with feedback session with questions 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  __ngContext__={[Function Number]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   previewAsPerson=""
@@ -438,7 +437,6 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
 exports[`QuestionResponsePanelComponent should snap with feedback session with questions of anonymous responses 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  __ngContext__={[Function Number]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   previewAsPerson=""
@@ -746,7 +744,6 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
 exports[`QuestionResponsePanelComponent should snap with questions and responses when previewing results 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  __ngContext__={[Function Number]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   previewAsPerson=""

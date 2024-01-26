@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
@@ -6,7 +7,6 @@ import {
 import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
-import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
  * Question details edit form component for constsum recipients question.

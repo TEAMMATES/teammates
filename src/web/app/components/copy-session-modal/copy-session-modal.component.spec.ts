@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CopySessionModalComponent } from './copy-session-modal.component';
 import {
   Course,
   FeedbackSession,
@@ -11,7 +12,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { CopySessionModalComponent } from './copy-session-modal.component';
 
 describe('CopySessionModalComponent', () => {
   let component: CopySessionModalComponent;

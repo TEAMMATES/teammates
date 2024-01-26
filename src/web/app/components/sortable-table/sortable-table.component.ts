@@ -119,7 +119,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     this.sortRows();
   }
 
-  getAriaSort(column: String): String {
+  getAriaSort(column: string): string {
     if (column !== this.columnToSortBy) {
       return 'none';
     }

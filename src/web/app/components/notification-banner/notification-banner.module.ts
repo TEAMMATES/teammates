@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { NotificationBannerComponent } from './notification-banner.component';
+import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 
 /**
  * Module for banner used to display notifications to the user.

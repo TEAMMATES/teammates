@@ -810,7 +810,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
   }
 
-  getAriaSortActive(by: SortBy): String {
+  getAriaSortActive(by: SortBy): string {
     if (by !== this.activeTableSortBy) {
       return 'none';
     }
@@ -836,7 +836,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
   }
 
-  getAriaSortArchived(by: SortBy): String {
+  getAriaSortArchived(by: SortBy): string {
     if (by !== this.archivedTableSortBy) {
       return 'none';
     }
@@ -862,7 +862,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }
 
-  getAriaSortDeleted(by: SortBy): String {
+  getAriaSortDeleted(by: SortBy): string {
     if (by !== this.deletedTableSortBy) {
       return 'none';
     }

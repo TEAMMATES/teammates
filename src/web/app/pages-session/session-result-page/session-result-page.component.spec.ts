@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -35,7 +36,6 @@ import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
-import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {

@@ -1,3 +1,4 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   NumScaleQuestionStatisticsCalculation,
 } from '../../app/components/question-types/question-statistics/question-statistics-calculation/num-scale-question-statistics-calculation';
@@ -5,7 +6,6 @@ import {
   FeedbackNumericalScaleQuestionDetails, FeedbackParticipantType,
   FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackNumericalScaleQuestionDetails}.

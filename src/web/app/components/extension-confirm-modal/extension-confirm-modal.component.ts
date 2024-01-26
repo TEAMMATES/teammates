@@ -239,7 +239,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
     this.sortStudentListEvent.emit(event);
   }
 
-  getAriaSortStudent(by: SortBy): String {
+  getAriaSortStudent(by: SortBy): string {
     if (by !== this.sortStudentsBy) {
       return 'none';
     }
@@ -285,7 +285,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
     this.sortInstructorListEvent.emit(event);
   }
 
-  getAriaSortInstructor(by: SortBy): String {
+  getAriaSortInstructor(by: SortBy): string {
     if (by !== this.sortInstructorsBy) {
       return 'none';
     }

@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { FeedbackResponsesService } from './feedback-responses.service';
+import { HttpRequestService } from './http-request.service';
 import { InstructorSessionResultSectionType }
   from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
@@ -37,8 +39,6 @@ import {
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
   RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../types/feedback-response-details';
-import { FeedbackResponsesService } from './feedback-responses.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('FeedbackResponsesService', () => {
   let spyHttpRequestService: any;

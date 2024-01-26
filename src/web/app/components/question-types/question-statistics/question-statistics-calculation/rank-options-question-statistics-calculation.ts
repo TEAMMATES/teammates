@@ -17,6 +17,11 @@ export class RankOptionsQuestionStatisticsCalculation
   ranksReceivedPerOption: Record<string, number[]> = {};
   rankPerOption: Record<string, number> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(question: FeedbackRankOptionsQuestionDetails) {
+    super(question);
+  }
+
   calculateStatistics(): void {
     this.ranksReceivedPerOption = {};
     this.rankPerOption = {};

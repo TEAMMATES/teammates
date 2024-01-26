@@ -1,5 +1,16 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { GroupButtonsComponent } from './cell-with-group-buttons.component';
+import { ResponseRateComponent } from './cell-with-response-rate.component';
+import { CellWithToolTipComponent } from './cell-with-tooltip.component';
+import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
+import {
+  CopySessionResult,
+  SessionsTableColumn,
+  SessionsTableColumnData,
+  SessionsTableRowData,
+  SessionsTableRowModel,
+} from './sessions-table-model';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -17,17 +28,6 @@ import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pip
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
-import { GroupButtonsComponent } from './cell-with-group-buttons.component';
-import { ResponseRateComponent } from './cell-with-response-rate.component';
-import { CellWithToolTipComponent } from './cell-with-tooltip.component';
-import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
-import {
-  CopySessionResult,
-  SessionsTableColumn,
-  SessionsTableColumnData,
-  SessionsTableRowData,
-  SessionsTableRowModel,
-} from './sessions-table-model';
 
 export type MutateEvent = {
   idx: number,

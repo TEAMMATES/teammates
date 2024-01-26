@@ -5,7 +5,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -43,8 +42,8 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -162,7 +161,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -200,8 +198,8 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -316,7 +314,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -354,8 +351,8 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -470,7 +467,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -508,8 +504,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
   previewAsPerson=""
@@ -757,7 +753,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -795,8 +790,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -1029,7 +1024,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -1202,62 +1196,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </ul>
                       </div>
                     </div>
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
-                        >
-                          <div
-                            class="card-body"
-                          >
-                            <div
-                              class="row comment-row"
-                            >
-                              <div
-                                class="col-12"
-                              >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
-                                <div
-                                  class="float-end"
-                                >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
-                                </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </tm-comment-row>
-                    </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-1-idx-0"
@@ -1327,9 +1265,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    id="btn-submit-qn-1"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 1
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1378,7 +1329,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -1450,7 +1400,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       id="recipient-name-qn-3-idx-0"
                     >
                       <b>
-                        Unknown 
+                        Gene Harris 
                       </b>
                       <span>
                         (Instructor)
@@ -1465,7 +1415,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
-                          aria-label="Response for To-Be-Selected"
+                          aria-label="Response for Gene Harris"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
@@ -1499,65 +1449,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </li>
                         </ul>
                       </div>
-                    </div>
-                    <div
-                      style="display: inline-block;"
-                    >
-                    </div>
-                    <div>
-                      <tm-comment-row>
-                        <tm-comment-edit-form>
-                          <div
-                            class="row"
-                          >
-                            <div
-                              class="col-6"
-                            >
-                               Your comment about the above response 
-                            </div>
-                            <div
-                              class="col-6"
-                            >
-                              <div
-                                class="float-end"
-                              >
-                                <span>
-                                </span>
-                                <span
-                                  style="margin-left: 10px;"
-                                >
-                                  <button
-                                    aria-label="Close"
-                                    class="btn-close"
-                                    type="button"
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            style="margin: 10px 0;"
-                          >
-                            <tm-rich-text-editor
-                              placeholdertext="Enter your comment here"
-                            >
-                              <div
-                                inviewport=""
-                              >
-                              </div>
-                            </tm-rich-text-editor>
-                          </div>
-                          <button
-                            class="btn btn-light btn-sm float-end"
-                            type="button"
-                          >
-                            <i
-                              class="fas fa-times"
-                            />
-                             Cancel
-                          </button>
-                        </tm-comment-edit-form>
-                      </tm-comment-row>
                     </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
@@ -1631,9 +1522,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    id="btn-submit-qn-3"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 3
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1678,7 +1582,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -1790,7 +1693,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -1984,62 +1886,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </ul>
                       </div>
                     </div>
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
-                        >
-                          <div
-                            class="card-body"
-                          >
-                            <div
-                              class="row comment-row"
-                            >
-                              <div
-                                class="col-12"
-                              >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
-                                <div
-                                  class="float-end"
-                                >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
-                                </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </tm-comment-row>
-                    </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-4-idx-0"
@@ -2173,7 +2019,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -2301,18 +2146,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-5-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-5-idx-0"
                     >
@@ -2401,7 +2234,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -2525,18 +2357,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-6-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-6-idx-0"
                     >
@@ -2643,7 +2463,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -3013,18 +2832,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-7-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-7-idx-0"
                     >
@@ -3115,7 +2922,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -3372,18 +3178,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-8-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-8-idx-0"
                     >
@@ -3472,7 +3266,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -3667,18 +3460,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-9-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-9-idx-0"
                     >
@@ -3767,7 +3548,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -3906,19 +3686,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="col-12 margin-bottom-20px margin-top-10px indent"
                     id="comment-section-qn-10-idx-0"
                   >
-                    <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                        disabled=""
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-10-idx-0"
@@ -3996,7 +3763,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -4034,8 +3800,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -4268,7 +4034,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -4444,64 +4209,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </ul>
                       </div>
                     </div>
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
-                        >
-                          <div
-                            class="card-body"
-                          >
-                            <div
-                              class="row comment-row"
-                            >
-                              <div
-                                class="col-12"
-                              >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
-                                <div
-                                  class="float-end"
-                                >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    disabled=""
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    disabled=""
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
-                                </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </tm-comment-row>
-                    </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-1-idx-0"
@@ -4573,9 +4280,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    disabled=""
+                    id="btn-submit-qn-1"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 1
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -4590,7 +4311,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
@@ -4609,10 +4330,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </button>
               </tm-panel-chevron>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
             <h2
               class="question-details"
             >
@@ -4624,7 +4341,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -4696,7 +4412,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       id="recipient-name-qn-3-idx-0"
                     >
                       <b>
-                        Unknown 
+                        Gene Harris 
                       </b>
                       <span>
                         (Instructor)
@@ -4711,7 +4427,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
-                          aria-label="Response for To-Be-Selected"
+                          aria-label="Response for Gene Harris"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
@@ -4745,66 +4461,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </li>
                         </ul>
                       </div>
-                    </div>
-                    <div
-                      style="display: inline-block;"
-                    >
-                    </div>
-                    <div>
-                      <tm-comment-row>
-                        <tm-comment-edit-form>
-                          <div
-                            class="row"
-                          >
-                            <div
-                              class="col-6"
-                            >
-                               Your comment about the above response 
-                            </div>
-                            <div
-                              class="col-6"
-                            >
-                              <div
-                                class="float-end"
-                              >
-                                <span>
-                                </span>
-                                <span
-                                  style="margin-left: 10px;"
-                                >
-                                  <button
-                                    aria-label="Close"
-                                    class="btn-close"
-                                    type="button"
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            style="margin: 10px 0;"
-                          >
-                            <tm-rich-text-editor
-                              placeholdertext="Enter your comment here"
-                            >
-                              <div
-                                inviewport=""
-                              >
-                              </div>
-                            </tm-rich-text-editor>
-                          </div>
-                          <button
-                            class="btn btn-light btn-sm float-end"
-                            disabled=""
-                            type="button"
-                          >
-                            <i
-                              class="fas fa-times"
-                            />
-                             Cancel
-                          </button>
-                        </tm-comment-edit-form>
-                      </tm-comment-row>
                     </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
@@ -4879,9 +4535,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               >
               </div>
               <div
-                class="alert alert-warning"
-                role="alert"
+                class="row"
               >
+                <div
+                  class="col-12 text-center"
+                >
+                  <button
+                    class="btn btn-success"
+                    disabled=""
+                    id="btn-submit-qn-3"
+                    ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                    type="submit"
+                  >
+                    <span>
+                      Submit Response for Question 3
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -4926,7 +4596,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5038,7 +4707,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5235,64 +4903,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </ul>
                       </div>
                     </div>
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
-                        >
-                          <div
-                            class="card-body"
-                          >
-                            <div
-                              class="row comment-row"
-                            >
-                              <div
-                                class="col-12"
-                              >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
-                                <div
-                                  class="float-end"
-                                >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    disabled=""
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    disabled=""
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
-                                  >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
-                                </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </tm-comment-row>
-                    </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-4-idx-0"
@@ -5429,7 +5039,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5557,19 +5166,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-5-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                        disabled=""
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-5-idx-0"
                     >
@@ -5660,7 +5256,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -5784,19 +5379,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-6-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                        disabled=""
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-6-idx-0"
                     >
@@ -5905,7 +5487,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -6275,19 +5856,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-7-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                        disabled=""
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-7-idx-0"
                     >
@@ -6380,7 +5948,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -6645,19 +6212,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-8-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                        disabled=""
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-8-idx-0"
                     >
@@ -6748,7 +6302,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -6943,19 +6496,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     id="comment-section-qn-9-idx-0"
                   >
                     <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                        disabled=""
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                    <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-9-idx-0"
                     >
@@ -7046,7 +6586,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
           <div
             class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body"
@@ -7185,19 +6724,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="col-12 margin-bottom-20px margin-top-10px indent"
                     id="comment-section-qn-10-idx-0"
                   >
-                    <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn-add-comment btn btn-light btn-sm"
-                        disabled=""
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
                     <div
                       class="col-12 margin-bottom-20px margin-top-10px indent"
                       id="comment-section-qn-10-idx-0"
@@ -7277,7 +6803,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -7315,8 +6840,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
   previewAsPerson=""
@@ -7432,7 +6957,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -7470,8 +6994,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  ngbModal={[Function _NgbModal]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
   previewAsPerson=""
