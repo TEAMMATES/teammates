@@ -1,27 +1,35 @@
-package teammates.ui.webapi;
+package teammates.it.ui.webapi;
 
 import org.apache.http.HttpStatus;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.test.TestProperties;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.SearchInstructorsAction;
 
 /**
  * SUT: {@link SearchInstructorsAction}.
  */
-public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructorsAction> {
+public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAction> {
 
-    private final InstructorAttributes acc = typicalBundle.instructors.get("instructor1OfCourse1");
+    private final Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
     @Override
-    protected void prepareTestData() {
-        DataBundle dataBundle = getTypicalDataBundle();
-        removeAndRestoreDataBundle(dataBundle);
-        putDocuments(dataBundle);
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        putDocuments(typicalBundle);
+        HibernateUtil.flushSession();
     }
 
     @Override
@@ -52,12 +60,12 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getCourseId() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getCourseId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
     }
@@ -69,12 +77,12 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getDisplayedName() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getDisplayName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
     }
@@ -86,12 +94,12 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getEmail() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getEmail() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
         assertTrue(response.getInstructors().get(0).getKey() != null);
@@ -105,12 +113,12 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getGoogleId() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getGoogleId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
         assertTrue(response.getInstructors().get(0).getKey() != null);
@@ -124,12 +132,12 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getName() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
         assertTrue(response.getInstructors().get(0).getKey() != null);
@@ -169,8 +177,9 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Override
     @Test
-    protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+    protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = typicalBundle.courses.get("course1");
+        verifyOnlyAdminCanAccess(course);
     }
 
 }

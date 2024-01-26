@@ -17,6 +17,9 @@ public final class TestProperties {
     /** The value of "test.localdatastore.port" in test.properties file. */
     public static final int TEST_LOCALDATASTORE_PORT;
 
+    /** The value of "test.search.service.host" in test.search.service.host file. */
+    public static final String SEARCH_SERVICE_HOST;
+
     private TestProperties() {
         // prevent instantiation
     }
@@ -31,6 +34,7 @@ public final class TestProperties {
 
             TEST_LOCALDATASTORE_PORT = Integer.parseInt(prop.getProperty("test.localdatastore.port"));
 
+            SEARCH_SERVICE_HOST = prop.getProperty("test.search.service.host");
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
         }

@@ -1,4 +1,4 @@
-package teammates.storage.search;
+package teammates.storage.sqlsearch;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -16,19 +16,19 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.BaseEntity;
 
 /**
  * Acts as a proxy to search service.
  *
- * @param <T> type of entity to be returned
+ * @param <T> Type of entity to be returned
  */
-abstract class SearchManager<T extends EntityAttributes<?>> {
+abstract class SearchManager<T extends BaseEntity> {
 
     private static final Logger log = Logger.getLogger();
 
@@ -95,22 +95,22 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
     abstract String getCollectionName();
 
-    abstract SearchDocument<T> createDocument(T attribute);
+    abstract SearchDocument<T> createDocument(T entity);
 
     /**
      * Creates or updates search document for the given entity.
      */
-    public void putDocument(T attributes) throws SearchServiceException {
+    public void putDocument(T entity) throws SearchServiceException {
         if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
-        if (attributes == null) {
+        if (entity == null) {
             return;
         }
 
-        Map<String, Object> searchableFields = createDocument(attributes).getSearchableFields();
+        Map<String, Object> searchableFields = createDocument(entity).getSearchableFields();
         SolrInputDocument document = new SolrInputDocument();
         searchableFields.forEach((key, value) -> document.addField(key, value));
 
@@ -205,11 +205,11 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         }
     }
 
-    abstract T getAttributeFromDocument(SolrDocument document);
+    abstract T getEntityFromDocument(SolrDocument document);
 
     abstract void sortResult(List<T> result);
 
-    List<T> convertDocumentToAttributes(List<SolrDocument> documents) {
+    List<T> convertDocumentToEntities(List<SolrDocument> documents) {
         if (documents == null) {
             return new ArrayList<>();
         }
@@ -217,17 +217,17 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         List<T> result = new ArrayList<>();
 
         for (SolrDocument document : documents) {
-            T attribute = getAttributeFromDocument(document);
-            // Disabled for now
+            T entity = getEntityFromDocument(document);
+
             // Entity will be null if document corresponds to entity in datastore
-            // if (attribute == null) {
-            // // search engine out of sync as SearchManager may fail to delete documents
-            // // the chance is low and it is generally not a big problem
-            // String id = (String) document.getFirstValue("id");
-            // deleteDocuments(Collections.singletonList(id));
-            // continue;
-            // }
-            result.add(attribute);
+            if (entity == null) {
+                // search engine out of sync as SearchManager may fail to delete documents
+                // the chance is low and it is generally not a big problem
+                String id = (String) document.getFirstValue("id");
+                deleteDocuments(Collections.singletonList(id));
+                continue;
+            }
+            result.add(entity);
         }
         sortResult(result);
 

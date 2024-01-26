@@ -3,8 +3,10 @@ package teammates.sqllogic.core;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlsearch.AccountRequestSearchManager;
 
 /**
  * Handles operations related to account requests.
@@ -31,6 +33,17 @@ public final class AccountRequestsLogic {
      */
     public void initLogicDependencies(AccountRequestsDb accountRequestDb) {
         this.accountRequestDb = accountRequestDb;
+    }
+
+    private AccountRequestSearchManager getSearchManager() {
+        return accountRequestDb.getSearchManager();
+    }
+
+    /**
+     * Creates or updates search document for the given account request.
+     */
+    public void putDocument(AccountRequest accountRequest) throws SearchServiceException {
+        getSearchManager().putDocument(accountRequest);
     }
 
     /**

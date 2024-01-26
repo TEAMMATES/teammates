@@ -16,6 +16,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
@@ -701,6 +702,18 @@ public class Logic {
     }
 
     /**
+     * Searches instructors in the whole system. Used by admin only.
+     *
+     * @return List of found instructors in the whole system. Null if no result found.
+     */
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return usersLogic.searchInstructorsInWholeSystem(queryString);
+    }
+
+    /**
      * Updates an instructor and cascades to responses and comments if needed.
      *
      * @return updated instructor
@@ -987,6 +1000,15 @@ public class Logic {
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return dataBundleLogic.persistDataBundle(dataBundle);
+    }
+
+    /**
+     * Puts searchable documents from the data bundle to the database.
+     *
+     * @see DataBundleLogic#putDocuments(DataBundle)
+     */
+    public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
+        dataBundleLogic.putDocuments(dataBundle);
     }
 
     /**

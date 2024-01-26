@@ -12,20 +12,38 @@
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt"
     },
-    "student1": {
+    "instructorOfArchivedCourse": {
       "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "instructorOfArchivedCourse",
+      "name": "Instructor Of Archived Course",
+      "email": "instructorOfArchivedCourse@archiveCourse.tmt"
+    },
+    "instructorOfUnregisteredCourse": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "InstructorOfUnregisteredCourse",
+      "name": "Instructor Of Unregistered Course",
+      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt"
+    },
+    "instructorOfCourse2WithUniqueDisplayName": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "googleId": "instructorOfCourse2WithUniqueDisplayName",
+      "name": "Instructor Of Course 2 With Unique Display Name",
+      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
+    },
+    "student1": {
+      "id": "00000000-0000-4000-8000-000000000101",
       "googleId": "idOfStudent1Course1",
       "name": "Student 1",
       "email": "student1@teammates.tmt"
     },
     "student2": {
-      "id": "00000000-0000-4000-8000-000000000004",
+      "id": "00000000-0000-4000-8000-000000000102",
       "googleId": "idOfStudent2Course1",
       "name": "Student 2",
       "email": "student2@teammates.tmt"
     },
     "student3": {
-      "id": "00000000-0000-4000-8000-000000000005",
+      "id": "00000000-0000-4000-8000-000000000103",
       "googleId": "idOfStudent3Course1",
       "name": "Student 3",
       "email": "student3@teammates.tmt"
@@ -68,6 +86,18 @@
       "name": "Typical Course 3",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Asia/Singapore"
+    },
+    "archivedCourse": {
+      "id": "archived-course",
+      "name": "Archived Course",
+      "institute": "TEAMMATES Test Institute 2",
+      "timeZone": "UTC"
+    },
+    "unregisteredCourse": {
+      "id": "unregistered-course",
+      "name": "Unregistered Course",
+      "institute": "TEAMMATES Test Institute 3",
+      "timeZone": "UTC"
     }
   },
   "sections": {
@@ -185,8 +215,94 @@
         "sessionLevel": {}
       }
     },
+    "instructorOfArchivedCourse": {
+      "id": "00000000-0000-4000-8000-000000000503",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000003"
+      },
+      "course": {
+        "id": "archived-course"
+      },
+      "name": "Instructor Of Archived Course",
+      "email": "instructorOfArchivedCourse@archiveCourse.tmt",
+      "isArchived": true,
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorOfUnregisteredCourse": {
+      "id": "00000000-0000-4000-8000-000000000504",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000004"
+      },
+      "course": {
+        "id": "unregistered-course"
+      },
+      "name": "Instructor Of Unregistered Course",
+      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt",
+      "isArchived": false,
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorOfCourse2WithUniqueDisplayName": {
+      "id": "00000000-0000-4000-8000-000000000505",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000005"
+      },
+      "course": {
+        "id": "course-2"
+      },
+      "name": "Instructor Of Course 2 With Unique Display Name",
+      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Wilson Kurniawan",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
     "instructor1OfCourse3": {
-      "id": "00000000-0000-4000-8000-000000000501",
+      "id": "00000000-0000-4000-8000-000000000506",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -218,7 +334,7 @@
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
+        "id": "00000000-0000-4000-8000-000000000101"
       },
       "course": {
         "id": "course-1"
@@ -233,7 +349,7 @@
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000602",
       "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
+        "id": "00000000-0000-4000-8000-000000000102"
       },
       "course": {
         "id": "course-1"
@@ -248,7 +364,7 @@
     "student3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000603",
       "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
+        "id": "00000000-0000-4000-8000-000000000103"
       },
       "course": {
         "id": "course-1"
@@ -356,15 +472,9 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     },
     "qn2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -381,17 +491,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     },
     "qn3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000803",
@@ -474,15 +576,9 @@
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     },
     "qn6InSession1InCourse1NoResponses": {
       "id": "00000000-0000-4000-8000-000000000806",
@@ -499,15 +595,9 @@
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     },
     "qn1InSession2InCourse1": {
       "id": "00000000-0000-4000-8001-000000000800",
@@ -518,10 +608,7 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
-        "mcqChoices": [
-          "Great",
-          "Perfect"
-        ],
+        "mcqChoices": ["Great", "Perfect"],
         "otherEnabled": false,
         "questionDropdownEnabled": false,
         "generateOptionsFor": "NONE",
@@ -533,15 +620,9 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     }
   },
   "feedbackResponses": {
@@ -606,17 +687,9 @@
         "giverType": "STUDENTS",
         "recipientType": "STUDENTS_EXCLUDING_SELF",
         "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS",
-          "RECEIVER"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS",
-          "RECEIVER"
-        ]
+        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
       },
       "giver": "student2@teammates.tmt",
       "recipient": "student1@teammates.tmt",
@@ -648,17 +721,9 @@
         "giverType": "STUDENTS",
         "recipientType": "STUDENTS_EXCLUDING_SELF",
         "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS",
-          "RECEIVER"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS",
-          "RECEIVER"
-        ]
+        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
       },
       "giver": "student3@teammates.tmt",
       "recipient": "student2@teammates.tmt",
@@ -703,10 +768,7 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "mcqChoices": [
-            "Great",
-            "Perfect"
-          ],
+          "mcqChoices": ["Great", "Perfect"],
           "otherEnabled": false,
           "questionDropdownEnabled": false,
           "generateOptionsFor": "NONE",
