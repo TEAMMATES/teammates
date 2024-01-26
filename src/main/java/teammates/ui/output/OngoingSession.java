@@ -3,7 +3,6 @@ package teammates.ui.output;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -22,13 +21,13 @@ public class OngoingSession {
     private final String courseId;
     private final String feedbackSessionName;
 
-    public OngoingSession(FeedbackSessionAttributes fs, AccountAttributes account) {
+    public OngoingSession(FeedbackSessionAttributes fs, String googleId) {
         this.sessionStatus = getSessionStatusForShow(fs);
 
         String instructorHomePageLink = "";
-        if (account != null) {
+        if (googleId != null) {
             instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withUserId(account.getGoogleId())
+                    .withUserId(googleId)
                     .toString();
         }
         this.instructorHomePageLink = instructorHomePageLink;

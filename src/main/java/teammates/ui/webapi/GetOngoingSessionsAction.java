@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
@@ -41,10 +40,10 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         return new JsonResult(output);
     }
 
-    private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors) {
+    private String getRegisteredInstructorGoogleIdFromInstructors(List<InstructorAttributes> instructors) {
         for (InstructorAttributes instructor : instructors) {
             if (instructor.isRegistered()) {
-                return logic.getAccount(instructor.getGoogleId());
+                return instructor.getGoogleId();
             }
         }
         return null;
@@ -95,11 +94,11 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             String courseId = courseIdFeedbackSessionList.getKey();
             List<FeedbackSessionAttributes> feedbackSessions = courseIdFeedbackSessionList.getValue();
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-            AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
+            String googleId = getRegisteredInstructorGoogleIdFromInstructors(instructors);
 
             String institute = logic.getCourseInstitute(courseId);
             List<OngoingSession> sessions = feedbackSessions.stream()
-                    .map(session -> new OngoingSession(session, account))
+                    .map(session -> new OngoingSession(session, googleId))
                     .collect(Collectors.toList());
 
             instituteToFeedbackSessionsMap.computeIfAbsent(institute, k -> new ArrayList<>()).addAll(sessions);
