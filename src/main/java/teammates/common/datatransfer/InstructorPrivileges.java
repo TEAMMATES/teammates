@@ -105,22 +105,22 @@ public final class InstructorPrivileges {
     public InstructorPrivileges(String instrRole) {
         this();
         switch (instrRole) {
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-                setDefaultPrivilegesForCoowner();
-                break;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-                setDefaultPrivilegesForManager();
-                break;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-                setDefaultPrivilegesForObserver();
-                break;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-                setDefaultPrivilegesForTutor();
-                break;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-            default:
-                setDefaultPrivilegesForCustom();
-                break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+            setDefaultPrivilegesForCoowner();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+            setDefaultPrivilegesForManager();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+            setDefaultPrivilegesForObserver();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+            setDefaultPrivilegesForTutor();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+        default:
+            setDefaultPrivilegesForCustom();
+            break;
         }
     }
 
@@ -402,8 +402,7 @@ public final class InstructorPrivileges {
     /**
      * Validates the privileges in course level, section level and session level.
      *
-     * <p>
-     * Makes sure there is nothing wrong with privileges hierarchy by adding the
+     * <p>Makes sure there is nothing wrong with privileges hierarchy by adding the
      * prerequisite privileges if they have not been granted yet.
      */
     public void validatePrivileges() {

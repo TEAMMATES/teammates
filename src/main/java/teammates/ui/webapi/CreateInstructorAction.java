@@ -61,13 +61,13 @@ class CreateInstructorAction extends Action {
 
     /**
      * Executes the action using SQL storage.
-     * 
+     *
      * @param courseId          Id of the course the instructor is being added
      *                          to.
      * @param instructorRequest Request body containing the instructor's info.
-     * @return
-     * @throws InvalidParametersException
-     * @throws EntityAlreadyExistsException
+     * @return The Json result of the created Instructor
+     * @throws InvalidParametersException If a parameter is invalid
+     * @throws EntityAlreadyExistsException If there is a conflict at the email field
      */
     private JsonResult executeWithSql(String courseId, InstructorCreateRequest instructorRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -86,13 +86,13 @@ class CreateInstructorAction extends Action {
 
     /**
      * Executes the action using Datastore storage.
-     * 
+     *
      * @param courseId          Id of the course the instructor is being added
      *                          to.
      * @param instructorRequest Request body containing the instructor's info.
-     * @return
-     * @throws InvalidParametersException
-     * @throws EntityAlreadyExistsException
+     * @return The Json result of the created Instructor
+     * @throws InvalidParametersException If a parameter is invalid
+     * @throws EntityAlreadyExistsException If there is a conflict at the email field
      */
     private JsonResult executeWithDataStore(String courseId, InstructorCreateRequest instructorRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
