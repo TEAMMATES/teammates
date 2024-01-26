@@ -35,20 +35,8 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
                 logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
         Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap =
                 createCourseIdToFeedbackSessionsMap(allOngoingSessions);
-        Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap = new HashMap<>();
-        for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsMap.entrySet()) {
-            String courseId = courseIdFeedbackSessionList.getKey();
-            List<FeedbackSessionAttributes> feedbackSessions = courseIdFeedbackSessionList.getValue();
-            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-            AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
-
-            String institute = logic.getCourseInstitute(courseId);
-            List<OngoingSession> sessions = feedbackSessions.stream()
-                    .map(session -> new OngoingSession(session, account))
-                    .collect(Collectors.toList());
-
-            instituteToFeedbackSessionsMap.computeIfAbsent(institute, k -> new ArrayList<>()).addAll(sessions);
-        }
+        Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap =
+                createInstituteToFeedbackSessionsMap(courseIdToFeedbackSessionsMap);
         OngoingSessionsData output = createOutput(allOngoingSessions, instituteToFeedbackSessionsMap);
         return new JsonResult(output);
     }
@@ -98,6 +86,25 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             courseIdToFeedbackSessionsMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
         }
         return courseIdToFeedbackSessionsMap;
+    }
+
+    private Map<String, List<OngoingSession>> createInstituteToFeedbackSessionsMap(
+            Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap) {
+        Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap = new HashMap<>();
+        for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsMap.entrySet()) {
+            String courseId = courseIdFeedbackSessionList.getKey();
+            List<FeedbackSessionAttributes> feedbackSessions = courseIdFeedbackSessionList.getValue();
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+            AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
+
+            String institute = logic.getCourseInstitute(courseId);
+            List<OngoingSession> sessions = feedbackSessions.stream()
+                    .map(session -> new OngoingSession(session, account))
+                    .collect(Collectors.toList());
+
+            instituteToFeedbackSessionsMap.computeIfAbsent(institute, k -> new ArrayList<>()).addAll(sessions);
+        }
+        return instituteToFeedbackSessionsMap;
     }
 
     private OngoingSessionsData createOutput(List<FeedbackSessionAttributes> allOngoingSessions,
