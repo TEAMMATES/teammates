@@ -473,6 +473,13 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
+     * Checks if the feedback session has not opened yet.
+     */
+    public boolean isWaitingToOpen() {
+        return Instant.now().isBefore(startTime);
+    }
+
+    /**
      * Checks if the feedback session is opened given the extendedDeadline and grace period.
      */
     public boolean isOpenedGivenExtendedDeadline(Instant extendedDeadline) {
