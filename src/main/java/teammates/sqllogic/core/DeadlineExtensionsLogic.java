@@ -98,6 +98,14 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
+     * Gets a list of deadline extensions with endTime coming up soon
+     * and possibly need a closing email to be sent.
+     */
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
+        return deadlineExtensionsDb.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    }
+
+    /**
      * Deletes a user's deadline extensions.
      */
     public void deleteDeadlineExtensionsForUser(User user) {
