@@ -322,9 +322,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         cr.select(root)
                 .where(cb.and(
                         cb.greaterThan(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
-                        cb.and(
-                                cb.equal(root.get("isClosedEmailSent"), false),
-                                cb.equal(root.get("isClosingEmailEnabled"), true))
+                        cb.equal(root.get("isClosedEmailSent"), false)
                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
