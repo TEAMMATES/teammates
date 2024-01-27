@@ -1,8 +1,6 @@
 package teammates.ui.webapi;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.EmailWrapper;
