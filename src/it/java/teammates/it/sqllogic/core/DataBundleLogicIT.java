@@ -18,6 +18,8 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
@@ -231,6 +233,35 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyPresentInDatabase(student1Account);
 
         // TODO: incomplete
+    }
+
+    @Test
+    public void testRemoveDataBundle_typicalValues_removedCorrectly() throws InvalidParametersException, EntityAlreadyExistsException {
+        SqlDataBundle dataBundle = loadSqlDataBundle("/DataBundleLogicIT.json");
+        dataBundleLogic.persistDataBundle(dataBundle);
+        dataBundleLogic.removeDataBundle(dataBundle);
+
+        ______TS("verify course removed correctly");
+        Course typicalCourse = dataBundle.courses.get("typicalCourse");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(typicalCourse));
+        
+        ______TS("verify accounts removed correctly");
+        Account instructor1Account = dataBundle.accounts.get("instructor1");
+        Account student1Account = dataBundle.accounts.get("student1");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(instructor1Account));
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(student1Account));
+
+        ______TS("verify notification removed correctly");
+        Notification notification1 = dataBundle.notifications.get("notification1");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(notification1));
+
+        ______TS("verify account request removed correctly");
+        AccountRequest accountRequest = dataBundle.accountRequests.get("instructor1");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(accountRequest));
     }
 
 }

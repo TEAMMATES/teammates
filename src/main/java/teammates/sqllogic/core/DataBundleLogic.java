@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -323,6 +324,45 @@ public final class DataBundleLogic {
     // throw new InvalidParametersException("Null data bundle");
     // }
     // }
+
+    /**
+     * Removes the items in the data bundle from the database.
+     */
+    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+        if (dataBundle == null) {
+            throw new InvalidParametersException("Data bundle is null");
+        }
+
+        // TODO: Remove once deleteCourseCascade has it's cascading logic.
+        dataBundle.feedbackResponseComments.values().forEach(feedbackResponseComment -> {
+            frcLogic.deleteFeedbackResponseComment(feedbackResponseComment.getId());
+        });
+        // TODO: Remove once deleteCourseCascade has it's cascading logic.
+        dataBundle.feedbackQuestions.values().forEach(feedbackQuestion -> {
+            frLogic.deleteFeedbackResponsesForQuestionCascade(feedbackQuestion.getId());
+            fqLogic.deleteFeedbackQuestionCascade(feedbackQuestion.getId());
+        });
+        // TODO: Remove once deleteCourseCascade has it's cascading logic.
+        dataBundle.deadlineExtensions.values().forEach(deadlineExtension -> {
+            deadlineExtensionsLogic.deleteDeadlineExtension(deadlineExtension);
+        });
+        // TODO: Remove once deleteCourseCascade has it's cascading logic.
+        dataBundle.feedbackSessions.values().forEach(feedbackSession -> {
+            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), feedbackSession.getCourse().getId());
+        });
+        dataBundle.courses.values().forEach(course -> {
+            coursesLogic.deleteCourseCascade(course.getId());
+        });
+        dataBundle.notifications.values().forEach(notification -> {
+            notificationsLogic.deleteNotification(notification.getId());
+        });
+        dataBundle.accounts.values().forEach(account -> {
+            accountsLogic.deleteAccount(account.getGoogleId());
+        });
+        dataBundle.accountRequests.values().forEach(accountRequest -> {
+            accountRequestsLogic.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        });
+    }
 
     /**
      * Creates document for entities that have document, i.e. searchable.
