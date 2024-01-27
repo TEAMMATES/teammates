@@ -33,7 +33,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Read account request using the given registration key");
 
         AccountRequest actualAccReqRegistrationKey =
-                accountRequestDb.getAccountRequest(accountRequest.getRegistrationKey());
+                accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
         verifyEquals(accountRequest, actualAccReqRegistrationKey);
 
         ______TS("Read account request using the given start and end timing");
