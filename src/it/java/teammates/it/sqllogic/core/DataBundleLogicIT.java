@@ -236,7 +236,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testRemoveDataBundle_typicalValues_removedCorrectly() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testRemoveDataBundle_typicalValues_removedCorrectly()
+                throws InvalidParametersException, EntityAlreadyExistsException {
         SqlDataBundle dataBundle = loadSqlDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
         dataBundleLogic.removeDataBundle(dataBundle);
@@ -245,7 +246,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Course typicalCourse = dataBundle.courses.get("typicalCourse");
 
         assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(typicalCourse));
-        
+
         ______TS("verify accounts removed correctly");
         Account instructor1Account = dataBundle.accounts.get("instructor1");
         Account student1Account = dataBundle.accounts.get("student1");

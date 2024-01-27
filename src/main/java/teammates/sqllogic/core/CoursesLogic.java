@@ -31,7 +31,7 @@ public final class CoursesLogic {
     private CoursesDb coursesDb;
 
     private FeedbackSessionsLogic fsLogic;
-    
+
     private UsersLogic usersLogic;
 
     private CoursesLogic() {
@@ -121,7 +121,7 @@ public final class CoursesLogic {
         if (course == null) {
             return;
         }
-        
+
         usersLogic.deleteStudentsInCourseCascade(courseId);
         List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(feedbackSession -> {
