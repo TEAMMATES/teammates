@@ -1147,4 +1147,40 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
     }
+
+    /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
+     * Returns a list of sessions that are going to close soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+    }
+
+    /**
+     * Returns a list of sessions that are going to open soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+    }
+
+    /**
+     * Returns a list of sessions that require automated emails to be sent as they are published.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+    }
+
+    /**
+     * Returns a list of feedback sessions that need an opesn email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    }
+
 }
