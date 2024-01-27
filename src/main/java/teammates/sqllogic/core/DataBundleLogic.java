@@ -333,23 +333,6 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Data bundle is null");
         }
 
-        // TODO: Remove once deleteCourseCascade has it's cascading logic.
-        dataBundle.feedbackResponseComments.values().forEach(feedbackResponseComment -> {
-            frcLogic.deleteFeedbackResponseComment(feedbackResponseComment.getId());
-        });
-        // TODO: Remove once deleteCourseCascade has it's cascading logic.
-        dataBundle.feedbackQuestions.values().forEach(feedbackQuestion -> {
-            frLogic.deleteFeedbackResponsesForQuestionCascade(feedbackQuestion.getId());
-            fqLogic.deleteFeedbackQuestionCascade(feedbackQuestion.getId());
-        });
-        // TODO: Remove once deleteCourseCascade has it's cascading logic.
-        dataBundle.deadlineExtensions.values().forEach(deadlineExtension -> {
-            deadlineExtensionsLogic.deleteDeadlineExtension(deadlineExtension);
-        });
-        // TODO: Remove once deleteCourseCascade has it's cascading logic.
-        dataBundle.feedbackSessions.values().forEach(feedbackSession -> {
-            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), feedbackSession.getCourse().getId());
-        });
         dataBundle.courses.values().forEach(course -> {
             coursesLogic.deleteCourseCascade(course.getId());
         });

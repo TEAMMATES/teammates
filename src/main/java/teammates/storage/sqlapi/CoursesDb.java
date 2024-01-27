@@ -147,6 +147,19 @@ public final class CoursesDb extends EntitiesDb {
     }
 
     /**
+     * Deletes all sections by {@code courseId}.
+     */
+    public void deleteSectionsByCourseId(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Section> cq = cb.createQuery(Section.class);
+        Root<Section> sRoot = cq.from(Section.class);
+        Join<Section, Course> sJoin = sRoot.join("course");
+        cq.select(sRoot).where(cb.equal(sJoin.get("id"), courseId));
+        List<Section> sectionsToDelete = HibernateUtil.createQuery(cq).getResultList();
+        sectionsToDelete.forEach(HibernateUtil::remove);
+    }
+
+    /**
      * Get teams by {@code section}.
      */
     public List<Team> getTeamsForSection(Section section) {
