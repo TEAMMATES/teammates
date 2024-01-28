@@ -16,7 +16,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Action: adds another instructor to a course that already exists.
  */
-class CreateInstructorAction extends Action {
+public class CreateInstructorAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -35,9 +35,15 @@ class CreateInstructorAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        if (isCourseMigrated(courseId)) {
+            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(
+                    instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        } else {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(
+                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        }
     }
 
     @Override
@@ -66,19 +72,23 @@ class CreateInstructorAction extends Action {
      *                          to.
      * @param instructorRequest Request body containing the instructor's info.
      * @return The Json result of the created Instructor
-     * @throws InvalidParametersException If a parameter is invalid
-     * @throws EntityAlreadyExistsException If there is a conflict at the email field
+     * @throws InvalidParametersException   If a parameter is invalid
+     * @throws EntityAlreadyExistsException If there is a conflict at the email
+     *                                      field
      */
     private JsonResult executeWithSql(String courseId, InstructorCreateRequest instructorRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
+
         Instructor instructorToAdd = createInstructorWithBasicAttributesSql(courseId,
-                instructorRequest.getName(), instructorRequest.getEmail(), instructorRequest.getRoleName(),
-                instructorRequest.getIsDisplayedToStudent(), instructorRequest.getDisplayName());
+                SanitizationHelper.sanitizeName(instructorRequest.getName()),
+                SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
+                instructorRequest.getIsDisplayedToStudent(),
+                SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()));
 
         Instructor createdInstructor = sqlLogic.createInstructor(instructorToAdd);
 
         taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), false);
+                this.userInfo.id, instructorToAdd.getEmail(), courseId, false);
         taskQueuer.scheduleInstructorForSearchIndexing(createdInstructor.getCourseId(), createdInstructor.getEmail());
 
         return new JsonResult(new InstructorData(createdInstructor));
@@ -91,8 +101,9 @@ class CreateInstructorAction extends Action {
      *                          to.
      * @param instructorRequest Request body containing the instructor's info.
      * @return The Json result of the created Instructor
-     * @throws InvalidParametersException If a parameter is invalid
-     * @throws EntityAlreadyExistsException If there is a conflict at the email field
+     * @throws InvalidParametersException   If a parameter is invalid
+     * @throws EntityAlreadyExistsException If there is a conflict at the email
+     *                                      field
      */
     private JsonResult executeWithDataStore(String courseId, InstructorCreateRequest instructorRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {

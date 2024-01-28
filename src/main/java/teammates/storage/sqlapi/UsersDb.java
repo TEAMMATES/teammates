@@ -62,6 +62,11 @@ public final class UsersDb extends EntitiesDb {
             throw new InvalidParametersException(instructor.getInvalidityInfo());
         }
 
+        // TODO CHECK WITH MENTOR
+        if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
+            throw new EntityAlreadyExistsException("Instructor already exists.");
+        }
+
         persist(instructor);
         return instructor;
     }
@@ -333,7 +338,8 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets the list of students for the specified {@code courseId} in batches with {@code batchSize}.
+     * Gets the list of students for the specified {@code courseId} in batches with
+     * {@code batchSize}.
      */
     public List<Student> getStudentsForCourse(String courseId, int batchSize) {
         assert courseId != null;
@@ -384,8 +390,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(instructorRoot)
                 .where(cb.and(
-                    cb.equal(instructorRoot.get("courseId"), courseId),
-                    cb.or(predicates.toArray(new Predicate[0]))));
+                        cb.equal(instructorRoot.get("courseId"), courseId),
+                        cb.or(predicates.toArray(new Predicate[0]))));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -427,8 +433,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(studentRoot.get("courseId"), courseId),
-                    cb.or(predicates.toArray(new Predicate[0]))));
+                        cb.equal(studentRoot.get("courseId"), courseId),
+                        cb.or(predicates.toArray(new Predicate[0]))));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -523,8 +529,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(cb.count(studentRoot.get("id")))
                 .where(cb.and(
-                    cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(teamsJoin.get("name"), teamName)));
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getSingleResult();
     }

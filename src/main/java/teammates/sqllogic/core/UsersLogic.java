@@ -61,8 +61,10 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
+            FeedbackResponsesLogic feedbackResponsesLogic,
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+            DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
@@ -109,12 +111,15 @@ public final class UsersLogic {
      * Updates an instructor and cascades to responses and comments if needed.
      *
      * @return updated instructor
-     * @throws InvalidParametersException if the instructor update request is invalid
-     * @throws InstructorUpdateException if the update violates instructor validity
-     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     * @throws InvalidParametersException  if the instructor update request is
+     *                                     invalid
+     * @throws InstructorUpdateException   if the update violates instructor
+     *                                     validity
+     * @throws EntityDoesNotExistException if the instructor does not exist in the
+     *                                     database
      */
-    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
-            InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
+    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest)
+            throws InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
         Instructor instructor;
         String instructorId = instructorRequest.getId();
         if (instructorId == null) {
@@ -157,8 +162,8 @@ public final class UsersLogic {
 
         if (needsCascade) {
             // cascade responses
-            List<FeedbackResponse> responsesFromUser =
-                    feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
+            List<FeedbackResponse> responsesFromUser = feedbackResponsesLogic
+                    .getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
             for (FeedbackResponse responseFromUser : responsesFromUser) {
                 FeedbackQuestion question = responseFromUser.getFeedbackQuestion();
                 if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
@@ -166,13 +171,13 @@ public final class UsersLogic {
                     responseFromUser.setGiver(newEmail);
                 }
             }
-            List<FeedbackResponse> responsesToUser =
-                    feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
+            List<FeedbackResponse> responsesToUser = feedbackResponsesLogic
+                    .getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
             for (FeedbackResponse responseToUser : responsesToUser) {
                 FeedbackQuestion question = responseToUser.getFeedbackQuestion();
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                        && question.getRecipientType() == FeedbackParticipantType.SELF) {
+                                && question.getRecipientType() == FeedbackParticipantType.SELF) {
                     responseToUser.setRecipient(newEmail);
                 }
             }
@@ -186,10 +191,11 @@ public final class UsersLogic {
     /**
      * Verifies that at least one instructor is displayed to studens.
      *
-     * @throws InstructorUpdateException if there is no instructor displayed to students.
+     * @throws InstructorUpdateException if there is no instructor displayed to
+     *                                   students.
      */
     void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
-                                               boolean isEditedInstructorDisplayed)
+            boolean isEditedInstructorDisplayed)
             throws InstructorUpdateException {
         List<Instructor> instructorsDisplayed = usersDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
@@ -260,7 +266,8 @@ public final class UsersLogic {
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Null if no result found.
+     * @return List of found instructors in the whole system. Null if no result
+     *         found.
      */
     public List<Instructor> searchInstructorsInWholeSystem(String queryString)
             throws SearchServiceException {
@@ -340,10 +347,12 @@ public final class UsersLogic {
     }
 
     /**
-     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the instructor with email address
+     * {@code email} in course {@code courseId}.
      *
      * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException if system was unable to generate a new registration key.
+     * @throws InstructorUpdateException   if system was unable to generate a new
+     *                                     registration key.
      * @throws EntityDoesNotExistException if the instructor does not exist.
      */
     public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
@@ -351,7 +360,8 @@ public final class UsersLogic {
         Instructor instructor = getInstructorForEmail(courseId, email);
         if (instructor == null) {
             String errorMessage = String.format(
-                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email,
+                    courseId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
@@ -369,10 +379,12 @@ public final class UsersLogic {
     }
 
     /**
-     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the student with email address
+     * {@code email} in course {@code courseId}.
      *
      * @return the student with the new registration key.
-     * @throws StudentUpdateException if system was unable to generate a new registration key.
+     * @throws StudentUpdateException      if system was unable to generate a new
+     *                                     registration key.
      * @throws EntityDoesNotExistException if the student does not exist.
      */
     public Student regenerateStudentRegistrationKey(String courseId, String email)
@@ -398,7 +410,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Returns true if the user associated with the googleId is an instructor in any course in the system.
+     * Returns true if the user associated with the googleId is an instructor in any
+     * course in the system.
      */
     public boolean isInstructorInAnyCourse(String googleId) {
         return !usersDb.getAllInstructorsByGoogleId(googleId).isEmpty();
@@ -424,8 +437,8 @@ public final class UsersLogic {
     }
 
     /**
-    * Check if the students with the provided emails exist in the course.
-    */
+     * Check if the students with the provided emails exist in the course.
+     */
     public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
         List<Student> students = usersDb.getStudentsForEmails(courseId, emails);
         Map<String, User> emailStudentMap = convertUserListToEmailUserMap(students);
@@ -538,8 +551,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Checks if there are any other registered instructors that can modify instructors.
-     * If there are none, the instructor currently being edited will be granted the privilege
+     * Checks if there are any other registered instructors that can modify
+     * instructors.
+     * If there are none, the instructor currently being edited will be granted the
+     * privilege
      * of modifying instructors automatically.
      *
      * @param courseId         Id of the course.
@@ -559,15 +574,16 @@ public final class UsersLogic {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.getGoogleId()
-                .equals(instructorToEdit.getGoogleId()));
+                        || instrWithModifyInstructorPrivilege.getGoogleId()
+                                .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
 
     /**
-     * Deletes a student along with its associated feedback responses, deadline extensions and comments.
+     * Deletes a student along with its associated feedback responses, deadline
+     * extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      */
@@ -582,10 +598,11 @@ public final class UsersLogic {
                 .deleteFeedbackResponsesForCourseCascade(courseId, studentEmail);
 
         if (usersDb.getStudentCountForTeam(student.getTeamName(), student.getCourseId()) == 1) {
-            // the student is the only student in the team, delete responses related to the team
+            // the student is the only student in the team, delete responses related to the
+            // team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesForCourseCascade(
-                        student.getCourse().getId(), student.getTeamName());
+                            student.getCourse().getId(), student.getTeamName());
         }
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
@@ -594,7 +611,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes students in the course cascade their associated responses, deadline extensions, and comments.
+     * Deletes students in the course cascade their associated responses, deadline
+     * extensions, and comments.
      */
     public void deleteStudentsInCourseCascade(String courseId) {
         List<Student> studentsInCourse = getStudentsForCourse(courseId);
@@ -676,7 +694,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Utility function to convert user list to email-user map for faster email lookup.
+     * Utility function to convert user list to email-user map for faster email
+     * lookup.
      *
      * @param users users list which contains users with unique email addresses
      * @return email-user map for faster email lookup
