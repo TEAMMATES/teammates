@@ -52,7 +52,6 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     private FeedbackSession feedbackSession;
 
     @OneToMany(mappedBy = "feedbackQuestion", cascade = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
     @Column(nullable = false)

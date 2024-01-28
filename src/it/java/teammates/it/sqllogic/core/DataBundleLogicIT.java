@@ -25,6 +25,7 @@ import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -281,6 +282,32 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("verify feedback session removed correctly");
 
         assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
+
+        ______TS("verify feedback questions, responses, response comments and deadline extensions " +
+                "related to session1InTypicalCourse are removed correctly");
+
+        List<FeedbackQuestion> fqs = session1InTypicalCourse.getFeedbackQuestions();
+        List<DeadlineExtension> des = session1InTypicalCourse.getDeadlineExtensions();
+        List<FeedbackResponse> frs = new ArrayList<>();
+        List<FeedbackResponseComment> frcs = new ArrayList<>();
+
+        for (DeadlineExtension de : des) {
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(de));
+        }
+
+        for (FeedbackQuestion fq : fqs) {
+            frs.addAll(fq.getFeedbackResponses());
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fq));
+        }
+
+        for (FeedbackResponse fr : frs) {
+            frcs.addAll(fr.getFeedbackResponseComments());
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fr));
+        }
+
+        for (FeedbackResponseComment frc : frcs) {
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(frc));
+        }
 
         ______TS("verify accounts removed correctly");
 
