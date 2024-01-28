@@ -140,7 +140,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
         cq.select(frRoot).where(cb.equal(fqJoin.get("id"), feedbackQuestionId));
         List<FeedbackResponse> frToBeDeleted = HibernateUtil.createQuery(cq).getResultList();
-        frToBeDeleted.forEach(HibernateUtil::remove);
+        frToBeDeleted.forEach(feedbackResponse -> delete(feedbackResponse));
     }
 
     /**

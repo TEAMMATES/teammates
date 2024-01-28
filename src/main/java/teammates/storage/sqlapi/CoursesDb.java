@@ -156,7 +156,7 @@ public final class CoursesDb extends EntitiesDb {
         Join<Section, Course> sJoin = sRoot.join("course");
         cq.select(sRoot).where(cb.equal(sJoin.get("id"), courseId));
         List<Section> sectionsToDelete = HibernateUtil.createQuery(cq).getResultList();
-        sectionsToDelete.forEach(HibernateUtil::remove);
+        sectionsToDelete.forEach(section -> delete(section));
     }
 
     /**
