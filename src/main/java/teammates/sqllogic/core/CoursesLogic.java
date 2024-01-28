@@ -133,18 +133,6 @@ public final class CoursesLogic {
             usersLogic.deleteInstructorCascade(courseId, instructor.getEmail());
         });
 
-        // TODO: Migrate after other Logic classes have been migrated.
-        // AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-        // .withCourseId(courseId)
-        // .build();
-        // frcLogic.deleteFeedbackResponseComments(query);
-        // frLogic.deleteFeedbackResponses(query);
-        // fqLogic.deleteFeedbackQuestions(query);
-        // feedbackSessionsLogic.deleteFeedbackSessions(query);
-        // studentsLogic.deleteStudents(query);
-        // instructorsLogic.deleteInstructors(query);
-        // deadlineExtensionsLogic.deleteDeadlineExtensions(query);
-
         coursesDb.deleteCourse(course);
     }
 

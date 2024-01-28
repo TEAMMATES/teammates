@@ -314,16 +314,6 @@ public final class DataBundleLogic {
         return dataBundle;
     }
 
-    // TODO: Incomplete
-    // private void removeDataBundle(SqlDataBundle dataBundle) throws
-    // InvalidParametersException {
-    // // Cannot rely on generated IDs, might not be the same as the actual ID in
-    // the db.
-    // if (dataBundle == null) {
-    // throw new InvalidParametersException("Null data bundle");
-    // }
-    // }
-
     /**
      * Removes the items in the data bundle from the database.
      */
