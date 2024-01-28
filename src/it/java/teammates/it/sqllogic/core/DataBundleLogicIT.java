@@ -240,27 +240,54 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 throws InvalidParametersException, EntityAlreadyExistsException {
         SqlDataBundle dataBundle = loadSqlDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
+
+        ______TS("verify notifications persisted correctly");
+        Notification notification1 = dataBundle.notifications.get("notification1");
+
+        verifyPresentInDatabase(notification1);
+
+        ______TS("verify course persisted correctly");
+        Course typicalCourse = dataBundle.courses.get("typicalCourse");
+
+        verifyPresentInDatabase(typicalCourse);
+
+        ______TS("verify feedback session persisted correctly");
+        FeedbackSession session1InTypicalCourse = dataBundle.feedbackSessions.get("session1InTypicalCourse");
+
+        verifyPresentInDatabase(session1InTypicalCourse);
+
+        ______TS("verify accounts persisted correctly");
+        Account instructor1Account = dataBundle.accounts.get("instructor1");
+        Account student1Account = dataBundle.accounts.get("student1");
+
+        verifyPresentInDatabase(instructor1Account);
+        verifyPresentInDatabase(student1Account);
+
+        ______TS("verify account request persisted correctly");
+        AccountRequest accountRequest = dataBundle.accountRequests.get("instructor1");
+
+        verifyPresentInDatabase(accountRequest);
+
         dataBundleLogic.removeDataBundle(dataBundle);
 
+        ______TS("verify notification removed correctly");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(notification1));
+
         ______TS("verify course removed correctly");
-        Course typicalCourse = dataBundle.courses.get("typicalCourse");
 
         assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(typicalCourse));
 
+        ______TS("verify feedback session removed correctly");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
+
         ______TS("verify accounts removed correctly");
-        Account instructor1Account = dataBundle.accounts.get("instructor1");
-        Account student1Account = dataBundle.accounts.get("student1");
 
         assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(instructor1Account));
         assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(student1Account));
 
-        ______TS("verify notification removed correctly");
-        Notification notification1 = dataBundle.notifications.get("notification1");
-
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(notification1));
-
         ______TS("verify account request removed correctly");
-        AccountRequest accountRequest = dataBundle.accountRequests.get("instructor1");
 
         assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(accountRequest));
     }
