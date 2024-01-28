@@ -12,7 +12,7 @@ import teammates.ui.output.JoinStatus;
 /**
  * Get the join status of a course.
  */
-class GetCourseJoinStatusAction extends Action {
+public class GetCourseJoinStatusAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

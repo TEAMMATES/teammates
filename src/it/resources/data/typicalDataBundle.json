@@ -63,6 +63,12 @@
       "email": "instr2@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
       "registeredAt": "2015-02-14T00:00:00Z"
+    },
+    "unregisteredInstructor": {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "name": "Unregistered Instructor",
+      "email": "unregisteredInstructor@teammates.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -328,6 +334,31 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "unregisteredInstructorOfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000507",
+      "course": {
+        "id": "course-1"
+      },
+      "name": "Unregistered Instructor of Course 1",
+      "email": "unregisteredInstructorOfCourse1@teammates.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "isDisplayedToStudents": true,
+      "displayName": "Unregistered Instructor of Course 1",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": false,
+          "canModifyInstructor": false,
+          "canModifySession": false,
+          "canModifyStudent": false,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
@@ -386,6 +417,18 @@
       },
       "email": "student1@teammates.tmt",
       "name": "student1 In Course2",
+      "comments": ""
+    },
+    "unregisteredStudentInCourse1": {
+      "id": "00000000-0000-4000-8000-000000000605",
+      "course": {
+        "id": "course-1"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "email": "unregisteredStudentInCourse1@teammates.tmt",
+      "name": "Unregistered Student In Course1",
       "comments": ""
     }
   },
