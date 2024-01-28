@@ -283,8 +283,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
 
-        ______TS("verify feedback questions, responses, response comments and deadline extensions " +
-                "related to session1InTypicalCourse are removed correctly");
+        ______TS("verify feedback questions, responses, response comments and deadline extensions "
+                + "related to session1InTypicalCourse are removed correctly");
 
         List<FeedbackQuestion> fqs = session1InTypicalCourse.getFeedbackQuestions();
         List<DeadlineExtension> des = session1InTypicalCourse.getDeadlineExtensions();
