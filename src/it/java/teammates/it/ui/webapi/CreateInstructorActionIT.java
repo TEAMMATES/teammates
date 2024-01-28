@@ -10,12 +10,11 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.webapi.CreateInstructorAction;
-import teammates.ui.webapi.DeleteInstructorAction;
 import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * SUT: {@link DeleteInstructorAction}.
+ * SUT: {@link CreateInstructorAction}.
  */
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
     @Override
@@ -115,11 +114,6 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         ______TS("instructors of other courses cannot access");
 
         verifyInaccessibleForInstructorsOfOtherCourses(course, submissionParams);
-    }
-
-    private InstructorCreateRequest createBasicInstructorCreateRequest() {
-
-        return 
     }
 
 }
