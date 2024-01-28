@@ -13,7 +13,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetCourseJoinStatusAction}.
  */
 public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatusAction> {
-    
+
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
@@ -22,7 +22,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
     }
-    
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.JOIN;
@@ -33,6 +33,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         return GET;
     }
 
+    @Override
     @Test
     protected void testExecute() {
 
