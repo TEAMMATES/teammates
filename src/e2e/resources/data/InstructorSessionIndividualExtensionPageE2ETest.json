@@ -250,5 +250,29 @@
       }
     }
   },
-  "feedbackResponseComments": {}
+  "feedbackResponseComments": {},
+  "notifications": {
+    "notification1": {
+      "notificationId": "notification1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "E2E notif for general users",
+      "message": "<p>This notification is shown to general users</p>",
+      "shown": false
+    },
+    "notification2": {
+      "notificationId": "notification2",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "STUDENT",
+      "title": "E2E notif for students",
+      "message": "<p>This notification is shown to students only</p>",
+      "shown": false
+    }
+  }
 }
