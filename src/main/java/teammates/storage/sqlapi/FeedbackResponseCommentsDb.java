@@ -79,6 +79,9 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     }
 
+    /**
+     * Gets all feedback response comments for a response.
+     */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
         assert feedbackResponseId != null;
 
@@ -125,20 +128,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setGiver(updatedEmail);
+            merge(responseComment);
         }
-    }
-
-    /**
-     * Updates the last editor email for all of the last editor's comments in a course.
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaUpdate<FeedbackResponseComment> update = cb.createCriteriaUpdate(FeedbackResponseComment.class);
-        Root<FeedbackResponseComment> root = update.from(FeedbackResponseComment.class);
-        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
-        update.where(null, cb.and(
-                cb.equal(frJoin.get("courseId"), courseId),
-                cb.equal(root.get("giverEmail"), oldEmail)));
-
-        update.set(root.get("giverEmail"), updatedEmail);
     }
 
     /**
@@ -208,10 +199,11 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
                     cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
 
         return HibernateUtil.createQuery(cq).getResultList();
-        
-
     }
 
+    /**
+     * Updates the feedback response comment.
+     */
     public void updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
         assert feedbackResponseComment != null;
 

@@ -26,7 +26,6 @@ import teammates.ui.webapi.JsonResult;
 
 public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
 
-
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
@@ -34,7 +33,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
     }
-    
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.STUDENTS;
@@ -49,7 +48,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = new ArrayList<>();
         students.forEach(student -> {
             studentEnrollRequests.add(new StudentsEnrollRequest.StudentEnrollRequest(student.getName(),
-                student.getEmail(), student.getTeam(), student.getSection(), student.getComments()));
+                    student.getEmail(), student.getTeam(), student.getSection(), student.getComments()));
         });
 
         return new StudentsEnrollRequest(studentEnrollRequests);
@@ -69,13 +68,10 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
 
         loginAsInstructor(instructor.getGoogleId());
 
-
-        
-
         String[] params = new String[] {
-                    Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_ID, courseId,
         };
-    
+
         List<Student> students = logic.getStudentsForCourse(courseId);
         assertEquals(3, students.size());
 
@@ -85,20 +81,19 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         EnrollStudentsAction enrollStudentsAction = getAction(request, params);
         JsonResult res = getJsonResult(enrollStudentsAction);
         EnrollStudentsData data = (EnrollStudentsData) res.getOutput();
-        assertEquals(1, data.getStudentsData().getStudents().size()); 
+        assertEquals(1, data.getStudentsData().getStudents().size());
         List<Student> studentsInCourse = logic.getStudentsForCourse(courseId);
         assertEquals(4, studentsInCourse.size());
-        
+
         ______TS("Typical Success Case For Changing Details (except email) of a Student");
 
         StudentAttributes changedTeam = StudentAttributes.builder(courseId, "student1@teammates.tmt")
-            .withName("Student 1")
-            .withTeamName("Team 3")
-            .withSectionName("Section 3")
-            .withComment("Test Comment")
-            .build();
+                .withName("Student 1")
+                .withTeamName("Team 3")
+                .withSectionName("Section 3")
+                .withComment("Test Comment")
+                .build();
 
-        
         request = prepareRequest(Arrays.asList(changedTeam));
         enrollStudentsAction = getAction(request, params);
         res = getJsonResult(enrollStudentsAction);
@@ -107,22 +102,21 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         studentsInCourse = logic.getStudentsForCourse(courseId);
         assertEquals(4, studentsInCourse.size());
 
-
         // Verify that changes have cascaded to feedback responses
         String giverEmail = "student1@teammates.tmt";
 
         List<FeedbackResponse> responsesFromUser =
-            logic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
+                logic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
 
         for (FeedbackResponse response : responsesFromUser) {
             assertEquals(logic.getSection(courseId, "Section 3"), response.getGiverSection());
         }
-        
-        List<FeedbackResponse> responsesToUser = 
-            logic.getFeedbackResponsesForRecipientForCourse(courseId, giverEmail);
+
+        List<FeedbackResponse> responsesToUser =
+                logic.getFeedbackResponsesForRecipientForCourse(courseId, giverEmail);
 
         for (FeedbackResponse response : responsesToUser) {
-            assertEquals(logic.getSection(courseId, "Section 3"), response.getRecipientSection()); 
+            assertEquals(logic.getSection(courseId, "Section 3"), response.getRecipientSection());
             List<FeedbackResponseComment> commentsFromUser = logic.getFeedbackResponseCommentsForResponse(response.getId());
             for (FeedbackResponseComment comment : commentsFromUser) {
                 if (comment.getGiver().equals(giverEmail)) {
@@ -142,6 +136,6 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-            course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
+                course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
     }
 }

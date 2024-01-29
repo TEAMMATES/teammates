@@ -36,20 +36,18 @@ public class Student extends User {
         this.setTeam(team);
     }
 
+    /**
+     * Gets the comments of the student.
+     */
     public String getComments() {
         return comments;
     }
 
+    /**
+     * Sets the comments of the student.
+     */
     public void setComments(String comments) {
         this.comments = SanitizationHelper.sanitizeTextField(comments);
-    }
-
-    public void setEmail(String email) {
-        super.setEmail(email);
-    }
-
-    public void setTeam(Team team) {
-        super.setTeam(team);
     }
 
     @Override

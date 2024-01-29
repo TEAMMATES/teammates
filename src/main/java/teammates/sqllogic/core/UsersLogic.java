@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes.UpdateOptions;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -24,14 +23,14 @@ import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.User;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.User;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.ui.request.InstructorCreateRequest;
@@ -58,8 +57,6 @@ public final class UsersLogic {
 
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
-    private FeedbackSessionsLogic feedbackSessionsLogic;
-
     private UsersLogic() {
         // prevent initialization
     }
@@ -69,13 +66,13 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic, FeedbackSessionsLogic feedbackSessionsLogic) {
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+            DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
-        this.feedbackSessionsLogic = feedbackSessionsLogic;
     }
 
     private InstructorSearchManager getInstructorSearchManager() {
@@ -545,10 +542,16 @@ public final class UsersLogic {
         return usersDb.getAllUsersByGoogleId(googleId);
     }
 
+    /**
+     * Gets the section with the name in a particular course, otherwise creates a new section.
+     */
     public Section getSectionOrCreate(String courseId, String sectionName) {
         return usersDb.getSectionOrCreate(courseId, sectionName);
     }
 
+    /**
+     * Gets the team with the name in a particular session, otherwise creates a new team.
+     */
     public Team getTeamOrCreate(Section section, String teamName) {
         return usersDb.getTeamOrCreate(section, teamName);
     }
@@ -621,7 +624,6 @@ public final class UsersLogic {
         }
     }
 
-
     private boolean isTeamChanged(String originalTeam, String newTeam) {
         return newTeam != null && originalTeam != null
                 && !originalTeam.equals(newTeam);
@@ -631,7 +633,6 @@ public final class UsersLogic {
         return newSection != null && originalSection != null
                 && !originalSection.equals(newSection);
     }
-    
 
     /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
@@ -656,8 +657,8 @@ public final class UsersLogic {
         Section section = getSectionOrCreate(student.getCourse(), student.getSection());
         Team team = getTeamOrCreate(section, student.getTeam());
 
-        boolean changedTeam = isTeamChanged(originalStudent.getTeam().toString(), student.getTeam().toString());
-        boolean changedSection = isSectionChanged(originalStudent.getSection().toString(), student.getSection().toString());
+        boolean changedTeam = isTeamChanged(originalStudent.getTeam().toString(), student.getTeam());
+        boolean changedSection = isSectionChanged(originalStudent.getSection().toString(), student.getSection());
 
         originalStudent.setName(student.getName());
         originalStudent.setTeam(team);

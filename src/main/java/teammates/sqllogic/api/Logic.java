@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -205,6 +204,9 @@ public class Logic {
         return coursesLogic.getCourse(courseId);
     }
 
+    /**
+     * Gets a section from a course by section name.
+     */
     public Section getSection(String courseId, String section) {
         return usersLogic.getSectionOrCreate(courseId, section);
     }
@@ -265,7 +267,7 @@ public class Logic {
         coursesLogic.deleteCourseCascade(courseId);
     }
 
-        /**
+    /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses
@@ -839,11 +841,16 @@ public class Logic {
         return usersLogic.getStudentsForTeam(teamName, courseId);
     }
 
-
+    /**
+     * Gets a team by associated {@code courseId} and {@code sectionName}.
+     */
     public Section getSectionOrCreate(String courseId, String sectionName) {
         return usersLogic.getSectionOrCreate(courseId, sectionName);
     }
 
+    /**
+     * Gets a team by associated {@code section} and {@code teamName}.
+     */
     public Team getTeamOrCreate(Section section, String teamName) {
         return usersLogic.getTeamOrCreate(section, teamName);
     }
@@ -860,7 +867,7 @@ public class Logic {
     }
 
     /**
-     * Creates a student from StudentAttributes
+     * Creates a student from StudentAttributes.
      *
      * @return the created student
      * @throws InvalidParametersException if the student is not valid
@@ -871,10 +878,9 @@ public class Logic {
         Section section = getSectionOrCreate(student.getCourse(), student.getSection());
         Team team = getTeamOrCreate(section, student.getTeam());
         Student newStudent = new Student(course, student.getName(), student.getEmail(), student.getComments(), team);
-        
+
         return usersLogic.createStudent(newStudent);
     }
-
 
     /**
      * Deletes a student cascade its associated feedback responses, deadline
@@ -1211,14 +1217,23 @@ public class Logic {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
     }
 
+    /**
+     * Gets all feedback responses from a giver for a question.
+     */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
         return feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
     }
 
-    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String giverEmail) {
-        return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, giverEmail);
+    /**
+     * Gets all feedback responses for a recipient for a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
+        return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
     }
 
+    /**
+     * Gets all feedback response comments for a feedback response.
+     */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponse) {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForResponse(feedbackResponse);
     }

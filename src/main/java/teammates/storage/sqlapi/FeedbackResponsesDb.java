@@ -197,8 +197,14 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
     }
 
-    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse) 
-        throws InvalidParametersException, EntityDoesNotExistException {
+    /**
+     * Updates a feedbackResponse.
+     *
+     * @throws EntityDoesNotExistException if the feedbackResponse does not exist
+     * @throws InvalidParametersException if the feedbackResponse is not valid
+     */
+    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert feedbackResponse != null;
 
         if (!feedbackResponse.isValid()) {
@@ -209,9 +215,8 @@ public final class FeedbackResponsesDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-
         return merge(feedbackResponse);
-        
+
     }
 
 }

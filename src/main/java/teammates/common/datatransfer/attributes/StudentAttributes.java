@@ -64,7 +64,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         return studentAttributes;
     }
 
-        /**
+    /**
      * Gets the {@link StudentAttributes} instance of the given {@link Student}.
      */
     public static StudentAttributes valueOf(Student student) {
@@ -88,8 +88,6 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
 
         return studentAttributes;
     }
-
-    
 
     /**
      * Return a builder for {@link StudentAttributes}.

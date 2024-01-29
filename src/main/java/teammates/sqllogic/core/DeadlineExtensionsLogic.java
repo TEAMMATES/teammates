@@ -119,11 +119,12 @@ public final class DeadlineExtensionsLogic {
         });
     }
 
+    /**
+     * Updates all deadline extensions with the new email.
+     */
     public void updateDeadlineExtensionsWithNewEmail(Course courseId, String oldEmail, String newEmail)
-        throws InvalidParametersException, EntityDoesNotExistException {
-
+            throws InvalidParametersException, EntityDoesNotExistException {
         deadlineExtensionsDb.updateDeadlineExtensionsWithNewEmail(oldEmail, newEmail);
-
     }
 
 }

@@ -61,7 +61,6 @@ public class EnrollStudentsAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);
         List<StudentAttributes> studentsToEnroll = new ArrayList<>();
         enrollRequests.getStudentEnrollRequests().forEach(studentEnrollRequest -> {
@@ -82,8 +81,43 @@ public class EnrollStudentsAction extends Action {
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
         List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
 
-        if (!isCourseMigrated(courseId)) {
+        if (isCourseMigrated(courseId)) {
 
+            List<Student> existingStudents = sqlLogic.getStudentsForCourse(courseId);
+
+            Set<String> existingStudentsEmail =
+                    existingStudents.stream().map(Student::getEmail).collect(Collectors.toSet());
+
+            for (StudentAttributes student : studentsToEnroll) {
+                RequestTracer.checkRemainingTime();
+                if (existingStudentsEmail.contains(student.getEmail())) {
+                    // The student has been enrolled in the course.
+                    try {
+                        Student updatedStudent = sqlLogic.updateStudentCascade(student);
+                        taskQueuer.scheduleStudentForSearchIndexing(
+                                updatedStudent.getCourse().toString(), updatedStudent.getEmail());
+                        enrolledStudents.add(StudentAttributes.valueOf(updatedStudent));
+                    } catch (InvalidParametersException | EntityDoesNotExistException
+                            | EntityAlreadyExistsException exception) {
+                        // Unsuccessfully enrolled students will not be returned.
+                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
+                                exception.getMessage()));
+                    }
+                } else {
+                    // The student is new.
+                    try {
+                        Student newStudent = sqlLogic.createStudent(student);
+                        taskQueuer.scheduleStudentForSearchIndexing(
+                                newStudent.getCourse().toString(), newStudent.getEmail());
+                        enrolledStudents.add(StudentAttributes.valueOf(newStudent));
+                    } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
+                        // Unsuccessfully enrolled students will not be returned.
+                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
+                                exception.getMessage()));
+                    }
+                }
+            }
+        } else {
             List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
 
             Set<String> existingStudentsEmail =
@@ -116,40 +150,6 @@ public class EnrollStudentsAction extends Action {
                         StudentAttributes newStudent = logic.createStudent(student);
                         taskQueuer.scheduleStudentForSearchIndexing(newStudent.getCourse(), newStudent.getEmail());
                         enrolledStudents.add(newStudent);
-                    } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
-                        // Unsuccessfully enrolled students will not be returned.
-                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
-                                exception.getMessage()));
-                    }
-                }
-            }
-        } else {
-            
-            List<Student> existingStudents = sqlLogic.getStudentsForCourse(courseId);
-
-            Set<String> existingStudentsEmail =
-                    existingStudents.stream().map(Student::getEmail).collect(Collectors.toSet());
-
-            for (StudentAttributes student : studentsToEnroll) {
-                RequestTracer.checkRemainingTime();
-                if (existingStudentsEmail.contains(student.getEmail())) {
-                    // The student has been enrolled in the course.
-                    try {
-                        Student updatedStudent = sqlLogic.updateStudentCascade(student);
-                        taskQueuer.scheduleStudentForSearchIndexing(updatedStudent.getCourse().toString(), updatedStudent.getEmail());
-                        enrolledStudents.add(StudentAttributes.valueOf(updatedStudent));
-                    } catch (InvalidParametersException | EntityDoesNotExistException
-                            | EntityAlreadyExistsException exception) {
-                        // Unsuccessfully enrolled students will not be returned.
-                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
-                                exception.getMessage()));
-                    }
-                } else {
-                    // The student is new.
-                    try {
-                        Student newStudent = sqlLogic.createStudent(student);
-                        taskQueuer.scheduleStudentForSearchIndexing(newStudent.getCourse().toString(), newStudent.getEmail());
-                        enrolledStudents.add(StudentAttributes.valueOf(newStudent));
                     } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                         // Unsuccessfully enrolled students will not be returned.
                         failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),

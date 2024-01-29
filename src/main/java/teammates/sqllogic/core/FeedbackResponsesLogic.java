@@ -9,14 +9,12 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-// import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -54,7 +52,8 @@ public final class FeedbackResponsesLogic {
     /**
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
-    void initLogicDependencies(FeedbackResponsesDb frDb, UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, FeedbackResponseCommentsLogic frcLogic) {
+    void initLogicDependencies(FeedbackResponsesDb frDb,
+            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, FeedbackResponseCommentsLogic frcLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
         this.fqLogic = fqLogic;
@@ -426,11 +425,6 @@ public final class FeedbackResponsesLogic {
 
                 FeedbackResponseCommentAttributes.Builder builder =
                         FeedbackResponseCommentAttributes.builder();
-                                // .withFeedbackResponseId(newResponse.getId().toString())
-                                // .withGiverSection(newResponse.getGiverSection().toString())
-                                // .withReceiverSection(newResponse.getRecipientSection().toString());
-                // FeedbackResponseCommentAttributes.UpdateOptions.Builder updateOptionsBuilder =
-                //         FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId());
 
                 if (isResponseIdChanged) {
                     builder.withFeedbackResponseId(newResponse.getId().toString());
@@ -452,13 +446,11 @@ public final class FeedbackResponsesLogic {
 
         return newResponse;
     }
-    
 
     /**
      * Updates responses for a student when his email changes.
      */
-    public void updateFeedbackResponsesForChangingEmail(
-        Course course, String oldEmail, String newEmail)
+    public void updateFeedbackResponsesForChangingEmail(Course course, String oldEmail, String newEmail)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         List<FeedbackResponse> responsesFromUser =
@@ -474,7 +466,7 @@ public final class FeedbackResponsesLogic {
         }
 
         List<FeedbackResponse> responsesToUser =
-                getFeedbackResponsesForRecipientForCourse(course.getId().toString(), oldEmail);
+                getFeedbackResponsesForRecipientForCourse(course.getId(), oldEmail);
 
         for (FeedbackResponse response : responsesToUser) {
             try {
@@ -485,67 +477,64 @@ public final class FeedbackResponsesLogic {
         }
     }
 
-
+    /**
+     * Updates responses for a student when his team changes.
+     */
     public void updateFeedbackResponsesForChangingTeam(Course course, String newEmail, Team newTeam)
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
-            FeedbackQuestion qn;
+        FeedbackQuestion qn;
 
-            List<FeedbackResponse> responsesFromUser =
+        List<FeedbackResponse> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(course.getId(), newEmail);
 
-            for (FeedbackResponse response : responsesFromUser) {
-                qn = fqLogic.getFeedbackQuestion(response.getId());
-                if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
-                    deleteFeedbackResponsesForQuestionCascade(qn.getId());
-                }
+        for (FeedbackResponse response : responsesFromUser) {
+            qn = fqLogic.getFeedbackQuestion(response.getId());
+            if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
+                deleteFeedbackResponsesForQuestionCascade(qn.getId());
             }
+        }
 
-            List<FeedbackResponse> responsesToUser =
+        List<FeedbackResponse> responsesToUser =
                 getFeedbackResponsesForRecipientForCourse(course.getId(), newEmail);
 
-            for (FeedbackResponse response : responsesToUser) {
-                qn = fqLogic.getFeedbackQuestion(response.getId());
-                if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
-                    deleteFeedbackResponsesForQuestionCascade(qn.getId());
-                }
+        for (FeedbackResponse response : responsesToUser) {
+            qn = fqLogic.getFeedbackQuestion(response.getId());
+            if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
+                deleteFeedbackResponsesForQuestionCascade(qn.getId());
             }
+        }
 
+        // boolean isOldTeamEmpty = usersLogic.getStudentsForTeam(oldTeam.getName(), courseId.getId()).isEmpty();
 
-            // boolean isOldTeamEmpty = usersLogic.getStudentsForTeam(oldTeam.getName(), courseId.getId()).isEmpty();
+        // if (isOldTeamEmpty) {
 
-            // if (isOldTeamEmpty) {
-                
-            // }
-
-
-
+        // }
     }
 
+    /**
+     * Updates responses for a student when his section changes.
+     */
     public void updateFeedbackResponsesForChangingSection(Course course, String newEmail, Section newSection)
-        throws InvalidParametersException, EntityDoesNotExistException {
-            
-            List<FeedbackResponse> responsesFromUser =
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        List<FeedbackResponse> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(course.getId(), newEmail);
 
-            for (FeedbackResponse response : responsesFromUser) {
-                response.setGiverSection(newSection);
-                frDb.updateFeedbackResponse(response);
-                frcLogic.updateFeedbackResponseCommentsForResponse(response);   
-            }
+        for (FeedbackResponse response : responsesFromUser) {
+            response.setGiverSection(newSection);
+            frDb.updateFeedbackResponse(response);
+            frcLogic.updateFeedbackResponseCommentsForResponse(response);
+        }
 
-            List<FeedbackResponse> responsesToUser =
+        List<FeedbackResponse> responsesToUser =
                 getFeedbackResponsesForRecipientForCourse(course.getId(), newEmail);
 
-            for (FeedbackResponse response : responsesToUser) {
-                response.setRecipientSection(newSection);
-                frDb.updateFeedbackResponse(response);   
-                frcLogic.updateFeedbackResponseCommentsForResponse(response);
-            }
-
-
-
-
+        for (FeedbackResponse response : responsesToUser) {
+            response.setRecipientSection(newSection);
+            frDb.updateFeedbackResponse(response);
+            frcLogic.updateFeedbackResponseCommentsForResponse(response);
+        }
     }
 
 }

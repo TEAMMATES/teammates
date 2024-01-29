@@ -138,6 +138,9 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
+    /**
+     * Updates the email of all {@code DeadlineExtension} with the specified {@code oldEmail} to {@code newEmail}.
+     */
     public void updateDeadlineExtensionsWithNewEmail(String oldEmail, String newEmail) {
         assert oldEmail != null;
         assert newEmail != null;
@@ -154,6 +157,5 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
             merge(deadlineExtension);
         });
     }
-
 
 }
