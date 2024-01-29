@@ -150,6 +150,32 @@
       "instructorDeadlines": {
         "instructor1.tmms@gmail.tmt": "2032-04-30T17:00:00Z"
       }
+    },
+    "openSession": {
+      "feedbackSessionName": "Open Session",
+      "courseId": "tm.e2e.ISesIe.CS2104",
+      "creatorEmail": "instructor1.tmms@gmail.tmt",
+      "instructions": "<p>Instructions for Open Session</p>",
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2032-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2032-05-01T22:00:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {
+        "charlie.tmms@gmail.tmt": "2032-04-30T17:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1.tmms@gmail.tmt": "2032-04-30T17:00:00Z"
+      }
     }
   },
   "feedbackQuestions": {
