@@ -213,7 +213,10 @@
     "qn2": {
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.ISesIe.CS2104",
-      "questionDetails": {},
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "First instructor question"
+      },
       "questionNumber": 2,
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
