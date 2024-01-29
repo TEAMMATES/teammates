@@ -33,7 +33,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         testData = loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETest.json");
         testEmail = TestProperties.TEST_EMAIL;
         testData.students.get("alice.tmms@ISesIe.CS2104").setEmail(testEmail);
-        instructor = testData.instructors.get("ISesIe.instructor1");
+        instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("firstSession");
         students = testData.students.values();
