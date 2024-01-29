@@ -1,11 +1,15 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
@@ -527,6 +531,85 @@ public final class UsersDb extends EntitiesDb {
                     cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getSingleResult();
+    }
+
+    public Section getSection(String courseId, String sectionName) {
+        assert sectionName != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
+        Root<Section> sectionRoot = cr.from(Section.class);
+        Join<Section, Course> courseJoin = sectionRoot.join("course");
+
+        cr.select(sectionRoot)
+                .where(cb.and(
+                    cb.equal(courseJoin.get("id"), courseId),
+                    cb.equal(sectionRoot.get("name"), sectionName)));
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        assert courseId != null;
+        assert sectionName != null;
+
+        Section section = getSection(courseId, sectionName);
+
+        if (section == null) {
+            Course course = CoursesDb.inst().getCourse(courseId);
+            section = new Section(course, sectionName);
+            persist(section);
+        }
+
+        return section;
+    }
+
+    public Team getTeam(Section section, String teamName) {
+        assert teamName != null;
+        assert section != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
+        Root<Team> teamRoot = cr.from(Team.class);
+        Join<Team, Section> sectionJoin = teamRoot.join("section");
+
+        cr.select(teamRoot)
+                .where(cb.and(
+                    cb.equal(sectionJoin.get("id"), section.getId()),
+                    cb.equal(teamRoot.get("name"), teamName)));
+        
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    public Team getTeamOrCreate(Section section, String teamName) {
+        assert teamName != null;
+        assert section != null;
+
+        
+        Team team = getTeam(section, teamName);
+
+        if (team == null) {
+            team = new Team(section, teamName);
+            persist(team);
+        }
+
+        return team;
+    }
+
+    public Student updateStudent(Student student)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        assert student != null;
+
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
+
+        if (getStudent(student.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+        
+        return merge(student);
     }
 
 }

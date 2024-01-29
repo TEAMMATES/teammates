@@ -16,6 +16,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
@@ -78,6 +79,20 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     }
 
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
+        assert feedbackResponseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(frJoin.get("id"), feedbackResponseId)));
+
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
     /**
      * Gets the comment associated with the feedback response.
      */
@@ -115,6 +130,19 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
     /**
      * Updates the last editor email for all of the last editor's comments in a course.
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaUpdate<FeedbackResponseComment> update = cb.createCriteriaUpdate(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = update.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        update.where(null, cb.and(
+                cb.equal(frJoin.get("courseId"), courseId),
+                cb.equal(root.get("giverEmail"), oldEmail)));
+
+        update.set(root.get("giverEmail"), updatedEmail);
+    }
+
+    /**
+     * Updates the last editor to a new one for all comments in a course.
      */
     public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
         assert courseId != null;
@@ -131,6 +159,19 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setLastEditorEmail(updatedEmail);
         }
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaUpdate<FeedbackResponseComment> update = cb.createCriteriaUpdate(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = update.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        update.where(null, cb.and(
+                cb.equal(frJoin.get("courseId"), courseId),
+                cb.equal(root.get("lastEditorEmail"), oldEmail)));
+
+        update.set(root.get("lastEditorEmail"), updatedEmail);
+
+        log.info("updating last editor email from: " + oldEmail + " to: " + updatedEmail
+                 + " for feedback response comments in the course: " + courseId);
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
@@ -167,6 +208,14 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
                     cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
 
         return HibernateUtil.createQuery(cq).getResultList();
+        
+
+    }
+
+    public void updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
+        assert feedbackResponseComment != null;
+
+        merge(feedbackResponseComment);
     }
 
 }
