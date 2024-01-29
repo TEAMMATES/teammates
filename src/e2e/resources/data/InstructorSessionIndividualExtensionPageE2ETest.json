@@ -139,7 +139,7 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {
-        "alice.tmms@gmail.tmt": "2032-04-30T16:00:00Z", 
+        "alice.tmms@gmail.tmt": "2032-04-30T16:00:00Z",
         "charlie.tmms@gmail.tmt": "2032-04-30T16:00:00Z"
       },
       "instructorDeadlines": {
