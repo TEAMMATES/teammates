@@ -139,11 +139,11 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {
-        "alice.tmms@gmail.tmt": "2032-04-30T16:00:00Z",
-        "charlie.tmms@gmail.tmt": "2032-04-30T16:00:00Z"
+        "alice.tmms@gmail.tmt": "2032-04-30T17:00:00Z",
+        "charlie.tmms@gmail.tmt": "2032-04-30T17:00:00Z"
       },
       "instructorDeadlines": {
-        "instructor1.tmms@gmail.tmt": "2032-04-30T16:00:00Z"
+        "instructor1.tmms@gmail.tmt": "2032-04-30T17:00:00Z"
       }
     }
   },
@@ -181,7 +181,7 @@
     },
     "qn2": {
       "feedbackSessionName": "First Session",
-      "courseId": "tm.e2e.FRes.CS2104",
+      "courseId": "tm.e2e.ISesIe.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "First instructor question"
@@ -209,8 +209,8 @@
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.ISesIe.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "ISesIe.danny.tmms@gmail.tmt",
-      "recipient": "ISesIe.danny.tmms@gmail.tmt",
+      "giver": "danny.tmms@gmail.tmt",
+      "recipient": "danny.tmms@gmail.tmt",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
