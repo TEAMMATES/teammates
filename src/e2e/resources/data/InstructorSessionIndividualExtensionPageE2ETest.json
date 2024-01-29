@@ -145,7 +145,6 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {
-        "alice.tmms@gmail.tmt": "2032-04-30T17:00:00Z",
         "charlie.tmms@gmail.tmt": "2032-04-30T17:00:00Z"
       },
       "instructorDeadlines": {
@@ -214,10 +213,7 @@
     "qn2": {
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.ISesIe.CS2104",
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "First instructor question"
-      },
+      "questionDetails": {},
       "questionNumber": 2,
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
