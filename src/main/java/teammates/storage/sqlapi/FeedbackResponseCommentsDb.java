@@ -16,7 +16,6 @@ import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
@@ -150,19 +149,6 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setLastEditorEmail(updatedEmail);
         }
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaUpdate<FeedbackResponseComment> update = cb.createCriteriaUpdate(FeedbackResponseComment.class);
-        Root<FeedbackResponseComment> root = update.from(FeedbackResponseComment.class);
-        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
-        update.where(null, cb.and(
-                cb.equal(frJoin.get("courseId"), courseId),
-                cb.equal(root.get("lastEditorEmail"), oldEmail)));
-
-        update.set(root.get("lastEditorEmail"), updatedEmail);
-
-        log.info("updating last editor email from: " + oldEmail + " to: " + updatedEmail
-                 + " for feedback response comments in the course: " + courseId);
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
