@@ -138,8 +138,13 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "studentDeadlines": {
+        "alice.tmms@gmail.tmt": "", 
+        "charlie.tmms@gmail.tmt": ""
+      },
+      "instructorDeadlines": {
+        "instructor1.tmms@gmail.tmt": ""
+      }
     }
   },
   "feedbackQuestions": {
