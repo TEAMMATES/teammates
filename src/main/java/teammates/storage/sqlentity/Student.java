@@ -30,12 +30,26 @@ public class Student extends User {
         this.setComments(comments);
     }
 
+    public Student(Course course, String name, String email, String comments, Team team) {
+        super(course, name, email);
+        this.setComments(comments);
+        this.setTeam(team);
+    }
+
     public String getComments() {
         return comments;
     }
 
     public void setComments(String comments) {
         this.comments = SanitizationHelper.sanitizeTextField(comments);
+    }
+
+    public void setEmail(String email) {
+        super.setEmail(email);
+    }
+
+    public void setTeam(Team team) {
+        super.setTeam(team);
     }
 
     @Override
