@@ -8,10 +8,12 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -42,6 +44,7 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
@@ -202,6 +205,10 @@ public class Logic {
         return coursesLogic.getCourse(courseId);
     }
 
+    public Section getSection(String courseId, String section) {
+        return usersLogic.getSectionOrCreate(courseId, section);
+    }
+
     /**
      * Gets courses associated with student.
      * Preconditions: <br>
@@ -256,6 +263,33 @@ public class Logic {
      */
     public void deleteCourseCascade(String courseId) {
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+        /**
+     * Updates a student by {@link StudentAttributes.UpdateOptions}.
+     *
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * the student gives/receives as well as any deadline extensions given to the student.
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
+     */
+    public Student updateStudentCascade(StudentAttributes student)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert student != null;
+
+        return usersLogic.updateStudentCascade(student);
     }
 
     /**
@@ -805,6 +839,15 @@ public class Logic {
         return usersLogic.getStudentsForTeam(teamName, courseId);
     }
 
+
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        return usersLogic.getSectionOrCreate(courseId, sectionName);
+    }
+
+    public Team getTeamOrCreate(Section section, String teamName) {
+        return usersLogic.getTeamOrCreate(section, teamName);
+    }
+
     /**
      * Creates a student.
      *
@@ -815,6 +858,23 @@ public class Logic {
     public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createStudent(student);
     }
+
+    /**
+     * Creates a student from StudentAttributes
+     *
+     * @return the created student
+     * @throws InvalidParametersException if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the database.
+     */
+    public Student createStudent(StudentAttributes student) throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = getCourse(student.getCourse());
+        Section section = getSectionOrCreate(student.getCourse(), student.getSection());
+        Team team = getTeamOrCreate(section, student.getTeam());
+        Student newStudent = new Student(course, student.getName(), student.getEmail(), student.getComments(), team);
+        
+        return usersLogic.createStudent(newStudent);
+    }
+
 
     /**
      * Deletes a student cascade its associated feedback responses, deadline
@@ -1149,6 +1209,18 @@ public class Logic {
      */
     public void deleteFeedbackResponseComment(Long frcId) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
+    }
+
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
+    }
+
+    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String giverEmail) {
+        return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, giverEmail);
+    }
+
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponse) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForResponse(feedbackResponse);
     }
 
     /**

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes.UpdateOptions;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -27,6 +29,9 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.ui.request.InstructorCreateRequest;
@@ -53,6 +58,8 @@ public final class UsersLogic {
 
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
+    private FeedbackSessionsLogic feedbackSessionsLogic;
+
     private UsersLogic() {
         // prevent initialization
     }
@@ -62,12 +69,13 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic, FeedbackSessionsLogic feedbackSessionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
+        this.feedbackSessionsLogic = feedbackSessionsLogic;
     }
 
     private InstructorSearchManager getInstructorSearchManager() {
@@ -537,6 +545,14 @@ public final class UsersLogic {
         return usersDb.getAllUsersByGoogleId(googleId);
     }
 
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        return usersDb.getSectionOrCreate(courseId, sectionName);
+    }
+
+    public Team getTeamOrCreate(Section section, String teamName) {
+        return usersDb.getTeamOrCreate(section, teamName);
+    }
+
     /**
      * Checks if there are any other registered instructors that can modify instructors.
      * If there are none, the instructor currently being edited will be granted the privilege
@@ -603,6 +619,67 @@ public final class UsersLogic {
             RequestTracer.checkRemainingTime();
             deleteStudentCascade(courseId, student.getEmail());
         }
+    }
+
+
+    private boolean isTeamChanged(String originalTeam, String newTeam) {
+        return newTeam != null && originalTeam != null
+                && !originalTeam.equals(newTeam);
+    }
+
+    private boolean isSectionChanged(String originalSection, String newSection) {
+        return newSection != null && originalSection != null
+                && !originalSection.equals(newSection);
+    }
+    
+
+    /**
+     * Updates a student by {@link StudentAttributes.UpdateOptions}.
+     *
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * the student gives/receives as well as any deadline extensions given to the student.
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
+     */
+    public Student updateStudentCascade(StudentAttributes student)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        Student originalStudent = getStudentForEmail(student.getCourse(), student.getEmail());
+        Section section = getSectionOrCreate(student.getCourse(), student.getSection());
+        Team team = getTeamOrCreate(section, student.getTeam());
+
+        boolean changedTeam = isTeamChanged(originalStudent.getTeam().toString(), student.getTeam().toString());
+        boolean changedSection = isSectionChanged(originalStudent.getSection().toString(), student.getSection().toString());
+
+        originalStudent.setName(student.getName());
+        originalStudent.setTeam(team);
+        originalStudent.setEmail(student.getEmail());
+        originalStudent.setComments(student.getComments());
+
+        Student updatedStudent = usersDb.updateStudent(originalStudent);
+        Course course = updatedStudent.getCourse();
+
+        // adjust submissions if moving to a different team
+        if (changedTeam) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(), team);
+        }
+
+        // update the new section name in responses
+        if (changedSection) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(course, updatedStudent.getEmail(), section);
+        }
+
+        // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
+
+        return updatedStudent;
     }
 
     /**
