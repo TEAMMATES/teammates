@@ -32,8 +32,6 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETest.json");
         testEmail = TestProperties.TEST_EMAIL;
-        removeAndRestoreDataBundle(testData);
-        
         testData.students.get("alice.tmms@ISesIe.CS2104").setEmail(testEmail);
         instructor = testData.instructors.get("ISesIe.instructor1");
         course = testData.courses.get("course");
@@ -41,6 +39,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         students = testData.students.values();
         instructors = testData.instructors.values();
 
+        removeAndRestoreDataBundle(testData);
     }
 
     @Test
