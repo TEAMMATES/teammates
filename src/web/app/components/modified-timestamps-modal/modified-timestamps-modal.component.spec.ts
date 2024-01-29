@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TweakedTimestampData } from '../../pages-instructor/instructor-session-base-page.component';
 import { ModifiedTimestampModalComponent } from './modified-timestamps-modal.component';
+import { TweakedTimestampData } from '../../pages-instructor/instructor-session-base-page.component';
 
 describe('ModifiedTimestampModalComponent', () => {
   let component: ModifiedTimestampModalComponent;

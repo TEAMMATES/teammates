@@ -2,7 +2,6 @@
 
 exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSession and modifiedSessions 1`] = `
 <tm-modified-timestamps-modal
-  __ngContext__={[Function Number]}
   coursesOfModifiedSession={[Function Array]}
   modifiedSessions={[Function Object]}
 >
@@ -90,7 +89,6 @@ exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSessi
 
 exports[`ModifiedTimestampModalComponent should snap with default fields 1`] = `
 <tm-modified-timestamps-modal
-  __ngContext__={[Function Number]}
   coursesOfModifiedSession={[Function Array]}
   modifiedSessions={[Function Object]}
 >
@@ -125,7 +123,6 @@ exports[`ModifiedTimestampModalComponent should snap with default fields 1`] = `
 
 exports[`ModifiedTimestampModalComponent should snap with modifiedSessions 1`] = `
 <tm-modified-timestamps-modal
-  __ngContext__={[Function Number]}
   coursesOfModifiedSession={[Function Array]}
   modifiedSessions={[Function Object]}
 >

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionConstraintComponent } from './question-constraint.component';
 import {
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
@@ -8,7 +9,6 @@ import {
   NO_VALUE,
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
-import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of rank recipients question.

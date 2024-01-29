@@ -1,3 +1,4 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   PerRecipientStats,
   RubricQuestionStatisticsCalculation,
@@ -8,7 +9,6 @@ import {
   FeedbackRubricQuestionDetails, QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackRubricQuestionDetails}.

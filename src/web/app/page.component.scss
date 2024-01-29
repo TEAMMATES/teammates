@@ -1,6 +1,6 @@
 footer,
 nav {
-  background: #3C3C3C;
+  background: #3c3c3c;
 }
 
 nav {
@@ -18,13 +18,13 @@ nav {
   padding: 20px 70px;
 }
 
-@media (max-width: 575px) {
+@media (width <= 575px) {
   .main-content {
     min-height: calc(100vh - 144px);
   }
 }
 
-@media (min-width: 576px) and (max-width: 589px) {
+@media (width >= 576px) and (width <= 589px) {
   .main-content {
     min-height: calc(100vh - 123px);
   }
@@ -32,7 +32,7 @@ nav {
 
 .footer {
   padding: 5px 70px;
-  color: rgba(255, 255, 255, .75);
+  color: rgb(255 255 255 / 75%);
 
   a {
     &:hover {
@@ -46,7 +46,7 @@ nav {
 }
 
 .dropdown-item {
-  color: rgba(255, 255, 255, .75);
+  color: rgb(255 255 255 / 75%);
 
   &:hover,
   &:focus {
@@ -73,7 +73,7 @@ nav {
   margin-right: 20px;
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .navbar {
     padding: 0 30px;
   }
@@ -87,7 +87,7 @@ nav {
   }
 }
 
-@media (max-width: 991px) {
+@media (width <= 991px) {
   .navbar-nav li {
     margin: auto 20px;
   }
@@ -97,9 +97,9 @@ nav {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .navbar {
-    padding: 0 0;
+    padding: 0;
   }
 
   .main-content {
@@ -121,17 +121,17 @@ nav {
 
 .navbar-collapse,
 .dropdown-menu {
-  background: #3C3C3C;
+  background: #3c3c3c;
   min-width: 0;
 }
 
 .dropdown-divider {
-  border: 1px solid rgba(255, 255, 255, .5);
-  margin: .5rem 15px;
+  border: 1px solid rgb(255 255 255 / 50%);
+  margin: 0.5rem 15px;
 }
 
 .dropdown-menu-right {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 button.bg-transparent.btn.btn-link.nav-link:active {

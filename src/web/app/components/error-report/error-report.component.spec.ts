@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { ErrorReportComponent } from './error-report.component';
+import { HttpRequestService } from '../../../services/http-request.service';
 
 describe('ErrorReportComponent', () => {
   let component: ErrorReportComponent;

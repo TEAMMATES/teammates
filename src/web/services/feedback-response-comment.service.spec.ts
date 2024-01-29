@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { FeedbackResponseCommentService } from './feedback-response-comment.service';
+import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
@@ -7,8 +9,6 @@ import {
   FeedbackResponseCommentCreateRequest, FeedbackResponseCommentUpdateRequest,
   Intent,
 } from '../types/api-request';
-import { FeedbackResponseCommentService } from './feedback-response-comment.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('FeedbackResponseCommentService', () => {
   let spyHttpRequestService: any;

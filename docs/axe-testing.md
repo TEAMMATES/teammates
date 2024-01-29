@@ -27,4 +27,4 @@ Any individual accessibility test | `./gradlew axeTests --tests TestClassName` |
    
 ## Creating Accessibility Tests
 
-Accessibility test classes in TEAMMATES are similar to [E2E test classes](e2e-testing.md#creating-e2e-tests) in that they inherit from `BaseE2ETestCase` and make use of page objects. The difference is that testing is conducted by running `AxeUtil.AXE_BUILDER.analyze()` on the page object's underlying browser driver.
+Accessibility test classes in TEAMMATES are similar to [E2E test classes](e2e-testing.md#creating-e2e-tests) in that they inherit from `BaseAxeTestCase` (which inherits `BaseE2ETestCase`) and make use of page objects. The difference is that testing is conducted by running `AxeBuilder#analyze` on the page object's underlying browser driver.

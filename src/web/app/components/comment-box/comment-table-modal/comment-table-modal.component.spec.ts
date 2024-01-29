@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import SpyInstance = jest.SpyInstance;
+import { CommentTableModalComponent } from './comment-table-modal.component';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
@@ -13,7 +14,6 @@ import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
 } from '../comment-visibility-setting.pipe';
-import { CommentTableModalComponent } from './comment-table-modal.component';
 
 describe('CommentTableModalComponent', () => {
   let component: CommentTableModalComponent;

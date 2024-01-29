@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { HttpRequestService } from './http-request.service';
+import { NotificationService } from './notification.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { NotificationBasicRequest, NotificationStyle, NotificationTargetUser } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
-import { NotificationService } from './notification.service';
 
 const requestBody: NotificationBasicRequest = {
   startTimestamp: 0,

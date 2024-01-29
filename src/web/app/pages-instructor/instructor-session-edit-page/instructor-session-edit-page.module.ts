@@ -4,6 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
+import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import { AddingQuestionPanelModule } from '../../components/adding-question-panel/adding-question-panel.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
@@ -19,11 +24,6 @@ import { QuestionEditFormModule } from '../../components/question-edit-form/ques
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import {
-  CopyQuestionsFromOtherSessionsModalComponent,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
-import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
-import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 const routes: Routes = [
   {

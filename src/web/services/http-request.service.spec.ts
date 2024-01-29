@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
-import { HttpRequestService } from './http-request.service';
 
 describe('HttpRequestService', () => {
   const backendUrl: string = environment.backendUrl;

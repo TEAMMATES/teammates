@@ -165,21 +165,6 @@
                   </ul>
                 </div>
               </div>
-              <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
-                <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
-                                [model]="recipientSubmissionFormModel.commentByGiver"
-                                (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
-                                [isFeedbackParticipantComment]="true"
-                                [questionShowResponsesTo]="model.showResponsesTo"
-                                [shouldHideSavingButton]="true"
-                                (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
-                                (closeEditingEvent)="discardEditedParticipantComment(i)"
-                                [isDisabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
-                <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
-                  You must provide a valid response in order to give a comment or your comment will not be saved!
-                </div>
-              </div>
-
               <div id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}" class="col-12 margin-bottom-20px margin-top-10px indent">
                 <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
                   <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
@@ -8,7 +9,6 @@ import {
   DEFAULT_TEXT_QUESTION_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The text question submission form for a recipient.

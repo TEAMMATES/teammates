@@ -6,14 +6,12 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_REPORT_PAGE}.
  */
-public class InstructorFeedbackReportPageAxeTest extends BaseE2ETestCase {
+public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -30,8 +28,8 @@ public class InstructorFeedbackReportPageAxeTest extends BaseE2ETestCase {
         InstructorFeedbackResultsPage resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class,
                 testData.instructors.get("tm.e2e.IFRep.instr").getGoogleId());
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(resultsPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(resultsPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }

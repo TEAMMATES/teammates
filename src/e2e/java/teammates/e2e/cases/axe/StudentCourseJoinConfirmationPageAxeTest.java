@@ -7,14 +7,12 @@ import com.deque.html.axecore.results.Results;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#JOIN_PAGE}.
  */
-public class StudentCourseJoinConfirmationPageAxeTest extends BaseE2ETestCase {
+public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
     private StudentAttributes newStudent;
 
     @Override
@@ -36,7 +34,7 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseE2ETestCase {
         CourseJoinConfirmationPage confirmationPage = loginToPage(
                 joinLink, CourseJoinConfirmationPage.class, newStudent.getGoogleId());
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(confirmationPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(confirmationPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 }

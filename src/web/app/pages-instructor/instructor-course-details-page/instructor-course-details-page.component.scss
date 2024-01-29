@@ -1,9 +1,9 @@
 .form-group {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .fill-plain {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
 }
 
 button {
@@ -22,9 +22,9 @@ label {
   margin-top: 50px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   #btn-remind-all,
   #btn-download {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 }

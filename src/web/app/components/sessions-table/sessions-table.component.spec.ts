@@ -2,6 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
+import { SessionsTableComponent } from './sessions-table.component';
+import { SessionsTableModule } from './sessions-table.module';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -11,9 +14,6 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
-import { SessionsTableComponent } from './sessions-table.component';
-import { SessionsTableModule } from './sessions-table.module';
 
 describe('SessionsTableComponent', () => {
   let component: SessionsTableComponent;

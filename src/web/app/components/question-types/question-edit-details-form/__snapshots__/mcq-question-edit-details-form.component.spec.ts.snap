@@ -3,7 +3,6 @@
 exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is false 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  __ngContext__={[Function Number]}
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}
@@ -166,7 +165,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
 exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is true 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  __ngContext__={[Function Number]}
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}
@@ -329,7 +327,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
 exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. Question options are radio buttons 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  __ngContext__={[Function Number]}
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}

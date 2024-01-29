@@ -1,5 +1,5 @@
 .mce-content-body {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .mce-content-readonly {
@@ -7,5 +7,5 @@
 }
 
 .mce-content-body[data-mce-placeholder] {
-  opacity: .7;
+  opacity: 0.7;
 }

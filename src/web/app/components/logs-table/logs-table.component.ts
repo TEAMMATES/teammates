@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 import { LogsTableRowModel } from './logs-table-model';
+import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 
 /**
  * A table to display logs.
