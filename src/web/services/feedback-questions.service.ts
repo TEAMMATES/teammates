@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
+import { VisibilityStateMachine } from './visibility-state-machine';
 import { default as templateQuestions } from '../data/template-questions.json';
 import { ResourceEndpoints } from '../types/api-const';
 import {
@@ -27,8 +29,6 @@ import {
 } from '../types/default-question-structs';
 import { NO_VALUE } from '../types/feedback-response-details';
 import { VisibilityControl } from '../types/visibility-control';
-import { HttpRequestService } from './http-request.service';
-import { VisibilityStateMachine } from './visibility-state-machine';
 
 /**
  * A template question.

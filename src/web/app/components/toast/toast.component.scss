@@ -1,9 +1,10 @@
 :host {
   left: 50%;
-  margin: .5em;
+  margin: 0.5em;
   position: fixed;
   top: 55px;
   transform: translateX(-50%);
+
   // make toast over the modal
   z-index: 1100;
 

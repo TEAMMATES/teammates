@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -20,6 +21,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -91,6 +93,18 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
+        String recipientId = getRequestParamValue(Const.ParamsNames.SINGLE_RECIPIENT_ID_FOR_SUBMISSION);
+        boolean isSingleRecipientSubmission = !StringHelper.isEmpty(recipientId);
+
+        // validate if single-recipient submission is allowed for the given question type
+        FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
+        if (isSingleRecipientSubmission
+                && (feedbackQuestionType.equals(FeedbackQuestionType.CONSTSUM_RECIPIENTS)
+                        || feedbackQuestionType.equals(FeedbackQuestionType.RANK_RECIPIENTS)
+                        || feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB))) {
+            throw new InvalidOperationException("Single Recipient Submission is not allowed for the given question type");
+        }
+
         List<FeedbackResponseAttributes> existingResponses;
         Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
 
@@ -127,6 +141,15 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
         log.info(JsonUtils.toCompactJson(submitRequest));
+
+        if (isSingleRecipientSubmission) {
+            // only keep the response for the recipient when the request is a single-recipient submission
+            List<FeedbackResponsesRequest.FeedbackResponseRequest> responseRequests = submitRequest.getResponses();
+            submitRequest.setResponses(
+                    responseRequests.stream()
+                            .filter(r -> recipientId.equals(r.getRecipient()))
+                            .collect(Collectors.toList()));
+        }
 
         for (String recipient : submitRequest.getRecipients()) {
             if (!recipientsOfTheQuestion.containsKey(recipient)) {
@@ -196,14 +219,20 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new InvalidHttpRequestBodyException(String.join("\n", questionSpecificErrors));
         }
 
-        List<String> recipients = submitRequest.getRecipients();
-        List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
-                .filter(entry -> !recipients.contains(entry.getKey()))
-                .map(entry -> entry.getValue())
-                .collect(Collectors.toList());
+        if (!isSingleRecipientSubmission) {
+            List<String> recipients = submitRequest.getRecipients();
+            List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
+                    .filter(entry -> !recipients.contains(entry.getKey()))
+                    .map(entry -> entry.getValue())
+                    .collect(Collectors.toList());
 
-        for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
-            logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
+            for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
+                logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
+            }
+        } else if (submitRequest.getRecipients().isEmpty() && existingResponsesPerRecipient.containsKey(recipientId)) {
+            // delete a single recipient submission
+            FeedbackResponseAttributes feedbackResponseToDelete = existingResponsesPerRecipient.get(recipientId);
+            logic.deleteFeedbackResponseCascade(feedbackResponseToDelete.getId());
         }
 
         List<FeedbackResponseAttributes> output = new ArrayList<>();

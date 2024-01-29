@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { McqQuestionAdditionalInfoComponent } from './mcq-question-additional-info.component';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
 } from '../../../../types/api-output';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { McqQuestionAdditionalInfoComponent } from './mcq-question-additional-info.component';
 
 describe('McqQuestionAdditionalInfoComponent', () => {
   let component: McqQuestionAdditionalInfoComponent;

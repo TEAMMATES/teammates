@@ -2,6 +2,13 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { UntypedFormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import {
+  CourseEditFormMode,
+  CourseFormModel,
+  CourseEditFormModel,
+  DEFAULT_COURSE_FORM_MODEL,
+  CourseAddFormModel,
+} from './course-edit-form-model';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -10,15 +17,8 @@ import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CopyCourseModalResult } from '../copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
-import {
-  CourseEditFormMode,
-  CourseFormModel,
-  CourseEditFormModel,
-  DEFAULT_COURSE_FORM_MODEL,
-  CourseAddFormModel,
-} from './course-edit-form-model';
 
-const formatTwoDigits: Function = (n: number): string => {
+const formatTwoDigits = (n: number): string => {
   if (n < 10) {
     return `0${n}`;
   }

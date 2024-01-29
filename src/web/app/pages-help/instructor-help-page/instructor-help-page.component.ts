@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { environment } from '../../../environments/environment';
 import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
@@ -21,6 +20,7 @@ import {
 } from './instructor-help-students-section/instructor-help-students-section.component';
 import { StudentsSectionQuestions } from './instructor-help-students-section/students-section-questions';
 import { Sections } from './sections';
+import { environment } from '../../../environments/environment';
 
 /**
  * Instructor help page.
@@ -35,8 +35,8 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
   instructorGettingStartedPath: string = '';
-  searchTerm: String = '';
-  key: String = '';
+  searchTerm: string = '';
+  key: string = '';
   matchFound: number = 0;
 
   questionIdToExpand: string = '';
@@ -98,7 +98,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
       this.clear();
       return;
     }
-    const nxtKey: String = this.searchTerm.toLowerCase();
+    const nxtKey: string = this.searchTerm.toLowerCase();
     if (nxtKey !== this.key) {
       this.matchFound = 0;
     }

@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommentEditFormComponent } from './comment-edit-form.component';
 import {
   CommentOutput,
   CommentVisibilityType, FeedbackQuestionType,
@@ -15,7 +16,6 @@ import {
   CommentVisibilityTypeDescriptionPipe,
   CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
-import { CommentEditFormComponent } from './comment-edit-form.component';
 
 describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;

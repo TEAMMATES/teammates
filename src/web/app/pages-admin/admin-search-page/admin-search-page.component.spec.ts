@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { AdminSearchPageComponent } from './admin-search-page.component';
+import { AdminSearchPageModule } from './admin-search-page.module';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -17,8 +19,6 @@ import {
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { AdminSearchPageComponent } from './admin-search-page.component';
-import { AdminSearchPageModule } from './admin-search-page.module';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {

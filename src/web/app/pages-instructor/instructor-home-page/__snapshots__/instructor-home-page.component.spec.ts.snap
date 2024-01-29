@@ -5,7 +5,6 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -28,7 +27,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -83,7 +82,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -106,7 +104,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -161,7 +159,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -184,7 +181,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -272,7 +269,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <tm-loading-retry>
               <tm-loading-spinner
@@ -306,7 +302,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -329,7 +324,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -435,14 +430,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -569,7 +564,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <tm-loading-retry>
               <tm-sessions-table
@@ -908,7 +902,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -931,7 +924,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -1037,7 +1030,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -1148,7 +1141,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <tm-loading-retry>
               <tm-sessions-table
@@ -1667,7 +1659,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -1690,7 +1681,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -1796,14 +1787,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -1940,7 +1931,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -1963,7 +1953,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -2069,14 +2059,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -2203,7 +2193,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <tm-loading-retry>
               <tm-loading-spinner
@@ -2237,7 +2226,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
-  __ngContext__={[Function Number]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
   courseService={[Function CourseService]}
@@ -2260,7 +2248,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
@@ -2366,14 +2354,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
-                    class="btn btn-info btn-sm dropdown-item"
+                    class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/details"
                   >
@@ -2500,7 +2488,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           </div>
           <div
             class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <tm-loading-retry>
               <tm-sessions-table

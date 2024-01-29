@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { FeedbackNumericalScaleQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
  * Question details edit form component for numerical scale question.

@@ -14,7 +14,7 @@
   padding-bottom: 5px;
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .side-nav {
     display: none;
   }

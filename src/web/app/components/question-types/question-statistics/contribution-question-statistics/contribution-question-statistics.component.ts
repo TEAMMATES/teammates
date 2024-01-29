@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
+import { ContributionComponent } from './contribution.component';
 import { SimpleModalService } from '../../../../../services/simple-modal.service';
 import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
@@ -15,8 +17,6 @@ import {
 import {
   ContributionQuestionStatisticsCalculation,
 } from '../question-statistics-calculation/contribution-question-statistics-calculation';
-import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
-import { ContributionComponent } from './contribution.component';
 
 /**
  * Statistics for contribution questions.

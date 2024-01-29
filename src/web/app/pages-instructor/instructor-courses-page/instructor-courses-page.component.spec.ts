@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
@@ -19,7 +20,6 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;

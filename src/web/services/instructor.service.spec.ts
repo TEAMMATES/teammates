@@ -1,6 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
+import { InstructorService } from './instructor.service';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
 import {
@@ -8,8 +11,6 @@ import {
   InstructorPermissionRole,
   InstructorPrivilegeUpdateRequest,
 } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
-import { InstructorService } from './instructor.service';
 
 const defaultRequestBody: InstructorCreateRequest = {
   id: '123',
@@ -47,12 +48,7 @@ describe('InstructorService', () => {
   let service: InstructorService;
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,

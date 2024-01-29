@@ -6,7 +6,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -38,7 +37,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -98,7 +97,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -130,7 +128,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -190,7 +188,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -222,7 +219,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -285,7 +282,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -317,7 +313,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -377,7 +373,6 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -409,7 +404,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -469,7 +464,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId={[Function String]}
   courseName={[Function String]}
@@ -501,7 +495,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -749,7 +743,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <input
                             aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disabled=""
                             ngbdatepicker=""
                             readonly=""
                             type="text"
@@ -957,7 +950,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <input
                             aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disabled=""
                             ngbdatepicker=""
                             readonly=""
                             type="text"
@@ -1399,7 +1391,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             </button>
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
-              style=""
             >
               <div
                 class="card-body"
@@ -1435,7 +1426,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               <textarea
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="question-brief"
-                                placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                                placeholder="A concise version of the question e.g. "How well did the team member communicate?""
                               />
                             </div>
                           </div>
@@ -2135,7 +2126,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             </button>
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
-              style=""
             >
               <div
                 class="card-body"
@@ -2171,7 +2161,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               <textarea
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="question-brief"
-                                placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                                placeholder="A concise version of the question e.g. "How well did the team member communicate?""
                               />
                             </div>
                           </div>
@@ -3156,7 +3146,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -3188,7 +3177,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishStatusName={[Function PublishStatusNamePipe]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -3433,7 +3422,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           <input
                             aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disabled=""
                             ngbdatepicker=""
                             readonly=""
                             type="text"
@@ -3641,7 +3629,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           <input
                             aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disabled=""
                             ngbdatepicker=""
                             readonly=""
                             type="text"
@@ -4046,7 +4033,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
         </button>
         <div
           class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
         >
           <div
             class="card-body"
@@ -4082,7 +4068,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           <textarea
                             class="form-control ng-untouched ng-pristine ng-valid"
                             id="question-brief"
-                            placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                            placeholder="A concise version of the question e.g. "How well did the team member communicate?""
                           />
                         </div>
                       </div>

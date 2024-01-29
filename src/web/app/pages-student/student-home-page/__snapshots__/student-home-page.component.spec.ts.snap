@@ -3,7 +3,6 @@
 exports[`StudentHomePageComponent should snap when courses are still loading 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -48,7 +47,6 @@ exports[`StudentHomePageComponent should snap when courses are still loading 1`]
 exports[`StudentHomePageComponent should snap when there is course loading failed 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -96,7 +94,6 @@ exports[`StudentHomePageComponent should snap when there is course loading faile
 exports[`StudentHomePageComponent should snap with all feedback sessions over 2 courses 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -183,7 +180,19 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             >
                View team 
             </a>
-            <tm-panel-chevron />
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
         </div>
         <tm-loading-retry>
@@ -192,7 +201,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           >
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
-              style=""
             >
               <table
                 class="table table-striped table-bordered margin-0"
@@ -338,7 +346,19 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             >
                View team 
             </a>
-            <tm-panel-chevron />
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
         </div>
         <tm-loading-retry>
@@ -347,7 +367,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           >
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
-              style=""
             >
               <table
                 class="table table-striped table-bordered margin-0"
@@ -479,7 +498,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
 exports[`StudentHomePageComponent should snap with default fields 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -524,7 +542,6 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
 exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -571,7 +588,18 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
             >
                View team 
             </a>
-            <tm-panel-chevron />
+            <tm-panel-chevron>
+              <button
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
         </div>
         <tm-loading-retry>
@@ -589,7 +617,6 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
 exports[`StudentHomePageComponent should snap with no course 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -632,7 +659,6 @@ exports[`StudentHomePageComponent should snap with no course 1`] = `
 exports[`StudentHomePageComponent should snap with no feedback session over 2 courses 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -719,7 +745,18 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
             >
                View team 
             </a>
-            <tm-panel-chevron />
+            <tm-panel-chevron>
+              <button
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
         </div>
         <tm-loading-retry>
@@ -751,7 +788,18 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
             >
                View team 
             </a>
-            <tm-panel-chevron />
+            <tm-panel-chevron>
+              <button
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
         </div>
         <tm-loading-retry>
@@ -769,7 +817,6 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
 exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -816,7 +863,18 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
             >
                View team 
             </a>
-            <tm-panel-chevron />
+            <tm-panel-chevron>
+              <button
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
         </div>
         <tm-loading-retry>

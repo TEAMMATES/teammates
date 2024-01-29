@@ -4,9 +4,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
+import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
-import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 
 @Component({ selector: 'tm-example-box', template: '' })
 class ExampleBoxStubComponent {}

@@ -1,21 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ResourceEndpoints } from '../types/api-const';
-import { Intent } from '../types/api-request';
 import { FeedbackQuestionsService } from './feedback-questions.service';
 import { HttpRequestService } from './http-request.service';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
+import { ResourceEndpoints } from '../types/api-const';
+import { Intent } from '../types/api-request';
 
 describe('FeedbackQuestionsService', () => {
   let spyHttpRequestService: any;
   let service: FeedbackQuestionsService;
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,

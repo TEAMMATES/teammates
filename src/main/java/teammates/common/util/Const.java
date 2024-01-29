@@ -124,6 +124,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
+        public static final String SINGLE_RECIPIENT_ID_FOR_SUBMISSION = "singlerecipientidforsubmission";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
 

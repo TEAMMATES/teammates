@@ -2,7 +2,6 @@
 
 exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
@@ -334,7 +333,6 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 
 exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
@@ -388,7 +386,6 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 
 exports[`AdminSearchPageComponent should snap with an expanded account requests table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
@@ -530,7 +527,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
             >
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
-                style=""
               >
                 <li
                   class="list-group-item list-group-item-info"
@@ -555,7 +551,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
 
 exports[`AdminSearchPageComponent should snap with an expanded instructor table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
@@ -813,7 +808,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 
 exports[`AdminSearchPageComponent should snap with an expanded student table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}
@@ -1002,7 +996,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             >
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
-                style=""
               >
                 <li
                   class="list-group-item list-group-item-success has-success"
@@ -1121,7 +1114,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 
 exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   characterLimit={[Function Number]}

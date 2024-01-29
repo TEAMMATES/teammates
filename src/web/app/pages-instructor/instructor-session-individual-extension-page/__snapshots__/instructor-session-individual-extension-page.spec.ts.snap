@@ -4,7 +4,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -27,7 +26,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -483,7 +482,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -506,7 +504,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -1028,7 +1026,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -1051,7 +1048,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -1573,7 +1570,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -1596,7 +1592,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -2118,7 +2114,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -2141,7 +2136,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   isLoadingAllStudents="false"
   isLoadingFeedbackSession={[Function Boolean]}
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -2419,7 +2414,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -2442,7 +2436,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -2900,7 +2894,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -2923,7 +2916,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -3347,7 +3340,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -3370,7 +3362,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -3894,7 +3886,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -3917,7 +3908,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -4204,7 +4195,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -4227,7 +4217,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   isLoadingAllStudents={[Function Boolean]}
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -4499,7 +4489,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -4522,7 +4511,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -4803,7 +4792,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -4826,7 +4814,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -5041,7 +5029,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -5064,7 +5051,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -5345,7 +5332,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -5368,7 +5354,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -5762,7 +5748,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -5785,7 +5770,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -6130,7 +6115,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -6153,7 +6137,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -6576,7 +6560,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -6599,7 +6582,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isSubmittingDeadlines="false"
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}

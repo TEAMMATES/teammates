@@ -112,7 +112,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     this.responsesToShow.sort(this.sortResponsesBy(by, this.sortOrder));
   }
 
-  getAriaSort(by: SortBy): String {
+  getAriaSort(by: SortBy): string {
     if (by !== this.sortBy) {
       return 'none';
     }

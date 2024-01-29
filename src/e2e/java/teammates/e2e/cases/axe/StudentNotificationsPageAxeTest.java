@@ -8,14 +8,12 @@ import com.deque.html.axecore.results.Results;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}.
  */
-public class StudentNotificationsPageAxeTest extends BaseE2ETestCase {
+public class StudentNotificationsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -30,8 +28,8 @@ public class StudentNotificationsPageAxeTest extends BaseE2ETestCase {
         StudentNotificationsPage notificationsPage = loginToPage(notificationsPageUrl, StudentNotificationsPage.class,
                 testData.accounts.get("SNotifs.student").getGoogleId());
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(notificationsPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(notificationsPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
     @AfterClass

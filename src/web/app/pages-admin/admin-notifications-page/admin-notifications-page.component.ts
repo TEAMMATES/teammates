@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
+import {
+  NotificationEditFormMode,
+  NotificationEditFormModel,
+} from './notification-edit-form/notification-edit-form-model';
+import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
 import { NotificationService } from '../../../services/notification.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -13,11 +18,6 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  NotificationEditFormMode,
-  NotificationEditFormModel,
-} from './notification-edit-form/notification-edit-form-model';
-import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
 
 @Component({
   selector: 'tm-admin-notifications-page',

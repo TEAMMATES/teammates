@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { Response } from './question-statistics';
 import { RankOptionsQuestionStatisticsComponent } from './rank-options-question-statistics.component';
 import ResponseTestData from './test-data/rankOptionQuestionResponses.json';
+import { FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 
 describe('RankOptionsQuestionStatisticsComponent', () => {
   let component: RankOptionsQuestionStatisticsComponent;

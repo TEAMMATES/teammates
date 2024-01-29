@@ -5,6 +5,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
+import { InstructorSessionsPageModule } from './instructor-sessions-page.module';
+import {
+  SessionPermanentDeletionConfirmModalComponent,
+} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
+import {
+  SessionsPermanentDeletionConfirmModalComponent,
+} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -15,14 +23,6 @@ import {
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../types/api-output';
-import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
-import { InstructorSessionsPageModule } from './instructor-sessions-page.module';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
-  SessionsPermanentDeletionConfirmModalComponent,
-} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 
 describe('InstructorSessionsPageComponent', () => {
   let component: InstructorSessionsPageComponent;

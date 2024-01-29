@@ -1,5 +1,5 @@
 .background-color-light-blue {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
 }
 
 .responsive-padding {
@@ -7,10 +7,10 @@
   padding-right: 5px;
 }
 
-@media (max-width: 576px) {
+@media (width <= 576px) {
   // prevent overflow for small screen sizes
   .btn-small-padding {
-    padding-left: .5rem;
-    padding-right: .5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }

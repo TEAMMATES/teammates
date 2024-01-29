@@ -11,10 +11,18 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, Observable } from 'rxjs';
 
+import {
+  CourseAddFormModel,
+  CourseEditFormMode,
+  DEFAULT_COURSE_ADD_FORM_MODEL,
+  DEFAULT_COURSE_EDIT_FORM_MODEL,
+} from './course-edit-form-model';
+import { CourseEditFormComponent } from './course-edit-form.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
@@ -29,13 +37,6 @@ import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-import {
-  CourseAddFormModel,
-  CourseEditFormMode,
-  DEFAULT_COURSE_ADD_FORM_MODEL,
-  DEFAULT_COURSE_EDIT_FORM_MODEL,
-} from './course-edit-form-model';
-import { CourseEditFormComponent } from './course-edit-form.component';
 
 describe('CourseEditFormComponent', () => {
   let component: CourseEditFormComponent;
@@ -74,19 +75,16 @@ describe('CourseEditFormComponent', () => {
     status: 0,
   };
 
-  const spyStatusMessageService: any = {
-    showErrorToast: jest.fn(() => errorMssg),
-    showSuccessToast: jest.fn(),
-  };
-  const timezoneServiceStub: any = {
-    getTzOffsets: jest.fn(() => timeZoneOffsets1),
-    guessTimezone: jest.fn(() => testTimeZone),
-  };
+  const spyStatusMessageService = createSpyFromClass(StatusMessageService);
+  spyStatusMessageService.showErrorToast.mockReturnValue(errorMssg);
 
-  const spyCourseService: any = {
-    createCourse: jest.fn(() => of({})),
-    getAllCoursesAsInstructor: jest.fn(() => of({ courses: [testCourse1, testCourse1] })),
-  };
+  const timezoneServiceStub = createSpyFromClass(TimezoneService);
+  timezoneServiceStub.getTzOffsets.mockReturnValue(timeZoneOffsets1);
+  timezoneServiceStub.guessTimezone.mockReturnValue(testTimeZone);
+
+  const spyCourseService = createSpyFromClass(CourseService);
+  spyCourseService.createCourse.mockReturnValue(of({}));
+  spyCourseService.getAllCoursesAsInstructor(of({ courses: [testCourse1, testCourse1] }));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

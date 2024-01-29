@@ -4,7 +4,6 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function Number]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -12,15 +11,15 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
   deleteCourseEvent={[Function EventEmitter_]}
   editModel="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function NgForm]}
+  form={[Function _NgForm]}
   formMode="0"
   isDisplayOnly={[Function Boolean]}
   model={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -225,7 +224,6 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function Number]}
   addModel={[Function Object]}
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -233,15 +231,15 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
   deleteCourseEvent={[Function EventEmitter_]}
   editModel="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function NgForm]}
+  form={[Function _NgForm]}
   formMode="0"
   isDisplayOnly="false"
   model={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -450,7 +448,6 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function Number]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -458,15 +455,15 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
   deleteCourseEvent={[Function EventEmitter_]}
   editModel="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function NgForm]}
+  form={[Function _NgForm]}
   formMode={[Function Number]}
   isDisplayOnly={[Function Boolean]}
   model={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -666,7 +663,6 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function Number]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -674,15 +670,15 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
   deleteCourseEvent={[Function EventEmitter_]}
   editModel={[Function Object]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function NgForm]}
+  form={[Function _NgForm]}
   formMode={[Function Number]}
   isDisplayOnly="false"
   model={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Object]}
-  timezoneService={[Function Object]}
+  statusMessageService={[Function mockConstructor]}
+  timezoneService={[Function mockConstructor]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
