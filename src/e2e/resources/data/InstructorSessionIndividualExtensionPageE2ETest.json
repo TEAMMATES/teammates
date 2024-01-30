@@ -275,5 +275,37 @@
       "message": "<p>This notification is shown to students only</p>",
       "shown": false
     }
+  },
+  "deadlineExtensions": {
+    "student1InCourse1Session1": {
+      "courseId": "tm.e2e.ISesIe.CS2104",
+      "feedbackSessionName": "First Session",
+      "userEmail": "alice.tmms@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2032-05-01T05:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2032-05-01T01:00:00Z",
+      "updatedAt": "2032-05-01T01:00:00Z"
+    },
+    "student2InCourse1Session1": {
+      "courseId": "tm.e2e.ISesIe.CS2104",
+      "feedbackSessionName": "First Session",
+      "userEmail": "charlie.tmms@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2032-05-01T05:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2032-05-01T01:00:00Z",
+      "updatedAt": "2032-05-01T01:00:00Z"
+    },
+    "instructor1InCourse1Session1": {
+      "courseId": "tm.e2e.ISesIe.CS2104",
+      "feedbackSessionName": "First Session",
+      "userEmail": "instructor1.tmms@gmail.tmt",
+      "isInstructor": true,
+      "endTime": "2032-05-01T05:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2032-05-01T01:00:00Z",
+      "updatedAt": "2032-05-01T01:00:00Z"
+    }
   }
 }
