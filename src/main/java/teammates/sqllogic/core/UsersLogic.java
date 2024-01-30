@@ -654,6 +654,7 @@ public final class UsersLogic {
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         Student originalStudent = getStudentForEmail(student.getCourse(), student.getEmail());
+        Team originalTeam = originalStudent.getTeam();
         Section section = getSectionOrCreate(student.getCourse(), student.getSection());
         Team team = getTeamOrCreate(section, student.getTeam());
 
@@ -670,7 +671,8 @@ public final class UsersLogic {
 
         // adjust submissions if moving to a different team
         if (changedTeam) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(), team);
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(),
+                    team, originalTeam);
         }
 
         // update the new section name in responses
