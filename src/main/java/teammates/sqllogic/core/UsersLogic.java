@@ -635,10 +635,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Updates a student by {@link StudentAttributes.UpdateOptions}.
+     * Updates a student by {@link StudentAttributes}.
      *
-     * <p>If email changed, update by recreating the student and cascade update all responses
-     * the student gives/receives as well as any deadline extensions given to the student.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
@@ -679,8 +677,6 @@ public final class UsersLogic {
         if (changedSection) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(course, updatedStudent.getEmail(), section);
         }
-
-        // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
 
         return updatedStudent;
     }
