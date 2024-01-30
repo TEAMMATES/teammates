@@ -52,10 +52,10 @@ public class CreateInstructorAction extends Action {
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
 
         try {
-            if (!isCourseMigrated(courseId)) {
-                return executeWithDataStore(courseId, instructorRequest);
-            } else {
+            if (isCourseMigrated(courseId)) {
                 return executeWithSql(courseId, instructorRequest);
+            } else {
+                return executeWithDataStore(courseId, instructorRequest);
             }
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(

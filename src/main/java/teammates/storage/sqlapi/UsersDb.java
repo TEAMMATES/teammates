@@ -55,18 +55,12 @@ public final class UsersDb extends EntitiesDb {
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         assert instructor != null;
 
         if (!instructor.isValid()) {
             throw new InvalidParametersException(instructor.getInvalidityInfo());
         }
-
-        // TODO CHECK WITH MENTOR
-        if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
-            throw new EntityAlreadyExistsException("Instructor already exists.");
-        }
-
         persist(instructor);
         return instructor;
     }
