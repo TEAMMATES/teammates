@@ -340,11 +340,11 @@
       "course": {
         "id": "course-1"
       },
-      "name": "Unregistered Instructor of Course 1",
-      "email": "unregisteredInstructorOfCourse1@teammates.tmt",
+      "name": "Unregistered Instructor",
+      "email": "unregisteredInstructor@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
       "isDisplayedToStudents": true,
-      "displayName": "Unregistered Instructor of Course 1",
+      "displayName": "Unregistered Instructor",
       "privileges": {
         "courseLevel": {
           "canModifyCourse": false,

@@ -107,7 +107,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("course-1", "unregisteredInstructorOfCourse1@teammates.tmt").getRegKey();
+                logic.getInstructorForEmail("course-1", "unregisteredInstructor@teammates.tmt").getRegKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,

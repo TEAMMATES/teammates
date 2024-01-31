@@ -45,6 +45,7 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         Instructor insInUnregCourse = typicalBundle.instructors.get("instructorOfUnregisteredCourse");
         Instructor insUniqueDisplayName = typicalBundle.instructors.get("instructorOfCourse2WithUniqueDisplayName");
         Instructor ins1InCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
+        Instructor unregisteredInsInCourse1 = typicalBundle.instructors.get("unregisteredInstructorOfCourse1");
 
         ______TS("success: search for instructors in whole system; query string does not match anyone");
 
@@ -80,12 +81,12 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for instructors in whole system; instructors should be searchable by course id");
 
         results = usersDb.searchInstructorsInWholeSystem("\"course-1\"");
-        verifySearchResults(results, ins1InCourse1, ins2InCourse1);
+        verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by course name");
 
         results = usersDb.searchInstructorsInWholeSystem("\"Typical Course 1\"");
-        verifySearchResults(results, ins1InCourse1, ins2InCourse1);
+        verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their name");
 
@@ -136,16 +137,21 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
+        Instructor unregisteredInsInCourse1 = typicalBundle.instructors.get("unregisteredInstructorOfCourse1");
 
         List<Instructor> results = usersDb.searchInstructorsInWholeSystem("\"course-1\"");
-        verifySearchResults(results, ins1InCourse1, ins2InCourse1);
+        verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
         usersDb.deleteUser(ins1InCourse1);
         results = usersDb.searchInstructorsInWholeSystem("\"course-1\"");
-        verifySearchResults(results, ins2InCourse1);
+        verifySearchResults(results, ins2InCourse1, unregisteredInsInCourse1);
 
         // This used to test .deleteInstructors, but we don't seem to have a similar method to delete all users in course
         usersDb.deleteUser(ins2InCourse1);
+        results = usersDb.searchInstructorsInWholeSystem("\"course-1\"");
+        verifySearchResults(results, unregisteredInsInCourse1);
+
+        usersDb.deleteUser(unregisteredInsInCourse1);
         results = usersDb.searchInstructorsInWholeSystem("\"course-1\"");
         verifySearchResults(results);
     }
