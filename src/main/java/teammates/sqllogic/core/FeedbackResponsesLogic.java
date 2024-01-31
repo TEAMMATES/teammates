@@ -18,6 +18,7 @@ import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -174,6 +175,61 @@ public final class FeedbackResponsesLogic {
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
                 feedbackQuestionId, teamName));
         return responses;
+    }
+
+    /**
+     * Updates a non-null feedback response by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     * (e.g. associated response ID, giverSection and recipientSection).
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws EntityAlreadyExistsException if the response cannot be updated
+     *         by recreation because of an existent response
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
+        FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);
+
+        boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
+        boolean isGiverSectionChanged = !oldResponse.getGiverSection().equals(newResponse.getGiverSection());
+        boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
+
+        if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
+            List<FeedbackResponseComment> oldResponseComments = 
+                frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
+            for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
+                if (isResponseIdChanged) {
+                    oldResponseComment.setFeedbackResponse(newResponse);
+                }
+
+                if (isGiverSectionChanged) {
+                    oldResponseComment.setGiverSection(newResponse.getGiverSection());
+                }
+
+                if (isRecipientSectionChanged) {
+                    oldResponseComment.setRecipientSection(newResponse.getRecipientSection());
+                }
+
+                frcLogic.updateFeedbackResponseComment(oldResponseComment);                   
+            }
+
+        }
+        return newResponse;
+    }
+
+    /**
+     * Deletes a feedback response cascade its associated feedback response comments.
+     */
+    public void deleteFeedbackResponsesAndCommentsCascade(UUID feedbackResponseId) {
+        frDb.deleteFeedbackResponsesAndCommentsCascade(feedbackResponseId);
     }
 
     /**

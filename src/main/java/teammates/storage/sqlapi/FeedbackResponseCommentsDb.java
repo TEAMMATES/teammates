@@ -1,11 +1,15 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -13,11 +17,13 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
-
+import teammates.storage.sqlentity.Section;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 
 /**
  * Handles CRUD operations for feedbackResponseComments.
@@ -79,6 +85,24 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
+     * Deletes all feedbackResponseComments based on feedback response ID.
+     */
+    public void deleteFeedbackResponseCommentForFeedbackResponseCascade(UUID feedbackResponseId) {
+        assert feedbackResponseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaDelete<FeedbackResponseComment> cd = cb.createCriteriaDelete(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> sRoot = cd.from(FeedbackResponseComment.class);
+        Subquery<UUID> subquery = cd.subquery(UUID.class);
+        Root<FeedbackResponseComment> subqueryRoot = subquery.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> sqJoin = subqueryRoot.join("feedbackResponse");
+        subquery.select(subqueryRoot.get("id"));
+        subquery.where(cb.equal(sqJoin.get("id"), feedbackResponseId));
+        cd.where(cb.in(sRoot.get("id")).value(subquery));
+        HibernateUtil.createMutationQuery(cd).executeUpdate();
+    }
+
+    /**
      * Gets all feedback response comments for a response.
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
@@ -108,6 +132,56 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
                 .where(cb.and(
                         cb.equal(frJoin.get("id"), feedbackResponseId)));
         return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Updates a feedback response comment by {@link FeedbackResponseComment}.
+     *
+     * @return updated feedback response comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment newFeedbackResponseComment)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert newFeedbackResponseComment != null;
+
+        FeedbackResponseComment oldFeedbackResponseComment = getFeedbackResponseComment(newFeedbackResponseComment.getId());
+        if (oldFeedbackResponseComment == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newFeedbackResponseComment);
+        }
+        
+        newFeedbackResponseComment.sanitizeForSaving();
+        if (!newFeedbackResponseComment.isValid()) {
+            throw new InvalidParametersException(newFeedbackResponseComment.getInvalidityInfo());
+        }
+
+        // update only if change
+        boolean hasSameAttributes = 
+            this.<Long>hasSameValue(newFeedbackResponseComment.getId(), oldFeedbackResponseComment.getId())
+            && this.<String>hasSameValue(
+                newFeedbackResponseComment.getCommentText(), oldFeedbackResponseComment.getCommentText())
+            && this.<List<FeedbackParticipantType>>hasSameValue(
+                newFeedbackResponseComment.getShowCommentTo(), oldFeedbackResponseComment.getShowCommentTo())
+            && this.<List<FeedbackParticipantType>>hasSameValue(
+                    newFeedbackResponseComment.getShowGiverNameTo(), oldFeedbackResponseComment.getShowGiverNameTo())
+            && this.<String>hasSameValue(
+                newFeedbackResponseComment.getLastEditorEmail(), oldFeedbackResponseComment.getLastEditorEmail())
+            && this.<Instant>hasSameValue(
+                newFeedbackResponseComment.getUpdatedAt(), oldFeedbackResponseComment.getUpdatedAt())
+            && this.<Section>hasSameValue(
+                newFeedbackResponseComment.getGiverSection(), oldFeedbackResponseComment.getGiverSection())
+            && this.<Section>hasSameValue(
+                newFeedbackResponseComment.getRecipientSection(), oldFeedbackResponseComment.getRecipientSection());
+        if (hasSameAttributes) {
+            log.info(String.format(
+                    OPTIMIZED_SAVING_POLICY_APPLIED, 
+                    FeedbackResponseComment.class.getSimpleName(), 
+                    newFeedbackResponseComment));
+            return newFeedbackResponseComment;
+        }
+
+        merge(newFeedbackResponseComment);
+        return newFeedbackResponseComment;
     }
 
     /**

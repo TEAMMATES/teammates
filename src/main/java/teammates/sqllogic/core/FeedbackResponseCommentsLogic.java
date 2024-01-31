@@ -65,6 +65,13 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Gets the comment associated with the response.
      */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentForResponse(UUID feedbackResponseId) {
+        return frcDb.getFeedbackResponseCommentForResponse(feedbackResponseId);
+    }
+
+    /** TODO: If there's a bug here, then update the comment
+     * Gets the comment associated with the response.
+     */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
             UUID feedbackResponseId) {
         return frcDb.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
@@ -85,6 +92,19 @@ public final class FeedbackResponseCommentsLogic {
      */
     public void deleteFeedbackResponseComment(Long frcId) {
         frcDb.deleteFeedbackResponseComment(frcId);
+    }
+
+    /**
+     * Updates a feedback response comment by {@link FeedbackResponseComment}.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
     }
 
     /**

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -43,7 +45,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "questionId")
     private FeedbackQuestion feedbackQuestion;
 
-    @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "feedbackResponse", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
     @Column(nullable = false)
@@ -139,6 +141,29 @@ public abstract class FeedbackResponse extends BaseEntity {
         }
         return feedbackResponse;
     }
+
+    /**
+     * Update a feedback response according to its {@code FeedbackQuestionType}.
+     */
+    public static FeedbackResponse updateResponse(
+            FeedbackResponse originalFeedbackResponse,
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String receiver, Section receiverSection,
+            FeedbackResponseDetails responseDetails
+    ) {
+        FeedbackResponse updatedFeedbackResponse = FeedbackResponse.makeResponse(
+            feedbackQuestion, 
+            giver, 
+            giverSection, 
+            receiver, 
+            receiverSection,
+            responseDetails
+        );
+        updatedFeedbackResponse.setCreatedAt(originalFeedbackResponse.getCreatedAt());
+        updatedFeedbackResponse.setId(originalFeedbackResponse.getId());
+        return updatedFeedbackResponse;
+    }
+
 
     /**
      * Gets a copy of the question details of the feedback question.

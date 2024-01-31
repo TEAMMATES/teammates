@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -20,6 +21,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -43,13 +50,37 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-        if (feedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
-        }
-        FeedbackSessionAttributes feedbackSession =
-                getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
 
+        FeedbackQuestion feedbackQuestion = null;
+        FeedbackQuestionAttributes feedbackQuestionAttributes = null;
+        String courseId = null;
+
+        try {
+            UUID feedbackQuestionSqlId = getUuidFromString(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
+            feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+
+            if (feedbackQuestion == null) {
+                throw new EntityNotFoundException("The feedback question does not exist.");
+            }
+    
+            courseId = feedbackQuestion.getCourseId();
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            feedbackQuestionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
+
+            if (feedbackQuestionAttributes == null) {
+                throw new EntityNotFoundException("The feedback question does not exist.");
+            }
+
+            courseId = feedbackQuestionAttributes.getCourseId();
+        }
+
+        if (!isCourseMigrated(courseId)) {
+            handleDataStoreAccessControl(feedbackQuestionAttributes);
+            return;
+        } 
+
+        FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
         verifyNotPreview();
 
@@ -57,7 +88,45 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            if (student == null) {
+                throw new EntityNotFoundException("Student does not exist.");
+            }
+            feedbackSession = feedbackSession.getCopyForUser(student.getEmail());
+            verifySessionOpenExceptForModeration(feedbackSession);
+            checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            if (instructor == null) {
+                throw new EntityNotFoundException("Instructor does not exist.");
+            }
+            feedbackSession = feedbackSession.getCopyForUser(instructor.getEmail());
+            verifySessionOpenExceptForModeration(feedbackSession);
+            checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
+            break;
+        case INSTRUCTOR_RESULT:
+        case STUDENT_RESULT:
+            throw new InvalidHttpParameterException("Invalid intent for this action");
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }    
+    }
+
+    private void handleDataStoreAccessControl(FeedbackQuestionAttributes feedbackQuestionAttributes) 
+        throws EntityNotFoundException, InvalidHttpParameterException, UnauthorizedAccessException {
+        FeedbackSessionAttributes feedbackSession =
+            getNonNullFeedbackSession(feedbackQuestionAttributes.getFeedbackSessionName(), feedbackQuestionAttributes.getCourseId());
+
+        verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestionAttributes);
+        verifyNotPreview();
+
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            gateKeeper.verifyAnswerableForStudent(feedbackQuestionAttributes);
+            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestionAttributes.getCourseId());
             if (studentAttributes == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -66,8 +135,8 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            gateKeeper.verifyAnswerableForInstructor(feedbackQuestionAttributes);
+            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestionAttributes.getCourseId());
             if (instructorAttributes == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
@@ -86,11 +155,176 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-        if (feedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
+
+        FeedbackQuestion feedbackQuestionSQL = null;
+        FeedbackQuestionAttributes feedbackQuestionAttributes = null;
+        String courseId = null;
+
+        try {
+            UUID feedbackQuestionSqlId = getUuidFromString(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
+            feedbackQuestionSQL = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+
+            if (feedbackQuestionSQL == null) {
+                throw new EntityNotFoundException("The feedback question does not exist.");
+            }
+    
+            courseId = feedbackQuestionSQL.getCourseId();
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            feedbackQuestionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
+
+            if (feedbackQuestionAttributes == null) {
+                throw new EntityNotFoundException("The feedback question does not exist.");
+            }
+
+            courseId = feedbackQuestionAttributes.getCourseId();
         }
 
+
+        if (!isCourseMigrated(courseId)) {
+            return handleDataStoreExecute(feedbackQuestionAttributes);
+        } 
+
+        final FeedbackQuestion feedbackQuestion = feedbackQuestionSQL;
+        List<FeedbackResponse> existingResponses;
+        Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
+
+        String giverIdentifier;
+        Section giverSection;
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            giverIdentifier =
+                    feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
+                            ? student.getTeamName() : student.getEmail();
+            giverSection = student.getSection();
+            existingResponses = sqlLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
+            recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, null, student);
+            sqlLogic.populateFieldsToGenerateInQuestion(feedbackQuestion, 
+                feedbackQuestion.getCourseId(), student.getEmail(), student.getTeamName());
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            giverIdentifier = instructor.getEmail();
+            giverSection = Const.DEFAULT_SQL_SECTION;
+            existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
+            recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
+            sqlLogic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                feedbackQuestion.getCourseId(), instructor.getEmail(), null);       
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
+
+        Map<String, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
+        existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
+
+        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
+        log.info(JsonUtils.toCompactJson(submitRequest));
+
+        for (String recipient : submitRequest.getRecipients()) {
+            if (!recipientsOfTheQuestion.containsKey(recipient)) {
+                throw new InvalidOperationException(
+                        "The recipient " + recipient + " is not a valid recipient of the question");
+            }
+        }
+
+        List<FeedbackResponse> feedbackResponsesToValidate = new ArrayList<>();
+        List<FeedbackResponse> feedbackResponsesToAdd = new ArrayList<>();
+        List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
+
+        submitRequest.getResponses().forEach(responseRequest -> {
+            String recipient = responseRequest.getRecipient();
+            FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
+
+            if (existingResponsesPerRecipient.containsKey(recipient)) {
+                Section recipientSection = getRecipientSection(feedbackQuestion.getCourseId(),
+                    feedbackQuestion.getGiverType(),
+                    feedbackQuestion.getRecipientType(), recipient);
+
+                FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(recipient);
+                FeedbackResponse updatedFeedbackResponse = FeedbackResponse.updateResponse(
+                    existingFeedbackResponse,
+                    feedbackQuestion,
+                    giverIdentifier,
+                    giverSection,
+                    recipient,
+                    recipientSection,
+                    responseDetails);
+
+                feedbackResponsesToValidate.add(updatedFeedbackResponse);
+                feedbackResponsesToUpdate.add(updatedFeedbackResponse);
+            } else {
+                FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
+                    feedbackQuestion, 
+                    giverIdentifier, 
+                    giverSection, 
+                    recipient, 
+                    getRecipientSection(feedbackQuestion.getCourseId(),
+                        feedbackQuestion.getGiverType(),
+                        feedbackQuestion.getRecipientType(), recipient), 
+                    responseDetails
+                );
+
+                feedbackResponsesToValidate.add(feedbackResponse);
+                feedbackResponsesToAdd.add(feedbackResponse);
+            }
+        });
+
+        List<FeedbackResponseDetails> responseDetails = feedbackResponsesToValidate.stream()
+                .map(FeedbackResponse::getFeedbackResponseDetailsCopy)
+                .collect(Collectors.toList());
+
+        int numRecipients = feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo();
+        if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS
+                || numRecipients > recipientsOfTheQuestion.size()) {
+            numRecipients = recipientsOfTheQuestion.size();
+        }
+
+        List<String> questionSpecificErrors =
+                feedbackQuestion.getQuestionDetailsCopy()
+                        .validateResponsesDetails(responseDetails, numRecipients);
+
+        if (!questionSpecificErrors.isEmpty()) {
+            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
+        }
+
+        List<String> recipients = submitRequest.getRecipients();
+        List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
+                .filter(entry -> !recipients.contains(entry.getKey()))
+                .map(entry -> entry.getValue())
+                .collect(Collectors.toList());
+
+        for (FeedbackResponse feedbackResponse : feedbackResponsesToDelete) {
+            sqlLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
+        }
+
+        List<FeedbackResponse> output = new ArrayList<>();
+
+        for (FeedbackResponse feedbackResponse : feedbackResponsesToAdd) {
+            try {
+                output.add(sqlLogic.createFeedbackResponse(feedbackResponse));
+            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                // None of the exceptions should be happening as the responses have been pre-validated
+                log.severe("Encountered exception when creating response: " + e.getMessage(), e);
+            }
+        }
+
+        for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
+            try {
+                output.add(sqlLogic.updateFeedbackResponseCascade(feedbackResponse));
+            } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
+                // None of the exceptions should be happening as the responses have been pre-validated
+                log.severe("Encountered exception when updating response: " + e.getMessage(), e);
+            }
+        }
+
+        return new JsonResult(FeedbackResponsesData.createFromEntity(output));
+    }
+
+    private JsonResult handleDataStoreExecute(FeedbackQuestionAttributes feedbackQuestion) 
+        throws InvalidHttpRequestBodyException, InvalidOperationException {
         List<FeedbackResponseAttributes> existingResponses;
         Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
 
@@ -144,7 +378,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
 
             if (existingResponsesPerRecipient.containsKey(recipient)) {
-                String recipientSection = getRecipientSection(feedbackQuestion.getCourseId(),
+                String recipientSection = getDatastoreRecipientSection(feedbackQuestion.getCourseId(),
                         feedbackQuestion.getGiverType(),
                         feedbackQuestion.getRecipientType(), recipient);
                 FeedbackResponseAttributes updatedResponse =
@@ -165,7 +399,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                 FeedbackResponseAttributes feedbackResponse = FeedbackResponseAttributes
                         .builder(feedbackQuestion.getId(), giverIdentifier, recipient)
                         .withGiverSection(giverSection)
-                        .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(),
+                        .withRecipientSection(getDatastoreRecipientSection(feedbackQuestion.getCourseId(),
                                 feedbackQuestion.getGiverType(),
                                 feedbackQuestion.getRecipientType(), recipient))
                         .withCourseId(feedbackQuestion.getCourseId())
@@ -226,7 +460,6 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             }
         }
 
-        return new JsonResult(new FeedbackResponsesData(output));
+        return new JsonResult(FeedbackResponsesData.createFromAttributes(output));
     }
-
 }
