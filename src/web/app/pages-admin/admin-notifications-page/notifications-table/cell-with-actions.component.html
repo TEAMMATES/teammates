@@ -1,0 +1,22 @@
+<div>
+    <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name" let-id="id"
+             let-tmRouterLink="tmRouterLink" let-queryParams="queryParams">
+        <a class="btn btn-light btn-sm btn-margin-right custom-button" target="_blank" rel="noopener noreferrer"
+            [id]="id"
+            [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
+            [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
+            [tmRouterLink]="tmRouterLink"
+            [queryParams]="queryParams">
+        {{name}}
+        </a>
+    </ng-template>
+    <ng-container>
+      <button type="button" class="btn btn-light btn-sm" (click)="editNotification()" style="margin-right: 6px;">
+            Edit
+      </button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="deleteNotification()">
+        Delete
+      </button>
+    </ng-container>
+
+</div>

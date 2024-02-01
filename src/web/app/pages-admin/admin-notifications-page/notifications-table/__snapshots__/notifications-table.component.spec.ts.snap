@@ -5,25 +5,30 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  addNotificationEvent={[Function EventEmitter_]}
+  backgroundColor={[Function String]}
+  columnsData={[Function Array]}
+  dateBriefPipe={[Function FormatDateBriefPipe]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
   loadNotificationEditFormEvent={[Function EventEmitter_]}
-  notificationsTableRowModels={[Function Array]}
+  notificationStyleDescriptionPipe={[Function NotificationStyleDescriptionPipe]}
+  notifications={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
+  rowsData={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  timeZoneService={[Function TimezoneService]}
 >
-  <div
-    class="row"
-  >
-    <div
-      class="col-12 table-responsive"
-    >
+  <div>
+    <tm-sortable-table>
       <table
-        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-        id="notifications-table"
+        class="table table-bordered table-striped"
       >
         <thead>
           <tr
@@ -31,10 +36,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-title sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Title 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Title
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -47,10 +59,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-start-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Start Time 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Start Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -63,10 +82,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-end-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 End Time 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  End Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -79,10 +105,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-target-user sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Target User 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Target User
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -95,10 +128,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-style sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Style 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Style
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -110,11 +150,18 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </button>
             </th>
             <th
-              aria-sort="descending"
-              class="sortable-header"
+              aria-sort="none"
+              class="sort-by-create-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Creation Time 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Creation Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -122,29 +169,30 @@ exports[`NotificationsTableComponent should snap like in notification page with 
                   <i
                     class="fas fa-sort"
                   />
-                  <i
-                    class="fas fa-sort-down"
-                  />
                 </span>
               </button>
             </th>
-            <th>
-              Actions
+            <th
+              aria-sort="none"
+              style="text-align: start;"
+            >
+              <span
+                container="body"
+              >
+                Action(s)
+              </span>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            class="table-success"
-            id="notification1"
-          >
+          <tr>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               valid title 1
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               <span
                 class="ngb-tooltip-class"
@@ -153,7 +201,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </span>
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               <span
                 class="ngb-tooltip-class"
@@ -162,17 +210,21 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </span>
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
-              INSTRUCTOR
+              <span>
+                INSTRUCTOR
+              </span>
             </td>
             <td
-              class="text-break alert alert-success"
+              style="background-color: rgb(25, 135, 84);"
             >
-              Success (green)
+              <span>
+                Success (green)
+              </span>
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               <span
                 class="ngb-tooltip-class"
@@ -181,95 +233,87 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </span>
             </td>
             <td
-              class="actions-cell"
+              style="background-color: rgb(25, 135, 84);"
             >
-              <div
-                class="d-flex"
-              >
-                <button
-                  class="btn btn-light btn-sm"
-                  type="button"
-                >
-                   Edit 
-                </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
-                >
-                   Delete 
-                </button>
-              </div>
+              <ndc-dynamic />
+              <tm-group-buttons>
+                <div>
+                  <button
+                    class="btn btn-light btn-sm"
+                    style="margin-right: 6px;"
+                    type="button"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </tm-group-buttons>
             </td>
           </tr>
-          <tr
-            id="notification2"
-          >
-            <td
-              class="text-break"
-            >
+          <tr>
+            <td>
               valid title 2
             </td>
-            <td
-              class="text-break"
-            >
+            <td>
               <span
                 class="ngb-tooltip-class"
               >
                 15 Dec 9:30 AM
               </span>
             </td>
-            <td
-              class="text-break"
-            >
+            <td>
               <span
                 class="ngb-tooltip-class"
               >
                 15 Sep 9:30 AM
               </span>
             </td>
-            <td
-              class="text-break"
-            >
-              GENERAL
+            <td>
+              <span>
+                GENERAL
+              </span>
             </td>
-            <td
-              class="text-break alert alert-danger"
-            >
-              Danger (red)
+            <td>
+              <span>
+                Danger (red)
+              </span>
             </td>
-            <td
-              class="text-break"
-            >
+            <td>
               <span
                 class="ngb-tooltip-class"
               >
                 15 Nov 9:30 AM
               </span>
             </td>
-            <td
-              class="actions-cell"
-            >
-              <div
-                class="d-flex"
-              >
-                <button
-                  class="btn btn-light btn-sm"
-                  type="button"
-                >
-                   Edit 
-                </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
-                >
-                   Delete 
-                </button>
-              </div>
+            <td>
+              <ndc-dynamic />
+              <tm-group-buttons>
+                <div>
+                  <button
+                    class="btn btn-light btn-sm"
+                    style="margin-right: 6px;"
+                    type="button"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </tm-group-buttons>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </tm-sortable-table>
   </div>
 </tm-notifications-table>
 `;
@@ -279,25 +323,30 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  addNotificationEvent={[Function EventEmitter_]}
+  backgroundColor={[Function String]}
+  columnsData={[Function Array]}
+  dateBriefPipe={[Function FormatDateBriefPipe]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
   loadNotificationEditFormEvent={[Function EventEmitter_]}
-  notificationsTableRowModels={[Function Array]}
+  notificationStyleDescriptionPipe={[Function NotificationStyleDescriptionPipe]}
+  notifications={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
+  rowsData={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  timeZoneService={[Function TimezoneService]}
 >
-  <div
-    class="row"
-  >
-    <div
-      class="col-12 table-responsive"
-    >
+  <div>
+    <tm-sortable-table>
       <table
-        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-        id="notifications-table"
+        class="table table-bordered table-striped"
       >
         <thead>
           <tr
@@ -305,45 +354,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-title sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Title 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
                 <span
-                  aria-hidden="true"
-                  class="fa-stack"
+                  container="body"
                 >
-                  <i
-                    class="fas fa-sort"
-                  />
+                  Title
                 </span>
-              </button>
-            </th>
-            <th
-              aria-sort="descending"
-              class="sortable-header"
-            >
-              <button>
-                 Start Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 End Time 
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -356,10 +377,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-start-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Target User 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Start Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -372,10 +400,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-end-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Style 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  End Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -388,10 +423,17 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-target-user sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Creation Time 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Target User
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -402,23 +444,73 @@ exports[`NotificationsTableComponent should snap like in notification page with 
                 </span>
               </button>
             </th>
-            <th>
-              Actions
+            <th
+              aria-sort="none"
+              class="sort-by-style sortable-header"
+              style="text-align: start;"
+            >
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Style
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
+            </th>
+            <th
+              aria-sort="none"
+              class="sort-by-create-time sortable-header"
+              style="text-align: start;"
+            >
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Creation Time
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
+            </th>
+            <th
+              aria-sort="none"
+              style="text-align: start;"
+            >
+              <span
+                container="body"
+              >
+                Action(s)
+              </span>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            class="table-success"
-            id="notification1"
-          >
+          <tr>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               valid title 1
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               <span
                 class="ngb-tooltip-class"
@@ -427,7 +519,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </span>
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               <span
                 class="ngb-tooltip-class"
@@ -436,17 +528,21 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </span>
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
-              INSTRUCTOR
+              <span>
+                INSTRUCTOR
+              </span>
             </td>
             <td
-              class="text-break alert alert-success"
+              style="background-color: rgb(25, 135, 84);"
             >
-              Success (green)
+              <span>
+                Success (green)
+              </span>
             </td>
             <td
-              class="text-break"
+              style="background-color: rgb(25, 135, 84);"
             >
               <span
                 class="ngb-tooltip-class"
@@ -455,95 +551,87 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </span>
             </td>
             <td
-              class="actions-cell"
+              style="background-color: rgb(25, 135, 84);"
             >
-              <div
-                class="d-flex"
-              >
-                <button
-                  class="btn btn-light btn-sm"
-                  type="button"
-                >
-                   Edit 
-                </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
-                >
-                   Delete 
-                </button>
-              </div>
+              <ndc-dynamic />
+              <tm-group-buttons>
+                <div>
+                  <button
+                    class="btn btn-light btn-sm"
+                    style="margin-right: 6px;"
+                    type="button"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </tm-group-buttons>
             </td>
           </tr>
-          <tr
-            id="notification2"
-          >
-            <td
-              class="text-break"
-            >
+          <tr>
+            <td>
               valid title 2
             </td>
-            <td
-              class="text-break"
-            >
+            <td>
               <span
                 class="ngb-tooltip-class"
               >
                 15 Dec 9:30 AM
               </span>
             </td>
-            <td
-              class="text-break"
-            >
+            <td>
               <span
                 class="ngb-tooltip-class"
               >
                 15 Sep 9:30 AM
               </span>
             </td>
-            <td
-              class="text-break"
-            >
-              GENERAL
+            <td>
+              <span>
+                GENERAL
+              </span>
             </td>
-            <td
-              class="text-break alert alert-danger"
-            >
-              Danger (red)
+            <td>
+              <span>
+                Danger (red)
+              </span>
             </td>
-            <td
-              class="text-break"
-            >
+            <td>
               <span
                 class="ngb-tooltip-class"
               >
                 15 Nov 9:30 AM
               </span>
             </td>
-            <td
-              class="actions-cell"
-            >
-              <div
-                class="d-flex"
-              >
-                <button
-                  class="btn btn-light btn-sm"
-                  type="button"
-                >
-                   Edit 
-                </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
-                >
-                   Delete 
-                </button>
-              </div>
+            <td>
+              <ndc-dynamic />
+              <tm-group-buttons>
+                <div>
+                  <button
+                    class="btn btn-light btn-sm"
+                    style="margin-right: 6px;"
+                    type="button"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </tm-group-buttons>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </tm-sortable-table>
   </div>
 </tm-notifications-table>
 `;
@@ -553,25 +641,30 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  addNotificationEvent={[Function EventEmitter_]}
+  backgroundColor={[Function String]}
+  columnsData={[Function Array]}
+  dateBriefPipe={[Function FormatDateBriefPipe]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
   loadNotificationEditFormEvent={[Function EventEmitter_]}
-  notificationsTableRowModels={[Function Array]}
+  notificationStyleDescriptionPipe={[Function NotificationStyleDescriptionPipe]}
+  notifications={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
+  rowsData={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  timeZoneService={[Function TimezoneService]}
 >
-  <div
-    class="row"
-  >
-    <div
-      class="col-12 table-responsive"
-    >
+  <div>
+    <tm-sortable-table>
       <table
-        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-        id="notifications-table"
+        class="table table-bordered table-striped"
       >
         <thead>
           <tr
@@ -579,10 +672,17 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
           >
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-title sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Title 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Title
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -595,10 +695,17 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-start-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Start Time 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Start Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -611,10 +718,17 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-end-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 End Time 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  End Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -627,10 +741,17 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-target-user sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Target User 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Target User
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -643,10 +764,17 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="sortable-header"
+              class="sort-by-style sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Style 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Style
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -658,11 +786,18 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
               </button>
             </th>
             <th
-              aria-sort="descending"
-              class="sortable-header"
+              aria-sort="none"
+              class="sort-by-create-time sortable-header"
+              style="text-align: start;"
             >
-              <button>
-                 Creation Time 
+              <button
+                class="d-lg-flex align-items-center gap-lg-1 d-inline"
+              >
+                <span
+                  container="body"
+                >
+                  Creation Time
+                </span>
                 <span
                   aria-hidden="true"
                   class="fa-stack"
@@ -670,21 +805,25 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
                   <i
                     class="fas fa-sort"
                   />
-                  <i
-                    class="fas fa-sort-down"
-                  />
                 </span>
               </button>
             </th>
-            <th>
-              Actions
+            <th
+              aria-sort="none"
+              style="text-align: start;"
+            >
+              <span
+                container="body"
+              >
+                Action(s)
+              </span>
             </th>
           </tr>
         </thead>
         <tbody>
         </tbody>
       </table>
-    </div>
+    </tm-sortable-table>
   </div>
 </tm-notifications-table>
 `;
