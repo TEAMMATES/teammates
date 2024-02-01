@@ -146,7 +146,13 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
 
     @Test
     void testExecute_typicalCase_shouldGetOngoingSessionsDataCorrectly() {
+        // The Instant input parameters into the mock methods have a precision up to the nanoseconds, but the time
+        // input parameters into the Action only have a precision up to the milliseconds. We must truncate to
+        // milliseconds so that the mock methods can mock the exact time that the Action would parse, instead of
+        // mocking a time that is off by an amount of time less than a millisecond.
         Instant instantNow = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+        Instant start = instantNow.minus(Duration.ofDays(1L));
+        Instant end = instantNow.plus(Duration.ofDays(1L));
         Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");
         when(mockLogic.getCourse(course1.getId())).thenReturn(course1);
         Course course2 = new Course("test-id2", "test-name2", "UTC", "MIT");
@@ -183,8 +189,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                 instantNow.minus(Duration.ofDays(7L)), instantNow.minus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true, true);
-        Instant start = instantNow.minus(Duration.ofDays(1L));
-        Instant end = instantNow.plus(Duration.ofDays(1L));
         List<FeedbackSession> ongoingSqlSessions = new ArrayList<>();
         ongoingSqlSessions.add(c1Fs2);
         ongoingSqlSessions.add(c2Fs1);
@@ -205,7 +209,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         JsonResult r = getJsonResult(getOngoingSessionsAction);
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
-        assertEquals(ongoingSqlSessions.size(), response.getTotalOngoingSessions());
+        assertEquals(3, response.getTotalOngoingSessions());
         assertEquals(1, response.getTotalOpenSessions());
         assertEquals(1, response.getTotalClosedSessions());
         assertEquals(1, response.getTotalAwaitingSessions());
@@ -223,6 +227,10 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
 
     @Test
     void testExecute_ongoingSessionsInBothDatastoreAndSql_shouldGetOngoingSessionsDataCorrectly() {
+        // The Instant input parameters into the mock methods have a precision up to the nanoseconds, but the time
+        // input parameters into the Action only have a precision up to the milliseconds. We must truncate to
+        // milliseconds so that the mock methods can mock the exact time that the Action would parse, instead of
+        // mocking a time that is off by an amount of time less than a millisecond.
         Instant instantNow = Instant.now().truncatedTo(ChronoUnit.MILLIS);
         Instant start = instantNow.minus(Duration.ofDays(1L));
         Instant end = instantNow.plus(Duration.ofDays(1L));
