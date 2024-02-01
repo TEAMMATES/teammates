@@ -247,11 +247,7 @@ export class AdminNotificationsPageComponent implements OnInit {
           isHighlighted: true,
           notification,
         }, ...this.notificationsTableRowModels];
-
-        // this.notificationsTableRowModels.unshift({
-        //   isHighlighted: true,
-        //   notification,
-        // });
+        
         this.initNotificationEditFormModel();
         this.statusMessageService.showSuccessToast('Notification created successfully.');
       },
