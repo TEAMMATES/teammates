@@ -688,7 +688,7 @@ public final class UsersLogic {
         // update the new section name in responses
         if (changedSection) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
-                course, updatedStudent.getEmail(), updatedStudent.getSection());
+                    course, updatedStudent.getEmail(), updatedStudent.getSection());
         }
 
         return updatedStudent;
@@ -721,7 +721,7 @@ public final class UsersLogic {
      * Validates sections for any limit violations and teams for any team name violations.
      */
     public void validateSectionsAndTeams(
-        List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
+            List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
 
         List<StudentsEnrollRequest.StudentEnrollRequest> mergedList = getMergedList(studentList, courseId);
 
@@ -738,7 +738,7 @@ public final class UsersLogic {
     }
 
     private List<StudentsEnrollRequest.StudentEnrollRequest> getMergedList(
-        List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) {
+            List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) {
 
         List<StudentsEnrollRequest.StudentEnrollRequest> mergedList = new ArrayList<>();
         List<Student> studentsInCourse = getStudentsForCourse(courseId);

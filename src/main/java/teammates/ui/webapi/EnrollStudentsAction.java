@@ -100,7 +100,7 @@ public class EnrollStudentsAction extends Action {
                         Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
                         Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
                         Student newStudent = new Student(
-                            course, enrollRequest.getName(), enrollRequest.getEmail(), enrollRequest.getComments(), team);
+                                course, enrollRequest.getName(), enrollRequest.getEmail(), enrollRequest.getComments(), team);
                         Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
                         taskQueuer.scheduleStudentForSearchIndexing(
                                 updatedStudent.getCourse().toString(), updatedStudent.getEmail());
@@ -132,10 +132,8 @@ public class EnrollStudentsAction extends Action {
                         Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
                         Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
                         Student newStudent = new Student(
-                            course, enrollRequest.getName(), enrollRequest.getEmail(), enrollRequest.getComments(), team);
-                        // Student newStudent = new Student(null, courseId, courseId, courseId)
+                                course, enrollRequest.getName(), enrollRequest.getEmail(), enrollRequest.getComments(), team);
                         newStudent = sqlLogic.createStudent(newStudent);
-                        // Student newStudent = sqlLogic.createStudent(student);
                         taskQueuer.scheduleStudentForSearchIndexing(
                                 newStudent.getCourse().toString(), newStudent.getEmail());
                         enrolledStudents.add(StudentAttributes.valueOf(newStudent));

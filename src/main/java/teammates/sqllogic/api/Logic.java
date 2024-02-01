@@ -1232,7 +1232,7 @@ public class Logic {
      * @see StudentsLogic#validateSectionsAndTeams(List, String)
      */
     public void validateSectionsAndTeams(
-        List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
+            List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
 
         assert studentList != null;
         assert courseId != null;
