@@ -51,6 +51,7 @@ public class UpdateFeedbackQuestionAction extends Action {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(questionAttributes.getCourseId(), userInfo.getId()),
                     getNonNullFeedbackSession(questionAttributes.getFeedbackSessionName(), questionAttributes.getCourseId()),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            return;
         }
 
         gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(question.getCourseId(), userInfo.getId()),
