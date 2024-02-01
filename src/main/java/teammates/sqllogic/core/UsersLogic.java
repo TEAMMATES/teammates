@@ -36,6 +36,8 @@ import teammates.storage.sqlentity.User;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.StudentsEnrollRequest;
+import teammates.ui.request.StudentsEnrollRequest.StudentEnrollRequest;
 
 /**
  * Handles operations related to user (instructor & student).
@@ -635,18 +637,18 @@ public final class UsersLogic {
         }
     }
 
-    private boolean isTeamChanged(String originalTeam, String newTeam) {
+    private boolean isTeamChanged(Team originalTeam, Team newTeam) {
         return newTeam != null && originalTeam != null
                 && !originalTeam.equals(newTeam);
     }
 
-    private boolean isSectionChanged(String originalSection, String newSection) {
+    private boolean isSectionChanged(Section originalSection, Section newSection) {
         return newSection != null && originalSection != null
                 && !originalSection.equals(newSection);
     }
 
     /**
-     * Updates a student by {@link StudentAttributes}.
+     * Updates a student by {@link Student}.
      *
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
@@ -659,19 +661,18 @@ public final class UsersLogic {
      * @throws EntityAlreadyExistsException if the student cannot be updated
      *         by recreation because of an existent student
      */
-    public Student updateStudentCascade(StudentAttributes student)
+    public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Student originalStudent = getStudentForEmail(student.getCourse(), student.getEmail());
+        Student originalStudent = getStudentForEmail(student.getCourseId(), student.getEmail());
         Team originalTeam = originalStudent.getTeam();
-        Section section = getSectionOrCreate(student.getCourse(), student.getSection());
-        Team team = getTeamOrCreate(section, student.getTeam());
+        Section originalSection = originalStudent.getSection();
 
-        boolean changedTeam = isTeamChanged(originalStudent.getTeam().toString(), student.getTeam());
-        boolean changedSection = isSectionChanged(originalStudent.getSection().toString(), student.getSection());
+        boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
+        boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
         originalStudent.setName(student.getName());
-        originalStudent.setTeam(team);
+        originalStudent.setTeam(student.getTeam());
         originalStudent.setEmail(student.getEmail());
         originalStudent.setComments(student.getComments());
 
@@ -681,12 +682,13 @@ public final class UsersLogic {
         // adjust submissions if moving to a different team
         if (changedTeam) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(),
-                    team, originalTeam);
+                    updatedStudent.getTeam(), originalTeam);
         }
 
         // update the new section name in responses
         if (changedSection) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(course, updatedStudent.getEmail(), section);
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
+                course, updatedStudent.getEmail(), updatedStudent.getSection());
         }
 
         return updatedStudent;
@@ -718,9 +720,10 @@ public final class UsersLogic {
     /**
      * Validates sections for any limit violations and teams for any team name violations.
      */
-    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
+    public void validateSectionsAndTeams(
+        List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
 
-        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
+        List<StudentsEnrollRequest.StudentEnrollRequest> mergedList = getMergedList(studentList, courseId);
 
         if (mergedList.size() < 2) { // no conflicts
             return;
@@ -734,18 +737,25 @@ public final class UsersLogic {
 
     }
 
-    private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
+    private List<StudentsEnrollRequest.StudentEnrollRequest> getMergedList(
+        List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) {
 
-        List<StudentAttributes> mergedList = new ArrayList<>();
-        List<StudentAttributes> studentsInCourse = getStudentAttributeList(getStudentsForCourse(courseId));
+        List<StudentsEnrollRequest.StudentEnrollRequest> mergedList = new ArrayList<>();
+        List<Student> studentsInCourse = getStudentsForCourse(courseId);
 
-        for (StudentAttributes student : studentList) {
-            mergedList.add(student);
+        for (StudentsEnrollRequest.StudentEnrollRequest studentRequest : studentList) {
+            mergedList.add(studentRequest);
         }
 
-        for (StudentAttributes student : studentsInCourse) {
+        for (Student student : studentsInCourse) {
             if (!isInEnrollList(student, mergedList)) {
-                mergedList.add(student);
+                StudentEnrollRequest request = new StudentEnrollRequest(
+                        student.getName(),
+                        student.getEmail(),
+                        student.getTeam().toString(),
+                        student.getSection().toString(),
+                        student.getComments());
+                mergedList.add(request);
             }
         }
         return mergedList;
@@ -763,15 +773,16 @@ public final class UsersLogic {
         return students.get(0).getSection();
     }
 
-    private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
+    private String getSectionInvalidityInfo(List<StudentsEnrollRequest.StudentEnrollRequest> mergedList) {
 
-        StudentAttributes.sortBySectionName(mergedList);
+        mergedList.sort(Comparator.comparing((StudentEnrollRequest student) -> student.getSection())
+                .thenComparing(student -> student.getName()));
 
         List<String> invalidSectionList = new ArrayList<>();
         int studentsCount = 1;
         for (int i = 1; i < mergedList.size(); i++) {
-            StudentAttributes currentStudent = mergedList.get(i);
-            StudentAttributes previousStudent = mergedList.get(i - 1);
+            StudentsEnrollRequest.StudentEnrollRequest currentStudent = mergedList.get(i);
+            StudentsEnrollRequest.StudentEnrollRequest previousStudent = mergedList.get(i - 1);
             if (currentStudent.getSection().equals(previousStudent.getSection())) {
                 studentsCount++;
             } else {
@@ -802,14 +813,15 @@ public final class UsersLogic {
         return errorMessage.toString();
     }
 
-    private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
+    private String getTeamInvalidityInfo(List<StudentsEnrollRequest.StudentEnrollRequest> mergedList) {
         StringJoiner errorMessage = new StringJoiner(" ");
-        StudentAttributes.sortByTeamName(mergedList);
+        mergedList.sort(Comparator.comparing((StudentEnrollRequest student) -> student.getTeam())
+                .thenComparing(student -> student.getName()));
 
         List<String> invalidTeamList = new ArrayList<>();
         for (int i = 1; i < mergedList.size(); i++) {
-            StudentAttributes currentStudent = mergedList.get(i);
-            StudentAttributes previousStudent = mergedList.get(i - 1);
+            StudentsEnrollRequest.StudentEnrollRequest currentStudent = mergedList.get(i);
+            StudentsEnrollRequest.StudentEnrollRequest previousStudent = mergedList.get(i - 1);
             if (currentStudent.getTeam().equals(previousStudent.getTeam())
                     && !currentStudent.getSection().equals(previousStudent.getSection())
                     && !invalidTeamList.contains(currentStudent.getTeam())) {
@@ -838,9 +850,9 @@ public final class UsersLogic {
         return studentAttributesList;
     }
 
-    private boolean isInEnrollList(StudentAttributes student,
-            List<StudentAttributes> studentInfoList) {
-        for (StudentAttributes studentInfo : studentInfoList) {
+    private boolean isInEnrollList(Student student,
+            List<StudentsEnrollRequest.StudentEnrollRequest> studentInfoList) {
+        for (StudentsEnrollRequest.StudentEnrollRequest studentInfo : studentInfoList) {
             if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;
             }

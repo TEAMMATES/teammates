@@ -12,7 +12,6 @@ import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -50,6 +49,7 @@ import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.StudentsEnrollRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -269,7 +269,7 @@ public class Logic {
     }
 
     /**
-     * Updates a student by {@link StudentAttributes}.
+     * Updates a student by {@link Student}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses
      * the student gives/receives as well as any deadline extensions given to the student.
@@ -287,7 +287,7 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the student cannot be updated
      *         by recreation because of an existent student
      */
-    public Student updateStudentCascade(StudentAttributes student)
+    public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert student != null;
@@ -868,22 +868,6 @@ public class Logic {
     }
 
     /**
-     * Creates a student from StudentAttributes.
-     *
-     * @return the created student
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the database.
-     */
-    public Student createStudent(StudentAttributes student) throws InvalidParametersException, EntityAlreadyExistsException {
-        Course course = getCourse(student.getCourse());
-        Section section = getSectionOrCreate(student.getCourse(), student.getSection());
-        Team team = getTeamOrCreate(section, student.getTeam());
-        Student newStudent = new Student(course, student.getName(), student.getEmail(), student.getComments(), team);
-
-        return usersLogic.createStudent(newStudent);
-    }
-
-    /**
      * Deletes a student cascade its associated feedback responses, deadline
      * extensions and comments.
      *
@@ -1247,7 +1231,8 @@ public class Logic {
      *
      * @see StudentsLogic#validateSectionsAndTeams(List, String)
      */
-    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
+    public void validateSectionsAndTeams(
+        List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
 
         assert studentList != null;
         assert courseId != null;
