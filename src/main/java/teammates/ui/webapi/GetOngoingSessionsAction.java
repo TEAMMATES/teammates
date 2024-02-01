@@ -49,8 +49,8 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
             instituteToFeedbackSessionsMap.computeIfAbsent(sqlInstitute, k -> new ArrayList<>())
                     .addAll(sqlFeedbackSessions);
         }
-        OngoingSessionsData output =
-                createOutput(ongoingSqlSessions, allOngoingSessions, instituteToFeedbackSessionsMap);
+        OngoingSessionsData output = createOutput(courseIdToFeedbackSessionsSqlMap, courseIdToFeedbackSessionsMap,
+                instituteToFeedbackSessionsMap);
         return new JsonResult(output);
     }
 
@@ -145,33 +145,39 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         return instituteToFeedbackSessionsMap;
     }
 
-    private OngoingSessionsData createOutput(List<FeedbackSession> ongoingSqlSessions,
-            List<FeedbackSessionAttributes> allOngoingSessions,
+    private OngoingSessionsData createOutput(Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsSqlMap,
+            Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap,
             Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap) {
-        int totalOngoingSessions = ongoingSqlSessions.size() + allOngoingSessions.size();
+        int totalOngoingSessions = 0;
         int totalOpenSessions = 0;
         int totalClosedSessions = 0;
         int totalAwaitingSessions = 0;
-        for (FeedbackSession fs : ongoingSqlSessions) {
-            if (fs.isOpened()) {
-                totalOpenSessions++;
-            }
-            if (fs.isClosed()) {
-                totalClosedSessions++;
-            }
-            if (fs.isWaitingToOpen()) {
-                totalAwaitingSessions++;
+        for (List<FeedbackSession> feedbackSessions : courseIdToFeedbackSessionsSqlMap.values()) {
+            totalOngoingSessions += feedbackSessions.size();
+            for (FeedbackSession fs : feedbackSessions) {
+                if (fs.isOpened()) {
+                    totalOpenSessions++;
+                }
+                if (fs.isClosed()) {
+                    totalClosedSessions++;
+                }
+                if (fs.isWaitingToOpen()) {
+                    totalAwaitingSessions++;
+                }
             }
         }
-        for (FeedbackSessionAttributes fs : allOngoingSessions) {
-            if (fs.isOpened()) {
-                totalOpenSessions++;
-            }
-            if (fs.isClosed()) {
-                totalClosedSessions++;
-            }
-            if (fs.isWaitingToOpen()) {
-                totalAwaitingSessions++;
+        for (List<FeedbackSessionAttributes> feedbackSessions : courseIdToFeedbackSessionsMap.values()) {
+            totalOngoingSessions += feedbackSessions.size();
+            for (FeedbackSessionAttributes fs : feedbackSessions) {
+                if (fs.isOpened()) {
+                    totalOpenSessions++;
+                }
+                if (fs.isClosed()) {
+                    totalClosedSessions++;
+                }
+                if (fs.isWaitingToOpen()) {
+                    totalAwaitingSessions++;
+                }
             }
         }
         long totalInstitutes = instituteToFeedbackSessionsMap.keySet().stream()

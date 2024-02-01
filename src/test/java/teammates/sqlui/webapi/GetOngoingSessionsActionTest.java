@@ -15,6 +15,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissionRoleNames;
 import teammates.storage.sqlentity.Account;
@@ -212,6 +214,92 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getGoogleId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
         OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getGoogleId());
+        expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
+        OngoingSession expectedOngoingC3Fs1 = new OngoingSession(c3Fs1, instructor4.getGoogleId());
+        expectedSessions.put("UCL", Collections.singletonList(expectedOngoingC3Fs1));
+        Map<String, List<OngoingSession>> actualSessions = response.getSessions();
+        assertEqualSessions(expectedSessions, actualSessions);
+    }
+
+    @Test
+    void testExecute_ongoingSessionsInBothDatastoreAndSql_shouldGetOngoingSessionsDataCorrectly() {
+        Instant instantNow = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+        Instant start = instantNow.minus(Duration.ofDays(1L));
+        Instant end = instantNow.plus(Duration.ofDays(1L));
+        Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");
+        when(mockLogic.getCourse(course1.getId())).thenReturn(course1);
+        Course course2 = new Course("test-id2", "test-name2", "UTC", "MIT");
+        when(mockLogic.getCourse(course2.getId())).thenReturn(course2);
+        Account instructor2Account = new Account("instructor2", "instructor2", "test2@test.com");
+        Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+        instructor2.setAccount(instructor2Account);
+        when(mockLogic.getInstructorsByCourse(course1.getId())).thenReturn(Collections.singletonList(instructor2));
+        Account instructor3Account = new Account("instructor3", "instructor3", "test3@test.com");
+        Instructor instructor3 = new Instructor(course2, "instructor3", "test3@test.com", false, "instructor3",
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+        instructor3.setAccount(instructor3Account);
+        when(mockLogic.getInstructorsByCourse(course2.getId())).thenReturn(Collections.singletonList(instructor3));
+        FeedbackSession sqlC1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
+                instantNow.plus(Duration.ofHours(12L)), instantNow.plus(Duration.ofDays(7L)),
+                instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
+                true, true, true);
+        FeedbackSession sqlC2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
+                instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
+                instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
+                true, true, true);
+        List<FeedbackSession> ongoingSqlSessions = new ArrayList<>();
+        ongoingSqlSessions.add(sqlC1Fs2);
+        ongoingSqlSessions.add(sqlC2Fs1);
+        when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSqlSessions);
+        when(mockDatastoreLogic.getCourseInstitute("test-id3")).thenReturn("UCL");
+        InstructorAttributes instructor4 = InstructorAttributes.builder("test-id3", "test4@test.com")
+                .withGoogleId("instructor4")
+                .build();
+        when(mockDatastoreLogic.getInstructorsForCourse("test-id3")).thenReturn(Collections.singletonList(instructor4));
+        FeedbackSessionAttributes c2Fs1 = FeedbackSessionAttributes.builder("name2-1", "test-id2")
+                .withCreatorEmail("test3@test.com")
+                .withStartTime(instantNow.minus(Duration.ofHours(12L)))
+                .withEndTime(instantNow.plus(Duration.ofHours(12L)))
+                .withSessionVisibleFromTime(instantNow.minus(Duration.ofDays(7L)))
+                .withResultsVisibleFromTime(instantNow.plus(Duration.ofDays(7L)))
+                .build();
+        FeedbackSessionAttributes c3Fs1 = FeedbackSessionAttributes.builder("name3-1", "test-id3")
+                .withCreatorEmail("test4@test.com")
+                .withStartTime(instantNow.minus(Duration.ofDays(7L)))
+                .withEndTime(instantNow.minus(Duration.ofHours(12L)))
+                .withSessionVisibleFromTime(instantNow.minus(Duration.ofDays(7L)))
+                .withResultsVisibleFromTime(instantNow.plus(Duration.ofDays(7L)))
+                .build();
+        List<FeedbackSessionAttributes> allOngoingSessions = new ArrayList<>();
+        allOngoingSessions.add(c2Fs1);
+        allOngoingSessions.add(c3Fs1);
+        when(mockDatastoreLogic.getAllOngoingSessions(start, end)).thenReturn(allOngoingSessions);
+
+        long startTime = start.toEpochMilli();
+        long endTime = end.toEpochMilli();
+        String startTimeString = String.valueOf(startTime);
+        String endTimeString = String.valueOf(endTime);
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTimeString,
+                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, endTimeString,
+        };
+
+        GetOngoingSessionsAction getOngoingSessionsAction = getAction(params);
+        JsonResult r = getJsonResult(getOngoingSessionsAction);
+        OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
+
+        assertEquals(3, response.getTotalOngoingSessions());
+        assertEquals(1, response.getTotalOpenSessions());
+        assertEquals(1, response.getTotalClosedSessions());
+        assertEquals(1, response.getTotalAwaitingSessions());
+        assertEquals(3L, response.getTotalInstitutes());
+        Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
+        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(sqlC1Fs2, instructor2.getGoogleId());
+        expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
+        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(sqlC2Fs1, instructor3.getGoogleId());
         expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
         OngoingSession expectedOngoingC3Fs1 = new OngoingSession(c3Fs1, instructor4.getGoogleId());
         expectedSessions.put("UCL", Collections.singletonList(expectedOngoingC3Fs1));
