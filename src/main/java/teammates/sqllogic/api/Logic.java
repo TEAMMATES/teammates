@@ -13,6 +13,7 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -1239,7 +1240,23 @@ public class Logic {
     }
 
     /**
-     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     * Validates sections for any limit violations and teams for any team name violations.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see StudentsLogic#validateSectionsAndTeams(List, String)
+     */
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
+
+        assert studentList != null;
+        assert courseId != null;
+
+        usersLogic.validateSectionsAndTeams(studentList, courseId);
+    }
+
+    /**
+     * Updates a feedback question by {@code FeedbackQuestionUpdateRequest}.
      *
      * <p>Cascade adjust the question number of questions in the same session.
      *

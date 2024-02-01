@@ -7,12 +7,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -42,6 +44,15 @@ import teammates.ui.request.InstructorCreateRequest;
  * @see UsersDb
  */
 public final class UsersLogic {
+
+    static final String ERROR_INVALID_TEAM_NAME =
+            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
+            "Please use different team names in different sections.";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+            "You are trying enroll more than %s students in section \"%s\".";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
+            "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
     private static final UsersLogic instance = new UsersLogic();
 
@@ -702,6 +713,139 @@ public final class UsersLogic {
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
             accountsLogic.deleteAccountCascade(googleId);
         }
+    }
+
+    /**
+     * Validates sections for any limit violations and teams for any team name violations.
+     */
+    public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
+
+        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
+
+        if (mergedList.size() < 2) { // no conflicts
+            return;
+        }
+
+        String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
+
+        if (!errorMessage.isEmpty()) {
+            throw new EnrollException(errorMessage);
+        }
+
+    }
+
+    private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
+
+        List<StudentAttributes> mergedList = new ArrayList<>();
+        List<StudentAttributes> studentsInCourse = getStudentAttributeList(getStudentsForCourse(courseId));
+
+        for (StudentAttributes student : studentList) {
+            mergedList.add(student);
+        }
+
+        for (StudentAttributes student : studentsInCourse) {
+            if (!isInEnrollList(student, mergedList)) {
+                mergedList.add(student);
+            }
+        }
+        return mergedList;
+    }
+
+    /**
+     * Returns the section name for the given team name for the given course.
+     */
+    public String getSectionForTeam(String courseId, String teamName) {
+
+        List<StudentAttributes> students = getStudentAttributeList(getStudentsForTeam(teamName, courseId));
+        if (students.isEmpty()) {
+            return Const.DEFAULT_SECTION;
+        }
+        return students.get(0).getSection();
+    }
+
+    private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
+
+        StudentAttributes.sortBySectionName(mergedList);
+
+        List<String> invalidSectionList = new ArrayList<>();
+        int studentsCount = 1;
+        for (int i = 1; i < mergedList.size(); i++) {
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i - 1);
+            if (currentStudent.getSection().equals(previousStudent.getSection())) {
+                studentsCount++;
+            } else {
+                if (studentsCount > Const.SECTION_SIZE_LIMIT) {
+                    invalidSectionList.add(previousStudent.getSection());
+                }
+                studentsCount = 1;
+            }
+
+            if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
+                invalidSectionList.add(currentStudent.getSection());
+            }
+        }
+
+        StringJoiner errorMessage = new StringJoiner(" ");
+        for (String section : invalidSectionList) {
+            errorMessage.add(String.format(
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                    Const.SECTION_SIZE_LIMIT, section));
+        }
+
+        if (!invalidSectionList.isEmpty()) {
+            errorMessage.add(String.format(
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                    Const.SECTION_SIZE_LIMIT));
+        }
+
+        return errorMessage.toString();
+    }
+
+    private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
+        StringJoiner errorMessage = new StringJoiner(" ");
+        StudentAttributes.sortByTeamName(mergedList);
+
+        List<String> invalidTeamList = new ArrayList<>();
+        for (int i = 1; i < mergedList.size(); i++) {
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i - 1);
+            if (currentStudent.getTeam().equals(previousStudent.getTeam())
+                    && !currentStudent.getSection().equals(previousStudent.getSection())
+                    && !invalidTeamList.contains(currentStudent.getTeam())) {
+
+                errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
+                        currentStudent.getTeam(),
+                        previousStudent.getSection(),
+                        currentStudent.getSection()));
+
+                invalidTeamList.add(currentStudent.getTeam());
+            }
+        }
+
+        if (!invalidTeamList.isEmpty()) {
+            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
+        }
+
+        return errorMessage.toString();
+    }
+
+    private List<StudentAttributes> getStudentAttributeList(List<Student> students) {
+        List<StudentAttributes> studentAttributesList = new ArrayList<>();
+        for (Student student : students) {
+            studentAttributesList.add(StudentAttributes.valueOf(student));
+        }
+        return studentAttributesList;
+    }
+
+    private boolean isInEnrollList(StudentAttributes student,
+            List<StudentAttributes> studentInfoList) {
+        for (StudentAttributes studentInfo : studentInfoList) {
+            if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
