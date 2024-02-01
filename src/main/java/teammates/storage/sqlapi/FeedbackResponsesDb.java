@@ -14,9 +14,11 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 
 /**
  * Handles CRUD operations for feedbackResponses.
@@ -135,12 +137,15 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      */
     public void deleteFeedbackResponsesForQuestionCascade(UUID feedbackQuestionId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
-        Root<FeedbackResponse> frRoot = cq.from(FeedbackResponse.class);
-        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
-        cq.select(frRoot).where(cb.equal(fqJoin.get("id"), feedbackQuestionId));
-        List<FeedbackResponse> frToBeDeleted = HibernateUtil.createQuery(cq).getResultList();
-        frToBeDeleted.forEach(feedbackResponse -> delete(feedbackResponse));
+        CriteriaDelete<FeedbackResponse> cd = cb.createCriteriaDelete(FeedbackResponse.class);
+        Root<FeedbackResponse> frRoot = cd.from(FeedbackResponse.class);
+        Subquery<UUID> subquery = cd.subquery(UUID.class);
+        Root<FeedbackResponse> subqueryRoot = subquery.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> sqJoin = subqueryRoot.join("feedbackQuestion");
+        subquery.select(subqueryRoot.get("id"));
+        subquery.where(cb.equal(sqJoin.get("id"), feedbackQuestionId));
+        cd.where(cb.in(frRoot.get("id")).value(subquery));
+        HibernateUtil.createMutationQuery(cd).executeUpdate();
     }
 
     /**
