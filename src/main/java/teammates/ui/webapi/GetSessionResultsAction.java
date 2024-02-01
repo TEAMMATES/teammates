@@ -6,13 +6,16 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
 /**
  * Gets feedback session results including statistics where necessary.
  */
-class GetSessionResultsAction extends Action {
+public class GetSessionResultsAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -23,34 +26,66 @@ class GetSessionResultsAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        FeedbackSessionAttributes fs = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        switch (intent) {
-        case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-            gateKeeper.verifyAccessible(instructor, fs);
-            break;
-        case INSTRUCTOR_RESULT:
-            instructor = getPossiblyUnregisteredInstructor(courseId);
-            gateKeeper.verifyAccessible(instructor, fs);
-            if (!fs.isPublished()) {
-                throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
+        
+        if (isCourseMigrated(courseId)) {
+            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+            
+            switch (intent) {
+                case FULL_DETAIL:
+                    gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                    Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+                    gateKeeper.verifyAccessible(instructor, feedbackSession);
+                    break;
+                case INSTRUCTOR_RESULT:
+                    instructor = getPossiblyUnregisteredSqlInstructor(courseId);
+                    gateKeeper.verifyAccessible(instructor, feedbackSession);
+                    if (!feedbackSession.isPublished()) {
+                        throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
+                    }
+                    break;
+                case STUDENT_RESULT:
+                    Student student = getPossiblyUnregisteredSqlStudent(courseId);
+                    gateKeeper.verifyAccessible(student, feedbackSession);
+                    if (!feedbackSession.isPublished()) {
+                        throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
+                    }
+                    break;
+                case INSTRUCTOR_SUBMISSION:
+                case STUDENT_SUBMISSION:
+                    throw new InvalidHttpParameterException("Invalid intent for this action");
+                default:
+                    throw new InvalidHttpParameterException("Unknown intent " + intent);
+                }
+        } else {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
+            switch (intent) {
+            case FULL_DETAIL:
+                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+                gateKeeper.verifyAccessible(instructor, feedbackSession);
+                break;
+            case INSTRUCTOR_RESULT:
+                instructor = getPossiblyUnregisteredInstructor(courseId);
+                gateKeeper.verifyAccessible(instructor, feedbackSession);
+                if (!feedbackSession.isPublished()) {
+                    throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
+                }
+                break;
+            case STUDENT_RESULT:
+                StudentAttributes student = getPossiblyUnregisteredStudent(courseId);
+                gateKeeper.verifyAccessible(student, feedbackSession);
+                if (!feedbackSession.isPublished()) {
+                    throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
+                }
+                break;
+            case INSTRUCTOR_SUBMISSION:
+            case STUDENT_SUBMISSION:
+                throw new InvalidHttpParameterException("Invalid intent for this action");
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
-            break;
-        case STUDENT_RESULT:
-            StudentAttributes student = getPossiblyUnregisteredStudent(courseId);
-            gateKeeper.verifyAccessible(student, fs);
-            if (!fs.isPublished()) {
-                throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
-            }
-            break;
-        case INSTRUCTOR_SUBMISSION:
-        case STUDENT_SUBMISSION:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
     }
 
