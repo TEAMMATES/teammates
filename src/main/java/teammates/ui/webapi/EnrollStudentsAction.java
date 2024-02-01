@@ -66,36 +66,28 @@ public class EnrollStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = enrollRequests.getStudentEnrollRequests();
-
-        try {
-            sqlLogic.validateSectionsAndTeams(studentEnrollRequests, courseId);
-        } catch (EnrollException e) {
-            throw new InvalidOperationException(e);
-        }
-
         boolean isCourseMigrated = isCourseMigrated(courseId);
 
-        List<StudentAttributes> enrolledStudents = new ArrayList<>();
-        List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
-
-        Set<String> existingStudentsEmail;
-
         if (isCourseMigrated) {
+            try {
+                sqlLogic.validateSectionsAndTeams(studentEnrollRequests, courseId);
+            } catch (EnrollException e) {
+                throw new InvalidOperationException(e);
+            }
+
+            List<Student> enrolledStudents = new ArrayList<>();
+            List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
+            Set<String> existingStudentsEmail;
+
             List<Student> existingStudents = sqlLogic.getStudentsForCourse(courseId);
             existingStudentsEmail =
                     existingStudents.stream().map(Student::getEmail).collect(Collectors.toSet());
-        } else {
-            List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
-            existingStudentsEmail =
-                    existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
-        }
 
-        for (StudentsEnrollRequest.StudentEnrollRequest enrollRequest : studentEnrollRequests) {
-            RequestTracer.checkRemainingTime();
-            if (existingStudentsEmail.contains(enrollRequest.getEmail())) {
-                // The student has been enrolled in the course.
-                try {
-                    if (isCourseMigrated) {
+            for (StudentsEnrollRequest.StudentEnrollRequest enrollRequest : studentEnrollRequests) {
+                RequestTracer.checkRemainingTime();
+                if (existingStudentsEmail.contains(enrollRequest.getEmail())) {
+                    // The student has been enrolled in the course.
+                    try {
                         Course course = sqlLogic.getCourse(courseId);
                         Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
                         Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
@@ -105,30 +97,16 @@ public class EnrollStudentsAction extends Action {
                         Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
                         taskQueuer.scheduleStudentForSearchIndexing(
                                 updatedStudent.getCourse().toString(), updatedStudent.getEmail());
-                        enrolledStudents.add(StudentAttributes.valueOf(updatedStudent));
-                    } else {
-                        StudentAttributes.UpdateOptions updateOptions =
-                                StudentAttributes.updateOptionsBuilder(courseId, enrollRequest.getEmail())
-                                .withName(enrollRequest.getName())
-                                .withSectionName(enrollRequest.getSection())
-                                .withTeamName(enrollRequest.getTeam())
-                                .withComment(enrollRequest.getComments())
-                                .build();
-                        StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
-                        taskQueuer.scheduleStudentForSearchIndexing(
-                                updatedStudent.getCourse(), updatedStudent.getEmail());
                         enrolledStudents.add(updatedStudent);
+                    } catch (InvalidParametersException | EntityDoesNotExistException
+                            | EntityAlreadyExistsException exception) {
+                        // Unsuccessfully enrolled students will not be returned.
+                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
+                                exception.getMessage()));
                     }
-                } catch (InvalidParametersException | EntityDoesNotExistException
-                        | EntityAlreadyExistsException exception) {
-                    // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
-                            exception.getMessage()));
-                }
-            } else {
-                // The student is new.
-                try {
-                    if (isCourseMigrated) {
+                } else {
+                    // The student is new.
+                    try {
                         Course course = sqlLogic.getCourse(courseId);
                         Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
                         Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
@@ -138,34 +116,102 @@ public class EnrollStudentsAction extends Action {
                         newStudent = sqlLogic.createStudent(newStudent);
                         taskQueuer.scheduleStudentForSearchIndexing(
                                 newStudent.getCourse().toString(), newStudent.getEmail());
-                        enrolledStudents.add(StudentAttributes.valueOf(newStudent));
-                    } else {
-                        StudentAttributes studentAttributes = StudentAttributes.builder(courseId, enrollRequest.getEmail())
-                                .withName(enrollRequest.getName())
-                                .withSectionName(enrollRequest.getSection())
-                                .withTeamName(enrollRequest.getTeam())
-                                .withComment(enrollRequest.getComments())
+                        enrolledStudents.add(newStudent);
+                    } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
+                        // Unsuccessfully enrolled students will not be returned.
+                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
+                                exception.getMessage()));
+                    }
+                }
+            }
+
+            List<StudentData> studentDataList = enrolledStudents
+                    .stream()
+                    .map(StudentData::new)
+                    .collect(Collectors.toList());
+            StudentsData data = new StudentsData();
+
+            data.setStudents(studentDataList);
+
+            return new JsonResult(new EnrollStudentsData(data, failToEnrollStudents));
+
+        } else {
+            List<StudentAttributes> studentsToEnroll = new ArrayList<>();
+            enrollRequests.getStudentEnrollRequests().forEach(studentEnrollRequest -> {
+                studentsToEnroll.add(StudentAttributes.builder(courseId, studentEnrollRequest.getEmail())
+                        .withName(studentEnrollRequest.getName())
+                        .withSectionName(studentEnrollRequest.getSection())
+                        .withTeamName(studentEnrollRequest.getTeam())
+                        .withComment(studentEnrollRequest.getComments())
+                        .build());
+            });
+
+            try {
+                logic.validateSectionsAndTeams(studentsToEnroll, courseId);
+            } catch (EnrollException e) {
+                throw new InvalidOperationException(e);
+            }
+
+            List<StudentAttributes> enrolledStudents = new ArrayList<>();
+            List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
+            Set<String> existingStudentsEmail;
+
+            List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
+            existingStudentsEmail =
+                    existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
+
+            for (StudentAttributes student : studentsToEnroll) {
+                RequestTracer.checkRemainingTime();
+                if (existingStudentsEmail.contains(student.getEmail())) {
+                    // The student has been enrolled in the course.
+                    try {
+                        StudentAttributes.UpdateOptions updateOptions =
+                                StudentAttributes.updateOptionsBuilder(courseId, student.getEmail())
+                                .withName(student.getName())
+                                .withSectionName(student.getSection())
+                                .withTeamName(student.getTeam())
+                                .withComment(student.getComments())
+                                .build();
+                        StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
+                        taskQueuer.scheduleStudentForSearchIndexing(
+                                updatedStudent.getCourse(), updatedStudent.getEmail());
+                        enrolledStudents.add(updatedStudent);
+                    } catch (InvalidParametersException | EntityDoesNotExistException
+                            | EntityAlreadyExistsException exception) {
+                        // Unsuccessfully enrolled students will not be returned.
+                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
+                                exception.getMessage()));
+                    }
+                } else {
+                    // The student is new.
+                    try {
+                        StudentAttributes studentAttributes = StudentAttributes.builder(courseId, student.getEmail())
+                                .withName(student.getName())
+                                .withSectionName(student.getSection())
+                                .withTeamName(student.getTeam())
+                                .withComment(student.getComments())
                                 .build();
                         StudentAttributes newStudent = logic.createStudent(studentAttributes);
                         taskQueuer.scheduleStudentForSearchIndexing(newStudent.getCourse(), newStudent.getEmail());
                         enrolledStudents.add(newStudent);
+                    } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
+                        // Unsuccessfully enrolled students will not be returned.
+                        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
+                                exception.getMessage()));
                     }
-                } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
-                    // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
-                            exception.getMessage()));
                 }
             }
+
+            List<StudentData> studentDataList = enrolledStudents
+                    .stream()
+                    .map(StudentData::new)
+                    .collect(Collectors.toList());
+            StudentsData data = new StudentsData();
+
+            data.setStudents(studentDataList);
+
+            return new JsonResult(new EnrollStudentsData(data, failToEnrollStudents));
+
         }
-
-        List<StudentData> studentDataList = enrolledStudents
-                .stream()
-                .map(StudentData::new)
-                .collect(Collectors.toList());
-        StudentsData data = new StudentsData();
-
-        data.setStudents(studentDataList);
-
-        return new JsonResult(new EnrollStudentsData(data, failToEnrollStudents));
     }
 }

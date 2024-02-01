@@ -734,7 +734,6 @@ public final class UsersLogic {
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
         }
-
     }
 
     private List<StudentsEnrollRequest.StudentEnrollRequest> getMergedList(
@@ -752,9 +751,10 @@ public final class UsersLogic {
                 StudentEnrollRequest request = new StudentEnrollRequest(
                         student.getName(),
                         student.getEmail(),
-                        student.getTeam().toString(),
-                        student.getSection().toString(),
+                        student.getTeam().getName(),
+                        student.getSection().getName(),
                         student.getComments());
+
                 mergedList.add(request);
             }
         }
