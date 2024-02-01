@@ -269,7 +269,7 @@ public class Logic {
     }
 
     /**
-     * Updates a student by {@link StudentAttributes.UpdateOptions}.
+     * Updates a student by {@link StudentAttributes}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses
      * the student gives/receives as well as any deadline extensions given to the student.
