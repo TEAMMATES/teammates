@@ -49,7 +49,6 @@ import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.request.StudentsEnrollRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -1232,7 +1231,7 @@ public class Logic {
      * @see StudentsLogic#validateSectionsAndTeams(List, String)
      */
     public void validateSectionsAndTeams(
-            List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
+            List<Student> studentList, String courseId) throws EnrollException {
 
         assert studentList != null;
         assert courseId != null;

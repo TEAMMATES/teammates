@@ -36,8 +36,6 @@ import teammates.storage.sqlentity.User;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.request.StudentsEnrollRequest;
-import teammates.ui.request.StudentsEnrollRequest.StudentEnrollRequest;
 
 /**
  * Handles operations related to user (instructor & student).
@@ -721,9 +719,9 @@ public final class UsersLogic {
      * Validates sections for any limit violations and teams for any team name violations.
      */
     public void validateSectionsAndTeams(
-            List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) throws EnrollException {
+            List<Student> studentList, String courseId) throws EnrollException {
 
-        List<StudentsEnrollRequest.StudentEnrollRequest> mergedList = getMergedList(studentList, courseId);
+        List<Student> mergedList = getMergedList(studentList, courseId);
 
         if (mergedList.size() < 2) { // no conflicts
             return;
@@ -736,26 +734,18 @@ public final class UsersLogic {
         }
     }
 
-    private List<StudentsEnrollRequest.StudentEnrollRequest> getMergedList(
-            List<StudentsEnrollRequest.StudentEnrollRequest> studentList, String courseId) {
+    private List<Student> getMergedList(List<Student> studentList, String courseId) {
 
-        List<StudentsEnrollRequest.StudentEnrollRequest> mergedList = new ArrayList<>();
+        List<Student> mergedList = new ArrayList<>();
         List<Student> studentsInCourse = getStudentsForCourse(courseId);
 
-        for (StudentsEnrollRequest.StudentEnrollRequest studentRequest : studentList) {
-            mergedList.add(studentRequest);
+        for (Student student : studentList) {
+            mergedList.add(student);
         }
 
         for (Student student : studentsInCourse) {
             if (!isInEnrollList(student, mergedList)) {
-                StudentEnrollRequest request = new StudentEnrollRequest(
-                        student.getName(),
-                        student.getEmail(),
-                        student.getTeam().getName(),
-                        student.getSection().getName(),
-                        student.getComments());
-
-                mergedList.add(request);
+                mergedList.add(student);
             }
         }
         return mergedList;
@@ -773,27 +763,27 @@ public final class UsersLogic {
         return students.get(0).getSection();
     }
 
-    private String getSectionInvalidityInfo(List<StudentsEnrollRequest.StudentEnrollRequest> mergedList) {
+    private String getSectionInvalidityInfo(List<Student> mergedList) {
 
-        mergedList.sort(Comparator.comparing((StudentEnrollRequest student) -> student.getSection())
+        mergedList.sort(Comparator.comparing((Student student) -> student.getSection().getName())
                 .thenComparing(student -> student.getName()));
 
         List<String> invalidSectionList = new ArrayList<>();
         int studentsCount = 1;
         for (int i = 1; i < mergedList.size(); i++) {
-            StudentsEnrollRequest.StudentEnrollRequest currentStudent = mergedList.get(i);
-            StudentsEnrollRequest.StudentEnrollRequest previousStudent = mergedList.get(i - 1);
+            Student currentStudent = mergedList.get(i);
+            Student previousStudent = mergedList.get(i - 1);
             if (currentStudent.getSection().equals(previousStudent.getSection())) {
                 studentsCount++;
             } else {
                 if (studentsCount > Const.SECTION_SIZE_LIMIT) {
-                    invalidSectionList.add(previousStudent.getSection());
+                    invalidSectionList.add(previousStudent.getSection().getName());
                 }
                 studentsCount = 1;
             }
 
             if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
-                invalidSectionList.add(currentStudent.getSection());
+                invalidSectionList.add(currentStudent.getSection().getName());
             }
         }
 
@@ -813,25 +803,25 @@ public final class UsersLogic {
         return errorMessage.toString();
     }
 
-    private String getTeamInvalidityInfo(List<StudentsEnrollRequest.StudentEnrollRequest> mergedList) {
+    private String getTeamInvalidityInfo(List<Student> mergedList) {
         StringJoiner errorMessage = new StringJoiner(" ");
-        mergedList.sort(Comparator.comparing((StudentEnrollRequest student) -> student.getTeam())
+        mergedList.sort(Comparator.comparing((Student student) -> student.getTeam().getName())
                 .thenComparing(student -> student.getName()));
 
         List<String> invalidTeamList = new ArrayList<>();
         for (int i = 1; i < mergedList.size(); i++) {
-            StudentsEnrollRequest.StudentEnrollRequest currentStudent = mergedList.get(i);
-            StudentsEnrollRequest.StudentEnrollRequest previousStudent = mergedList.get(i - 1);
+            Student currentStudent = mergedList.get(i);
+            Student previousStudent = mergedList.get(i - 1);
             if (currentStudent.getTeam().equals(previousStudent.getTeam())
                     && !currentStudent.getSection().equals(previousStudent.getSection())
-                    && !invalidTeamList.contains(currentStudent.getTeam())) {
+                    && !invalidTeamList.contains(currentStudent.getTeam().getName())) {
 
                 errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
                         currentStudent.getTeam(),
                         previousStudent.getSection(),
                         currentStudent.getSection()));
 
-                invalidTeamList.add(currentStudent.getTeam());
+                invalidTeamList.add(currentStudent.getTeam().getName());
             }
         }
 
@@ -851,8 +841,8 @@ public final class UsersLogic {
     }
 
     private boolean isInEnrollList(Student student,
-            List<StudentsEnrollRequest.StudentEnrollRequest> studentInfoList) {
-        for (StudentsEnrollRequest.StudentEnrollRequest studentInfo : studentInfoList) {
+            List<Student> studentInfoList) {
+        for (Student studentInfo : studentInfoList) {
             if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;
             }

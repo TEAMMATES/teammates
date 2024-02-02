@@ -66,11 +66,20 @@ public class EnrollStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = enrollRequests.getStudentEnrollRequests();
+        Course course = sqlLogic.getCourse(courseId);
         boolean isCourseMigrated = isCourseMigrated(courseId);
 
         if (isCourseMigrated) {
+            List<Student> studentsToEnroll = new ArrayList<>();
+            studentEnrollRequests.forEach(studentEnrollRequest -> {
+                Section section = new Section(course, studentEnrollRequest.getSection());
+                Team team = new Team(section, studentEnrollRequest.getTeam());
+                studentsToEnroll.add(new Student(
+                        course, studentEnrollRequest.getName(),
+                        studentEnrollRequest.getEmail(), studentEnrollRequest.getComments(), team));
+            });
             try {
-                sqlLogic.validateSectionsAndTeams(studentEnrollRequests, courseId);
+                sqlLogic.validateSectionsAndTeams(studentsToEnroll, courseId);
             } catch (EnrollException e) {
                 throw new InvalidOperationException(e);
             }
@@ -88,7 +97,6 @@ public class EnrollStudentsAction extends Action {
                 if (existingStudentsEmail.contains(enrollRequest.getEmail())) {
                     // The student has been enrolled in the course.
                     try {
-                        Course course = sqlLogic.getCourse(courseId);
                         Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
                         Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
                         Student newStudent = new Student(
@@ -107,7 +115,6 @@ public class EnrollStudentsAction extends Action {
                 } else {
                     // The student is new.
                     try {
-                        Course course = sqlLogic.getCourse(courseId);
                         Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
                         Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
                         Student newStudent = new Student(
