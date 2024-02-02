@@ -109,26 +109,6 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Updates a feedback response comment.
-     * @throws EntityDoesNotExistException if the comment does not exist
-     */
-    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
-            FeedbackResponseCommentAttributes updateRequest, String updaterEmail)
-            throws EntityDoesNotExistException {
-        FeedbackResponseComment comment = frcDb.getFeedbackResponseComment(frcId);
-        if (comment == null) {
-            throw new EntityDoesNotExistException("Trying to update a feedback response comment that does not exist.");
-        }
-
-        comment.setCommentText(updateRequest.getCommentText());
-        comment.setShowCommentTo(updateRequest.getShowCommentTo());
-        comment.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
-        comment.setLastEditorEmail(updaterEmail);
-
-        return comment;
-    }
-
-    /**
      * Updates all feedback response comments with new emails.
      */
     public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
