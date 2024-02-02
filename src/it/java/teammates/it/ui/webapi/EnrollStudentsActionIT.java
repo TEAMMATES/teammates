@@ -19,6 +19,7 @@ import teammates.storage.sqlentity.Team;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 import teammates.ui.webapi.EnrollStudentsAction;
+import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -84,10 +85,24 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         List<Student> studentsInCourse = logic.getStudentsForCourse(courseId);
         assertEquals(4, studentsInCourse.size());
 
+        ______TS("Fail to enroll due to duplicate team name across sections");
+
+        String expectedMessage = "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
+                + " Please use different team names in different sections.";
+        Section newSection = logic.getSection(courseId, "Section 3");
+        Team newTeam = new Team(newSection, "Team 1");
+        newStudent = new Student(course, "Test Student", "test@email.com", "Test Comment", newTeam);
+        Student secondStudent = new Student(course, "Test Student 2", "test2@email.com", "Test Comment",
+                team);
+        StudentsEnrollRequest req = prepareRequest(Arrays.asList(secondStudent, newStudent));
+        InvalidOperationException exception = verifyInvalidOperation(req, params);
+        assertEquals(String.format(expectedMessage, "Team 1", "Section 3", "Section 1"), exception.getMessage());
+
         ______TS("Typical Success Case For Changing Details (except email) of a Student");
 
         Section section3 = logic.getSection(courseId, "Section 3");
         Team team3 = logic.getTeamOrCreate(section3, "Team 3");
+
         Student changedTeam = new Student(course, "Student 1", "student1@teammates.tmt", "Test Comment", team3);
 
         request = prepareRequest(Arrays.asList(changedTeam));

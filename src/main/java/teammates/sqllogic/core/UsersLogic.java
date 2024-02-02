@@ -773,7 +773,7 @@ public final class UsersLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             Student currentStudent = mergedList.get(i);
             Student previousStudent = mergedList.get(i - 1);
-            if (currentStudent.getSection().equals(previousStudent.getSection())) {
+            if (currentStudent.getSection().getName().equals(previousStudent.getSection().getName())) {
                 studentsCount++;
             } else {
                 if (studentsCount > Const.SECTION_SIZE_LIMIT) {
@@ -812,14 +812,14 @@ public final class UsersLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             Student currentStudent = mergedList.get(i);
             Student previousStudent = mergedList.get(i - 1);
-            if (currentStudent.getTeam().equals(previousStudent.getTeam())
-                    && !currentStudent.getSection().equals(previousStudent.getSection())
+            if (currentStudent.getTeam().getName().equals(previousStudent.getTeam().getName())
+                    && !currentStudent.getSection().getName().equals(previousStudent.getSection().getName())
                     && !invalidTeamList.contains(currentStudent.getTeam().getName())) {
 
                 errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
-                        currentStudent.getTeam(),
-                        previousStudent.getSection(),
-                        currentStudent.getSection()));
+                        currentStudent.getTeam().getName(),
+                        previousStudent.getSection().getName(),
+                        currentStudent.getSection().getName()));
 
                 invalidTeamList.add(currentStudent.getTeam().getName());
             }
