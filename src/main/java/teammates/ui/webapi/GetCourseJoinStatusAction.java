@@ -42,22 +42,24 @@ public class GetCourseJoinStatusAction extends Action {
 
     private JsonResult getStudentJoinStatus(String regkey) {
         StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(regkey);
-        if (studentAttributes == null || isCourseMigrated(studentAttributes.getCourse())) {
+
+        if (studentAttributes != null && !isCourseMigrated(studentAttributes.getCourse())) {
+            return getJoinStatusResult(studentAttributes.isRegistered());
+        } else {
             Student student = sqlLogic.getStudentByRegistrationKey(regkey);
 
             if (student == null) {
                 throw new EntityNotFoundException("No student with given registration key: " + regkey);
             }
-
             return getJoinStatusResult(student.isRegistered());
         }
-        return getJoinStatusResult(studentAttributes.isRegistered());
     }
 
     private JsonResult getInstructorJoinStatus(String regkey, boolean isCreatingAccount) {
         if (isCreatingAccount) {
             AccountRequestAttributes accountRequest = logic.getAccountRequestForRegistrationKey(regkey);
             AccountRequest sqlAccountRequest = sqlLogic.getAccountRequestByRegistrationKey(regkey);
+
             if (accountRequest == null && sqlAccountRequest == null) {
                 throw new EntityNotFoundException("No account request with given registration key: " + regkey);
             }
@@ -72,16 +74,16 @@ public class GetCourseJoinStatusAction extends Action {
 
         InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(regkey);
 
-        if (instructorAttributes == null || isCourseMigrated(instructorAttributes.getCourseId())) {
+        if (instructorAttributes != null && !isCourseMigrated(instructorAttributes.getCourseId())) {
+            return getJoinStatusResult(instructorAttributes.isRegistered());
+        } else {
             Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regkey);
 
             if (instructor == null) {
                 throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
             }
-
             return getJoinStatusResult(instructor.isRegistered());
         }
-        return getJoinStatusResult(instructorAttributes.isRegistered());
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {
