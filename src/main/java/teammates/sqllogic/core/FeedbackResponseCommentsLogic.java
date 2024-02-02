@@ -3,7 +3,6 @@ package teammates.sqllogic.core;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
