@@ -7,14 +7,15 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 import teammates.ui.webapi.EnrollStudentsAction;
@@ -44,11 +45,11 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         return PUT;
     }
 
-    private StudentsEnrollRequest prepareRequest(List<StudentAttributes> students) {
+    private StudentsEnrollRequest prepareRequest(List<Student> students) {
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = new ArrayList<>();
         students.forEach(student -> {
             studentEnrollRequests.add(new StudentsEnrollRequest.StudentEnrollRequest(student.getName(),
-                    student.getEmail(), student.getTeam(), student.getSection(), student.getComments()));
+                    student.getEmail(), student.getTeam().getName(), student.getSection().getName(), student.getComments()));
         });
 
         return new StudentsEnrollRequest(studentEnrollRequests);
@@ -59,12 +60,10 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
     public void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = typicalBundle.students.get("student1InCourse1").getCourseId();
-        StudentAttributes newStudent = StudentAttributes.builder(courseId, "test@email.com")
-                .withName("Test Student")
-                .withTeamName("Team 1")
-                .withSectionName("Section 1")
-                .withComment("Test Comment")
-                .build();
+        Course course = logic.getCourse(courseId);
+        Section section = logic.getSection(courseId, "Section 1");
+        Team team = logic.getTeamOrCreate(section, "Team 1");
+        Student newStudent = new Student(course, "Test Student", "test@email.com", "Test Comment", team);
 
         loginAsInstructor(instructor.getGoogleId());
 
@@ -87,12 +86,9 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
 
         ______TS("Typical Success Case For Changing Details (except email) of a Student");
 
-        StudentAttributes changedTeam = StudentAttributes.builder(courseId, "student1@teammates.tmt")
-                .withName("Student 1")
-                .withTeamName("Team 3")
-                .withSectionName("Section 3")
-                .withComment("Test Comment")
-                .build();
+        Section section3 = logic.getSection(courseId, "Section 3");
+        Team team3 = logic.getTeamOrCreate(section3, "Team 3");
+        Student changedTeam = new Student(course, "Student 1", "student1@teammates.tmt", "Test Comment", team3);
 
         request = prepareRequest(Arrays.asList(changedTeam));
         enrollStudentsAction = getAction(request, params);
