@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.InvalidParametersException;
@@ -45,8 +46,11 @@ public class CreateFeedbackQuestionAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
+
+        if (!isCourseMigrated(courseId)) {
+            return executeWithDataStore(courseId, feedbackSessionName, request);
+        }
 
         FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
                 getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
@@ -79,6 +83,43 @@ public class CreateFeedbackQuestionAction extends Action {
         } catch (InvalidParametersException ex) {
             throw new InvalidHttpRequestBodyException(ex);
         }
+    }
+
+    private JsonResult executeWithDataStore(String courseId, String feedbackSessionName,
+            FeedbackQuestionCreateRequest request) throws InvalidHttpRequestBodyException {
+        FeedbackQuestionAttributes attributes = FeedbackQuestionAttributes.builder()
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .withGiverType(request.getGiverType())
+                .withRecipientType(request.getRecipientType())
+                .withQuestionNumber(request.getQuestionNumber())
+                .withNumberOfEntitiesToGiveFeedbackTo(request.getNumberOfEntitiesToGiveFeedbackTo())
+                .withShowResponsesTo(request.getShowResponsesTo())
+                .withShowGiverNameTo(request.getShowGiverNameTo())
+                .withShowRecipientNameTo(request.getShowRecipientNameTo())
+                .withQuestionDetails(request.getQuestionDetails())
+                .withQuestionDescription(request.getQuestionDescription())
+                .build();
+
+        // validate questions (giver & recipient)
+        String err = attributes.getQuestionDetailsCopy().validateGiverRecipientVisibility(attributes);
+        if (!err.isEmpty()) {
+            throw new InvalidHttpRequestBodyException(err);
+        }
+        // validate questions (question details)
+        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetailsCopy();
+        List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
+        if (!questionDetailsErrors.isEmpty()) {
+            throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
+        }
+
+        try {
+            attributes = logic.createFeedbackQuestion(attributes);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
+        }
+
+        return new JsonResult(new FeedbackQuestionData(attributes));
     }
 
 }

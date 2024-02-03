@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -24,7 +23,6 @@ import teammates.ui.request.FeedbackQuestionUpdateRequest;
 /**
  * SUT: {@link UpdateFeedbackQuestionAction}.
  */
-@Ignore
 public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedbackQuestionAction> {
 
     @Override
