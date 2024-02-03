@@ -24,7 +24,6 @@ import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
-import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -78,7 +77,9 @@ public final class SqlEmailGenerator {
     /**
      * Initialise dependencies for {@code SqlEmailGenerator} object.
      */
-    public void initLogicDependencies(CoursesLogic coursesLogic, DeadlineExtensionsLogic deLogic, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic) {
+    public void initLogicDependencies(CoursesLogic coursesLogic, DeadlineExtensionsLogic deLogic,
+            FeedbackSessionsLogic fsLogic, UsersLogic usersLogic) {
+
         this.coursesLogic = coursesLogic;
         this.deLogic = deLogic;
         this.fsLogic = fsLogic;

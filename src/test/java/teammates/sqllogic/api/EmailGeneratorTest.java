@@ -24,129 +24,129 @@ import teammates.test.EmailChecker;
  */
 public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
 
-	private final CoursesLogic coursesLogic = CoursesLogic.inst();
-	private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
-	private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-	private final UsersLogic usersLogic = UsersLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final UsersLogic usersLogic = UsersLogic.inst();
 
-	private final SqlEmailGenerator emailGenerator = SqlEmailGenerator.inst();
+    private final SqlEmailGenerator emailGenerator = SqlEmailGenerator.inst();
 
-	private SqlDataBundle dataBundle;
+    private SqlDataBundle dataBundle;
 
-	@Override
-	@BeforeClass
-	public void setupClass() {
-		super.setupClass();
-		emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic, usersLogic);
-		dataBundle = loadSqlDataBundle("/SqlEmailGeneratorTest.json");
-	}
+    @Override
+    @BeforeClass
+    public void setupClass() {
+        super.setupClass();
+        emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic, usersLogic);
+        dataBundle = loadSqlDataBundle("/SqlEmailGeneratorTest.json");
+    }
 
-	@Override
-	@BeforeMethod
-	public void setUp() throws Exception {
-		super.setUp();
+    @Override
+    @BeforeMethod
+    public void setUp() throws Exception {
+        super.setUp();
 
-		FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
-		FeedbackSession session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
-		FeedbackSession session1InCourse4 = dataBundle.feedbackSessions.get("session1InCourse4");
-		FeedbackSession session2InCourse4 = dataBundle.feedbackSessions.get("session2InCourse4");
-		// opened and unpublished.
-		session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
-		dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
+        FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
+        FeedbackSession session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
+        FeedbackSession session1InCourse4 = dataBundle.feedbackSessions.get("session1InCourse4");
+        FeedbackSession session2InCourse4 = dataBundle.feedbackSessions.get("session2InCourse4");
+        // opened and unpublished.
+        session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
+        dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
 
-		// closed and unpublished
-		session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-		session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-		// session2InCourse3.setDeletedTime(null);
-		dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
+        // closed and unpublished
+        session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+        session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        // session2InCourse3.setDeletedTime(null);
+        dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
 
-		// opened and published.
-		session1InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-		session1InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-		dataBundle.feedbackSessions.put("session1InCourse4", session1InCourse4);
+        // opened and published.
+        session1InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+        session1InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        dataBundle.feedbackSessions.put("session1InCourse4", session1InCourse4);
 
-		// closed and published
-		session2InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
-		session2InCourse4.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-		session2InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-		dataBundle.feedbackSessions.put("session2InCourse4", session2InCourse4);
+        // closed and published
+        session2InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
+        session2InCourse4.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session2InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        dataBundle.feedbackSessions.put("session2InCourse4", session2InCourse4);
 
-		persistDataBundle(dataBundle);
-		HibernateUtil.flushSession();
-		HibernateUtil.clearSession();
-	}
+        persistDataBundle(dataBundle);
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+    }
 
-	@Test
-	public void testGenerateSessionLinksRecoveryEmail() throws Exception {
+    @Test
+    public void testGenerateSessionLinksRecoveryEmail() throws Exception {
 
-		______TS("invalid email address");
+        ______TS("invalid email address");
 
-		EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-				"non-existing-student");
-		String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+        EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+                "non-existing-student");
+        String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-		verifyEmail(email, "non-existing-student", subject,
-				"/sessionLinksRecoveryNonExistingStudentEmail.html");
+        verifyEmail(email, "non-existing-student", subject,
+                "/sessionLinksRecoveryNonExistingStudentEmail.html");
 
-		______TS("no sessions found");
+        ______TS("no sessions found");
 
-		Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
-		email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-				student1InCourse1.getEmail());
-		subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+                student1InCourse1.getEmail());
+        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-		verifyEmail(email, student1InCourse1.getEmail(), subject,
-				"/sessionLinksRecoveryNoSessionsFoundEmail.html");
+        verifyEmail(email, student1InCourse1.getEmail(), subject,
+                "/sessionLinksRecoveryNoSessionsFoundEmail.html");
 
-		______TS("Typical case: found opened or closed but unpublished Sessions");
+        ______TS("Typical case: found opened or closed but unpublished Sessions");
 
-		Student student1InCourse3 = dataBundle.students.get("student1InCourse3");
+        Student student1InCourse3 = dataBundle.students.get("student1InCourse3");
 
-		email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-				student1InCourse3.getEmail());
+        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+                student1InCourse3.getEmail());
 
-		subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-		verifyEmail(email, student1InCourse3.getEmail(), subject,
-				"/sessionLinksRecoveryOpenedOrClosedButUnpublishedSessions.html");
+        verifyEmail(email, student1InCourse3.getEmail(), subject,
+                "/sessionLinksRecoveryOpenedOrClosedButUnpublishedSessions.html");
 
-		______TS("Typical case: found opened or closed and  published Sessions");
+        ______TS("Typical case: found opened or closed and  published Sessions");
 
-		Student student1InCourse4 = dataBundle.students.get("student1InCourse4");
+        Student student1InCourse4 = dataBundle.students.get("student1InCourse4");
 
-		email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-				student1InCourse4.getEmail());
+        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+                student1InCourse4.getEmail());
 
-		subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-		verifyEmail(email, student1InCourse4.getEmail(), subject,
-				"/sessionLinksRecoveryOpenedOrClosedAndpublishedSessions.html");
-	}
+        verifyEmail(email, student1InCourse4.getEmail(), subject,
+                "/sessionLinksRecoveryOpenedOrClosedAndpublishedSessions.html");
+    }
 
-	private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
-			throws Exception {
-		// check recipient
-		assertEquals(recipient, email.getRecipient());
+    private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
+            throws Exception {
+        // check recipient
+        assertEquals(recipient, email.getRecipient());
 
-		// check subject
-		assertEquals(subject, email.getSubject());
+        // check subject
+        assertEquals(subject, email.getSubject());
 
-		// check sender name
-		assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        // check sender name
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
 
-		// check sender email
-		assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        // check sender email
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
 
-		// check reply to address
-		assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        // check reply to address
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
 
-		String emailContent = email.getContent();
+        String emailContent = email.getContent();
 
-		// check email body for expected content
-		EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
+        // check email body for expected content
+        EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
 
-		// check email body for no left placeholders
-		assertFalse(emailContent.contains("${"));
-	}
+        // check email body for no left placeholders
+        assertFalse(emailContent.contains("${"));
+    }
 }
