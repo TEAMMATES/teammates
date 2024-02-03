@@ -760,6 +760,7 @@ public final class UsersLogic {
     private String getSectionInvalidityInfo(List<Student> mergedList) {
 
         mergedList.sort(Comparator.comparing((Student student) -> student.getSection().getName())
+                .thenComparing(student -> student.getTeam().getName())
                 .thenComparing(student -> student.getName()));
 
         List<String> invalidSectionList = new ArrayList<>();
