@@ -13,7 +13,6 @@ import java.util.UUID;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -554,6 +553,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets the section with the name in a particular course.
+     */
+    public Section getSection(String courseId, String sectionName) {
+        return usersDb.getSection(courseId, sectionName);
+    }
+
+    /**
      * Gets the section with the name in a particular course, otherwise creates a new section.
      */
     public Section getSectionOrCreate(String courseId, String sectionName) {
@@ -751,18 +757,6 @@ public final class UsersLogic {
         return mergedList;
     }
 
-    /**
-     * Returns the section name for the given team name for the given course.
-     */
-    public String getSectionForTeam(String courseId, String teamName) {
-
-        List<StudentAttributes> students = getStudentAttributeList(getStudentsForTeam(teamName, courseId));
-        if (students.isEmpty()) {
-            return Const.DEFAULT_SECTION;
-        }
-        return students.get(0).getSection();
-    }
-
     private String getSectionInvalidityInfo(List<Student> mergedList) {
 
         mergedList.sort(Comparator.comparing((Student student) -> student.getSection().getName())
@@ -830,14 +824,6 @@ public final class UsersLogic {
         }
 
         return errorMessage.toString();
-    }
-
-    private List<StudentAttributes> getStudentAttributeList(List<Student> students) {
-        List<StudentAttributes> studentAttributesList = new ArrayList<>();
-        for (Student student : students) {
-            studentAttributesList.add(StudentAttributes.valueOf(student));
-        }
-        return studentAttributesList;
     }
 
     private boolean isInEnrollList(Student student,

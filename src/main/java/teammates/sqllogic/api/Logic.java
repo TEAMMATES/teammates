@@ -208,7 +208,7 @@ public class Logic {
      * Gets a section from a course by section name.
      */
     public Section getSection(String courseId, String section) {
-        return usersLogic.getSectionOrCreate(courseId, section);
+        return usersLogic.getSection(courseId, section);
     }
 
     /**
