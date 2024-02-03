@@ -81,6 +81,13 @@ public abstract class Action {
     /**
      * Inject logic class for use in tests.
      */
+    public void setLogic(teammates.logic.api.Logic logic) {
+        this.logic = logic;
+    }
+
+    /**
+     * Inject logic class for use in tests.
+     */
     public void setLogic(Logic logic) {
         this.sqlLogic = logic;
         // TODO: remove these temporary hacks after migration

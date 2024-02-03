@@ -149,6 +149,13 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets all and only the feedback sessions ongoing within a range of time.
+     */
+    public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getOngoingSessions(rangeStart, rangeEnd);
+    }
+
+    /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {

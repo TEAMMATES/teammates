@@ -408,6 +408,13 @@ public class Logic {
     }
 
     /**
+     * Gets all and only the feedback sessions ongoing within a range of time.
+     */
+    public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        return feedbackSessionsLogic.getOngoingSessions(rangeStart, rangeEnd);
+    }
+
+    /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {

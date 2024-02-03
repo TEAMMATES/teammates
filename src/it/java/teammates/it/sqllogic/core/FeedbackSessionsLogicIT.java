@@ -112,6 +112,23 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
+    public void testGetOngoingSessions_typicalCase_shouldGetOnlyOngoingSessionsWithinRange() {
+        FeedbackSession c1Fs2 = typicalDataBundle.feedbackSessions.get("ongoingSession2InCourse1");
+        FeedbackSession c1Fs3 = typicalDataBundle.feedbackSessions.get("ongoingSession3InCourse1");
+        FeedbackSession c3Fs2 = typicalDataBundle.feedbackSessions.get("ongoingSession2InCourse3");
+        Set<FeedbackSession> expectedUniqueOngoingSessions = new HashSet<>();
+        expectedUniqueOngoingSessions.add(c1Fs2);
+        expectedUniqueOngoingSessions.add(c1Fs3);
+        expectedUniqueOngoingSessions.add(c3Fs2);
+        Instant rangeStart = Instant.parse("2012-01-25T22:00:00Z");
+        Instant rangeEnd = Instant.parse("2012-01-27T22:00:00Z");
+        List<FeedbackSession> actualOngoingSessions = fsLogic.getOngoingSessions(rangeStart, rangeEnd);
+        Set<FeedbackSession> actualUniqueOngoingSessions = new HashSet<>();
+        actualUniqueOngoingSessions.addAll(actualOngoingSessions);
+        assertEquals(expectedUniqueOngoingSessions, actualUniqueOngoingSessions);
+    }
+
+    @Test
     public void testGetSoftDeletedFeedbackSessionsForInstructors() {
         Instructor instructor = typicalDataBundle.instructors.get("instructor1OfCourse1");
         Course course = instructor.getCourse();
