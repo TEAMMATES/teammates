@@ -97,6 +97,22 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
+     * Gets all and only the feedback sessions ongoing within a range of time.
+     */
+    public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        assert rangeStart != null;
+        assert rangeEnd != null;
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+        cr.select(root)
+                .where(cb.and(
+                    cb.greaterThan(root.get("endTime"), rangeStart),
+                    cb.lessThan(root.get("startTime"), rangeEnd)));
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Restores a specific soft deleted feedback session.
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)

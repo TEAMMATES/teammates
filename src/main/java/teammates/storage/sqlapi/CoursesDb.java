@@ -15,9 +15,11 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Team;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 
 /**
  * Handles CRUD operations for courses.
@@ -144,6 +146,22 @@ public final class CoursesDb extends EntitiesDb {
                 cb.equal(teamJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Deletes all sections by {@code courseId}.
+     */
+    public void deleteSectionsByCourseId(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaDelete<Section> cd = cb.createCriteriaDelete(Section.class);
+        Root<Section> sRoot = cd.from(Section.class);
+        Subquery<UUID> subquery = cd.subquery(UUID.class);
+        Root<Section> subqueryRoot = subquery.from(Section.class);
+        Join<Section, Course> sqJoin = subqueryRoot.join("course");
+        subquery.select(subqueryRoot.get("id"));
+        subquery.where(cb.equal(sqJoin.get("id"), courseId));
+        cd.where(cb.in(sRoot.get("id")).value(subquery));
+        HibernateUtil.createMutationQuery(cd).executeUpdate();
     }
 
     /**
