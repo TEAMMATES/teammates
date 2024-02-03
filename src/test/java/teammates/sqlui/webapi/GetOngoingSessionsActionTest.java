@@ -327,11 +327,9 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         Instant end = instantNow.plus(Duration.ofDays(1L));
         Course sqlCourse2 = new Course("test-id2", "test-name2", "UTC", "MIT");
         when(mockLogic.getCourse(sqlCourse2.getId())).thenReturn(sqlCourse2);
-        // Account instructor3Account = new Account("instructor3", "instructor3", "test3@test.com");
         Instructor sqlInstructor3 = new Instructor(sqlCourse2, "instructor3", "test3@test.com", false, "instructor3",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
-        // instructor3.setAccount(instructor3Account);
         when(mockLogic.getInstructorsByCourse(sqlCourse2.getId())).thenReturn(Collections.singletonList(sqlInstructor3));
         FeedbackSession sqlC2Fs1 = new FeedbackSession("name2-1", sqlCourse2, "test3@test.com", "test-instruction",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
