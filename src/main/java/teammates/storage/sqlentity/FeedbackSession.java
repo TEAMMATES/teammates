@@ -10,6 +10,8 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -91,10 +93,12 @@ public class FeedbackSession extends BaseEntity {
 
     @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
     @Fetch(FetchMode.JOIN)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
     @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
     @Fetch(FetchMode.JOIN)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
 
     @UpdateTimestamp

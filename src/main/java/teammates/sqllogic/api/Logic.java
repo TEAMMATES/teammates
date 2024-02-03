@@ -1019,6 +1019,13 @@ public class Logic {
     }
 
     /**
+     * Removes the given data bundle from the database.
+     */
+    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+        dataBundleLogic.removeDataBundle(dataBundle);
+    }
+
+    /**
      * Populates fields that need dynamic generation in a question.
      *
      * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
