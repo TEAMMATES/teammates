@@ -1,6 +1,5 @@
 package teammates.sqllogic.api;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
@@ -33,149 +32,154 @@ import teammates.test.EmailChecker;
  */
 public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
 
-    // private CoursesLogic coursesLogic;
+	// private CoursesLogic coursesLogic;
 
-    // private DeadlineExtensionsLogic deLogic;
+	// private DeadlineExtensionsLogic deLogic;
 
-    // private FeedbackSessionsLogic fsLogic;
+	// private FeedbackSessionsLogic fsLogic;
 
-    // private UsersLogic usersLogic;
+	// private UsersLogic usersLogic;
 
-    // private DataBundleLogic dbLogic;
+	// private DataBundleLogic dbLogic;
 
-    private final SqlEmailGenerator emailGenerator = SqlEmailGenerator.inst();
+	private final CoursesLogic coursesLogic = CoursesLogic.inst();
+	private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
+	private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+	private final UsersLogic usersLogic = UsersLogic.inst();
 
-    private SqlDataBundle dataBundle;
+	private final SqlEmailGenerator emailGenerator = SqlEmailGenerator.inst();
 
-    @Override
-    @BeforeClass
-    public void setupClass() {
-        super.setupClass();
-        dataBundle = loadSqlDataBundle("/SqlEmailGeneratorTest.json");
-    }
+	private SqlDataBundle dataBundle;
 
-    @Override
-    @BeforeMethod
-    public void setUp() throws Exception {
-        super.setUp();
-        
-        
-        
+	@Override
+	@BeforeClass
+	public void setupClass() {
+		super.setupClass();
+		emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic, usersLogic);
+		dataBundle = loadSqlDataBundle("/SqlEmailGeneratorTest.json");
+	}
 
-        // coursesLogic = mock(CoursesLogic.class);
-        // deLogic = mock(DeadlineExtensionsLogic.class);
-        // fsLogic = mock(FeedbackSessionsLogic.class);
-        // usersLogic = mock(UsersLogic.class);
-        
-        // emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic, usersLogic);
+	@Override
+	@BeforeMethod
+	public void setUp() throws Exception {
+		super.setUp();
 
-        // coursesLogic = CoursesLogic.inst();
-        // deLogic = DeadlineExtensionsLogic.inst();
-        // fsLogic = FeedbackSessionsLogic.inst();
-        // usersLogic = UsersLogic.inst();
-        // emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic, usersLogic);
+		// coursesLogic = mock(CoursesLogic.class);
+		// deLogic = mock(DeadlineExtensionsLogic.class);
+		// fsLogic = mock(FeedbackSessionsLogic.class);
+		// usersLogic = mock(UsersLogic.class);
 
-        FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
-        FeedbackSession session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
-        FeedbackSession session1InCourse4 = dataBundle.feedbackSessions.get("session1InCourse4");
-        FeedbackSession session2InCourse4 = dataBundle.feedbackSessions.get("session2InCourse4");
-        // opened and unpublished.
-        session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
-        dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
+		// emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic,
+		// usersLogic);
 
-        // closed and unpublished
-        session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-        session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        // session2InCourse3.setDeletedTime(null);
-        dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
+		// coursesLogic = CoursesLogic.inst();
+		// deLogic = DeadlineExtensionsLogic.inst();
+		// fsLogic = FeedbackSessionsLogic.inst();
+		// usersLogic = UsersLogic.inst();
+		// emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic,
+		// usersLogic);
 
-        // opened and published.
-        session1InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-        session1InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        dataBundle.feedbackSessions.put("session1InCourse4", session1InCourse4);
+		FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
+		FeedbackSession session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
+		FeedbackSession session1InCourse4 = dataBundle.feedbackSessions.get("session1InCourse4");
+		FeedbackSession session2InCourse4 = dataBundle.feedbackSessions.get("session2InCourse4");
+		// opened and unpublished.
+		session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
+		dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
 
-        // closed and published
-        session2InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
-        session2InCourse4.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        session2InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        dataBundle.feedbackSessions.put("session2InCourse4", session2InCourse4);
+		// closed and unpublished
+		session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+		session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+		// session2InCourse3.setDeletedTime(null);
+		dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
 
-        persistDataBundle(dataBundle);
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
-    }
+		// opened and published.
+		session1InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+		session1InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+		dataBundle.feedbackSessions.put("session1InCourse4", session1InCourse4);
 
-    @Test
-    public void testGenerateSessionLinksRecoveryEmail() throws Exception {
+		// closed and published
+		session2InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
+		session2InCourse4.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+		session2InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+		dataBundle.feedbackSessions.put("session2InCourse4", session2InCourse4);
 
-        ______TS("invalid email address");
+		persistDataBundle(dataBundle);
+		HibernateUtil.flushSession();
+		HibernateUtil.clearSession();
+	}
 
-        EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                "non-existing-student");
-        String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+	@Test
+	public void testGenerateSessionLinksRecoveryEmail() throws Exception {
 
-        verifyEmail(email, "non-existing-student", subject,
-                "/sessionLinksRecoveryNonExistingStudentEmail.html");
+		______TS("invalid email address");
 
-        ______TS("no sessions found");
+		EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+				"non-existing-student");
+		String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-        Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		verifyEmail(email, "non-existing-student", subject,
+				"/sessionLinksRecoveryNonExistingStudentEmail.html");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                student1InCourse1.getEmail());
-        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+		______TS("no sessions found");
 
-        verifyEmail(email, student1InCourse1.getEmail(), subject,
-                "/sessionLinksRecoveryNoSessionsFoundEmail.html");
+		Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
-        ______TS("Typical case: found opened or closed but unpublished Sessions");
+		email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+				student1InCourse1.getEmail());
+		subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-        Student student1InCourse3 = dataBundle.students.get("student1InCourse3");
+		verifyEmail(email, student1InCourse1.getEmail(), subject,
+				"/sessionLinksRecoveryNoSessionsFoundEmail.html");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                student1InCourse3.getEmail());
+		______TS("Typical case: found opened or closed but unpublished Sessions");
 
-        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+		Student student1InCourse3 = dataBundle.students.get("student1InCourse3");
 
-        verifyEmail(email, student1InCourse3.getEmail(), subject,
-                "/sessionLinksRecoveryOpenedOrClosedButUnpublishedSessions.html");
+		email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+				student1InCourse3.getEmail());
 
-        ______TS("Typical case: found opened or closed and  published Sessions");
+		subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-        Student student1InCourse4 = dataBundle.students.get("student1InCourse4");
+		verifyEmail(email, student1InCourse3.getEmail(), subject,
+				"/sessionLinksRecoveryOpenedOrClosedButUnpublishedSessions.html");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                student1InCourse4.getEmail());
+		______TS("Typical case: found opened or closed and  published Sessions");
 
-        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+		Student student1InCourse4 = dataBundle.students.get("student1InCourse4");
 
-        verifyEmail(email, student1InCourse4.getEmail(), subject,
-                "/sessionLinksRecoveryOpenedOrClosedAndpublishedSessions.html");
-    }
+		email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
+				student1InCourse4.getEmail());
 
-    private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
-            throws Exception {
-        // check recipient
-        assertEquals(recipient, email.getRecipient());
+		subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-        // check subject
-        assertEquals(subject, email.getSubject());
+		verifyEmail(email, student1InCourse4.getEmail(), subject,
+				"/sessionLinksRecoveryOpenedOrClosedAndpublishedSessions.html");
+	}
 
-        // check sender name
-        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+	private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
+			throws Exception {
+		// check recipient
+		assertEquals(recipient, email.getRecipient());
 
-        // check sender email
-        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+		// check subject
+		assertEquals(subject, email.getSubject());
 
-        // check reply to address
-        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+		// check sender name
+		assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
 
-        String emailContent = email.getContent();
+		// check sender email
+		assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
 
-        // check email body for expected content
-        EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
+		// check reply to address
+		assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
 
-        // check email body for no left placeholders
-        assertFalse(emailContent.contains("${"));
-    }
+		String emailContent = email.getContent();
+
+		// check email body for expected content
+		EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
+
+		// check email body for no left placeholders
+		assertFalse(emailContent.contains("${"));
+	}
 }
