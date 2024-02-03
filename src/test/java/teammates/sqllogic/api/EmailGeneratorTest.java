@@ -11,10 +11,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
-import teammates.sqllogic.core.CoursesLogic;
-import teammates.sqllogic.core.DeadlineExtensionsLogic;
-import teammates.sqllogic.core.FeedbackSessionsLogic;
-import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Student;
 import teammates.test.EmailChecker;
@@ -24,11 +20,6 @@ import teammates.test.EmailChecker;
  */
 public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
-    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private final UsersLogic usersLogic = UsersLogic.inst();
-
     private final SqlEmailGenerator emailGenerator = SqlEmailGenerator.inst();
 
     private SqlDataBundle dataBundle;
@@ -37,7 +28,6 @@ public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
     @BeforeClass
     public void setupClass() {
         super.setupClass();
-        emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic, usersLogic);
         dataBundle = loadSqlDataBundle("/SqlEmailGeneratorTest.json");
     }
 
