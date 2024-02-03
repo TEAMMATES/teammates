@@ -1,15 +1,10 @@
 package teammates.sqllogic.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -17,30 +12,17 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.CoursesLogic;
-import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Student;
-import teammates.test.BaseTestCase;
-import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.EmailChecker;
 
 /**
  * SUT: {@link SqlEmailGenerator}.
  */
 public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
-
-	// private CoursesLogic coursesLogic;
-
-	// private DeadlineExtensionsLogic deLogic;
-
-	// private FeedbackSessionsLogic fsLogic;
-
-	// private UsersLogic usersLogic;
-
-	// private DataBundleLogic dbLogic;
 
 	private final CoursesLogic coursesLogic = CoursesLogic.inst();
 	private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
@@ -63,21 +45,6 @@ public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
 	@BeforeMethod
 	public void setUp() throws Exception {
 		super.setUp();
-
-		// coursesLogic = mock(CoursesLogic.class);
-		// deLogic = mock(DeadlineExtensionsLogic.class);
-		// fsLogic = mock(FeedbackSessionsLogic.class);
-		// usersLogic = mock(UsersLogic.class);
-
-		// emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic,
-		// usersLogic);
-
-		// coursesLogic = CoursesLogic.inst();
-		// deLogic = DeadlineExtensionsLogic.inst();
-		// fsLogic = FeedbackSessionsLogic.inst();
-		// usersLogic = UsersLogic.inst();
-		// emailGenerator.initLogicDependencies(coursesLogic, deLogic, fsLogic,
-		// usersLogic);
 
 		FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
 		FeedbackSession session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
