@@ -68,7 +68,6 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for instructors in whole system; query string should be case-insensitive");
 
         results = usersDb.searchInstructorsInWholeSystem("\"InStRuCtOr 2\"");
-        System.out.println("🌕🌕🌕🌕🌕🌕🌕🌕" + results.size());
         verifySearchResults(results, ins2InCourse1, ins2InCourse4);
 
         ______TS("success: search for instructors in whole system; instructors in archived courses should be included");
@@ -179,8 +178,6 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
      */
     private static void verifySearchResults(List<Instructor> actual,
             Instructor... expected) {
-        System.out.println("😡" + actual.size());
-        System.out.println("😡" + expected.length);
         assertEquals(expected.length, actual.size());
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }
