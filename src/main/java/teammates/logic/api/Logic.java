@@ -638,6 +638,17 @@ public class Logic {
 
     /**
      * Preconditions: <br>
+     * * All parameters are non-null
+     * 
+     * @return Empty list if not match found
+     */
+    public List<StudentAttributes> getAllStudentsForEmail(String email) {
+        assert email != null;
+        return studentsLogic.getAllStudentsForEmail(email);
+    }
+
+    /**
+     * Preconditions: <br>
      * * All parameters are non-null.
      * @return Empty list if none found.
      */

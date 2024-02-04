@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -358,11 +359,16 @@ public final class SqlEmailGenerator {
      * under {@code recoveryEmailAddress} in the past 180 days. If no student with {@code recoveryEmailAddress} is
      * found, generate an email stating that there is no such student in the system. If no feedback sessions are found,
      * generate an email stating no feedback sessions found.
+     * 
+     * Datastore attributes will be removed once migration is completed
+     * @param datastoreStudents Students from datastore associated with the recovery email address
      */
-    public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress) {
+    public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress,
+            List<StudentAttributes> datastoreStudents) {
+        assert datastoreStudents != null;
         List<Student> studentsForEmail = usersLogic.getAllStudentsForEmail(recoveryEmailAddress);
 
-        if (studentsForEmail.isEmpty()) {
+        if (studentsForEmail.isEmpty() && datastoreStudents.isEmpty()) {
             return generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress);
         } else {
             return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail);

@@ -2,6 +2,9 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
+import java.util.List;
+
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -37,7 +40,12 @@ class SessionLinksRecoveryAction extends Action {
                     + "the reCAPTCHA verification. Please try again."));
         }
 
-        EmailWrapper email = sqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
+        List<StudentAttributes> datastoreStudents = logic.getAllStudentsForEmail(recoveryEmailAddress);
+        EmailWrapper email = sqlEmailGenerator
+            .generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress,
+                datastoreStudents);
+        
+        System.out.println(email);
         EmailSendingStatus status = emailSender.sendEmail(email);
 
         if (status.isSuccess()) {
