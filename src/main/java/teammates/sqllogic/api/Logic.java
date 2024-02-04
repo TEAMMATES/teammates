@@ -102,6 +102,15 @@ public class Logic {
     }
 
     /**
+     * Gets the account request with the associated {@code regkey}.
+     *
+     * @return account request with the associated {@code regkey}.
+     */
+    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
+        return accountRequestLogic.getAccountRequestByRegistrationKey(regkey);
+    }
+
+    /**
      * Creates/Resets the account request with the given email and institute
      * such that it is not registered.
      *
