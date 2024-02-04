@@ -38,14 +38,14 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
     @Override
     @Test
     protected void testExecute() throws Exception {
-        Student student1YetToJoinCourse = typicalBundle.students.get("student1YetToJoinCourse1");
+        Student studentYetToJoinCourse = typicalBundle.students.get("student2YetToJoinCourse4");
         String student1RegKey =
-                getRegKeyForStudent(student1YetToJoinCourse.getCourseId(), student1YetToJoinCourse.getEmail());
+                getRegKeyForStudent(studentYetToJoinCourse.getCourseId(), studentYetToJoinCourse.getEmail());
         String loggedInGoogleIdStu = "AccLogicT.student.id";
 
-        Instructor instructor1YetToJoinCourse = typicalBundle.instructors.get("instructor1YetToJoinCourse3");
+        Instructor instructorYetToJoinCourse = typicalBundle.instructors.get("instructor2YetToJoinCourse4");
         String instructor1RegKey =
-                getRegKeyForInstructor(instructor1YetToJoinCourse.getCourseId(), instructor1YetToJoinCourse.getEmail());
+                getRegKeyForInstructor(instructorYetToJoinCourse.getCourseId(), instructorYetToJoinCourse.getEmail());
 
         String loggedInGoogleIdInst = "AccLogicT.instr.id";
 
@@ -64,7 +64,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         verifyNumberOfEmailsSent(1);
         EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
         assertEquals(
-                String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 1", "course-1"),
+                String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 4", "course-4"),
                 email.getSubject());
 
         ______TS("failure: student is already registered");
@@ -94,7 +94,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         verifyNumberOfEmailsSent(1);
         email = mockEmailSender.getEmailsSent().get(0);
         assertEquals(
-                String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 3", "course-3"),
+                String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 4", "course-4"),
                 email.getSubject());
 
         ______TS("failure: instructor is already registered");
