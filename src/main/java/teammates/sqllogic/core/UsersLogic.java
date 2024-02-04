@@ -7,11 +7,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -22,10 +24,13 @@ import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.StudentSearchManager;
@@ -38,6 +43,15 @@ import teammates.ui.request.InstructorCreateRequest;
  * @see UsersDb
  */
 public final class UsersLogic {
+
+    static final String ERROR_INVALID_TEAM_NAME =
+            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
+            "Please use different team names in different sections.";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+            "You are trying enroll more than %s students in section \"%s\".";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
+            "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
     private static final UsersLogic instance = new UsersLogic();
 
@@ -62,7 +76,8 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+            DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
@@ -538,6 +553,27 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets the section with the name in a particular course.
+     */
+    public Section getSection(String courseId, String sectionName) {
+        return usersDb.getSection(courseId, sectionName);
+    }
+
+    /**
+     * Gets the section with the name in a particular course, otherwise creates a new section.
+     */
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        return usersDb.getSectionOrCreate(courseId, sectionName);
+    }
+
+    /**
+     * Gets the team with the name in a particular session, otherwise creates a new team.
+     */
+    public Team getTeamOrCreate(Section section, String teamName) {
+        return usersDb.getTeamOrCreate(section, teamName);
+    }
+
+    /**
      * Checks if there are any other registered instructors that can modify instructors.
      * If there are none, the instructor currently being edited will be granted the privilege
      * of modifying instructors automatically.
@@ -605,6 +641,63 @@ public final class UsersLogic {
         }
     }
 
+    private boolean isTeamChanged(Team originalTeam, Team newTeam) {
+        return newTeam != null && originalTeam != null
+                && !originalTeam.equals(newTeam);
+    }
+
+    private boolean isSectionChanged(Section originalSection, Section newSection) {
+        return newSection != null && originalSection != null
+                && !originalSection.equals(newSection);
+    }
+
+    /**
+     * Updates a student by {@link Student}.
+     *
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
+     */
+    public Student updateStudentCascade(Student student)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        Student originalStudent = getStudentForEmail(student.getCourseId(), student.getEmail());
+        Team originalTeam = originalStudent.getTeam();
+        Section originalSection = originalStudent.getSection();
+
+        boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
+        boolean changedSection = isSectionChanged(originalSection, student.getSection());
+
+        originalStudent.setName(student.getName());
+        originalStudent.setTeam(student.getTeam());
+        originalStudent.setEmail(student.getEmail());
+        originalStudent.setComments(student.getComments());
+
+        Student updatedStudent = usersDb.updateStudent(originalStudent);
+        Course course = updatedStudent.getCourse();
+
+        // adjust submissions if moving to a different team
+        if (changedTeam) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(),
+                    updatedStudent.getTeam(), originalTeam);
+        }
+
+        // update the new section name in responses
+        if (changedSection) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
+                    course, updatedStudent.getEmail(), updatedStudent.getSection());
+        }
+
+        return updatedStudent;
+    }
+
     /**
      * Resets the googleId associated with the instructor.
      */
@@ -626,6 +719,122 @@ public final class UsersLogic {
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
             accountsLogic.deleteAccountCascade(googleId);
         }
+    }
+
+    /**
+     * Validates sections for any limit violations and teams for any team name violations.
+     */
+    public void validateSectionsAndTeams(
+            List<Student> studentList, String courseId) throws EnrollException {
+
+        List<Student> mergedList = getMergedList(studentList, courseId);
+
+        if (mergedList.size() < 2) { // no conflicts
+            return;
+        }
+
+        String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
+
+        if (!errorMessage.isEmpty()) {
+            throw new EnrollException(errorMessage);
+        }
+    }
+
+    private List<Student> getMergedList(List<Student> studentList, String courseId) {
+
+        List<Student> mergedList = new ArrayList<>();
+        List<Student> studentsInCourse = getStudentsForCourse(courseId);
+
+        for (Student student : studentList) {
+            mergedList.add(student);
+        }
+
+        for (Student student : studentsInCourse) {
+            if (!isInEnrollList(student, mergedList)) {
+                mergedList.add(student);
+            }
+        }
+        return mergedList;
+    }
+
+    private String getSectionInvalidityInfo(List<Student> mergedList) {
+
+        mergedList.sort(Comparator.comparing((Student student) -> student.getSectionName())
+                .thenComparing(student -> student.getTeamName())
+                .thenComparing(student -> student.getName()));
+
+        List<String> invalidSectionList = new ArrayList<>();
+        int studentsCount = 1;
+        for (int i = 1; i < mergedList.size(); i++) {
+            Student currentStudent = mergedList.get(i);
+            Student previousStudent = mergedList.get(i - 1);
+            if (currentStudent.getSectionName().equals(previousStudent.getSectionName())) {
+                studentsCount++;
+            } else {
+                if (studentsCount > Const.SECTION_SIZE_LIMIT) {
+                    invalidSectionList.add(previousStudent.getSectionName());
+                }
+                studentsCount = 1;
+            }
+
+            if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
+                invalidSectionList.add(currentStudent.getSectionName());
+            }
+        }
+
+        StringJoiner errorMessage = new StringJoiner(" ");
+        for (String section : invalidSectionList) {
+            errorMessage.add(String.format(
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                    Const.SECTION_SIZE_LIMIT, section));
+        }
+
+        if (!invalidSectionList.isEmpty()) {
+            errorMessage.add(String.format(
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                    Const.SECTION_SIZE_LIMIT));
+        }
+
+        return errorMessage.toString();
+    }
+
+    private String getTeamInvalidityInfo(List<Student> mergedList) {
+        StringJoiner errorMessage = new StringJoiner(" ");
+        mergedList.sort(Comparator.comparing((Student student) -> student.getTeamName())
+                .thenComparing(student -> student.getName()));
+
+        List<String> invalidTeamList = new ArrayList<>();
+        for (int i = 1; i < mergedList.size(); i++) {
+            Student currentStudent = mergedList.get(i);
+            Student previousStudent = mergedList.get(i - 1);
+            if (currentStudent.getTeamName().equals(previousStudent.getTeamName())
+                    && !currentStudent.getSectionName().equals(previousStudent.getSectionName())
+                    && !invalidTeamList.contains(currentStudent.getTeamName())) {
+
+                errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
+                        currentStudent.getTeamName(),
+                        previousStudent.getSectionName(),
+                        currentStudent.getSectionName()));
+
+                invalidTeamList.add(currentStudent.getTeamName());
+            }
+        }
+
+        if (!invalidTeamList.isEmpty()) {
+            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
+        }
+
+        return errorMessage.toString();
+    }
+
+    private boolean isInEnrollList(Student student,
+            List<Student> studentInfoList) {
+        for (Student studentInfo : studentInfoList) {
+            if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
