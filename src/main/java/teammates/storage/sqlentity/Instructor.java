@@ -39,6 +39,8 @@ public class Instructor extends User {
     @Convert(converter = InstructorPrivilegesConverter.class)
     private InstructorPrivileges privileges;
 
+    private static Team userTeam = new Team(null, Const.USER_TEAM_FOR_INSTRUCTOR);
+
     protected Instructor() {
         // required by Hibernate
     }
@@ -50,6 +52,7 @@ public class Instructor extends User {
         this.setDisplayName(displayName);
         this.setRole(role);
         this.setPrivileges(privileges);
+        this.setTeam(userTeam);
     }
 
     public boolean isDisplayedToStudents() {
