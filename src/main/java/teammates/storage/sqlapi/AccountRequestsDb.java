@@ -77,7 +77,7 @@ public final class AccountRequestsDb extends EntitiesDb {
     /**
      * Get AccountRequest by {@code registrationKey} from database.
      */
-    public AccountRequest getAccountRequest(String registrationKey) {
+    public AccountRequest getAccountRequestByRegistrationKey(String registrationKey) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);

@@ -73,6 +73,14 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Gets account request associated with the {@code regkey}.
+     */
+    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
+
+        return accountRequestDb.getAccountRequestByRegistrationKey(regkey);
+    }
+
+    /**
      * Creates/resets the account request with the given email and institute such that it is not registered.
      */
     public AccountRequest resetAccountRequest(String email, String institute)

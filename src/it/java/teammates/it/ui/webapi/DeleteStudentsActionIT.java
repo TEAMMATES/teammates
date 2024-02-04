@@ -41,14 +41,14 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.getCourseId();
         // TODO Remove limit after migration completes
-        int deleteLimit = 3;
+        int deleteLimit = 4;
 
         ______TS("Typical Success Case delete a limited number of students");
         loginAsInstructor(instructor.getGoogleId());
 
         List<Student> studentsToDelete = logic.getStudentsForCourse(courseId);
 
-        assertEquals(3, studentsToDelete.size());
+        assertEquals(4, studentsToDelete.size());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -59,7 +59,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         getJsonResult(deleteStudentsAction);
 
         for (Student student : studentsToDelete) {
-            assertNull(logic.getStudentByGoogleId(courseId, student.getGoogleId()));
+            assertNull(logic.getStudentByRegistrationKey(student.getRegKey()));
         }
 
         ______TS("Random course given, fails silently");
