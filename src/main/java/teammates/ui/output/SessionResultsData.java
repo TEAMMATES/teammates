@@ -30,7 +30,6 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
-import teammates.ui.output.SessionResultsData.CommentOutput;
 
 /**
  * API output format for session results, including statistics.
@@ -177,7 +176,7 @@ public class SessionResultsData extends ApiOutput {
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponse response : responses) {
-                    boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
+                    boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
 
                     boolean isUserGiver = student.getEmail().equals(response.getGiver())
                             && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
@@ -286,14 +285,14 @@ public class SessionResultsData extends ApiOutput {
     private static ResponseOutput buildSingleResponseForStudent(
             FeedbackResponse response, SqlSessionResultsBundle bundle, Student student) {
         FeedbackQuestion question = response.getFeedbackQuestion();
-        boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
+        boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
 
         // process giver
         boolean isUserGiver = student.getEmail().equals(response.getGiver())
                 && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                 || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
-                && student.getTeam().equals(response.getGiver());
+                && student.getTeamName().equals(response.getGiver());
         String giverName;
         String giverTeam = "";
         if (isUserTeamGiver) {
@@ -313,7 +312,7 @@ public class SessionResultsData extends ApiOutput {
                 || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamRecipient = (question.getRecipientType() == FeedbackParticipantType.TEAMS
                 || question.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION)
-                && student.getTeam().equals(response.getRecipient());
+                && student.getTeamName().equals(response.getRecipient());
         String recipientName;
         String recipientTeam = "";
         if (isUserRecipient) {
@@ -378,7 +377,6 @@ public class SessionResultsData extends ApiOutput {
 
         return output;
     }
-
 
     private static ResponseOutput buildSingleResponseForInstructor(
             FeedbackResponseAttributes response, SessionResultsBundle bundle, boolean isMissingResponse) {
