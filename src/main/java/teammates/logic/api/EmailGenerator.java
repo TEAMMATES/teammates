@@ -28,7 +28,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.sqlentity.Student;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -381,12 +380,11 @@ public final class EmailGenerator {
     private EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(String recoveryEmailAddress,
                                                                              List<StudentAttributes> studentsForEmail) {
 
-        int FIRST_STUDENT_IDX = 0;
-        String studentName = studentsForEmail.get(FIRST_STUDENT_IDX).getName();
-        Map<String, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);              
+        int firstStudentIdx = 0;
+        String studentName = studentsForEmail.get(firstStudentIdx).getName();
+        Map<String, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);
         String emailBody;
 
-        
         var recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         if (linkFragmentsMap.isEmpty()) {
             emailBody = Templates.populateTemplate(
@@ -440,7 +438,6 @@ public final class EmailGenerator {
                 courseName = coursesLogic.getCourse(courseId).getName();
                 courseIdToNameMap.put(courseId, courseName);
             }
-
 
             StringBuilder linksFragmentValue;
             if (linkFragmentsMap.containsKey(courseId)) {
