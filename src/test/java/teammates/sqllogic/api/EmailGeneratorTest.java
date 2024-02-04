@@ -28,13 +28,13 @@ public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
     @BeforeClass
     public void setupClass() {
         super.setupClass();
-        dataBundle = loadSqlDataBundle("/SqlEmailGeneratorTest.json");
     }
 
     @Override
     @BeforeMethod
     public void setUp() throws Exception {
         super.setUp();
+        dataBundle = loadSqlDataBundle("/SqlEmailGeneratorTest.json");
 
         FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
         FeedbackSession session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
