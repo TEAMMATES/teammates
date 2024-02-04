@@ -72,7 +72,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
-        List<Student> students = new ArrayList<>(logic.getStudentsForCourse(courseId));        
+        List<Student> students = new ArrayList<>(logic.getStudentsForCourse(courseId));
         assertEquals(4, students.size());
 
         ______TS("Typical Success Case For Enrolling a Student");
