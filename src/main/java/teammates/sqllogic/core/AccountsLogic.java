@@ -207,12 +207,8 @@ public final class AccountsLogic {
         // Update the googleId of the student entity for the instructor which was created from sample data.
         Student student = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
-            // TODO: Update the student
-            // student.setGoogleId(googleId);
-            // studentsLogic.updateStudentCascade(
-            //         StudentAttributes.updateOptionsBuilder(student.getCourse(), student.getEmail())
-            //                 .withGoogleId(student.getGoogleId())
-            //                 .build());
+            student.setAccount(account);
+            usersLogic.updateStudentCascade(student);
         }
 
         return instructor;
