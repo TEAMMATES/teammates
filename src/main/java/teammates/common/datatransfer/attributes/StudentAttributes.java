@@ -11,7 +11,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.sqlentity.Student;
 
 /**
  * The data transfer object for {@link CourseStudent} entities.
