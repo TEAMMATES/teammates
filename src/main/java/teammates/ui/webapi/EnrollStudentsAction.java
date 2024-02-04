@@ -104,7 +104,7 @@ public class EnrollStudentsAction extends Action {
                                 enrollRequest.getEmail(), enrollRequest.getComments(), team);
                         Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
                         taskQueuer.scheduleStudentForSearchIndexing(
-                                updatedStudent.getCourseId(), updatedStudent.getEmail());
+                                updatedStudent.getCourse().toString(), updatedStudent.getEmail());
                         enrolledStudents.add(updatedStudent);
                     } catch (InvalidParametersException | EntityDoesNotExistException
                             | EntityAlreadyExistsException exception) {
@@ -122,7 +122,7 @@ public class EnrollStudentsAction extends Action {
                                 enrollRequest.getEmail(), enrollRequest.getComments(), team);
                         newStudent = sqlLogic.createStudent(newStudent);
                         taskQueuer.scheduleStudentForSearchIndexing(
-                                newStudent.getCourseId(), newStudent.getEmail());
+                                newStudent.getCourse().toString(), newStudent.getEmail());
                         enrolledStudents.add(newStudent);
                     } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                         // Unsuccessfully enrolled students will not be returned.
