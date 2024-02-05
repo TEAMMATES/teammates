@@ -1,4 +1,4 @@
-package teammates.sqllogic.api;
+package teammates.it.sqllogic.api;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -11,6 +11,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.sqllogic.api.SqlEmailGenerator;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Student;
 import teammates.test.EmailChecker;
@@ -18,7 +19,7 @@ import teammates.test.EmailChecker;
 /**
  * SUT: {@link SqlEmailGenerator}.
  */
-public class EmailGeneratorTest extends BaseTestCaseWithSqlDatabaseAccess {
+public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final SqlEmailGenerator emailGenerator = SqlEmailGenerator.inst();
 
