@@ -382,7 +382,7 @@ public final class EmailGenerator {
 
         int firstStudentIdx = 0;
         String studentName = studentsForEmail.get(firstStudentIdx).getName();
-        Map<String, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);
+        Map<CourseAttributes, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);
         String emailBody;
 
         var recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
@@ -395,11 +395,11 @@ public final class EmailGenerator {
                     "${sessionsRecoveryLink}", recoveryUrl);
         } else {
             var courseFragments = new StringBuilder(10000);
-            linkFragmentsMap.forEach((courseName, linksFragments) -> {
+            linkFragmentsMap.forEach((course, linksFragments) -> {
                 String courseBody = Templates.populateTemplate(
                         EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
                         "${sessionFragment}", linksFragments.toString(),
-                        "${courseName}", courseName);
+                        "${courseName}", course.getName());
                 courseFragments.append(courseBody);
             });
             emailBody = Templates.populateTemplate(
@@ -419,29 +419,20 @@ public final class EmailGenerator {
         return email;
     }
 
-    private Map<String, StringBuilder> generateLinkFragmentsMap(List<StudentAttributes> studentsForEmail) {
+    private Map<CourseAttributes, StringBuilder> generateLinkFragmentsMap(List<StudentAttributes> studentsForEmail) {
         var searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
-        Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
-        Map<String, String> courseIdToNameMap = new HashMap<>();
+        Map<CourseAttributes, StringBuilder> linkFragmentsMap = new HashMap<>();
 
         for (var student : studentsForEmail) {
             RequestTracer.checkRemainingTime();
             // Query students' courses first
             // as a student will likely be in only a small number of courses.
-            var course = coursesLogic.getCourse(student.getCourse());
-            var courseId = course.getId();
-            String courseName;
-
-            if (courseIdToNameMap.containsKey(courseId)) {
-                courseName = courseIdToNameMap.get(courseId);
-            } else {
-                courseName = coursesLogic.getCourse(courseId).getName();
-                courseIdToNameMap.put(courseId, courseName);
-            }
+            CourseAttributes course = coursesLogic.getCourse(student.getCourse());
+            String courseId = course.getId();
 
             StringBuilder linksFragmentValue;
-            if (linkFragmentsMap.containsKey(courseId)) {
-                linksFragmentValue = linkFragmentsMap.get(courseId);
+            if (linkFragmentsMap.containsKey(course)) {
+                linksFragmentValue = linkFragmentsMap.get(course);
             } else {
                 linksFragmentValue = new StringBuilder(5000);
             }
@@ -453,7 +444,7 @@ public final class EmailGenerator {
 
                 if (session.isOpened() || session.isClosed()) {
                     var submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                            .withCourseId(course.getId())
+                            .withCourseId(courseId)
                             .withSessionName(session.getFeedbackSessionName())
                             .withRegistrationKey(student.getKey())
                             .toAbsoluteString();
@@ -462,7 +453,7 @@ public final class EmailGenerator {
 
                 if (session.isPublished()) {
                     var reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                            .withCourseId(course.getId())
+                            .withCourseId(courseId)
                             .withSessionName(session.getFeedbackSessionName())
                             .withRegistrationKey(student.getKey())
                             .toAbsoluteString();
@@ -479,7 +470,7 @@ public final class EmailGenerator {
                         "${submitUrl}", submitUrlHtml,
                         "${reportUrl}", reportUrlHtml));
 
-                linkFragmentsMap.putIfAbsent(courseName, linksFragmentValue);
+                linkFragmentsMap.putIfAbsent(course, linksFragmentValue);
             }
         }
         return linkFragmentsMap;
