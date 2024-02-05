@@ -56,6 +56,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     Logic mockLogic = mock(Logic.class);
+    teammates.logic.api.Logic mockDatastoreLogic = mock(teammates.logic.api.Logic.class);
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
@@ -103,6 +104,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setLogic(mockLogic);
+            action.setLogic(mockDatastoreLogic);
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setLogsProcessor(mockLogsProcessor);

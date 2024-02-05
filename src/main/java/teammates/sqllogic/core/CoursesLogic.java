@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -29,9 +30,9 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
 
-    private UsersLogic usersLogic;
+    private FeedbackSessionsLogic fsLogic;
 
-    // private FeedbackSessionsLogic fsLogic;
+    private UsersLogic usersLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -43,8 +44,8 @@ public final class CoursesLogic {
 
     void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic) {
         this.coursesDb = coursesDb;
+        this.fsLogic = fsLogic;
         this.usersLogic = usersLogic;
-        // this.fsLogic = fsLogic;
     }
 
     /**
@@ -121,17 +122,16 @@ public final class CoursesLogic {
             return;
         }
 
-        // TODO: Migrate after other Logic classes have been migrated.
-        // AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-        // .withCourseId(courseId)
-        // .build();
-        // frcLogic.deleteFeedbackResponseComments(query);
-        // frLogic.deleteFeedbackResponses(query);
-        // fqLogic.deleteFeedbackQuestions(query);
-        // feedbackSessionsLogic.deleteFeedbackSessions(query);
-        // studentsLogic.deleteStudents(query);
-        // instructorsLogic.deleteInstructors(query);
-        // deadlineExtensionsLogic.deleteDeadlineExtensions(query);
+        usersLogic.deleteStudentsInCourseCascade(courseId);
+        List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        feedbackSessions.forEach(feedbackSession -> {
+            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
+        });
+        coursesDb.deleteSectionsByCourseId(courseId);
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
+        instructors.forEach(instructor -> {
+            usersLogic.deleteInstructorCascade(courseId, instructor.getEmail());
+        });
 
         coursesDb.deleteCourse(course);
     }

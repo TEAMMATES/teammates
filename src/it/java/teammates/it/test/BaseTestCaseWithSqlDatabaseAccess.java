@@ -244,6 +244,9 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {
             return logic.getNotification(((Notification) entity).getId());
+        } else if (entity instanceof AccountRequest) {
+            AccountRequest accountRequest = (AccountRequest) entity;
+            return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         } else {
             throw new RuntimeException("Unknown entity type");
         }

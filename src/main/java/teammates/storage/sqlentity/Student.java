@@ -30,10 +30,22 @@ public class Student extends User {
         this.setComments(comments);
     }
 
+    public Student(Course course, String name, String email, String comments, Team team) {
+        super(course, name, email);
+        this.setComments(comments);
+        this.setTeam(team);
+    }
+
+    /**
+     * Gets the comments of the student.
+     */
     public String getComments() {
         return comments;
     }
 
+    /**
+     * Sets the comments of the student.
+     */
     public void setComments(String comments) {
         this.comments = SanitizationHelper.sanitizeTextField(comments);
     }

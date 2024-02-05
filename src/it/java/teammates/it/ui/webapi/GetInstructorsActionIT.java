@@ -57,7 +57,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         InstructorsData output = (InstructorsData) jsonResult.getOutput();
         List<InstructorData> instructors = output.getInstructors();
 
-        assertEquals(2, instructors.size());
+        assertEquals(3, instructors.size());
 
         ______TS("Typical Success Case with no intent");
         params = new String[] {
@@ -71,7 +71,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         output = (InstructorsData) jsonResult.getOutput();
         instructors = output.getInstructors();
 
-        assertEquals(2, instructors.size());
+        assertEquals(3, instructors.size());
 
         for (InstructorData instructorData : instructors) {
             assertNull(instructorData.getGoogleId());

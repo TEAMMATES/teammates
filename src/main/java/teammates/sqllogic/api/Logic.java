@@ -12,6 +12,7 @@ import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -42,6 +43,7 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
@@ -97,6 +99,15 @@ public class Logic {
      */
     public AccountRequest getAccountRequest(String email, String institute) {
         return accountRequestLogic.getAccountRequest(email, institute);
+    }
+
+    /**
+     * Gets the account request with the associated {@code regkey}.
+     *
+     * @return account request with the associated {@code regkey}.
+     */
+    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
+        return accountRequestLogic.getAccountRequestByRegistrationKey(regkey);
     }
 
     /**
@@ -203,6 +214,13 @@ public class Logic {
     }
 
     /**
+     * Gets a section from a course by section name.
+     */
+    public Section getSection(String courseId, String section) {
+        return usersLogic.getSection(courseId, section);
+    }
+
+    /**
      * Gets courses associated with student.
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -256,6 +274,33 @@ public class Logic {
      */
     public void deleteCourseCascade(String courseId) {
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Updates a student by {@link Student}.
+     *
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * the student gives/receives as well as any deadline extensions given to the student.
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
+     */
+    public Student updateStudentCascade(Student student)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert student != null;
+
+        return usersLogic.updateStudentCascade(student);
     }
 
     /**
@@ -405,6 +450,13 @@ public class Logic {
         assert instructorList != null;
 
         return feedbackSessionsLogic.getFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
+     * Gets all and only the feedback sessions ongoing within a range of time.
+     */
+    public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        return feedbackSessionsLogic.getOngoingSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -806,6 +858,20 @@ public class Logic {
     }
 
     /**
+     * Gets a team by associated {@code courseId} and {@code sectionName}.
+     */
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        return usersLogic.getSectionOrCreate(courseId, sectionName);
+    }
+
+    /**
+     * Gets a team by associated {@code section} and {@code teamName}.
+     */
+    public Team getTeamOrCreate(Section section, String teamName) {
+        return usersLogic.getTeamOrCreate(section, teamName);
+    }
+
+    /**
      * Creates a student.
      *
      * @return the created student
@@ -1012,6 +1078,13 @@ public class Logic {
     }
 
     /**
+     * Removes the given data bundle from the database.
+     */
+    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+        dataBundleLogic.removeDataBundle(dataBundle);
+    }
+
+    /**
      * Populates fields that need dynamic generation in a question.
      *
      * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
@@ -1152,7 +1225,45 @@ public class Logic {
     }
 
     /**
-     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     * Gets all feedback responses from a giver for a question.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
+    }
+
+    /**
+     * Gets all feedback responses for a recipient for a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
+        return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
+    }
+
+    /**
+     * Gets all feedback response comments for a feedback response.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponse) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForResponse(feedbackResponse);
+    }
+
+    /**
+     * Validates sections for any limit violations and teams for any team name violations.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see StudentsLogic#validateSectionsAndTeams(List, String)
+     */
+    public void validateSectionsAndTeams(
+            List<Student> studentList, String courseId) throws EnrollException {
+
+        assert studentList != null;
+        assert courseId != null;
+
+        usersLogic.validateSectionsAndTeams(studentList, courseId);
+    }
+
+    /**
+     * Updates a feedback question by {@code FeedbackQuestionUpdateRequest}.
      *
      * <p>Cascade adjust the question number of questions in the same session.
      *
