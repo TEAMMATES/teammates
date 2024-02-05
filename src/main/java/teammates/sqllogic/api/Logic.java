@@ -1196,7 +1196,7 @@ public class Logic {
      */
     public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
         assert feedbackResponse != null;
-        feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse.getId());
+        feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
     }
 
     /**

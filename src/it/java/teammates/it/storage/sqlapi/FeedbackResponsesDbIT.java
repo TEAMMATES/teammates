@@ -74,17 +74,13 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testDeleteFeedbackResponsesAndCommentsCascade() {
+    public void testDeleteFeedback() {
         ______TS("success: typical case");
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
-        FeedbackResponseComment frc1 = typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
 
-        // List<FeedbackResponseComment> actualFrc = frcDb.getFeedbackResponseCommentForResponse(fr1.getId());
-        frDb.deleteFeedbackResponsesAndCommentsCascade(fr1);
+        frDb.deleteFeedbackResponse(fr1);
 
         assertNull(frDb.getFeedbackResponse(fr1.getId()));
-
-        assertNull(frcDb.getFeedbackResponseComment(frc1.getId()));
     }
 
     @Test

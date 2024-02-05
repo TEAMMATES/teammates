@@ -99,7 +99,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         subquery.select(subqueryRoot.get("id"));
         subquery.where(cb.equal(sqJoin.get("id"), feedbackResponseId));
         cd.where(cb.in(sRoot.get("id")).value(subquery));
-        HibernateUtil.createMutationQuery(cd).executeUpdate();
+        int numAffected = HibernateUtil.createMutationQuery(cd).executeUpdate();
     }
 
     /**
@@ -142,7 +142,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
      * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment newFeedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
+        throws InvalidParametersException, EntityDoesNotExistException {
         assert newFeedbackResponseComment != null;
 
         FeedbackResponseComment oldFeedbackResponseComment = getFeedbackResponseComment(newFeedbackResponseComment.getId());
@@ -259,15 +259,6 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
                     cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
 
         return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
-     * Updates the feedback response comment.
-     */
-    public void updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
-        assert feedbackResponseComment != null;
-
-        merge(feedbackResponseComment);
     }
 
 }

@@ -13,7 +13,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -109,28 +108,6 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
-     * Saves an updated {@code FeedbackResponse} to the db.
-     *
-     * @return updated feedback response
-     * @throws InvalidParametersException  if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the feedback response cannot be found
-     */
-    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-        throws InvalidParametersException, EntityDoesNotExistException {
-        
-        if (!feedbackResponse.isValid()) {
-            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
-        }
-
-        if (getFeedbackResponse(feedbackResponse.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return merge(feedbackResponse);
-    }
-
-
-    /**
      * Deletes a feedbackResponse.
      */
     public void deleteFeedbackResponse(FeedbackResponse feedbackResponse) {
@@ -156,11 +133,6 @@ public final class FeedbackResponsesDb extends EntitiesDb {
                         cb.equal(root.get("giver"), giverEmail)));
         return HibernateUtil.createQuery(cq).getResultList();
     }
-
-    /**
-     * Deletes a feed back response and all it's associated feedback response comments.
-     */
-    public void deleteFeedbackResponsesAndCommentsCascade(UUID feedbackResponseId) {    }
 
     /**
      * Deletes all feedback responses of a question cascade its associated comments.

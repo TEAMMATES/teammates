@@ -62,13 +62,6 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
 
-    /**
-     * Gets the comment associated with the response.
-     */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentForResponse(UUID feedbackResponseId) {
-        return frcDb.getFeedbackResponseCommentForResponse(feedbackResponseId);
-    }
-
     /** TODO: If there's a bug here, then update the comment
      * Gets the comment associated with the response.
      */
@@ -93,6 +86,14 @@ public final class FeedbackResponseCommentsLogic {
     public void deleteFeedbackResponseComment(Long frcId) {
         frcDb.deleteFeedbackResponseComment(frcId);
     }
+
+    /**
+     * Deletes all feedbackResponseComment associated with a feedback response.
+     */
+    public void deleteFeedbackResponseCommentForFeedbackResponseCascade(UUID feedbackResponseId) {
+        frcDb.deleteFeedbackResponseCommentForFeedbackResponseCascade(feedbackResponseId);
+    }
+    
 
     /**
      * Updates a feedback response comment by {@link FeedbackResponseComment}.

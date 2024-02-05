@@ -228,8 +228,9 @@ public final class FeedbackResponsesLogic {
     /**
      * Deletes a feedback response cascade its associated feedback response comments.
      */
-    public void deleteFeedbackResponsesAndCommentsCascade(UUID feedbackResponseId) {
-        frDb.deleteFeedbackResponsesAndCommentsCascade(feedbackResponseId);
+    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
+        frDb.deleteFeedbackResponse(feedbackResponse);
+        frcLogic.deleteFeedbackResponseCommentForFeedbackResponseCascade(feedbackResponse.getId());
     }
 
     /**
