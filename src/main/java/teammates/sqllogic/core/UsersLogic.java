@@ -117,11 +117,9 @@ public final class UsersLogic {
      */
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
-
         if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
             throw new EntityAlreadyExistsException("Instructor already exists.");
         }
-
         return usersDb.createInstructor(instructor);
     }
 
