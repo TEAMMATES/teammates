@@ -281,7 +281,7 @@ public final class InstructorPrivileges {
         }
         verifyExistenceOfsectionName(sectionName);
         this.sessionLevel.get(sectionName).computeIfAbsent(sessionName, key -> new InstructorPermissionSet())
-                .put(privilegeName, isAllowed);
+                                          .put(privilegeName, isAllowed);
     }
 
     private void verifyExistenceOfsectionName(String sectionName) {
