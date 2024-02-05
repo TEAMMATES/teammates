@@ -67,6 +67,11 @@ public class SearchInstructorsAction extends AdminOnlyAction {
                     logic.getCourseInstitute(instructor.getCourseId()),
                     instructor.getGoogleId());
 
+            // If the instructor is already in the list, do not add it again
+            if (instructorDataList.contains(instructorData)) {
+                continue;
+            }
+
             instructorDataList.add(instructorData);
         }
 
