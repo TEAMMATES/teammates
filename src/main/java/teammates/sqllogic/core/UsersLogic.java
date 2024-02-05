@@ -15,7 +15,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -27,6 +26,7 @@ import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -694,10 +694,16 @@ public final class UsersLogic {
         Student updatedStudent = usersDb.updateStudent(originalStudent);
         Course course = updatedStudent.getCourse();
 
-        // cascade email changes to responses and comments
+        // cascade email changes to account, responses and comments
         if (changedEmail) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, newEmail);
             feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
+
+            Account updatedAccount = originalStudent.getAccount();
+            if (updatedAccount != null) {
+                updatedAccount.setEmail(newEmail);
+                accountsLogic.updateAccount(updatedAccount);
+            }
         }
 
         // adjust submissions if moving to a different team

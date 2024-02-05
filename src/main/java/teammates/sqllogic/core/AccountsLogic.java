@@ -114,6 +114,21 @@ public final class AccountsLogic {
     }
 
     /**
+     * Updates an account.
+     *
+     * @return the updated account
+     * @throws InvalidParametersException   if the account is not valid
+     * @throws EntityDoesNotExistException if the account does not exist in the
+     *                                    database.
+     */
+    public Account updateAccount(Account account)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert account != null;
+
+        return accountsDb.updateAccount(account);
+    }
+
+    /**
      * Updates the readNotifications of an account.
      *
      * @param googleId       google ID of the user who read the notification.

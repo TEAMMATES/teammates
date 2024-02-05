@@ -203,9 +203,10 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
-        assertEquals("Team \"Team 1\" is detected in both Section \"Section 1\" "
-                        + "and Section \"Section 3\". Please use different team names in different sections.",
-                ioe.getMessage());
+        String expectedErrorMessage = String.format("Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
+                + " Please use different team names in different sections.", student4InCourse1.getTeamName(),
+                student1InCourse1.getSectionName(), student4InCourse1.getSectionName());
+        assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
     }
@@ -246,9 +247,10 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
-        assertEquals("You are trying enroll more than 100 students in section \"sectionInMaxCapacity\". "
-                        + "To avoid performance problems, please do not enroll more than 100 students in a single section.",
-                ioe.getMessage());
+        String expectedErrorMessage = String.format("You are trying enroll more than %d students in section \"%s\". "
+                + "To avoid performance problems, please do not enroll more than %d students in a single section.",
+                Const.SECTION_SIZE_LIMIT, sectionInMaxCapacity, Const.SECTION_SIZE_LIMIT);
+        assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
     }

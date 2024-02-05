@@ -8,7 +8,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.User;
@@ -118,16 +117,4 @@ public final class DeadlineExtensionsLogic {
             }
         });
     }
-<<<<<<< HEAD
-
-    /**
-     * Updates all deadline extensions with the new email.
-     */
-    public void updateDeadlineExtensionsWithNewEmail(Course courseId, String oldEmail, String newEmail)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        deadlineExtensionsDb.updateDeadlineExtensionsWithNewEmail(oldEmail, newEmail);
-    }
-
-=======
->>>>>>> 333f582460d9b1ba7174321de3ea3113cc71c9db
 }
