@@ -556,6 +556,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets the section with the name in a particular course.
+     */
+    public Section getSection(String courseId, String sectionName) {
+        return usersDb.getSection(courseId, sectionName);
+    }
+
+    /**
      * Gets the section with the name in a particular course, otherwise creates a new section.
      */
     public Section getSectionOrCreate(String courseId, String sectionName) {
@@ -767,21 +774,10 @@ public final class UsersLogic {
         return mergedList;
     }
 
-    /**
-     * Returns the section name for the given team name for the given course.
-     */
-    public String getSectionForTeam(String courseId, String teamName) {
-
-        List<StudentAttributes> students = getStudentAttributeList(getStudentsForTeam(teamName, courseId));
-        if (students.isEmpty()) {
-            return Const.DEFAULT_SECTION;
-        }
-        return students.get(0).getSection();
-    }
-
     private String getSectionInvalidityInfo(List<Student> mergedList) {
 
-        mergedList.sort(Comparator.comparing((Student student) -> student.getSection().getName())
+        mergedList.sort(Comparator.comparing((Student student) -> student.getSectionName())
+                .thenComparing(student -> student.getTeamName())
                 .thenComparing(student -> student.getName()));
 
         List<String> invalidSectionList = new ArrayList<>();
@@ -789,17 +785,17 @@ public final class UsersLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             Student currentStudent = mergedList.get(i);
             Student previousStudent = mergedList.get(i - 1);
-            if (currentStudent.getSection().getName().equals(previousStudent.getSection().getName())) {
+            if (currentStudent.getSectionName().equals(previousStudent.getSectionName())) {
                 studentsCount++;
             } else {
                 if (studentsCount > Const.SECTION_SIZE_LIMIT) {
-                    invalidSectionList.add(previousStudent.getSection().getName());
+                    invalidSectionList.add(previousStudent.getSectionName());
                 }
                 studentsCount = 1;
             }
 
             if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
-                invalidSectionList.add(currentStudent.getSection().getName());
+                invalidSectionList.add(currentStudent.getSectionName());
             }
         }
 
@@ -821,23 +817,23 @@ public final class UsersLogic {
 
     private String getTeamInvalidityInfo(List<Student> mergedList) {
         StringJoiner errorMessage = new StringJoiner(" ");
-        mergedList.sort(Comparator.comparing((Student student) -> student.getTeam().getName())
+        mergedList.sort(Comparator.comparing((Student student) -> student.getTeamName())
                 .thenComparing(student -> student.getName()));
 
         List<String> invalidTeamList = new ArrayList<>();
         for (int i = 1; i < mergedList.size(); i++) {
             Student currentStudent = mergedList.get(i);
             Student previousStudent = mergedList.get(i - 1);
-            if (currentStudent.getTeam().getName().equals(previousStudent.getTeam().getName())
-                    && !currentStudent.getSection().getName().equals(previousStudent.getSection().getName())
-                    && !invalidTeamList.contains(currentStudent.getTeam().getName())) {
+            if (currentStudent.getTeamName().equals(previousStudent.getTeamName())
+                    && !currentStudent.getSectionName().equals(previousStudent.getSectionName())
+                    && !invalidTeamList.contains(currentStudent.getTeamName())) {
 
                 errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
-                        currentStudent.getTeam().getName(),
-                        previousStudent.getSection().getName(),
-                        currentStudent.getSection().getName()));
+                        currentStudent.getTeamName(),
+                        previousStudent.getSectionName(),
+                        currentStudent.getSectionName()));
 
-                invalidTeamList.add(currentStudent.getTeam().getName());
+                invalidTeamList.add(currentStudent.getTeamName());
             }
         }
 
@@ -846,14 +842,6 @@ public final class UsersLogic {
         }
 
         return errorMessage.toString();
-    }
-
-    private List<StudentAttributes> getStudentAttributeList(List<Student> students) {
-        List<StudentAttributes> studentAttributesList = new ArrayList<>();
-        for (Student student : students) {
-            studentAttributesList.add(StudentAttributes.valueOf(student));
-        }
-        return studentAttributesList;
     }
 
     private boolean isInEnrollList(Student student,

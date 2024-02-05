@@ -104,6 +104,15 @@ public class Logic {
     }
 
     /**
+     * Gets the account request with the associated {@code regkey}.
+     *
+     * @return account request with the associated {@code regkey}.
+     */
+    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
+        return accountRequestLogic.getAccountRequestByRegistrationKey(regkey);
+    }
+
+    /**
      * Creates/Resets the account request with the given email and institute
      * such that it is not registered.
      *
@@ -210,7 +219,7 @@ public class Logic {
      * Gets a section from a course by section name.
      */
     public Section getSection(String courseId, String section) {
-        return usersLogic.getSectionOrCreate(courseId, section);
+        return usersLogic.getSection(courseId, section);
     }
 
     /**
@@ -444,6 +453,13 @@ public class Logic {
         assert instructorList != null;
 
         return feedbackSessionsLogic.getFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
+     * Gets all and only the feedback sessions ongoing within a range of time.
+     */
+    public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        return feedbackSessionsLogic.getOngoingSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -1062,6 +1078,13 @@ public class Logic {
      */
     public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
+    }
+
+    /**
+     * Removes the given data bundle from the database.
+     */
+    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+        dataBundleLogic.removeDataBundle(dataBundle);
     }
 
     /**

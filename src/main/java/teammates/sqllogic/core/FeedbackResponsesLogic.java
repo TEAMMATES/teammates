@@ -391,6 +391,9 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Updates responses for a student when his team changes.
+     * <p>
+     *     This is done by deleting responses that are no longer relevant to him in his new team.
+     * </p>
      */
     public void updateFeedbackResponsesForChangingTeam(Course course, String newEmail, Team newTeam, Team oldTeam)
             throws InvalidParametersException, EntityDoesNotExistException {

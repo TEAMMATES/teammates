@@ -118,6 +118,7 @@ public final class DeadlineExtensionsLogic {
             }
         });
     }
+<<<<<<< HEAD
 
     /**
      * Updates all deadline extensions with the new email.
@@ -127,4 +128,6 @@ public final class DeadlineExtensionsLogic {
         deadlineExtensionsDb.updateDeadlineExtensionsWithNewEmail(oldEmail, newEmail);
     }
 
+=======
+>>>>>>> 333f582460d9b1ba7174321de3ea3113cc71c9db
 }

@@ -18,11 +18,14 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -231,6 +234,89 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyPresentInDatabase(student1Account);
 
         // TODO: incomplete
+    }
+
+    @Test
+    public void testRemoveDataBundle_typicalValues_removedCorrectly()
+                throws InvalidParametersException, EntityAlreadyExistsException {
+        SqlDataBundle dataBundle = loadSqlDataBundle("/DataBundleLogicIT.json");
+        dataBundleLogic.persistDataBundle(dataBundle);
+
+        ______TS("verify notifications persisted correctly");
+        Notification notification1 = dataBundle.notifications.get("notification1");
+
+        verifyPresentInDatabase(notification1);
+
+        ______TS("verify course persisted correctly");
+        Course typicalCourse = dataBundle.courses.get("typicalCourse");
+
+        verifyPresentInDatabase(typicalCourse);
+
+        ______TS("verify feedback session persisted correctly");
+        FeedbackSession session1InTypicalCourse = dataBundle.feedbackSessions.get("session1InTypicalCourse");
+
+        verifyPresentInDatabase(session1InTypicalCourse);
+
+        ______TS("verify accounts persisted correctly");
+        Account instructor1Account = dataBundle.accounts.get("instructor1");
+        Account student1Account = dataBundle.accounts.get("student1");
+
+        verifyPresentInDatabase(instructor1Account);
+        verifyPresentInDatabase(student1Account);
+
+        ______TS("verify account request persisted correctly");
+        AccountRequest accountRequest = dataBundle.accountRequests.get("instructor1");
+
+        verifyPresentInDatabase(accountRequest);
+
+        dataBundleLogic.removeDataBundle(dataBundle);
+
+        ______TS("verify notification removed correctly");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(notification1));
+
+        ______TS("verify course removed correctly");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(typicalCourse));
+
+        ______TS("verify feedback session removed correctly");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
+
+        ______TS("verify feedback questions, responses, response comments and deadline extensions "
+                + "related to session1InTypicalCourse are removed correctly");
+
+        List<FeedbackQuestion> fqs = session1InTypicalCourse.getFeedbackQuestions();
+        List<DeadlineExtension> des = session1InTypicalCourse.getDeadlineExtensions();
+        List<FeedbackResponse> frs = new ArrayList<>();
+        List<FeedbackResponseComment> frcs = new ArrayList<>();
+
+        for (DeadlineExtension de : des) {
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(de));
+        }
+
+        for (FeedbackQuestion fq : fqs) {
+            frs.addAll(fq.getFeedbackResponses());
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fq));
+        }
+
+        for (FeedbackResponse fr : frs) {
+            frcs.addAll(fr.getFeedbackResponseComments());
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fr));
+        }
+
+        for (FeedbackResponseComment frc : frcs) {
+            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(frc));
+        }
+
+        ______TS("verify accounts removed correctly");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(instructor1Account));
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(student1Account));
+
+        ______TS("verify account request removed correctly");
+
+        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(accountRequest));
     }
 
 }
