@@ -189,4 +189,3 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         verifyInaccessibleForInstructorsOfOtherCourses(course, submissionParams);
     }
 }
-
