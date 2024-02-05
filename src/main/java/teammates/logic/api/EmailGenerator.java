@@ -419,7 +419,7 @@ public final class EmailGenerator {
         return email;
     }
 
-    private Map<CourseAttributes, StringBuilder> generateLinkFragmentsMap(List<StudentAttributes> studentsForEmail) {
+    public Map<CourseAttributes, StringBuilder> generateLinkFragmentsMap(List<StudentAttributes> studentsForEmail) {
         var searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
         Map<CourseAttributes, StringBuilder> linkFragmentsMap = new HashMap<>();
 
