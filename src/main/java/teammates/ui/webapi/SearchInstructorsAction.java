@@ -71,8 +71,8 @@ public class SearchInstructorsAction extends AdminOnlyAction {
                     logic.getCourseInstitute(instructor.getCourseId()),
                     instructor.getGoogleId());
 
-            // If the instructor is already in the list, do not add it again
-            if (instructorDataList.contains(instructorData)) {
+            // If the course has been migrated, then the instructor would have been added already
+            if (isCourseMigrated(instructorData.getCourseId())) {
                 continue;
             }
 
