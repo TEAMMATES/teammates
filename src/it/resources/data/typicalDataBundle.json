@@ -144,6 +144,13 @@
         "id": "00000000-0000-4000-8000-000000000203"
       },
       "name": "Team 3"
+    },
+    "team2InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000304",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "name": "Team 1"
     }
   },
   "deadlineExtensions": {
@@ -401,6 +408,21 @@
       "email": "student1@teammates.tmt",
       "name": "student1 In Course2",
       "comments": ""
+    },
+    "student4InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000605",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000105"
+      },
+      "course": {
+        "id": "course-1"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000304"
+      },
+      "email": "student4@teammates.tmt",
+      "name": "student4 In Course1",
+      "comments": "comment for student4Course1"
     }
   },
   "feedbackSessions": {

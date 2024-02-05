@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -19,6 +20,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.logic.core.StudentsLogic;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -271,27 +273,28 @@ public class Logic {
      * Updates a student by {@link Student}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses
-     * the student gives/receives as well as any deadline extensions given to the student.
+     * and comments the student gives/receives.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
      * <p>If section changed, cascade update all responses the student gives/receives.
      *
      * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
+     * * Student parameter is non-null.
      *
+     * @param newEmail The new email of the student. If null, the email will not be updated.
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the student cannot be found
      * @throws EntityAlreadyExistsException if the student cannot be updated
      *         by recreation because of an existent student
      */
-    public Student updateStudentCascade(Student student)
+    public Student updateStudentCascade(Student student, @Nullable String newEmail)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert student != null;
 
-        return usersLogic.updateStudentCascade(student);
+        return usersLogic.updateStudentCascade(student, newEmail);
     }
 
     /**

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -646,36 +648,50 @@ public final class UsersLogic {
     }
 
     /**
-     * Updates a student by {@link Student}.
-     *
+     * Updates a student by {@link Student}. 
+     * 
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * and comments the student gives/receives.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
      * <p>If section changed, cascade update all responses the student gives/receives.
      *
+     * @param newEmail The new email of the student. If null, the email will not be updated.
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the student cannot be found
      * @throws EntityAlreadyExistsException if the student cannot be updated
      *         by recreation because of an existent student
      */
-    public Student updateStudentCascade(Student student)
+    public Student updateStudentCascade(Student student, @Nullable String newEmail)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Student originalStudent = getStudentForEmail(student.getCourseId(), student.getEmail());
+        String courseId = student.getCourseId();
+        Student originalStudent = getStudentForEmail(courseId, student.getEmail());
+        String originalEmail = originalStudent.getEmail();
         Team originalTeam = originalStudent.getTeam();
         Section originalSection = originalStudent.getSection();
 
+        boolean changedEmail = !originalEmail.equals(newEmail);
         boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
-        originalStudent.setEmail(student.getEmail());
         originalStudent.setComments(student.getComments());
+        if (changedEmail) {
+            originalStudent.setEmail(newEmail);
+        }
 
         Student updatedStudent = usersDb.updateStudent(originalStudent);
         Course course = updatedStudent.getCourse();
+
+        // cascade email changes to responses and comments
+        if (changedEmail) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, newEmail);
+            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
+        }
 
         // adjust submissions if moving to a different team
         if (changedTeam) {
