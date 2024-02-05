@@ -10,8 +10,7 @@ import java.util.Set;
 import teammates.common.util.Const;
 
 /**
- * Representation of instructor privileges. Store the privileges of the
- * instructor
+ * Representation of instructor privileges. Store the privileges of the instructor
  */
 public final class InstructorPrivileges {
 
@@ -85,12 +84,12 @@ public final class InstructorPrivileges {
             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
     };
 
-    private static final Set<String> COURSE_LEVEL_ONLY_PRIVILEGES = new LinkedHashSet<>(
-            Arrays.asList(COURSE_LEVEL_ONLY_LIST));
-    private static final Set<String> SECTION_LEVEL_ONLY_PRIVILEGES = new LinkedHashSet<>(
-            Arrays.asList(SECTION_LEVEL_ONLY_LIST));
-    private static final Set<String> SESSION_LEVEL_ONLY_PRIVILEGES = new LinkedHashSet<>(
-            Arrays.asList(SESSION_LEVEL_ONLY_LIST));
+    private static final Set<String> COURSE_LEVEL_ONLY_PRIVILEGES =
+            new LinkedHashSet<>(Arrays.asList(COURSE_LEVEL_ONLY_LIST));
+    private static final Set<String> SECTION_LEVEL_ONLY_PRIVILEGES =
+            new LinkedHashSet<>(Arrays.asList(SECTION_LEVEL_ONLY_LIST));
+    private static final Set<String> SESSION_LEVEL_ONLY_PRIVILEGES =
+            new LinkedHashSet<>(Arrays.asList(SESSION_LEVEL_ONLY_LIST));
 
     private final InstructorPermissionSet courseLevel;
     private final Map<String, InstructorPermissionSet> sectionLevel;
@@ -254,8 +253,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * Sets privilege for the privilege specified by privilegeName for sessionName
-     * in sectionName.
+     * Sets privilege for the privilege specified by privilegeName for sessionName in sectionName.
      */
     public void updatePrivilege(String sectionName, String sessionName, String privilegeName, boolean isAllowed) {
         updatePrivilegeInSessionLevel(sectionName, sessionName, privilegeName, isAllowed);
@@ -277,7 +275,7 @@ public final class InstructorPrivileges {
     }
 
     private void updatePrivilegeInSessionLevel(String sectionName, String sessionName,
-            String privilegeName, boolean isAllowed) {
+                                               String privilegeName, boolean isAllowed) {
         if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
             return;
         }
@@ -305,16 +303,14 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * Returns true if it is allowed for the privilege specified by privilegeName in
-     * sectionName.
+     * Returns true if it is allowed for the privilege specified by privilegeName in sectionName.
      */
     public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
         return isAllowedInSectionLevel(sectionName, privilegeName);
     }
 
     /**
-     * Returns true if it is allowed for the privilege specified by privilegeName
-     * for sessionName in sectionName.
+     * Returns true if it is allowed for the privilege specified by privilegeName for sessionName in sectionName.
      */
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);

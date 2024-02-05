@@ -58,12 +58,13 @@ public final class UsersDb extends EntitiesDb {
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert instructor != null;
 
         if (!instructor.isValid()) {
             throw new InvalidParametersException(instructor.getInvalidityInfo());
         }
+
         persist(instructor);
         return instructor;
     }
@@ -335,8 +336,7 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets the list of students for the specified {@code courseId} in batches with
-     * {@code batchSize}.
+     * Gets the list of students for the specified {@code courseId} in batches with {@code batchSize}.
      */
     public List<Student> getStudentsForCourse(String courseId, int batchSize) {
         assert courseId != null;
@@ -545,8 +545,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(sectionRoot)
                 .where(cb.and(
-                    cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(sectionRoot.get("name"), sectionName)));
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(sectionRoot.get("name"), sectionName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -583,8 +583,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(teamRoot)
                 .where(cb.and(
-                    cb.equal(sectionJoin.get("id"), section.getId()),
-                    cb.equal(teamRoot.get("name"), teamName)));
+                        cb.equal(sectionJoin.get("id"), section.getId()),
+                        cb.equal(teamRoot.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }

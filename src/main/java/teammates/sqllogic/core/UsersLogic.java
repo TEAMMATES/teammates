@@ -76,8 +76,8 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
-            DeadlineExtensionsLogic deadlineExtensionsLogic) {
+                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+                               DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
@@ -444,8 +444,8 @@ public final class UsersLogic {
     }
 
     /**
-    * Check if the students with the provided emails exist in the course.
-    */
+     * Check if the students with the provided emails exist in the course.
+     */
     public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
         List<Student> students = usersDb.getStudentsForEmails(courseId, emails);
         Map<String, User> emailStudentMap = convertUserListToEmailUserMap(students);
@@ -626,7 +626,7 @@ public final class UsersLogic {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesForCourseCascade(
-                        student.getCourse().getId(), student.getTeamName());
+                            student.getCourse().getId(), student.getTeamName());
         }
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
@@ -833,7 +833,7 @@ public final class UsersLogic {
     }
 
     private boolean isInEnrollList(Student student,
-            List<Student> studentInfoList) {
+                                   List<Student> studentInfoList) {
         for (Student studentInfo : studentInfoList) {
             if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;
