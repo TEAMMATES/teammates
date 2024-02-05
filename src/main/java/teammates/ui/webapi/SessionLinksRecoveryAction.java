@@ -3,7 +3,9 @@ package teammates.ui.webapi;
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
 import java.util.List;
+import java.util.Map;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
@@ -14,7 +16,7 @@ import teammates.ui.output.SessionLinksRecoveryResponseData;
 /**
  * Action specifically created for confirming email and sending session recovery links.
  */
-class SessionLinksRecoveryAction extends Action {
+public class SessionLinksRecoveryAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -39,13 +41,16 @@ class SessionLinksRecoveryAction extends Action {
             return new JsonResult(new SessionLinksRecoveryResponseData(false, "Something went wrong with "
                     + "the reCAPTCHA verification. Please try again."));
         }
-
-        List<StudentAttributes> datastoreStudents = logic.getAllStudentsForEmail(recoveryEmailAddress);
+        
+        int first_student_idx = 0;
+        List<StudentAttributes> studentFromDataStore = logic.getAllStudentsForEmail(recoveryEmailAddress);
+        Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap = emailGenerator.generateLinkFragmentsMap(studentFromDataStore);
+        String studentNameFromDatastore = (studentFromDataStore.isEmpty()) ? null : studentFromDataStore.get(first_student_idx).getName();
+        
         EmailWrapper email = sqlEmailGenerator
             .generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress,
-                datastoreStudents);
+                studentNameFromDatastore, dataStoreLinkFragmentMap);
         
-        System.out.println(email);
         EmailSendingStatus status = emailSender.sendEmail(email);
 
         if (status.isSuccess()) {

@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -364,14 +365,14 @@ public final class SqlEmailGenerator {
      * @param datastoreStudents Students from datastore associated with the recovery email address
      */
     public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress,
-            List<StudentAttributes> datastoreStudents) {
-        assert datastoreStudents != null;
+            String studentNameFromDatastore, Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap) {
         List<Student> studentsForEmail = usersLogic.getAllStudentsForEmail(recoveryEmailAddress);
 
-        if (studentsForEmail.isEmpty() && datastoreStudents.isEmpty()) {
+        if (studentsForEmail.isEmpty() && studentNameFromDatastore == null) {
             return generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress);
         } else {
-            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail, datastoreStudents);
+            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail,
+            studentNameFromDatastore, dataStoreLinkFragmentMap);
         }
     }
 
@@ -391,8 +392,8 @@ public final class SqlEmailGenerator {
     }
 
     private EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(String recoveryEmailAddress,
-            List<Student> studentsForEmail, List<StudentAttributes> dataStudents) {
-        assert studentsForEmail.size() != 0 && dataStudents.size() != 0;
+            List<Student> studentsForEmail, String studentNameFromDatastore, Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap) {
+        assert (!studentsForEmail.isEmpty() || studentNameFromDatastore != null);
         int first_student_idx = 0;
         
         // TODO generate link map for datastudents
@@ -400,12 +401,17 @@ public final class SqlEmailGenerator {
 
         String emailBody;
         
-        // TODO what if studentsForEmail is empty
-        String studentName = studentsForEmail.get(first_student_idx).getName();
+        String studentName;
+
+        if (studentsForEmail.size() > 0) {
+            studentName = studentsForEmail.get(first_student_idx).getName();
+        } else {
+            studentName = studentNameFromDatastore;
+        }
 
         var recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
 
-        if (linkFragmentsMap.isEmpty()) {
+        if (linkFragmentsMap.isEmpty() && dataStoreLinkFragmentMap.isEmpty()) {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
                     "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
@@ -415,6 +421,15 @@ public final class SqlEmailGenerator {
         } else {
             var courseFragments = new StringBuilder(10000);
             linkFragmentsMap.forEach((course, linksFragments) -> {
+                String courseBody = Templates.populateTemplate(
+                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
+                        "${sessionFragment}", linksFragments.toString(),
+                        "${courseName}",course.getName());
+                courseFragments.append(courseBody);
+            });
+
+            // To remove after migrating to postgres
+            dataStoreLinkFragmentMap.forEach((course, linksFragments) -> {
                 String courseBody = Templates.populateTemplate(
                         EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
                         "${sessionFragment}", linksFragments.toString(),
