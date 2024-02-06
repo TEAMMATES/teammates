@@ -90,7 +90,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
     }
 
     @Test
-    private void testUpdateFeedbackResponseComment_shouldThrowAndReturnErrors() throws Exception {
+    public void testUpdateFeedbackResponseComment_shouldThrowAndReturnErrors() throws Exception {
         ______TS("null parameter");
 
         assertThrows(AssertionError.class, () -> frcDb.updateFeedbackResponseComment(null));
@@ -98,8 +98,9 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         ______TS("non-existent comment");
 
         FeedbackResponseComment feedbackResponseCommentNotPersisted = new FeedbackResponseComment(
-                null, getTestDataFolder(), null, null, null, getTestDataFolder(), false, false, null, null, getTestDataFolder());
-        feedbackResponseCommentNotPersisted.setId(null);
+                null, getTestDataFolder(), null, null, null,
+                getTestDataFolder(), false, false, null, null, getTestDataFolder());
+        feedbackResponseCommentNotPersisted.setId(-1L);
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> frcDb.updateFeedbackResponseComment(feedbackResponseCommentNotPersisted));
