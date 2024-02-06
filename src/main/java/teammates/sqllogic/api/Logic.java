@@ -19,6 +19,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.logic.core.InstructorsLogic;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -1075,6 +1076,13 @@ public class Logic {
      */
     public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
+    }
+
+    /**
+     * Puts searchable instructor to the database
+     */
+    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
+        usersLogic.putInstructorDocument(instructor);
     }
 
     /**
