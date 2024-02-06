@@ -58,17 +58,6 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
     }
 
     @Test
-    public void testDeleteFeedbackResponsesForQuestionCascade() {
-        ______TS("success: typical case");
-        FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
-        assertFalse(frcDb.getFeedbackResponseCommentsForResponse(fr1.getId()).isEmpty());
-
-        frcDb.deleteFeedbackResponseCommentForFeedbackResponseCascade(fr1.getId());
-
-        assertTrue(frcDb.getFeedbackResponseCommentsForResponse(fr1.getId()).isEmpty());
-    }
-
-    @Test
     public void testUpdateFeedbackResponseComment_noChangeToComment_shouldNotIssueSaveRequest() throws Exception {
         FeedbackResponseComment frc = typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
 

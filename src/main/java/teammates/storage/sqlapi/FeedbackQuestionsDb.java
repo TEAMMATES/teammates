@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -50,6 +51,17 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
         assert fqId != null;
 
         return HibernateUtil.get(FeedbackQuestion.class, fqId);
+    }
+
+    /**
+     * Gets a feedback question by using unique constrain: course-session-questionNumber.
+     */
+    public FeedbackQuestion getFeedbackQuestion(
+            String feedbackSessionName, String courseId, int questionNumber) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return HibernateUtil.get(FeedbackQuestion.class, )
     }
 
     /**
