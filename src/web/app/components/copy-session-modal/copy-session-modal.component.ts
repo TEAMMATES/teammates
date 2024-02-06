@@ -54,6 +54,8 @@ export class CopySessionModalComponent {
       this.copyToCourseSet.add(courseId);
     }
   }
+  
+  // Added validation for whitespace.
   noWhitespaceValidator(control: { value: any; }) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
