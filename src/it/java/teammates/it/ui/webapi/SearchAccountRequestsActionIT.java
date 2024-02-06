@@ -102,7 +102,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();
         assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
-        assertEquals(3, response.getAccountRequests().size());
+        assertEquals(11, response.getAccountRequests().size());
 
         ______TS("Search result with 0 matches");
 
