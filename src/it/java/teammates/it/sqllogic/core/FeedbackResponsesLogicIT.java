@@ -11,8 +11,10 @@ import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
 import teammates.sqllogic.core.FeedbackResponsesLogic;
 import teammates.storage.sqlentity.FeedbackResponse;
 
+/**
+ * SUT: {@link FeedbackResponsesLogic}.
+ */
 public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
-    
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 

@@ -203,8 +203,8 @@ public final class FeedbackResponsesLogic {
         boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
 
         if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
-            List<FeedbackResponseComment> oldResponseComments = 
-                frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
+            List<FeedbackResponseComment> oldResponseComments =
+                    frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
             for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
                 if (isResponseIdChanged) {
                     oldResponseComment.setFeedbackResponse(newResponse);
@@ -218,7 +218,7 @@ public final class FeedbackResponsesLogic {
                     oldResponseComment.setRecipientSection(newResponse.getRecipientSection());
                 }
 
-                frcLogic.updateFeedbackResponseComment(oldResponseComment);                   
+                frcLogic.updateFeedbackResponseComment(oldResponseComment);
             }
 
         }
