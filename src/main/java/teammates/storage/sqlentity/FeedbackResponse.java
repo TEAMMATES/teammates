@@ -140,28 +140,6 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     /**
-     * Update a feedback response according to its {@code FeedbackQuestionType}.
-     */
-    public static FeedbackResponse updateResponse(
-            FeedbackResponse originalFeedbackResponse,
-            FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String receiver, Section receiverSection,
-            FeedbackResponseDetails responseDetails
-    ) {
-        FeedbackResponse updatedFeedbackResponse = FeedbackResponse.makeResponse(
-            feedbackQuestion, 
-            giver, 
-            giverSection, 
-            receiver, 
-            receiverSection,
-            responseDetails
-        );
-        updatedFeedbackResponse.setCreatedAt(originalFeedbackResponse.getCreatedAt());
-        updatedFeedbackResponse.setId(originalFeedbackResponse.getId());
-        return updatedFeedbackResponse;
-    }
-
-    /**
      * Gets a copy of the question details of the feedback question.
      */
     public abstract FeedbackResponseDetails getFeedbackResponseDetailsCopy();
