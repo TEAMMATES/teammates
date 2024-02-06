@@ -48,7 +48,6 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         // closed and unpublished
         session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
         session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        // session2InCourse3.setDeletedTime(null);
         dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
 
         // opened and published.
