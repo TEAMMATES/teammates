@@ -19,6 +19,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -1215,6 +1216,25 @@ public class Logic {
             FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
             throws EntityDoesNotExistException {
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
+    }
+
+    /**
+     * Updates a feedback response and comments by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponse != null;
+
+        return feedbackResponsesLogic.updateFeedbackResponseCascade(feedbackResponse);
     }
 
     /**

@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -200,6 +201,11 @@ public class FeedbackResponseComment extends BaseEntity {
 
     public void setLastEditorEmail(String lastEditorEmail) {
         this.lastEditorEmail = lastEditorEmail;
+    }
+
+    // TODO: Override when BaseEntity adds abstract sanitizeForSaving
+    public void sanitizeForSaving() {
+        this.commentText = SanitizationHelper.sanitizeForRichText(this.commentText);
     }
 
     @Override
