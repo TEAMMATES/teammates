@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
@@ -26,9 +27,9 @@ class PutDataBundleDocumentsAction extends Action {
 
     @Override
     public JsonResult execute() {
-        DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
+        SqlDataBundle sqlDataBundle = JsonUtils.fromJson(getRequestBody(), SqlDataBundle.class);
         try {
-            logic.putDocuments(dataBundle);
+            sqlLogic.putDocuments(sqlDataBundle);
         } catch (SearchServiceException e) {
             return new JsonResult("Failed to add data bundle documents.", HttpStatus.SC_BAD_GATEWAY);
         }
