@@ -85,24 +85,6 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
-     * Deletes all feedbackResponseComments based on feedback response ID.
-     */
-    public void deleteFeedbackResponseCommentForFeedbackResponseCascade(UUID feedbackResponseId) {
-        assert feedbackResponseId != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaDelete<FeedbackResponseComment> cd = cb.createCriteriaDelete(FeedbackResponseComment.class);
-        Root<FeedbackResponseComment> sRoot = cd.from(FeedbackResponseComment.class);
-        Subquery<UUID> subquery = cd.subquery(UUID.class);
-        Root<FeedbackResponseComment> subqueryRoot = subquery.from(FeedbackResponseComment.class);
-        Join<FeedbackResponseComment, FeedbackResponse> sqJoin = subqueryRoot.join("feedbackResponse");
-        subquery.select(subqueryRoot.get("id"));
-        subquery.where(cb.equal(sqJoin.get("id"), feedbackResponseId));
-        cd.where(cb.in(sRoot.get("id")).value(subquery));
-        HibernateUtil.createMutationQuery(cd).executeUpdate();
-    }
-
-    /**
      * Gets all feedback response comments for a response.
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {

@@ -227,10 +227,10 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Deletes a feedback response cascade its associated feedback response comments.
+     * Implicitly makes use of CascadeType.REMOVE.
      */
     public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
         frDb.deleteFeedbackResponse(feedbackResponse);
-        frcLogic.deleteFeedbackResponseCommentForFeedbackResponseCascade(feedbackResponse.getId());
     }
 
     /**
