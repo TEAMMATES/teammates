@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import com.google.api.client.json.Json;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
