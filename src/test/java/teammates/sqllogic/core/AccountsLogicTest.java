@@ -43,6 +43,8 @@ public class AccountsLogicTest extends BaseTestCase {
 
     private UsersLogic usersLogic;
 
+    private CoursesLogic coursesLogic;
+
     private Course course;
 
     @BeforeMethod
@@ -50,7 +52,7 @@ public class AccountsLogicTest extends BaseTestCase {
         accountsDb = mock(AccountsDb.class);
         notificationsLogic = mock(NotificationsLogic.class);
         usersLogic = mock(UsersLogic.class);
-        accountsLogic.initLogicDependencies(accountsDb, notificationsLogic, usersLogic);
+        accountsLogic.initLogicDependencies(accountsDb, notificationsLogic, usersLogic, coursesLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
     }
