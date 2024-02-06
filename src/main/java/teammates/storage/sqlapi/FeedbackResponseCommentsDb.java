@@ -2,10 +2,17 @@ package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -13,11 +20,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
+import teammates.storage.sqlentity.Section;
 
 /**
  * Handles CRUD operations for feedbackResponseComments.
@@ -111,6 +114,56 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
+     * Updates a feedback response comment by {@link FeedbackResponseComment}.
+     *
+     * @return updated feedback response comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment newFeedbackResponseComment)
+        throws InvalidParametersException, EntityDoesNotExistException {
+        assert newFeedbackResponseComment != null;
+
+        FeedbackResponseComment oldFeedbackResponseComment = getFeedbackResponseComment(newFeedbackResponseComment.getId());
+        if (oldFeedbackResponseComment == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newFeedbackResponseComment);
+        }
+        
+        newFeedbackResponseComment.sanitizeForSaving();
+        if (!newFeedbackResponseComment.isValid()) {
+            throw new InvalidParametersException(newFeedbackResponseComment.getInvalidityInfo());
+        }
+
+        // update only if change
+        boolean hasSameAttributes = 
+            this.<Long>hasSameValue(newFeedbackResponseComment.getId(), oldFeedbackResponseComment.getId())
+            && this.<String>hasSameValue(
+                newFeedbackResponseComment.getCommentText(), oldFeedbackResponseComment.getCommentText())
+            && this.<List<FeedbackParticipantType>>hasSameValue(
+                newFeedbackResponseComment.getShowCommentTo(), oldFeedbackResponseComment.getShowCommentTo())
+            && this.<List<FeedbackParticipantType>>hasSameValue(
+                newFeedbackResponseComment.getShowGiverNameTo(), oldFeedbackResponseComment.getShowGiverNameTo())
+            && this.<String>hasSameValue(
+                newFeedbackResponseComment.getLastEditorEmail(), oldFeedbackResponseComment.getLastEditorEmail())
+            && this.<Instant>hasSameValue(
+                newFeedbackResponseComment.getUpdatedAt(), oldFeedbackResponseComment.getUpdatedAt())
+            && this.<Section>hasSameValue(
+                newFeedbackResponseComment.getGiverSection(), oldFeedbackResponseComment.getGiverSection())
+            && this.<Section>hasSameValue(
+                newFeedbackResponseComment.getRecipientSection(), oldFeedbackResponseComment.getRecipientSection());
+        if (hasSameAttributes) {
+            log.info(String.format(
+                    OPTIMIZED_SAVING_POLICY_APPLIED, 
+                    FeedbackResponseComment.class.getSimpleName(), 
+                    newFeedbackResponseComment));
+            return newFeedbackResponseComment;
+        }
+
+        merge(newFeedbackResponseComment);
+        return newFeedbackResponseComment;
+    }
+
+    /**
      * Updates the giver email for all of the giver's comments in a course.
      */
     public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
@@ -185,15 +238,6 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
                     cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
 
         return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
-     * Updates the feedback response comment.
-     */
-    public void updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
-        assert feedbackResponseComment != null;
-
-        merge(feedbackResponseComment);
     }
 
 }

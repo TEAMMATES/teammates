@@ -8,16 +8,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
-import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
-import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
-import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
-import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
-import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
-import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
-import teammates.storage.sqlentity.responses.FeedbackTextResponse;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,6 +18,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 /**
  * Represents a Feedback Response.
@@ -43,7 +42,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "questionId")
     private FeedbackQuestion feedbackQuestion;
 
-    @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "feedbackResponse", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
     @Column(nullable = false)
@@ -138,6 +137,28 @@ public abstract class FeedbackResponse extends BaseEntity {
             break;
         }
         return feedbackResponse;
+    }
+
+    /**
+     * Update a feedback response according to its {@code FeedbackQuestionType}.
+     */
+    public static FeedbackResponse updateResponse(
+            FeedbackResponse originalFeedbackResponse,
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String receiver, Section receiverSection,
+            FeedbackResponseDetails responseDetails
+    ) {
+        FeedbackResponse updatedFeedbackResponse = FeedbackResponse.makeResponse(
+            feedbackQuestion, 
+            giver, 
+            giverSection, 
+            receiver, 
+            receiverSection,
+            responseDetails
+        );
+        updatedFeedbackResponse.setCreatedAt(originalFeedbackResponse.getCreatedAt());
+        updatedFeedbackResponse.setId(originalFeedbackResponse.getId());
+        return updatedFeedbackResponse;
     }
 
     /**
