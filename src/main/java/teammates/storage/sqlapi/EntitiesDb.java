@@ -17,6 +17,11 @@ class EntitiesDb {
      */
     static final String OPTIMIZED_SAVING_POLICY_APPLIED =
         "Saving request is not issued because entity %s does not change by the update (%s)";
+    /**
+     * Error message when trying to update entity that does not exist.
+     */
+    static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
+
 
     static final Logger log = Logger.getLogger();
 

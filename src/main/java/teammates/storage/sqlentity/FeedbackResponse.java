@@ -164,7 +164,6 @@ public abstract class FeedbackResponse extends BaseEntity {
         return updatedFeedbackResponse;
     }
 
-
     /**
      * Gets a copy of the question details of the feedback question.
      */

@@ -99,7 +99,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         subquery.select(subqueryRoot.get("id"));
         subquery.where(cb.equal(sqJoin.get("id"), feedbackResponseId));
         cd.where(cb.in(sRoot.get("id")).value(subquery));
-        int numAffected = HibernateUtil.createMutationQuery(cd).executeUpdate();
+        HibernateUtil.createMutationQuery(cd).executeUpdate();
     }
 
     /**
@@ -163,7 +163,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             && this.<List<FeedbackParticipantType>>hasSameValue(
                 newFeedbackResponseComment.getShowCommentTo(), oldFeedbackResponseComment.getShowCommentTo())
             && this.<List<FeedbackParticipantType>>hasSameValue(
-                    newFeedbackResponseComment.getShowGiverNameTo(), oldFeedbackResponseComment.getShowGiverNameTo())
+                newFeedbackResponseComment.getShowGiverNameTo(), oldFeedbackResponseComment.getShowGiverNameTo())
             && this.<String>hasSameValue(
                 newFeedbackResponseComment.getLastEditorEmail(), oldFeedbackResponseComment.getLastEditorEmail())
             && this.<Instant>hasSameValue(
