@@ -67,7 +67,6 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getEmail() };
         SearchAccountRequestsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action, 200);
-        // assertEquals(((MessageOutput) result.getOutput()).getMessage(), new JsonResult("null", 503).getOutput());
         AccountRequestsData response = (AccountRequestsData) result.getOutput();
         assertTrue(response.getAccountRequests().stream()
                 .filter(i -> i.getName().equals(accountRequest.getName()))
