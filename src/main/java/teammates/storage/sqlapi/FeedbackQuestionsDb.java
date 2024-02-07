@@ -61,7 +61,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        return HibernateUtil.get(FeedbackQuestion.class, )
+        return HibernateUtil.get(FeedbackQuestion.class, fqId);
     }
 
     /**

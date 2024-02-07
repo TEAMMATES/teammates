@@ -6,10 +6,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -21,6 +17,11 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Section;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for feedbackResponseComments.
@@ -121,40 +122,40 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
      * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment newFeedbackResponseComment)
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert newFeedbackResponseComment != null;
 
         FeedbackResponseComment oldFeedbackResponseComment = getFeedbackResponseComment(newFeedbackResponseComment.getId());
         if (oldFeedbackResponseComment == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newFeedbackResponseComment);
         }
-        
+
         newFeedbackResponseComment.sanitizeForSaving();
         if (!newFeedbackResponseComment.isValid()) {
             throw new InvalidParametersException(newFeedbackResponseComment.getInvalidityInfo());
         }
 
         // update only if change
-        boolean hasSameAttributes = 
-            this.<Long>hasSameValue(newFeedbackResponseComment.getId(), oldFeedbackResponseComment.getId())
-            && this.<String>hasSameValue(
-                newFeedbackResponseComment.getCommentText(), oldFeedbackResponseComment.getCommentText())
-            && this.<List<FeedbackParticipantType>>hasSameValue(
-                newFeedbackResponseComment.getShowCommentTo(), oldFeedbackResponseComment.getShowCommentTo())
-            && this.<List<FeedbackParticipantType>>hasSameValue(
-                newFeedbackResponseComment.getShowGiverNameTo(), oldFeedbackResponseComment.getShowGiverNameTo())
-            && this.<String>hasSameValue(
-                newFeedbackResponseComment.getLastEditorEmail(), oldFeedbackResponseComment.getLastEditorEmail())
-            && this.<Instant>hasSameValue(
-                newFeedbackResponseComment.getUpdatedAt(), oldFeedbackResponseComment.getUpdatedAt())
-            && this.<Section>hasSameValue(
-                newFeedbackResponseComment.getGiverSection(), oldFeedbackResponseComment.getGiverSection())
-            && this.<Section>hasSameValue(
-                newFeedbackResponseComment.getRecipientSection(), oldFeedbackResponseComment.getRecipientSection());
+        boolean hasSameAttributes =
+                this.<Long>hasSameValue(newFeedbackResponseComment.getId(), oldFeedbackResponseComment.getId())
+                && this.<String>hasSameValue(
+                    newFeedbackResponseComment.getCommentText(), oldFeedbackResponseComment.getCommentText())
+                && this.<List<FeedbackParticipantType>>hasSameValue(
+                    newFeedbackResponseComment.getShowCommentTo(), oldFeedbackResponseComment.getShowCommentTo())
+                && this.<List<FeedbackParticipantType>>hasSameValue(
+                    newFeedbackResponseComment.getShowGiverNameTo(), oldFeedbackResponseComment.getShowGiverNameTo())
+                && this.<String>hasSameValue(
+                    newFeedbackResponseComment.getLastEditorEmail(), oldFeedbackResponseComment.getLastEditorEmail())
+                && this.<Instant>hasSameValue(
+                    newFeedbackResponseComment.getUpdatedAt(), oldFeedbackResponseComment.getUpdatedAt())
+                && this.<Section>hasSameValue(
+                    newFeedbackResponseComment.getGiverSection(), oldFeedbackResponseComment.getGiverSection())
+                && this.<Section>hasSameValue(
+                    newFeedbackResponseComment.getRecipientSection(), oldFeedbackResponseComment.getRecipientSection());
         if (hasSameAttributes) {
             log.info(String.format(
-                    OPTIMIZED_SAVING_POLICY_APPLIED, 
-                    FeedbackResponseComment.class.getSimpleName(), 
+                    OPTIMIZED_SAVING_POLICY_APPLIED,
+                    FeedbackResponseComment.class.getSimpleName(),
                     newFeedbackResponseComment));
             return newFeedbackResponseComment;
         }

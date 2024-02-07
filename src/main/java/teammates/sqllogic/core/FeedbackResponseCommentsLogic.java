@@ -85,7 +85,7 @@ public final class FeedbackResponseCommentsLogic {
      */
     public void deleteFeedbackResponseComment(Long frcId) {
         frcDb.deleteFeedbackResponseComment(frcId);
-    }    
+    }
 
     /**
      * Updates a feedback response comment by {@link FeedbackResponseComment}.

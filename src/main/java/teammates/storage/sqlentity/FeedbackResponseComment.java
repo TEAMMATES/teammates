@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -202,7 +203,10 @@ public class FeedbackResponseComment extends BaseEntity {
         this.lastEditorEmail = lastEditorEmail;
     }
 
-    // TODO: Override when BaseEntity adds abstract sanitizeForSaving
+    /**
+     * Formats the entity before persisting in database.
+     * TODO: Override when BaseEntity adds abstract sanitizeForSaving
+     */
     public void sanitizeForSaving() {
         this.commentText = SanitizationHelper.sanitizeForRichText(this.commentText);
     }

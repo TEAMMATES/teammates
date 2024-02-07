@@ -15,7 +15,7 @@ public class FeedbackResponsesData extends ApiOutput {
     private List<FeedbackResponseData> responses;
 
     private FeedbackResponsesData(List<FeedbackResponseData> responses) {
-        this.responses = responses;
+        // Disabled, use static methods for initialization instead.
     }
 
     // TODO: When deleting attributes, make constructor to be createFromEntity

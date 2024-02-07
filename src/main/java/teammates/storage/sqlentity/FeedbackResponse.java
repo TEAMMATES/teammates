@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -183,6 +181,10 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     public void setFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
         this.feedbackQuestion = feedbackQuestion;
+    }
+
+    public UUID getFeedbackQuestionId() {
+        return feedbackQuestion.getId();
     }
 
     public List<FeedbackResponseComment> getFeedbackResponseComments() {

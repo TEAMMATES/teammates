@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -308,7 +309,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                                   String giverValue, List<String> recipientValues) {
 
         for (String recipientValue : recipientValues) {
-            FeedbackResponse response = logic.getFeedbackResponse(question.getId(), giverValue,
+            FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(), giverValue,
                     recipientValue);
 
             assertEquals(question.getId(), response.getFeedbackQuestionId());
@@ -316,7 +317,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
             assertEquals(recipientValue, response.getRecipient());
 
-            assertEquals(session.getName(), response.getName());
+            assertEquals(session.getFeedbackSessionName(), response.getFeedbackSessionName());
             assertEquals(session.getCourseId(), response.getCourseId());
 
             FeedbackResponseDetails responseDetails = response.getResponseDetails();
