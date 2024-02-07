@@ -247,6 +247,10 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         } else if (entity instanceof AccountRequest) {
             AccountRequest accountRequest = (AccountRequest) entity;
             return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        } else if (entity instanceof Instructor) {
+            return logic.getInstructor(((Instructor) entity).getId());
+        } else if (entity instanceof Student) {
+            return logic.getStudent(((Student) entity).getId());
         } else {
             throw new RuntimeException("Unknown entity type");
         }
