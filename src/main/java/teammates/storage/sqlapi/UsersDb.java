@@ -624,4 +624,19 @@ public final class UsersDb extends EntitiesDb {
         return merge(student);
     }
 
+    /**
+     * Performs checks on student without updating.
+     */
+    public void checkBeforeUpdateStudent(Student student)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        assert student != null;
+
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
+
+        if (getStudent(student.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+    }
 }

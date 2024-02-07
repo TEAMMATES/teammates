@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.ArrayList;
@@ -9,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.UUID;
-
-import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -644,6 +643,10 @@ public final class UsersLogic {
         }
     }
 
+    private boolean isEmailChanged(String originalEmail, String newEmail) {
+        return newEmail != null && !originalEmail.equals(newEmail);
+    }
+
     private boolean isTeamChanged(Team originalTeam, Team newTeam) {
         return newTeam != null && originalTeam != null
                 && !originalTeam.equals(newTeam);
@@ -664,44 +667,50 @@ public final class UsersLogic {
      *
      * <p>If section changed, cascade update all responses the student gives/receives.
      *
-     * @param newEmail The new email of the student. If null, the email will not be updated.
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the student cannot be found
      * @throws EntityAlreadyExistsException if the student cannot be updated
      *         by recreation because of an existent student
      */
-    public Student updateStudentCascade(Student student, @Nullable String newEmail)
+    public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         String courseId = student.getCourseId();
-        Student originalStudent = getStudentForEmail(courseId, student.getEmail());
+        Course course = student.getCourse();
+        Student originalStudent = getStudent(student.getId());
+
         String originalEmail = originalStudent.getEmail();
         Team originalTeam = originalStudent.getTeam();
         Section originalSection = originalStudent.getSection();
 
-        boolean changedEmail = !originalEmail.equals(newEmail);
+        boolean changedEmail = isEmailChanged(originalEmail, student.getEmail());
         boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
+        // check for email conflict
+        Student s = usersDb.getStudentForEmail(courseId, student.getEmail());
+        if (changedEmail && s != null) {
+            String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString());
+            throw new EntityAlreadyExistsException(ERROR_CREATE_ENTITY_ALREADY_EXISTS);
+        }
+
+        // update student
+        usersDb.checkBeforeUpdateStudent(student);
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
         originalStudent.setComments(student.getComments());
-        if (changedEmail) {
-            originalStudent.setEmail(newEmail);
-        }
-
-        Student updatedStudent = usersDb.updateStudent(originalStudent);
-        Course course = updatedStudent.getCourse();
+        originalStudent.setEmail(student.getEmail());
+        Student updatedStudent = originalStudent;
 
         // cascade email changes to account, responses and comments
         if (changedEmail) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, newEmail);
-            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
+            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
 
             Account updatedAccount = originalStudent.getAccount();
             if (updatedAccount != null) {
-                updatedAccount.setEmail(newEmail);
+                updatedAccount.setEmail(student.getEmail());
                 accountsLogic.updateAccount(updatedAccount);
             }
         }

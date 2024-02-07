@@ -291,19 +291,18 @@ public class Logic {
      * <br/>Preconditions: <br/>
      * * Student parameter is non-null.
      *
-     * @param newEmail The new email of the student. If null, the email will not be updated.
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the student cannot be found
      * @throws EntityAlreadyExistsException if the student cannot be updated
      *         by recreation because of an existent student
      */
-    public Student updateStudentCascade(Student student, @Nullable String newEmail)
+    public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert student != null;
 
-        return usersLogic.updateStudentCascade(student, newEmail);
+        return usersLogic.updateStudentCascade(student);
     }
 
     /**

@@ -71,8 +71,8 @@ public class UpdateStudentAction extends Action {
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
 
         Course course = sqlLogic.getCourse(courseId);
-        Section section = new Section(course, updateRequest.getSection());
-        Team team = new Team(section, updateRequest.getTeam());
+        Section section = sqlLogic.getSectionOrCreate(courseId, updateRequest.getSection());;
+        Team team = sqlLogic.getTeamOrCreate(section, updateRequest.getTeam());
         Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
                 updateRequest.getComments(), team);
 
@@ -82,11 +82,13 @@ public class UpdateStudentAction extends Action {
             String newEmail = studentToUpdate.getEmail();
             studentToUpdate.setEmail(existingStudent.getEmail());
             sqlLogic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), courseId);
+            studentToUpdate.setEmail(newEmail);
 
-            Student updatedStudent = sqlLogic.updateStudentCascade(studentToUpdate, newEmail);
+            studentToUpdate.setId(existingStudent.getId());
+            Student updatedStudent = sqlLogic.updateStudentCascade(studentToUpdate);
             taskQueuer.scheduleStudentForSearchIndexing(courseId, updatedStudent.getEmail());
 
-            if (updateRequest.getIsSessionSummarySendEmail()) {
+            if (!studentEmail.equals(updateRequest.getEmail()) && updateRequest.getIsSessionSummarySendEmail()) {
                 boolean emailSent = sendEmail(courseId, updateRequest.getEmail());
                 String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL
                         : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
@@ -167,9 +169,16 @@ public class UpdateStudentAction extends Action {
      * @return The true if email was sent successfully or false otherwise.
      */
     private boolean sendEmail(String courseId, String studentEmail) {
-        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
-        EmailSendingStatus status = emailSender.sendEmail(email);
-        return status.isSuccess();
+        if (!isCourseMigrated(courseId)) {
+            EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+                    courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
+            EmailSendingStatus status = emailSender.sendEmail(email);
+            return status.isSuccess();
+        } else {
+            EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                    courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
+            EmailSendingStatus status = emailSender.sendEmail(email);
+            return status.isSuccess();
+        }
     }
 }

@@ -102,7 +102,8 @@ public class EnrollStudentsAction extends Action {
                         Student newStudent = new Student(
                                 course, enrollRequest.getName(),
                                 enrollRequest.getEmail(), enrollRequest.getComments(), team);
-                        Student updatedStudent = sqlLogic.updateStudentCascade(newStudent, null);
+                        newStudent.setId(sqlLogic.getStudentForEmail(courseId, enrollRequest.getEmail()).getId());
+                        Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
                         taskQueuer.scheduleStudentForSearchIndexing(
                                 updatedStudent.getCourseId(), updatedStudent.getEmail());
                         enrolledStudents.add(updatedStudent);
