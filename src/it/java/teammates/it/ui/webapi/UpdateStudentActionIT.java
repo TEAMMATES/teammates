@@ -217,12 +217,8 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Course course = typicalBundle.courses.get("course1");
         String courseId = instructor1OfCourse1.getCourseId();
         String sectionInMaxCapacity = "sectionInMaxCapacity";
-        Team team = new Team(new Section(course, sectionInMaxCapacity), "randomTeamName");
-
-        Student studentToJoinMaxSection = new Student(course, "studentToJoinMaxSection",
-                "studentToJoinMaxSection@test.com", "cmt");
-
-        logic.createStudent(studentToJoinMaxSection);
+        Section section = logic.getSectionOrCreate(courseId, sectionInMaxCapacity);
+        Team team = logic.getTeamOrCreate(section, "randomTeamName");
 
         for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
             Student addedStudent = new Student(course, "Name " + i, i + "email@test.com", "cmt" + i, team);
@@ -232,9 +228,10 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         List<Student> studentList = logic.getStudentsForCourse(courseId);
 
+        Student studentToJoinMaxSection = typicalBundle.students.get("student1InCourse1");
         assertEquals(Const.SECTION_SIZE_LIMIT,
                 studentList.stream().filter(student -> student.getSectionName().equals(sectionInMaxCapacity)).count());
-        assertEquals(courseId, studentToJoinMaxSection.getCourse());
+        assertEquals(courseId, studentToJoinMaxSection.getCourseId());
 
         StudentUpdateRequest updateRequest =
                 new StudentUpdateRequest(studentToJoinMaxSection.getName(), studentToJoinMaxSection.getEmail(),
@@ -284,7 +281,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         assertEquals(student4InCourse1.getName(), actualStudent.getName());
         assertEquals(student4InCourse1.getEmail(), actualStudent.getEmail());
         assertEquals(student4InCourse1.getTeam(), actualStudent.getTeam());
-        assertEquals(Const.DEFAULT_SECTION, actualStudent.getSection());
+        assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
         assertEquals(student4InCourse1.getComments(), actualStudent.getComments());
     }
 

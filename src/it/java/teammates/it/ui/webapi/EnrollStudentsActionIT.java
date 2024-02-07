@@ -73,7 +73,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         };
         
         List<Student> students = new ArrayList<>(logic.getStudentsForCourse(courseId));
-        assertEquals(4, students.size());
+        assertEquals(5, students.size());
 
         ______TS("Typical Success Case For Enrolling a Student");
 
@@ -83,7 +83,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         EnrollStudentsData data = (EnrollStudentsData) res.getOutput();
         assertEquals(1, data.getStudentsData().getStudents().size());
         List<Student> studentsInCourse = logic.getStudentsForCourse(courseId);
-        assertEquals(5, studentsInCourse.size());
+        assertEquals(6, studentsInCourse.size());
 
         ______TS("Fail to enroll due to duplicate team name across sections");
 
@@ -111,7 +111,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         data = (EnrollStudentsData) res.getOutput();
         assertEquals(1, data.getStudentsData().getStudents().size());
         studentsInCourse = logic.getStudentsForCourse(courseId);
-        assertEquals(5, studentsInCourse.size());
+        assertEquals(6, studentsInCourse.size());
 
         // Verify that changes have cascaded to feedback responses
         String giverEmail = "student1@teammates.tmt";
