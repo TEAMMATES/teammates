@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Config;
