@@ -227,11 +227,11 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
-
+        Join<FeedbackSession, Course> courseJoin = root.join("course");
         cr.select(root)
                 .where(cb.and(
                     cb.greaterThanOrEqualTo(root.get("startTime"), after),
-                    cb.equal(root.get("courseId"), courseId)));
+                    cb.equal(courseJoin.get("id"), courseId)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
