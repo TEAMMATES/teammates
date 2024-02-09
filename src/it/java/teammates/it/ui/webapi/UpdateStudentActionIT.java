@@ -161,10 +161,6 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         verifyNoTasksAdded();
 
-        // deleting edited student
-        logic.deleteAccountCascade(student2InCourse1.getGoogleId());
-        logic.deleteAccountCascade(student1InCourse1.getGoogleId());
-
         ______TS("Error case, student does not exist");
 
         String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
@@ -183,37 +179,33 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 enfe.getMessage());
 
         verifyNoTasksAdded();
-    }
 
-    @Test
-    public void testExecute_withTeamNameAlreadyExistsInAnotherSection_shouldFail() {
-        Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        ______TS("Error case, student team name already exists in another section");
+
+        Student student1inCourse1 = typicalBundle.students.get("student1InCourse1");
         Student student4InCourse1 = typicalBundle.students.get("student4InCourse1");
 
-        assertNotEquals(student1InCourse1.getSection(), student4InCourse1.getSection());
+        assertNotEquals(student1inCourse1.getSection(), student4InCourse1.getSection());
 
-        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(),
-                student1InCourse1.getEmail(), student4InCourse1.getTeamName(), student1InCourse1.getSectionName(),
-                student1InCourse1.getComments(), true);
+        updateRequest = new StudentUpdateRequest(student1inCourse1.getName(),
+                student1inCourse1.getEmail(), student4InCourse1.getTeamName(), student1inCourse1.getSectionName(),
+                student1inCourse1.getComments(), true);
 
-        String[] submissionParams = new String[] {
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1inCourse1.getEmail(),
         };
 
-        InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
+        ioe = verifyInvalidOperation(updateRequest, submissionParams);
         String expectedErrorMessage = String.format("Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
                 + " Please use different team names in different sections.", student4InCourse1.getTeamName(),
-                student1InCourse1.getSectionName(), student4InCourse1.getSectionName());
+                student1inCourse1.getSectionName(), student4InCourse1.getSectionName());
         assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
-    }
 
-    @Test
-    public void testExecute_withSectionAlreadyHasMaxNumberOfStudents_shouldFail() throws Exception {
-        Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        ______TS("Error case, section already has max number of students");
+
         Course course = typicalBundle.courses.get("course1");
         String courseId = instructor1OfCourse1.getCourseId();
         String sectionInMaxCapacity = "sectionInMaxCapacity";
@@ -233,29 +225,25 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 studentList.stream().filter(student -> student.getSectionName().equals(sectionInMaxCapacity)).count());
         assertEquals(courseId, studentToJoinMaxSection.getCourseId());
 
-        StudentUpdateRequest updateRequest =
+        updateRequest =
                 new StudentUpdateRequest(studentToJoinMaxSection.getName(), studentToJoinMaxSection.getEmail(),
                         "randomTeamName", sectionInMaxCapacity,
                         studentToJoinMaxSection.getComments(), true);
 
-        String[] submissionParams = new String[] {
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, studentToJoinMaxSection.getEmail(),
         };
 
-        InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
-        String expectedErrorMessage = String.format("You are trying enroll more than %d students in section \"%s\". "
+        ioe = verifyInvalidOperation(updateRequest, submissionParams);
+        expectedErrorMessage = String.format("You are trying enroll more than %d students in section \"%s\". "
                 + "To avoid performance problems, please do not enroll more than %d students in a single section.",
                 Const.SECTION_SIZE_LIMIT, sectionInMaxCapacity, Const.SECTION_SIZE_LIMIT);
         assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
-    }
 
-    @Test
-    public void testExecute_withEmptySectionName_shouldBeUpdatedWithDefaultSectionName() {
-        Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        Student student4InCourse1 = typicalBundle.students.get("student4InCourse1");
+        ______TS("Empty section name should be updated with default section name");
 
         StudentUpdateRequest emptySectionUpdateRequest =
                 new StudentUpdateRequest(student4InCourse1.getName(), student4InCourse1.getEmail(),
