@@ -364,10 +364,12 @@ public final class SqlEmailGenerator {
             String studentNameFromDatastore, Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap) {
 
         // Datastore attributes should be removed once migration is completed
+        String emptyName = "";
+        boolean noDataStoreStudent = studentNameFromDatastore.equals(emptyName); // student name cannot be empty
 
         List<Student> studentsForEmail = usersLogic.getAllStudentsForEmail(recoveryEmailAddress);
 
-        if (studentsForEmail.isEmpty() && studentNameFromDatastore == null) {
+        if (studentsForEmail.isEmpty() && noDataStoreStudent) {
             return generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress);
         } else {
             return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail,

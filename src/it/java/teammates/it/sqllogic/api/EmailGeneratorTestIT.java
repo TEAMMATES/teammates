@@ -74,7 +74,7 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGenerateSessionLinksRecoveryEmail() throws Exception {
 
         // To remove after migrating to postgres
-        String nonExistentStudent = null;
+        String nonExistentStudent = "";
         Map<CourseAttributes, StringBuilder> emptyFragmentList = new HashMap<>();
         ______TS("invalid email address");
 

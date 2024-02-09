@@ -43,13 +43,14 @@ public class SessionLinksRecoveryAction extends Action {
         }
 
         int firstStudentIdx = 0;
+        String noStudentName = "";
         List<StudentAttributes> studentFromDataStore = logic.getAllStudentsForEmail(recoveryEmailAddress);
 
         Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap =
                 emailGenerator.generateLinkFragmentsMap(studentFromDataStore);
 
         String studentNameFromDatastore = (studentFromDataStore.isEmpty())
-                ? null
+                ? noStudentName
                 : studentFromDataStore.get(firstStudentIdx).getName();
 
         EmailWrapper email = sqlEmailGenerator
