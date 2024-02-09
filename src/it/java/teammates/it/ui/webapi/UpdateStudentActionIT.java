@@ -13,16 +13,16 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.StudentUpdateRequest;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateStudentAction;
-import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.request.StudentUpdateRequest;
 
 /**
  * SUT: {@link UpdateStudentAction}.
@@ -36,7 +36,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
     }
-    
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.STUDENT;

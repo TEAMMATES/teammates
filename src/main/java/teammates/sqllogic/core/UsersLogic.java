@@ -661,8 +661,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Updates a student by {@link Student}. 
-     * 
+     * Updates a student by {@link Student}.
+     *
      * <p>If email changed, update by recreating the student and cascade update all responses
      * and comments the student gives/receives.
      *

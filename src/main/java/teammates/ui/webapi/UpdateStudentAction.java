@@ -71,7 +71,7 @@ public class UpdateStudentAction extends Action {
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
 
         Course course = sqlLogic.getCourse(courseId);
-        Section section = sqlLogic.getSectionOrCreate(courseId, updateRequest.getSection());;
+        Section section = sqlLogic.getSectionOrCreate(courseId, updateRequest.getSection());
         Team team = sqlLogic.getTeamOrCreate(section, updateRequest.getTeam());
         Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
                 updateRequest.getComments(), team);
@@ -121,7 +121,7 @@ public class UpdateStudentAction extends Action {
                 .withTeamName(updateRequest.getTeam())
                 .withComment(updateRequest.getComments())
                 .build();
-        
+
         try {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
@@ -169,13 +169,13 @@ public class UpdateStudentAction extends Action {
      * @return The true if email was sent successfully or false otherwise.
      */
     private boolean sendEmail(String courseId, String studentEmail) {
-        if (!isCourseMigrated(courseId)) {
-            EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+        if (isCourseMigrated(courseId)) {
+            EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
                     courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
             EmailSendingStatus status = emailSender.sendEmail(email);
             return status.isSuccess();
         } else {
-            EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+            EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                     courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
             EmailSendingStatus status = emailSender.sendEmail(email);
             return status.isSuccess();

@@ -71,7 +71,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        
+
         List<Student> students = new ArrayList<>(logic.getStudentsForCourse(courseId));
         assertEquals(5, students.size());
 
