@@ -680,16 +680,9 @@ public final class UsersLogic {
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         String courseId = student.getCourseId();
-        Course course = student.getCourse();
         Student originalStudent = getStudent(student.getId());
-
         String originalEmail = originalStudent.getEmail();
-        Team originalTeam = originalStudent.getTeam();
-        Section originalSection = originalStudent.getSection();
-
         boolean changedEmail = isEmailChanged(originalEmail, student.getEmail());
-        boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
-        boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
         // check for email conflict
         Student s = usersDb.getStudentForEmail(courseId, student.getEmail());
@@ -697,6 +690,14 @@ public final class UsersLogic {
             String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString());
             throw new EntityAlreadyExistsException(ERROR_CREATE_ENTITY_ALREADY_EXISTS);
         }
+
+        Course course = student.getCourse();
+
+        Team originalTeam = originalStudent.getTeam();
+        Section originalSection = originalStudent.getSection();
+
+        boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
+        boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
         // update student
         usersDb.checkBeforeUpdateStudent(student);
