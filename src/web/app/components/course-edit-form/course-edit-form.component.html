@@ -1,4 +1,4 @@
-<div class="card">
+<div>
   <div class="card-header bg-primary text-white" [ngClass]="{'add-mode': isInAddMode}">
     <strong *ngIf="isInEditMode">Course</strong>
     <strong *ngIf="isInAddMode">Create a new Course</strong>
@@ -62,7 +62,7 @@
           </div>
         </div>
       </div>
-      <div class="row form-group">
+      <div class="row form-group ">
         <label for="course-institute" class="col-sm-2 fw-bold text-md-end">
           <ng-container *ngIf="isInAddMode; else withoutToolTip">
             <span class="ngb-tooltip-class"
@@ -121,3 +121,4 @@
     </form>
   </div>
 </div>
+
