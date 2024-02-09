@@ -23,8 +23,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
-    class="card"
-  >
+    >
     <div
       class="card-header bg-primary text-white add-mode"
     >
