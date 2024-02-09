@@ -41,16 +41,21 @@ public class SessionLinksRecoveryAction extends Action {
             return new JsonResult(new SessionLinksRecoveryResponseData(false, "Something went wrong with "
                     + "the reCAPTCHA verification. Please try again."));
         }
-        
-        int first_student_idx = 0;
+
+        int firstStudentIdx = 0;
         List<StudentAttributes> studentFromDataStore = logic.getAllStudentsForEmail(recoveryEmailAddress);
-        Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap = emailGenerator.generateLinkFragmentsMap(studentFromDataStore);
-        String studentNameFromDatastore = (studentFromDataStore.isEmpty()) ? null : studentFromDataStore.get(first_student_idx).getName();
-        
+
+        Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap =
+                emailGenerator.generateLinkFragmentsMap(studentFromDataStore);
+
+        String studentNameFromDatastore = (studentFromDataStore.isEmpty())
+                ? null
+                : studentFromDataStore.get(firstStudentIdx).getName();
+
         EmailWrapper email = sqlEmailGenerator
-            .generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress,
+                .generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress,
                 studentNameFromDatastore, dataStoreLinkFragmentMap);
-        
+
         EmailSendingStatus status = emailSender.sendEmail(email);
 
         if (status.isSuccess()) {

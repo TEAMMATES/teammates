@@ -419,6 +419,12 @@ public final class EmailGenerator {
         return email;
     }
 
+    /**
+     * This method was private but was made public to be used in the SQLEmailGenerator for migration.
+     *
+     * @param studentsForEmail - Student to generate link fragment map
+     * @return Course to link fragments used in generating an email
+     */
     public Map<CourseAttributes, StringBuilder> generateLinkFragmentsMap(List<StudentAttributes> studentsForEmail) {
         var searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
         Map<CourseAttributes, StringBuilder> linkFragmentsMap = new HashMap<>();

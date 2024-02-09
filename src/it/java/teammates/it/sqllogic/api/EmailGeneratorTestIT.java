@@ -1,8 +1,6 @@
 package teammates.it.sqllogic.api;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
@@ -11,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -75,10 +72,10 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGenerateSessionLinksRecoveryEmail() throws Exception {
-        
+
         // To remove after migrating to postgres
         String nonExistentStudent = null;
-        Map<CourseAttributes, StringBuilder> emptyFragmentList = new HashMap<CourseAttributes, StringBuilder>();
+        Map<CourseAttributes, StringBuilder> emptyFragmentList = new HashMap<>();
         ______TS("invalid email address");
 
         EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(

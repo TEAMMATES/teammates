@@ -11,6 +11,9 @@ import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.SessionLinksRecoveryAction;
 
+/**
+ * SUT: {@link SessionLinksRecoveryActionTestIT}.
+ */
 public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksRecoveryAction> {
 
     @Override
@@ -30,7 +33,7 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
         ______TS("Not enough parameters");
         // no params
         verifyHttpParameterFailure();
-    
+
         ______TS("Failure: email address is not valid");
         String[] invalidEmailParam = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, "invalid-email-address",
@@ -78,7 +81,7 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
         emailSent = getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
-    
+
         ______TS("Typical case test 1: successfully sent recovery link email: opened session and unpublished feedback, "
                 + "closed session and unpublished feedback.");
         Student student1InCourse3 = typicalBundle.students.get("student1InCourse3");
