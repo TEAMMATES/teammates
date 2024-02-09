@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { RouterTestingModule } from '@angular/router/testing';
-import { Instructor, InstructorPermissionRole, JoinState, Student } from '../types/api-output';
 import { LinkService } from './link.service';
+import { Instructor, InstructorPermissionRole, JoinState, Student } from '../types/api-output';
 
 describe('Link Service', () => {
   let service: LinkService;

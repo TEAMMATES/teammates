@@ -4,7 +4,6 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -379,7 +378,6 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -742,7 +740,6 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -1190,7 +1187,6 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}

@@ -76,4 +76,4 @@ Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations.
 
 ## Submitting help request
 
-If none of the items in this guide helps with the problem you face, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new?template=help-request.md) to request for help. Remember to supply as much relevant information as possible when requesting for help.
+If none of the items in this guide helps with the problem you face, you can [post in the discussion forum](https://github.com/TEAMMATES/teammates/discussions/new?category=help-requests) to request for help. Remember to supply as much relevant information as possible when requesting for help.

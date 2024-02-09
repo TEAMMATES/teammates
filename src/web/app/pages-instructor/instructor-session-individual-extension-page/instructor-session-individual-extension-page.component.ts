@@ -3,6 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
+import {
+  IndividualExtensionDateModalComponent,
+} from './individual-extension-date-modal/individual-extension-date-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -30,10 +34,6 @@ import {
   ExtensionModalType,
 } from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
-import {
-  IndividualExtensionDateModalComponent,
-} from './individual-extension-date-modal/individual-extension-date-modal.component';
 
 /**
  * Send reminders to respondents modal.
@@ -507,7 +507,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(by));
   }
 
-  getAriaSortStudent(by: SortBy): String {
+  getAriaSortStudent(by: SortBy): string {
     if (by !== this.sortStudentsBy) {
       return 'none';
     }
@@ -560,7 +560,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(by));
   }
 
-  getAriaSortInstructor(by: SortBy): String {
+  getAriaSortInstructor(by: SortBy): string {
     if (by !== this.sortInstructorsBy) {
       return 'none';
     }

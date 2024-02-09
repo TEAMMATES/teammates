@@ -3,6 +3,19 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
+import {
+  CourseTabModel,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
+import {
+  CopyInstructorsFromOtherCoursesModalComponent,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
+import {
+  InstructorOverallPermission,
+  InstructorSectionLevelPermission,
+  InstructorSessionLevelPermission,
+} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
+import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
+import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -50,19 +63,6 @@ import {
   CoursesSectionQuestions,
 } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
-import {
-  CourseTabModel,
-} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
-import {
-  CopyInstructorsFromOtherCoursesModalComponent,
-} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
-import {
-  InstructorOverallPermission,
-  InstructorSectionLevelPermission,
-  InstructorSessionLevelPermission,
-} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
-import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;

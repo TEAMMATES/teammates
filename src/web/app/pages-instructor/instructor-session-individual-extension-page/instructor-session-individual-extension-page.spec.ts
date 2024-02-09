@@ -4,6 +4,12 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import {
+  InstructorSessionIndividualExtensionPageComponent,
+} from './instructor-session-individual-extension-page.component';
+import {
+  InstructorSessionIndividualExtensionPageModule,
+} from './instructor-session-individual-extension-page.module';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -26,12 +32,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-request';
-import {
-  InstructorSessionIndividualExtensionPageComponent,
-} from './instructor-session-individual-extension-page.component';
-import {
-  InstructorSessionIndividualExtensionPageModule,
-} from './instructor-session-individual-extension-page.module';
 
 describe('InstructorSessionIndividualExtensionPageComponent', () => {
   const testCourse: Course = {

@@ -1,5 +1,5 @@
-import { FeedbackParticipantType } from '../../../types/api-output';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
+import { FeedbackParticipantType } from '../../../types/api-output';
 
 describe('RecipientTypeNamePipe', () => {
   let pipe: RecipientTypeNamePipe;

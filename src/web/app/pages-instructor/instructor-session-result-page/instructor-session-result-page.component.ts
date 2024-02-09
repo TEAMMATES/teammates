@@ -4,6 +4,9 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
+import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
+import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -41,9 +44,6 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
-import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
-import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
-import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
 /**
  * Per section view tab model.

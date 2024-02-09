@@ -14,11 +14,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
+import { Toast } from './components/toast/toast';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
-import { Toast } from './components/toast/toast';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 

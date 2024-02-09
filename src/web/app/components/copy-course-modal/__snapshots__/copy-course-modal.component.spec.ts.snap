@@ -4,7 +4,6 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -197,7 +196,6 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -379,7 +377,6 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}

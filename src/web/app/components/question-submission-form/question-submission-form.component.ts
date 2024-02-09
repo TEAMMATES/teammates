@@ -1,4 +1,11 @@
 import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  FeedbackRecipientLabelType,
+  FeedbackResponseRecipient,
+  FeedbackResponseRecipientSubmissionFormModel,
+  QuestionSubmissionFormMode,
+  QuestionSubmissionFormModel,
+} from './question-submission-form-model';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -29,13 +36,6 @@ import { ContributionQuestionConstraintComponent }
 import { RankRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/rank-recipients-question-constraint.component';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import {
-  FeedbackRecipientLabelType,
-  FeedbackResponseRecipient,
-  FeedbackResponseRecipientSubmissionFormModel,
-  QuestionSubmissionFormMode,
-  QuestionSubmissionFormModel,
-} from './question-submission-form-model';
 
 /**
  * The question submission form for a question.
@@ -284,7 +284,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   private updateSubmissionFormIndexes(): void {
-    const indexes: Map<String, number> = new Map();
+    const indexes: Map<string, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
       indexes.set(recipient.recipientIdentifier, index + 1);
     });

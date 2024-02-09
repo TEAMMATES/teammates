@@ -11,6 +11,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, Observable } from 'rxjs';
 
+import {
+  CourseAddFormModel,
+  CourseEditFormMode,
+  DEFAULT_COURSE_ADD_FORM_MODEL,
+  DEFAULT_COURSE_EDIT_FORM_MODEL,
+} from './course-edit-form-model';
+import { CourseEditFormComponent } from './course-edit-form.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -30,13 +37,6 @@ import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-import {
-  CourseAddFormModel,
-  CourseEditFormMode,
-  DEFAULT_COURSE_ADD_FORM_MODEL,
-  DEFAULT_COURSE_EDIT_FORM_MODEL,
-} from './course-edit-form-model';
-import { CourseEditFormComponent } from './course-edit-form.component';
 
 describe('CourseEditFormComponent', () => {
   let component: CourseEditFormComponent;

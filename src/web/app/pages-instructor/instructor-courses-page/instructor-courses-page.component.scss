@@ -1,11 +1,13 @@
-@media (max-width: 768px) { //applies only to mobile screens
+// applies only to mobile screens
+@media (width <= 768px) {
   .custom-button-active {
     width: 115px;
     margin-bottom: 5px;
   }
 }
 
-@media (max-width: 768px) { //applies only to mobile screens
+// applies only to mobile screens
+@media (width <= 768px) {
   .custom-button-archived {
     width: 95px;
     margin-bottom: 5px;
@@ -16,7 +18,7 @@
   cursor: pointer;
 
   i {
-    margin-left: .3em;
+    margin-left: 0.3em;
   }
 
   .fa-stack {
@@ -48,7 +50,7 @@
 }
 
 .background-color-medium-gray {
-  background-color: #E5E5E6;
+  background-color: #e5e5e6;
 }
 
 .text-color-black {
@@ -89,14 +91,15 @@
   margin-top: 30px;
 }
 
-@media (min-width: 768px) { //applies only to non-mobile screens
+// applies only to non-mobile screens
+@media (width >= 768px) {
   .actions-cell button:not(.dropdown-item) {
     margin-left: var(--btn-margin);
   }
 }
 
 .dropdown-menu {
-  min-width: .5rem;
+  min-width: 0.5rem;
 }
 
 .table-responsive {

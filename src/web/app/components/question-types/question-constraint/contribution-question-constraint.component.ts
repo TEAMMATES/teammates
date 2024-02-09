@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionConstraintComponent } from './question-constraint.component';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
@@ -8,7 +9,6 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../types/feedback-res
 import {
   FeedbackResponseRecipientSubmissionFormModel,
 } from '../../question-submission-form/question-submission-form-model';
-import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of contribution question.
@@ -96,7 +96,7 @@ export class ContributionQuestionConstraintComponent
       || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
   }
 
-  get currentTotalString(): String {
+  get currentTotalString(): string {
     if (this.totalAnsweredContributions === 0) {
       return '0%';
     }
@@ -121,7 +121,7 @@ export class ContributionQuestionConstraintComponent
         ${this.totalAnsweredContributions % 100}%`;
   }
 
-  get expectedTotalString(): String {
+  get expectedTotalString(): string {
     return `${this.totalRequiredContributions / 100} x Equal Share`;
   }
 

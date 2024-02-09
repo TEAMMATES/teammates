@@ -5,6 +5,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
+import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
+import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -45,12 +51,6 @@ import {
 } from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
-import {
-  CopyQuestionsFromOtherSessionsModalComponent,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
-import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
-import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
-import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 describe('InstructorSessionEditPageComponent', () => {
 

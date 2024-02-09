@@ -1,9 +1,9 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
   FeedbackQuestionType,
 } from '../api-output';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackMsqResponseDetails}.

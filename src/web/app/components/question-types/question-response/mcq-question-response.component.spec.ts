@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { McqQuestionResponseComponent } from './mcq-question-response.component';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 
 describe('McqQuestionResponseComponent', () => {
   let component: McqQuestionResponseComponent;

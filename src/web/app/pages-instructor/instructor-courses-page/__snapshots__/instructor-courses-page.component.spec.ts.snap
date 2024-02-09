@@ -5,7 +5,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -34,7 +33,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -150,7 +149,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -179,7 +177,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -295,7 +293,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -324,7 +321,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -727,7 +724,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -756,7 +752,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -783,7 +779,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   </div><div
     class="course-section ng-trigger ng-trigger-collapseAnim ng-animating"
     id="add-course-section"
-    style=""
   >
     <tm-course-edit-form>
       <div
@@ -1096,7 +1091,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1125,7 +1119,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -1528,7 +1522,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1557,7 +1550,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -1673,7 +1666,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1702,7 +1694,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}

@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-page.component';
+import { InstructorHomePageModule } from './instructor-home-page.module';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -20,8 +22,6 @@ import {
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-page.component';
-import { InstructorHomePageModule } from './instructor-home-page.module';
 
 const testInstructorPrivilege: InstructorPermissionSet = {
   canModifyCourse: true,

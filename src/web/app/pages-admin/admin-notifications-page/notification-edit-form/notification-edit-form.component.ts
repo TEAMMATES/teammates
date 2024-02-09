@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { ApiConst } from '../../../../types/api-const';
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
@@ -7,7 +8,6 @@ import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/da
 import { DatePickerFormatter } from '../../../components/datepicker/datepicker-formatter';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
-import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 
 @Component({
   selector: 'tm-notification-edit-form',

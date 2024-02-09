@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { CourseService } from './course.service';
+import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
-import { CourseService } from './course.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('CourseService', () => {
   let spyHttpRequestService: any;

@@ -1,9 +1,9 @@
-import { CommentVisibilityType } from '../../../types/api-output';
-import { CommentVisibilityControl } from '../../../types/comment-visibility-control';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
 } from './comment-visibility-setting.pipe';
+import { CommentVisibilityType } from '../../../types/api-output';
+import { CommentVisibilityControl } from '../../../types/comment-visibility-control';
 
 describe('CommentVisibilityControlNamePipe', () => {
   it('create an instance', () => {

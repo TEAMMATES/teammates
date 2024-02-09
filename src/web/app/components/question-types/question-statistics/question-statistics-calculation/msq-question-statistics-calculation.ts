@@ -1,4 +1,5 @@
 import { Directive } from '@angular/core';
+import { McqMsqQuestionStatisticsCalculation } from './mcq-msq-question-statistics-calculation';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -6,7 +7,6 @@ import {
 } from '../../../../../types/api-output';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../../types/feedback-response-details';
 import { QuestionStatistics } from '../question-statistics';
-import { McqMsqQuestionStatisticsCalculation } from './mcq-msq-question-statistics-calculation';
 
 /**
  * Class to calculate stats for msq question.
@@ -23,6 +23,11 @@ export class MsqQuestionStatisticsCalculation
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
   hasAnswers: boolean = false;
+
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(question: FeedbackMsqQuestionDetails) {
+    super(question);
+  }
 
   calculateStatistics(): void {
     this.answerFrequency = {};

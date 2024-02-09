@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { HttpRequestService } from './http-request.service';
+import { TimezoneService } from './timezone.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { Milliseconds } from '../types/datetime-const';
-import { HttpRequestService } from './http-request.service';
-import { TimezoneService } from './timezone.service';
 
 // This test does not check the timezone database used is the latest
 // Only check that the version number is returned, and some sample values for timezone offset

@@ -5,6 +5,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import {
+  CopyInstructorsFromOtherCoursesModalComponent,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
+import {
+  CustomPrivilegeSettingPanelComponent,
+} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
+import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
+import {
+  InstructorEditPanel,
+  InstructorEditPanelComponent,
+} from './instructor-edit-panel/instructor-edit-panel.component';
+import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -20,18 +32,6 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import {
-  CopyInstructorsFromOtherCoursesModalComponent,
-} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
-import {
-  CustomPrivilegeSettingPanelComponent,
-} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
-import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
-import {
-  InstructorEditPanel,
-  InstructorEditPanelComponent,
-} from './instructor-edit-panel/instructor-edit-panel.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 const testCourse: Course = {
   courseId: 'exampleId',

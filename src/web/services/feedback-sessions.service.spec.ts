@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { FeedbackSessionsService } from './feedback-sessions.service';
+import { HttpRequestService } from './http-request.service';
 import { SessionsTableRowModel } from '../app/components/sessions-table/sessions-table-model';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
@@ -12,8 +14,6 @@ import {
 } from '../types/api-output';
 import { Intent } from '../types/api-request';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/default-instructor-privilege';
-import { FeedbackSessionsService } from './feedback-sessions.service';
-import { HttpRequestService } from './http-request.service';
 
 describe('FeedbackSessionsService', () => {
   let spyHttpRequestService: any;

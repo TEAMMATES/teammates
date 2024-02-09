@@ -8,6 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
+import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -71,8 +73,6 @@ import {
 } from '../../components/question-submission-form/question-submission-form.module';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
-import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
-import { SessionSubmissionPageComponent } from './session-submission-page.component';
 
 describe('SessionSubmissionPageComponent', () => {
   const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
@@ -316,7 +316,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMcqQuestionDetails,
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM,
-    recipientList: [],
+    recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
     recipientSubmissionForms: [testMcqRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -369,7 +369,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackTextQuestionDetails,
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
-    recipientList: [],
+    recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
     recipientSubmissionForms: [testTextRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,

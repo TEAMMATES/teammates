@@ -28,7 +28,7 @@
   color: lightgray;
 }
 
-@media (max-width: 450px) {
+@media (width <= 450px) {
   .card-header {
     display: block;
   }

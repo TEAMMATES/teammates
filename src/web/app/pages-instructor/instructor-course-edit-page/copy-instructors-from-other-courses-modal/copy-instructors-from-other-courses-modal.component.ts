@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
@@ -7,7 +8,6 @@ import { Instructor, InstructorPermissionRole, Instructors } from '../../../../t
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../../error-message-output';
-import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 
 /**
  * Modal to select instructors to copy from other courses.
@@ -125,7 +125,7 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
     this.courses.sort(this.sortCoursesBy(by));
   }
 
-  getAriaSort(course: CourseTabModel, by: SortBy): String {
+  getAriaSort(course: CourseTabModel, by: SortBy): string {
     if (course.instructorCandidatesSortBy !== by) {
       return 'none';
     }
