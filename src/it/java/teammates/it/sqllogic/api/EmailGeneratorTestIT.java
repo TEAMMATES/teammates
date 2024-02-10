@@ -120,7 +120,6 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEmail(email, student1InCourse4.getEmail(), subject,
                 "/sessionLinksRecoveryOpenedOrClosedAndpublishedSessions.html");
 
-        ______TS("Migration test: students from both postgres and datastore are fetched");
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
