@@ -49,7 +49,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void createAccountRequestDoesNotExist() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateAccountRequest_accountRequestDoesNotExist_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
@@ -59,7 +60,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void createAccountRequestAlreadyExists() {
+    public void testCreateAccountRequest_accountRequestAlreadyExists_throwsEntityAlreadyExistsException() {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(new AccountRequest("test@gmail.com", "name", "institute"))
                 .when(accountRequestDb).getAccountRequest(anyString(), anyString());
@@ -72,7 +73,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void updateAccountRequestInvalidParameters() {
+    public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
         AccountRequest accountRequestWithInvalidEmail = new AccountRequest("testgmail.com", "name", "institute");
 
         assertThrows(InvalidParametersException.class,
@@ -82,7 +83,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void updateAccountRequestDoesNotExist() {
+    public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
@@ -93,7 +94,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void updateAccountRequest() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(accountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
@@ -103,7 +104,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void deleteAccountRequest() {
+    public void testDeleteAccountRequest_success() {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
 
         accountRequestDb.deleteAccountRequest(accountRequest);
@@ -112,18 +113,18 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void searchAccountRequestsInWholeSystemEmptyString() throws SearchServiceException {
+    public void testSearchAccountRequestsInWholeSystem_emptyString_returnsEmptyList() throws SearchServiceException {
         String testQuery = "";
         doReturn(mockSearchManager).when(accountRequestDb).getSearchManager();
 
         List<AccountRequest> searchResult = accountRequestDb.searchAccountRequestsInWholeSystem(testQuery);
-        assertTrue(searchResult.size() == 0);
+        assertTrue(searchResult.isEmpty());
 
         verify(mockSearchManager, never()).searchAccountRequests(testQuery);
     }
 
     @Test
-    public void searchAccountRequestsInWholeSystem() throws SearchServiceException {
+    public void testSearchAccountRequestsInWholeSystem_success() throws SearchServiceException {
         String testQuery = "TEST";
         doReturn(mockSearchManager).when(accountRequestDb).getSearchManager();
 
