@@ -13,6 +13,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -25,6 +26,8 @@ import teammates.storage.sqlentity.Instructor;
  * @see FeedbackSessionsDb
  */
 public final class FeedbackSessionsLogic {
+
+    private static final Logger log = Logger.getLogger();
 
     private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
@@ -385,5 +388,25 @@ public final class FeedbackSessionsLogic {
         if (session.isPublishedEmailSent()) {
             session.setPublishedEmailSent(session.isPublished());
         }
+    }
+
+    /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        List<FeedbackSession> requiredSessions = new ArrayList<>();
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            // is session closed in the past 1 hour
+            if (session.isClosedWithinPastHour()
+                    && session.getCourse().getDeletedAt() == null) {
+                requiredSessions.add(session);
+            }
+        }
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
     }
 }

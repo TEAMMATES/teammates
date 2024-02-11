@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -19,6 +20,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.logic.core.StudentsLogic;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -1311,6 +1313,13 @@ public class Logic {
     public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
+    }
+
+    /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
     }
 
     /**
