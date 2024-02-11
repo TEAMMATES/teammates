@@ -14,6 +14,9 @@ import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.FeedbackSessionClosedRemindersAction;
 import teammates.ui.webapi.JsonResult;
 
+/**
+ * SUT: {@link FeedbackSessionClosedRemindersAction}.
+ */
 public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<FeedbackSessionClosedRemindersAction> {
 
     @Override
