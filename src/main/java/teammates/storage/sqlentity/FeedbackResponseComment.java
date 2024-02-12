@@ -110,6 +110,10 @@ public class FeedbackResponseComment extends BaseEntity {
         return feedbackResponse;
     }
 
+    public FeedbackQuestion getFeedbackQuestion() {
+        return getFeedbackResponse().getFeedbackQuestion();
+    }
+
     public void setFeedbackResponse(FeedbackResponse feedbackResponse) {
         this.feedbackResponse = feedbackResponse;
     }
