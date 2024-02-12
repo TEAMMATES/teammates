@@ -13,6 +13,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
+import teammates.common.util.TimeHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -25,6 +27,8 @@ import teammates.storage.sqlentity.Instructor;
  * @see FeedbackSessionsDb
  */
 public final class FeedbackSessionsLogic {
+
+    private static final Logger log = Logger.getLogger();
 
     private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
@@ -385,5 +389,30 @@ public final class FeedbackSessionsLogic {
         if (session.isPublishedEmailSent()) {
             session.setPublishedEmailSent(session.isPublished());
         }
+    }
+
+    /**
+     * Criteria: must be published, publishEmail must be enabled and
+     * resultsVisibleTime must be custom.
+     *
+     * @return returns a list of sessions that require automated emails to be
+     *         sent as they are published
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            // automated emails are required only for custom publish times
+            if (session.isPublished()
+                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())
+                    && session.getCourse().getDeletedAt() == null) {
+                sessionsToSendEmailsFor.add(session);
+            }
+        }
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                sessionsToSendEmailsFor.size()));
+        return sessionsToSendEmailsFor;
     }
 }
