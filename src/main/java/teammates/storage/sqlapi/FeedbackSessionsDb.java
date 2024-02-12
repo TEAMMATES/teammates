@@ -6,11 +6,13 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -232,6 +234,29 @@ public final class FeedbackSessionsDb extends EntitiesDb {
                 .where(cb.and(
                     cb.greaterThanOrEqualTo(root.get("startTime"), after),
                     cb.equal(courseJoin.get("id"), courseId)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * and possibly need an open email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingOpenEmail() {
+        return getFeedbackSessionEntitiesPossiblyNeedingOpenEmail().stream()
+                .filter(session -> session.getDeletedAt() == null)
+                .collect(Collectors.toList());
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                    cb.greaterThan(root.get("startTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
+                    cb.equal(root.get("isOpenEmailSent"), false)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
