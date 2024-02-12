@@ -144,7 +144,7 @@ public class SqlCourseRoster {
             Instructor instructor = getInstructorForEmail(identifier);
 
             name = instructor.getName();
-            team = Const.USER_TEAM_ENTITY_FOR_INSTRUCTOR;
+            team = instructor.getTeam();
             section = Const.DEFAULT_SECTION_ENTITY;
         } else if (isTeam) {
             Student teamMember = getTeamToMembersTable().get(identifier).iterator().next();
