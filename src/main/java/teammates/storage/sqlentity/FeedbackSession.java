@@ -558,4 +558,15 @@ public class FeedbackSession extends BaseEntity {
         return this.deletedAt != null;
     }
 
+    /**
+     * Returns true if the feedback session opens after the number of specified hours.
+     */
+    public boolean isOpeningWithinTimeLimit(long hours) {
+        Instant now = Instant.now();
+        Duration difference = Duration.between(now, startTime);
+
+        return now.isBefore(startTime)
+                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+                && difference.compareTo(Duration.ofHours(hours)) < 0;
+    }
 }
