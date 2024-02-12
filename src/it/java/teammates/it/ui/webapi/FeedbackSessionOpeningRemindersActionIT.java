@@ -8,11 +8,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
-import teammates.common.util.TaskWrapper;
-import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HibernateUtil;
+import teammates.common.util.TaskWrapper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
@@ -56,16 +55,16 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         loginAsAdmin();
 
         ______TS("Typical Success Case 1: Email tasks added for co-owner, students and instructors of 1 session");
-        testExecute__TypicalSuccess1();
+        testExecute_typicalSuccess1();
 
         ______TS("Typical Success Case 2: No email tasks added for session -- already sent opening soon emails");
-        testExecute__TypicalSuccess2();
+        testExecute_typicalSuccess2();
 
         ______TS("Typical Success Case 3: No email tasks added for session -- session not visible yet");
-        testExecute__TypicalSuccess3();
+        testExecute_typicalSuccess3();
     }
 
-    private void testExecute__TypicalSuccess1() {
+    private void testExecute_typicalSuccess1() {
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
@@ -85,11 +84,11 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         assertEquals("Successful", response1.getMessage());
         assertTrue(session.isOpenEmailSent());
 
-        // # of email to send = 
+        // # of email to send =
         //    # emails sent to instructorsToNotify (ie co-owner), 1 +
         //    # emails sent to students, 4 +
         //    # emails sent to instructors, 3 (including instructorsToNotify)
-        verifySpecifiedTasksAdded(TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
 
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
@@ -103,7 +102,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         }
     }
 
-    private void testExecute__TypicalSuccess2() {
+    private void testExecute_typicalSuccess2() {
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
@@ -126,7 +125,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         verifyNoTasksAdded();
     }
 
-    private void testExecute__TypicalSuccess3() {
+    private void testExecute_typicalSuccess3() {
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
@@ -148,5 +147,4 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
 
         verifyNoTasksAdded();
     }
-    
 }
