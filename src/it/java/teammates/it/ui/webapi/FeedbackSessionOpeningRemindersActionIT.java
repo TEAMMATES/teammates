@@ -57,7 +57,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         ______TS("Typical Success Case 1: Email tasks added for co-owner, students and instructors of 1 session");
         testExecute_typicalSuccess1();
 
-        ______TS("Typical Success Case 2: No email tasks added for session -- already sent opening soon emails");
+        ______TS("Typical Success Case 2: No email tasks added for session -- already sent opening emails");
         testExecute_typicalSuccess2();
 
         ______TS("Typical Success Case 3: No email tasks added for session -- session not visible yet");
