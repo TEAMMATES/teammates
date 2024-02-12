@@ -1319,7 +1319,7 @@ public class Logic {
     /**
      * Creates or updates search document for the given student.
      *
-     * @see StudentsLogic#putStudentDocument(Student)
+     * @see UsersLogic#putStudentDocument(Student)
      */
     public void putStudentDocument(Student student) throws SearchServiceException {
         usersLogic.putStudentDocument(student);
