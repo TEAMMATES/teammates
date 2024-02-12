@@ -49,7 +49,7 @@ public class FeedbackSessionOpeningSoonRemindersAction extends AdminOnlyAction {
                 log.severe("Unexpected error", e);
             }
         }
-        
+
         return new JsonResult("Successful");
     }
 }

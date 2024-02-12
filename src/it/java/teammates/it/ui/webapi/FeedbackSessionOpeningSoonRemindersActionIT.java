@@ -97,7 +97,7 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
             assertEquals(
                     String.format(emailSubjectFormat, courseName, sessionName),
                     email.getSubject());
-                
+
         }
     }
 
