@@ -1,7 +1,6 @@
 package teammates.it.ui.webapi;
 
 import java.time.Duration;
-
 import java.time.Instant;
 
 import org.testng.annotations.BeforeMethod;
@@ -10,13 +9,13 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.FeedbackSessionPublishedRemindersAction;
 import teammates.ui.webapi.JsonResult;
-import teammates.storage.sqlentity.FeedbackSession;
 
 /**
- * SUT: {@link FeedbackSessionPublishedRemindersAction}
+ * SUT: {@link FeedbackSessionPublishedRemindersAction}.
  */
 public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<FeedbackSessionPublishedRemindersAction> {
 
@@ -50,17 +49,15 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     protected void testExecute() throws Exception {
         ______TS("Typical Success Case 1: 1 published-email tasks queued for 1 session that was recently published");
         textExecute_typicalSuccess1();
-    
+
         ______TS("Typical Success Case 2: No email tasks queued -- session results not published yet");
         textExecute_typicalSuccess2();
 
-        ______TS("Typical Success Case 2: No email tasks queued -- send-published-emails not enabled");
+        ______TS("Typical Success Case 3: No email tasks queued -- send-published-emails not enabled");
         textExecute_typicalSuccess3();
 
-        // test 4: results...Time = Const.TIME_REPRESENTS_LATER
-        ______TS("Typical Success Case 2: No email tasks queued -- is recently published, but resultsVisibleTime is special time");
+        ______TS("Typical Success Case 4: No email tasks queued -- resultsVisibleTime is special time");
         textExecute_typicalSuccess4();
-        // 
     }
 
     private void textExecute_typicalSuccess1() {

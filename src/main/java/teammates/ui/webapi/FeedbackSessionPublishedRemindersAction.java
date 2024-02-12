@@ -20,7 +20,7 @@ public class FeedbackSessionPublishedRemindersAction extends AdminOnlyAction {
             if (isCourseMigrated(session.getCourseId())) {
                 continue;
             }
-        
+
             RequestTracer.checkRemainingTime();
             taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
         }
@@ -30,7 +30,7 @@ public class FeedbackSessionPublishedRemindersAction extends AdminOnlyAction {
             RequestTracer.checkRemainingTime();
             taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourse().getId(), session.getName());
         }
-        
+
         return new JsonResult("Successful");
     }
 
