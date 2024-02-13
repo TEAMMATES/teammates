@@ -47,12 +47,14 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
         instructor = getTypicalInstructor();
+        instructor.setCourse(course);
         usersDb.createInstructor(instructor);
         instructor.setAccount(instructorAccount);
 
         Account studentAccount = new Account("student-account", "student-name", "valid-student@email.tmt");
         accountsDb.createAccount(studentAccount);
         student = getTypicalStudent();
+        student.setCourse(course);
         usersDb.createStudent(student);
         student.setAccount(studentAccount);
 

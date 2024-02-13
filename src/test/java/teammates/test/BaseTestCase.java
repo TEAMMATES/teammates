@@ -128,7 +128,7 @@ public class BaseTestCase {
 
     protected Student getTypicalStudent() {
         Course course = getTypicalCourse();
-        return new Student(course, "student-name", "valid@teammates.tmt", "comments");
+        return new Student(course, "student-name", "validstudent@teammates.tmt", "comments");
     }
 
     protected Section getTypicalSection() {
