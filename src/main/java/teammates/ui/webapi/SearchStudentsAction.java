@@ -30,6 +30,7 @@ public class SearchStudentsAction extends Action {
         }
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingNPE") // see this [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
     @Override
     public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
