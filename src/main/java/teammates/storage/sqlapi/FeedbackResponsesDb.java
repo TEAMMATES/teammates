@@ -55,7 +55,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      * Gets all responses given by a user in a course.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(
-            String courseId, String giver) {
+            String courseId, UUID giverId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cr = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
@@ -66,7 +66,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         cr.select(frRoot)
                 .where(cb.and(
                     cb.equal(cJoin.get("id"), courseId),
-                    cb.equal(frRoot.get("giver"), giver)));
+                    cb.equal(frRoot.get("giver").get("id"), giverId)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -74,7 +74,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     /**
      * Gets all responses given to a user in a course.
      */
-    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipient) {
+    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, UUID recipientId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cr = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
@@ -85,7 +85,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         cr.select(frRoot)
                 .where(cb.and(
                     cb.equal(cJoin.get("id"), courseId),
-                    cb.equal(frRoot.get("recipient"), recipient)));
+                    cb.equal(frRoot.get("recipient").get("id"), recipientId)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

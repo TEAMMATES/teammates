@@ -33,6 +33,7 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.responses.FeedbackMissingResponse;
+import teammates.storage.sqlentity.User;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
@@ -283,24 +284,34 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Gets all responses given by a user for a course.
+     * 
+     * @param courseId the identifier of a course.
+     * @param giver the email of the giver.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(
             String courseId, String giver) {
         assert courseId != null;
         assert giver != null;
 
-        return frDb.getFeedbackResponsesFromGiverForCourse(courseId, giver);
+        User user = usersLogic.getUserByEmail(courseId, giver);
+
+        return frDb.getFeedbackResponsesFromGiverForCourse(courseId, user.getId());
     }
 
     /**
      * Gets all responses received by a user for a course.
+     * 
+     * @param courseId the identifier of a course.
+     * @param recipient the email of the recipient.
      */
     public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(
             String courseId, String recipient) {
         assert courseId != null;
         assert recipient != null;
 
-        return frDb.getFeedbackResponsesForRecipientForCourse(courseId, recipient);
+        User user = usersLogic.getUserByEmail(courseId, recipient);
+
+        return frDb.getFeedbackResponsesForRecipientForCourse(courseId, user.getId());
     }
 
     /**

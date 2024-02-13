@@ -192,8 +192,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("verify feedback responses deserialized correctly");
         FeedbackResponse actualResponse1 = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackResponseDetails responseDetails1 = new FeedbackTextResponseDetails("Student 1 self feedback.");
-        FeedbackResponse expectedResponse1 = FeedbackResponse.makeResponse(actualQuestion1, "student1@teammates.tmt",
-                expectedSection, "student1@teammates.tmt", expectedSection, responseDetails1);
+        FeedbackResponse expectedResponse1 = FeedbackResponse.makeResponse(actualQuestion1, actualStudent1,
+                expectedSection, actualStudent1, expectedSection, responseDetails1);
         expectedResponse1.setId(actualResponse1.getId());
         verifyEquals(expectedResponse1, actualResponse1);
 
