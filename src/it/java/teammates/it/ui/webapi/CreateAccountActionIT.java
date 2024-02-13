@@ -7,7 +7,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import jakarta.transaction.Transactional;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -22,6 +21,8 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
+
+import jakarta.transaction.Transactional;
 
 /**
  * SUT: {@link CreateAccountAction}.
@@ -110,14 +111,12 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
-
         Account instructor4 = typicalBundle.accounts.get("unregisteredInstructor4");
         loginAsUnregistered(instructor4.getGoogleId());
 
         accReq = typicalBundle.accountRequests.get("unregisteredInstructor4");
         email = accReq.getEmail();
         institute = accReq.getInstitute();
-        name = accReq.getName();
         timezone = "InvalidTimezone";
 
         accountRequest = logic.getAccountRequest(email, institute);

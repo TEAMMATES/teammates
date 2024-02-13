@@ -114,8 +114,9 @@ public class CreateAccountAction extends Action {
      *
      * @return the updated account request
      */
-    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest, String instructorEmail, String instructorInstitution)
-        throws InvalidParametersException, EntityDoesNotExistException {
+    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest,
+            String instructorEmail, String instructorInstitution)
+            throws InvalidParametersException, EntityDoesNotExistException {
         accountRequest.setEmail(instructorEmail);
         accountRequest.setInstitute(instructorInstitution);
         accountRequest.setRegisteredAt(Instant.now());
@@ -133,9 +134,10 @@ public class CreateAccountAction extends Action {
      *
      * @return the ID of demo course, which does not previously exist in the database for another course.
      * @throws EntityAlreadyExistsException if the generated demo course ID already exists in the database.
-     * However, this should never occur and hence should be handled as a programmatic error.
+     *         However, this should never occur and hence should be handled as a programmatic error.
      */
-    private String importAndPersistDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
+    private String importAndPersistDemoData(String instructorEmail, String instructorName,
+            String instructorInstitute, String timezone)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         String courseId = generateDemoCourseId(instructorEmail);

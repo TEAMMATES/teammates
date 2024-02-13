@@ -716,7 +716,6 @@ public class Logic {
         return usersLogic.createInstructor(instructor);
     }
 
-
     /**
      * Validates that the join course request is valid, then
      * makes the instructor join the course, i.e. associate an account to the instructor with the given googleId.
@@ -725,7 +724,7 @@ public class Logic {
      * Parameters regkey and googleId are non-null.
      */
     public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
-        throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         if (googleId == null) {
             throw new InvalidParametersException("Instructor's googleId cannot be null");
         }
@@ -744,7 +743,7 @@ public class Logic {
      * @throws Exception if the instructor cannot join the course.
      */
     private boolean validateJoinCourseRequest(String googleId, Instructor instructor)
-        throws EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws EntityAlreadyExistsException, EntityDoesNotExistException {
         if (instructor == null) {
             throw new EntityDoesNotExistException("Instructor not found");
         }

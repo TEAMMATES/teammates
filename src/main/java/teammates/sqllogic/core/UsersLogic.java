@@ -201,8 +201,8 @@ public final class UsersLogic {
      * Creates an account for the instructor if no existing account is found.
      * Preconditions:
      * Parameters regkey and googleId are non-null.
-     * @throws EntityAlreadyExistsException
-     * @throws InvalidParametersException
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
+     * @throws InvalidParametersException if the instructor parameters are not valid
      */
     public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
