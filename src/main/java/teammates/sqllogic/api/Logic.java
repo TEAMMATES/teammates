@@ -1345,4 +1345,16 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
     }
+
+    /**
+     * This is used by admin to search account requests in the whole system.
+     *
+     * @return A list of {@link AccountRequest} or {@code null} if no match found.
+     */
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
+    }
 }

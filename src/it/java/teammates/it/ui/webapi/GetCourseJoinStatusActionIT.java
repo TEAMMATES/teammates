@@ -131,7 +131,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         ______TS("Normal case: account request not used, instructor has not joined course");
 
-        String accountRequestNotUsedKey = logic.getAccountRequest("unregisteredInstructor@teammates.tmt",
+        String accountRequestNotUsedKey = logic.getAccountRequest("unregisteredinstructor1@gmail.tmt",
                 "TEAMMATES Test Institute 1").getRegistrationKey();
 
         params = new String[] {
