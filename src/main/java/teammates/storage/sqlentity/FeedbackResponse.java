@@ -45,7 +45,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     private FeedbackQuestion feedbackQuestion;
 
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
-    private transient List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
+    private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
     @Column(nullable = false)
     private String giver;
