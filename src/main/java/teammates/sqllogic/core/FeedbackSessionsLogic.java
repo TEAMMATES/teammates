@@ -284,10 +284,9 @@ public final class FeedbackSessionsLogic {
             return false;
         }
 
-        List<FeedbackQuestion> qns = fqLogic.getFeedbackQuestionsForSession(session);
         return isInstructor
-                ? fqLogic.hasFeedbackQuestionsForInstructors(qns, false)
-                : fqLogic.hasFeedbackQuestionsForStudents(qns);
+                ? fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), false)
+                : fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions());
     }
 
     /**

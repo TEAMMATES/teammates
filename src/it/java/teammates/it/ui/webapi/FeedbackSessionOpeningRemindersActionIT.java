@@ -2,6 +2,7 @@ package teammates.it.ui.webapi;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -13,6 +14,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TaskWrapper;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
@@ -30,6 +32,26 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         super.setUp();
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
+        prepareSession();
+    }
+
+    private void prepareSession() {
+        // FEEDBACK QUESTIONS
+        String[] fqKeys = {
+                "qn1InSession1InCourse1",
+                "qn2InSession1InCourse1",
+                "qn3InSession1InCourse1",
+                "qn4InSession1InCourse1",
+                "qn5InSession1InCourse1",
+                "qn6InSession1InCourse1NoResponses",
+        };
+        List<FeedbackQuestion> qns = new ArrayList<>();
+        for (String fqKey : fqKeys) {
+            qns.add(typicalBundle.feedbackQuestions.get(fqKey));
+        }
+
+        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        session.setFeedbackQuestions(qns);
     }
 
     @Override
