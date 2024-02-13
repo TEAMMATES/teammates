@@ -182,7 +182,7 @@ public final class UsersLogic {
                 FeedbackQuestion question = responseFromUser.getFeedbackQuestion();
                 if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.SELF) {
-                    responseFromUser.setGiver(newEmail);
+                    responseFromUser.setGiver(instructor);
                 }
             }
             List<FeedbackResponse> responsesToUser =
@@ -192,7 +192,7 @@ public final class UsersLogic {
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         && question.getRecipientType() == FeedbackParticipantType.SELF) {
-                    responseToUser.setRecipient(newEmail);
+                    responseToUser.setRecipient(instructor);
                 }
             }
             // cascade comments
@@ -693,7 +693,7 @@ public final class UsersLogic {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesForCourseCascade(
-                            student.getCourse().getId(), student.getTeamName());
+                            student.getCourse().getId(), student.getEmail());
         }
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
@@ -988,6 +988,13 @@ public final class UsersLogic {
         users.forEach(u -> emailUserMap.put(u.getEmail(), u));
 
         return emailUserMap;
+    }
+
+    public User getUserByEmail(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        return usersDb.getUserByEmail(courseId, email);
     }
 
 }

@@ -22,7 +22,7 @@ import teammates.storage.sqlentity.User;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.SearchManagerFactory;
 import teammates.storage.sqlsearch.StudentSearchManager;
-
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -669,6 +669,22 @@ public final class UsersDb extends EntitiesDb {
         if (getStudent(student.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
+    }
+
+    public User getUserByEmail(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        Join<User, Course> courseJoin = root.join("course");
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(root.get("email"), email)));
+        TypedQuery<User> query = HibernateUtil.createQuery(cq);
+        return query.getSingleResult();
     }
 
 }

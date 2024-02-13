@@ -257,8 +257,14 @@
           "INSTRUCTORS"
         ]
       },
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student"
+      },
+      "recipient": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student"
+      },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -299,8 +305,14 @@
             "INSTRUCTORS"
           ]
         },
-        "giver": "student1@teammates.tmt",
-        "recipient": "student1@teammates.tmt",
+        "giver": {
+          "id": "00000000-0000-4000-8000-000000000601",
+          "type": "student"
+        },
+        "recipient": {
+          "id": "00000000-0000-4000-8000-000000000601",
+          "type": "student"
+        },
         "giverSection": {
           "id": "00000000-0000-4000-8000-000000000201"
         },
