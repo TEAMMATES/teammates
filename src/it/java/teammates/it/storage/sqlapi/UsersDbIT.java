@@ -6,8 +6,6 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -275,19 +273,5 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));
-    }
-
-    private Student getTypicalStudent() {
-        return new Student(course, "student-name", "valid-student@email.tmt", "comments");
-    }
-
-    private Instructor getTypicalInstructor() {
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-
-        return new Instructor(course, "instructor-name", "valid-instructor@email.tmt",
-                true, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
     }
 }

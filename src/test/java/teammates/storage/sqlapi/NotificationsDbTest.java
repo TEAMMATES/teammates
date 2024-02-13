@@ -117,12 +117,4 @@ public class NotificationsDbTest extends BaseTestCase {
         mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }
 
-    private Notification generateTypicalNotificationWithId() {
-        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-        notification.setId(UUID.randomUUID());
-        return notification;
-    }
-
 }

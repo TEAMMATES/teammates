@@ -2,18 +2,32 @@ package teammates.test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.NotificationStyle;
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.core.DataBundleLogic;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 
 /**
  * Base class for all test cases.
@@ -83,6 +97,48 @@ public class BaseTestCase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected Account getTypicalAccount() {
+        return new Account("google-id", "name", "email@teammates.com");
+    }
+
+    protected Notification generateTypicalNotificationWithId() {
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setId(UUID.randomUUID());
+        return notification;
+    }
+
+    protected Instructor getTypicalInstructor() {
+        Course course = getTypicalCourse();
+        InstructorPrivileges instructorPrivileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorPermissionRole role = InstructorPermissionRole
+                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+
+        return new Instructor(course, "instructor-name", "valid@teammates.tmt",
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
+    }
+
+    protected Course getTypicalCourse() {
+        return new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+    }
+
+    protected Student getTypicalStudent() {
+        Course course = getTypicalCourse();
+        return new Student(course, "student-name", "valid@teammates.tmt", "comments");
+    }
+
+    protected Section getTypicalSection() {
+        Course course = getTypicalCourse();
+        return new Section(course, "test-section");
+    }
+
+    protected Team getTypicalTeam() {
+        Section section = getTypicalSection();
+        return new Team(section, "test-team");
     }
 
     /**
@@ -279,5 +335,4 @@ public class BaseTestCase {
         // CHECKSTYLE.ON:IllegalThrows
 
     }
-
 }

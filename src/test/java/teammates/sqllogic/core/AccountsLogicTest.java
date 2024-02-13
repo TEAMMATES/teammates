@@ -13,20 +13,14 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
-import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
 import teammates.test.BaseTestCase;
 
@@ -45,16 +39,12 @@ public class AccountsLogicTest extends BaseTestCase {
 
     private CoursesLogic coursesLogic;
 
-    private Course course;
-
     @BeforeMethod
     public void setUpMethod() {
         accountsDb = mock(AccountsDb.class);
         notificationsLogic = mock(NotificationsLogic.class);
         usersLogic = mock(UsersLogic.class);
         accountsLogic.initLogicDependencies(accountsDb, notificationsLogic, usersLogic, coursesLogic);
-
-        course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
     }
 
     @Test
@@ -228,19 +218,5 @@ public class AccountsLogicTest extends BaseTestCase {
                 NotificationTargetUser.GENERAL,
                 "A deprecation note",
                 "<p>Deprecation happens in three minutes</p>");
-    }
-
-    private Instructor getTypicalInstructor() {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-
-        return new Instructor(course, "instructor-name", "valid-instructor@email.tmt",
-                true, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
-    }
-
-    private Student getTypicalStudent() {
-        return new Student(course, "student-name", "valid-student@email.tmt", "comments");
     }
 }
