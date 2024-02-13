@@ -42,12 +42,12 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
         // FEEDBACK QUESTIONS
         String[] fqKeys = {
-            "qn1InSession1InCourse1", 
-            "qn2InSession1InCourse1",
-            "qn3InSession1InCourse1", 
-            "qn4InSession1InCourse1",
-            "qn5InSession1InCourse1", 
-            "qn6InSession1InCourse1NoResponses",
+                "qn1InSession1InCourse1",
+                "qn2InSession1InCourse1",
+                "qn3InSession1InCourse1",
+                "qn4InSession1InCourse1",
+                "qn5InSession1InCourse1",
+                "qn6InSession1InCourse1NoResponses",
         };
         List<FeedbackQuestion> qns = new ArrayList<>();
         for (String fqKey : fqKeys) {
@@ -87,12 +87,13 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
         ______TS("Typical Success Case 2: email tasks added for 1 all users of 1 session and 1 deadline extension");
         textExecute_typicalSuccess2();
 
-        ______TS("Typical Success Case 3: Only 1 email task queued -- " + 
-                "0 for session: already sent, " +
-                "1 for deadline extension: closing-soon not sent yet");
+        ______TS("Typical Success Case 3: Only 1 email task queued -- "
+                + "0 for session: already sent, "
+                + "1 for deadline extension: closing-soon not sent yet");
         textExecute_typicalSuccess3();
 
-        ______TS("Typical Success Case 4: No tasks queued -- both session and deadline extensions have already sent closing-soon emails");
+        ______TS("Typical Success Case 4: No tasks queued -- "
+                + "both session and deadline extensions have already sent closing-soon emails");
         textExecute_typicalSuccess4();
 
         ______TS("Typical Success Case 5: No tasks queued -- session's closing-soon email disabled");
@@ -119,7 +120,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
         assertTrue(session.isClosingSoonEmailSent());
         assertTrue(session.getDeadlineExtensions().stream().allMatch(de -> !de.isClosingSoonEmailSent()));
 
-        // 6 email tasks queued: 
+        // 6 email tasks queued:
         // 1 co-owner, 4 students and 3 instructors,
         // but 1 student and 1 instructor have deadline extensions (should not receive email)
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
@@ -148,7 +149,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
         assertTrue(session.isClosingSoonEmailSent());
         assertTrue(de.isClosingSoonEmailSent());
 
-        // 7 email tasks queued: 
+        // 7 email tasks queued:
         // - 6 emails: 1 co-owner, 4 students and 3 instructors,
         //             but 1 student and 1 instructor have deadline extensions (should not receive email)
         // - 1 email:  1 student deadline extension
@@ -179,7 +180,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
         assertTrue(session.isClosingSoonEmailSent());
         assertTrue(de.isClosingSoonEmailSent());
 
-        // 1 email tasks queued: 
+        // 1 email tasks queued:
         // - 0 emails: session already sent closing-soon emails
         // - 1 email:  1 student deadline extension where closing-soon email not sent yet
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
@@ -211,7 +212,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
         verifyNoTasksAdded();
     }
-    
+
     private void textExecute_typicalSuccess5() {
         long oneHour = 60 * 60;
         Instant now = Instant.now();

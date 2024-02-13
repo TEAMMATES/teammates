@@ -48,7 +48,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                     .stream()
                     .collect(Collectors.groupingBy(de -> de.getFeedbackSession()))
                     .values();
-        
+
         for (var deadlineExtensions : groupedDeadlineExtensions) {
             RequestTracer.checkRemainingTime();
 

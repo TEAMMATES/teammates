@@ -238,7 +238,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         return HibernateUtil.createQuery(cr).getResultList();
     }
 
-     /**
+    /**
      * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
      * and possibly need a closing soon email to be sent.
      */
