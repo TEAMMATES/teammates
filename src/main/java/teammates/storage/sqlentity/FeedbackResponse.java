@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -20,7 +22,6 @@ import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -47,15 +48,19 @@ public abstract class FeedbackResponse extends BaseEntity {
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
-    @Column(nullable = false)
-    private String giver;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "giverId", nullable = false)
+    private User giver;
 
     @ManyToOne
     @JoinColumn(name = "giverSectionId")
     private Section giverSection;
 
-    @Column(nullable = false)
-    private String recipient;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "recipientId", nullable = false)
+    private User recipient;
 
     @ManyToOne
     @JoinColumn(name = "recipientSectionId")
@@ -69,8 +74,8 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     public FeedbackResponse(
-            FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String recipient, Section recipientSection
+            FeedbackQuestion feedbackQuestion, User giver,
+            Section giverSection, User recipient, Section recipientSection
     ) {
         this.setId(UUID.randomUUID());
         this.setFeedbackQuestion(feedbackQuestion);
@@ -84,8 +89,8 @@ public abstract class FeedbackResponse extends BaseEntity {
      * Creates a feedback response according to its {@code FeedbackQuestionType}.
      */
     public static FeedbackResponse makeResponse(
-            FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String receiver, Section receiverSection,
+            FeedbackQuestion feedbackQuestion, User giver,
+            Section giverSection, User receiver, Section receiverSection,
             FeedbackResponseDetails responseDetails
     ) {
         FeedbackResponse feedbackResponse = null;
@@ -192,11 +197,11 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.feedbackResponseComments = feedbackResponseComments;
     }
 
-    public String getGiver() {
+    public User getGiver() {
         return giver;
     }
 
-    public void setGiver(String giver) {
+    public void setGiver(User giver) {
         this.giver = giver;
     }
 
@@ -212,11 +217,11 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.giverSection = giverSection;
     }
 
-    public String getRecipient() {
+    public User getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(String recipient) {
+    public void setRecipient(User recipient) {
         this.recipient = recipient;
     }
 
