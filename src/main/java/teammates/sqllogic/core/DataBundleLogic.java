@@ -72,10 +72,16 @@ public final class DataBundleLogic {
     }
 
     /**
-     * Deserialize JSON into a data bundle. Replaces placeholder IDs with actual
-     * IDs.
+     * Deserialize JSON into a data bundle.
      *
-     * @param jsonString serialized data bundle
+     * NOTE: apart from for Course, ids used in the jsonString may be any valid UUID
+     * and are used only to link entities together. They will be replaced by a random
+     * UUID when deserialized and hence do not need to be checked if they exist in the
+     * database previously.
+     *
+     * @param jsonString containing entities to persist at once to the database.
+     * CourseID must be a valid UUID not currently in use.
+     * For other entities, replaces the given ids with randomly generated UUIDs.
      * @return newly created DataBundle
      */
     public static SqlDataBundle deserializeDataBundle(String jsonString) {

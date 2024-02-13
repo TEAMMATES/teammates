@@ -750,7 +750,7 @@ public class Logic {
         }
 
         // check course exists and has not been deleted
-        Course course = coursesLogic.getCourse(instructor.getCourseId());
+        Course course = getCourse(instructor.getCourseId());
 
         if (course == null) {
             throw new EntityDoesNotExistException("Course with id " + instructor.getCourseId() + " does not exist");

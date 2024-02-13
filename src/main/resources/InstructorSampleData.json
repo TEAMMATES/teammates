@@ -4163,7 +4163,7 @@
     },
     "comment1FromT1C1ToR1Q2S2C1": {
       "courseId": "demo.course",
-      "feedbackSessionName": "First team feedback session",
+      "feedbackSessionName": "First team feedback session (percentage-based)",
       "feedbackQuestionId": "2",
       "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
@@ -4193,7 +4193,7 @@
     },
     "comment1FromT1C1ToR2Q2S2C1": {
       "courseId": "demo.course",
-      "feedbackSessionName": "First team feedback session",
+      "feedbackSessionName": "First team feedback session (percentage-based)",
       "feedbackQuestionId": "2",
       "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
@@ -4223,7 +4223,7 @@
     },
     "comment1FromT1C1ToR5Q2S2C1": {
       "courseId": "demo.course",
-      "feedbackSessionName": "First team feedback session",
+      "feedbackSessionName": "First team feedback session (percentage-based)",
       "feedbackQuestionId": "2",
       "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 2",
@@ -4253,7 +4253,7 @@
     },
     "comment1FromT1C1ToR6Q2S2C1": {
       "courseId": "demo.course",
-      "feedbackSessionName": "First team feedback session",
+      "feedbackSessionName": "First team feedback session (percentage-based)",
       "feedbackQuestionId": "2",
       "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 2",

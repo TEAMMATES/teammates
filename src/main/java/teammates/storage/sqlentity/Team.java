@@ -32,7 +32,7 @@ public class Team extends BaseEntity {
     private Section section;
 
     @OneToMany(mappedBy = "team")
-    private List<User> users;
+    private transient List<User> users;
 
     @Column(nullable = false)
     private String name;
@@ -121,7 +121,7 @@ public class Team extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Team [id=" + id + ", section=" + section + ", users=" + users + ", name=" + name
+        return "Team [id=" + id + ", users=" + users + ", name=" + name
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 

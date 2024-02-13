@@ -287,7 +287,7 @@ public final class UsersDb extends EntitiesDb {
      * Gets the list of students for the specified {@code courseId}.
      */
     public List<Student> getStudentsForCourse(String courseId) {
-        assert courseId != null;
+        assert courseId != null && !courseId.isEmpty();
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);

@@ -15,11 +15,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
+import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -28,7 +28,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Creates a new instructor account with sample courses.
  */
-class CreateAccountAction extends Action {
+public class CreateAccountAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
@@ -82,6 +82,8 @@ class CreateAccountAction extends Action {
         List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
 
         assert !instructorList.isEmpty();
+
+        assert userInfo != null && userInfo.id != null;
 
         try {
             // join the instructor to the course created previously
@@ -166,13 +168,14 @@ class CreateAccountAction extends Action {
                 "demo.date2", dateString2,
                 "demo.date3", dateString3,
                 "demo.date4", dateString4,
-                "demo.date5", dateString5);
+                "demo.date5", dateString5
+                );
 
         if (!Const.DEFAULT_TIME_ZONE.equals(timezone)) {
             dataBundleString = replaceAdjustedTimeAndTimezone(dataBundleString, timezone);
         }
 
-        SqlDataBundle sqlDataBundle = JsonUtils.fromJson(dataBundleString, SqlDataBundle.class);
+        SqlDataBundle sqlDataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
         sqlLogic.persistDataBundle(sqlDataBundle);
 
@@ -260,7 +263,7 @@ class CreateAccountAction extends Action {
      *         <li>012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)</li>
      *         </ul>
      */
-    String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
+    public String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId), maximumIdLength);
