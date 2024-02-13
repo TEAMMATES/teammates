@@ -558,4 +558,17 @@ public class FeedbackSession extends BaseEntity {
         return this.deletedAt != null;
     }
 
+    /**
+     * Returns true if the feedback session is closing (almost closed) after the number of specified hours.
+     */
+    public boolean isClosingWithinTimeLimit(long hours) {
+        Instant now = Instant.now();
+        Duration difference = Duration.between(now, endTime);
+        // If now and start are almost similar, it means the feedback session
+        // is open for only 24 hours.
+        // Hence we do not send a reminder e-mail for feedback session.
+        return now.isAfter(startTime)
+               && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+               && difference.compareTo(Duration.ofHours(hours)) < 0;
+    }
 }
