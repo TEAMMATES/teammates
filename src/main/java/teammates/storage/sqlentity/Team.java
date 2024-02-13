@@ -32,7 +32,7 @@ public class Team extends BaseEntity {
     private Section section;
 
     @OneToMany(mappedBy = "team")
-    private transient List<User> users;
+    private List<User> users;
 
     @Column(nullable = false)
     private String name;

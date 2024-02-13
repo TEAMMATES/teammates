@@ -14,6 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -49,10 +50,10 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     @Test
     @Transactional
     protected void testExecute() throws InvalidParametersException, EntityAlreadyExistsException {
-        Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.getAccount().getGoogleId());
+        Account instructor3 = typicalBundle.accounts.get("unregisteredInstructor3");
+        loginAsUnregistered(instructor3.getGoogleId());
 
-        AccountRequest accReq = typicalBundle.accountRequests.get("instructor3");
+        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor3");
         String email = accReq.getEmail();
         String institute = accReq.getInstitute();
         String name = accReq.getName();
@@ -109,8 +110,14 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
-        email = "unregisteredinstructor2@gmail.tmt";
-        institute = "TEAMMATES Test Institute 2";
+
+        Account instructor4 = typicalBundle.accounts.get("unregisteredInstructor4");
+        loginAsUnregistered(instructor4.getGoogleId());
+
+        accReq = typicalBundle.accountRequests.get("unregisteredInstructor4");
+        email = accReq.getEmail();
+        institute = accReq.getInstitute();
+        name = accReq.getName();
         timezone = "InvalidTimezone";
 
         accountRequest = logic.getAccountRequest(email, institute);

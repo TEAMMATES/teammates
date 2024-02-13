@@ -12,6 +12,18 @@
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt"
     },
+    "unregisteredInstructor3": {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "googleId": "instructor3",
+      "name": "Instructor 3",
+      "email": "instr3@teammates.tmt"
+    },
+    "unregisteredInstructor4": {
+      "id": "00000000-0000-4000-8000-000000000104",
+      "googleId": "instructor4",
+      "name": "Instructor 4",
+      "email": "instr4@teammates.tmt"
+    },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000003",
       "googleId": "idOfStudent1Course1",
@@ -45,6 +57,18 @@
       "email": "instr2@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
       "registeredAt": "2015-02-14T00:00:00Z"
+    },
+    "unregisteredInstructor3": {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "name": "Instructor 3",
+      "email": "instr3@teammates.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "unregisteredInstructor4": {
+      "id": "00000000-0000-4000-8000-000000000104",
+      "name": "Instructor 4",
+      "email": "instr4@teammates.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {

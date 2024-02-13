@@ -1,4 +1,4 @@
-package teammates.storage.sqlentity;
+ package teammates.storage.sqlentity;
 
 import java.util.ArrayList;
 import java.util.List;

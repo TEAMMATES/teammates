@@ -201,9 +201,11 @@ public final class UsersLogic {
      * Creates an account for the instructor if no existing account is found.
      * Preconditions:
      * Parameters regkey and googleId are non-null.
+     * @throws EntityAlreadyExistsException
+     * @throws InvalidParametersException
      */
     public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         if (googleId == null) {
             throw new InvalidParametersException("Instructor's googleId cannot be null");
         }
@@ -213,8 +215,14 @@ public final class UsersLogic {
 
         // setting account for instructor sets it as registered
         if (instructor.getAccount() == null) {
-            Account account = new Account(googleId, instructor.getName(), instructor.getEmail());
-            instructor.setAccount(account);
+            Account dbAccount = accountsLogic.getAccountForGoogleId(googleId);
+            if (dbAccount != null) {
+                instructor.setAccount(dbAccount);
+            } else {
+                Account account = new Account(googleId, instructor.getName(), instructor.getEmail());
+                instructor.setAccount(account);
+                accountsLogic.createAccount(account);
+            }
         } else {
             instructor.setGoogleId(googleId);
         }

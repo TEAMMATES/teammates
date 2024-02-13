@@ -163,7 +163,7 @@ public final class DataBundleLogic {
             responseMap.put(placeholderId, response);
             FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
             Section giverSection = sectionsMap.get(response.getGiverSection().getId());
-            Section recipientSection = sectionsMap.get(response.getRecipientSection().getId());
+            Section recipientSection = response.getRecipientSection() != null ? sectionsMap.get(response.getRecipientSection().getId()) : null;
             response.setFeedbackQuestion(fq);
             response.setGiverSection(giverSection);
             response.setRecipientSection(recipientSection);
