@@ -20,6 +20,7 @@ import com.googlecode.objectify.util.Closeable;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
@@ -41,6 +42,10 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
+import teammates.storage.sqlsearch.AccountRequestSearchManager;
+import teammates.storage.sqlsearch.InstructorSearchManager;
+import teammates.storage.sqlsearch.SearchManagerFactory;
+import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.test.BaseTestCase;
 
 /**
@@ -71,6 +76,13 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
         LogicStarter.initializeDependencies();
 
+        SearchManagerFactory.registerAccountRequestSearchManager(
+            new AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        SearchManagerFactory.registerInstructorSearchManager(
+            new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        SearchManagerFactory.registerStudentSearchManager(
+            new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+
         // TODO: remove after migration, needed for dual db support
         teammates.logic.core.LogicStarter.initializeDependencies();
         LOCAL_DATASTORE_HELPER.start();
@@ -89,6 +101,10 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     @AfterClass
     public void tearDownClass() {
         closeable.close();
+
+        SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
+        SearchManagerFactory.getInstructorSearchManager().resetCollections();
+        SearchManagerFactory.getStudentSearchManager().resetCollections();
     }
 
     @AfterSuite
@@ -118,6 +134,13 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected void persistDataBundle(SqlDataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException {
         logic.persistDataBundle(dataBundle);
+    }
+
+    /**
+     * Puts searchable documents from the data bundle to the solr database.
+     */
+    protected void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
+        logic.putDocuments(dataBundle);
     }
 
     /**
@@ -221,6 +244,13 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {
             return logic.getNotification(((Notification) entity).getId());
+        } else if (entity instanceof AccountRequest) {
+            AccountRequest accountRequest = (AccountRequest) entity;
+            return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        } else if (entity instanceof Instructor) {
+            return logic.getInstructor(((Instructor) entity).getId());
+        } else if (entity instanceof Student) {
+            return logic.getStudent(((Student) entity).getId());
         } else {
             throw new RuntimeException("Unknown entity type");
         }

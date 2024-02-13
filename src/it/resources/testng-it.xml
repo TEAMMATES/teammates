@@ -5,8 +5,10 @@
         <packages>
             <package name="teammates.it" />
             <package name="teammates.it.test" />
+            <package name="teammates.it.sqllogic.api" />
             <package name="teammates.it.sqllogic.core" />
             <package name="teammates.it.storage.sqlapi" />
+            <package name="teammates.it.storage.sqlsearch" />
             <package name="teammates.it.ui.webapi" />
         </packages>
     </test>

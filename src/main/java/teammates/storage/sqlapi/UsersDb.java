@@ -1,12 +1,16 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -15,6 +19,9 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlsearch.InstructorSearchManager;
+import teammates.storage.sqlsearch.SearchManagerFactory;
+import teammates.storage.sqlsearch.StudentSearchManager;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -37,6 +44,14 @@ public final class UsersDb extends EntitiesDb {
 
     public static UsersDb inst() {
         return instance;
+    }
+
+    public InstructorSearchManager getInstructorSearchManager() {
+        return SearchManagerFactory.getInstructorSearchManager();
+    }
+
+    public StudentSearchManager getStudentSearchManager() {
+        return SearchManagerFactory.getStudentSearchManager();
     }
 
     /**
@@ -105,6 +120,21 @@ public final class UsersDb extends EntitiesDb {
                 cb.equal(accountsJoin.get("googleId"), googleId)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets all instructors that will be displayed to students of a course.
+     */
+    public List<Instructor> getInstructorsDisplayedToStudents(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+
+        cr.select(instructorRoot).where(cb.and(
+                cb.equal(instructorRoot.get("courseId"), courseId),
+                cb.equal(instructorRoot.get("isDisplayedToStudents"), true)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**
@@ -230,6 +260,22 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Searches all instructors in the system.
+     *
+     * <p>This method should be used by admin only since the searching does not
+     * restrict the visibility according to the logged-in user's google ID. This
+     * is used by admin to search instructors in the whole system.
+     */
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        if (queryString.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return getInstructorSearchManager().searchInstructors(queryString);
+    }
+
+    /**
      * Deletes a user.
      */
     public <T extends User> void deleteUser(T user) {
@@ -326,8 +372,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(instructorRoot)
                 .where(cb.and(
-                    cb.equal(instructorRoot.get("courseId"), courseId),
-                    cb.equal(instructorRoot.get("email"), userEmail)));
+                        cb.equal(instructorRoot.get("courseId"), courseId),
+                        cb.equal(instructorRoot.get("email"), userEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -350,8 +396,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(instructorRoot)
                 .where(cb.and(
-                    cb.equal(instructorRoot.get("courseId"), courseId),
-                    cb.or(predicates.toArray(new Predicate[0]))));
+                        cb.equal(instructorRoot.get("courseId"), courseId),
+                        cb.or(predicates.toArray(new Predicate[0]))));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -369,8 +415,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(studentRoot.get("courseId"), courseId),
-                    cb.equal(studentRoot.get("email"), userEmail)));
+                        cb.equal(studentRoot.get("courseId"), courseId),
+                        cb.equal(studentRoot.get("email"), userEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -393,8 +439,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(studentRoot.get("courseId"), courseId),
-                    cb.or(predicates.toArray(new Predicate[0]))));
+                        cb.equal(studentRoot.get("courseId"), courseId),
+                        cb.or(predicates.toArray(new Predicate[0]))));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -447,8 +493,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(sectionJoin.get("name"), sectionName)));
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(sectionJoin.get("name"), sectionName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -468,8 +514,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(teamsJoin.get("name"), teamName)));
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -489,10 +535,102 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(cb.count(studentRoot.get("id")))
                 .where(cb.and(
-                    cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(teamsJoin.get("name"), teamName)));
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getSingleResult();
+    }
+
+    /**
+     * Gets the section with the specified {@code sectionName} and {@code courseId}.
+     */
+    public Section getSection(String courseId, String sectionName) {
+        assert sectionName != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
+        Root<Section> sectionRoot = cr.from(Section.class);
+        Join<Section, Course> courseJoin = sectionRoot.join("course");
+
+        cr.select(sectionRoot)
+                .where(cb.and(
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(sectionRoot.get("name"), sectionName)));
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets a section by its {@code courseId} and {@code sectionName}.
+     */
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        assert courseId != null;
+        assert sectionName != null;
+
+        Section section = getSection(courseId, sectionName);
+
+        if (section == null) {
+            Course course = CoursesDb.inst().getCourse(courseId);
+            section = new Section(course, sectionName);
+            persist(section);
+        }
+
+        return section;
+    }
+
+    /**
+     * Gets a team by its {@code section} and {@code teamName}.
+     */
+    public Team getTeam(Section section, String teamName) {
+        assert teamName != null;
+        assert section != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
+        Root<Team> teamRoot = cr.from(Team.class);
+        Join<Team, Section> sectionJoin = teamRoot.join("section");
+
+        cr.select(teamRoot)
+                .where(cb.and(
+                        cb.equal(sectionJoin.get("id"), section.getId()),
+                        cb.equal(teamRoot.get("name"), teamName)));
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets a team by its {@code section} and {@code teamName}.
+     */
+    public Team getTeamOrCreate(Section section, String teamName) {
+        assert teamName != null;
+        assert section != null;
+
+        Team team = getTeam(section, teamName);
+
+        if (team == null) {
+            team = new Team(section, teamName);
+            persist(team);
+        }
+
+        return team;
+    }
+
+    /**
+     * Updates a student.
+     */
+    public Student updateStudent(Student student)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        assert student != null;
+
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
+
+        if (getStudent(student.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        return merge(student);
     }
 
 }

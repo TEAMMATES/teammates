@@ -51,10 +51,10 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     @Test
     @Transactional
     protected void testExecute() throws InvalidParametersException, EntityAlreadyExistsException {
-        Account instructor3 = typicalBundle.accounts.get("unregisteredInstructor3");
-        loginAsUnregistered(instructor3.getGoogleId());
+        Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
+        loginAsUnregistered(instructor1.getGoogleId());
 
-        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor3");
+        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor1");
         String email = accReq.getEmail();
         String institute = accReq.getInstitute();
         String name = accReq.getName();
@@ -111,10 +111,10 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
-        Account instructor4 = typicalBundle.accounts.get("unregisteredInstructor4");
-        loginAsUnregistered(instructor4.getGoogleId());
+        Account instructor2 = typicalBundle.accounts.get("unregisteredInstructor2");
+        loginAsUnregistered(instructor2.getGoogleId());
 
-        accReq = typicalBundle.accountRequests.get("unregisteredInstructor4");
+        accReq = typicalBundle.accountRequests.get("unregisteredInstructor2");
         email = accReq.getEmail();
         institute = accReq.getInstitute();
         timezone = "InvalidTimezone";

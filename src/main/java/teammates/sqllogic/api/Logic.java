@@ -12,10 +12,12 @@ import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
@@ -41,10 +43,12 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.InstructorCreateRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -98,10 +102,12 @@ public class Logic {
     }
 
     /**
-     * Gets the account request with the given (@code registrationKey).
+     * Gets the account request with the associated {@code regkey}.
+     *
+     * @return account request with the associated {@code regkey}.
      */
-    public AccountRequest getAccountRequestByRegistrationKey(String registrationKey) {
-        return accountRequestLogic.getAccountRequestByRegistrationKey(registrationKey);
+    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
+        return accountRequestLogic.getAccountRequestByRegistrationKey(regkey);
     }
 
     /**
@@ -218,6 +224,13 @@ public class Logic {
     }
 
     /**
+     * Gets a section from a course by section name.
+     */
+    public Section getSection(String courseId, String section) {
+        return usersLogic.getSection(courseId, section);
+    }
+
+    /**
      * Gets courses associated with student.
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -271,6 +284,33 @@ public class Logic {
      */
     public void deleteCourseCascade(String courseId) {
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Updates a student by {@link Student}.
+     *
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * the student gives/receives as well as any deadline extensions given to the student.
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
+     */
+    public Student updateStudentCascade(Student student)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert student != null;
+
+        return usersLogic.updateStudentCascade(student);
     }
 
     /**
@@ -420,6 +460,13 @@ public class Logic {
         assert instructorList != null;
 
         return feedbackSessionsLogic.getFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
+     * Gets all and only the feedback sessions ongoing within a range of time.
+     */
+    public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
+        return feedbackSessionsLogic.getOngoingSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -717,6 +764,21 @@ public class Logic {
     }
 
     /**
+     * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions: <br>
+     * * Parameters regkey and googleId are non-null.
+     */
+    public Instructor joinCourseForInstructor(String regkey, String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert googleId != null;
+        assert regkey != null;
+
+        return accountsLogic.joinCourseForInstructor(regkey, googleId);
+    }
+
+    /**
      * Validates that the join course request is valid, then
      * makes the instructor join the course, i.e. associate an account to the instructor with the given googleId.
      * Creates an account for the instructor if no existing account is found.
@@ -769,6 +831,31 @@ public class Logic {
             }
         }
         return true;
+    }
+
+    /**
+     * Searches instructors in the whole system. Used by admin only.
+     *
+     * @return List of found instructors in the whole system. Null if no result found.
+     */
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return usersLogic.searchInstructorsInWholeSystem(queryString);
+    }
+
+    /**
+     * Updates an instructor and cascades to responses and comments if needed.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if the instructor update request is invalid
+     * @throws InstructorUpdateException if the update violates instructor validity
+     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     */
+    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
+            InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
+        return usersLogic.updateInstructorCascade(courseId, instructorRequest);
     }
 
     /**
@@ -851,6 +938,20 @@ public class Logic {
     }
 
     /**
+     * Gets a team by associated {@code courseId} and {@code sectionName}.
+     */
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        return usersLogic.getSectionOrCreate(courseId, sectionName);
+    }
+
+    /**
+     * Gets a team by associated {@code section} and {@code teamName}.
+     */
+    public Team getTeamOrCreate(Section section, String teamName) {
+        return usersLogic.getTeamOrCreate(section, teamName);
+    }
+
+    /**
      * Creates a student.
      *
      * @return the created student
@@ -888,6 +989,23 @@ public class Logic {
         assert courseId != null;
 
         usersLogic.deleteStudentsInCourseCascade(courseId);
+    }
+
+    /**
+     * Make the student join the course, i.e. associate the Google ID to the student.<br>
+     * Create an account for the student if no existing account is found.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @param key the registration key
+     */
+    public Student joinCourseForStudent(String key, String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert googleId != null;
+        assert key != null;
+
+        return accountsLogic.joinCourseForStudent(key, googleId);
+
     }
 
     /**
@@ -1048,6 +1166,22 @@ public class Logic {
     }
 
     /**
+     * Puts searchable documents from the data bundle to the database.
+     *
+     * @see DataBundleLogic#putDocuments(DataBundle)
+     */
+    public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
+        dataBundleLogic.putDocuments(dataBundle);
+    }
+
+    /**
+     * Removes the given data bundle from the database.
+     */
+    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+        dataBundleLogic.removeDataBundle(dataBundle);
+    }
+
+    /**
      * Populates fields that need dynamic generation in a question.
      *
      * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
@@ -1188,7 +1322,45 @@ public class Logic {
     }
 
     /**
-     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     * Gets all feedback responses from a giver for a question.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
+    }
+
+    /**
+     * Gets all feedback responses for a recipient for a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
+        return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
+    }
+
+    /**
+     * Gets all feedback response comments for a feedback response.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponse) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForResponse(feedbackResponse);
+    }
+
+    /**
+     * Validates sections for any limit violations and teams for any team name violations.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see StudentsLogic#validateSectionsAndTeams(List, String)
+     */
+    public void validateSectionsAndTeams(
+            List<Student> studentList, String courseId) throws EnrollException {
+
+        assert studentList != null;
+        assert courseId != null;
+
+        usersLogic.validateSectionsAndTeams(studentList, courseId);
+    }
+
+    /**
+     * Updates a feedback question by {@code FeedbackQuestionUpdateRequest}.
      *
      * <p>Cascade adjust the question number of questions in the same session.
      *
@@ -1204,5 +1376,17 @@ public class Logic {
     public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
+    }
+
+    /**
+     * This is used by admin to search account requests in the whole system.
+     *
+     * @return A list of {@link AccountRequest} or {@code null} if no match found.
+     */
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
     }
 }

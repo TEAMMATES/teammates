@@ -8,6 +8,7 @@ import java.util.UUID;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -320,14 +321,46 @@ public final class DataBundleLogic {
         return dataBundle;
     }
 
-    // TODO: Incomplete
-    // private void removeDataBundle(SqlDataBundle dataBundle) throws
-    // InvalidParametersException {
-    // // Cannot rely on generated IDs, might not be the same as the actual ID in
-    // the db.
-    // if (dataBundle == null) {
-    // throw new InvalidParametersException("Null data bundle");
-    // }
-    // }
+    /**
+     * Removes the items in the data bundle from the database.
+     */
+    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+        if (dataBundle == null) {
+            throw new InvalidParametersException("Data bundle is null");
+        }
+
+        dataBundle.courses.values().forEach(course -> {
+            coursesLogic.deleteCourseCascade(course.getId());
+        });
+        dataBundle.notifications.values().forEach(notification -> {
+            notificationsLogic.deleteNotification(notification.getId());
+        });
+        dataBundle.accounts.values().forEach(account -> {
+            accountsLogic.deleteAccount(account.getGoogleId());
+        });
+        dataBundle.accountRequests.values().forEach(accountRequest -> {
+            accountRequestsLogic.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        });
+    }
+
+    /**
+     * Creates document for entities that have document, i.e. searchable.
+     */
+    public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
+        Map<String, Student> students = dataBundle.students;
+        for (Student student : students.values()) {
+            usersLogic.putStudentDocument(student);
+        }
+
+        Map<String, Instructor> instructors = dataBundle.instructors;
+        for (Instructor instructor : instructors.values()) {
+            usersLogic.putInstructorDocument(instructor);
+        }
+
+        Map<String, AccountRequest> accountRequests = dataBundle.accountRequests;
+        for (AccountRequest accountRequest : accountRequests.values()) {
+            accountRequestsLogic.putDocument(accountRequest);
+        }
+    }
 
 }

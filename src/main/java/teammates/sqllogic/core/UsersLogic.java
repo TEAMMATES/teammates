@@ -7,20 +7,35 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.UUID;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlsearch.InstructorSearchManager;
+import teammates.storage.sqlsearch.StudentSearchManager;
+import teammates.ui.request.InstructorCreateRequest;
 
 /**
  * Handles operations related to user (instructor & student).
@@ -29,6 +44,15 @@ import teammates.storage.sqlentity.User;
  * @see UsersDb
  */
 public final class UsersLogic {
+
+    static final String ERROR_INVALID_TEAM_NAME =
+            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
+            "Please use different team names in different sections.";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+            "You are trying enroll more than %s students in section \"%s\".";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
+            "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
     private static final UsersLogic instance = new UsersLogic();
 
@@ -40,6 +64,8 @@ public final class UsersLogic {
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
 
+    private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
+
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private UsersLogic() {
@@ -50,30 +76,156 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
-            FeedbackResponsesLogic feedbackResponsesLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
+                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+                               DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
+        this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
+    }
+
+    private InstructorSearchManager getInstructorSearchManager() {
+        return usersDb.getInstructorSearchManager();
+    }
+
+    private StudentSearchManager getStudentSearchManager() {
+        return usersDb.getStudentSearchManager();
+    }
+
+    /**
+     * Creates or updates search document for the given instructor.
+     */
+    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
+        getInstructorSearchManager().putDocument(instructor);
+    }
+
+    /**
+     * Creates or updates search document for the given student.
+     */
+    public void putStudentDocument(Student student) throws SearchServiceException {
+        getStudentSearchManager().putDocument(student);
     }
 
     /**
      * Create an instructor.
+     *
      * @return the created instructor
-     * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
+     * @throws InvalidParametersException   if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the
+     *                                      database.
      */
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
+            throw new EntityAlreadyExistsException("Instructor already exists.");
+        }
         return usersDb.createInstructor(instructor);
     }
 
     /**
+     * Updates an instructor and cascades to responses and comments if needed.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if the instructor update request is invalid
+     * @throws InstructorUpdateException if the update violates instructor validity
+     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     */
+    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
+            InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
+        Instructor instructor;
+        String instructorId = instructorRequest.getId();
+        if (instructorId == null) {
+            instructor = getInstructorForEmail(courseId, instructorRequest.getEmail());
+        } else {
+            instructor = getInstructorByGoogleId(courseId, instructorId);
+        }
+
+        if (instructor == null) {
+            throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
+        }
+
+        verifyAtLeastOneInstructorIsDisplayed(
+                courseId, instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
+
+        String originalEmail = instructor.getEmail();
+        boolean needsCascade = false;
+
+        String newDisplayName = instructorRequest.getDisplayName();
+        if (newDisplayName == null || newDisplayName.isEmpty()) {
+            newDisplayName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
+        }
+
+        instructor.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
+        instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
+        instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
+        instructor.setPrivileges(new InstructorPrivileges(instructorRequest.getRoleName()));
+        instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
+        instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
+
+        String newEmail = instructor.getEmail();
+
+        if (!originalEmail.equals(newEmail)) {
+            needsCascade = true;
+        }
+
+        if (!instructor.isValid()) {
+            throw new InvalidParametersException(instructor.getInvalidityInfo());
+        }
+
+        if (needsCascade) {
+            // cascade responses
+            List<FeedbackResponse> responsesFromUser =
+                    feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
+            for (FeedbackResponse responseFromUser : responsesFromUser) {
+                FeedbackQuestion question = responseFromUser.getFeedbackQuestion();
+                if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                        || question.getGiverType() == FeedbackParticipantType.SELF) {
+                    responseFromUser.setGiver(newEmail);
+                }
+            }
+            List<FeedbackResponse> responsesToUser =
+                    feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
+            for (FeedbackResponse responseToUser : responsesToUser) {
+                FeedbackQuestion question = responseToUser.getFeedbackQuestion();
+                if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                        || question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                        && question.getRecipientType() == FeedbackParticipantType.SELF) {
+                    responseToUser.setRecipient(newEmail);
+                }
+            }
+            // cascade comments
+            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
+        }
+
+        return instructor;
+    }
+
+    /**
+     * Verifies that at least one instructor is displayed to studens.
+     *
+     * @throws InstructorUpdateException if there is no instructor displayed to students.
+     */
+    void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
+                                               boolean isEditedInstructorDisplayed)
+            throws InstructorUpdateException {
+        List<Instructor> instructorsDisplayed = usersDb.getInstructorsDisplayedToStudents(courseId);
+        boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
+        boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
+
+        if (isNoInstructorMadeVisible || instructorsDisplayed.size() == 1 && isEditedInstructorChangedToNonVisible) {
+            throw new InstructorUpdateException("At least one instructor must be displayed to students");
+        }
+    }
+
+    /**
      * Creates a student.
+     *
      * @return the created student
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the database.
+     * @throws InvalidParametersException   if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the
+     *                                      database.
      */
     public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
         return usersDb.createStudent(student);
@@ -122,6 +274,16 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getInstructorByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Searches instructors in the whole system. Used by admin only.
+     *
+     * @return List of found instructors in the whole system. Null if no result found.
+     */
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        return usersDb.searchInstructorsInWholeSystem(queryString);
     }
 
     /**
@@ -328,8 +490,8 @@ public final class UsersLogic {
     }
 
     /**
-    * Check if the students with the provided emails exist in the course.
-    */
+     * Check if the students with the provided emails exist in the course.
+     */
     public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
         List<Student> students = usersDb.getStudentsForEmails(courseId, emails);
         Map<String, User> emailStudentMap = convertUserListToEmailUserMap(students);
@@ -425,7 +587,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Returns true if the user associated with the googleId is a student in any course in the system.
+     * Returns true if the user associated with the googleId is a student in any
+     * course in the system.
      */
     public boolean isStudentInAnyCourse(String googleId) {
         return !usersDb.getAllStudentsByGoogleId(googleId).isEmpty();
@@ -438,6 +601,27 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
+     * Gets the section with the name in a particular course.
+     */
+    public Section getSection(String courseId, String sectionName) {
+        return usersDb.getSection(courseId, sectionName);
+    }
+
+    /**
+     * Gets the section with the name in a particular course, otherwise creates a new section.
+     */
+    public Section getSectionOrCreate(String courseId, String sectionName) {
+        return usersDb.getSectionOrCreate(courseId, sectionName);
+    }
+
+    /**
+     * Gets the team with the name in a particular session, otherwise creates a new team.
+     */
+    public Team getTeamOrCreate(Section section, String teamName) {
+        return usersDb.getTeamOrCreate(section, teamName);
     }
 
     /**
@@ -488,7 +672,7 @@ public final class UsersLogic {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesForCourseCascade(
-                        student.getCourse().getId(), student.getTeamName());
+                            student.getCourse().getId(), student.getTeamName());
         }
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
@@ -506,6 +690,63 @@ public final class UsersLogic {
             RequestTracer.checkRemainingTime();
             deleteStudentCascade(courseId, student.getEmail());
         }
+    }
+
+    private boolean isTeamChanged(Team originalTeam, Team newTeam) {
+        return newTeam != null && originalTeam != null
+                && !originalTeam.equals(newTeam);
+    }
+
+    private boolean isSectionChanged(Section originalSection, Section newSection) {
+        return newSection != null && originalSection != null
+                && !originalSection.equals(newSection);
+    }
+
+    /**
+     * Updates a student by {@link Student}.
+     *
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
+     */
+    public Student updateStudentCascade(Student student)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        Student originalStudent = getStudentForEmail(student.getCourseId(), student.getEmail());
+        Team originalTeam = originalStudent.getTeam();
+        Section originalSection = originalStudent.getSection();
+
+        boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
+        boolean changedSection = isSectionChanged(originalSection, student.getSection());
+
+        originalStudent.setName(student.getName());
+        originalStudent.setTeam(student.getTeam());
+        originalStudent.setEmail(student.getEmail());
+        originalStudent.setComments(student.getComments());
+
+        Student updatedStudent = usersDb.updateStudent(originalStudent);
+        Course course = updatedStudent.getCourse();
+
+        // adjust submissions if moving to a different team
+        if (changedTeam) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(),
+                    updatedStudent.getTeam(), originalTeam);
+        }
+
+        // update the new section name in responses
+        if (changedSection) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
+                    course, updatedStudent.getEmail(), updatedStudent.getSection());
+        }
+
+        return updatedStudent;
     }
 
     /**
@@ -529,6 +770,122 @@ public final class UsersLogic {
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
             accountsLogic.deleteAccountCascade(googleId);
         }
+    }
+
+    /**
+     * Validates sections for any limit violations and teams for any team name violations.
+     */
+    public void validateSectionsAndTeams(
+            List<Student> studentList, String courseId) throws EnrollException {
+
+        List<Student> mergedList = getMergedList(studentList, courseId);
+
+        if (mergedList.size() < 2) { // no conflicts
+            return;
+        }
+
+        String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
+
+        if (!errorMessage.isEmpty()) {
+            throw new EnrollException(errorMessage);
+        }
+    }
+
+    private List<Student> getMergedList(List<Student> studentList, String courseId) {
+
+        List<Student> mergedList = new ArrayList<>();
+        List<Student> studentsInCourse = getStudentsForCourse(courseId);
+
+        for (Student student : studentList) {
+            mergedList.add(student);
+        }
+
+        for (Student student : studentsInCourse) {
+            if (!isInEnrollList(student, mergedList)) {
+                mergedList.add(student);
+            }
+        }
+        return mergedList;
+    }
+
+    private String getSectionInvalidityInfo(List<Student> mergedList) {
+
+        mergedList.sort(Comparator.comparing((Student student) -> student.getSectionName())
+                .thenComparing(student -> student.getTeamName())
+                .thenComparing(student -> student.getName()));
+
+        List<String> invalidSectionList = new ArrayList<>();
+        int studentsCount = 1;
+        for (int i = 1; i < mergedList.size(); i++) {
+            Student currentStudent = mergedList.get(i);
+            Student previousStudent = mergedList.get(i - 1);
+            if (currentStudent.getSectionName().equals(previousStudent.getSectionName())) {
+                studentsCount++;
+            } else {
+                if (studentsCount > Const.SECTION_SIZE_LIMIT) {
+                    invalidSectionList.add(previousStudent.getSectionName());
+                }
+                studentsCount = 1;
+            }
+
+            if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
+                invalidSectionList.add(currentStudent.getSectionName());
+            }
+        }
+
+        StringJoiner errorMessage = new StringJoiner(" ");
+        for (String section : invalidSectionList) {
+            errorMessage.add(String.format(
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                    Const.SECTION_SIZE_LIMIT, section));
+        }
+
+        if (!invalidSectionList.isEmpty()) {
+            errorMessage.add(String.format(
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                    Const.SECTION_SIZE_LIMIT));
+        }
+
+        return errorMessage.toString();
+    }
+
+    private String getTeamInvalidityInfo(List<Student> mergedList) {
+        StringJoiner errorMessage = new StringJoiner(" ");
+        mergedList.sort(Comparator.comparing((Student student) -> student.getTeamName())
+                .thenComparing(student -> student.getName()));
+
+        List<String> invalidTeamList = new ArrayList<>();
+        for (int i = 1; i < mergedList.size(); i++) {
+            Student currentStudent = mergedList.get(i);
+            Student previousStudent = mergedList.get(i - 1);
+            if (currentStudent.getTeamName().equals(previousStudent.getTeamName())
+                    && !currentStudent.getSectionName().equals(previousStudent.getSectionName())
+                    && !invalidTeamList.contains(currentStudent.getTeamName())) {
+
+                errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
+                        currentStudent.getTeamName(),
+                        previousStudent.getSectionName(),
+                        currentStudent.getSectionName()));
+
+                invalidTeamList.add(currentStudent.getTeamName());
+            }
+        }
+
+        if (!invalidTeamList.isEmpty()) {
+            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
+        }
+
+        return errorMessage.toString();
+    }
+
+    private boolean isInEnrollList(Student student,
+                                   List<Student> studentInfoList) {
+        for (Student studentInfo : studentInfoList) {
+            if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -562,7 +919,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Checks if an instructor with {@code googleId} can create a course with {@code institute}
+     * Checks if an instructor with {@code googleId} can create a course with
+     * {@code institute}
      * (ie. has an existing course(s) with the same {@code institute}).
      */
     public boolean canInstructorCreateCourse(String googleId, String institute) {

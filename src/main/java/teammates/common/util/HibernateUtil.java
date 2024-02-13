@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import teammates.storage.sqlentity.Account;
@@ -157,6 +158,14 @@ public final class HibernateUtil {
      */
     public static <T> TypedQuery<T> createQuery(CriteriaQuery<T> cr) {
         return getCurrentSession().createQuery(cr);
+    }
+
+    /**
+     * Returns a MutationQuery object.
+     * @see Session#createMutationQuery(CriteriaDelete)
+     */
+    public static <T> MutationQuery createMutationQuery(CriteriaDelete<T> cd) {
+        return getCurrentSession().createMutationQuery(cd);
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {

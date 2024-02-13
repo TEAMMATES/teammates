@@ -1,11 +1,13 @@
 package teammates.sqllogic.core;
 
+import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
@@ -42,6 +44,22 @@ public final class FeedbackResponseCommentsLogic {
      */
     public FeedbackResponseComment getFeedbackResponseComment(Long id) {
         return frcDb.getFeedbackResponseComment(id);
+    }
+
+    /**
+     * Gets all feedback response comments for a response.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentForResponse(UUID feedbackResponseId) {
+        return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
+    }
+
+    /**
+     * Gets all response comments for a response.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
+        assert feedbackResponseId != null;
+
+        return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
 
     /**
@@ -88,4 +106,26 @@ public final class FeedbackResponseCommentsLogic {
 
         return comment;
     }
+
+    /**
+     * Updates all feedback response comments with new emails.
+     */
+    public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
+        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+        frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+    }
+
+    /**
+     * Updates all feedback response comments with new sections.
+     */
+    public void updateFeedbackResponseCommentsForResponse(FeedbackResponse response)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        List<FeedbackResponseComment> comments = getFeedbackResponseCommentForResponse(response.getId());
+        for (FeedbackResponseComment comment : comments) {
+            comment.setGiverSection(response.getGiverSection());
+            comment.setRecipientSection(response.getRecipientSection());
+            frcDb.updateFeedbackResponseComment(comment);
+        }
+    }
+
 }

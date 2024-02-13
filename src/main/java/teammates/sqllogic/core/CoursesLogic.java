@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -29,9 +30,9 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
 
-    private UsersLogic usersLogic;
+    private FeedbackSessionsLogic fsLogic;
 
-    // private FeedbackSessionsLogic fsLogic;
+    private UsersLogic usersLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -43,15 +44,17 @@ public final class CoursesLogic {
 
     void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic) {
         this.coursesDb = coursesDb;
+        this.fsLogic = fsLogic;
         this.usersLogic = usersLogic;
-        // this.fsLogic = fsLogic;
     }
 
     /**
      * Creates a course.
+     *
      * @return the created course
-     * @throws InvalidParametersException if the course is not valid
-     * @throws EntityAlreadyExistsException if the course already exists in the database.
+     * @throws InvalidParametersException   if the course is not valid
+     * @throws EntityAlreadyExistsException if the course already exists in the
+     *                                      database.
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesDb.createCourse(course);
@@ -59,6 +62,7 @@ public final class CoursesLogic {
 
     /**
      * Gets a course by course id.
+     *
      * @param courseId of course.
      * @return the specified course.
      */
@@ -118,23 +122,23 @@ public final class CoursesLogic {
             return;
         }
 
-        // TODO: Migrate after other Logic classes have been migrated.
-        // AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-        //         .withCourseId(courseId)
-        //         .build();
-        // frcLogic.deleteFeedbackResponseComments(query);
-        // frLogic.deleteFeedbackResponses(query);
-        // fqLogic.deleteFeedbackQuestions(query);
-        // feedbackSessionsLogic.deleteFeedbackSessions(query);
-        // studentsLogic.deleteStudents(query);
-        // instructorsLogic.deleteInstructors(query);
-        // deadlineExtensionsLogic.deleteDeadlineExtensions(query);
+        usersLogic.deleteStudentsInCourseCascade(courseId);
+        List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        feedbackSessions.forEach(feedbackSession -> {
+            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
+        });
+        coursesDb.deleteSectionsByCourseId(courseId);
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
+        instructors.forEach(instructor -> {
+            usersLogic.deleteInstructorCascade(courseId, instructor.getEmail());
+        });
 
         coursesDb.deleteCourse(course);
     }
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
+     *
      * @return the time when the course is moved to the recycle bin.
      */
     public Course moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
@@ -164,7 +168,7 @@ public final class CoursesLogic {
      * Updates a course.
      *
      * @return updated course
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the course cannot be found
      */
     public Course updateCourse(String courseId, String name, String timezone)
@@ -244,5 +248,4 @@ public final class CoursesLogic {
     public static void sortById(List<Course> courses) {
         courses.sort(Comparator.comparing(Course::getId));
     }
-
 }
