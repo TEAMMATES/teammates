@@ -3,6 +3,8 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
@@ -46,9 +48,31 @@ public class SearchStudentsAction extends Action {
             }
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
+        } catch (NullPointerException e) {
+            // Solr search service is not active
+            students = new ArrayList<>();
+        }
+
+        // Search in datastore. For more information on dual db support, see this [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
+        List<StudentAttributes> studentsDatastore;
+        try {
+            if (userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
+                List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
+                studentsDatastore = logic.searchStudents(searchKey, instructors);
+            } else if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+                studentsDatastore = logic.searchStudentsInWholeSystem(searchKey);
+            } else {
+                throw new InvalidHttpParameterException("Invalid entity type for search");
+            }
+        } catch (SearchServiceException e) {
+            return new JsonResult(e.getMessage(), e.getStatusCode());
+        } catch (NullPointerException e) {
+            // Solr search service is not active
+            studentsDatastore = new ArrayList<>();
         }
 
         List<StudentData> studentDataList = new ArrayList<>();
+        // Add students from sql database
         for (Student s : students) {
             StudentData studentData = new StudentData(s);
 
@@ -58,6 +82,24 @@ public class SearchStudentsAction extends Action {
                         sqlLogic.getCourseInstitute(s.getCourseId()),
                         s.getGoogleId()
                 );
+            }
+
+            studentDataList.add(studentData);
+        }
+        // Add students from datastore
+        for (StudentAttributes s : studentsDatastore) {
+            StudentData studentData = new StudentData(s);
+
+            if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+                studentData.addAdditionalInformationForAdminSearch(
+                        s.getKey(),
+                        logic.getCourseInstitute(s.getCourse()),
+                        s.getGoogleId()
+                );
+            }
+            // If the course has been migrated, then the student would have been added already
+            if (isCourseMigrated(studentData.getCourseId())) {
+                continue;
             }
 
             studentDataList.add(studentData);
