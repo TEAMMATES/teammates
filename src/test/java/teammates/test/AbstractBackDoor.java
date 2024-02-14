@@ -31,6 +31,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -285,12 +286,31 @@ public abstract class AbstractBackDoor {
         return output.getMessage();
     }
 
+    // TODO: remove params after migration
     /**
      * Puts searchable documents in data bundle into the database.
      */
     public String putDocuments(DataBundle dataBundle) throws HttpRequestFailedException {
+        Map<String, String> params = new HashMap<>();
+        params.put("databundletype", "datastore");
         ResponseBodyAndCode putRequestOutput =
-                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, null, JsonUtils.toJson(dataBundle));
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
+        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
+            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
+                    + putRequestOutput.responseBody);
+        }
+        return putRequestOutput.responseBody;
+    }
+
+    // TODO: remove method after migration
+    /**
+     * Puts searchable documents in data bundle into the SQL database.
+     */
+    public String putSqlDocuments(SqlDataBundle dataBundle) throws HttpRequestFailedException {
+        Map<String, String> params = new HashMap<>();
+        params.put("databundletype", "sql");
+        ResponseBodyAndCode putRequestOutput =
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
             throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
                     + putRequestOutput.responseBody);
