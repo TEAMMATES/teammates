@@ -635,6 +635,18 @@
       "email": "student3YetToJoinCourse4@teammates.tmt",
       "name": "student3YetToJoinCourse In Course4",
       "comments": ""
+    },
+    "studentOfArchivedCourse": {
+      "id": "00000000-0000-4000-8000-000000000608",
+      "course": {
+        "id": "archived-course"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "email": "studentOfArchivedCourse@teammates.tmt",
+      "name": "Student In Archived Course",
+      "comments": ""
     }
   },
   "feedbackSessions": {

@@ -276,6 +276,36 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Searches for students.
+     *
+     * @param instructors the constraint that restricts the search result
+     */
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
+            throws SearchServiceException {
+        if (queryString.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return getStudentSearchManager().searchStudents(queryString, instructors);
+    }
+
+    /**
+     * Searches all students in the system.
+     *
+     * <p>This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search instructors in the whole system.
+     */
+    public List<Student> searchStudentsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        if (queryString.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return getStudentSearchManager().searchStudents(queryString, null);
+    }
+
+    /**
      * Deletes a user.
      */
     public <T extends User> void deleteUser(T user) {

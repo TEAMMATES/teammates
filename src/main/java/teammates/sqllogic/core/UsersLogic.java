@@ -545,6 +545,27 @@ public final class UsersLogic {
     }
 
     /**
+     * Searches for students.
+     *
+     * @param instructors the constraint that restricts the search result
+     */
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
+            throws SearchServiceException {
+        return usersDb.searchStudents(queryString, instructors);
+    }
+
+    /**
+     * This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search students in the whole system.
+     * @return null if no result found
+     */
+    public List<Student> searchStudentsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        return usersDb.searchStudentsInWholeSystem(queryString);
+    }
+
+    /**
      * Gets all students of a section.
      */
     public List<Student> getStudentsForSection(String sectionName, String courseId) {

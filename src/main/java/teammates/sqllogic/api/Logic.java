@@ -268,6 +268,13 @@ public class Logic {
     }
 
     /**
+     * Gets the institute of the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        return coursesLogic.getCourseInstitute(courseId);
+    }
+
+    /**
      * Creates a course.
      * @param course the course to create.
      * @return the created course.
@@ -960,6 +967,32 @@ public class Logic {
      */
     public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createStudent(student);
+    }
+
+    /**
+     * Search for students. Preconditions: all parameters are non-null.
+     * @param instructors   a list of Instructors associated to a googleId,
+     *                      used for filtering of search result
+     * @return Null if no match found
+     */
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
+            throws SearchServiceException {
+        assert queryString != null;
+        assert instructors != null;
+        return usersLogic.searchStudents(queryString, instructors);
+    }
+
+    /**
+     * This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search students in the whole system.
+     * @return Null if no match found.
+     */
+    public List<Student> searchStudentsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return usersLogic.searchStudentsInWholeSystem(queryString);
     }
 
     /**
