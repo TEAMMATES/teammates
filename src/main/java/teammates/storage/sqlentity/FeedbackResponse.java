@@ -209,6 +209,14 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    public FeedbackSession getFeedbackSession() {
+        return feedbackQuestion.getFeedbackSession();
+    }
+
+    public String getFeedbackSessionName() {
+        return getFeedbackSession().getName();
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         return new ArrayList<>();

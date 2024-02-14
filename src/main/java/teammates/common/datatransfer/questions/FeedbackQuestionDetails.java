@@ -125,6 +125,17 @@ public abstract class FeedbackQuestionDetails {
                 && question.getRecipientType() != FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
     }
 
+    /**
+     * Checks whether missing responses should be generated.
+     */
+    public boolean shouldGenerateMissingResponses(FeedbackQuestion question) {
+        // generate combinations against all students/teams are meaningless
+        return question.getRecipientType() != FeedbackParticipantType.STUDENTS
+                && question.getRecipientType() != FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
+                && question.getRecipientType() != FeedbackParticipantType.TEAMS
+                && question.getRecipientType() != FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

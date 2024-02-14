@@ -206,6 +206,13 @@ public class FeedbackResponseComment extends BaseEntity {
         this.lastEditorEmail = lastEditorEmail;
     }
 
+    /**
+     * Returns true if the response comment is visible to the given participant type.
+     */
+    public boolean isVisibleTo(FeedbackParticipantType viewerType) {
+        return showCommentTo.contains(viewerType);
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();

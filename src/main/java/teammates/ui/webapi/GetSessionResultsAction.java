@@ -1,7 +1,10 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.SqlSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -100,44 +103,86 @@ public class GetSessionResultsAction extends Action {
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.parseFetchType(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER));
 
-        SessionResultsBundle bundle;
-        InstructorAttributes instructor;
-        StudentAttributes student;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        switch (intent) {
-        case FULL_DETAIL:
-            instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
-            bundle = logic.getSessionResultsForCourse(feedbackSessionName, courseId, instructor.getEmail(),
-                    questionId, selectedSection, fetchType);
-            return new JsonResult(SessionResultsData.initForInstructor(bundle));
-        case INSTRUCTOR_RESULT:
-            // Section name filter is not applicable here
-            instructor = getPossiblyUnregisteredInstructor(courseId);
+  
+        if (isCourseMigrated(courseId)) {
+            Instructor instructor;
+            Student student;
+            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+            SqlSessionResultsBundle bundle;
+            UUID questionUuid = UUID.fromString(questionId);
+            switch (intent) {
+            case FULL_DETAIL:
+                instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
 
-            bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
-                    true, questionId);
+                bundle = sqlLogic.getSessionResultsForCourse(feedbackSession, courseId, instructor.getEmail(),
+                        questionUuid, selectedSection, fetchType);
+                return new JsonResult(SessionResultsData.initForInstructor(bundle));
+            case INSTRUCTOR_RESULT:
+                // Section name filter is not applicable here
+                instructor = getPossiblyUnregisteredSqlInstructor(courseId);
 
-            // Build a fake student object, as the results will be displayed as if they are displayed to a student
-            student = StudentAttributes.builder(instructor.getCourseId(), instructor.getEmail())
-                    .withTeamName(Const.USER_TEAM_FOR_INSTRUCTOR)
-                    .build();
+                bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, instructor.getEmail(),
+                        true, questionUuid);
 
-            return new JsonResult(SessionResultsData.initForStudent(bundle, student));
-        case STUDENT_RESULT:
-            // Section name filter is not applicable here
-            student = getPossiblyUnregisteredStudent(courseId);
+                // Build a fake student object, as the results will be displayed as if they are displayed to a student
+                student = new Student(instructor.getCourse(), instructor.getName(), instructor.getEmail(), "");
+                student.setTeam(instructor.getTeam());
 
-            bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
-                    false, questionId);
+                return new JsonResult(SessionResultsData.initForStudent(bundle, student));
+            case STUDENT_RESULT:
+                // Section name filter is not applicable here
+                student = getPossiblyUnregisteredSqlStudent(courseId);
 
-            return new JsonResult(SessionResultsData.initForStudent(bundle, student));
-        case INSTRUCTOR_SUBMISSION:
-        case STUDENT_SUBMISSION:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+                bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, student.getEmail(),
+                        false, questionUuid);
+
+                return new JsonResult(SessionResultsData.initForStudent(bundle, student));
+            case INSTRUCTOR_SUBMISSION:
+            case STUDENT_SUBMISSION:
+                throw new InvalidHttpParameterException("Invalid intent for this action");
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            }
+        } else {
+            InstructorAttributes instructor;
+            StudentAttributes student;
+            SessionResultsBundle bundle;
+            switch (intent) {
+            case FULL_DETAIL:
+                instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+
+                bundle = logic.getSessionResultsForCourse(feedbackSessionName, courseId, instructor.getEmail(),
+                        questionId, selectedSection, fetchType);
+                return new JsonResult(SessionResultsData.initForInstructor(bundle));
+            case INSTRUCTOR_RESULT:
+                // Section name filter is not applicable here
+                instructor = getPossiblyUnregisteredInstructor(courseId);
+
+                bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
+                        true, questionId);
+
+                // Build a fake student object, as the results will be displayed as if they are displayed to a student
+                student = StudentAttributes.builder(instructor.getCourseId(), instructor.getEmail())
+                        .withTeamName(Const.USER_TEAM_FOR_INSTRUCTOR)
+                        .build();
+
+                return new JsonResult(SessionResultsData.initForStudent(bundle, student));
+            case STUDENT_RESULT:
+                // Section name filter is not applicable here
+                student = getPossiblyUnregisteredStudent(courseId);
+
+                bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
+                        false, questionId);
+
+                return new JsonResult(SessionResultsData.initForStudent(bundle, student));
+            case INSTRUCTOR_SUBMISSION:
+            case STUDENT_SUBMISSION:
+                throw new InvalidHttpParameterException("Invalid intent for this action");
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            }
         }
     }
-
 }
