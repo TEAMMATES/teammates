@@ -99,11 +99,23 @@ public class BaseTestCase {
         }
     }
 
+    /**
+     * These getTypicalX functions are used to generate typical entities for tests.
+     * The entity fields can be changed using setter methods if needed.
+     * New entity generator functions for tests should be added here, and follow the
+     * same naming convention.
+     *
+     * <p>Example usage:
+     * Account account = getTypicalAccount();
+     * Student student = getTypicalStudent();
+     * account.setEmail("newemail@teammates.com");
+     * student.setName("New Student Name");
+     */
     protected Account getTypicalAccount() {
         return new Account("google-id", "name", "email@teammates.com");
     }
 
-    protected Notification generateTypicalNotificationWithId() {
+    protected Notification getTypicalNotificationWithId() {
         Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");

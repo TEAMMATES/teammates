@@ -83,7 +83,7 @@ public class NotificationsDbTest extends BaseTestCase {
 
     @Test
     public void testGetNotification_success() {
-        Notification notification = generateTypicalNotificationWithId();
+        Notification notification = getTypicalNotificationWithId();
         mockHibernateUtil.when(() ->
                 HibernateUtil.get(Notification.class, notification.getId())).thenReturn(notification);
 
@@ -106,7 +106,7 @@ public class NotificationsDbTest extends BaseTestCase {
 
     @Test
     public void testDeleteNotification_entityExists_success() {
-        Notification notification = generateTypicalNotificationWithId();
+        Notification notification = getTypicalNotificationWithId();
         notificationsDb.deleteNotification(notification);
         mockHibernateUtil.verify(() -> HibernateUtil.remove(notification));
     }
