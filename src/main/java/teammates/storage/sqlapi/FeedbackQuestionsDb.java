@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -54,17 +55,6 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
     }
 
     /**
-     * Gets a feedback question by using unique constrain: course-session-questionNumber.
-     */
-    public FeedbackQuestion getFeedbackQuestion(
-            String feedbackSessionName, String courseId, int questionNumber) {
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        return HibernateUtil.get(FeedbackQuestion.class, fqId);
-    }
-
-    /**
      * Gets all feedback questions of a session.
      */
     public List<FeedbackQuestion> getFeedbackQuestionsForSession(UUID fdId) {
@@ -74,6 +64,22 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
         Join<FeedbackQuestion, FeedbackSession> fqJoin = fqRoot.join("feedbackSession");
         cq.select(fqRoot).where(cb.equal(fqJoin.get("id"), fdId));
         return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets the unique feedback question based on sessionId and questionNumber.
+     */
+    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackQuestion> cq = cb.createQuery(FeedbackQuestion.class);
+        Root<FeedbackQuestion> fqRoot = cq.from(FeedbackQuestion.class);
+        Join<FeedbackQuestion, FeedbackSession> fqJoin = fqRoot.join("feedbackSession");
+        cq.select(fqRoot).where(
+                cb.and(
+                    cb.equal(fqJoin.get("id"), sessionId),
+                    cb.equal(fqRoot.get("questionNumber"), questionNumber)
+                ));
+        return HibernateUtil.createQuery(cq).getSingleResult();
     }
 
     /**

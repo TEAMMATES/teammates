@@ -2,16 +2,15 @@ package teammates.it.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -19,6 +18,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -83,9 +83,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private FeedbackQuestion getQuestion(
             FeedbackSession session, int questionNumber) {
-        String sessionName = session.getName();
-        String courseId = session.getCourseId();
-        return logic.getFeedbackQuestion(sessionName, courseId, questionNumber);
+        return logic.getFeedbackQuestionForSessionQuestionNumber(session.getId(), questionNumber);
     }
 
     private void setStartTime(FeedbackSession session, int days)
@@ -94,10 +92,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         String courseId = session.getCourseId();
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
-        logic.updateFeedbackSession(
-                FeedbackSession.updateOptionsBuilder(sessionName, courseId)
-                        .withStartTime(startTime)
-                        .build());
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setStartTime(startTime);
+
+        logic.updateFeedbackSession(session);
     }
 
     private void setEndTime(FeedbackSession session, int days)
@@ -106,10 +105,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         String courseId = session.getCourseId();
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
-        logic.updateFeedbackSession(
-                FeedbackSession.updateOptionsBuilder(sessionName, courseId)
-                        .withEndTime(endTime)
-                        .build());
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setEndTime(endTime);
+
+        logic.updateFeedbackSession(session);
     }
 
     private void setInstructorDeadline(FeedbackSession session,
@@ -119,12 +119,14 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         String sessionName = session.getName();
         String courseId = session.getCourseId();
 
-        Map<String, Instant> deadlines = Map.of(instructor.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(days));
+        DeadlineExtension deadline = 
+                new DeadlineExtension(instructor, session, TimeHelper.getInstantDaysOffsetFromNow(days));
 
-        logic.updateFeedbackSession(
-                FeedbackSession.updateOptionsBuilder(sessionName, courseId)
-                        .withInstructorDeadlines(deadlines)
-                        .build());
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setDeadlineExtensions(Arrays.asList(deadline));
+
+        logic.updateFeedbackSession(session);
     }
 
     private void setStudentDeadline(FeedbackSession session, Student student, int days)
@@ -132,12 +134,14 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         String sessionName = session.getName();
         String courseId = session.getCourseId();
 
-        Map<String, Instant> deadlines = Map.of(student.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(days));
+        DeadlineExtension deadline = 
+                new DeadlineExtension(student, session, TimeHelper.getInstantDaysOffsetFromNow(days));
 
-        logic.updateFeedbackSession(
-                FeedbackSession.updateOptionsBuilder(sessionName, courseId)
-                        .withStudentDeadlines(deadlines)
-                        .build());
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setDeadlineExtensions(Arrays.asList(deadline));
+        
+        logic.updateFeedbackSession(session);
     }
 
     private String[] buildSubmissionParams(FeedbackSession session,
@@ -149,7 +153,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private String[] buildSubmissionParams(FeedbackQuestion question,
                                            Intent intent) {
-        String questionId = question != null ? question.getId() : "";
+        String questionId = question != null ? question.getId().toString() : "";
 
         return new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId, Const.ParamsNames.INTENT,
                 intent.toString()};
@@ -172,9 +176,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, value);
+            
+        instructor.getCourse().setId(courseId);
+        instructor.setPrivileges(instructorPrivileges);
 
-        logic.updateInstructor(Instructor.updateOptionsWithEmailBuilder(courseId, instructor.getEmail())
-                .withPrivileges(instructorPrivileges).build());
+        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructor);
     }
 
     private List<String> extractStudentEmails(List<Student> students) {
@@ -182,7 +188,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private List<String> extractStudentTeams(List<Student> students) {
-        return students.stream().map(recipient -> recipient.getTeam()).collect(Collectors.toList());
+        return students.stream().map(recipient -> recipient.getTeam().getName()).collect(Collectors.toList());
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(
@@ -281,46 +287,45 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private void validateStudentDatabaseByTeam(
             FeedbackSession session,
             FeedbackQuestion question,
-            String giverTeam, List<Student> recipients) {
+            String giverEmail, List<Student> recipients) {
         List<String> teams = extractStudentTeams(recipients);
 
-        validateDatabase(session, question, giverTeam, teams);
+        validateDatabase(session, question, giverEmail, teams);
     }
 
     private void validateStudentDatabaseByEmail(
             FeedbackSession session,
             FeedbackQuestion question,
-            String giverTeam, List<Student> recipients) {
+            String giverEmail, List<Student> recipients) {
         List<String> teams = extractStudentEmails(recipients);
 
-        validateDatabase(session, question, giverTeam, teams);
+        validateDatabase(session, question, giverEmail, teams);
     }
 
     private void validateInstructorDatabaseByEmail(
             FeedbackSession session,
             FeedbackQuestion question,
-            String giverTeam, List<Instructor> recipients) {
+            String giverEmail, List<Instructor> recipients) {
         List<String> teams = extractInstructorEmails(recipients);
 
-        validateDatabase(session, question, giverTeam, teams);
+        validateDatabase(session, question, giverEmail, teams);
     }
 
     private void validateDatabase(FeedbackSession session, FeedbackQuestion question,
-                                  String giverValue, List<String> recipientValues) {
+                                  String giverEmail, List<String> recipientValues) {
 
         for (String recipientValue : recipientValues) {
-            FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(), giverValue,
+            FeedbackResponse frResponse = logic.getFeedbackResponseForQuestionGiverRecipient(question.getId(), giverEmail,
                     recipientValue);
+            FeedbackQuestion fqResponse = logic.getFeedbackQuestion(question.getId());
 
-            assertEquals(question.getId(), response.getFeedbackQuestionId());
-            assertEquals(giverValue, response.getGiver());
+            assertEquals(giverEmail, frResponse.getGiver());
+            assertEquals(recipientValue, frResponse.getRecipient());
 
-            assertEquals(recipientValue, response.getRecipient());
+            assertEquals(session.getName(), fqResponse.getFeedbackSessionName());
+            assertEquals(session.getCourseId(), fqResponse.getCourseId());
 
-            assertEquals(session.getFeedbackSessionName(), response.getFeedbackSessionName());
-            assertEquals(session.getCourseId(), response.getCourseId());
-
-            FeedbackResponseDetails responseDetails = response.getResponseDetails();
+            FeedbackResponseDetails responseDetails = frResponse.getFeedbackResponseDetailsCopy();
             assertEquals(
                     StringEscapeUtils.unescapeHtml(
                             SanitizationHelper.sanitizeForRichText("Response for " + recipientValue)),
@@ -337,7 +342,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     @Test
     public void testAccessControl_feedbackSubmissionQuestionExists_shouldAllow() throws Exception {
         FeedbackSession session = getSession("session1InCourse2");
-        Instructor instructor = loginInstructor("instructor1OfCourse2");
+        Instructor instructor = loginInstructor("instructorOfCourse2WithUniqueDisplayName");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 40);
 
@@ -394,7 +399,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         int questionNumber = 2;
         FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId()};
+        String[] submissionParams = new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString()};
 
         verifyHttpParameterFailureAcl(submissionParams);
     }

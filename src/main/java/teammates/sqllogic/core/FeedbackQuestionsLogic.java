@@ -25,6 +25,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -96,6 +97,13 @@ public final class FeedbackQuestionsLogic {
      */
     public FeedbackQuestion getFeedbackQuestion(UUID id) {
         return fqDb.getFeedbackQuestion(id);
+    }
+
+    /**
+     * Gets the unique feedback question based on sessionId and questionNumber.
+     */
+    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
+        return fqDb.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
     }
 
     /**
