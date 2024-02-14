@@ -126,16 +126,4 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         assertEquals("Trying to update non-existent Entity: " + Notification.class, ex.getMessage());
     }
-
-    private Notification getTypicalNotificationWithId() {
-        Notification notification = new Notification(
-                Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"),
-                NotificationStyle.DANGER,
-                NotificationTargetUser.GENERAL,
-                "A deprecation note",
-                "<p>Deprecation happens in three minutes</p>");
-        notification.setId(UUID.fromString("00000001-0000-1000-0000-000000000000"));
-        return notification;
-    }
 }
