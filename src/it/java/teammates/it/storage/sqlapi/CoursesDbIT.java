@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
@@ -124,9 +123,5 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         List<Team> actualTeams = coursesDb.getTeamsForCourse(course.getId());
         assertEquals(expectedTeams.size(), actualTeams.size());
         assertTrue(expectedTeams.containsAll(actualTeams));
-    }
-
-    private Course getTypicalCourse() {
-        return new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "teammates");
     }
 }

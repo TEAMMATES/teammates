@@ -13,14 +13,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -45,33 +41,6 @@ public class UsersDbTest extends BaseTestCase {
     @AfterMethod
     public void teardown() {
         mockHibernateUtil.close();
-    }
-
-    private Instructor getTypicalInstructor() {
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-
-        return new Instructor(course, "instructor-name", "valid@teammates.tmt",
-                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
-    }
-
-    private Student getTypicalStudent() {
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        return new Student(course, "student-name", "valid@teammates.tmt", "comments");
-    }
-
-    private Section getTypicalSection() {
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        return new Section(course, "test-section");
-    }
-
-    private Team getTypicalTeam() {
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        Section section = new Section(course, "test-section");
-        return new Team(section, "test-team");
     }
 
     @Test
