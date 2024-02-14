@@ -38,7 +38,7 @@ public class CoursesLogicTest extends BaseTestCase {
     @Test
     public void testMoveCourseToRecycleBin_shouldReturnBinnedCourse_success()
             throws EntityDoesNotExistException {
-        Course course = generateTypicalCourse();
+        Course course = getTypicalCourse();
         String courseId = course.getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
@@ -51,7 +51,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
     @Test
     public void testMoveCourseToRecycleBin_courseDoesNotExist_throwEntityDoesNotExistException() {
-        String courseId = generateTypicalCourse().getId();
+        String courseId = getTypicalCourse().getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
@@ -64,7 +64,7 @@ public class CoursesLogicTest extends BaseTestCase {
     @Test
     public void testRestoreCourseFromRecycleBin_shouldSetDeletedAtToNull_success()
             throws EntityDoesNotExistException {
-        Course course = generateTypicalCourse();
+        Course course = getTypicalCourse();
         String courseId = course.getId();
         course.setDeletedAt(Instant.parse("2021-01-01T00:00:00Z"));
 
@@ -78,7 +78,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
     @Test
     public void testRestoreCourseFromRecycleBin_courseDoesNotExist_throwEntityDoesNotExistException() {
-        String courseId = generateTypicalCourse().getId();
+        String courseId = getTypicalCourse().getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
@@ -90,9 +90,20 @@ public class CoursesLogicTest extends BaseTestCase {
 
     @Test
     public void testGetSectionNamesForCourse_shouldReturnListOfSectionNames_success() throws EntityDoesNotExistException {
-        Course course = generateTypicalCourse();
+        Course course = getTypicalCourse();
         String courseId = course.getId();
-        course.setSections(generateTypicalSections());
+
+        Section s1 = getTypicalSection();
+        s1.setName("test-sectionName1");
+
+        Section s2 = getTypicalSection();
+        s2.setName("test-sectionName2");
+
+        List<Section> sections = new ArrayList<>();
+        sections.add(s1);
+        sections.add(s2);
+
+        course.setSections(sections);
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
 
@@ -102,13 +113,13 @@ public class CoursesLogicTest extends BaseTestCase {
 
         List<String> expectedSectionNames = List.of("test-sectionName1", "test-sectionName2");
 
-        assertEquals(sectionNames, expectedSectionNames);
+        assertEquals(expectedSectionNames, sectionNames);
     }
 
     @Test
     public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException()
             throws EntityDoesNotExistException {
-        String courseId = generateTypicalCourse().getId();
+        String courseId = getTypicalCourse().getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
@@ -116,18 +127,5 @@ public class CoursesLogicTest extends BaseTestCase {
                 () -> coursesLogic.getSectionNamesForCourse(courseId));
 
         assertEquals("Trying to get section names for a non-existent course.", ex.getMessage());
-    }
-
-    private Course generateTypicalCourse() {
-        return new Course("test-courseId", "test-courseName", "test-courseTimeZone", "test-courseInstitute");
-    }
-
-    private List<Section> generateTypicalSections() {
-        List<Section> sections = new ArrayList<>();
-
-        sections.add(new Section(generateTypicalCourse(), "test-sectionName1"));
-        sections.add(new Section(generateTypicalCourse(), "test-sectionName2"));
-
-        return sections;
     }
 }
