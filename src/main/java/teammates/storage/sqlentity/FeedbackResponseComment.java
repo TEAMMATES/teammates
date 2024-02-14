@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

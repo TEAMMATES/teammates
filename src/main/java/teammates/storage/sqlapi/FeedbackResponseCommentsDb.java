@@ -17,6 +17,7 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Section;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -225,22 +226,22 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
                 && this.<String>hasSameValue(
                     newFeedbackResponseComment.getCommentText(), oldFeedbackResponseComment.getCommentText())
                 && this.<Boolean>hasSameValue(
-                    newFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(), 
+                    newFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
                     oldFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion())
                 && this.<Boolean>hasSameValue(
-                    newFeedbackResponseComment.getIsCommentFromFeedbackParticipant(), 
+                    newFeedbackResponseComment.getIsCommentFromFeedbackParticipant(),
                     oldFeedbackResponseComment.getIsCommentFromFeedbackParticipant())
                 && this.<List<FeedbackParticipantType>>hasSameValue(
-                    newFeedbackResponseComment.getShowCommentTo(), 
+                    newFeedbackResponseComment.getShowCommentTo(),
                     oldFeedbackResponseComment.getShowCommentTo())
                 && this.<List<FeedbackParticipantType>>hasSameValue(
-                    newFeedbackResponseComment.getShowGiverNameTo(), 
+                    newFeedbackResponseComment.getShowGiverNameTo(),
                     oldFeedbackResponseComment.getShowGiverNameTo())
                 && this.<Instant>hasSameValue(
                     newFeedbackResponseComment.getUpdatedAt(), oldFeedbackResponseComment.getUpdatedAt())
                 && this.<String>hasSameValue(
                     newFeedbackResponseComment.getLastEditorEmail(), oldFeedbackResponseComment.getLastEditorEmail());
-    
+
         if (hasSameAttributes) {
             log.info(String.format(
                     OPTIMIZED_SAVING_POLICY_APPLIED,

@@ -159,15 +159,15 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         ______TS("Change and update IsVisibilityFollowingFeedbackQuestion field");
         boolean newIsVisibilityFollowingFeedbackQuestion = true;
-        assertNotEquals(newIsVisibilityFollowingFeedbackQuestion, 
-            typicalComment.getIsVisibilityFollowingFeedbackQuestion());
+        assertNotEquals(newIsVisibilityFollowingFeedbackQuestion,
+                typicalComment.getIsVisibilityFollowingFeedbackQuestion());
         typicalComment.setIsVisibilityFollowingFeedbackQuestion(newIsVisibilityFollowingFeedbackQuestion);
         updatedComment = frcDb.updateFeedbackResponseComment(typicalComment);
         actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
-        assertEquals(newIsVisibilityFollowingFeedbackQuestion, 
-            updatedComment.getIsVisibilityFollowingFeedbackQuestion());
-        assertEquals(newIsVisibilityFollowingFeedbackQuestion, 
-            actualComment.getIsVisibilityFollowingFeedbackQuestion());
+        assertEquals(newIsVisibilityFollowingFeedbackQuestion,
+                updatedComment.getIsVisibilityFollowingFeedbackQuestion());
+        assertEquals(newIsVisibilityFollowingFeedbackQuestion,
+                actualComment.getIsVisibilityFollowingFeedbackQuestion());
 
         ______TS("Change and update IsCommentFromFeedbackParticipant field");
         boolean newIsCommentFromFeedbackParticipant = true;
