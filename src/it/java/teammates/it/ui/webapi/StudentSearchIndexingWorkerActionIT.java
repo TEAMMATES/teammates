@@ -12,6 +12,7 @@ import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlsearch.SearchManagerFactory;
 import teammates.test.TestProperties;
 import teammates.ui.webapi.StudentSearchIndexingWorkerAction;
 
@@ -28,6 +29,7 @@ public class StudentSearchIndexingWorkerActionIT extends BaseActionIT<StudentSea
         super.setUp();
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
+        SearchManagerFactory.getStudentSearchManager().resetCollections();
     }
 
     @Override
