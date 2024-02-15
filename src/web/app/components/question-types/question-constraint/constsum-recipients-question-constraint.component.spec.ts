@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ConstsumRecipientsQuestionConstraintComponent } from './constsum-recipients-question-constraint.component';
-import { FeedbackConstantSumResponseDetails } from '../../../../types/api-output'
-import { FeedbackQuestionType } from '../../../../types/api-request';
-import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-submission-form/question-submission-form-model';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
+import { FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
+import { FeedbackQuestionType } from '../../../../types/api-request';
+import { FeedbackResponseRecipientSubmissionFormModel }
+  from '../../question-submission-form/question-submission-form-model';
 
 describe('ConstsumRecipientsQuestionConstraintComponent', () => {
   let component: ConstsumRecipientsQuestionConstraintComponent;
@@ -14,14 +15,14 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
     responseId: '123',
     recipientIdentifier: 'recipient123',
     isValid: true,
-    responseDetails: { questionType: FeedbackQuestionType.CONSTSUM }
+    responseDetails: { questionType: FeedbackQuestionType.CONSTSUM },
   });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumRecipientsQuestionConstraintComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
