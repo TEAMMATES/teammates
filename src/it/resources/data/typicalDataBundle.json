@@ -30,6 +30,18 @@
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
     },
+    "unregisteredInstructor1": {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "googleId": "unregisteredInstructor1",
+      "name": "Unregistered Instructor 1",
+      "email": "unregisteredinstructor1@gmail.tmt"
+    },
+    "unregisteredInstructor2": {
+      "id": "00000000-0000-4000-8000-000000000007",
+      "googleId": "unregisteredInstructor2",
+      "name": "Unregistered Instructor 2",
+      "email": "unregisteredinstructor2@gmail.tmt"
+    },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "googleId": "idOfStudent1Course1",

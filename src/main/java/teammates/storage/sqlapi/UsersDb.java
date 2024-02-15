@@ -251,6 +251,15 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets all instructors.
+     */
+    public <T extends User> T updateUser(T user) {
+        assert user != null;
+
+        return merge(user);
+    }
+
+    /**
      * Searches all instructors in the system.
      *
      * <p>This method should be used by admin only since the searching does not
@@ -354,7 +363,7 @@ public final class UsersDb extends EntitiesDb {
      * Gets the list of students for the specified {@code courseId}.
      */
     public List<Student> getStudentsForCourse(String courseId) {
-        assert courseId != null;
+        assert courseId != null && !courseId.isEmpty();
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
