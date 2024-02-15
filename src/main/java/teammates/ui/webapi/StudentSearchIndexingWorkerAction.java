@@ -22,7 +22,7 @@ public class StudentSearchIndexingWorkerAction extends AdminOnlyAction {
         } else {
             return executeWithDataStore(courseId, email);
         }
-        
+
     }
 
     private ActionResult executeWithDataStore(String courseId, String email) {
