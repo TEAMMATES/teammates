@@ -1412,6 +1412,15 @@ public class Logic {
     }
 
     /**
+     * Creates or updates search document for the given student.
+     *
+     * @see UsersLogic#putStudentDocument(Student)
+     */
+    public void putStudentDocument(Student student) throws SearchServiceException {
+        usersLogic.putStudentDocument(student);
+    }
+
+    /**
      * This is used by admin to search account requests in the whole system.
      *
      * @return A list of {@link AccountRequest} or {@code null} if no match found.
