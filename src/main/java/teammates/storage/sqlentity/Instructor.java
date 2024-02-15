@@ -25,6 +25,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "Instructors")
 public class Instructor extends User {
+
+    private static Team userTeam = new Team(null, Const.USER_TEAM_FOR_INSTRUCTOR);
+
     @Column(nullable = false)
     private boolean isDisplayedToStudents;
 
@@ -38,8 +41,6 @@ public class Instructor extends User {
     @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = InstructorPrivilegesConverter.class)
     private InstructorPrivileges privileges;
-
-    private static Team userTeam = new Team(null, Const.USER_TEAM_FOR_INSTRUCTOR);
 
     protected Instructor() {
         // required by Hibernate

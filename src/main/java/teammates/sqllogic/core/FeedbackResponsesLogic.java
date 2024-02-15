@@ -462,7 +462,7 @@ public final class FeedbackResponsesLogic {
             frcLogic.updateFeedbackResponseCommentsForResponse(response);
         }
     }
-    
+
     private List<FeedbackQuestion> getQuestionsForSession(
             FeedbackSession feedbackSession, String courseId, @Nullable UUID questionId) {
         if (questionId == null) {
@@ -481,7 +481,8 @@ public final class FeedbackResponsesLogic {
         // load comment(s)
         List<FeedbackResponseComment> allComments;
         if (questionId == null) {
-            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSession.getName(), section);
+            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                    courseId, feedbackSession.getName(), section);
         } else {
             allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
         }
@@ -586,10 +587,10 @@ public final class FeedbackResponsesLogic {
     public SqlSessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String instructorEmail,
             @Nullable UUID questionId, @Nullable String section, @Nullable FeedbackResultFetchType fetchType) {
-        
+
         SqlCourseRoster roster = new SqlCourseRoster(
-            usersLogic.getStudentsForCourse(courseId),
-            usersLogic.getInstructorsForCourse(courseId));
+                usersLogic.getStudentsForCourse(courseId),
+                usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
         List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, courseId, questionId);
@@ -667,7 +668,8 @@ public final class FeedbackResponsesLogic {
      */
     private List<FeedbackResponse> buildMissingResponses(
             String courseId, FeedbackSession feedbackSession, Instructor instructor,
-            Map<FeedbackResponse, Boolean> responseGiverVisibilityTable, Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable,
+            Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
+            Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable,
             List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> existingResponses, SqlCourseRoster courseRoster, @Nullable String section) {
 
@@ -716,12 +718,12 @@ public final class FeedbackResponsesLogic {
                     }
 
                     FeedbackResponse missingResponse = FeedbackResponse.makeResponse(
-                        correspondingQuestion,
-                        giverIdentifier,
-                        giverInfo.getSection(),
-                        recipientIdentifier,
-                        recipientInfo.getSection(),
-                        new FeedbackTextResponseDetails("No Response")
+                            correspondingQuestion,
+                            giverIdentifier,
+                            giverInfo.getSection(),
+                            recipientIdentifier,
+                            recipientInfo.getSection(),
+                            new FeedbackTextResponseDetails("No Response")
                     );
 
                     // check visibility of the missing response
@@ -746,7 +748,6 @@ public final class FeedbackResponsesLogic {
 
         return missingResponses;
     }
-
 
     /**
      * Checks whether the giver name of a response is visible to an user.
@@ -923,7 +924,6 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
 
-
     /**
      * Gets all responses given to/from a section for a question.
      *
@@ -944,7 +944,7 @@ public final class FeedbackResponsesLogic {
      */
     private List<FeedbackResponse> getFeedbackResponsesToOrFromInstructorForQuestion(
             FeedbackQuestion question, Instructor instructor) {
-        HashSet<FeedbackResponse> viewableResponses = new HashSet<>();
+        Set<FeedbackResponse> viewableResponses = new HashSet<>();
 
         // Add responses that the instructor submitted him/herself
         if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS) {
@@ -970,7 +970,7 @@ public final class FeedbackResponsesLogic {
      */
     private List<FeedbackResponse> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestion question, Student student, SqlCourseRoster courseRoster) {
-        HashSet<FeedbackResponse> viewableResponses = new HashSet<>();
+        Set<FeedbackResponse> viewableResponses = new HashSet<>();
 
         // Add responses that the student submitted him/herself
         if (question.getGiverType() != FeedbackParticipantType.INSTRUCTORS) {
@@ -1021,7 +1021,7 @@ public final class FeedbackResponsesLogic {
 
         return new ArrayList<>(viewableResponses);
     }
-    
+
     /**
      * Gets all responses received by a user for a question.
      */

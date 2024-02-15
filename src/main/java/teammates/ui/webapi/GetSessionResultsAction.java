@@ -30,7 +30,7 @@ public class GetSessionResultsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        
+
         if (isCourseMigrated(courseId)) {
             checkSpecificAccessControlSql(courseId, feedbackSessionName, intent);
         } else {
@@ -38,7 +38,8 @@ public class GetSessionResultsAction extends Action {
         }
     }
 
-    private void checkSpecificAccessControlDatastore(String courseId, String feedbackSessionName, Intent intent) throws UnauthorizedAccessException {
+    private void checkSpecificAccessControlDatastore(
+            String courseId, String feedbackSessionName, Intent intent) throws UnauthorizedAccessException {
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         switch (intent) {
@@ -69,9 +70,10 @@ public class GetSessionResultsAction extends Action {
         }
     }
 
-    private void checkSpecificAccessControlSql(String courseId, String feedbackSessionName, Intent intent) throws UnauthorizedAccessException {
+    private void checkSpecificAccessControlSql(
+            String courseId, String feedbackSessionName, Intent intent) throws UnauthorizedAccessException {
         FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
-        
+
         switch (intent) {
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
@@ -112,7 +114,7 @@ public class GetSessionResultsAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER));
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-  
+
         if (isCourseMigrated(courseId)) {
             return executeWithSql(courseId, feedbackSessionName, questionId, selectedSection, fetchType, intent);
         } else {
@@ -120,7 +122,9 @@ public class GetSessionResultsAction extends Action {
         }
     }
 
-    private JsonResult executeWithDatastore(String courseId, String feedbackSessionName, String questionId, String selectedSection, FeedbackResultFetchType fetchType, Intent intent) {
+    private JsonResult executeWithDatastore(
+            String courseId, String feedbackSessionName, String questionId, String selectedSection,
+            FeedbackResultFetchType fetchType, Intent intent) {
         InstructorAttributes instructor;
         StudentAttributes student;
         SessionResultsBundle bundle;
@@ -160,7 +164,9 @@ public class GetSessionResultsAction extends Action {
         }
     }
 
-    private JsonResult executeWithSql(String courseId, String feedbackSessionName, String questionId, String selectedSection, FeedbackResultFetchType fetchType, Intent intent) {
+    private JsonResult executeWithSql(
+            String courseId, String feedbackSessionName, String questionId, String selectedSection,
+            FeedbackResultFetchType fetchType, Intent intent) {
         Instructor instructor;
         Student student;
         FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);

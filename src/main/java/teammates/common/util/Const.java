@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 
 import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Team;
 
 /**
  * Stores constants that are widely used across classes.

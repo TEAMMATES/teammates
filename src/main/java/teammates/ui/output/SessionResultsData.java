@@ -72,7 +72,6 @@ public class SessionResultsData extends ApiOutput {
         return sessionResultsData;
     }
 
-
     /**
      * Factory method to construct API output for instructor.
      */
@@ -155,7 +154,6 @@ public class SessionResultsData extends ApiOutput {
 
         return sessionResultsData;
     }
-
 
     /**
      * Factory method to construct API output for student.
@@ -280,7 +278,6 @@ public class SessionResultsData extends ApiOutput {
                 .withInstructorComments(new ArrayList<>(comments))
                 .build();
     }
-
 
     private static ResponseOutput buildSingleResponseForStudent(
             FeedbackResponse response, SqlSessionResultsBundle bundle, Student student) {
@@ -452,7 +449,6 @@ public class SessionResultsData extends ApiOutput {
                 .build();
     }
 
-
     private static ResponseOutput buildSingleResponseForInstructor(
             FeedbackResponse response, SqlSessionResultsBundle bundle, boolean isMissingResponse) {
         // process giver
@@ -546,7 +542,6 @@ public class SessionResultsData extends ApiOutput {
         return name;
     }
 
-
     /**
      * Gets giver name of a response from the bundle.
      *
@@ -591,7 +586,6 @@ public class SessionResultsData extends ApiOutput {
 
         return name;
     }
-
 
     /**
      * Gets recipient name of a response from the bundle.
@@ -656,7 +650,6 @@ public class SessionResultsData extends ApiOutput {
 
         return outputs;
     }
-
 
     private static Queue<CommentOutput> buildComments(List<FeedbackResponseComment> feedbackResponseComments,
                                                       SqlSessionResultsBundle bundle) {
@@ -988,7 +981,6 @@ public class SessionResultsData extends ApiOutput {
         static Builder builder(FeedbackResponseComment frc) {
             return new Builder(frc);
         }
-
 
         @Nullable
         public String getCommentGiverName() {

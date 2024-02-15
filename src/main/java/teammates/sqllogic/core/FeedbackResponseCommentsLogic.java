@@ -135,7 +135,6 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    
     /**
      * Gets all feedback response comments for session in a section.
      *
@@ -166,7 +165,6 @@ public final class FeedbackResponseCommentsLogic {
         }
         return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, section);
     }
-
 
     /**
      * Verifies whether the comment is visible to certain user.

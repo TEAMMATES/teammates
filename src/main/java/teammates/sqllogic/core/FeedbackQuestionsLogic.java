@@ -12,14 +12,9 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -652,7 +647,6 @@ public final class FeedbackQuestionsLogic {
                 .collect(Collectors.toList());
     }
 
-
     /**
      * Builds a complete giver to recipient map for a {@code relatedQuestion}.
      *
@@ -688,7 +682,15 @@ public final class FeedbackQuestionsLogic {
 
                 // only happens when a session creator quits their course
                 if (instructorGiver == null) {
-                    instructorGiver = new Instructor(relatedQuestion.getCourse(), USER_NAME_FOR_SELF, possibleGiverEmail, false, USER_NAME_FOR_SELF, null, null);
+                    instructorGiver = new Instructor(
+                            relatedQuestion.getCourse(),
+                            USER_NAME_FOR_SELF,
+                            possibleGiverEmail,
+                            false,
+                            USER_NAME_FOR_SELF,
+                            null,
+                            null
+                            );
                 }
 
                 completeGiverRecipientMap
@@ -704,7 +706,6 @@ public final class FeedbackQuestionsLogic {
 
         return completeGiverRecipientMap;
     }
-
 
     /**
      * Gets possible giver identifiers for a feedback question.
@@ -746,6 +747,5 @@ public final class FeedbackQuestionsLogic {
 
         return possibleGivers;
     }
-
 
 }
