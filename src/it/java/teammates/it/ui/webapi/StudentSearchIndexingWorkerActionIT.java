@@ -48,7 +48,7 @@ public class StudentSearchIndexingWorkerActionIT extends BaseActionIT<StudentSea
     }
 
     @Test
-    protected void testExecute_studentNotYetIndexed_isNotSearchable() throws Exception {
+    protected void testExecute_studentNotYetIndexed_shouldNotBeSearchable() throws Exception {
         if (!TestProperties.isSearchServiceActive()) {
             return;
         }
@@ -58,7 +58,7 @@ public class StudentSearchIndexingWorkerActionIT extends BaseActionIT<StudentSea
     }
 
     @Test
-    protected void testExecute_studentIndexed_isSearchable() throws Exception {
+    protected void testExecute_studentIndexed_shouldBeSearchable() throws Exception {
         if (!TestProperties.isSearchServiceActive()) {
             return;
         }
