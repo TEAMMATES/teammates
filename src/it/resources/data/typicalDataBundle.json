@@ -30,6 +30,18 @@
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
     },
+    "unregisteredInstructor1": {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "googleId": "unregisteredInstructor1",
+      "name": "Unregistered Instructor 1",
+      "email": "unregisteredinstructor1@gmail.tmt"
+    },
+    "unregisteredInstructor2": {
+      "id": "00000000-0000-4000-8000-000000000007",
+      "googleId": "unregisteredInstructor2",
+      "name": "Unregistered Instructor 2",
+      "email": "unregisteredinstructor2@gmail.tmt"
+    },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "googleId": "idOfStudent1Course1",
@@ -64,11 +76,66 @@
       "institute": "TEAMMATES Test Institute 1",
       "registeredAt": "2015-02-14T00:00:00Z"
     },
-    "unregisteredInstructor": {
-      "id": "00000000-0000-4000-8000-000000000103",
-      "name": "Unregistered Instructor",
-      "email": "unregisteredInstructor@teammates.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+    "instructor3": {
+      "name": "Instructor 3 of CourseNoRegister",
+      "email": "instr3@teammates.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse1": {
+      "name": "Instructor 1 of Course 1",
+      "email": "instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse1": {
+      "name": "Instructor 2 of Course 1",
+      "email": "instr2@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse2": {
+      "name": "Instructor 1 of Course 2",
+      "email": "instr1@course2.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse2": {
+      "name": "Instructor 2 of Course 2",
+      "email": "instr2@course2.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse3": {
+      "name": "Instructor 1 of Course 3",
+      "email": "instr1@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse3": {
+      "name": "Instructor 2 of Course 3",
+      "email": "instr2@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "unregisteredInstructor1": {
+      "name": "Unregistered Instructor 1",
+      "email": "unregisteredinstructor1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z"
+    },
+    "unregisteredInstructor2": {
+      "name": "Unregistered Instructor 2",
+      "email": "unregisteredinstructor2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 2",
+      "createdAt": "2011-01-01T00:00:00Z"
     }
   },
   "courses": {
@@ -567,6 +634,18 @@
       },
       "email": "student3YetToJoinCourse4@teammates.tmt",
       "name": "student3YetToJoinCourse In Course4",
+      "comments": ""
+    },
+    "studentOfArchivedCourse": {
+      "id": "00000000-0000-4000-8000-000000000608",
+      "course": {
+        "id": "archived-course"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "email": "studentOfArchivedCourse@teammates.tmt",
+      "name": "Student In Archived Course",
       "comments": ""
     }
   },

@@ -14,7 +14,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -58,7 +57,7 @@ public class UsersLogicTest extends BaseTestCase {
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         instructor = getTypicalInstructor();
         student = getTypicalStudent();
-        account = generateTypicalAccount();
+        account = getTypicalAccount();
 
         instructor.setAccount(account);
         student.setAccount(account);
@@ -165,24 +164,6 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-    }
-
-    private Instructor getTypicalInstructor() {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-
-        return new Instructor(course, "instructor-name", "valid-instructor@email.tmt",
-                true, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
-    }
-
-    private Student getTypicalStudent() {
-        return new Student(course, "student-name", "valid-student@email.tmt", "comments");
-    }
-
-    private Account generateTypicalAccount() {
-        return new Account("test-googleId", "test-name", "test@test.com");
     }
 
 }

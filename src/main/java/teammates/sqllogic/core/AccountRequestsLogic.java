@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import java.util.List;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -65,7 +67,7 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Gets account request associated with the {@code }.
+     * Gets account request associated with the {@code email} and {@code institute}.
      */
     public AccountRequest getAccountRequest(String email, String institute) {
 
@@ -73,10 +75,17 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Updates an account request.
+     */
+    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestDb.updateAccountRequest(accountRequest);
+    }
+
+    /**
      * Gets account request associated with the {@code regkey}.
      */
     public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
-
         return accountRequestDb.getAccountRequestByRegistrationKey(regkey);
     }
 
@@ -106,5 +115,15 @@ public final class AccountRequestsLogic {
         AccountRequest toDelete = accountRequestDb.getAccountRequest(email, institute);
 
         accountRequestDb.deleteAccountRequest(toDelete);
+    }
+
+    /**
+     * Searches for account requests in the whole system.
+     *
+     * @return A list of {@link AccountRequest} or {@code null} if no match found.
+     */
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);
     }
 }
