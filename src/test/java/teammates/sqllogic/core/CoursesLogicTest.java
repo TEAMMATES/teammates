@@ -191,11 +191,11 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(fsLogic.getFeedbackSessionsForCourse(course.getId())).thenReturn(feedbackSessions);
         when(usersLogic.getInstructorsForCourse(course.getId())).thenReturn(instructors);
-
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
         coursesLogic.deleteCourseCascade(course.getId());
-
+        verify(usersLogic, times(1)).getInstructorsForCourse(course.getId());
+        verify(fsLogic, times(1)).getFeedbackSessionsForCourse(course.getId());
         verify(coursesDb, times(1)).deleteCourse(course);
     }
 
@@ -207,12 +207,13 @@ public class CoursesLogicTest extends BaseTestCase {
         String courseId = course.getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
-        when(coursesDb.updateCourse(course)).thenReturn(updatedCourse);
 
-        updatedCourse = coursesLogic.updateCourse(courseId, course.getName(), "Asia/Singapore");
+        updatedCourse = coursesLogic.updateCourse(courseId, "Test Course 1", "Asia/India");
 
         verify(coursesDb, times(1)).getCourse(courseId);
         assertNotNull(updatedCourse);
+        assertEquals("Test Course 1", updatedCourse.getName());
+        assertEquals("Asia/India", updatedCourse.getTimeZone());
     }
 
     @Test
