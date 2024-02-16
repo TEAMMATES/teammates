@@ -239,7 +239,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsInstructors = List.of(fq1, fq2);
         List<FeedbackQuestion> questionsSelf = List.of(fq3, fq4);
 
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.INSTRUCTORS)).thenReturn(questionsInstructors);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.INSTRUCTORS))
+                .thenReturn(questionsInstructors);
         when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.SELF)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
@@ -262,7 +263,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsInstructors = List.of(fq1, fq2);
         List<FeedbackQuestion> questionsSelf = List.of(fq3, fq4);
 
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.INSTRUCTORS)).thenReturn(questionsInstructors);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.INSTRUCTORS))
+                .thenReturn(questionsInstructors);
         when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.SELF)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);

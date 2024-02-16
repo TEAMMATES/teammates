@@ -159,13 +159,15 @@ public class BaseTestCase {
     }
 
     protected FeedbackSession getTypicalFeedbackSessionForCourse(Course course) {
-        return new FeedbackSession("test-feedbacksession", course, "testemail", "test-instructions", null, null, null, null, null, false, false, false);
+        return new FeedbackSession("test-feedbacksession", course, "testemail", "test-instructions", null,
+                    null, null, null, null, false, false, false);
     }
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
         return FeedbackQuestion.makeQuestion(session, 1, "test-description",
-                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
-                new ArrayList<FeedbackParticipantType>(), new FeedbackTextQuestionDetails("test question text"));
+                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(),
+                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
+                new FeedbackTextQuestionDetails("test question text"));
     }
 
     /**
