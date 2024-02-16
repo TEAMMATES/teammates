@@ -203,12 +203,11 @@ public class CoursesLogicTest extends BaseTestCase {
     public void testUpdateCourse_shouldReturnUpdatedCourse_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         Course course = getTypicalCourse();
-        Course updatedCourse = getTypicalCourse();
         String courseId = course.getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
 
-        updatedCourse = coursesLogic.updateCourse(courseId, "Test Course 1", "Asia/India");
+        Course updatedCourse = coursesLogic.updateCourse(courseId, "Test Course 1", "Asia/India");
 
         verify(coursesDb, times(1)).getCourse(courseId);
         assertNotNull(updatedCourse);
