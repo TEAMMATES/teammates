@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -187,6 +188,10 @@ public class CoursesLogicTest extends BaseTestCase {
         List<Instructor> instructors = new ArrayList<>();
         List<FeedbackSession> feedbackSessions = new ArrayList<>();
 
+        FeedbackSession fs = new FeedbackSession("test-fs", course, "test@email.com",
+                "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
+                false, false, false);
+        feedbackSessions.add(fs);
         instructors.add(getTypicalInstructor());
 
         when(fsLogic.getFeedbackSessionsForCourse(course.getId())).thenReturn(feedbackSessions);
@@ -194,9 +199,14 @@ public class CoursesLogicTest extends BaseTestCase {
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
         coursesLogic.deleteCourseCascade(course.getId());
+
+        verify(usersLogic, times(1)).deleteStudentsInCourseCascade(course.getId());
         verify(usersLogic, times(1)).getInstructorsForCourse(course.getId());
+        verify(usersLogic, times(1)).deleteInstructorCascade(course.getId(), instructors.get(0).getEmail());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getName(), course.getId());
         verify(fsLogic, times(1)).getFeedbackSessionsForCourse(course.getId());
         verify(coursesDb, times(1)).deleteCourse(course);
+        verify(coursesDb, times(1)).deleteSectionsByCourseId(course.getId());
     }
 
     @Test
