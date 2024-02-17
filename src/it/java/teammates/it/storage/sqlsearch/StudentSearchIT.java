@@ -45,6 +45,7 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student stu3InCourse1 = typicalBundle.students.get("student3InCourse1");
         Student stu1InCourse2 = typicalBundle.students.get("student1InCourse2");
         Student unregisteredStuInCourse1 = typicalBundle.students.get("unregisteredStudentInCourse1");
+        Student stu1InCourse3 = typicalBundle.students.get("student1InCourse3");
         Student stu1InCourse4 = typicalBundle.students.get("student1InCourse4");
         Student stuOfArchivedCourse = typicalBundle.students.get("studentOfArchivedCourse");
 
@@ -64,12 +65,12 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for students in whole system; query string matches some students");
 
         results = usersDb.searchStudentsInWholeSystem("\"student1\"");
-        verifySearchResults(results, stu1InCourse1, stu1InCourse2, stu1InCourse4);
+        verifySearchResults(results, stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
         ______TS("success: search for students in whole system; query string should be case-insensitive");
 
         results = usersDb.searchStudentsInWholeSystem("\"sTuDeNt1\"");
-        verifySearchResults(results, stu1InCourse1, stu1InCourse2, stu1InCourse4);
+        verifySearchResults(results, stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
         ______TS("success: search for students in whole system; students in archived courses should be included");
 
@@ -94,7 +95,7 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for students in whole system; students should be searchable by their email");
 
         results = usersDb.searchStudentsInWholeSystem("student1@teammates.tmt");
-        verifySearchResults(results, stu1InCourse1, stu1InCourse2, stu1InCourse4);
+        verifySearchResults(results, stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
         ______TS("success: search for students; query string matches some students; results restricted "
                  + "based on instructor's privilege");
@@ -114,7 +115,7 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         usersDb.deleteUser(stu1InCourse1);
         results = usersDb.searchStudentsInWholeSystem("\"student1\"");
-        verifySearchResults(results, stu1InCourse2, stu1InCourse4);
+        verifySearchResults(results, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
     }
 
@@ -126,12 +127,13 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu1InCourse2 = typicalBundle.students.get("student1InCourse2");
+        Student stu1InCourse3 = typicalBundle.students.get("student1InCourse3");
         Student stu1InCourse4 = typicalBundle.students.get("student1InCourse4");
 
         List<Student> studentList = usersDb.searchStudentsInWholeSystem("student1");
 
         // there is search result before deletion
-        verifySearchResults(studentList, stu1InCourse1, stu1InCourse2, stu1InCourse4);
+        verifySearchResults(studentList, stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
         // delete a student
         usersDb.deleteUser(stu1InCourse1);
@@ -139,7 +141,7 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         // the search result will change
         studentList = usersDb.searchStudentsInWholeSystem("student1");
 
-        verifySearchResults(studentList, stu1InCourse2, stu1InCourse4);
+        verifySearchResults(studentList, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
         // delete all students in course 2
         usersDb.deleteUser(stu1InCourse2);
@@ -147,7 +149,7 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         // the search result will change
         studentList = usersDb.searchStudentsInWholeSystem("student1");
 
-        verifySearchResults(studentList, stu1InCourse4);
+        verifySearchResults(studentList, stu1InCourse3, stu1InCourse4);
     }
 
     @Test
