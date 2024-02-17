@@ -96,7 +96,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(9, response.getStudents().size());
+        assertEquals(10, response.getStudents().size());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(9, response.getStudents().size());
+        assertEquals(10, response.getStudents().size());
     }
 
     @Test
@@ -133,7 +133,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(3, response.getStudents().size());
+        assertEquals(4, response.getStudents().size());
     }
 
     @Test
@@ -169,7 +169,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         SearchStudentsAction a = getAction(googleIdParams);
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
-        assertEquals(2, response.getStudents().size());
+        assertEquals(3, response.getStudents().size());
     }
 
     @Test
