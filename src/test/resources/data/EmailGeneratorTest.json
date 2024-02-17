@@ -981,7 +981,7 @@
       ]
     },
     "qn1InSession1InTestingNoEmailsSentCourse": {
-      "feedbackSessionName": "Normal feedback session name",
+      "feedbackSessionName": "Feedback session with no emails sent",
       "courseId": "idOfTestingNoEmailsSentCourse",
       "questionDetails": {
         "questionType": "TEXT",

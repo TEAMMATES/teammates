@@ -222,6 +222,15 @@ public final class CoursesLogic {
     }
 
     /**
+     * Gets the institute of the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        Course course = getCourse(courseId);
+        assert course != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
+        return course.getInstitute();
+    }
+
+    /**
      * Creates a team.
      */
     public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
