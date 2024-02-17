@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -19,6 +20,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.logic.core.StudentsLogic;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -618,6 +620,28 @@ public class Logic {
     public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
         assert session != null;
         feedbackSessionsLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
+    }
+
+    /**
+     * Gets the expected number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getExpectedTotalSubmission(fs);
+    }
+
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getActualTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getActualTotalSubmission(fs);
     }
 
     /**
