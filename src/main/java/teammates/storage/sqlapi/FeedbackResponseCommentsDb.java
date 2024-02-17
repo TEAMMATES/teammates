@@ -192,7 +192,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Updates the feedback response comment.
      */
-    public void updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert feedbackResponseComment != null;
 
         if (!feedbackResponseComment.isValid()) {

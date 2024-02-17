@@ -1,31 +1,23 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Map;
-import java.util.UUID;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.TimeHelperExtension;
-import teammates.storage.sqlentity.*;
-import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
-import teammates.storage.sqlentity.responses.FeedbackTextResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.test.BaseTestCase;
 
 /**
@@ -33,10 +25,10 @@ import teammates.test.BaseTestCase;
  */
 
 public class FeedbackResponseCommentsDbTest extends BaseTestCase {
+
+    private static final Long TYPICAL_ID = 100L;
     private FeedbackResponseCommentsDb feedbackResponseCommentsDb;
     private MockedStatic<HibernateUtil> mockHibernateUtil;
-
-    private static Long TYPICAL_ID = 100L;
 
     @BeforeMethod
     public void setUpMethod() {
@@ -109,7 +101,8 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
         FeedbackResponseComment comment = getTypicalResponseComment();
         comment.setGiverType(FeedbackParticipantType.SELF);
 
-        assertThrows(InvalidParametersException.class, () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
+        assertThrows(InvalidParametersException.class,
+                () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
 
         mockHibernateUtil.verify(() -> HibernateUtil.merge(comment), never());
     }
@@ -119,7 +112,8 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
         FeedbackResponseComment comment = getTypicalResponseComment();
         comment.setId(101L);
 
-        assertThrows(EntityDoesNotExistException.class, () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
+        assertThrows(EntityDoesNotExistException.class,
+                () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
 
         mockHibernateUtil.verify(() -> HibernateUtil.merge(comment), never());
     }
@@ -135,11 +129,10 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
         mockHibernateUtil.verify(() -> HibernateUtil.merge(comment));
     }
 
-
-
-
     private FeedbackResponseComment getTypicalResponseComment() {
-        FeedbackResponseComment comment = new FeedbackResponseComment(null, "", FeedbackParticipantType.STUDENTS, null, null, "", false, false,
+        FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
+                FeedbackParticipantType.STUDENTS, null, null, "",
+                false, false,
                 null, null, null);
         comment.setId(TYPICAL_ID);
         return comment;
