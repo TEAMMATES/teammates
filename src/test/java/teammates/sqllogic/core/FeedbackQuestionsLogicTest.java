@@ -45,19 +45,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     public void testGetFeedbackQuestionsForSession_questionNumbersInOrder_success() {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq4 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq5 = getTypicalFeedbackQuestionForSession(fs);
 
-        fq1.setQuestionNumber(1);
-        fq2.setQuestionNumber(2);
-        fq3.setQuestionNumber(3);
-        fq4.setQuestionNumber(4);
-        fq5.setQuestionNumber(5);
-
-        ArrayList<FeedbackQuestion> questions = new ArrayList<>(List.of(fq2, fq4, fq3, fq1, fq5));
+        List<FeedbackQuestion> questions = createQuestionList(fs, 5);
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questions);
 
@@ -98,27 +87,17 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
             throws InvalidParametersException {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq4 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq5 = getTypicalFeedbackQuestionForSession(fs);
+        FeedbackQuestion newQuestion = getTypicalFeedbackQuestionForSession(fs);
 
-        fq1.setQuestionNumber(1);
-        fq2.setQuestionNumber(2);
-        fq3.setQuestionNumber(3);
-        fq4.setQuestionNumber(4);
-        fq5.setQuestionNumber(5);
-
-        ArrayList<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
+        newQuestion.setQuestionNumber(5);
+        List<FeedbackQuestion> questionsBefore = createQuestionList(fs, 4);
 
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
+        when(fqDb.createFeedbackQuestion(newQuestion)).thenReturn(newQuestion);
 
-        FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(fq5);
-
-        assertEquals(fq5, createdQuestion);
+        FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(newQuestion);
+        assertEquals(newQuestion, createdQuestion);
     }
 
     @Test
@@ -292,5 +271,15 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, null).size(), studentsInCourse.size() - 1);
         assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, courseRoster).size(), studentsInCourse.size() - 1);
 
+    }
+
+    private List<FeedbackQuestion> createQuestionList(FeedbackSession fs, int numOfQuestions) {
+        ArrayList<FeedbackQuestion> questions = new ArrayList<>();
+        for (int i = 1; i <= numOfQuestions; i++) {
+            FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
+            fq.setQuestionNumber(i);
+            questions.add(fq);
+        }
+        return questions;
     }
 }
