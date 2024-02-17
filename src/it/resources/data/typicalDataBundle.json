@@ -201,7 +201,14 @@
         "id": "course-1"
       },
       "name": "Section 3"
-    }
+    },
+    "section1InCourse3": {
+        "id": "00000000-0000-4000-8000-000000000204",
+        "course": {
+          "id": "course-3"
+        },
+        "name": "Section 1"
+      }
   },
   "teams": {
     "team1InCourse1": {
@@ -224,7 +231,14 @@
         "id": "00000000-0000-4000-8000-000000000203"
       },
       "name": "Team 3"
-    }
+    },
+    "team1InCourse3": {
+        "id": "00000000-0000-4000-8000-000000000304",
+        "section": {
+          "id": "00000000-0000-4000-8000-000000000204"
+        },
+        "name": "Team 1"
+      }
   },
   "deadlineExtensions": {
     "student1InCourse1Session1": {
@@ -585,8 +599,20 @@
       "name": "student1 In Course2",
       "comments": ""
     },
+    "student1InCourse3": {
+        "id": "00000000-0000-4000-8000-000000000605",
+        "email": "student1@teammates.tmt",
+        "course": {
+            "id": "course-3"
+        },
+        "team": {
+            "id": "00000000-0000-4000-8000-000000000304"
+        },
+        "name": "student1 In Course3</td></div>'\"",
+        "comments": "comment for student1InCourse3</td></div>'\""
+    },
     "unregisteredStudentInCourse1": {
-      "id": "00000000-0000-4000-8000-000000000605",
+      "id": "00000000-0000-4000-8000-000000000606",
       "course": {
         "id": "course-1"
       },
@@ -598,7 +624,7 @@
       "comments": ""
     },
     "student1InCourse4": {
-      "id": "00000000-0000-4000-8000-000000000606",
+      "id": "00000000-0000-4000-8000-000000000607",
       "account": {
         "id": "00000000-0000-4000-8000-000000000101"
       },
@@ -613,7 +639,7 @@
       "comments": "comment for student1Course1"
     },
     "student2YetToJoinCourse4": {
-      "id": "00000000-0000-4000-8000-000000000607",
+      "id": "00000000-0000-4000-8000-000000000608",
       "course": {
         "id": "course-4"
       },
@@ -625,7 +651,7 @@
       "comments": ""
     },
     "student3YetToJoinCourse4": {
-      "id": "00000000-0000-4000-8000-000000000608",
+      "id": "00000000-0000-4000-8000-000000000609",
       "course": {
         "id": "course-4"
       },
@@ -637,7 +663,7 @@
       "comments": ""
     },
     "studentOfArchivedCourse": {
-      "id": "00000000-0000-4000-8000-000000000608",
+      "id": "00000000-0000-4000-8000-000000000610",
       "course": {
         "id": "archived-course"
       },
@@ -813,7 +839,7 @@
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-19T22:00:00Z",
-      "endTime": "2012-01-26T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
       "sessionVisibleFromTime": "2012-01-19T22:00:00Z",
       "resultsVisibleFromTime": "2012-02-02T22:00:00Z",
       "gracePeriod": 10,
