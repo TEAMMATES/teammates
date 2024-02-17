@@ -62,7 +62,7 @@ public class InstructorSearchIndexingWorkerActionIT extends BaseActionIT<Instruc
 
         instructorList = logic.searchInstructorsInWholeSystem(instructor1.getEmail());
         assertEquals(1, instructorList.size());
-        assertEquals(instructor1.getName(), instructorList.get(0).getName());
+        assertEquals(instructor1.getId(), instructorList.get(0).getId());
     }
 
     @Override
