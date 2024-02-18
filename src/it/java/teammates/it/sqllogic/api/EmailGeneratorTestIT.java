@@ -1,10 +1,14 @@
 package teammates.it.sqllogic.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -69,10 +73,13 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testGenerateSessionLinksRecoveryEmail() throws Exception {
 
+        // To remove after migrating to postgres
+        String nonExistentStudent = "";
+        Map<CourseAttributes, StringBuilder> emptyFragmentList = new HashMap<>();
         ______TS("invalid email address");
 
         EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                "non-existing-student");
+                "non-existing-student", nonExistentStudent, emptyFragmentList);
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         verifyEmail(email, "non-existing-student", subject,
@@ -83,7 +90,7 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
         email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                student1InCourse1.getEmail());
+                student1InCourse1.getEmail(), nonExistentStudent, emptyFragmentList);
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         verifyEmail(email, student1InCourse1.getEmail(), subject,
@@ -94,7 +101,7 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student student1InCourse3 = dataBundle.students.get("student1InCourse3");
 
         email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                student1InCourse3.getEmail());
+                student1InCourse3.getEmail(), nonExistentStudent, emptyFragmentList);
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
@@ -106,12 +113,13 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student student1InCourse4 = dataBundle.students.get("student1InCourse4");
 
         email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                student1InCourse4.getEmail());
+                student1InCourse4.getEmail(), nonExistentStudent, emptyFragmentList);
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         verifyEmail(email, student1InCourse4.getEmail(), subject,
                 "/sessionLinksRecoveryOpenedOrClosedAndpublishedSessions.html");
+
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

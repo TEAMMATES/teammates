@@ -30,6 +30,18 @@
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
     },
+    "unregisteredInstructor1": {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "googleId": "unregisteredInstructor1",
+      "name": "Unregistered Instructor 1",
+      "email": "unregisteredinstructor1@gmail.tmt"
+    },
+    "unregisteredInstructor2": {
+      "id": "00000000-0000-4000-8000-000000000007",
+      "googleId": "unregisteredInstructor2",
+      "name": "Unregistered Instructor 2",
+      "email": "unregisteredinstructor2@gmail.tmt"
+    },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "googleId": "idOfStudent1Course1",
@@ -64,11 +76,66 @@
       "institute": "TEAMMATES Test Institute 1",
       "registeredAt": "2015-02-14T00:00:00Z"
     },
-    "unregisteredInstructor": {
-      "id": "00000000-0000-4000-8000-000000000103",
-      "name": "Unregistered Instructor",
-      "email": "unregisteredInstructor@teammates.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+    "instructor3": {
+      "name": "Instructor 3 of CourseNoRegister",
+      "email": "instr3@teammates.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse1": {
+      "name": "Instructor 1 of Course 1",
+      "email": "instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse1": {
+      "name": "Instructor 2 of Course 1",
+      "email": "instr2@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse2": {
+      "name": "Instructor 1 of Course 2",
+      "email": "instr1@course2.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse2": {
+      "name": "Instructor 2 of Course 2",
+      "email": "instr2@course2.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse3": {
+      "name": "Instructor 1 of Course 3",
+      "email": "instr1@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse3": {
+      "name": "Instructor 2 of Course 3",
+      "email": "instr2@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "unregisteredInstructor1": {
+      "name": "Unregistered Instructor 1",
+      "email": "unregisteredinstructor1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z"
+    },
+    "unregisteredInstructor2": {
+      "name": "Unregistered Instructor 2",
+      "email": "unregisteredinstructor2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 2",
+      "createdAt": "2011-01-01T00:00:00Z"
     }
   },
   "courses": {
@@ -134,7 +201,14 @@
         "id": "course-1"
       },
       "name": "Section 3"
-    }
+    },
+    "section1InCourse3": {
+        "id": "00000000-0000-4000-8000-000000000204",
+        "course": {
+          "id": "course-3"
+        },
+        "name": "Section 1"
+      }
   },
   "teams": {
     "team1InCourse1": {
@@ -157,7 +231,14 @@
         "id": "00000000-0000-4000-8000-000000000203"
       },
       "name": "Team 3"
-    }
+    },
+    "team1InCourse3": {
+        "id": "00000000-0000-4000-8000-000000000304",
+        "section": {
+          "id": "00000000-0000-4000-8000-000000000204"
+        },
+        "name": "Team 1"
+      }
   },
   "deadlineExtensions": {
     "student1InCourse1Session1": {
@@ -518,8 +599,20 @@
       "name": "student1 In Course2",
       "comments": ""
     },
+    "student1InCourse3": {
+        "id": "00000000-0000-4000-8000-000000000605",
+        "email": "student1@teammates.tmt",
+        "course": {
+            "id": "course-3"
+        },
+        "team": {
+            "id": "00000000-0000-4000-8000-000000000304"
+        },
+        "name": "student1 In Course3</td></div>'\"",
+        "comments": "comment for student1InCourse3</td></div>'\""
+    },
     "unregisteredStudentInCourse1": {
-      "id": "00000000-0000-4000-8000-000000000605",
+      "id": "00000000-0000-4000-8000-000000000606",
       "course": {
         "id": "course-1"
       },
@@ -531,7 +624,7 @@
       "comments": ""
     },
     "student1InCourse4": {
-      "id": "00000000-0000-4000-8000-000000000606",
+      "id": "00000000-0000-4000-8000-000000000607",
       "account": {
         "id": "00000000-0000-4000-8000-000000000101"
       },
@@ -546,7 +639,7 @@
       "comments": "comment for student1Course1"
     },
     "student2YetToJoinCourse4": {
-      "id": "00000000-0000-4000-8000-000000000607",
+      "id": "00000000-0000-4000-8000-000000000608",
       "course": {
         "id": "course-4"
       },
@@ -558,7 +651,7 @@
       "comments": ""
     },
     "student3YetToJoinCourse4": {
-      "id": "00000000-0000-4000-8000-000000000608",
+      "id": "00000000-0000-4000-8000-000000000609",
       "course": {
         "id": "course-4"
       },
@@ -567,6 +660,18 @@
       },
       "email": "student3YetToJoinCourse4@teammates.tmt",
       "name": "student3YetToJoinCourse In Course4",
+      "comments": ""
+    },
+    "studentOfArchivedCourse": {
+      "id": "00000000-0000-4000-8000-000000000610",
+      "course": {
+        "id": "archived-course"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "email": "studentOfArchivedCourse@teammates.tmt",
+      "name": "Student In Archived Course",
       "comments": ""
     }
   },
@@ -734,7 +839,7 @@
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-19T22:00:00Z",
-      "endTime": "2012-01-26T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
       "sessionVisibleFromTime": "2012-01-19T22:00:00Z",
       "resultsVisibleFromTime": "2012-02-02T22:00:00Z",
       "gracePeriod": 10,

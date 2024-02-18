@@ -4,11 +4,13 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlsearch.AccountRequestSearchManager;
@@ -128,5 +130,20 @@ public final class AccountRequestsDb extends EntitiesDb {
         if (accountRequest != null) {
             delete(accountRequest);
         }
+    }
+
+    /**
+     * Searches all account requests in the system.
+     *
+     * <p>This is used by admin to search account requests in the whole system.
+     */
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+
+        if (queryString.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return getSearchManager().searchAccountRequests(queryString);
     }
 }

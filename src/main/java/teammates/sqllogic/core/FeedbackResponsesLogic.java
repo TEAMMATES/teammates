@@ -199,27 +199,20 @@ public final class FeedbackResponsesLogic {
      * @return updated feedback response
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the comment cannot be found
-     * @throws EntityAlreadyExistsException if the response cannot be updated
-     *         by recreation because of an existent response
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
         FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);
 
-        boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
         boolean isGiverSectionChanged = !oldResponse.getGiverSection().equals(newResponse.getGiverSection());
         boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
 
-        if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
+        if (isGiverSectionChanged || isRecipientSectionChanged) {
             List<FeedbackResponseComment> oldResponseComments =
                     frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
             for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
-                if (isResponseIdChanged) {
-                    oldResponseComment.setFeedbackResponse(newResponse);
-                }
-
                 if (isGiverSectionChanged) {
                     oldResponseComment.setGiverSection(newResponse.getGiverSection());
                 }
