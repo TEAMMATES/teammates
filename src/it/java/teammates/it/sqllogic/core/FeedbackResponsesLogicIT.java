@@ -119,15 +119,16 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         }
         fr.setGiver(newGiver);
 
-        fr = frLogic.updateFeedbackResponseCascade(fr);
-
-        fr = frLogic.getFeedbackResponse(fr.getId());
+        frLogic.updateFeedbackResponseCascade(fr);
 
         // TODO: Uncomment after fixing automatic persist cascade of feedbackResponse to feedbackResponseComments
+
+        // fr = frLogic.getFeedbackResponse(fr.getId());
+
         // List<FeedbackResponseComment> updatedComments = fr.getFeedbackResponseComments();
         // for (FeedbackResponseComment updatedFrc: updatedComments) {
-            // assertNotEquals(updatedFrc.getGiverSection(), newGiverSection);
-            // assertNotEquals(updatedFrc.getRecipientSection(), newRecipientSection);
+        // assertNotEquals(updatedFrc.getGiverSection(), newGiverSection);
+        // assertNotEquals(updatedFrc.getRecipientSection(), newRecipientSection);
         // }
         // assertEquals(fr.getGiver(), newGiver);
     }
