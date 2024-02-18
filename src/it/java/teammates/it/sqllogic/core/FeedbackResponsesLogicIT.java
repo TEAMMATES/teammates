@@ -1,10 +1,7 @@
 package teammates.it.sqllogic.core;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
 
->>>>>>> 12048-migrate-submit-feedbackresponse-db
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

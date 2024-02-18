@@ -44,7 +44,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "questionId")
     private FeedbackQuestion feedbackQuestion;
 
-    @OneToMany(mappedBy = "feedbackResponse", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
     @Column(nullable = false)

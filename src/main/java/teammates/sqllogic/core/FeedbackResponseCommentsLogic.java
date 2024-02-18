@@ -62,7 +62,7 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
 
-    /** TODO: If there's a bug here, then update the comment
+    /**
      * Gets the comment associated with the response.
      */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(

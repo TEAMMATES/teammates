@@ -18,7 +18,7 @@ public class FeedbackResponsesData extends ApiOutput {
         // Disabled, use static methods for initialization instead.
     }
 
-    // TODO: When deleting attributes, make constructor to be createFromEntity
+    // TODO: When deleting Attributes, make constructor to be createFromEntity
     public static FeedbackResponsesData createFromAttributes(List<FeedbackResponseAttributes> responses) {
         return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList()));
     }

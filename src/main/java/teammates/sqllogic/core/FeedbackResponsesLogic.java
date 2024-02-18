@@ -225,6 +225,7 @@ public final class FeedbackResponsesLogic {
             }
 
         }
+
         return newResponse;
     }
 

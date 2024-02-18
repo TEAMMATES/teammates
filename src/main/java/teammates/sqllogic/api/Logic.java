@@ -1296,30 +1296,6 @@ public class Logic {
     }
 
     /**
-     * Updates a non-null feedback response.
-     *
-     * <p>Cascade updates its associated feedback response comment
-     * (e.g. associated response ID, giverSection and recipientSection).
-     *
-     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
-     * as question-giver-recipient is the primary key.
-     *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return updated feedback response
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
-     * @throws EntityAlreadyExistsException if the response cannot be updated
-     *         by recreation because of an existent response
-     */
-    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        assert feedbackResponse != null;
-        return feedbackResponsesLogic.updateFeedbackResponseCascade(feedbackResponse);
-    }
-
-    /**
      * Deletes a feedback response cascade its associated comments.
      *
      * <br/>Preconditions: <br/>
