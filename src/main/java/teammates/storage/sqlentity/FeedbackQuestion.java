@@ -55,7 +55,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @Column(nullable = false)
     private Integer questionNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
     @Column(nullable = false)
