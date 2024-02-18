@@ -1,5 +1,6 @@
 package teammates.it.sqllogic.core;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -118,7 +119,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
             frc.setGiverSection(newGiverSection);
             frc.setRecipientSection(newRecipientSection);
         }
-        fr.setGiver(newGiver);
+        fr.setUpdatedAt(Instant.now());
 
         fr = frLogic.updateFeedbackResponseCascade(fr);
         fr = frLogic.getFeedbackResponse(fr.getId());
