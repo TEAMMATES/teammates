@@ -159,8 +159,4 @@ public class AccountsDbTest extends BaseTestCase {
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(account));
     }
-
-    private Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
-    }
 }

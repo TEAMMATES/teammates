@@ -1,24 +1,26 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.test.BaseTestCase;
 
 /**
@@ -26,34 +28,19 @@ import teammates.test.BaseTestCase;
  */
 public class UsersDbTest extends BaseTestCase {
 
-    private UsersDb usersDb = UsersDb.inst();
+    private UsersDb usersDb;
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
     public void setUp() {
         mockHibernateUtil = mockStatic(HibernateUtil.class);
+        usersDb = spy(UsersDb.class);
     }
 
     @AfterMethod
     public void teardown() {
         mockHibernateUtil.close();
-    }
-
-    private Instructor getTypicalInstructor() {
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-
-        return new Instructor(course, "instructor-name", "valid@teammates.tmt",
-                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
-    }
-
-    private Student getTypicalStudent() {
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        return new Student(course, "student-name", "valid@teammates.tmt", "comments");
     }
 
     @Test
@@ -126,5 +113,80 @@ public class UsersDbTest extends BaseTestCase {
         usersDb.deleteUser(null);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
+    }
+
+    @Test
+    public void testUpdateStudent_invalidStudent_throwsInvalidParametersException() {
+        Student invalidStudent = getTypicalStudent();
+        invalidStudent.setEmail("");
+
+        assertThrows(InvalidParametersException.class,
+                () -> usersDb.updateStudent(invalidStudent));
+
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(invalidStudent), never());
+    }
+
+    @Test
+    public void testUpdateStudent_studentDoesNotExist_throwsEntityDoesNotExistException() {
+        Student student = getTypicalStudent();
+
+        doReturn(null).when(usersDb).getStudent(any());
+
+        assertThrows(EntityDoesNotExistException.class,
+                () -> usersDb.updateStudent(student));
+
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(student), never());
+    }
+
+    @Test
+    public void testUpdateStudent_success()
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        Student existingStudent = getTypicalStudent();
+
+        doReturn(existingStudent).when(usersDb).getStudent(any());
+
+        usersDb.updateStudent(existingStudent);
+
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(existingStudent));
+    }
+
+    @Test
+    public void testGetSectionOrCreate_noSection_sectionIsCreated() {
+        doReturn(null).when(usersDb).getSection(anyString(), anyString());
+
+        usersDb.getSectionOrCreate("test-course", "test-section");
+
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any()));
+    }
+
+    @Test
+    public void testGetSectionOrCreate_sectionExists_sectionIsReturned() {
+        Section s = getTypicalSection();
+        doReturn(s).when(usersDb).getSection(anyString(), anyString());
+
+        Section section = usersDb.getSectionOrCreate("test-course", "test-section");
+
+        assertEquals(s, section);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any()), never());
+    }
+
+    @Test
+    public void testGetTeamOrCreate_noSection_sectionIsCreated() {
+        doReturn(null).when(usersDb).getTeam(any(), any());
+
+        usersDb.getTeamOrCreate(getTypicalSection(), "test-team");
+
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any()));
+    }
+
+    @Test
+    public void testGetTeamOrCreate_sectionExists_sectionIsReturned() {
+        Team t = getTypicalTeam();
+        doReturn(t).when(usersDb).getTeam(any(), any());
+
+        Team team = usersDb.getTeamOrCreate(getTypicalSection(), "test-team");
+
+        assertEquals(t, team);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any()), never());
     }
 }

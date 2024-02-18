@@ -359,6 +359,53 @@ public final class UsersLogic {
     }
 
     /**
+     * Make the instructor join the course, i.e. associate an account to the instructor with the given googleId.
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions:
+     * Parameters regkey and googleId are non-null.
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
+     * @throws InvalidParametersException if the instructor parameters are not valid
+     */
+    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        if (googleId == null) {
+            throw new InvalidParametersException("Instructor's googleId cannot be null");
+        }
+        if (instructor == null) {
+            throw new InvalidParametersException("Instructor cannot be null");
+        }
+
+        // setting account for instructor sets it as registered
+        if (instructor.getAccount() == null) {
+            Account dbAccount = accountsLogic.getAccountForGoogleId(googleId);
+            if (dbAccount != null) {
+                instructor.setAccount(dbAccount);
+            } else {
+                Account account = new Account(googleId, instructor.getName(), instructor.getEmail());
+                instructor.setAccount(account);
+                accountsLogic.createAccount(account);
+            }
+        } else {
+            instructor.setGoogleId(googleId);
+        }
+        usersDb.updateUser(instructor);
+
+        // Update the googleId of the student entity for the instructor which was created from sample data.
+        Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
+        if (student != null) {
+            if (student.getAccount() == null) {
+                Account account = new Account(googleId, student.getName(), student.getEmail());
+                student.setAccount(account);
+            } else {
+                student.getAccount().setGoogleId(googleId);
+            }
+            usersDb.updateUser(student);
+        }
+
+        return instructor;
+    }
+
+    /**
      * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
      *
      * @return the instructor with the new registration key.
@@ -495,6 +542,27 @@ public final class UsersLogic {
         }
 
         return unregisteredStudents;
+    }
+
+    /**
+     * Searches for students.
+     *
+     * @param instructors the constraint that restricts the search result
+     */
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
+            throws SearchServiceException {
+        return usersDb.searchStudents(queryString, instructors);
+    }
+
+    /**
+     * This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search students in the whole system.
+     * @return null if no result found
+     */
+    public List<Student> searchStudentsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        return usersDb.searchStudentsInWholeSystem(queryString);
     }
 
     /**
@@ -927,4 +995,5 @@ public final class UsersLogic {
 
         return emailUserMap;
     }
+
 }
