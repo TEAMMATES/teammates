@@ -1208,6 +1208,13 @@ public class Logic {
     }
 
     /**
+     * Puts searchable instructor to the database.
+     */
+    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
+        usersLogic.putInstructorDocument(instructor);
+    }
+
+    /**
      * Removes the given data bundle from the database.
      */
     public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
