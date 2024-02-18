@@ -94,7 +94,8 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         assertEquals(fr.getRecipientSection(), newRecipientSection);
     }
 
-    @Test
+    // TODO: Enable test after fixing automatic persist cascade of feedbackResponse to feedbackResponseComments
+    @Test(enabled = false)
     public void testUpdatedFeedbackResponsesAndCommentsCascade_noChangeToResponseSection_shouldNotUpdateComments()
             throws Exception {
         ______TS("Cascading to feedbackResponseComments should not trigger");
@@ -119,17 +120,14 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         }
         fr.setGiver(newGiver);
 
-        frLogic.updateFeedbackResponseCascade(fr);
+        fr = frLogic.updateFeedbackResponseCascade(fr);
+        fr = frLogic.getFeedbackResponse(fr.getId());
 
-        // TODO: Uncomment after fixing automatic persist cascade of feedbackResponse to feedbackResponseComments
-
-        // fr = frLogic.getFeedbackResponse(fr.getId());
-
-        // List<FeedbackResponseComment> updatedComments = fr.getFeedbackResponseComments();
-        // for (FeedbackResponseComment updatedFrc: updatedComments) {
-        // assertNotEquals(updatedFrc.getGiverSection(), newGiverSection);
-        // assertNotEquals(updatedFrc.getRecipientSection(), newRecipientSection);
-        // }
-        // assertEquals(fr.getGiver(), newGiver);
+        List<FeedbackResponseComment> updatedComments = fr.getFeedbackResponseComments();
+        for (FeedbackResponseComment updatedFrc : updatedComments) {
+            assertNotEquals(updatedFrc.getGiverSection(), newGiverSection);
+            assertNotEquals(updatedFrc.getRecipientSection(), newRecipientSection);
+        }
+        assertEquals(fr.getGiver(), newGiver);
     }
 }
