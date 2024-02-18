@@ -121,7 +121,7 @@ public final class FeedbackResponsesLogic {
             boolean hasResponse = question
                     .getFeedbackResponses()
                     .stream()
-                    .anyMatch(response -> response.getGiver().equals(giverIdentifier));
+                    .anyMatch(response -> response.getGiver().getEmail().equals(giverIdentifier));
             if (hasResponse) {
                 return true;
             }
