@@ -127,6 +127,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         }
 
         sessionEntity.setDeletedAt(null);
+        merge(sessionEntity);
     }
 
     /**
