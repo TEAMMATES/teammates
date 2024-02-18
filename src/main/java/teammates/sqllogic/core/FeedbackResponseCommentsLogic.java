@@ -16,6 +16,8 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
@@ -28,6 +30,8 @@ public final class FeedbackResponseCommentsLogic {
 
     private static final FeedbackResponseCommentsLogic instance = new FeedbackResponseCommentsLogic();
     private FeedbackResponseCommentsDb frcDb;
+    private UsersLogic usersLogic;
+    private CoursesLogic coursesLogic;
 
     private FeedbackResponseCommentsLogic() {
         // prevent initialization
@@ -40,8 +44,11 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Initialize dependencies for {@code FeedbackResponseCommentsLogic}.
      */
-    void initLogicDependencies(FeedbackResponseCommentsDb frcDb) {
+    void initLogicDependencies(FeedbackResponseCommentsDb frcDb,
+            UsersLogic usersLogic, CoursesLogic coursesLogic) {
         this.frcDb = frcDb;
+        this.usersLogic = usersLogic;
+        this.coursesLogic = coursesLogic;
     }
 
     /**
@@ -118,11 +125,13 @@ public final class FeedbackResponseCommentsLogic {
         if (comment == null) {
             throw new EntityDoesNotExistException("Trying to update a feedback response comment that does not exist.");
         }
-
+        
+        Course course = coursesLogic.getCourseForFeedbackResponseCommentId(frcId);
+        User lastEditor = usersLogic.getUserByEmail(course.getId(), updaterEmail);
         comment.setCommentText(updateRequest.getCommentText());
         comment.setShowCommentTo(updateRequest.getShowCommentTo());
         comment.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
-        comment.setLastEditorEmail(updaterEmail);
+        comment.setLastEditor(lastEditor);
 
         return comment;
     }

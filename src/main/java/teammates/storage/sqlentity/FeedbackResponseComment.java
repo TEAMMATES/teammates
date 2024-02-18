@@ -37,8 +37,10 @@ public class FeedbackResponseComment extends BaseEntity {
     @JoinColumn(name = "responseId")
     private FeedbackResponse feedbackResponse;
 
-    @Column(nullable = false)
-    private String giver;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "giverId", nullable = false)
+    private User giver;
 
     @Column(nullable = false)
     @Convert(converter = FeedbackParticipantTypeConverter.class)
@@ -72,19 +74,21 @@ public class FeedbackResponseComment extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @Column(nullable = false)
-    private String lastEditorEmail;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "lastEditorId", nullable = false)
+    private User lastEditor;
 
     protected FeedbackResponseComment() {
         // required by Hibernate
     }
 
     public FeedbackResponseComment(
-            FeedbackResponse feedbackResponse, String giver, FeedbackParticipantType giverType,
+            FeedbackResponse feedbackResponse, User giver, FeedbackParticipantType giverType,
             Section giverSection, Section recipientSection, String commentText,
             boolean isVisibilityFollowingFeedbackQuestion, boolean isCommentFromFeedbackParticipant,
             List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
-            String lastEditorEmail
+            User lastEditor
     ) {
         this.setFeedbackResponse(feedbackResponse);
         this.setGiver(giver);
@@ -96,7 +100,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.setIsCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant);
         this.setShowCommentTo(showCommentTo);
         this.setShowGiverNameTo(showGiverNameTo);
-        this.setLastEditorEmail(lastEditorEmail);
+        this.setLastEditor(lastEditor);
     }
 
     public Long getId() {
@@ -115,11 +119,11 @@ public class FeedbackResponseComment extends BaseEntity {
         this.feedbackResponse = feedbackResponse;
     }
 
-    public String getGiver() {
+    public User getGiver() {
         return giver;
     }
 
-    public void setGiver(String giver) {
+    public void setGiver(User giver) {
         this.giver = giver;
     }
 
@@ -195,12 +199,12 @@ public class FeedbackResponseComment extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
-    public String getLastEditorEmail() {
-        return lastEditorEmail;
+    public User getLastEditor() {
+        return lastEditor;
     }
 
-    public void setLastEditorEmail(String lastEditorEmail) {
-        this.lastEditorEmail = lastEditorEmail;
+    public void setLastEditor(User lastEditor) {
+        this.lastEditor = lastEditor;
     }
 
     /**
@@ -235,7 +239,7 @@ public class FeedbackResponseComment extends BaseEntity {
         return "FeedbackResponse [id=" + id + ", giver=" + giver + ", commentText=" + commentText
                 + ", isVisibilityFollowingFeedbackQuestion=" + isVisibilityFollowingFeedbackQuestion
                 + ", isCommentFromFeedbackParticipant=" + isCommentFromFeedbackParticipant
-                + ", lastEditorEmail=" + lastEditorEmail + ", createdAt=" + getCreatedAt()
+                + ", lastEditor=" + lastEditor + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + "]";
     }
 

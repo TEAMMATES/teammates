@@ -687,4 +687,13 @@ public final class UsersDb extends EntitiesDb {
         return query.getSingleResult();
     }
 
+    /**
+     * Gets a User by its {@code id}.
+     */
+    public User getUser(UUID id) {
+        assert id != null;
+
+        return HibernateUtil.get(User.class, id);
+    }
+
 }

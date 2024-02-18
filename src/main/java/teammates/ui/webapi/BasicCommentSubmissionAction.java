@@ -56,11 +56,11 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
                                            FeedbackQuestion question)
             throws UnauthorizedAccessException {
         if (question.getGiverType() == FeedbackParticipantType.TEAMS
-                && !response.getGiver().equals(student.getTeamName())) {
+                && !response.getGiver().getTeam().getName().equals(student.getTeamName())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getTeam());
         } else if (question.getGiverType() == FeedbackParticipantType.STUDENTS
-                && !response.getGiver().equals(student.getEmail())) {
+                && !response.getGiver().getEmail().equals(student.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getName());
         }

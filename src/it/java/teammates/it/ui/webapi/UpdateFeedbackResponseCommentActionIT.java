@@ -59,7 +59,7 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
 
         FeedbackResponseComment actualFrc = logic.getFeedbackResponseComment(frc.getId());
         assertEquals(newCommentText, actualFrc.getCommentText());
-        assertEquals(instructor.getEmail(), actualFrc.getLastEditorEmail());
+        assertEquals(instructor.getEmail(), actualFrc.getLastEditor().getEmail());
     }
 
     @Test

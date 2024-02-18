@@ -3,8 +3,10 @@ package teammates.sqllogic.core;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -220,6 +222,40 @@ public final class DataBundleLogic {
             FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
             Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
             Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
+            String giverEmail = responseComment.getGiver().getEmail();
+            if (responseComment.getGiver() instanceof Instructor) {
+                Instructor giver = instructors
+                        .stream()
+                        .filter(instructor -> giverEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student giver = students
+                        .stream()
+                        .filter(student -> giverEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            }
+
+            String lastEditorEmail = responseComment.getLastEditor().getEmail();
+            if (responseComment.getLastEditor() instanceof Instructor) {
+                Instructor lastEditor = instructors
+                        .stream()
+                        .filter(instructor -> lastEditorEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student lastEditor = students
+                        .stream()
+                        .filter(student -> lastEditorEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            }
+
             responseComment.setFeedbackResponse(fr);
             responseComment.setGiverSection(giverSection);
             responseComment.setRecipientSection(recipientSection);
@@ -333,6 +369,41 @@ public final class DataBundleLogic {
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setId(null);
+
+            String giverEmail = responseComment.getGiver().getEmail();
+            if (responseComment.getGiver() instanceof Instructor) {
+                Instructor giver = instructors
+                        .stream()
+                        .filter(instructor -> giverEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student giver = students
+                        .stream()
+                        .filter(student -> giverEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            }
+
+            String lastEditorEmail = responseComment.getLastEditor().getEmail();
+            if (responseComment.getLastEditor() instanceof Instructor) {
+                Instructor lastEditor = instructors
+                        .stream()
+                        .filter(instructor -> lastEditorEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student lastEditor = students
+                        .stream()
+                        .filter(student -> lastEditorEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            }
+
             frcLogic.createFeedbackResponseComment(responseComment);
         }
 

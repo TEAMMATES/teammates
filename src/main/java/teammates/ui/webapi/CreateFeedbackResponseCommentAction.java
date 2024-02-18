@@ -21,6 +21,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.request.Intent;
@@ -243,16 +244,14 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        String email;
         boolean isFromParticipant;
         boolean isFollowingQuestionVisibility;
         FeedbackParticipantType commentGiverType;
+        User user;
         switch (intent) {
         case STUDENT_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
-            email = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                    ? student.getTeamName() : student.getEmail();
+            user = getSqlStudentOfCourseFromRequest(courseId);
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
             commentGiverType = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
@@ -260,15 +259,13 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
-            email = instructorAsFeedbackParticipant.getEmail();
+            user = getSqlInstructorOfCourseFromRequest(courseId);
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
             commentGiverType = FeedbackParticipantType.INSTRUCTORS;
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
-            email = instructor.getEmail();
+            user = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;
             commentGiverType = FeedbackParticipantType.INSTRUCTORS;
@@ -277,10 +274,10 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(feedbackResponse, email,
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(feedbackResponse, user,
                 commentGiverType, feedbackResponse.getGiverSection(), feedbackResponse.getRecipientSection(), commentText,
                 isFollowingQuestionVisibility, isFromParticipant, comment.getShowCommentTo(), comment.getShowGiverNameTo(),
-                email);
+                user);
         try {
             FeedbackResponseComment createdComment = sqlLogic.createFeedbackResponseComment(feedbackResponseComment);
             HibernateUtil.flushSession();

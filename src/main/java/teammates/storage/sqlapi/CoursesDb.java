@@ -11,6 +11,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Team;
 
@@ -234,6 +238,29 @@ public final class CoursesDb extends EntitiesDb {
                 cb.equal(teamRoot.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets the course associated with a feedback response comment.
+     * 
+     * @param id The identifier of a feedback response comment.
+     * @return A course.
+     */
+    public Course getCourseForFeedbackResponseCommentId(Long id) {
+        assert id != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Course> cq = cb.createQuery(Course.class);
+        Root<FeedbackResponseComment> frcRoot = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = frcRoot.join("feedbackResponse");
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> courseJoin = fsJoin.join("course");
+
+        cq.select(courseJoin)
+                .where(cb.equal(frcRoot.get("id"), id));
+
+        return HibernateUtil.createQuery(cq).getSingleResult();
     }
 
 }

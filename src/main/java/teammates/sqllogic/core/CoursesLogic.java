@@ -257,4 +257,17 @@ public final class CoursesLogic {
     public static void sortById(List<Course> courses) {
         courses.sort(Comparator.comparing(Course::getId));
     }
+
+    /**
+     * Gets the course associated with a feedback response comment.
+     * 
+     * @param id The identifier of a feedback response comment.
+     * @return A course.
+     */
+    public Course getCourseForFeedbackResponseCommentId(Long id) {
+        assert id != null;
+
+        return coursesDb.getCourseForFeedbackResponseCommentId(id);
+    }
+
 }

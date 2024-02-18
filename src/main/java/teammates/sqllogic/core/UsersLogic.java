@@ -997,4 +997,16 @@ public final class UsersLogic {
         return usersDb.getUserByEmail(courseId, email);
     }
 
+    /**
+     * Gets user associated with {@code id}.
+     *
+     * @param id Id of User.
+     * @return Returns User if found else null.
+     */
+    public User getUser(UUID id) {
+        assert id != null;
+
+        return usersDb.getUser(id);
+    }
+
 }

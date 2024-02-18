@@ -39,12 +39,14 @@ public class FeedbackResponseCommentData extends ApiOutput {
     public FeedbackResponseCommentData(FeedbackResponseComment frc) {
         this.feedbackResponseCommentId = frc.getId();
         this.commentText = frc.getCommentText();
-        this.commentGiver = frc.getGiver();
+        // TODO: To remove .getEmail() after v9-migration
+        this.commentGiver = frc.getGiver().getEmail();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
         this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
         this.createdAt = frc.getCreatedAt().toEpochMilli();
         this.lastEditedAt = frc.getUpdatedAt().toEpochMilli();
-        this.lastEditorEmail = frc.getLastEditorEmail();
+        // TODO: To remove .getEmail() after v9-migration
+        this.lastEditorEmail = frc.getLastEditor().getEmail();
         this.isVisibilityFollowingFeedbackQuestion = frc.getIsVisibilityFollowingFeedbackQuestion();
     }
 
