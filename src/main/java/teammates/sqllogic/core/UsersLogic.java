@@ -26,7 +26,6 @@ import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
@@ -78,8 +77,8 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
-                               DeadlineExtensionsLogic deadlineExtensionsLogic) {
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+            DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
@@ -687,15 +686,12 @@ public final class UsersLogic {
         // check for email conflict
         Student s = usersDb.getStudentForEmail(courseId, student.getEmail());
         if (changedEmail && s != null) {
-            String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString());
-            throw new EntityAlreadyExistsException(ERROR_CREATE_ENTITY_ALREADY_EXISTS);
+            String errorMessage = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString());
+            throw new EntityAlreadyExistsException(errorMessage);
         }
-
-        Course course = student.getCourse();
 
         Team originalTeam = originalStudent.getTeam();
         Section originalSection = originalStudent.getSection();
-
         boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
@@ -703,35 +699,34 @@ public final class UsersLogic {
         usersDb.checkBeforeUpdateStudent(student);
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
-        originalStudent.setComments(student.getComments());
         originalStudent.setEmail(student.getEmail());
-        Student updatedStudent = originalStudent;
+        originalStudent.setComments(student.getComments());
 
         // cascade email changes to account, responses and comments
         if (changedEmail) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
             feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
 
-            Account updatedAccount = originalStudent.getAccount();
-            if (updatedAccount != null) {
-                updatedAccount.setEmail(student.getEmail());
-                accountsLogic.updateAccount(updatedAccount);
+            Account originalAccount = originalStudent.getAccount();
+            if (originalAccount != null) {
+                originalAccount.setEmail(student.getEmail());
+                accountsLogic.updateAccount(originalAccount);
             }
         }
 
         // adjust submissions if moving to a different team
         if (changedTeam) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(),
-                    updatedStudent.getTeam(), originalTeam);
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(),
+                    student.getTeam(), originalTeam);
         }
 
         // update the new section name in responses
         if (changedSection) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
-                    course, updatedStudent.getEmail(), updatedStudent.getSection());
+                    student.getCourse(), student.getEmail(), student.getSection());
         }
 
-        return updatedStudent;
+        return originalStudent;
     }
 
     /**

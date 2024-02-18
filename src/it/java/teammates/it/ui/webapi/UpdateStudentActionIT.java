@@ -93,6 +93,11 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
         verifyNumberOfEmailsSent(1);
 
+        Student updatedStudent = logic.getStudent(student1InCourse1.getId());
+        assertEquals(updatedStudent.getEmail(), newStudentEmail);
+        assertEquals(updatedStudent.getTeamName(), newStudentTeam);
+        assertEquals(updatedStudent.getComments(), newStudentComments);
+
         EmailWrapper email = getEmailsSent().get(0);
         String courseName = logic.getCourse(instructor1OfCourse1.getCourseId()).getName();
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
