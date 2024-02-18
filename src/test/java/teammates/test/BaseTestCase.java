@@ -3,6 +3,7 @@ package teammates.test;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -12,17 +13,21 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
@@ -151,6 +156,18 @@ public class BaseTestCase {
     protected Team getTypicalTeam() {
         Section section = getTypicalSection();
         return new Team(section, "test-team");
+    }
+
+    protected FeedbackSession getTypicalFeedbackSessionForCourse(Course course) {
+        return new FeedbackSession("test-feedbacksession", course, "testemail", "test-instructions", null,
+                    null, null, null, null, false, false, false);
+    }
+
+    protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
+        return FeedbackQuestion.makeQuestion(session, 1, "test-description",
+                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(),
+                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
+                new FeedbackTextQuestionDetails("test question text"));
     }
 
     /**
