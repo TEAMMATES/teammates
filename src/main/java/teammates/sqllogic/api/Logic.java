@@ -1301,7 +1301,7 @@ public class Logic {
     }
 
     /**
-     * Deletes a feedback response cascade its associated comments.
+     * Deletes a feedback response and cascades its associated comments.
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
