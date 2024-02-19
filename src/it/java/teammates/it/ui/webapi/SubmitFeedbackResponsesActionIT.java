@@ -8,14 +8,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import jakarta.persistence.NoResultException;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -35,6 +38,14 @@ import teammates.ui.webapi.SubmitFeedbackResponsesAction;
  * SUT: {@link SubmitFeedbackResponsesAction}.
  */
 public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedbackResponsesAction> {
+    @Override
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
+    }
+    
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.RESPONSES;
@@ -121,10 +132,12 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         DeadlineExtension deadline = 
                 new DeadlineExtension(instructor, session, TimeHelper.getInstantDaysOffsetFromNow(days));
+        List<DeadlineExtension> deadlines = new ArrayList<DeadlineExtension>();
+        deadlines.add(deadline);
 
         session.setName(sessionName);
         session.getCourse().setId(courseId);
-        session.setDeadlineExtensions(Arrays.asList(deadline));
+        session.setDeadlineExtensions(deadlines);
 
         logic.updateFeedbackSession(session);
     }
@@ -341,8 +354,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     //GENERAL
     @Test
     public void testAccessControl_feedbackSubmissionQuestionExists_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse2");
-        Instructor instructor = loginInstructor("instructorOfCourse2WithUniqueDisplayName");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 40);
 
@@ -354,8 +367,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     @Test
     public void testAccessControl_feedbackSubmissionNoFeedbackQuestionParameter_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse2");
-        Instructor instructor = loginInstructor("instructor1OfCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 35);
         setInstructorDeadline(session, instructor, 40);
 
@@ -366,8 +379,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     @Test
     public void testAccessControl_feedbackSubmissionQuestionDoesNotExist_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse2");
-        Instructor instructor = loginInstructor("instructor1OfCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 35);
         setInstructorDeadline(session, instructor, 40);
 

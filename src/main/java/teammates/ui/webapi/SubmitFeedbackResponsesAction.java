@@ -314,7 +314,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
             try {
                 output.add(sqlLogic.updateFeedbackResponseCascade(feedbackResponse));
-            } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 // None of the exceptions should be happening as the responses have been pre-validated
                 log.severe("Encountered exception when updating response: " + e.getMessage(), e);
             }

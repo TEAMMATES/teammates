@@ -77,7 +77,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
                     cb.equal(fqJoin.get("id"), sessionId),
                     cb.equal(fqRoot.get("questionNumber"), questionNumber)
                 ));
-        return HibernateUtil.createQuery(cq).getSingleResult();
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 
     /**
