@@ -89,8 +89,4 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account actual = accountsDb.getAccount(account.getId());
         assertNull(actual);
     }
-
-    private Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
-    }
 }
