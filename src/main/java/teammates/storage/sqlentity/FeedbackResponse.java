@@ -151,12 +151,12 @@ public abstract class FeedbackResponse extends BaseEntity {
             FeedbackResponseDetails responseDetails
     ) {
         FeedbackResponse updatedFeedbackResponse = FeedbackResponse.makeResponse(
-            feedbackQuestion, 
-            giver, 
-            giverSection, 
-            receiver, 
-            receiverSection,
-            responseDetails
+                feedbackQuestion,
+                giver,
+                giverSection,
+                receiver,
+                receiverSection,
+                responseDetails
         );
         updatedFeedbackResponse.setCreatedAt(originalFeedbackResponse.getCreatedAt());
         updatedFeedbackResponse.setId(originalFeedbackResponse.getId());
