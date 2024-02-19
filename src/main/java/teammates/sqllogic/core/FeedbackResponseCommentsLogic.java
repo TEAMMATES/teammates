@@ -88,6 +88,19 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
+     * Updates a feedback response comment by {@link FeedbackResponseComment}.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
+    }
+
+    /**
      * Updates a feedback response comment.
      * @throws EntityDoesNotExistException if the comment does not exist
      */
