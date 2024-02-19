@@ -112,8 +112,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateComment_commentDoesNotExist_throwsEntityDoesNotExistException() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-        comment.setId(101L);
+        FeedbackResponseComment comment = getTypicalResponseComment(NOT_TYPICAL_ID);
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
