@@ -137,25 +137,4 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
-
-    /**
-     * Updates the email of all {@code DeadlineExtension} with the specified {@code oldEmail} to {@code newEmail}.
-     */
-    public void updateDeadlineExtensionsWithNewEmail(String oldEmail, String newEmail) {
-        assert oldEmail != null;
-        assert newEmail != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
-        Root<DeadlineExtension> deadlineExtensionRoot = cr.from(DeadlineExtension.class);
-        Join<DeadlineExtension, User> userJoin = deadlineExtensionRoot.join("user");
-
-        cr.select(deadlineExtensionRoot).where(cb.equal(userJoin.get("userEmail"), oldEmail));
-
-        HibernateUtil.createQuery(cr).getResultStream().forEach(deadlineExtension -> {
-            deadlineExtension.getUser().setEmail(newEmail);
-            merge(deadlineExtension);
-        });
-    }
-
 }
