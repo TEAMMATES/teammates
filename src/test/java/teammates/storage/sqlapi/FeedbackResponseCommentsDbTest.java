@@ -27,6 +27,8 @@ import teammates.test.BaseTestCase;
 public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     private static final Long TYPICAL_ID = 100L;
+
+    private static final Long NOT_TYPICAL_ID = 101L;
     private FeedbackResponseCommentsDb feedbackResponseCommentsDb;
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
@@ -45,7 +47,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
     @Test
     public void testCreateComment_commentDoesNotExist_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseComment comment = getTypicalResponseComment();
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
         feedbackResponseCommentsDb.createFeedbackResponseComment(comment);
 
@@ -54,7 +56,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException() {
-        FeedbackResponseComment comment = getTypicalResponseComment();
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
         mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackResponseComment.class, TYPICAL_ID)).thenReturn(comment);
 
@@ -67,7 +69,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     @Test
     public void testGetComment_commentAlreadyExists_success() {
-        FeedbackResponseComment comment = getTypicalResponseComment();
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
         mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackResponseComment.class, TYPICAL_ID)).thenReturn(comment);
 
@@ -79,26 +81,27 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     @Test
     public void testGetComment_commentDoesNotExist_returnsNull() {
-        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackResponseComment.class, 101L)).thenReturn(null);
+        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackResponseComment.class, NOT_TYPICAL_ID)).thenReturn(null);
 
-        FeedbackResponseComment commentFetched = feedbackResponseCommentsDb.getFeedbackResponseComment(101L);
+        FeedbackResponseComment commentFetched = feedbackResponseCommentsDb.getFeedbackResponseComment(NOT_TYPICAL_ID);
 
-        mockHibernateUtil.verify(() -> HibernateUtil.get(FeedbackResponseComment.class, 101L), times(1));
+        mockHibernateUtil.verify(() -> HibernateUtil.get(FeedbackResponseComment.class, NOT_TYPICAL_ID), times(1));
         assertNull(commentFetched);
     }
 
     @Test
     public void testDeleteComment_commentExists_success() {
-        FeedbackResponseComment comment = getTypicalResponseComment();
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
-        feedbackResponseCommentsDb.delete(comment);
+        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackResponseComment.class, TYPICAL_ID)).thenReturn(comment);
+        feedbackResponseCommentsDb.deleteFeedbackResponseComment(TYPICAL_ID);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(comment));
     }
 
     @Test
     public void testUpdateComment_commentInvalid_throwsInvalidParametersException() {
-        FeedbackResponseComment comment = getTypicalResponseComment();
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
         comment.setGiverType(FeedbackParticipantType.SELF);
 
         assertThrows(InvalidParametersException.class,
@@ -109,7 +112,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateComment_commentDoesNotExist_throwsEntityDoesNotExistException() {
-        FeedbackResponseComment comment = getTypicalResponseComment();
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
         comment.setId(101L);
 
         assertThrows(EntityDoesNotExistException.class,
@@ -120,22 +123,13 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateCourse_success() throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackResponseComment comment = getTypicalResponseComment();
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
         comment.setCommentText("Placeholder Text");
 
         doReturn(comment).when(feedbackResponseCommentsDb).getFeedbackResponseComment(anyLong());
         feedbackResponseCommentsDb.updateFeedbackResponseComment(comment);
 
         mockHibernateUtil.verify(() -> HibernateUtil.merge(comment));
-    }
-
-    private FeedbackResponseComment getTypicalResponseComment() {
-        FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
-                FeedbackParticipantType.STUDENTS, null, null, "",
-                false, false,
-                null, null, null);
-        comment.setId(TYPICAL_ID);
-        return comment;
     }
 
 }
