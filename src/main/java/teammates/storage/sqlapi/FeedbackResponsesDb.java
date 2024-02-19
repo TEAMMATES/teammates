@@ -3,7 +3,6 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,12 +15,10 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Team;
-import teammates.storage.sqlentity.User;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
@@ -249,7 +246,6 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         return HibernateUtil.createQuery(cq).getResultList();
     }
 
-
     /**
      * Gets all feedback responses for a question.
      */
@@ -303,7 +299,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
                     giverSectionFilter,
                     recipientSectionFilter
                     ));
-        
+
         return HibernateUtil.createQuery(cq).getResultList();
     }
 
@@ -338,9 +334,8 @@ public final class FeedbackResponsesDb extends EntitiesDb {
                     giverSectionFilter,
                     recipientSectionFilter
                     ));
-        
-        return HibernateUtil.createQuery(cq).getResultList();
 
+        return HibernateUtil.createQuery(cq).getResultList();
     }
 
     /**
