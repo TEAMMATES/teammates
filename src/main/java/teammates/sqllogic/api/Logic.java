@@ -1314,7 +1314,7 @@ public class Logic {
     }
 
     /**
-     * Returns a list of feedback sessions that need an opesn email to be sent.
+     * Returns a list of feedback sessions that need an "Open" email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();

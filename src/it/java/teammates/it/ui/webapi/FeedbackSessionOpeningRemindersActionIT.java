@@ -84,6 +84,9 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
 
         ______TS("Typical Success Case 3: No email tasks added for session -- session not visible yet");
         testExecute_typicalSuccess3();
+
+        ______TS("Typical Success Case 4: No email tasks added for session -- session visible but not open yet");
+        testExecute_typicalSuccess4();
     }
 
     private void testExecute_typicalSuccess1() {
@@ -97,9 +100,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         session.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
         session.setGracePeriod(noGracePeriod);
 
-        String[] params = {};
-
-        FeedbackSessionOpeningRemindersAction action1 = getAction(params);
+        FeedbackSessionOpeningRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
@@ -135,9 +136,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         session.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
         session.setGracePeriod(noGracePeriod);
 
-        String[] params = {};
-
-        FeedbackSessionOpeningRemindersAction action1 = getAction(params);
+        FeedbackSessionOpeningRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
@@ -158,9 +157,29 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         session.setSessionVisibleFromTime(now.plusSeconds(thirtyMin));
         session.setGracePeriod(noGracePeriod);
 
-        String[] params = {};
+        FeedbackSessionOpeningRemindersAction action1 = getAction();
+        JsonResult actionOutput1 = getJsonResult(action1);
+        MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        FeedbackSessionOpeningRemindersAction action1 = getAction(params);
+        assertEquals("Successful", response1.getMessage());
+        assertFalse(session.isOpenEmailSent());
+
+        verifyNoTasksAdded();
+    }
+
+    private void testExecute_typicalSuccess4() {
+        long oneDay = 60 * 60 * 24;
+        Instant now = Instant.now();
+        Duration noGracePeriod = Duration.between(now, now);
+
+        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        session.setOpenEmailSent(false);
+        session.setStartTime(now.plusSeconds(oneDay));
+        session.setEndTime(now.plusSeconds(oneDay * 3));
+        session.setSessionVisibleFromTime(now.minusSeconds(oneDay * 3));
+        session.setGracePeriod(noGracePeriod);
+
+        FeedbackSessionOpeningRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 

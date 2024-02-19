@@ -239,16 +239,10 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * Gets a list of undeleted feedback sessions which start within the last 2 days
      * and possibly need an open email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingOpenEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingOpenEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -256,7 +250,9 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         cr.select(root)
                 .where(cb.and(
                     cb.greaterThan(root.get("startTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
-                    cb.equal(root.get("isOpenEmailSent"), false)));
+                    cb.isFalse(root.get("isOpenEmailSent")),
+                    cb.isNull(root.get("deletedAt"))
+                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
