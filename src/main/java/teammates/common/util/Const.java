@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Team;
 
 /**
  * Stores constants that are widely used across classes.
@@ -19,6 +20,7 @@ public final class Const {
     public static final String USER_NOBODY_TEXT = "-";
 
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
+    public static final Team USER_TEAM_ENTITY_FOR_INSTRUCTOR = new Team(null, Const.USER_TEAM_FOR_INSTRUCTOR);
 
     public static final String DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR = "Instructor";
 

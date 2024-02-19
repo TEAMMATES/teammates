@@ -25,9 +25,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "Instructors")
 public class Instructor extends User {
-
-    private static Team userTeam = new Team(null, Const.USER_TEAM_FOR_INSTRUCTOR);
-
     @Column(nullable = false)
     private boolean isDisplayedToStudents;
 
@@ -53,7 +50,6 @@ public class Instructor extends User {
         this.setDisplayName(displayName);
         this.setRole(role);
         this.setPrivileges(privileges);
-        this.setTeam(userTeam);
     }
 
     public boolean isDisplayedToStudents() {
