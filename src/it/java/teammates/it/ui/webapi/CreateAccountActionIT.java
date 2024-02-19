@@ -1,24 +1,41 @@
-package teammates.ui.webapi;
+package teammates.it.ui.webapi;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
+import teammates.ui.webapi.CreateAccountAction;
+import teammates.ui.webapi.InvalidHttpParameterException;
+
+import jakarta.transaction.Transactional;
 
 /**
  * SUT: {@link CreateAccountAction}.
  */
-public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction> {
+public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
+
+    @Override
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
+    }
 
     @Override
     protected String getActionUri() {
@@ -32,10 +49,15 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
     @Override
     @Test
-    protected void testExecute() {
-        String name = "Unregistered Instructor 1";
-        String email = "unregisteredinstructor1@gmail.tmt";
-        String institute = "TEAMMATES Test Institute 1";
+    @Transactional
+    protected void testExecute() throws InvalidParametersException, EntityAlreadyExistsException {
+        Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
+        loginAsUnregistered(instructor1.getGoogleId());
+
+        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        String email = accReq.getEmail();
+        String institute = accReq.getInstitute();
+        String name = accReq.getName();
 
         ______TS("Not enough parameters");
 
@@ -51,7 +73,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         ______TS("Normal case with valid timezone");
         String timezone = "Asia/Singapore";
-        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
+        AccountRequest accountRequest = logic.getAccountRequest(email, institute);
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
@@ -62,36 +84,39 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
-        CourseAttributes course = logic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         assertNotNull(course);
         assertEquals("Sample Course 101", course.getName());
         assertEquals(institute, course.getInstitute());
         assertEquals(timezone, course.getTimeZone());
 
         ZoneId zoneId = ZoneId.of(timezone);
-        List<FeedbackSessionAttributes> feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+        List<FeedbackSession> feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSession feedbackSession : feedbackSessionsList) {
             LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
             LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
 
-            assertEquals(timezone, feedbackSession.getTimeZone());
             assertEquals(LocalTime.MIDNIGHT, actualStartTime);
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
-        InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
+        Instructor instructor = logic.getInstructorForEmail(courseId, email);
         assertEquals(email, instructor.getEmail());
         assertEquals(name, instructor.getName());
 
-        List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        List<Student> studentList = logic.getStudentsForCourse(courseId);
+        List<Instructor> instructorList = logic.getInstructorsByCourse(courseId);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
                 studentList.size() + instructorList.size());
 
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
-        email = "unregisteredinstructor2@gmail.tmt";
-        institute = "TEAMMATES Test Institute 2";
+        Account instructor2 = typicalBundle.accounts.get("unregisteredInstructor2");
+        loginAsUnregistered(instructor2.getGoogleId());
+
+        accReq = typicalBundle.accountRequests.get("unregisteredInstructor2");
+        email = accReq.getEmail();
+        institute = accReq.getInstitute();
         timezone = "InvalidTimezone";
 
         accountRequest = logic.getAccountRequest(email, institute);
@@ -111,11 +136,10 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
         zoneId = ZoneId.of(Const.DEFAULT_TIME_ZONE);
-        for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+        for (FeedbackSession feedbackSession : feedbackSessionsList) {
             LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
             LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
 
-            assertEquals(Const.DEFAULT_TIME_ZONE, feedbackSession.getTimeZone());
             assertEquals(LocalTime.MIDNIGHT, actualStartTime);
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
