@@ -243,12 +243,6 @@ public final class FeedbackSessionsDb extends EntitiesDb {
      * and possibly need a closed email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingClosedEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingClosedEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -256,7 +250,9 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         cr.select(root)
                 .where(cb.and(
                         cb.greaterThan(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
-                        cb.equal(root.get("isClosedEmailSent"), false)
+                        cb.isFalse(root.get("isClosedEmailSent")),
+                        cb.isTrue(root.get("isClosingEmailEnabled")),
+                        cb.isNull(root.get("deletedAt"))
                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
