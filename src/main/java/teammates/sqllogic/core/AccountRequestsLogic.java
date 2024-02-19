@@ -67,7 +67,7 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Gets account request associated with the {@code }.
+     * Gets account request associated with the {@code email} and {@code institute}.
      */
     public AccountRequest getAccountRequest(String email, String institute) {
 
@@ -75,10 +75,17 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Updates an account request.
+     */
+    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestDb.updateAccountRequest(accountRequest);
+    }
+
+    /**
      * Gets account request associated with the {@code regkey}.
      */
     public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
-
         return accountRequestDb.getAccountRequestByRegistrationKey(regkey);
     }
 
