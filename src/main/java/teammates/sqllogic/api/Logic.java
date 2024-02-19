@@ -111,6 +111,16 @@ public class Logic {
     }
 
     /**
+     * Updates the given account request.
+     *
+     * @return the updated account request.
+     */
+    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestLogic.updateAccountRequest(accountRequest);
+    }
+
+    /**
      * Creates/Resets the account request with the given email and institute
      * such that it is not registered.
      *
@@ -255,6 +265,13 @@ public class Logic {
         assert instructorsList != null;
 
         return coursesLogic.getSoftDeletedCoursesForInstructors(instructorsList);
+    }
+
+    /**
+     * Gets the institute of the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        return coursesLogic.getCourseInstitute(courseId);
     }
 
     /**
@@ -754,6 +771,76 @@ public class Logic {
     }
 
     /**
+     * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions: <br>
+     * * Parameters regkey and googleId are non-null.
+     */
+    public Instructor joinCourseForInstructor(String regkey, String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert googleId != null;
+        assert regkey != null;
+
+        return accountsLogic.joinCourseForInstructor(regkey, googleId);
+    }
+
+    /**
+     * Validates that the join course request is valid, then
+     * makes the instructor join the course, i.e. associate an account to the instructor with the given googleId.
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions:
+     * Parameters regkey and googleId are non-null.
+     */
+    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (googleId == null) {
+            throw new InvalidParametersException("Instructor's googleId cannot be null");
+        }
+        if (instructor == null) {
+            throw new InvalidParametersException("Instructor cannot be null");
+        }
+
+        validateJoinCourseRequest(googleId, instructor);
+        return usersLogic.joinCourseForInstructor(googleId, instructor);
+    }
+
+    /**
+     * Validates that the instructor can join the course it has as courseId field.
+     *
+     * @return true if the instructor can join the course.
+     * @throws Exception if the instructor cannot join the course.
+     */
+    private boolean validateJoinCourseRequest(String googleId, Instructor instructor)
+            throws EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (instructor == null) {
+            throw new EntityDoesNotExistException("Instructor not found");
+        }
+
+        // check course exists and has not been deleted
+        Course course = getCourse(instructor.getCourseId());
+
+        if (course == null) {
+            throw new EntityDoesNotExistException("Course with id " + instructor.getCourseId() + " does not exist");
+        }
+        if (course.isCourseDeleted()) {
+            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
+        }
+
+        if (instructor.isRegistered()) {
+            throw new EntityAlreadyExistsException("Instructor has already joined course");
+        } else {
+            // Check if this Google ID has already joined this course with courseId
+            Instructor existingInstructor =
+                    usersLogic.getInstructorByGoogleId(instructor.getCourseId(), googleId);
+            if (existingInstructor != null) {
+                throw new EntityAlreadyExistsException("Instructor has already joined course");
+            }
+        }
+        return true;
+    }
+
+    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Null if no result found.
@@ -783,21 +870,6 @@ public class Logic {
      */
     public boolean canInstructorCreateCourse(String googleId, String institute) {
         return usersLogic.canInstructorCreateCourse(googleId, institute);
-    }
-
-    /**
-     * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions: <br>
-     * * Parameters regkey and googleId are non-null.
-     */
-    public Instructor joinCourseForInstructor(String regkey, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        assert googleId != null;
-        assert regkey != null;
-
-        return accountsLogic.joinCourseForInstructor(regkey, googleId);
     }
 
     /**
@@ -895,6 +967,32 @@ public class Logic {
      */
     public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createStudent(student);
+    }
+
+    /**
+     * Search for students. Preconditions: all parameters are non-null.
+     * @param instructors   a list of Instructors associated to a googleId,
+     *                      used for filtering of search result
+     * @return Null if no match found
+     */
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
+            throws SearchServiceException {
+        assert queryString != null;
+        assert instructors != null;
+        return usersLogic.searchStudents(queryString, instructors);
+    }
+
+    /**
+     * This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search students in the whole system.
+     * @return Null if no match found.
+     */
+    public List<Student> searchStudentsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return usersLogic.searchStudentsInWholeSystem(queryString);
     }
 
     /**
@@ -1110,6 +1208,13 @@ public class Logic {
     }
 
     /**
+     * Puts searchable instructor to the database.
+     */
+    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
+        usersLogic.putInstructorDocument(instructor);
+    }
+
+    /**
      * Removes the given data bundle from the database.
      */
     public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
@@ -1218,6 +1323,25 @@ public class Logic {
     }
 
     /**
+     * Updates a feedback response and comments by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponse != null;
+
+        return feedbackResponsesLogic.updateFeedbackResponseCascade(feedbackResponse);
+    }
+
+    /**
      * Checks whether there are responses for a question.
      */
     public boolean areThereResponsesForQuestion(UUID questionId) {
@@ -1318,6 +1442,15 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
         return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
+     * Creates or updates search document for the given student.
+     *
+     * @see UsersLogic#putStudentDocument(Student)
+     */
+    public void putStudentDocument(Student student) throws SearchServiceException {
+        usersLogic.putStudentDocument(student);
     }
 
     /**

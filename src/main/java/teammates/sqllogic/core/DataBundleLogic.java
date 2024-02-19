@@ -73,10 +73,16 @@ public final class DataBundleLogic {
     }
 
     /**
-     * Deserialize JSON into a data bundle. Replaces placeholder IDs with actual
-     * IDs.
+     * Deserialize JSON into a data bundle.
      *
-     * @param jsonString serialized data bundle
+     * <p>NOTE: apart from for Course, ids used in the jsonString may be any valid UUID
+     * and are used only to link entities together. They will be replaced by a random
+     * UUID when deserialized and hence do not need to be checked if they exist in the
+     * database previously.</p>
+     *
+     * @param jsonString containing entities to persist at once to the database.
+     *         CourseID must be a valid UUID not currently in use.
+     *         For other entities, replaces the given ids with randomly generated UUIDs.
      * @return newly created DataBundle
      */
     public static SqlDataBundle deserializeDataBundle(String jsonString) {
@@ -158,7 +164,8 @@ public final class DataBundleLogic {
             responseMap.put(placeholderId, response);
             FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
             Section giverSection = sectionsMap.get(response.getGiverSection().getId());
-            Section recipientSection = sectionsMap.get(response.getRecipientSection().getId());
+            Section recipientSection = response.getRecipientSection() != null
+                    ? sectionsMap.get(response.getRecipientSection().getId()) : null;
             response.setFeedbackQuestion(fq);
             response.setGiverSection(giverSection);
             response.setRecipientSection(recipientSection);
