@@ -6,7 +6,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
