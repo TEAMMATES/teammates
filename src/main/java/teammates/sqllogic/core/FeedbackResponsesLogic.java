@@ -188,6 +188,56 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Updates a non-null feedback response by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     * (e.g. associated response ID, giverSection and recipientSection).
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
+        FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);
+
+        boolean isGiverSectionChanged = !oldResponse.getGiverSection().equals(newResponse.getGiverSection());
+        boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
+
+        if (isGiverSectionChanged || isRecipientSectionChanged) {
+            List<FeedbackResponseComment> oldResponseComments =
+                    frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
+            for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
+                if (isGiverSectionChanged) {
+                    oldResponseComment.setGiverSection(newResponse.getGiverSection());
+                }
+
+                if (isRecipientSectionChanged) {
+                    oldResponseComment.setRecipientSection(newResponse.getRecipientSection());
+                }
+
+                frcLogic.updateFeedbackResponseComment(oldResponseComment);
+            }
+
+        }
+
+        return newResponse;
+    }
+
+    /**
+     * Deletes a feedback response cascade its associated feedback response comments.
+     * Implicitly makes use of CascadeType.REMOVE.
+     */
+    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
+        frDb.deleteFeedbackResponse(feedbackResponse);
+    }
+
+    /**
      * Deletes all feedback responses of a question cascade its associated comments.
      */
     public void deleteFeedbackResponsesForQuestionCascade(UUID feedbackQuestionId) {

@@ -191,10 +191,10 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Updates the feedback response comment.
      */
-    public void updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
+    public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
         assert feedbackResponseComment != null;
 
-        merge(feedbackResponseComment);
+        return merge(feedbackResponseComment);
     }
 
     /**

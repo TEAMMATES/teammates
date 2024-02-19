@@ -3,7 +3,6 @@ package teammates.it.sqllogic.core;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -141,27 +140,4 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
-
-    private Course getTypicalCourse() {
-        return new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "teammates");
-    }
-
-    private Student getTypicalStudent() {
-        return new Student(course, "student-name", "valid-student@email.tmt", "comments");
-    }
-
-    private Instructor getTypicalInstructor() {
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-
-        return new Instructor(course, "instructor-name", "valid-instructor@email.tmt",
-                true, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
-    }
-
-    private Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
-    }
-
 }

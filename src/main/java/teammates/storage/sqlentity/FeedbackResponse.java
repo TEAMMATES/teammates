@@ -15,6 +15,7 @@ import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
 import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
 import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
@@ -132,7 +133,7 @@ public abstract class FeedbackResponse extends BaseEntity {
             );
             break;
         case RANK_RECIPIENTS:
-            feedbackResponse = new FeedbackContributionResponse(
+            feedbackResponse = new FeedbackRankRecipientsResponse(
                 feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
