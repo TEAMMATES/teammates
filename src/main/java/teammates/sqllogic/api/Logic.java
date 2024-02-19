@@ -1285,6 +1285,33 @@ public class Logic {
     }
 
     /**
+     * Creates a feedback response.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return created feedback response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackResponse != null;
+        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
+    }
+
+    /**
+     * Deletes a feedback response and cascades its associated comments.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
+        assert feedbackResponse != null;
+        feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
+    }
+
+    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
