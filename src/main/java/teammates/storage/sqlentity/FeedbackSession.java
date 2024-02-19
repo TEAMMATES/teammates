@@ -234,10 +234,6 @@ public class FeedbackSession extends BaseEntity {
         this.course = course;
     }
 
-    public String getCourseId() {
-        return course.getId();
-    }
-
     public String getName() {
         return name;
     }

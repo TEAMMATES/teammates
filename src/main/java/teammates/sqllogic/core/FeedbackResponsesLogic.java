@@ -67,16 +67,6 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Gets a single question corresponding to question-giver-receiver.
-     */
-    public FeedbackResponse getFeedbackResponseForQuestionGiverRecipient(
-            UUID feedbackQuestionId,
-            String giver,
-            String recipient) {
-        return frDb.getFeedbackResponseForQuestionGiverRecipient(feedbackQuestionId, giver, recipient);
-    }
-
-    /**
      * Returns true if the responses of the question are visible to students.
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestion question) {

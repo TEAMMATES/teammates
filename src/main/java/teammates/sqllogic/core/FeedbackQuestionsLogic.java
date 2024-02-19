@@ -99,13 +99,6 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets the unique feedback question based on sessionId and questionNumber.
-     */
-    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
-        return fqDb.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
-    }
-
-    /**
      * Gets a {@link List} of every FeedbackQuestion in the given session.
      */
     public List<FeedbackQuestion> getFeedbackQuestionsForSession(FeedbackSession feedbackSession) {

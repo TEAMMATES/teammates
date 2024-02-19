@@ -29,7 +29,7 @@ import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
-import teammates.sqllogic.api.LogicExtension;
+import teammates.sqllogic.api.Logic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -63,7 +63,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     SqlDataBundle typicalBundle = getTypicalSqlDataBundle();
-    LogicExtension logic = new LogicExtension();
+    Logic logic = Logic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
