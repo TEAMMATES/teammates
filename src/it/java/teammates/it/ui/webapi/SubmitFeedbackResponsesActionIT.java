@@ -11,10 +11,10 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import jakarta.persistence.NoResultException;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -126,12 +126,14 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private void setInstructorDeadline(FeedbackSession session,
                                        Instructor instructor,
                                        int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         String sessionName = session.getName();
         String courseId = session.getCourseId();
 
         DeadlineExtension deadline = 
                 new DeadlineExtension(instructor, session, TimeHelper.getInstantDaysOffsetFromNow(days));
+        logic.createDeadlineExtension(deadline);
+
         List<DeadlineExtension> deadlines = new ArrayList<DeadlineExtension>();
         deadlines.add(deadline);
 
@@ -143,16 +145,20 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private void setStudentDeadline(FeedbackSession session, Student student, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         String sessionName = session.getName();
         String courseId = session.getCourseId();
 
         DeadlineExtension deadline = 
                 new DeadlineExtension(student, session, TimeHelper.getInstantDaysOffsetFromNow(days));
+        logic.createDeadlineExtension(deadline);
 
+        List<DeadlineExtension> deadlines = new ArrayList<DeadlineExtension>();
+        deadlines.add(deadline);
+        
         session.setName(sessionName);
         session.getCourse().setId(courseId);
-        session.setDeadlineExtensions(Arrays.asList(deadline));
+        session.setDeadlineExtensions(deadlines);
         
         logic.updateFeedbackSession(session);
     }
@@ -359,7 +365,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 40);
 
-        int questionNumber = 2;
+        int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
@@ -432,7 +438,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     @Test
     public void testAccessControl_submissionIsNotOpen_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student2InCourse1");
         setStartTime(session, 10);
         setEndTime(session, 20);
@@ -446,8 +452,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     @Test
     public void testAccessControl_submissionBeforeEndTimeBeforeDeadline_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session2InCourse1");
-        Student student = loginStudent("student3InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student2InCourse1");
         setEndTime(session, 7);
 
         int questionNumber = 1;
@@ -483,7 +489,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     @Test
     public void testAccessControl_submissionAfterDeadline_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, -20);
         setInstructorDeadline(session, instructor, -10);
@@ -523,8 +529,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     @Test
     public void testAccessControl_studentSubmissionLoggedOut_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse2");
-        Student student = getStudent("student1InCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student2InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
@@ -536,15 +542,15 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     @Test
     public void testAccessControl_studentSubmissionLoggedInAsInstructor_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse2");
-        Student student = getStudent("student1InCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student2InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
         int questionNumber = 1;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
-        loginInstructor("instructor2OfCourse2");
+        loginInstructor("instructor1OfCourse1");
         verifyCannotAccess(submissionParams);
     }
 

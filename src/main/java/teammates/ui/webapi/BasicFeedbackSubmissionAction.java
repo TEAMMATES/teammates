@@ -1,11 +1,14 @@
 package teammates.ui.webapi;
 
+import org.hibernate.sql.results.LoadingLogger_.logger;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -299,6 +302,8 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     void verifySessionOpenExceptForModeration(FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        boolean isOpened = feedbackSession.isOpened();
+        boolean isInGrace = feedbackSession.isInGracePeriod();
 
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
@@ -312,7 +317,8 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession) throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-
+        boolean isOpened = feedbackSession.isOpened();
+        boolean isInGrace = feedbackSession.isInGracePeriod();
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
         }
