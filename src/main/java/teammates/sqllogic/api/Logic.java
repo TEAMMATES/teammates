@@ -1443,7 +1443,7 @@ public class Logic {
     public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
     }
-    
+
     /**
      * Creates or updates search document for the given student.
      *
