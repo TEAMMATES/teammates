@@ -18,6 +18,7 @@ import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -174,6 +175,56 @@ public final class FeedbackResponsesLogic {
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
                 feedbackQuestionId, teamName));
         return responses;
+    }
+
+    /**
+     * Updates a non-null feedback response by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     * (e.g. associated response ID, giverSection and recipientSection).
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
+        FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);
+
+        boolean isGiverSectionChanged = !oldResponse.getGiverSection().equals(newResponse.getGiverSection());
+        boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
+
+        if (isGiverSectionChanged || isRecipientSectionChanged) {
+            List<FeedbackResponseComment> oldResponseComments =
+                    frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
+            for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
+                if (isGiverSectionChanged) {
+                    oldResponseComment.setGiverSection(newResponse.getGiverSection());
+                }
+
+                if (isRecipientSectionChanged) {
+                    oldResponseComment.setRecipientSection(newResponse.getRecipientSection());
+                }
+
+                frcLogic.updateFeedbackResponseComment(oldResponseComment);
+            }
+
+        }
+
+        return newResponse;
+    }
+
+    /**
+     * Deletes a feedback response cascade its associated feedback response comments.
+     * Implicitly makes use of CascadeType.REMOVE.
+     */
+    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
+        frDb.deleteFeedbackResponse(feedbackResponse);
     }
 
     /**
