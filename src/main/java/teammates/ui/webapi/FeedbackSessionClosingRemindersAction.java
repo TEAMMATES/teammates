@@ -40,7 +40,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
             }
         }
 
-        executeForDatastorExtendedDeadlines();
+        executeForDatastoreExtendedDeadlines();
 
         // Group deadline extensions by feedback sessions
         Collection<List<DeadlineExtension>> groupedDeadlineExtensions =
@@ -88,7 +88,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
         }
     }
 
-    private void executeForDatastorExtendedDeadlines() {
+    private void executeForDatastoreExtendedDeadlines() {
         // group deadline extensions by courseId and feedbackSessionName
         Collection<List<DeadlineExtensionAttributes>> groupedDeadlineExtensionsAttributes =
                 logic.getDeadlineExtensionsPossiblyNeedingClosingEmail()
