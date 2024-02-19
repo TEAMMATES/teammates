@@ -1484,4 +1484,11 @@ public class Logic {
 
         return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
     }
+
+    /**
+     * Returns a list of sessions that are going to open soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+    }
 }
