@@ -19,6 +19,7 @@ import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -74,16 +75,13 @@ public final class FeedbackQuestionsLogic {
      * @return the created question
      * @throws InvalidParametersException if the question is invalid
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
+    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert feedbackQuestion != null;
 
-        if (!feedbackQuestion.isValid()) {
-            throw new InvalidParametersException(feedbackQuestion.getInvalidityInfo());
-        }
+        FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
 
         List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());
-
-        FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
 
         adjustQuestionNumbers(questionsBefore.size() + 1, createdQuestion.getQuestionNumber(), questionsBefore);
         return createdQuestion;
