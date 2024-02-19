@@ -124,8 +124,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             return;
         }
 
-        List<FeedbackResponseComment> responseComments = getFeedbackResponseCommentEntitiesForGiverInCourse(courseId,
-                oldEmail);
+        List<FeedbackResponseComment> responseComments =
+                getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setGiver(updatedEmail);
@@ -145,8 +145,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             return;
         }
 
-        List<FeedbackResponseComment> responseComments = getFeedbackResponseCommentEntitiesForLastEditorInCourse(
-                courseId, oldEmail);
+        List<FeedbackResponseComment> responseComments =
+                getFeedbackResponseCommentEntitiesForLastEditorInCourse(courseId, oldEmail);
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setLastEditorEmail(updatedEmail);
@@ -165,8 +165,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
         cq.select(root)
                 .where(cb.and(
-                        cb.equal(cJoin.get("id"), courseId),
-                        cb.equal(root.get("giver"), giver)));
+                    cb.equal(cJoin.get("id"), courseId),
+                    cb.equal(root.get("giver"), giver)));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }
@@ -183,8 +183,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
         cq.select(root)
                 .where(cb.and(
-                        cb.equal(cJoin.get("id"), courseId),
-                        cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
+                    cb.equal(cJoin.get("id"), courseId),
+                    cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }
