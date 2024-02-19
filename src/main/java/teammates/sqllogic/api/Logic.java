@@ -1332,6 +1332,25 @@ public class Logic {
     }
 
     /**
+     * Updates a feedback response and comments by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponse != null;
+
+        return feedbackResponsesLogic.updateFeedbackResponseCascade(feedbackResponse);
+    }
+
+    /**
      * Checks whether there are responses for a question.
      */
     public boolean areThereResponsesForQuestion(UUID questionId) {
