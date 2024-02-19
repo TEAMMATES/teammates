@@ -37,6 +37,19 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         return GET;
     }
 
+    private FeedbackSession generatePreparedSession() {
+        long oneDay = 60 * 60 * 24;
+        Instant now = Instant.now();
+        Duration noGracePeriod = Duration.between(now, now);
+
+        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        session.setStartTime(now.minusSeconds(oneDay * 3));
+        session.setEndTime(now.minusSeconds(oneDay));
+        session.setGracePeriod(noGracePeriod);
+
+        return session;
+    }
+
     @Test
     @Override
     protected void testAccessControl() throws Exception {
@@ -61,22 +74,15 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     }
 
     private void textExecute_typicalSuccess1() {
-        long oneDay = 60 * 60 * 24;
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
-        Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession session = generatePreparedSession();
+
         session.setPublishedEmailSent(false);
-        session.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently published
+        session.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently publish
 
-        session.setStartTime(now.minusSeconds(oneDay * 3));
-        session.setEndTime(now.minusSeconds(oneDay));
-        session.setGracePeriod(noGracePeriod);
-
-        String[] params = {};
-
-        FeedbackSessionPublishedRemindersAction action = getAction(params);
+        FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
@@ -86,22 +92,14 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     }
 
     private void textExecute_typicalSuccess2() {
-        long oneDay = 60 * 60 * 24;
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
-        Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession session = generatePreparedSession();
         session.setPublishedEmailSent(false);
         session.setResultsVisibleFromTime(now.plusSeconds(thirtyMin));
 
-        session.setStartTime(now.minusSeconds(oneDay * 3));
-        session.setEndTime(now.minusSeconds(oneDay));
-        session.setGracePeriod(noGracePeriod);
-
-        String[] params = {};
-
-        FeedbackSessionPublishedRemindersAction action = getAction(params);
+        FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
@@ -111,23 +109,16 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     }
 
     private void textExecute_typicalSuccess3() {
-        long oneDay = 60 * 60 * 24;
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
-        Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession session = generatePreparedSession();
+
         session.setPublishedEmailEnabled(false);
         session.setPublishedEmailSent(false);
-        session.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently published
+        session.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently publish
 
-        session.setStartTime(now.minusSeconds(oneDay * 3));
-        session.setEndTime(now.minusSeconds(oneDay));
-        session.setGracePeriod(noGracePeriod);
-
-        String[] params = {};
-
-        FeedbackSessionPublishedRemindersAction action = getAction(params);
+        FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
@@ -137,21 +128,12 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     }
 
     private void textExecute_typicalSuccess4() {
-        long oneDay = 60 * 60 * 24;
-        Instant now = Instant.now();
-        Duration noGracePeriod = Duration.between(now, now);
+        FeedbackSession session = generatePreparedSession();
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
         session.setPublishedEmailSent(false);
         session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER); // special time
 
-        session.setStartTime(now.minusSeconds(oneDay * 3));
-        session.setEndTime(now.minusSeconds(oneDay));
-        session.setGracePeriod(noGracePeriod);
-
-        String[] params = {};
-
-        FeedbackSessionPublishedRemindersAction action = getAction(params);
+        FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
