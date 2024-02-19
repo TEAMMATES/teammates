@@ -40,6 +40,7 @@ import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
 import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
 import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
 import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
@@ -85,7 +86,7 @@ public final class HibernateUtil {
             FeedbackContributionResponse.class,
             FeedbackMcqResponse.class,
             FeedbackMsqResponse.class,
-            FeedbackNumericalScaleQuestion.class,
+            FeedbackNumericalScaleResponse.class,
             FeedbackRankOptionsResponse.class,
             FeedbackRankRecipientsResponse.class,
             FeedbackRubricResponse.class,
