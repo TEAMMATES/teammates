@@ -514,7 +514,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private List<FeedbackQuestion> getQuestionsForSession(
-            FeedbackSession feedbackSession, String courseId, @Nullable UUID questionId) {
+            FeedbackSession feedbackSession, @Nullable UUID questionId) {
         if (questionId == null) {
             return fqLogic.getFeedbackQuestionsForSession(feedbackSession);
         }
@@ -613,8 +613,8 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> missingResponses = Collections.emptyList();
         if (isCourseWide) {
             missingResponses = buildMissingResponses(
-                    courseId, feedbackSession, instructor, responseGiverVisibilityTable,
-                    responseRecipientVisibilityTable, relatedQuestions, existingResponses, roster, sectionName);
+                    instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedQuestions,
+                    existingResponses, roster, sectionName);
         }
         RequestTracer.checkRemainingTime();
 
@@ -643,7 +643,7 @@ public final class FeedbackResponsesLogic {
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, courseId, questionId);
+        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId);
         RequestTracer.checkRemainingTime();
 
         // load response(s)
@@ -681,7 +681,7 @@ public final class FeedbackResponsesLogic {
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, courseId, questionId);
+        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId);
         RequestTracer.checkRemainingTime();
 
         // load response(s)
@@ -717,10 +717,8 @@ public final class FeedbackResponsesLogic {
      * @return a list of missing responses for the session.
      */
     private List<FeedbackResponse> buildMissingResponses(
-            String courseId, FeedbackSession feedbackSession, Instructor instructor,
-            Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
-            Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable,
-            List<FeedbackQuestion> relatedQuestions,
+            Instructor instructor, Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
+            Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> existingResponses, SqlCourseRoster courseRoster, @Nullable String sectionName) {
 
         // first get all possible giver recipient pairs
