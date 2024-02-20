@@ -153,7 +153,7 @@ public final class FeedbackResponseCommentsLogic {
      *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the feedback session name
-     * @param section if null, will retrieve all comments in the session
+     * @param sectionName if null, will retrieve all comments in the session
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentForSessionInSection(
@@ -168,7 +168,7 @@ public final class FeedbackResponseCommentsLogic {
      * Gets all feedback response comments for a question in a section.
      *
      * @param questionId the ID of the question
-     * @param section if null, will retrieve all comments for the question
+     * @param sectionName if null, will retrieve all comments for the question
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentForQuestionInSection(

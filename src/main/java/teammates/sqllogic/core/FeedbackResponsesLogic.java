@@ -713,7 +713,7 @@ public final class FeedbackResponsesLogic {
      * @param relatedQuestions the relevant questions
      * @param existingResponses existing responses
      * @param courseRoster the course roster
-     * @param section if not null, will only build missing responses for the section
+     * @param sectionName if not null, will only build missing responses for the section
      * @return a list of missing responses for the session.
      */
     private List<FeedbackResponse> buildMissingResponses(
@@ -978,7 +978,7 @@ public final class FeedbackResponsesLogic {
      * Gets all responses given to/from a section for a question.
      *
      * @param feedbackQuestionId the question UUID
-     * @param section if null, will retrieve all responses for the question
+     * @param sectionName if null, will retrieve all responses for the question
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(

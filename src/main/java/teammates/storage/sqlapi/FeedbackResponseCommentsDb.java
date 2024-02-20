@@ -20,7 +20,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.ListJoin;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
 
 /**
  * Handles CRUD operations for feedbackResponseComments.
@@ -259,7 +258,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
         Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-        ListJoin<Course, Section> sectionsJoin = cJoin.joinList("sections");  
+        ListJoin<Course, Section> sectionsJoin = cJoin.joinList("sections");
 
         cq.select(root)
                 .where(cb.and(
