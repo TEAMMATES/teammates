@@ -1,4 +1,4 @@
-package teammates.e2e.sql;
+package teammates.e2e.cases.sql;
 
 import java.util.ArrayList;
 import java.util.List;
