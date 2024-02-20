@@ -1215,6 +1215,15 @@ public class Logic {
     }
 
     /**
+     * Creates or updates search document for the given account request.
+     *
+     * @see AccountRequestsLogic#putDocument(AccountRequest)
+     */
+    public void putAccountRequestDocument(AccountRequest accountRequest) throws SearchServiceException {
+        accountRequestLogic.putDocument(accountRequest);
+    }
+
+    /**
      * Removes the given data bundle from the database.
      */
     public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
@@ -1285,6 +1294,33 @@ public class Logic {
     }
 
     /**
+     * Creates a feedback response.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return created feedback response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackResponse != null;
+        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
+    }
+
+    /**
+     * Deletes a feedback response and cascades its associated comments.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
+        assert feedbackResponse != null;
+        feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
+    }
+
+    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
@@ -1320,6 +1356,25 @@ public class Logic {
             FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
             throws EntityDoesNotExistException {
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
+    }
+
+    /**
+     * Updates a feedback response and comments by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponse != null;
+
+        return feedbackResponsesLogic.updateFeedbackResponseCascade(feedbackResponse);
     }
 
     /**
@@ -1437,5 +1492,12 @@ public class Logic {
         assert queryString != null;
 
         return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Returns a list of sessions that are going to open soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
     }
 }

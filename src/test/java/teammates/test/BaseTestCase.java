@@ -29,6 +29,7 @@ import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -182,6 +183,15 @@ public class BaseTestCase {
                 FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(),
                 new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
                 new FeedbackTextQuestionDetails("test question text"));
+    }
+
+    protected FeedbackResponseComment getTypicalResponseComment(Long id) {
+        FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
+                FeedbackParticipantType.STUDENTS, null, null, "",
+                false, false,
+                null, null, null);
+        comment.setId(id);
+        return comment;
     }
 
     /**
