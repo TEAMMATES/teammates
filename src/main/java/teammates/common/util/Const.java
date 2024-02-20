@@ -30,6 +30,7 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
     public static final Section DEFAULT_SECTION_ENTITY = new Section(null, DEFAULT_SECTION);
+    public static final Section DEFAULT_SQL_SECTION = null;
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
