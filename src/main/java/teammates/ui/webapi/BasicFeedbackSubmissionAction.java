@@ -321,47 +321,44 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the section of a recipient.
      */
-    String getRecipientSection(
+    Section getRecipientSection(
             String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             String recipientIdentifier) {
-        if (!isCourseMigrated(courseId)) {
-            return getDatastoreRecipientSection(courseId, giverType, recipientType, recipientIdentifier);
-        }
 
         switch (recipientType) {
         case SELF:
             switch (giverType) {
             case INSTRUCTORS:
             case SELF:
-                return Const.DEFAULT_SECTION;
+                return Const.DEFAULT_SQL_SECTION;
             case TEAMS:
             case TEAMS_IN_SAME_SECTION:
                 Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-                return section == null ? Const.DEFAULT_SECTION : section.getName();
+                return section == null ? Const.DEFAULT_SQL_SECTION : section;
             case STUDENTS:
             case STUDENTS_IN_SAME_SECTION:
                 Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? Const.DEFAULT_SECTION : student.getSectionName();
+                return student == null ? Const.DEFAULT_SQL_SECTION : student.getSection();
             default:
                 assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
             }
         case INSTRUCTORS:
         case NONE:
-            return Const.DEFAULT_SECTION;
+            return Const.DEFAULT_SQL_SECTION;
         case TEAMS:
         case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:
         case OWN_TEAM:
             Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-            return section == null ? Const.DEFAULT_SECTION : section.getName();
+            return section == null ? Const.DEFAULT_SQL_SECTION : section;
         case STUDENTS:
         case STUDENTS_EXCLUDING_SELF:
         case STUDENTS_IN_SAME_SECTION:
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? Const.DEFAULT_SECTION : student.getTeamName();
+            return student == null ? Const.DEFAULT_SQL_SECTION : student.getSection();
         default:
             assert false : "Unknown recipient type " + recipientType;
             return null;
