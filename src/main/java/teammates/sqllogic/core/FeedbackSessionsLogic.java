@@ -415,4 +415,24 @@ public final class FeedbackSessionsLogic {
                 sessionsToSendEmailsFor.size()));
         return sessionsToSendEmailsFor;
     }
+    
+    /**
+     * Returns a list of sessions that are going to open in 24 hours.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        List<FeedbackSession> requiredSessions = new ArrayList<>();
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
+                    && session.getCourse().getDeletedAt() == null) {
+                requiredSessions.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
+    }
 }
