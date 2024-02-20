@@ -240,6 +240,29 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
+     * Gets a list of undeleted feedback sessions which open in the future
+     * and possibly need a opening soon email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
+        return getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail().stream()
+                .filter(session -> session.getDeletedAt() == null)
+                .collect(Collectors.toList());
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                    cb.greaterThan(root.get("startTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
+                    cb.equal(root.get("isOpeningSoonEmailSent"), false)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
      * and possibly need a closing soon email to be sent.
      */
