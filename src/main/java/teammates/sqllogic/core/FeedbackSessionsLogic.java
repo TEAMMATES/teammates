@@ -415,7 +415,7 @@ public final class FeedbackSessionsLogic {
                 sessionsToSendEmailsFor.size()));
         return sessionsToSendEmailsFor;
     }
-    
+
     /**
      * Returns a list of sessions that are going to open in 24 hours.
      */
