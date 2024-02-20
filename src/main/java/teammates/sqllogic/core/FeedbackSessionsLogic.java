@@ -429,4 +429,24 @@ public final class FeedbackSessionsLogic {
                 requiredSessions.size()));
         return requiredSessions;
     }
+
+    /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        List<FeedbackSession> requiredSessions = new ArrayList<>();
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            // is session closed in the past 1 hour
+            if (session.isClosedWithinPastHour()
+                    && session.getCourse().getDeletedAt() == null) {
+                requiredSessions.add(session);
+            }
+        }
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
+    }
 }
