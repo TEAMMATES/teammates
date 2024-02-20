@@ -1,0 +1,436 @@
+{
+    "accounts": {
+        "SHome.instr": {
+            "googleId": "tm.e2e.SHome.instr",
+            "name": "Teammates Test",
+            "email": "SHome.instr@gmail.tmt",
+            "id": "00000000-0000-4000-8000-000000000001"
+        },
+        "SHome.student": {
+            "googleId": "tm.e2e.SHome.student",
+            "name": "Alice B",
+            "email": "SHome.student@gmail.tmt",
+            "id": "00000000-0000-4000-8000-000000000002"
+        }
+    },
+    "accountRequests": {},
+    "courses": {
+        "SHome.CS2104": {
+            "id": "tm.e2e.SHome.CS2104",
+            "name": "Programming Language Concepts",
+            "institute": "TEAMMATES Test Institute 1",
+            "timeZone": "Asia/Singapore"
+        },
+        "SHome.CS1101": {
+            "id": "tm.e2e.SHome.CS1101",
+            "name": "Programming Methodology",
+            "institute": "TEAMMATES Test Institute 1",
+            "timeZone": "Asia/Singapore"
+        },
+        "SHome.CS4215": {
+            "id": "tm.e2e.SHome.CS4215",
+            "name": "Programming Language Implementation",
+            "institute": "TEAMMATES Test Institute 1",
+            "timeZone": "Asia/Singapore"
+        },
+        "SHome.CS4221": {
+            "id": "tm.e2e.SHome.CS4221",
+            "name": "Database Design",
+            "institute": "TEAMMATES Test Institute 1",
+            "timeZone": "Asia/Singapore"
+        }
+    },
+    "instructors": {
+        "SHome.instr.CS2104": {
+            "name": "Teammates Test",
+            "email": "SHome.instr@gmail.tmt",
+            "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+            "isDisplayedToStudents": false,
+            "privileges": {
+                "courseLevel": {
+                    "canViewStudentInSections": true,
+                    "canSubmitSessionInSections": true,
+                    "canModifySessionCommentsInSections": true,
+                    "canModifyCourse": true,
+                    "canViewSessionInSections": true,
+                    "canModifySession": true,
+                    "canModifyStudent": true,
+                    "canModifyInstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            },
+            "id": "00000000-0000-4000-8000-000000000501",
+            "course": {
+                "id": "tm.e2e.SHome.CS2104"
+            },
+            "account": {
+                "id": "00000000-0000-4000-8000-000000000001"
+            },
+            "displayName": "Co-owner"
+        },
+        "SHome.instr.CS1101": {
+            "name": "Teammates Test",
+            "email": "SHome.instr@gmail.tmt",
+            "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+            "isDisplayedToStudents": false,
+            "privileges": {
+                "courseLevel": {
+                    "canViewStudentInSections": true,
+                    "canSubmitSessionInSections": true,
+                    "canModifySessionCommentsInSections": true,
+                    "canModifyCourse": true,
+                    "canViewSessionInSections": true,
+                    "canModifySession": true,
+                    "canModifyStudent": true,
+                    "canModifyInstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            },
+            "id": "00000000-0000-4000-8000-000000000502",
+            "course": {
+                "id": "tm.e2e.SHome.CS1101"
+            },
+            "account": {
+                "id": "00000000-0000-4000-8000-000000000001"
+            },
+            "displayName": "Co-owner"
+        },
+        "SHome.instr.CS4215": {
+            "name": "Teammates Test",
+            "email": "SHome.instr@gmail.tmt",
+            "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+            "isDisplayedToStudents": false,
+            "privileges": {
+                "courseLevel": {
+                    "canViewStudentInSections": true,
+                    "canSubmitSessionInSections": true,
+                    "canModifySessionCommentsInSections": true,
+                    "canModifyCourse": true,
+                    "canViewSessionInSections": true,
+                    "canModifySession": true,
+                    "canModifyStudent": true,
+                    "canModifyInstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            },
+            "id": "00000000-0000-4000-8000-000000000503",
+            "course": {
+                "id": "tm.e2e.SHome.CS4215"
+            },
+            "account": {
+                "id": "00000000-0000-4000-8000-000000000001"
+            },
+            "displayName": "Co-owner"
+        },
+        "SHome.instr.CS4221": {
+            "name": "Teammates Test",
+            "email": "SHome.instr@gmail.tmt",
+            "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+            "isDisplayedToStudents": false,
+            "privileges": {
+                "courseLevel": {
+                    "canViewStudentInSections": true,
+                    "canSubmitSessionInSections": true,
+                    "canModifySessionCommentsInSections": true,
+                    "canModifyCourse": true,
+                    "canViewSessionInSections": true,
+                    "canModifySession": true,
+                    "canModifyStudent": true,
+                    "canModifyInstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            },
+            "id": "00000000-0000-4000-8000-000000000504",
+            "course": {
+                "id": "tm.e2e.SHome.CS4221"
+            },
+            "account": {
+                "id": "00000000-0000-4000-8000-000000000001"
+            },
+            "displayName": "Co-owner"
+        }
+    },
+    "students": {
+        "SHome.student@SHome.CS2104": {
+          "id": "00000000-0000-4000-8000-000000000801",
+          "account": {},
+          "email": "SHome.student@gmail.tmt",
+          "course": {
+            "id": "tm.e2e.SHome.CS2104"
+          },
+          "name": "Amy Betsy</option></td></div>'\"",
+          "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+          "team": {
+            "id": "00000000-0000-4000-8000-000000000201"
+          }
+        },
+        "SHome.student@SHome.CS1101": {
+          "id": "00000000-0000-4000-8000-000000000802",
+          "account": {
+            "id": "00000000-0000-4000-8000-000000000002"
+          },
+          "email": "SHome.student@gmail.tmt",
+          "course": {
+            "id": "tm.e2e.SHome.CS1101"
+          },
+          "name": "Amy Betsy</option></td></div>'\"",
+          "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+          "team": {
+            "id": "00000000-0000-4000-8000-000000000202"
+          }
+        },
+        "SHome.student@SHome.CS4215": {
+          "id": "00000000-0000-4000-8000-000000000803",
+          "account": {
+            "id": "00000000-0000-4000-8000-000000000002"
+          },
+          "email": "SHome.student@gmail.tmt",
+          "course": {
+            "id": "tm.e2e.SHome.CS4215"
+          },
+          "name": "Amy Betsy</option></td></div>'\"",
+          "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+          "team": {
+            "id": "00000000-0000-4000-8000-000000000203"
+          }
+        },
+        "SHome.student@SHome.CS4221": {
+          "id": "00000000-0000-4000-8000-000000000804",
+          "account": {
+            "id": "00000000-0000-4000-8000-000000000002"
+          },
+          "email": "SHome.student@gmail.tmt",
+          "course": {
+            "id": "tm.e2e.SHome.CS4221"
+          },
+          "name": "Amy Betsy",
+          "comments": "This student's name is Amy Betsy",
+          "team": {
+            "id": "00000000-0000-4000-8000-000000000204"
+          }
+        }
+    },
+    "sections": {
+        "ProgrammingLanguageConceptsNone": {
+            "id": "00000000-0000-4000-8000-000000000101",
+            "course": {
+                "id": "tm.e2e.SHome.CS2104"
+            },
+            "name": "None"
+        },
+        "ProgrammingMethodologyNone": {
+            "id": "00000000-0000-4000-8000-000000000102",
+            "course": {
+                "id": "tm.e2e.SHome.CS1101"
+            },
+            "name": "None"
+        },
+        "ProgrammingLanguageImplementationNone": {
+            "id": "00000000-0000-4000-8000-000000000103",
+            "course": {
+                "id": "tm.e2e.SHome.CS4215"
+            },
+            "name": "None"
+        },
+        "DatabaseDesignNone": {
+            "id": "00000000-0000-4000-8000-000000000104",
+            "course": {
+                "id": "tm.e2e.SHome.CS4221"
+            },
+            "name": "None"
+        }
+    },
+    "teams": {
+        "ProgrammingLanguageConceptsNone": {
+            "id": "00000000-0000-4000-8000-000000000201",
+            "section": {
+                "id": "00000000-0000-4000-8000-000000000101"
+            },
+            "name": "Team 1</td></div>'\""
+        },
+        "ProgrammingMethodologyNone": {
+            "id": "00000000-0000-4000-8000-000000000202",
+            "section": {
+                "id": "00000000-0000-4000-8000-000000000102"
+            },
+            "name": "Team 1</td></div>'\""
+        },
+        "ProgrammingLanguageImplementationNone": {
+            "id": "00000000-0000-4000-8000-000000000203",
+            "section": {
+                "id": "00000000-0000-4000-8000-000000000103"
+            },
+            "name": "Team 1</td></div>'\""
+        },
+        "DatabaseDesignNone": {
+            "id": "00000000-0000-4000-8000-000000000204",
+            "section": {
+                "id": "00000000-0000-4000-8000-000000000104"
+            },
+            "name": "Team 1</td></div>'\""
+        }
+    },
+    "feedbackSessions": {
+        "SHome.CS2104:First Feedback Session": {
+            "creatorEmail": "SHome.instr@gmail.tmt",
+            "instructions": "Please please fill in the following questions.",
+            "createdTime": "2012-03-20T23:59:00Z",
+            "startTime": "2012-04-01T16:00:00Z",
+            "endTime": "2027-04-30T16:00:00Z",
+            "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
+            "resultsVisibleFromTime": "2027-05-01T16:00:00Z",
+            "timeZone": "Asia/Singapore",
+            "gracePeriod": 10,
+            "sentClosingEmail": false,
+            "sentClosedEmail": false,
+            "sentPublishedEmail": false,
+            "isOpeningEmailEnabled": true,
+            "isClosingEmailEnabled": true,
+            "isPublishedEmailEnabled": true,
+            "studentDeadlines": {},
+            "instructorDeadlines": {},
+            "id": "00000000-0000-4000-8000-000000000701",
+            "course": {
+                "id": "tm.e2e.SHome.CS2104"
+            },
+            "name": "First Feedback Session"
+        },
+        "SHome.CS2104:Graced Feedback Session": {
+            "creatorEmail": "SHome.instr@gmail.tmt",
+            "instructions": "Please please fill in the following questions.",
+            "createdTime": "2012-03-20T23:59:00Z",
+            "startTime": "2012-04-01T16:00:00Z",
+            "endTime": "2013-04-30T16:00:00Z",
+            "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
+            "resultsVisibleFromTime": "2027-05-01T16:00:00Z",
+            "timeZone": "Asia/Singapore",
+            "gracePeriod": 1440,
+            "sentClosingEmail": false,
+            "sentClosedEmail": false,
+            "sentPublishedEmail": false,
+            "isOpeningEmailEnabled": true,
+            "isClosingEmailEnabled": true,
+            "isPublishedEmailEnabled": true,
+            "studentDeadlines": {},
+            "instructorDeadlines": {},
+            "id": "00000000-0000-4000-8000-000000000702",
+            "course": {
+                "id": "tm.e2e.SHome.CS2104"
+            },
+            "name": "Graced Feedback Session"
+        },
+        "SHome.CS2104:No Question Feedback Session": {
+            "creatorEmail": "SHome.instr@gmail.tmt",
+            "instructions": "Please please fill in the following questions.",
+            "createdTime": "2012-03-20T23:59:00Z",
+            "startTime": "2012-04-01T16:00:00Z",
+            "endTime": "2027-04-30T16:00:00Z",
+            "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
+            "resultsVisibleFromTime": "2027-05-01T16:00:00Z",
+            "timeZone": "Asia/Singapore",
+            "gracePeriod": 0,
+            "sentClosingEmail": false,
+            "sentClosedEmail": false,
+            "sentPublishedEmail": false,
+            "isOpeningEmailEnabled": true,
+            "isClosingEmailEnabled": true,
+            "isPublishedEmailEnabled": true,
+            "studentDeadlines": {},
+            "instructorDeadlines": {},
+            "id": "00000000-0000-4000-8000-000000000703",
+            "course": {
+                "id": "tm.e2e.SHome.CS2104"
+            },
+            "name": "No Question Feedback Session"
+        },
+        "SHome.CS2104:Future Feedback Session": {
+            "creatorEmail": "SHome.instr@gmail.tmt",
+            "instructions": "Please please fill in the following questions.",
+            "createdTime": "2012-03-20T23:59:00Z",
+            "startTime": "2034-04-01T16:00:00Z",
+            "endTime": "2035-04-30T16:00:00Z",
+            "sessionVisibleFromTime": "2034-03-28T16:00:00Z",
+            "resultsVisibleFromTime": "2036-05-01T16:00:00Z",
+            "timeZone": "Asia/Singapore",
+            "gracePeriod": 0,
+            "sentClosingEmail": false,
+            "sentClosedEmail": false,
+            "sentPublishedEmail": false,
+            "isOpeningEmailEnabled": true,
+            "isClosingEmailEnabled": true,
+            "isPublishedEmailEnabled": true,
+            "studentDeadlines": {},
+            "instructorDeadlines": {},
+            "id": "00000000-0000-4000-8000-000000000704",
+            "course": {
+                "id": "tm.e2e.SHome.CS2104"
+            },
+            "name": "Future Feedback Session"
+        },
+        "SHome.CS2104:Closed Feedback Session": {
+            "creatorEmail": "SHome.instr@gmail.tmt",
+            "instructions": "Please please fill in the following questions.",
+            "createdTime": "2012-03-20T23:59:00Z",
+            "startTime": "2012-04-01T16:00:00Z",
+            "endTime": "2012-04-30T16:00:00Z",
+            "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
+            "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
+            "timeZone": "Asia/Singapore",
+            "gracePeriod": 0,
+            "sentClosingEmail": false,
+            "sentClosedEmail": false,
+            "sentPublishedEmail": false,
+            "isOpeningEmailEnabled": true,
+            "isClosingEmailEnabled": true,
+            "isPublishedEmailEnabled": true,
+            "studentDeadlines": {},
+            "instructorDeadlines": {},
+            "id": "00000000-0000-4000-8000-000000000705",
+            "course": {
+                "id": "tm.e2e.SHome.CS2104"
+            },
+            "name": "Closed Feedback Session"
+        },
+        "SHome.CS4221:Session with no Student Questions": {
+            "creatorEmail": "SHome.instr@gmail.tmt",
+            "instructions": "Please please fill in the following questions.",
+            "createdTime": "2012-03-20T23:59:00Z",
+            "startTime": "2012-04-01T16:00:00Z",
+            "endTime": "2035-04-30T16:00:00Z",
+            "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
+            "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
+            "timeZone": "Asia/Singapore",
+            "gracePeriod": 0,
+            "sentClosingEmail": false,
+            "sentClosedEmail": false,
+            "sentPublishedEmail": false,
+            "isOpeningEmailEnabled": true,
+            "isClosingEmailEnabled": true,
+            "isPublishedEmailEnabled": true,
+            "studentDeadlines": {},
+            "instructorDeadlines": {},
+            "id": "00000000-0000-4000-8000-000000000706",
+            "course": {
+                "id": "tm.e2e.SHome.CS4221"
+            },
+            "name": "Session without Student Questions"
+        }
+    },
+    "feedbackQuestions": {},
+    "notifications": {
+        "notification1": {
+            "id": "00000000-0000-4000-8000-000000001101",
+            "startTime": "2011-01-01T00:00:00Z",
+            "endTime": "2099-01-01T00:00:00Z",
+            "style": "DANGER",
+            "targetUser": "GENERAL",
+            "title": "A deprecation note",
+            "message": "<p>Deprecation happens in three minutes</p>",
+            "shown": false
+        }
+    }
+}
