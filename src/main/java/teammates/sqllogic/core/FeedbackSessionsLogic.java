@@ -430,7 +430,7 @@ public final class FeedbackSessionsLogic {
         return requiredSessions;
     }
 
-     /**
+    /**
      * Returns a list of sessions that were closed within past hour.
      */
     public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
