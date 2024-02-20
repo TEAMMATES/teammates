@@ -456,7 +456,7 @@ public class FeedbackSession extends BaseEntity {
      * This occurs only when the current time is after both the deadline and the grace period.
      */
     public boolean isClosed() {
-        return !isOpened() && Instant.now().isAfter(endTime);
+        return Instant.now().isAfter(endTime.plus(gracePeriod));
     }
 
     /**
@@ -582,5 +582,16 @@ public class FeedbackSession extends BaseEntity {
         return now.isBefore(startTime)
                 && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
                 && difference.compareTo(Duration.ofHours(hours)) < 0;
+    }
+
+    /**
+     * Checks if the session closed some time in the last one hour from calling this function.
+     *
+     * @return true if the session closed within the past hour; false otherwise.
+     */
+    public boolean isClosedWithinPastHour() {
+        Instant now = Instant.now();
+        Instant timeClosed = endTime.plus(gracePeriod);
+        return timeClosed.isBefore(now) && Duration.between(timeClosed, now).compareTo(Duration.ofHours(1)) < 0;
     }
 }
