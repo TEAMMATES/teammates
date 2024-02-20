@@ -43,6 +43,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         logoutUser();
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
     }
 
     @Override
@@ -132,31 +133,10 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     @Override
-    protected void testAccessControl() {
-        // See test cases below
-    }
-
-    @Test
-    protected void testAccessControl_invalidIntent_failure() {
+    protected void testAccessControl() throws Exception {
         String[] submissionParams;
         FeedbackSession publishedFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourse().getId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
-        };
-        verifyHttpParameterFailure(submissionParams);
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourse().getId(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
-        };
-        verifyHttpParameterFailure(submissionParams);
-    }
-
-    @Test
-    protected void testAccessControl_resultsNotPublished_shouldNotBeAccessible() {
-        String[] submissionParams;
+        Course course = typicalBundle.courses.get("course1");
         FeedbackSession inaccessibleFeedbackSession = typicalBundle.feedbackSessions.get(
                 "unpublishedSession1InTypicalCourse");
 
@@ -177,13 +157,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    protected void testAccessControl_resultsPublished_shouldBeAccessible() throws Exception {
-        String[] submissionParams;
-        FeedbackSession publishedFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-        Course course = publishedFeedbackSession.getCourse();
 
         ______TS("Accessible for authenticated instructor when published");
         submissionParams = new String[] {
@@ -202,6 +175,20 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         };
         verifyAccessibleForStudentsOfTheSameCourse(course, submissionParams);
         verifyInaccessibleForStudentsOfOtherCourse(course, submissionParams);
+
+        ______TS("Invalid intent");
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
+        verifyHttpParameterFailure(submissionParams);
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
+        };
+        verifyHttpParameterFailure(submissionParams);
     }
 
     private boolean isSessionResultsDataEqual(SessionResultsData self, SessionResultsData other) {
