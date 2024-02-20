@@ -81,6 +81,7 @@ public final class FeedbackQuestionsLogic {
         FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
 
         List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());
+        questionsBefore.remove(createdQuestion);
 
         adjustQuestionNumbers(questionsBefore.size() + 1, createdQuestion.getQuestionNumber(), questionsBefore);
         return createdQuestion;
