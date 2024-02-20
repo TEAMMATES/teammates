@@ -400,7 +400,7 @@ public final class FeedbackSessionsLogic {
 
         for (FeedbackSession session : sessions) {
             if (session.isClosingWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
-            && session.getCourse().getDeletedAt() == null) {
+                    && session.getCourse().getDeletedAt() == null) {
                 requiredSessions.add(session);
             }
         }
