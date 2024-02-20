@@ -69,9 +69,9 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
 
         entitiesSavingBuffer = new ArrayList<>();
      
-        String connectionUrl = "jdbc:postgresql://35.240.141.62:5432/postgres";
-        String username = "postgres";
-        String password = "teammatesrocks";
+        String connectionUrl = "";
+        String username = "";
+        String password = "";
         HibernateUtil.buildSessionFactory(connectionUrl, username, password);
     }
 
