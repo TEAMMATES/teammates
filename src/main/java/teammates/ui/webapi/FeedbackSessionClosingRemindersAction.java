@@ -73,6 +73,10 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosingWithinTimeLimit();
 
         for (FeedbackSessionAttributes session : sessions) {
+            if (isCourseMigrated(session.getCourseId())) {
+                continue;
+            }
+            
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosingEmails(session);
             try {
