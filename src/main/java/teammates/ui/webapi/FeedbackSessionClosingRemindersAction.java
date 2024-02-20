@@ -76,7 +76,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
             if (isCourseMigrated(session.getCourseId())) {
                 continue;
             }
-            
+
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosingEmails(session);
             try {
