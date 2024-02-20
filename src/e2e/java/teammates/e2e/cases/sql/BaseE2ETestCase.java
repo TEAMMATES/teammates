@@ -223,6 +223,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     /**
      * Removes and restores the databundle using BACKDOOR.
      */
+    @Override
     protected boolean doRemoveAndRestoreDataBundle(SqlDataBundle testData) {
         try {
             BACKDOOR.removeAndRestoreSqlDataBundle(testData);
