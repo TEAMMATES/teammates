@@ -10,7 +10,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -21,7 +20,7 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
 
@@ -37,9 +36,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
      * Backdoor used to call APIs.
      */
     protected static final BackDoor BACKDOOR = BackDoor.getInstance();
-
-    private static final int OPERATION_RETRY_COUNT = 5;
-    private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
 
     /**
      * DataBundle used in tests.
@@ -222,25 +218,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         } catch (Exception e) {
             fail("Failed to verify email sent:" + e);
         }
-    }
-
-    AccountAttributes getAccount(String googleId) {
-        return BACKDOOR.getAccount(googleId);
-    }
-
-    /**
-     * Removes and restores the databundle, with retries.
-     */
-    protected void removeAndRestoreDataBundle(SqlDataBundle testData) {
-        int retryLimit = OPERATION_RETRY_COUNT;
-        boolean isOperationSuccess = doRemoveAndRestoreDataBundle(testData);
-        while (!isOperationSuccess && retryLimit > 0) {
-            retryLimit--;
-            print("Re-trying removeAndRestoreDataBundle");
-            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-            isOperationSuccess = doRemoveAndRestoreDataBundle(testData);
-        }
-        assertTrue(isOperationSuccess);
     }
 
     /**
