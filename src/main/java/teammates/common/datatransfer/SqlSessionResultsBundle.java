@@ -53,7 +53,7 @@ public class SqlSessionResultsBundle {
         }
         for (FeedbackResponse response : responses) {
             FeedbackQuestion question = response.getFeedbackQuestion();
-            List<FeedbackResponse> responsesForQuestion = questionToResponseMap.get(question.getId());
+            List<FeedbackResponse> responsesForQuestion = questionToResponseMap.get(question);
             responsesForQuestion.add(response);
         }
         return questionToResponseMap;

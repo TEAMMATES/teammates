@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.test.BaseTestCase;
 
@@ -20,11 +21,11 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionResponseMap() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/FeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> allExpectedResponses = new ArrayList<>();
-        allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1S1C1").toString());
-        allExpectedResponses.add(responseBundle.feedbackResponses.get("response2ForQ1S1C1").toString());
+        allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
+        allExpectedResponses.add(responseBundle.feedbackResponses.get("response2ForQ1").toString());
 
         SqlSessionResultsBundle bundle =
                 new SqlSessionResultsBundle(
@@ -49,24 +50,24 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         assertEquals(allExpectedResponses, allResponsesString);
 
         ______TS("Test question having no responses");
-        fq = responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        fq = responseBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         allResponses = bundle.getQuestionResponseMap().get(fq);
         assertEquals(0, allResponses.size());
     }
 
     @Test
     public void testGetQuestionMissingResponseMap() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/FeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> expectedMissingResponses = new ArrayList<>();
-        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1S1C1").toString());
-        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response2ForQ1S1C1").toString());
+        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
+        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response2ForQ1").toString());
 
         SqlSessionResultsBundle bundle =
                 new SqlSessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(),
+                        new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
@@ -85,7 +86,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         assertEquals(expectedMissingResponses, missingResponsesString);
 
         ______TS("Test question having no missing responses");
-        fq = responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        fq = responseBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         missingResponses = bundle.getQuestionMissingResponseMap().get(fq);
         assertEquals(0, missingResponses.size());
     }
@@ -93,7 +94,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
-        SqlDataBundle responseBundle = loadSqlDataBundle("/FeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         FeedbackSession session1Course1 = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
@@ -143,8 +144,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
-
-        SqlDataBundle responseBundle = loadSqlDataBundle("/FeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         Map<Long, Boolean> commentGiverVisibilityTable = new HashMap<>();
         commentGiverVisibilityTable.put(1L, true);
@@ -163,8 +163,14 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
-        assertTrue(bundle.isCommentGiverVisible(responseBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1")));
-        assertFalse(bundle.isCommentGiverVisible(responseBundle.feedbackResponseComments.get("comment2FromT1C1ToR1Q1S1C1")));
+        // Manually add comment IDs as loadSqlDataBundle does not add comment IDs
+        FeedbackResponseComment comment1 = responseBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        FeedbackResponseComment comment2 = responseBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
+        comment1.setId(1L);
+        comment2.setId(2L);
+
+        assertTrue(bundle.isCommentGiverVisible(comment1));
+        assertFalse(bundle.isCommentGiverVisible(comment2));
     }
 
     @Test
