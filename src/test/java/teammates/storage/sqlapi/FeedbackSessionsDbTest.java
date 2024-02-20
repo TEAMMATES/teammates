@@ -7,8 +7,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.UUID;
 
 import org.mockito.MockedStatic;
@@ -46,17 +44,17 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     @Test
     public void testCreateSession_sessionDoesNotExist_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
         feedbackSessionsDb.createFeedbackSession(feedbackSession);
 
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(feedbackSession));
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(feedbackSession), times(1));
     }
 
     @Test
     public void testCreateSession_duplicateSession_throwsEntityAlreadyExistsException()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(uuid);
 
@@ -68,10 +66,11 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     @Test
     public void testCreateSession_invalidParams_throwsInvalidParametersException()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         feedbackSession.setName("");
 
         assertThrows(InvalidParametersException.class, () -> feedbackSessionsDb.createFeedbackSession(feedbackSession));
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(feedbackSession), never());
     }
 
     @Test
@@ -82,7 +81,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testGetFeedbackSession_sessionExists_success() {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
         mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackSession.class, uuid)).thenReturn(feedbackSession);
 
@@ -105,18 +104,18 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateFeedbackSession_success() throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(any(UUID.class));
 
         feedbackSessionsDb.updateFeedbackSession(feedbackSession);
 
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession));
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), times(1));
     }
 
     @Test
     public void testUpdateFeedbackSession_sessionDoesNotExist_throwsEntityDoesNotExistException()
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(uuid);
 
@@ -128,10 +127,10 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     @Test
     public void testUpdateFeedbackSession_sessionInvalid_throwsInvalidParametersException()
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
         feedbackSession.setName("");
-        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(uuid);
+        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(uuid);
 
         assertThrows(InvalidParametersException.class, () -> feedbackSessionsDb.updateFeedbackSession(feedbackSession));
         mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), never());
@@ -139,7 +138,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testDeleteFeedbackSession_success() throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
         feedbackSessionsDb.deleteFeedbackSession(feedbackSession);
 
@@ -148,7 +147,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testGetSoftDeletedFeedbackSession_isSoftDeleted_success() {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         feedbackSession.setDeletedAt(TimeHelperExtension.getInstantDaysOffsetFromNow(2));
@@ -161,7 +160,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testGetSoftDeletedFeedbackSession_notSoftDeleted_returnNull() {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
@@ -173,7 +172,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testGetSoftDeletedFeedbackSession_sessionDoesNotExist_returnNull() {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
@@ -185,7 +184,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testRestoreDeletedFeedbackSession_success() throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         feedbackSession.setDeletedAt(TimeHelperExtension.getInstantDaysOffsetFromNow(2));
@@ -200,7 +199,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     @Test
     public void testRestoreDeletedFeedbackSession_sessionDoesNotExist_throwsEntityDoesNotExistException()
             throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
@@ -212,7 +211,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 
     @Test
     public void testSoftDeleteFeedbackSession_success() throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
@@ -226,7 +225,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     @Test
     public void testSoftDeleteFeedbackSession_sessionDoesNotExist_throwsEntityDoesNotExistException()
             throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = createnewSession();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
@@ -234,22 +233,5 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
         assertThrows(EntityDoesNotExistException.class,
                 () -> feedbackSessionsDb.restoreDeletedFeedbackSession(sessionName, courseId));
         mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), never());
-    }
-
-    private FeedbackSession createnewSession() {
-        Instant startTime = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
-        Instant endTime = TimeHelperExtension.getInstantDaysOffsetFromNow(7);
-        return new FeedbackSession("name",
-                getTypicalCourse(),
-                "test@email.com",
-                "instructions",
-                startTime,
-                endTime,
-                startTime,
-                endTime,
-                Duration.ofMinutes(5),
-                false,
-                false,
-                false);
     }
 }
