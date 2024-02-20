@@ -1,16 +1,20 @@
-name: E2E SQL Tests
+name: E2E Tests
 
 on:
   push:
     branches:
+      - master
+      - release
       - v9-migration
   pull_request:
     branches:
+      - master
+      - release
       - v9-migration
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
-  E2E-sql-testing:
+  E2E-testing:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false #ensure both tests run even if one fails
