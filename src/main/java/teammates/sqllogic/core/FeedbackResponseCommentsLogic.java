@@ -157,11 +157,11 @@ public final class FeedbackResponseCommentsLogic {
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentForSessionInSection(
-            String courseId, String feedbackSessionName, @Nullable String section) {
-        if (section == null) {
+            String courseId, String feedbackSessionName, @Nullable String sectionName) {
+        if (sectionName == null) {
             return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
         }
-        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, sectionName);
     }
 
     /**
@@ -172,11 +172,11 @@ public final class FeedbackResponseCommentsLogic {
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentForQuestionInSection(
-            UUID questionId, @Nullable String section) {
-        if (section == null) {
+            UUID questionId, @Nullable String sectionName) {
+        if (sectionName == null) {
             return frcDb.getFeedbackResponseCommentsForQuestion(questionId);
         }
-        return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, section);
+        return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, sectionName);
     }
 
     /**

@@ -18,6 +18,7 @@ import teammates.storage.sqlentity.Section;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.ListJoin;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
@@ -212,10 +213,11 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
 
         cq.select(root)
                 .where(cb.and(
-                        cb.equal(fsJoin.get("courseId"), courseId),
+                        cb.equal(cJoin.get("id"), courseId),
                         cb.equal(fsJoin.get("name"), feedbackSessionName)
                         ));
 
@@ -257,16 +259,13 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
         Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-
-        Subquery<Section> sq = cq.subquery(Section.class);
-        Root<Section> sqRoot = sq.from(Section.class);
-        sq.select(sqRoot).where(cb.equal(sqRoot.get("name"), sectionName));
+        ListJoin<Course, Section> sectionsJoin = cJoin.joinList("sections");  
 
         cq.select(root)
                 .where(cb.and(
                     cb.equal(cJoin.get("id"), courseId),
                     cb.equal(fsJoin.get("name"), feedbackSessionName),
-                    cb.in(cJoin.get("sections")).value(sq)
+                    cb.in(cb.literal(sectionName)).value(sectionsJoin.get("name"))
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();
@@ -286,15 +285,12 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
         Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-
-        Subquery<Section> sq = cq.subquery(Section.class);
-        Root<Section> sqRoot = sq.from(Section.class);
-        sq.select(sqRoot).where(cb.equal(sqRoot.get("name"), sectionName));
+        ListJoin<Course, Section> sectionsJoin = cJoin.joinList("sections");
 
         cq.select(root)
                 .where(cb.and(
                     cb.equal(fqJoin.get("id"), questionId),
-                    cb.in(cJoin.get("sections")).value(sq)
+                    cb.in(cb.literal(sectionName)).value(sectionsJoin.get("name"))
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();

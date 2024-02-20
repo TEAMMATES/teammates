@@ -116,7 +116,11 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         if (isCourseMigrated(courseId)) {
-            return executeWithSql(courseId, feedbackSessionName, questionId, selectedSection, fetchType, intent);
+            UUID questionUuid = null;
+            if (questionId != null) {
+                UUID.fromString(questionId);
+            }
+            return executeWithSql(courseId, feedbackSessionName, questionUuid, selectedSection, fetchType, intent);
         } else {
             return executeWithDatastore(courseId, feedbackSessionName, questionId, selectedSection, fetchType, intent);
         }
@@ -165,13 +169,12 @@ public class GetSessionResultsAction extends Action {
     }
 
     private JsonResult executeWithSql(
-            String courseId, String feedbackSessionName, String questionId, String selectedSection,
+            String courseId, String feedbackSessionName, UUID questionUuid, String selectedSection,
             FeedbackResultFetchType fetchType, Intent intent) {
         Instructor instructor;
         Student student;
         FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
         SqlSessionResultsBundle bundle;
-        UUID questionUuid = UUID.fromString(questionId);
         switch (intent) {
         case FULL_DETAIL:
             instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);

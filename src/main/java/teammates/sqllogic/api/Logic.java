@@ -1196,17 +1196,17 @@ public class Logic {
      * Gets the session result for a feedback session.
      *
      * @see FeedbackResponsesLogic#getSessionResultsForCourse(
-     * FeedbackSession, String, String, String, String, FeedbackResultFetchType)
+     * FeedbackSession, String, String, String, Section, FeedbackResultFetchType)
      */
     public SqlSessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String userEmail,
-            @Nullable UUID questionId, @Nullable String section, @Nullable FeedbackResultFetchType fetchType) {
+            @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSession != null;
         assert courseId != null;
         assert userEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForCourse(
-                feedbackSession, courseId, userEmail, questionId, section, fetchType);
+                feedbackSession, courseId, userEmail, questionId, sectionName, fetchType);
     }
 
     /**

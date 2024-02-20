@@ -523,7 +523,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private SqlSessionResultsBundle buildResultsBundle(
-            boolean isCourseWide, FeedbackSession feedbackSession, String courseId, String section, UUID questionId,
+            boolean isCourseWide, FeedbackSession feedbackSession, String courseId, String sectionName, UUID questionId,
             boolean isInstructor, String userEmail, Instructor instructor, Student student,
             SqlCourseRoster roster, List<FeedbackQuestion> allQuestions,
             List<FeedbackResponse> allResponses) {
@@ -532,9 +532,9 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseComment> allComments;
         if (questionId == null) {
             allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                    courseId, feedbackSession.getName(), section);
+                    courseId, feedbackSession.getName(), sectionName);
         } else {
-            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
+            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, sectionName);
         }
         RequestTracer.checkRemainingTime();
 
@@ -614,7 +614,7 @@ public final class FeedbackResponsesLogic {
         if (isCourseWide) {
             missingResponses = buildMissingResponses(
                     courseId, feedbackSession, instructor, responseGiverVisibilityTable,
-                    responseRecipientVisibilityTable, relatedQuestions, existingResponses, roster, section);
+                    responseRecipientVisibilityTable, relatedQuestions, existingResponses, roster, sectionName);
         }
         RequestTracer.checkRemainingTime();
 
@@ -630,13 +630,13 @@ public final class FeedbackResponsesLogic {
      * @param courseId the ID of the course
      * @param instructorEmail the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
-     * @param section if not null, will only return partial bundle for the section
+     * @param sectionName if not null, will only return partial bundle for the section
      * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
     public SqlSessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String instructorEmail,
-            @Nullable UUID questionId, @Nullable String section, @Nullable FeedbackResultFetchType fetchType) {
+            @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
 
         SqlCourseRoster roster = new SqlCourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
@@ -650,16 +650,16 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> allResponses;
         // load all response for instructors and passively filter them later
         if (questionId == null) {
-            allResponses = getFeedbackResponsesForSessionInSection(feedbackSession, courseId, section, fetchType);
+            allResponses = getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName, fetchType);
         } else {
-            allResponses = getFeedbackResponsesForQuestionInSection(questionId, section, fetchType);
+            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionName, fetchType);
         }
         RequestTracer.checkRemainingTime();
 
         // consider the current viewing user
         Instructor instructor = usersLogic.getInstructorForEmail(courseId, instructorEmail);
 
-        return buildResultsBundle(true, feedbackSession, courseId, section, questionId, true, instructorEmail,
+        return buildResultsBundle(true, feedbackSession, courseId, sectionName, questionId, true, instructorEmail,
                 instructor, null, roster, allQuestions, allResponses);
     }
 
@@ -721,7 +721,7 @@ public final class FeedbackResponsesLogic {
             Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
             Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable,
             List<FeedbackQuestion> relatedQuestions,
-            List<FeedbackResponse> existingResponses, SqlCourseRoster courseRoster, @Nullable String section) {
+            List<FeedbackResponse> existingResponses, SqlCourseRoster courseRoster, @Nullable String sectionName) {
 
         // first get all possible giver recipient pairs
         Map<FeedbackQuestion, Map<String, Set<String>>> questionCompleteGiverRecipientMap = new HashMap<>();
@@ -761,9 +761,9 @@ public final class FeedbackResponsesLogic {
                     SqlCourseRoster.ParticipantInfo recipientInfo = courseRoster.getInfoForIdentifier(recipientIdentifier);
 
                     // skip responses not in current section
-                    if (section != null
-                            && !giverInfo.getSectionName().equals(section)
-                            && !recipientInfo.getSectionName().equals(section)) {
+                    if (sectionName != null
+                            && !giverInfo.getSectionName().equals(sectionName)
+                            && !recipientInfo.getSectionName().equals(sectionName)) {
                         continue;
                     }
 
@@ -954,17 +954,17 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackSession the session
      * @param courseId the course ID of the session
-     * @param section if null, will retrieve all responses in the session
+     * @param sectionName if null, will retrieve all responses in the session
      * @param fetchType if not null, will retrieve responses by giver, receiver sections, or both
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
-            FeedbackSession feedbackSession, String courseId, @Nullable String section,
+            FeedbackSession feedbackSession, String courseId, @Nullable String sectionName,
             @Nullable FeedbackResultFetchType fetchType) {
-        if (section == null) {
+        if (sectionName == null) {
             return getFeedbackResponsesForSession(feedbackSession, courseId);
         }
-        return frDb.getFeedbackResponsesForSessionInSection(feedbackSession, courseId, section, fetchType);
+        return frDb.getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName, fetchType);
     }
 
     /**
@@ -982,11 +982,11 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(
-            UUID feedbackQuestionId, @Nullable String section, FeedbackResultFetchType fetchType) {
-        if (section == null) {
+            UUID feedbackQuestionId, @Nullable String sectionName, FeedbackResultFetchType fetchType) {
+        if (sectionName == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
-        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section, fetchType);
+        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, sectionName, fetchType);
     }
 
     /**

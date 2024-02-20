@@ -15,7 +15,7 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
-
+import teammates.storage.sqlentity.Section;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -236,10 +236,11 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
 
         cq.select(root)
                 .where(cb.and(
-                    cb.equal(root.get("questionId"), questionId),
+                    cb.equal(fqJoin.get("id"), questionId),
                     cb.equal(root.get("recipient"), recipient)
                     ));
 
@@ -255,10 +256,11 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
 
         cq.select(root)
                 .where(cb.and(
-                    cb.equal(root.get("questionId"), questionId)
+                    cb.equal(fqJoin.get("id"), questionId)
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();
@@ -269,10 +271,10 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      * Optionally, retrieves by either giver, receiver sections, or both.
      */
     public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
-            FeedbackSession feedbackSession, String courseId, String sectionId, FeedbackResultFetchType fetchType) {
+            FeedbackSession feedbackSession, String courseId, String sectionName, FeedbackResultFetchType fetchType) {
         assert feedbackSession != null;
         assert courseId != null;
-        assert sectionId != null;
+        assert sectionName != null;
         assert fetchType != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -280,22 +282,25 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
 
         // unless specified by fetchType, do not filter by giver/recipient section
         Predicate giverSectionFilter = cb.isTrue(cb.literal(true));
         Predicate recipientSectionFilter = cb.isTrue(cb.literal(true));
+        Join<FeedbackResponse, Section> giverJoin = root.join("giverSection");
+        Join<FeedbackResponse, Section> recipientJoin = root.join("recipientSection");
 
         if (fetchType.shouldFetchByGiver()) {
-            giverSectionFilter = cb.equal(root.get("giverSectionId"), sectionId);
+            giverSectionFilter = cb.equal(giverJoin.get("name"), sectionName);
         }
         if (fetchType.shouldFetchByReceiver()) {
-            giverSectionFilter = cb.equal(root.get("recipientSectionId"), sectionId);
+            giverSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
         }
 
         cq.select(root)
                 .where(cb.and(
-                    cb.equal(fqJoin.get("sessionId"), feedbackSession.getId()),
-                    cb.equal(fsJoin.get("courseId"), courseId),
+                    cb.equal(fsJoin.get("id"), feedbackSession.getId()),
+                    cb.equal(cJoin.get("id"), courseId),
                     giverSectionFilter,
                     recipientSectionFilter
                     ));
@@ -307,9 +312,9 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      * Gets all feedback responses of a question in a specific section.
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(
-            UUID questionId, String sectionId, FeedbackResultFetchType fetchType) {
+            UUID questionId, String sectionName, FeedbackResultFetchType fetchType) {
         assert questionId != null;
-        assert sectionId != null;
+        assert sectionName != null;
         assert fetchType != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -320,12 +325,14 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         // unless specified by fetchType, do not filter by giver/recipient section
         Predicate giverSectionFilter = cb.isTrue(cb.literal(true));
         Predicate recipientSectionFilter = cb.isTrue(cb.literal(true));
+        Join<FeedbackResponse, Section> giverJoin = root.join("giverSection");
+        Join<FeedbackResponse, Section> recipientJoin = root.join("recipientSection");
 
         if (fetchType.shouldFetchByGiver()) {
-            giverSectionFilter = cb.equal(root.get("giverSectionId"), sectionId);
+            giverSectionFilter = cb.equal(giverJoin.get("name"), sectionName);
         }
         if (fetchType.shouldFetchByReceiver()) {
-            giverSectionFilter = cb.equal(root.get("recipientSectionId"), sectionId);
+            giverSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
         }
 
         cq.select(root)
@@ -351,11 +358,12 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
 
         cq.select(root)
                 .where(cb.and(
                     cb.equal(fsJoin.get("id"), feedbackSession.getId()),
-                    cb.equal(fsJoin.get("courseId"), courseId)
+                    cb.equal(cJoin.get("id"), courseId)
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();
