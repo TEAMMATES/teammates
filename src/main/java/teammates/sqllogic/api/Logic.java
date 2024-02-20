@@ -1215,6 +1215,15 @@ public class Logic {
     }
 
     /**
+     * Creates or updates search document for the given account request.
+     *
+     * @see AccountRequestsLogic#putDocument(AccountRequest)
+     */
+    public void putAccountRequestDocument(AccountRequest accountRequest) throws SearchServiceException {
+        accountRequestLogic.putDocument(accountRequest);
+    }
+
+    /**
      * Removes the given data bundle from the database.
      */
     public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
