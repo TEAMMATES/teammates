@@ -105,12 +105,12 @@ public final class SqlEmailGenerator {
 
             // student.
             students = students.stream()
-                    .filter(x -> userIds.contains(x.getId()))
+                    .filter(x -> !userIds.contains(x.getId()))
                     .collect(Collectors.toList());
 
             // instructor.
             instructors = instructors.stream()
-                    .filter(x -> userIds.contains(x.getId()))
+                    .filter(x -> !userIds.contains(x.getId()))
                     .collect(Collectors.toList());
         }
 
