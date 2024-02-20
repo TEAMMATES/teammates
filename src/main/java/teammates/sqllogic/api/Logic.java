@@ -1482,6 +1482,13 @@ public class Logic {
     }
 
     /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
      * Creates or updates search document for the given student.
      *
      * @see UsersLogic#putStudentDocument(Student)
