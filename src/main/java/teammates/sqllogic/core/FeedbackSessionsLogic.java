@@ -391,6 +391,26 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Returns a list of sessions that are going to close within the next 24 hours.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
+        List<FeedbackSession> requiredSessions = new ArrayList<>();
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            if (session.isClosingWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
+                    && session.getCourse().getDeletedAt() == null) {
+                requiredSessions.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
+    }
+
+    /**
      * Returns a list of sessions that are going to open in 24 hours.
      */
     public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
