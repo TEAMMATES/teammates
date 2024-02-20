@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
@@ -12,12 +11,12 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
-import teammates.storage.entity.FeedbackQuestion;
 
 
 public class SeedDb {
@@ -31,8 +30,6 @@ public class SeedDb {
     private Closeable closeable;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
-
-    entitiesSavingBuffer = new ArrayList<>();
 
     public void setupDbLayer() throws Exception {
         LOCAL_DATASTORE_HELPER.start();
@@ -63,7 +60,7 @@ public class SeedDb {
     }
 
     protected String getTestDataFolder() {
-        return "src/test/resources/data";
+        return "src/test/resources/data/";
     }
 
     protected DataBundle loadDataBundle(String jsonFileName) {
@@ -95,7 +92,7 @@ public class SeedDb {
 
     protected boolean doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
         try {
-            logic.removeDataBundle(dataBundle);
+            // logic.removeDataBundle(dataBundle);
             logic.persistDataBundle(dataBundle);
             return true;
         } catch (Exception e) {
@@ -114,10 +111,21 @@ public class SeedDb {
         }
     }
 
+    protected void verify() {
+        for (StudentAttributes student : logic.getAllStudentsForEmail("student1InCourse1@gmail.tmt")) {
+            System.out.println(String.format("Verify student: %s", student));
+        }
+        System.out.println(String.format("Verify account: %s", logic.getAccountsForEmail("instr1@course1.tmt")));
+        System.out.println(String.format("Verify account: %s", logic.getAccountsForEmail("instr2@course1.tmt")));
+    }
+
     public static void main(String[] args) throws Exception {
         SeedDb seedDb = new SeedDb();
         seedDb.setupDbLayer();
         seedDb.setupObjectify();
+
+        seedDb.removeAndRestoreTypicalDataBundle();
+        seedDb.verify();
 
         seedDb.tearDownObjectify();
         // seedDb.tearDownLocalDatastoreHelper();
