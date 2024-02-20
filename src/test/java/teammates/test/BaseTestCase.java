@@ -29,6 +29,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -178,6 +179,15 @@ public class BaseTestCase {
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSession);
         return FeedbackResponse.makeResponse(feedbackQuestion, "giver", section,
                 "recipient", section, new FeedbackTextResponseDetails());
+    }
+
+    protected FeedbackResponseComment getTypicalResponseComment(Long id) {
+        FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
+                FeedbackParticipantType.STUDENTS, null, null, "",
+                false, false,
+                null, null, null);
+        comment.setId(id);
+        return comment;
     }
 
     /**
