@@ -11,7 +11,6 @@ import teammates.storage.sqlentity.AccountRequest;
  */
 public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
 
-    @SuppressWarnings("PMD.AvoidCatchingNPE")
     @Override
     public ActionResult execute() {
         String email = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
