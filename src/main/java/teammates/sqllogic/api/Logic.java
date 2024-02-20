@@ -415,6 +415,14 @@ public class Logic {
     }
 
     /**
+     * Gets a list of deadline extensions with endTime coming up soon
+     * and possibly need a closing email to be sent.
+     */
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
+        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
@@ -1222,6 +1230,15 @@ public class Logic {
     }
 
     /**
+     * Creates or updates search document for the given account request.
+     *
+     * @see AccountRequestsLogic#putDocument(AccountRequest)
+     */
+    public void putAccountRequestDocument(AccountRequest accountRequest) throws SearchServiceException {
+        accountRequestLogic.putDocument(accountRequest);
+    }
+
+    /**
      * Removes the given data bundle from the database.
      */
     public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
@@ -1472,6 +1489,13 @@ public class Logic {
     }
 
     /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
      * Creates or updates search document for the given student.
      *
      * @see UsersLogic#putStudentDocument(Student)
@@ -1490,6 +1514,13 @@ public class Logic {
         assert queryString != null;
 
         return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Returns a list of sessions that are going to close soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
     }
 
     /**
