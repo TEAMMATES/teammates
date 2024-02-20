@@ -149,11 +149,11 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
         assertTrue(session.isClosingSoonEmailSent());
         assertTrue(de.isClosingSoonEmailSent());
 
-        // 7 email tasks queued:
-        // - 6 emails: 1 co-owner, 4 students and 3 instructors,
+        // 8 email tasks queued:
+        // - 7 emails: 1 co-owner, 5 students and 3 instructors,
         //             but 1 student and 1 instructor have deadline extensions (should not receive email)
         // - 1 email:  1 student deadline extension
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 7);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
     }
 
     private void textExecute_typicalSuccess3() {
