@@ -505,6 +505,13 @@ public class Logic {
     }
 
     /**
+     * Returns a list of sessions that require automated emails to be sent as they are published.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return returns the created feedback session.
