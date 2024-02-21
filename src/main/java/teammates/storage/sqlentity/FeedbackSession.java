@@ -456,7 +456,7 @@ public class FeedbackSession extends BaseEntity {
      * This occurs only when the current time is after both the deadline and the grace period.
      */
     public boolean isClosed() {
-        return !isOpened() && Instant.now().isAfter(endTime);
+        return Instant.now().isAfter(endTime.plus(gracePeriod));
     }
 
     /**
@@ -558,4 +558,40 @@ public class FeedbackSession extends BaseEntity {
         return this.deletedAt != null;
     }
 
+    /**
+     * Returns true if the feedback session is closing (almost closed) after the number of specified hours.
+     */
+    public boolean isClosingWithinTimeLimit(long hours) {
+        Instant now = Instant.now();
+        Duration difference = Duration.between(now, endTime);
+        // If now and start are almost similar, it means the feedback session
+        // is open for only 24 hours.
+        // Hence we do not send a reminder e-mail for feedback session.
+        return now.isAfter(startTime)
+               && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+               && difference.compareTo(Duration.ofHours(hours)) < 0;
+    }
+
+    /**
+     * Returns true if the feedback session opens after the number of specified hours.
+     */
+    public boolean isOpeningWithinTimeLimit(long hours) {
+        Instant now = Instant.now();
+        Duration difference = Duration.between(now, startTime);
+
+        return now.isBefore(startTime)
+                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+                && difference.compareTo(Duration.ofHours(hours)) < 0;
+    }
+
+    /**
+     * Checks if the session closed some time in the last one hour from calling this function.
+     *
+     * @return true if the session closed within the past hour; false otherwise.
+     */
+    public boolean isClosedWithinPastHour() {
+        Instant now = Instant.now();
+        Instant timeClosed = endTime.plus(gracePeriod);
+        return timeClosed.isBefore(now) && Duration.between(timeClosed, now).compareTo(Duration.ofHours(1)) < 0;
+    }
 }
