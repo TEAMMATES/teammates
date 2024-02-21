@@ -1,7 +1,5 @@
 package teammates.client.scripts;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 
 import com.google.cloud.datastore.DatastoreOptions;
@@ -28,8 +26,6 @@ public class SeedDb {
 
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
-    private static final int OPERATION_RETRY_COUNT = 5;
-    private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
 
     public void setupDbLayer() throws Exception {
         LOCAL_DATASTORE_HELPER.start();
@@ -55,10 +51,6 @@ public class SeedDb {
         LOCAL_DATASTORE_HELPER.stop();
     }
 
-    protected DataBundle getTypicalDataBundle() {
-        return loadDataBundle("typicalDataBundle.json");
-    }
-
     protected String getTestDataFolder() {
         return "src/test/resources/data/";
     }
@@ -73,41 +65,16 @@ public class SeedDb {
         }
     }
 
-    protected void removeAndRestoreTypicalDataBundle() {
+    protected DataBundle getTypicalDataBundle() {
+        return loadDataBundle("typicalDataBundle.json");
+    }
+
+    protected void persistTypicalDataBundle() {
         DataBundle dataBundle = getTypicalDataBundle();
-        removeAndRestoreDataBundle(dataBundle);
-    }
-
-    protected void removeAndRestoreDataBundle(DataBundle testData) {
-        int retryLimit = OPERATION_RETRY_COUNT;
-        boolean isOperationSuccess = doRemoveAndRestoreDataBundle(testData);
-        while (!isOperationSuccess && retryLimit > 0) {
-            retryLimit--;
-            System.out.println("Re-trying removeAndRestoreDataBundle");
-            // Thread.sleep(OPERATION_RETRY_DELAY_IN_MS);
-            isOperationSuccess = doRemoveAndRestoreDataBundle(testData);
-        }
-        assertTrue(isOperationSuccess);
-    }
-
-    protected boolean doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
         try {
-            // logic.removeDataBundle(dataBundle);
             logic.persistDataBundle(dataBundle);
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
-        }
-    }
-
-    protected boolean doPutDocuments(DataBundle dataBundle) {
-        try {
-            logic.putDocuments(dataBundle);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -124,11 +91,11 @@ public class SeedDb {
         seedDb.setupDbLayer();
         seedDb.setupObjectify();
 
-        seedDb.removeAndRestoreTypicalDataBundle();
+        seedDb.persistTypicalDataBundle();
         seedDb.verify();
 
         seedDb.tearDownObjectify();
-        // seedDb.tearDownLocalDatastoreHelper();
+        seedDb.tearDownLocalDatastoreHelper();
 
     }
 }
