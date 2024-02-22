@@ -30,9 +30,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         return PUT;
     }
 
-    @Override
-    @Test
-    public void testExecute() throws Exception {
+    private void testExecute_withInvalidParameters() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
@@ -56,9 +54,13 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
         verifyHttpParameterFailure(invalidParams);
         verifyNoTasksAdded();
+    }
 
+    private JsonResult saveAndUpdateStudent(InstructorAttributes instructor1OfCourse1,
+                                            StudentAttributes student1InCourse1,
+                                            String newStudentEmail) {
         ______TS("Typical case, successful edit and save student detail");
-        String newStudentEmail = "newemail@gmail.tmt";
+
         String newStudentTeam = "new student's team";
         String newStudentComments = "this is new comment after editing";
         StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), newStudentEmail,
@@ -70,7 +72,19 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
-        JsonResult actionOutput = getJsonResult(updateAction);
+        return getJsonResult(updateAction);
+    }
+
+    @Test
+    public void testExecute_saveEditStudentDetails() {
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        String newStudentEmail = "newemail@gmail.tmt";
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        loginAsInstructor(instructorId);
+
+        JsonResult actionOutput = saveAndUpdateStudent(instructor1OfCourse1, student1InCourse1, newStudentEmail);
 
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
@@ -83,13 +97,60 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(newStudentEmail, email.getRecipient());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+    }
+
+    @Test
+    public void testExecute_studentDoesNotExist() {
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        loginAsInstructor(instructorId);
+        String newStudentEmail = "newemail@gmail.tmt";
+        saveAndUpdateStudent(instructor1OfCourse1, student1InCourse1, newStudentEmail);
+        ______TS("Error case, student does not exist");
+
+        String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
+
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(),
+                                                                        student1InCourse1.getEmail(),
+                                                                        student1InCourse1.getTeam(),
+                                                                        student1InCourse1.getSection(),
+                                                                        student1InCourse1.getComments(),
+                                                    false);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
+        };
+
+        EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
+        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, enfe.getMessage());
+
+        verifyNoTasksAdded();
+    }
+
+    @Test
+    public void testExecute_withNonTrimmedInputAfterSuccessfulEntry() {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        loginAsInstructor(instructorId);
+        String newStudentEmail = "newemail@gmail.tmt";
+        saveAndUpdateStudent(instructor1OfCourse1, student1InCourse1, newStudentEmail);
 
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   "; // after trim, this is equal to newStudentEmail
         String newStudentTeamToBeTrimmed = "  New team   ";
         String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), newStudentEmailToBeTrimmed,
-                newStudentTeamToBeTrimmed, student1InCourse1.getSection(), newStudentCommentsToBeTrimmed, true);
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(),
+                                                                        newStudentEmailToBeTrimmed,
+                                                                        newStudentTeamToBeTrimmed,
+                                                                        student1InCourse1.getSection(),
+                                                                        newStudentCommentsToBeTrimmed,
+                                                    true);
 
         String[] submissionParamsToBeTrimmed = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
@@ -102,6 +163,18 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
         assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
         verifyNoEmailsSent();
+    }
+
+    @Test
+    public void testExecute_withInvalidEmailParameter() throws ReflectiveOperationException {
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        loginAsInstructor(instructorId);
+        String newStudentEmail = "newemail@gmail.tmt";
+        saveAndUpdateStudent(instructor1OfCourse1, student1InCourse1, newStudentEmail);
 
         ______TS("Error case, invalid email parameter (email has too many characters)");
 
@@ -109,10 +182,10 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 + "@gmail.tmt";
         assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), invalidStudentEmail,
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), invalidStudentEmail,
                 student1InCourse1.getTeam(), student1InCourse1.getSection(), student1InCourse1.getComments(), false);
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
@@ -120,21 +193,33 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
 
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
-                FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                FieldValidator.EMAIL_MAX_LENGTH),
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                        FieldValidator.EMAIL_MAX_LENGTH),
                 ihrbe.getMessage());
 
         verifyNoTasksAdded();
+    }
+
+    @Test
+    public void testExecute_emailAlreadyTaken() {
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        loginAsInstructor(instructorId);
+        String newStudentEmail = "newemail@gmail.tmt";
+        saveAndUpdateStudent(instructor1OfCourse1, student1InCourse1, newStudentEmail);
 
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         String takenStudentEmail = student2InCourse1.getEmail();
 
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), takenStudentEmail,
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), takenStudentEmail,
                 student1InCourse1.getTeam(), student1InCourse1.getSection(), student1InCourse1.getComments(), false);
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
@@ -147,22 +232,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         // deleting edited student
         logic.deleteAccountCascade(student2InCourse1.getGoogleId());
         logic.deleteAccountCascade(student1InCourse1.getGoogleId());
-
-        ______TS("Error case, student does not exist");
-
-        String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), student1InCourse1.getEmail(),
-                student1InCourse1.getTeam(), student1InCourse1.getSection(), student1InCourse1.getComments(), false);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
-        };
-
-        EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
-        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, enfe.getMessage());
-
-        verifyNoTasksAdded();
     }
 
     @Test
@@ -273,6 +342,13 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(student5InCourse1.getTeam(), actualStudent.getTeam());
         assertEquals(Const.DEFAULT_SECTION, actualStudent.getSection());
         assertEquals(student5InCourse1.getComments(), actualStudent.getComments());
+    }
+
+    @Override
+
+    @Test
+    public void testExecute() throws Exception {
+        testExecute_withInvalidParameters();
     }
 
     @Override
