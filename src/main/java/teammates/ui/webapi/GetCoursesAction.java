@@ -3,8 +3,10 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
@@ -67,7 +69,15 @@ public class GetCoursesAction extends Action {
         List<CourseData> datastoreCourseData =
                 courses.stream().map(CourseData::new).collect(Collectors.toList());
 
-        coursesDataList.addAll(datastoreCourseData);
+        // TODO: remove deduplication once course data is all migrated
+        Set<String> uniqueIds =
+                new HashSet<>(coursesDataList.stream().map(course -> course.getCourseId()).collect(Collectors.toList()));
+
+        for (CourseData course : datastoreCourseData) {
+            if (uniqueIds.add(course.getCourseId())) {
+                coursesDataList.add(course);
+            }
+        }
         coursesDataList.forEach(CourseData::hideInformationForStudent);
         return new JsonResult(coursesData);
     }
@@ -131,7 +141,15 @@ public class GetCoursesAction extends Action {
         List<CourseData> datastoreCourseData =
                 courses.stream().map(CourseData::new).collect(Collectors.toList());
 
-        coursesDataList.addAll(datastoreCourseData);
+        // TODO: remove deduplication once course data is all migrated
+        Set<String> uniqueIds =
+                new HashSet<>(coursesDataList.stream().map(course -> course.getCourseId()).collect(Collectors.toList()));
+
+        for (CourseData course : datastoreCourseData) {
+            if (uniqueIds.add(course.getCourseId())) {
+                coursesDataList.add(course);
+            }
+        }
 
         // TODO: Remove once migration is completed
         coursesDataList.sort(Comparator.comparing(CourseData::getCourseId));
