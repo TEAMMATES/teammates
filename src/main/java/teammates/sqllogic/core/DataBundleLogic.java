@@ -246,7 +246,8 @@ public final class DataBundleLogic {
      * Persists data in the given {@link DataBundle} to the database.
      *
      * @throws InvalidParametersException if invalid data is encountered.
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException if an entity was not found.
+     *         (ReadNotification requires Account and Notification to be created)
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {

@@ -62,7 +62,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         PGSQL.start();
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
         teammates.sqllogic.core.LogicStarter.initializeDependencies();
-        sqlLogic = teammates.sqllogic.api.Logic.inst();
+        sqlLogic = Logic.inst();
 
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();

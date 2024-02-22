@@ -35,7 +35,7 @@ class PutSqlDataBundleAction extends Action {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException("Some entities in the databundle already exist", e);
-        }  catch (EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
 

@@ -135,7 +135,6 @@ public class CreateAccountAction extends Action {
      * @return the ID of demo course, which does not previously exist in the database for another course.
      * @throws EntityAlreadyExistsException if the generated demo course ID already exists in the database.
      *         However, this should never occur and hence should be handled as a programmatic error.
-     * @throws EntityDoesNotExistException 
      */
     private String importAndPersistDemoData(String instructorEmail, String instructorName,
             String instructorInstitute, String timezone)

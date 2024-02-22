@@ -115,7 +115,7 @@ public class UserNotificationsPage extends AppPage {
 
         List<WebElement> cardHeadersWithTitle = cardHeaders.stream()
                 .filter(e -> e.getText().equals(getHeaderText(notification))).collect(Collectors.toList());
-        
+
         assertEquals(cardHeadersWithTitle.size(), 1);
 
         WebElement cardHeader = cardHeadersWithTitle.get(0);
