@@ -16,6 +16,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -30,6 +31,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.HibernateUtil;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
+import teammates.sqllogic.api.Logic;
 import teammates.storage.api.OfyHelper;
 import teammates.storage.search.AccountRequestSearchManager;
 import teammates.storage.search.InstructorSearchManager;
@@ -52,6 +54,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             .setStoreOnDisk(false)
             .build();
     private final LogicExtension logic = new LogicExtension();
+    private Logic sqlLogic;
     private Closeable closeable;
 
     @BeforeSuite
@@ -59,6 +62,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         PGSQL.start();
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
         teammates.sqllogic.core.LogicStarter.initializeDependencies();
+        sqlLogic = teammates.sqllogic.api.Logic.inst();
 
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
@@ -181,6 +185,18 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         try {
             logic.removeDataBundle(dataBundle);
             logic.persistDataBundle(dataBundle);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    protected boolean doRemoveAndRestoreSqlDataBundle(SqlDataBundle dataBundle) {
+        try {
+            sqlLogic.removeDataBundle(dataBundle);
+            sqlLogic.persistDataBundle(dataBundle);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
