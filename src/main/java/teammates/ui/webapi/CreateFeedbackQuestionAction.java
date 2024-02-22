@@ -84,7 +84,7 @@ public class CreateFeedbackQuestionAction extends Action {
         } catch (InvalidParametersException ex) {
             throw new InvalidHttpRequestBodyException(ex);
         } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException("Trying to create a feedback question that already exists", e);
+            throw new InvalidOperationException(e);
         }
     }
 
