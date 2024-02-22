@@ -71,7 +71,7 @@ public class CreateAccountAction extends Action {
         try {
             // persists sample data such as course, students, instructor and feedback sessions
             courseId = importAndPersistDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter here
             // EntityAlreadyExistsException should not be thrown as the generated demo course id should not exist.
             // If it is thrown, some programming error is the cause.
@@ -135,10 +135,11 @@ public class CreateAccountAction extends Action {
      * @return the ID of demo course, which does not previously exist in the database for another course.
      * @throws EntityAlreadyExistsException if the generated demo course ID already exists in the database.
      *         However, this should never occur and hence should be handled as a programmatic error.
+     * @throws EntityDoesNotExistException 
      */
     private String importAndPersistDemoData(String instructorEmail, String instructorName,
             String instructorInstitute, String timezone)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();
