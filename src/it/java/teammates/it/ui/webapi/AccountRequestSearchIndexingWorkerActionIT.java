@@ -1,23 +1,36 @@
-package teammates.ui.webapi;
+package teammates.it.ui.webapi;
 
 import java.util.List;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.TaskQueue;
+import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Course;
 import teammates.test.TestProperties;
+import teammates.ui.webapi.AccountRequestSearchIndexingWorkerAction;
 
 /**
  * SUT: {@link AccountRequestSearchIndexingWorkerAction}.
  */
-public class AccountRequestSearchIndexingWorkerActionTest
-        extends BaseActionTest<AccountRequestSearchIndexingWorkerAction> {
+public class AccountRequestSearchIndexingWorkerActionIT extends BaseActionIT<AccountRequestSearchIndexingWorkerAction> {
+
+    @Override
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
+    }
 
     @Override
     protected String getActionUri() {
-        return TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL;
+        return Const.TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL;
     }
 
     @Override
@@ -32,11 +45,11 @@ public class AccountRequestSearchIndexingWorkerActionTest
             return;
         }
 
-        AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("instructor1OfCourse1");
+        AccountRequest accountRequest = typicalBundle.accountRequests.get("instructor1");
 
         ______TS("account request not yet indexed should not be searchable");
 
-        List<AccountRequestAttributes> accountRequestsList =
+        List<AccountRequest> accountRequestsList =
                 logic.searchAccountRequestsInWholeSystem(accountRequest.getEmail());
         assertEquals(0, accountRequestsList.size());
 
@@ -56,7 +69,10 @@ public class AccountRequestSearchIndexingWorkerActionTest
     }
 
     @Override
-    protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+    @Test
+    protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = typicalBundle.courses.get("course1");
+        verifyOnlyAdminCanAccess(course);
     }
+
 }
