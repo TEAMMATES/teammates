@@ -107,7 +107,7 @@ public class GetSessionResultsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        // Allow additional filter by question ID (equivalent to question number) and section name
+        // Allow additional filter by question ID and section name
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.parseFetchType(
