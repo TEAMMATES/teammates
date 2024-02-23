@@ -269,19 +269,20 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract boolean doRemoveAndRestoreDataBundle(DataBundle testData);
 
-    protected void removeAndRestoreSqlDataBundle(SqlDataBundle testData) {
+    protected SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
-        boolean isOperationSuccess = doRemoveAndRestoreSqlDataBundle(testData);
-        while (!isOperationSuccess && retryLimit > 0) {
+        SqlDataBundle dataBundle = doRemoveAndRestoreSqlDataBundle(testData);
+        while (dataBundle == null && retryLimit > 0) {
             retryLimit--;
             print("Re-trying removeAndRestoreDataBundle");
             ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-            isOperationSuccess = doRemoveAndRestoreSqlDataBundle(testData);
+            dataBundle = doRemoveAndRestoreSqlDataBundle(testData);
         }
-        assertTrue(isOperationSuccess);
+        assertNotNull(dataBundle);
+        return dataBundle;
     }
 
-    protected abstract boolean doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData);
+    protected abstract SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData);
 
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

@@ -193,14 +193,13 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @Override
-    protected boolean doRemoveAndRestoreSqlDataBundle(SqlDataBundle dataBundle) {
+    protected SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle dataBundle) {
         try {
             sqlLogic.removeDataBundle(dataBundle);
-            sqlLogic.persistDataBundle(dataBundle);
-            return true;
+            return sqlLogic.persistDataBundle(dataBundle);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 

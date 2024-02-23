@@ -360,13 +360,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Override
-    protected boolean doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData) {
+    protected SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData) {
         try {
-            BACKDOOR.removeAndRestoreSqlDataBundle(testData);
-            return true;
+            return BACKDOOR.removeAndRestoreSqlDataBundle(testData);
         } catch (HttpRequestFailedException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
