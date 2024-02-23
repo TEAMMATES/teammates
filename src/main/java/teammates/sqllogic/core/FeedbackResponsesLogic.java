@@ -921,14 +921,14 @@ public final class FeedbackResponsesLogic {
         if (isVisibleResponse && instructor != null) {
             boolean isGiverSectionRestricted =
                     !instructor.isAllowedForPrivilege(response.getGiverSection().getName(),
-                            response.getFeedbackSessionName(),
+                            response.getFeedbackQuestion().getFeedbackSession().getName(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted =
                     relatedQuestion.getRecipientType() != FeedbackParticipantType.NONE
                             && !instructor.isAllowedForPrivilege(response.getRecipientSection().getName(),
-                            response.getFeedbackSessionName(),
+                            response.getFeedbackQuestion().getFeedbackSession().getName(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
 
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
