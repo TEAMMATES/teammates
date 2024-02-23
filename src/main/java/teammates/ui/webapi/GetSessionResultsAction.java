@@ -116,11 +116,12 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         if (isCourseMigrated(courseId)) {
-            UUID questionUuid = null;
             if (questionId != null) {
-                UUID.fromString(questionId);
+                UUID questionUuid = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+                executeWithSql(courseId, feedbackSessionName, questionUuid,
+                        selectedSection, fetchType, intent);
             }
-            return executeWithSql(courseId, feedbackSessionName, questionUuid, selectedSection, fetchType, intent);
+            return executeWithSql(courseId, feedbackSessionName, null, selectedSection, fetchType, intent);
         } else {
             return executeWithDatastore(courseId, feedbackSessionName, questionId, selectedSection, fetchType, intent);
         }
