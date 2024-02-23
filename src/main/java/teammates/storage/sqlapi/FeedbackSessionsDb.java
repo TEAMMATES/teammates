@@ -287,4 +287,50 @@ public final class FeedbackSessionsDb extends EntitiesDb {
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
+
+    /**
+     * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
+     * and possibly need a closed email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingClosedEmail() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                        cb.greaterThan(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
+                        cb.isFalse(root.get("isClosedEmailSent")),
+                        cb.isTrue(root.get("isClosingEmailEnabled")),
+                        cb.isNull(root.get("deletedAt"))
+               ));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets a list of undeleted published feedback sessions which possibly need a published email
+     * to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
+        return getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail().stream()
+                .filter(session -> session.getDeletedAt() == null)
+                .collect(Collectors.toList());
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                        cb.greaterThan(root.get("resultsVisibleFromTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
+                        cb.and(
+                                cb.equal(root.get("isPublishedEmailSent"), false),
+                                cb.equal(root.get("isPublishedEmailEnabled"), true))
+               ));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
 }
