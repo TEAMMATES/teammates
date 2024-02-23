@@ -218,7 +218,6 @@ public final class DataBundleLogic {
         for (Notification notification : notifications) {
             UUID placeholderId = notification.getId();
             notification.setId(UUID.randomUUID());
-            notification.setTitle(notification.getTitle() + UUID.randomUUID().toString());
             notificationsMap.put(placeholderId, notification);
         }
 

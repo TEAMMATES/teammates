@@ -49,12 +49,12 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
                 sqlTestData.notifications.get("notification4"),
         };
 
-        Set<String> readNotificationsTitleSet = Stream.of(readNotifications)
-                .map(readNotification -> readNotification.getTitle())
+        Set<String> readNotificationsIds = Stream.of(readNotifications)
+                .map(readNotification -> readNotification.getId().toString())
                 .collect(Collectors.toSet());
 
         notificationsPage.verifyNotShownNotifications(notShownNotifications);
-        notificationsPage.verifyShownNotifications(shownNotifications, readNotificationsTitleSet);
+        notificationsPage.verifyShownNotifications(shownNotifications, readNotificationsIds);
 
         ______TS("mark notification as read");
         Notification notificationToMarkAsRead = sqlTestData.notifications.get("notification2");

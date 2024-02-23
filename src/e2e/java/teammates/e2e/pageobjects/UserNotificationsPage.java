@@ -46,12 +46,10 @@ public class UserNotificationsPage extends AppPage {
     }
 
     public void verifyNotShownNotifications(Notification[] notifications) {
-        // Titles are not unique, but in this case, we are using a prefix for the titles
-        // and thus it is unlikely for the title to be duplicated
-        List<String> shownNotificationTitles = notificationTabs.findElements(By.className("card-header"))
-                .stream().map(e -> e.getText()).collect(Collectors.toList());
+        List<String> shownNotificationIds = notificationTabs.findElements(By.className("card"))
+                .stream().map(e -> e.getAttribute("id")).collect(Collectors.toList());
         for (Notification notification : notifications) {
-            assertFalse(shownNotificationTitles.contains(getHeaderText(notification)));
+            assertFalse(shownNotificationIds.contains(notification.getId().toString()));
         }
     }
 
@@ -63,9 +61,11 @@ public class UserNotificationsPage extends AppPage {
         }
     }
 
-    public void verifyShownNotifications(Notification[] notifications, Set<String> readNotificationTitles) {
+    public void verifyShownNotifications(Notification[] notifications, Set<String> readNotificationIds) {
+        // Only validates that the preset notifications are present instead of checking every notification
+        // This is because the page will display all active notifications in the database, which is not predictable
         for (Notification notification : notifications) {
-            verifyNotificationTab(notification, readNotificationTitles);
+            verifyNotificationTab(notification, readNotificationIds);
         }
     }
 
@@ -108,20 +108,12 @@ public class UserNotificationsPage extends AppPage {
         }
     }
 
-    public void verifyNotificationTab(Notification notification, Set<String> readNotificationTitles) {
-        boolean isRead = readNotificationTitles.contains(notification.getTitle());
-
-        List<WebElement> cardHeaders = notificationTabs.findElements(By.className("card-header"));
-
-        List<WebElement> cardHeadersWithTitle = cardHeaders.stream()
-                .filter(e -> e.getText().equals(getHeaderText(notification))).collect(Collectors.toList());
-
-        assertEquals(cardHeadersWithTitle.size(), 1);
-
-        WebElement cardHeader = cardHeadersWithTitle.get(0);
-        WebElement notificationTab = cardHeader.findElement(By.xpath(".."));
+    public void verifyNotificationTab(Notification notification, Set<String> readNotificationIds) {
+        boolean isRead = readNotificationIds.contains(notification.getId().toString());
+        WebElement notificationTab = notificationTabs.findElement(By.id(notification.getId().toString()));
 
         // Check text and style of notification header
+        WebElement cardHeader = notificationTab.findElement(By.className("card-header"));
         assertEquals(getHeaderText(notification), cardHeader.getText());
         assertTrue(cardHeader.getAttribute("class").contains(getHeaderClass(notification.getStyle())));
 
