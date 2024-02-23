@@ -77,8 +77,8 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
-            DeadlineExtensionsLogic deadlineExtensionsLogic) {
+                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+                               DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
@@ -770,16 +770,10 @@ public final class UsersLogic {
         originalStudent.setEmail(student.getEmail());
         originalStudent.setComments(student.getComments());
 
-        // cascade email changes to account, responses and comments
+        // cascade email changes to responses and comments
         if (changedEmail) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
             feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
-
-            Account originalAccount = originalStudent.getAccount();
-            if (originalAccount != null) {
-                originalAccount.setEmail(student.getEmail());
-                accountsLogic.updateAccount(originalAccount);
-            }
         }
 
         // adjust submissions if moving to a different team

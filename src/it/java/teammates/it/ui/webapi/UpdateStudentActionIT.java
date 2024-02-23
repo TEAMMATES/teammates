@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,7 +13,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -50,40 +50,47 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     @Override
     @Test
     public void testExecute() throws Exception {
-        Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        assert true;
+    }
 
-        String instructorId = instructor1OfCourse1.getGoogleId();
-        loginAsInstructor(instructorId);
-
-        ______TS("Invalid parameters");
+    @Test
+    public void testExecute_invalidParameters() throws Exception {
+        Student student1 = typicalBundle.students.get("student1InCourse1");
 
         //no parameters
         verifyHttpParameterFailure();
 
         //null student email
         String[] invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
         };
         verifyHttpParameterFailure(invalidParams);
 
         //null course id
         invalidParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
         verifyHttpParameterFailure(invalidParams);
         verifyNoTasksAdded();
+    }
 
-        ______TS("Typical case, successful edit and save student detail");
+    @Test
+    public void testExecute_typicalCase_success() throws Exception {
+        Student student1 = typicalBundle.students.get("student1InCourse1");
+
+        String originalEmail = student1.getEmail();
+        Team originalTeam = student1.getTeam();
+        String originalComments = student1.getComments();
+
         String newStudentEmail = "newemail@gmail.tmt";
         String newStudentTeam = "new student's team";
         String newStudentComments = "this is new comment after editing";
-        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), newStudentEmail,
-                newStudentTeam, student1InCourse1.getSectionName(), newStudentComments, true);
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), newStudentEmail,
+                newStudentTeam, student1.getSectionName(), newStudentComments, true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
 
         UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
@@ -93,29 +100,39 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
         verifyNumberOfEmailsSent(1);
 
-        Student updatedStudent = logic.getStudent(student1InCourse1.getId());
+        Student updatedStudent = logic.getStudent(student1.getId());
         assertEquals(updatedStudent.getEmail(), newStudentEmail);
         assertEquals(updatedStudent.getTeamName(), newStudentTeam);
         assertEquals(updatedStudent.getComments(), newStudentComments);
 
         EmailWrapper email = getEmailsSent().get(0);
-        String courseName = logic.getCourse(instructor1OfCourse1.getCourseId()).getName();
+        String courseName = logic.getCourse(student1.getCourseId()).getName();
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
-                instructor1OfCourse1.getCourseId()), email.getSubject());
+                student1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
-        ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
-        String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   "; // after trim, this is equal to newStudentEmail
+        resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
+    }
+
+    @Test
+    public void testExecute_studentDetailsWithWhitespace_success() throws Exception {
+        Student student1 = typicalBundle.students.get("student1InCourse1");
+
+        String originalEmail = student1.getEmail();
+        Team originalTeam = student1.getTeam();
+        String originalComments = student1.getComments();
+
+        String newStudentEmailToBeTrimmed = "  student1@teammates.tmt   "; // after trim, this is equal to originalEmail
         String newStudentTeamToBeTrimmed = "  New team   ";
         String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), newStudentEmailToBeTrimmed,
-                newStudentTeamToBeTrimmed, student1InCourse1.getSectionName(), newStudentCommentsToBeTrimmed, true);
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), newStudentEmailToBeTrimmed,
+                newStudentTeamToBeTrimmed, student1.getSectionName(), newStudentCommentsToBeTrimmed, true);
 
         String[] submissionParamsToBeTrimmed = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
 
         UpdateStudentAction actionToBeTrimmed = getAction(updateRequest, submissionParamsToBeTrimmed);
@@ -125,18 +142,23 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
         verifyNoEmailsSent();
 
-        ______TS("Error case, invalid email parameter (email has too many characters)");
+        resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
+    }
+
+    @Test
+    public void testExecute_emailHasTooManyCharacters_failure() throws Exception {
+        Student student1 = typicalBundle.students.get("student1InCourse1");
 
         String invalidStudentEmail = StringHelperExtension.generateStringOfLength(255 - "@gmail.tmt".length())
                 + "@gmail.tmt";
         assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), invalidStudentEmail,
-                student1InCourse1.getTeamName(), student1InCourse1.getSectionName(), student1InCourse1.getComments(), false);
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), invalidStudentEmail,
+                student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
@@ -147,34 +169,39 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 ihrbe.getMessage());
 
         verifyNoTasksAdded();
+    }
 
-        ______TS("Error case, invalid email parameter (email already taken by others)");
+    @Test
+    public void testExecute_emailTakenByOthers_failure() {
+        Student student1 = typicalBundle.students.get("student1InCourse1");
 
-        Student student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        String takenStudentEmail = student2InCourse1.getEmail();
+        Student student2 = typicalBundle.students.get("student2InCourse1");
+        String takenStudentEmail = student2.getEmail();
 
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), takenStudentEmail,
-                student1InCourse1.getTeamName(), student1InCourse1.getSectionName(), student1InCourse1.getComments(), false);
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), takenStudentEmail,
+                student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
         assertEquals("Trying to update to an email that is already in use", ioe.getMessage());
 
         verifyNoTasksAdded();
+    }
 
-        ______TS("Error case, student does not exist");
+    @Test
+    public void testExecute_studentDoesNotExist_failure() {
+        Student student1 = typicalBundle.students.get("student1InCourse1");
 
-        String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
-        updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), student1InCourse1.getEmail(),
-                student1InCourse1.getTeamName(), student1InCourse1.getSectionName(), student1InCourse1.getComments(), false);
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), student1.getEmail(),
+                student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, "notinuseemail@gmail.tmt",
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
@@ -184,35 +211,38 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 enfe.getMessage());
 
         verifyNoTasksAdded();
+    }
 
-        ______TS("Error case, student team name already exists in another section");
+    @Test
+    public void testExecute_studentTeamExistsInAnotherSection_failure() throws Exception {
+        Student student1 = typicalBundle.students.get("student1InCourse1");
+        Student student4 = typicalBundle.students.get("student4InCourse1");
 
-        Student student1inCourse1 = typicalBundle.students.get("student1InCourse1");
-        Student student4InCourse1 = typicalBundle.students.get("student4InCourse1");
+        assertNotEquals(student1.getSection(), student4.getSection());
 
-        assertNotEquals(student1inCourse1.getSection(), student4InCourse1.getSection());
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), student1.getEmail(),
+                student4.getTeamName(), student1.getSectionName(), student1.getComments(), true);
 
-        updateRequest = new StudentUpdateRequest(student1inCourse1.getName(),
-                student1inCourse1.getEmail(), student4InCourse1.getTeamName(), student1inCourse1.getSectionName(),
-                student1inCourse1.getComments(), true);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1inCourse1.getEmail(),
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
 
-        ioe = verifyInvalidOperation(updateRequest, submissionParams);
+        InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
         String expectedErrorMessage = String.format("Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-                + " Please use different team names in different sections.", student4InCourse1.getTeamName(),
-                student1inCourse1.getSectionName(), student4InCourse1.getSectionName());
+                + " Please use different team names in different sections.", student4.getTeamName(),
+                student1.getSectionName(), student4.getSectionName());
         assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
+    }
 
-        ______TS("Error case, section already has max number of students");
+    @Test
+    public void testExecute_sectionFull_failure() throws Exception {
+        Student studentToJoinMaxSection = typicalBundle.students.get("student1InCourse1");
 
         Course course = typicalBundle.courses.get("course1");
-        String courseId = instructor1OfCourse1.getCourseId();
+        String courseId = studentToJoinMaxSection.getCourseId();
         String sectionInMaxCapacity = "sectionInMaxCapacity";
         Section section = logic.getSectionOrCreate(courseId, sectionInMaxCapacity);
         Team team = logic.getTeamOrCreate(section, "randomTeamName");
@@ -225,42 +255,44 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         List<Student> studentList = logic.getStudentsForCourse(courseId);
 
-        Student studentToJoinMaxSection = typicalBundle.students.get("student1InCourse1");
         assertEquals(Const.SECTION_SIZE_LIMIT,
                 studentList.stream().filter(student -> student.getSectionName().equals(sectionInMaxCapacity)).count());
         assertEquals(courseId, studentToJoinMaxSection.getCourseId());
 
-        updateRequest =
+        StudentUpdateRequest updateRequest =
                 new StudentUpdateRequest(studentToJoinMaxSection.getName(), studentToJoinMaxSection.getEmail(),
                         "randomTeamName", sectionInMaxCapacity,
                         studentToJoinMaxSection.getComments(), true);
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, studentToJoinMaxSection.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, studentToJoinMaxSection.getEmail(),
         };
 
-        ioe = verifyInvalidOperation(updateRequest, submissionParams);
-        expectedErrorMessage = String.format("You are trying enroll more than %d students in section \"%s\". "
+        InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
+        String expectedErrorMessage = String.format("You are trying enroll more than %d students in section \"%s\". "
                 + "To avoid performance problems, please do not enroll more than %d students in a single section.",
                 Const.SECTION_SIZE_LIMIT, sectionInMaxCapacity, Const.SECTION_SIZE_LIMIT);
         assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
+    }
 
-        ______TS("Empty section name should be updated with default section name");
+    @Test
+    public void testExecute_renameEmptySectionNameToDefault_success() {
+        Student student4 = typicalBundle.students.get("student4InCourse1");
 
-        StudentUpdateRequest emptySectionUpdateRequest =
-                new StudentUpdateRequest(student4InCourse1.getName(), student4InCourse1.getEmail(),
-                        student4InCourse1.getTeamName(), "", student4InCourse1.getComments(), true);
+        Team originalTeam = student4.getTeam();
+
+        StudentUpdateRequest emptySectionUpdateRequest = new StudentUpdateRequest(student4.getName(), student4.getEmail(),
+                student4.getTeamName(), "", student4.getComments(), true);
 
         String[] emptySectionSubmissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student4InCourse1.getEmail(),
+                Const.ParamsNames.COURSE_ID, student4.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student4.getEmail(),
         };
 
-        UpdateStudentAction updateEmptySectionAction =
-                getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
+        UpdateStudentAction updateEmptySectionAction = getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
         JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
 
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
@@ -269,28 +301,37 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         // verify student in database
         Student actualStudent =
-                logic.getStudentForEmail(student4InCourse1.getCourseId(), student4InCourse1.getEmail());
-        assertEquals(student4InCourse1.getCourse(), actualStudent.getCourse());
-        assertEquals(student4InCourse1.getName(), actualStudent.getName());
-        assertEquals(student4InCourse1.getEmail(), actualStudent.getEmail());
-        assertEquals(student4InCourse1.getTeam(), actualStudent.getTeam());
+                logic.getStudentForEmail(student4.getCourseId(), student4.getEmail());
+        assertEquals(student4.getCourse(), actualStudent.getCourse());
+        assertEquals(student4.getName(), actualStudent.getName());
+        assertEquals(student4.getEmail(), actualStudent.getEmail());
+        assertEquals(student4.getTeam(), actualStudent.getTeam());
         assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
-        assertEquals(student4InCourse1.getComments(), actualStudent.getComments());
+        assertEquals(student4.getComments(), actualStudent.getComments());
+
+        resetStudent(student4.getId(), student4.getEmail(), originalTeam, student4.getComments());
     }
 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        Student student1InCourse1 = typicalBundle.students.get("student3InCourse1");
+        Student student1 = typicalBundle.students.get("student1InCourse1");
         Course course = typicalBundle.courses.get("course1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
     }
+
+    private void resetStudent(UUID studentId, String originalEmail, Team originalTeam, String originalComments) {
+        Student updatedStudent = logic.getStudent(studentId);
+        updatedStudent.setEmail(originalEmail);
+        updatedStudent.setTeam(originalTeam);
+        updatedStudent.setComments(originalComments);
+    }
+
 }

@@ -525,4 +525,5 @@ public final class FeedbackResponsesLogic {
             frDb.updateFeedbackResponse(response);
         }
     }
+
 }

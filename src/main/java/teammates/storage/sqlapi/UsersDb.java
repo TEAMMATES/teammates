@@ -670,4 +670,5 @@ public final class UsersDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
     }
+
 }
