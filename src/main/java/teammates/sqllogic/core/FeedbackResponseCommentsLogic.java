@@ -183,7 +183,7 @@ public final class FeedbackResponseCommentsLogic {
      * Verifies whether the comment is visible to certain user.
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, boolean isInstructor,
+    public boolean checkIsResponseCommentVisibleForUser(String userEmail, boolean isInstructor,
             Student student, Set<String> studentsEmailInTeam, FeedbackResponse response,
             FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment) {
 
@@ -193,37 +193,37 @@ public final class FeedbackResponseCommentsLogic {
 
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
-                                 || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
+                                 || relatedComment.checkIsVisibleTo(FeedbackParticipantType.GIVER);
 
-        boolean isVisibleToUser = isVisibleToUser(userEmail, response, relatedQuestion, relatedComment,
+        boolean isVisibleToUser = checkIsVisibleToUser(userEmail, response, relatedQuestion, relatedComment,
                 isVisibleToGiver, isInstructor, !isInstructor);
 
-        boolean isVisibleToUserTeam = isVisibleToUserTeam(student, studentsEmailInTeam, response,
+        boolean isVisibleToUserTeam = checkIsVisibleToUserTeam(student, studentsEmailInTeam, response,
                 relatedQuestion, relatedComment, !isInstructor);
 
         return isVisibleToUser || isVisibleToUserTeam;
     }
 
-    private boolean isVisibleToUserTeam(Student student, Set<String> studentsEmailInTeam,
+    private boolean checkIsVisibleToUserTeam(Student student, Set<String> studentsEmailInTeam,
             FeedbackResponse response, FeedbackQuestion relatedQuestion,
             FeedbackResponseComment relatedComment, boolean isUserStudent) {
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients =
                 isUserStudent
                 && relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
-                && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.RECEIVER)
                 && response.getRecipient().equals(student.getTeamName());
 
         boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
                 (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                || checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
                 && (studentsEmailInTeam.contains(response.getGiver())
                         || isUserStudent && student.getTeamName().equals(response.getGiver()));
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
-                isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                            FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && studentsEmailInTeam.contains(response.getRecipient());
 
@@ -232,16 +232,16 @@ public final class FeedbackResponseCommentsLogic {
                 || isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers;
     }
 
-    private boolean isVisibleToUser(String userEmail, FeedbackResponse response,
+    private boolean checkIsVisibleToUser(String userEmail, FeedbackResponse response,
             FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment,
             boolean isVisibleToGiver, boolean isUserInstructor, boolean isUserStudent) {
 
         boolean isUserInstructorAndRelatedResponseCommentVisibleToInstructors =
-                isUserInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                isUserInstructor && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                                                FeedbackParticipantType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
-                response.getRecipient().equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
+                response.getRecipient().equals(userEmail) && checkIsResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.RECEIVER);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
@@ -250,7 +250,7 @@ public final class FeedbackResponseCommentsLogic {
         boolean isUserRelatedResponseCommentGiver = relatedComment.getGiver().equals(userEmail);
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
-                isUserStudent && isResponseCommentVisibleTo(relatedQuestion,
+                isUserStudent && checkIsResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.STUDENTS);
 
         return isUserInstructorAndRelatedResponseCommentVisibleToInstructors
@@ -260,19 +260,19 @@ public final class FeedbackResponseCommentsLogic {
                 || isUserStudentAndRelatedResponseCommentVisibleToStudents;
     }
 
-    private boolean isResponseCommentVisibleTo(FeedbackQuestion relatedQuestion,
+    private boolean checkIsResponseCommentVisibleTo(FeedbackQuestion relatedQuestion,
                                                FeedbackResponseComment relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
         return isVisibilityFollowingFeedbackQuestion
                 ? relatedQuestion.isResponseVisibleTo(viewerType)
-                : relatedComment.isVisibleTo(viewerType);
+                : relatedComment.checkIsVisibleTo(viewerType);
     }
 
     /**
      * Returns true if the comment's giver name is visible to certain user.
      */
-    public boolean isNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
+    public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
                                    String userEmail, SqlCourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = comment.getShowGiverNameTo();
         //in the old ver, name is always visible
@@ -285,10 +285,10 @@ public final class FeedbackResponseCommentsLogic {
             return true;
         }
 
-        return isFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
+        return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
     }
 
-    private boolean isFeedbackParticipantNameVisibleToUser(FeedbackResponse response,
+    private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,
             String userEmail, SqlCourseRoster roster, List<FeedbackParticipantType> showNameTo) {
         String responseGiverTeam = "giverTeam";
         if (roster.getStudentForEmail(response.getGiver()) != null) {

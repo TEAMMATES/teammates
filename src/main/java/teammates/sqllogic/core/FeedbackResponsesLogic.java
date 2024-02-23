@@ -597,7 +597,7 @@ public final class FeedbackResponsesLogic {
                 continue;
             }
             // check visibility of comment
-            boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(
+            boolean isVisibleResponseComment = frcLogic.checkIsResponseCommentVisibleForUser(
                     userEmail, isInstructor, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (!isVisibleResponseComment) {
                 continue;
@@ -605,7 +605,8 @@ public final class FeedbackResponsesLogic {
 
             relatedCommentsMap.computeIfAbsent(relatedResponse, key -> new ArrayList<>()).add(frc);
             // generate comment giver name visibility table
-            commentVisibilityTable.put(frc.getId(), frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster));
+            commentVisibilityTable.put(frc.getId(),
+                    frcLogic.checkIsNameVisibleToUser(frc, relatedResponse, userEmail, roster));
         }
         RequestTracer.checkRemainingTime();
 

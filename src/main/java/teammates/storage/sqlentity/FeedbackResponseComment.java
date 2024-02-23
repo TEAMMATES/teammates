@@ -214,7 +214,7 @@ public class FeedbackResponseComment extends BaseEntity {
     /**
      * Returns true if the response comment is visible to the given participant type.
      */
-    public boolean isVisibleTo(FeedbackParticipantType viewerType) {
+    public boolean checkIsVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
     }
 
