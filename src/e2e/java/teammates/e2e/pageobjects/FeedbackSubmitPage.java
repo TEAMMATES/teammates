@@ -37,6 +37,7 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
  * Represents the feedback submission page of the website.
@@ -155,8 +156,21 @@ public class FeedbackSubmitPage extends AppPage {
         writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
     }
 
+    public void fillTextResponse(int qnNumber, String recipient, FeedbackResponse responseDetails) {
+        FeedbackTextResponseDetails responseTextDetails = (FeedbackTextResponseDetails) responseDetails.getFeedbackResponseDetailsCopy();
+        writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseTextDetails.getAnswer());
+    }
+
     public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackTextResponseDetails responseDetails = (FeedbackTextResponseDetails) response.getResponseDetailsCopy();
+        int responseLength = responseDetails.getAnswer().split(" ").length;
+        assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
+        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
+                + " words");
+    }
+
+    public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackTextResponseDetails responseDetails = (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
         int responseLength = responseDetails.getAnswer().split(" ").length;
         assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
         assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
