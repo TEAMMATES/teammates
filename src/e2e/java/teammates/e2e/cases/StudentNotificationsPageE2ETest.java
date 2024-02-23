@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
+import teammates.ui.output.AccountData;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}.
@@ -60,6 +61,10 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
         Notification notificationToMarkAsRead = sqlTestData.notifications.get("notification2");
         notificationsPage.markNotificationAsRead(notificationToMarkAsRead);
         notificationsPage.verifyStatusMessage("Notification marked as read.");
+
+        // Verify that account's readNotifications attribute is updated
+        AccountData accountFromDb = BACKDOOR.getAccountData(account.getGoogleId());
+        assertTrue(accountFromDb.getReadNotifications().containsKey(notificationToMarkAsRead.getId().toString()));
 
         ______TS("notification banner is not visible");
         assertFalse(notificationsPage.isBannerVisible());
