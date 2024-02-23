@@ -17,7 +17,6 @@ import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.SqlSessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -33,6 +32,7 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.responses.FeedbackMissingResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
@@ -591,9 +591,12 @@ public final class FeedbackResponsesLogic {
         // build comment
         for (FeedbackResponseComment frc : allComments) {
             FeedbackResponse relatedResponse = frc.getFeedbackResponse();
-            FeedbackQuestion relatedQuestion = relatedResponse.getFeedbackQuestion();
             // the comment needs to be relevant to the question and response
-            if (relatedQuestion == null || relatedResponse == null) {
+            if (relatedResponse == null) {
+                continue;
+            }
+            FeedbackQuestion relatedQuestion = relatedResponse.getFeedbackQuestion();
+            if (relatedQuestion == null) {
                 continue;
             }
             // check visibility of comment
@@ -766,14 +769,10 @@ public final class FeedbackResponsesLogic {
                         continue;
                     }
 
-                    FeedbackResponse missingResponse = FeedbackResponse.makeResponse(
+                    FeedbackResponse missingResponse = new FeedbackMissingResponse(
                             correspondingQuestion,
-                            giverIdentifier,
-                            giverInfo.getSection(),
-                            recipientIdentifier,
-                            recipientInfo.getSection(),
-                            new FeedbackTextResponseDetails("No Response")
-                    );
+                            giverIdentifier, giverInfo.getSectionName(),
+                            recipientIdentifier, recipientInfo.getSectionName());
 
                     // check visibility of the missing response
                     boolean isVisibleResponse = isResponseVisibleForUser(
@@ -920,14 +919,14 @@ public final class FeedbackResponsesLogic {
         }
         if (isVisibleResponse && instructor != null) {
             boolean isGiverSectionRestricted =
-                    !instructor.isAllowedForPrivilege(response.getGiverSection().getName(),
+                    !instructor.isAllowedForPrivilege(response.getGiverSectionName(),
                             response.getFeedbackQuestion().getFeedbackSession().getName(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted =
                     relatedQuestion.getRecipientType() != FeedbackParticipantType.NONE
-                            && !instructor.isAllowedForPrivilege(response.getRecipientSection().getName(),
+                            && !instructor.isAllowedForPrivilege(response.getRecipientSectionName(),
                             response.getFeedbackQuestion().getFeedbackSession().getName(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
 

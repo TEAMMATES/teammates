@@ -467,7 +467,7 @@ public class SessionResultsData extends ApiOutput {
         }
         String giverName = getGiverNameOfResponse(response, bundle);
         String giverTeam = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
-        String giverSectionName = response.getGiverSection().getName();
+        String giverSectionName = response.getGiverSectionName();
         FeedbackQuestion question = response.getFeedbackQuestion();
         if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS) {
             Instructor instructor = bundle.getRoster().getInstructorForEmail(response.getGiver());
@@ -481,7 +481,7 @@ public class SessionResultsData extends ApiOutput {
         String recipientName = getRecipientNameOfResponse(response, bundle);
         String recipientTeam =
                 bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
-        String recipientSectionName = response.getRecipientSection().getName();
+        String recipientSectionName = response.getRecipientSectionName();
         if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
             Instructor instructor = bundle.getRoster().getInstructorForEmail(response.getRecipient());
             recipientName = instructor.getName();
