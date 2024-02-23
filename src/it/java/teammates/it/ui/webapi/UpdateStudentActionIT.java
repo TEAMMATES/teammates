@@ -54,19 +54,19 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     }
 
     @Test
-    public void testExecute_invalidParameters() throws Exception {
+    public void testExecute_invalidParameters_failure() throws Exception {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
-        //no parameters
+        ______TS("no parameters");
         verifyHttpParameterFailure();
 
-        //null student email
+        ______TS("null student email");
         String[] invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1.getCourseId(),
         };
         verifyHttpParameterFailure(invalidParams);
 
-        //null course id
+        ______TS("null course id");
         invalidParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
