@@ -591,7 +591,7 @@ public final class FeedbackResponsesLogic {
         // build comment
         for (FeedbackResponseComment frc : allComments) {
             FeedbackResponse relatedResponse = frc.getFeedbackResponse();
-            FeedbackQuestion relatedQuestion = frc.getFeedbackQuestion();
+            FeedbackQuestion relatedQuestion = relatedResponse.getFeedbackQuestion();
             // the comment needs to be relevant to the question and response
             if (relatedQuestion == null || relatedResponse == null) {
                 continue;
