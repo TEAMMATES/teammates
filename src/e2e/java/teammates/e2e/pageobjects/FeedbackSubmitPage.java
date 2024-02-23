@@ -156,9 +156,10 @@ public class FeedbackSubmitPage extends AppPage {
         writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
     }
 
-    public void fillTextResponse(int qnNumber, String recipient, FeedbackResponse responseDetails) {
-        FeedbackTextResponseDetails responseTextDetails = (FeedbackTextResponseDetails) responseDetails.getFeedbackResponseDetailsCopy();
-        writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseTextDetails.getAnswer());
+    public void fillTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackTextResponseDetails responseDetails =
+                (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
+        writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
     }
 
     public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -170,7 +171,8 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackTextResponseDetails responseDetails = (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackTextResponseDetails responseDetails =
+                (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
         int responseLength = responseDetails.getAnswer().split(" ").length;
         assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
         assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
