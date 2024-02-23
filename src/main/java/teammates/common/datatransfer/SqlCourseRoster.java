@@ -7,9 +7,7 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -128,8 +126,8 @@ public class SqlCourseRoster {
      */
     public ParticipantInfo getInfoForIdentifier(String identifier) {
         String name = Const.USER_NOBODY_TEXT;
-        Team team = new Team(null, Const.USER_NOBODY_TEXT);
-        Section section = Const.DEFAULT_SECTION_ENTITY;
+        String teamName = Const.USER_NOBODY_TEXT;
+        String sectionName = Const.DEFAULT_SECTION;
 
         boolean isStudent = getStudentForEmail(identifier) != null;
         boolean isInstructor = getInstructorForEmail(identifier) != null;
@@ -138,23 +136,23 @@ public class SqlCourseRoster {
             Student student = getStudentForEmail(identifier);
 
             name = student.getName();
-            team = student.getTeam();
-            section = student.getSection();
+            teamName = student.getTeamName();
+            sectionName = student.getSectionName();
         } else if (isInstructor) {
             Instructor instructor = getInstructorForEmail(identifier);
 
             name = instructor.getName();
-            team = Const.USER_TEAM_ENTITY_FOR_INSTRUCTOR;
-            section = Const.DEFAULT_SECTION_ENTITY;
+            teamName = Const.USER_TEAM_FOR_INSTRUCTOR;
+            sectionName = Const.DEFAULT_SECTION;
         } else if (isTeam) {
             Student teamMember = getTeamToMembersTable().get(identifier).iterator().next();
 
             name = identifier;
-            team = new Team(teamMember.getSection(), identifier);
-            section = teamMember.getSection();
+            teamName = identifier;
+            sectionName = teamMember.getSectionName();
         }
 
-        return new ParticipantInfo(name, team, section);
+        return new ParticipantInfo(name, teamName, sectionName);
     }
 
     /**
@@ -163,33 +161,25 @@ public class SqlCourseRoster {
     public static class ParticipantInfo {
 
         private final String name;
-        private final Team team;
-        private final Section section;
+        private final String teamName;
+        private final String sectionName;
 
-        private ParticipantInfo(String name, Team team, Section section) {
+        private ParticipantInfo(String name, String teamName, String sectionName) {
             this.name = name;
-            this.team = team;
-            this.section = section;
+            this.teamName = teamName;
+            this.sectionName = sectionName;
         }
 
         public String getName() {
             return name;
         }
 
-        public Team getTeam() {
-            return team;
-        }
-
-        public Section getSection() {
-            return section;
-        }
-
         public String getTeamName() {
-            return team.getName();
+            return teamName;
         }
 
         public String getSectionName() {
-            return section.getName();
+            return sectionName;
         }
     }
 }
