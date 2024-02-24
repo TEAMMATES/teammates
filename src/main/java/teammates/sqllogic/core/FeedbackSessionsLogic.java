@@ -46,6 +46,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
     private CoursesLogic coursesLogic;
+    private UsersLogic usersLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -56,11 +57,12 @@ public final class FeedbackSessionsLogic {
     }
 
     void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
-            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic) {
+            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic, UsersLogic usersLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
         this.coursesLogic = coursesLogic;
+        this.usersLogic = usersLogic;
     }
 
     /**
@@ -169,8 +171,26 @@ public final class FeedbackSessionsLogic {
         FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
 
         Set<String> giverSet = new HashSet<>();
+
         feedbackSession.getFeedbackQuestions().forEach(question -> {
             question.getFeedbackResponses().forEach(response -> {
+                giverSet.add(response.getGiver());
+            });
+        });
+
+        return giverSet;
+    }
+
+    /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession fs) {
+        assert fs != null;
+
+        Set<String> giverSet = new HashSet<>();
+
+        fqLogic.getFeedbackQuestionsForSession(fs).forEach(question -> {
+            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
                 giverSet.add(response.getGiver());
             });
         });
@@ -369,8 +389,7 @@ public final class FeedbackSessionsLogic {
 
             // also reset isOpeningSoonEmailSent
             session.setOpeningSoonEmailSent(
-                    session.isOpened() || session.isOpeningInHours(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
-            );
+                    session.isOpened() || session.isOpeningInHours(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT));
         }
 
         // reset isClosedEmailSent if the session has closed but is being un-closed
@@ -380,8 +399,7 @@ public final class FeedbackSessionsLogic {
 
             // also reset isClosingSoonEmailSent
             session.setClosingSoonEmailSent(
-                    session.isClosed() || session.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
-            );
+                    session.isClosed() || session.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
 
         // reset isPublishedEmailSent if the session has been published but is
@@ -494,5 +512,45 @@ public final class FeedbackSessionsLogic {
         log.info(String.format("Number of sessions under consideration after filtering: %d",
                 sessionsToSendEmailsFor.size()));
         return sessionsToSendEmailsFor;
+    }
+
+    /**
+     * Gets the expected number of submissions for a feedback session.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        int expectedTotal = 0;
+        List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
+        if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
+            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourse().getId()).size();
+        }
+
+        // Pre-flight check to ensure there are questions for instructors.
+        if (!fqLogic.hasFeedbackQuestionsForInstructors(questions, true)) {
+            return expectedTotal;
+        }
+
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourse().getId());
+        if (instructors.isEmpty()) {
+            return expectedTotal;
+        }
+
+        // Check presence of questions for instructors.
+        if (fqLogic.hasFeedbackQuestionsForInstructors(fqLogic.getFeedbackQuestionsForSession(fs), false)) {
+            expectedTotal += instructors.size();
+        } else {
+            // No questions for instructors. There must be questions for creator.
+            List<Instructor> creators = instructors.stream()
+                    .filter(instructor -> fs.getCreatorEmail().equals(instructor.getEmail()))
+                    .collect(Collectors.toList());
+            expectedTotal += creators.size();
+        }
+        return expectedTotal;
+    }
+
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     */
+    public int getActualTotalSubmission(FeedbackSession fs) {
+        return getGiverSetThatAnsweredFeedbackSession(fs).size();
     }
 }
