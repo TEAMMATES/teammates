@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 import { MasqueradeModeService } from './masquerade-mode.service';
+import { environment } from '../environments/environment';
 
 /**
  * This encoder was created to support encoding and decoding of plus (+) signs.

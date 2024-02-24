@@ -316,8 +316,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, session);
-
-            validQuestionForCommentInSubmission(question);
             verifyResponseOwnerShipForStudent(studentAttributes, response, question);
             break;
         case INSTRUCTOR_SUBMISSION:
@@ -333,8 +331,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
-
-            validQuestionForCommentInSubmission(question);
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         case INSTRUCTOR_RESULT:

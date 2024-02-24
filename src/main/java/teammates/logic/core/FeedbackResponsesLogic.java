@@ -344,10 +344,16 @@ public final class FeedbackResponsesLogic {
             boolean isCourseWide, String feedbackSessionName, String courseId, String section, String questionId,
             boolean isInstructor, String userEmail, InstructorAttributes instructor, StudentAttributes student,
             CourseRoster roster, List<FeedbackQuestionAttributes> allQuestions,
-            List<FeedbackResponseAttributes> allResponses) {
+            List<FeedbackResponseAttributes> allResponses, boolean isPreviewResults) {
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
+        Set<String> questionsNotVisibleToInstructors = new HashSet<>();
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
+
+            // set questions that should not be visible to instructors if results are being previewed
+            if (isPreviewResults && !canInstructorsSeeQuestion(qn)) {
+                questionsNotVisibleToInstructors.add(qn.getId());
+            }
         }
 
         // load comment(s)
@@ -361,6 +367,8 @@ public final class FeedbackResponsesLogic {
 
         // related questions, responses, and comment
         Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
+        Map<String, FeedbackQuestionAttributes> relatedQuestionsNotVisibleForPreviewMap = new HashMap<>();
+        Set<String> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
         Map<String, FeedbackResponseAttributes> relatedResponsesMap = new HashMap<>();
         Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
         if (isCourseWide) {
@@ -385,6 +393,12 @@ public final class FeedbackResponsesLogic {
 
         // build response
         for (FeedbackResponseAttributes response : allResponses) {
+            if (isPreviewResults
+                    && relatedQuestionsNotVisibleForPreviewMap.get(response.getFeedbackQuestionId()) != null) {
+                // corresponding question's responses will not be shown to previewer, ignore the response
+                continue;
+            }
+
             FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.getFeedbackQuestionId());
             if (correspondingQuestion == null) {
                 // orphan response without corresponding question, ignore it
@@ -394,6 +408,13 @@ public final class FeedbackResponsesLogic {
             boolean isVisibleResponse = isResponseVisibleForUser(
                     userEmail, isInstructor, student, studentsEmailInTeam, response, correspondingQuestion, instructor);
             if (!isVisibleResponse) {
+                continue;
+            }
+
+            // if previewing results and corresponding question should not be visible to instructors,
+            // note down the question and do not add the response
+            if (isPreviewResults && questionsNotVisibleToInstructors.contains(response.getFeedbackQuestionId())) {
+                relatedQuestionsNotVisibleForPreviewMap.put(response.getFeedbackQuestionId(), correspondingQuestion);
                 continue;
             }
 
@@ -423,6 +444,13 @@ public final class FeedbackResponsesLogic {
                 continue;
             }
 
+            // if previewing results and the comment should not be visible to instructors,
+            // note down the corresponding question and do not add the comment
+            if (isPreviewResults && !canInstructorsSeeComment(frc)) {
+                relatedQuestionsWithCommentNotVisibleForPreview.add(frc.getFeedbackQuestionId());
+                continue;
+            }
+
             relatedCommentsMap.computeIfAbsent(relatedResponse.getId(), key -> new ArrayList<>()).add(frc);
             // generate comment giver name visibility table
             commentVisibilityTable.put(frc.getId(), frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster));
@@ -438,9 +466,10 @@ public final class FeedbackResponsesLogic {
         }
         RequestTracer.checkRemainingTime();
 
-        return new SessionResultsBundle(relatedQuestionsMap, existingResponses, missingResponses,
-                responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
-                commentVisibilityTable, roster);
+        return new SessionResultsBundle(relatedQuestionsMap, relatedQuestionsNotVisibleForPreviewMap,
+                relatedQuestionsWithCommentNotVisibleForPreview,
+                existingResponses, missingResponses, responseGiverVisibilityTable, responseRecipientVisibilityTable,
+                relatedCommentsMap, commentVisibilityTable, roster);
     }
 
     /**
@@ -479,7 +508,7 @@ public final class FeedbackResponsesLogic {
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instructorEmail);
 
         return buildResultsBundle(true, feedbackSessionName, courseId, section, questionId, true, instructorEmail,
-                instructor, null, roster, allQuestions, allResponses);
+                instructor, null, roster, allQuestions, allResponses, false);
     }
 
     /**
@@ -490,11 +519,12 @@ public final class FeedbackResponsesLogic {
      * @param userEmail the user viewing the feedback session
      * @param isInstructor true if the user is an instructor
      * @param questionId if not null, will only return partial bundle for the question
+     * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
-            @Nullable String questionId) {
+            @Nullable String questionId, boolean isPreviewResults) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
@@ -518,7 +548,7 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         return buildResultsBundle(false, feedbackSessionName, courseId, null, questionId, isInstructor, userEmail,
-                instructor, student, roster, allQuestions, allResponses);
+                instructor, student, roster, allQuestions, allResponses, isPreviewResults);
     }
 
     /**
@@ -1099,6 +1129,30 @@ public final class FeedbackResponsesLogic {
      */
     int getNumFeedbackResponsesByTimeRange(Instant startTime, Instant endTime) {
         return frDb.getNumFeedbackResponsesByTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Checks whether instructors can see the question.
+     */
+    boolean canInstructorsSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        boolean isResponseVisibleToInstructor =
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isGiverVisibleToInstructor =
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isRecipientVisibleToInstructor =
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
+    }
+
+    /**
+     * Checks whether instructors can see the comment.
+     */
+    boolean canInstructorsSeeComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
+        boolean isCommentVisibleToInstructor =
+                feedbackResponseComment.getShowCommentTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isGiverVisibleToInstructor =
+                feedbackResponseComment.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        return isCommentVisibleToInstructor && isGiverVisibleToInstructor;
     }
 
     /**

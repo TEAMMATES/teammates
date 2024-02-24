@@ -7,7 +7,6 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -28,7 +27,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
@@ -99,7 +98,6 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -120,7 +118,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
@@ -191,7 +189,6 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -212,7 +209,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
@@ -283,7 +280,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -304,7 +300,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
@@ -400,7 +396,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               >
                 <input
                   class="form-control ng-untouched ng-pristine ng-valid"
-                  disabled=""
                   id="google-id-instructor-1"
                   maxlength="254"
                 />

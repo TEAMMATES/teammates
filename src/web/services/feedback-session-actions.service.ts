@@ -3,6 +3,10 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { concat } from 'rxjs';
 import { finalize, takeWhile } from 'rxjs/operators';
+import { FeedbackSessionsService } from './feedback-sessions.service';
+import { ProgressBarService } from './progress-bar.service';
+import { SimpleModalService } from './simple-modal.service';
+import { StatusMessageService } from './status-message.service';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../app/error-message-output';
 import {
@@ -14,10 +18,6 @@ import {
 import {
   Intent,
 } from '../types/api-request';
-import { FeedbackSessionsService } from './feedback-sessions.service';
-import { ProgressBarService } from './progress-bar.service';
-import { SimpleModalService } from './simple-modal.service';
-import { StatusMessageService } from './status-message.service';
 
 /**
  * Handles sessions related actions.

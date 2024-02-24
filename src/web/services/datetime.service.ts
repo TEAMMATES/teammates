@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment-timezone';
-import { DateFormat, TimeFormat } from '../types/datetime-const';
 import { TimezoneService } from './timezone.service';
+import { DateFormat, TimeFormat } from '../types/datetime-const';
 
 @Injectable({
     providedIn: 'root',
@@ -53,6 +53,36 @@ export class DateTimeService {
     }
 
     /**
+     * Converts a DateFormat object and a TimeFormat object to a single Date instance.
+     */
+    convertDateFormatAndTimeFormatToDate(date: DateFormat, time: TimeFormat): Date {
+        return new Date(date.year, date.month - 1, date.day, time.hour, time.minute);
+    }
+
+    /**
+     * Converts a single Date instance to a DateFormat object and a TimeFormat object.
+     */
+    convertDateToDateFormatAndTimeFormat(date: Date): [DateFormat, TimeFormat] {
+        const newDate: DateFormat = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        const newTime: TimeFormat = { hour: date.getHours(), minute: date.getMinutes() };
+        return [newDate, newTime];
+    }
+
+    /**
+     * Gets a DateFormat and a TimeFormat from a DateFormat and a TimeFormat Delta changed by deltaMinutes.
+     *
+     * @param date current date to change.
+     * @param time current time to change.
+     * @param deltaMinutes accepts a postive or negative number.
+     */
+    getDateTimeFromDateTimeDeltaMinutes(
+        date: DateFormat, time: TimeFormat, deltaMinutes: number): [DateFormat, TimeFormat] {
+        const changedDate = this.convertDateFormatAndTimeFormatToDate(date, time);
+        changedDate.setMinutes(changedDate.getMinutes() + deltaMinutes);
+        return this.convertDateToDateFormatAndTimeFormat(changedDate);
+    }
+
+    /**
      * Gets a moment instance from a date.
      */
     getMomentInstanceFromDate(date: DateFormat): moment.Moment {
@@ -92,5 +122,55 @@ export class DateTimeService {
             hour: mmt.hour(),
             minute: mmt.minute(),
         };
+    }
+
+    /**
+     * Compares the first date with the second date and checks whether the first
+     * date is earlier, same or later than the second date.
+     * Returns 1 if the first date is later than second date, 0 if the first date is the
+     * same as the second date and -1 if the first date is earlier than the second date.
+     */
+    static compareDateFormat(firstDate : DateFormat, secondDate : DateFormat) : number {
+        if (firstDate.year > secondDate.year) {
+            return 1;
+        }
+        if (firstDate.year < secondDate.year) {
+            return -1;
+        }
+        if (firstDate.month > secondDate.month) {
+            return 1;
+        }
+        if (firstDate.month < secondDate.month) {
+            return -1;
+        }
+        if (firstDate.day > secondDate.day) {
+            return 1;
+        }
+        if (firstDate.day < secondDate.day) {
+            return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * Compares the first timing with the second timing and checks whether the first
+     * timing is earlier, same or later than the second timing.
+     * Returns 1 if the first timing is later than second timing, 0 if the first timing is the
+     * same as the second timing and -1 if the first timing is earlier than the second timing.
+     */
+    static compareTimeFormat(firstTiming : TimeFormat, secondTiming : TimeFormat) : number {
+        if (firstTiming.hour > secondTiming.hour) {
+            return 1;
+        }
+        if (firstTiming.hour < secondTiming.hour) {
+            return -1;
+        }
+        if (firstTiming.minute > secondTiming.minute) {
+            return 1;
+        }
+        if (firstTiming.minute < secondTiming.minute) {
+            return -1;
+        }
+        return 0;
     }
 }

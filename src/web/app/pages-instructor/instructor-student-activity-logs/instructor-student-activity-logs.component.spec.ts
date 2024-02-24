@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
+import { InstructorStudentActivityLogsModule } from './instructor-student-activity-logs.module';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -20,8 +22,6 @@ import {
 import { Milliseconds } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
-import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
-import { InstructorStudentActivityLogsModule } from './instructor-student-activity-logs.module';
 
 describe('InstructorStudentActivityLogsComponent', () => {
   let component: InstructorStudentActivityLogsComponent;

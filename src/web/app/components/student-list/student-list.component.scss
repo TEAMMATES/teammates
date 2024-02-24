@@ -2,9 +2,21 @@
   text-align: center;
 }
 
+// applies only to mobile screens
+@media (width <= 768px) {
+  .custom-button {
+    width: 90px;
+    margin-bottom: 5px;
+  }
+}
+
 .table .thead-gray th {
   color: #495057;
-  background-color: #DADADA;
+  background-color: #dadada;
+}
+
+.fa-sort {
+  color: white;
 }
 
 /*
@@ -24,7 +36,7 @@ which usually match 2 classes (eg .btn.disabled)
   cursor: pointer;
 
   i {
-    margin-left: .3em;
+    margin-left: 0.3em;
   }
 
   .fa-stack {

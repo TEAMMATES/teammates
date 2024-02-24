@@ -110,11 +110,6 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /**
-     * Checks whether participant comments are allowed for the question.
-     */
-    public abstract boolean isFeedbackParticipantCommentsOnResponsesAllowed();
-
-    /**
      * Checks whether missing responses should be generated.
      */
     public boolean shouldGenerateMissingResponses(FeedbackQuestionAttributes question) {

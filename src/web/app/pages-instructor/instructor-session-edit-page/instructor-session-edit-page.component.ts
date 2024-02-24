@@ -3,6 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
+import {
+  FeedbackSessionTabModel,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { DateTimeService } from '../../../services/datetime.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -32,7 +39,6 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
-  FeedbackSessionSubmissionStatus,
   FeedbackTextQuestionDetails, FeedbackVisibilityType,
   HasResponses,
   Instructor,
@@ -68,13 +74,6 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../instructor-session-individual-extension-page/extension-table-column-model';
-import {
-  FeedbackSessionTabModel,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
-import {
-  CopyQuestionsFromOtherSessionsModalComponent,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
-import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 /**
  * Instructor feedback session edit page.
@@ -98,44 +97,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   isEditingMode: boolean = false;
 
   courseName: string = '';
-
-  // models
-  sessionEditFormModel: SessionEditFormModel = {
-    courseId: '',
-    timeZone: 'UTC',
-    courseName: '',
-    feedbackSessionName: '',
-    instructions: '',
-
-    submissionStartTime: getLatestTimeFormat(),
-    submissionStartDate: getDefaultDateFormat(),
-    submissionEndTime: getLatestTimeFormat(),
-    submissionEndDate: getDefaultDateFormat(),
-    gracePeriod: 0,
-
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: getLatestTimeFormat(),
-    customSessionVisibleDate: getDefaultDateFormat(),
-
-    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: getLatestTimeFormat(),
-    customResponseVisibleDate: getDefaultDateFormat(),
-
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-
-    templateSessionName: '',
-
-    isSaving: false,
-    isEditable: false,
-    isDeleting: false,
-    isCopying: false,
-    hasVisibleSettingsPanelExpanded: false,
-    hasEmailSettingsPanelExpanded: false,
-  };
   studentDeadlines: Record<string, number> = {};
   instructorDeadlines: Record<string, number> = {};
 
@@ -458,6 +419,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.statusMessageService.showSuccessToast('The feedback session has been updated.');
       },
       error: (resp: ErrorMessageOutput) => {
+        this.sessionEditFormModel.isEditable = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
@@ -756,6 +718,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!;
     this.questionEditFormModels[index] = this.getQuestionEditFormModel(feedbackQuestion);
+    this.questionEditFormModels[index].isQuestionHasResponses = questionEditFormModel.isQuestionHasResponses;
   }
 
   /**
