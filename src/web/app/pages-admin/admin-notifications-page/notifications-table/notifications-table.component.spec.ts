@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NotificationsTableRowModel } from './notifications-table-model';
+import { NotificationsTableComponent } from './notifications-table.component';
 import { NotificationStyle, NotificationTargetUser } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
-import { NotificationsTableRowModel } from './notifications-table-model';
-import { NotificationsTableComponent } from './notifications-table.component';
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
   isHighlighted: true,

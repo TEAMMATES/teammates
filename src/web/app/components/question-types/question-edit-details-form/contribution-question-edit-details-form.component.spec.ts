@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
+import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 
 describe('ContributionQuestionEditDetailsFormComponent', () => {
   let component: ContributionQuestionEditDetailsFormComponent;

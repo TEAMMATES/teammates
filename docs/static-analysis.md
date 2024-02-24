@@ -20,7 +20,8 @@ The version number of all the tool stacks are declared in `build.gradle` or `pac
 | [SpotBugs](https://spotbugs.github.io/) | [`teammates-spotbugs.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-spotbugs.xml) |
 | [ArchUnit](https://github.com/TNG/ArchUnit) | - |
 | [ESLint](https://eslint.org/) | [`teammates-eslint.yml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-eslint.yml) |
-| [stylelint](http://stylelint.io) | [`teammates-stylelint.yml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-stylelint.yml) |
+| [stylelint](https://stylelint.io/) | [`teammates-stylelint.yml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-stylelint.yml) |
+| [prettier](https://prettier.io/) | - |
 | [lintspaces](https://github.com/evanshortiss/lintspaces-cli) | - |
 
 ## Suppressing rules
@@ -47,7 +48,8 @@ General rule of thumb when suppressing rules:
 | SpotBugs | `./gradlew spotbugsMain`, `./gradlew spotbugsTest` |
 | ArchUnit | `./gradlew architectureTest` |
 | ESLint | `npm run lint:ts` |
-| stylelint | `npm run lint:css` |
+| stylelint | `npm run lint:css:syntax` |
+| prettier | `npm run lint:css:styles` |
 | lintspaces | `npm run lint:spaces` |
 
 To run all static analysis tasks in one sitting, run the following two commands:

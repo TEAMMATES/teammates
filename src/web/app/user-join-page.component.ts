@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
+import { ErrorReportComponent } from './components/error-report/error-report.component';
+import { SimpleModalType } from './components/simple-modal/simple-modal-type';
+import { ErrorMessageOutput } from './error-message-output';
 import { environment } from '../environments/environment';
 import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
@@ -10,9 +13,6 @@ import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
-import { ErrorReportComponent } from './components/error-report/error-report.component';
-import { SimpleModalType } from './components/simple-modal/simple-modal-type';
-import { ErrorMessageOutput } from './error-message-output';
 
 /**
  * User join page component.

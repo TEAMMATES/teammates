@@ -1,5 +1,5 @@
-import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
+import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 
 describe('SubmissionStatusTooltipPipe', () => {
   let pipe: SubmissionStatusTooltipPipe;

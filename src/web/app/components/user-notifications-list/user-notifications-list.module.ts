@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { UserNotificationsListComponent } from './user-notifications-list.component';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import { UserNotificationsListComponent } from './user-notifications-list.component';
 
 /**
  * Module for user notifications list.

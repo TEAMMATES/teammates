@@ -35,7 +35,6 @@ together {
     }
 
     database GCD as "<color:white>Google\n<color:white>Cloud\n<color:white>Datastore" #lightgrey
-    rectangle GAE as "<color:white>Google App Engine (GAE)" #lightgrey
 }
 
 E2E_actor <.right.> E2E_rect
@@ -44,17 +43,16 @@ Developers <.right.> Test
 Admin <.right.> Client
 E2E_rect .down.> UI_browser #darkorange
 Test .up.> UI_browser #maroon
-UI_browser .[#blue]right.> "<color:blue>AJAX" UI_server : <color:blue> HTTP
+UI_browser .[#blue]right.> UI_server : <color:blue> HTTP/AJAX
 'UI_browser .[#transparent]right.> UI_server : <color:blue> AJAX
 UI_server .[#blue]up.> Common
 Logic .[#violet]up.> Common
 Storage .[#green]up.> Common
 Storage .[#green]down.> GCD : <color:green>Objectify
-Client .[#orange]right.> GCD : <color:orange>GAE Remote API
-UI_server .right.> Logic
-Logic .right.> Storage
-Test .up.> container2
-GCD -down- GAE
+Client .[#orange]right.> GCD : <color:orange>Objectify
+UI_server .[#blue]right.> Logic
+Logic .[#violet]right.> Storage
+Test .right.> container2
 
 ' The hidden associations are for positioning purposes only
 E2E_actor -[hidden]- Users
@@ -66,6 +64,6 @@ Test -[hidden]- Client
 Common -[hidden]- UI_server
 Common -[hidden]- Storage
 Common -[hidden]- Logic
-GCD -[hidden]down- GAE
+container1 -[hidden]- container2
 container2 -[hidden]down- GCD
 @enduml

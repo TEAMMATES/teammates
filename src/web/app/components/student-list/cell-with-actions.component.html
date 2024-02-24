@@ -1,0 +1,66 @@
+<div class="text-center">
+    <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name" let-id="id"
+             let-tmRouterLink="tmRouterLink" let-queryParams="queryParams">
+        <a class="btn btn-light btn-sm btn-margin-right custom-button" target="_blank" rel="noopener noreferrer"
+            [id]="id"
+            [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
+            [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
+            [tmRouterLink]="tmRouterLink"
+            [queryParams]="queryParams">
+        {{name}}
+        </a>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="actionButton; context: {
+          id: 'btn-view-details-' + courseId + '-' + idx ,
+          isEnabled: instructorPrivileges.canViewStudentInSections,
+          tooltip: 'View the details of the student',
+          name: 'View',
+          tmRouterLink: '/web/instructor/courses/student/details',
+          queryParams: {courseid: courseId, studentemail: email}
+        }">
+    </ng-container>
+    <ng-container *ngTemplateOutlet="actionButton; context: {
+          id: 'btn-edit-details-' + courseId + '-' + idx,
+          isEnabled: instructorPrivileges.canModifyStudent,
+          tooltip: 'Use this to edit the details of this student. To edit multiple students'
+            + ' in one go, you can use the enroll page: '
+            + 'Simply enroll students using the updated data and existing data will be updated accordingly',
+          name: 'Edit',
+          tmRouterLink: '/web/instructor/courses/student/edit',
+          queryParams: {courseid: courseId, studentemail: email}
+        }">
+    </ng-container>
+    <ng-container *ngIf="enableRemindButton">
+        <ng-container>
+            <button id="btn-send-invite-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right custom-button"
+                [ngClass]="{'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
+                [disabled]=!isActionButtonsEnabled
+                [ngbTooltip]="instructorPrivileges.canModifyStudent
+                ? 'Email an invitation to the student requesting him/her to join the course using his/her'
+                + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
+                + ' but a joined student can access extra features e.g. set up a user profile'
+                : 'You do not have the permissions to access this feature'"
+                (click)="remindStudentFromCourse()">
+                Send Invite
+            </button>
+        </ng-container>
+    </ng-container>
+    <button id="btn-delete-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right custom-button"
+        [ngClass]="{'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
+        [ngbTooltip]="instructorPrivileges.canModifyStudent
+          ? 'Delete the student and the corresponding submissions from the course'
+          : 'You do not have the permissions to access this feature'"
+        [disabled]="!isActionButtonsEnabled"
+        (click)="removeStudentFromCourse()">
+        Delete
+    </button>
+    <ng-container *ngTemplateOutlet="actionButton; context: {
+        id: 'btn-view-records-' + courseId + '-' + idx,
+        isEnabled: instructorPrivileges.canModifyStudent,
+        tooltip: 'View all data about this student',
+        name: 'All Records',
+        tmRouterLink: '/web/instructor/students/records',
+        queryParams: {courseid: courseId, studentemail: email}
+      }">
+    </ng-container>
+</div>

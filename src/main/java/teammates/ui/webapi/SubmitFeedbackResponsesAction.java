@@ -14,6 +14,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -360,6 +361,15 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
         log.info(JsonUtils.toCompactJson(submitRequest));
 
+        if (isSingleRecipientSubmission) {
+            // only keep the response for the recipient when the request is a single-recipient submission
+            List<FeedbackResponsesRequest.FeedbackResponseRequest> responseRequests = submitRequest.getResponses();
+            submitRequest.setResponses(
+                    responseRequests.stream()
+                            .filter(r -> recipientId.equals(r.getRecipient()))
+                            .collect(Collectors.toList()));
+        }
+
         for (String recipient : submitRequest.getRecipients()) {
             if (!recipientsOfTheQuestion.containsKey(recipient)) {
                 throw new InvalidOperationException(
@@ -425,17 +435,23 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                         .validateResponsesDetails(responseDetails, numRecipients);
 
         if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
+            throw new InvalidHttpRequestBodyException(String.join("\n", questionSpecificErrors));
         }
 
-        List<String> recipients = submitRequest.getRecipients();
-        List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
-                .filter(entry -> !recipients.contains(entry.getKey()))
-                .map(entry -> entry.getValue())
-                .collect(Collectors.toList());
+        if (!isSingleRecipientSubmission) {
+            List<String> recipients = submitRequest.getRecipients();
+            List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
+                    .filter(entry -> !recipients.contains(entry.getKey()))
+                    .map(entry -> entry.getValue())
+                    .collect(Collectors.toList());
 
-        for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
-            logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
+            for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
+                logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
+            }
+        } else if (submitRequest.getRecipients().isEmpty() && existingResponsesPerRecipient.containsKey(recipientId)) {
+            // delete a single recipient submission
+            FeedbackResponseAttributes feedbackResponseToDelete = existingResponsesPerRecipient.get(recipientId);
+            logic.deleteFeedbackResponseCascade(feedbackResponseToDelete.getId());
         }
 
         List<FeedbackResponseAttributes> output = new ArrayList<>();

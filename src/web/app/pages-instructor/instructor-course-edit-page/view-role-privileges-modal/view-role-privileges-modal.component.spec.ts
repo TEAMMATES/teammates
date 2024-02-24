@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal.component';
+import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
 
 describe('ViewRolePrivilegesModalComponent', () => {
   let component: ViewRolePrivilegesModalComponent;

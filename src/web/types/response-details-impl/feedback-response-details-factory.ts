@@ -1,12 +1,3 @@
-import {
-  FeedbackConstantSumResponseDetails,
-  FeedbackContributionResponseDetails,
-  FeedbackMcqResponseDetails,
-  FeedbackMsqResponseDetails, FeedbackNumericalScaleResponseDetails,
-  FeedbackQuestionDetails,
-  FeedbackQuestionType, FeedbackRankOptionsResponseDetails, FeedbackRankRecipientsResponseDetails,
-  FeedbackResponseDetails, FeedbackRubricResponseDetails, FeedbackTextResponseDetails,
-} from '../api-output';
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import { FeedbackConstantSumResponseDetailsImpl } from './feedback-constsum-response-details.impl';
 import { FeedbackContributionResponseDetailsImpl } from './feedback-contribution-response-details.impl';
@@ -17,6 +8,20 @@ import { FeedbackRankOptionsResponseDetailsImpl } from './feedback-rank-options-
 import { FeedbackRankRecipientsResponseDetailsImpl } from './feedback-rank-recipients-response-details.impl';
 import { FeedbackRubricResponseDetailsImpl } from './feedback-rubric-response-details.impl';
 import { FeedbackTextResponseDetailsImpl } from './feedback-text-response-details.impl';
+import {
+  FeedbackConstantSumResponseDetails,
+  FeedbackContributionResponseDetails,
+  FeedbackMcqResponseDetails,
+  FeedbackMsqResponseDetails,
+  FeedbackNumericalScaleResponseDetails,
+  FeedbackQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackRankOptionsResponseDetails,
+  FeedbackRankRecipientsResponseDetails,
+  FeedbackResponseDetails,
+  FeedbackRubricResponseDetails,
+  FeedbackTextResponseDetails,
+} from '../api-output';
 
 /**
  * Factory to generate frontend response details implementation classes.

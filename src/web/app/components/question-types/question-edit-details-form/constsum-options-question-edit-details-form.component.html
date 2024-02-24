@@ -34,7 +34,7 @@
             <div class="col-sm-6">
               <input id="total-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
                      (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Checkbox">
-              <input id="total-points" type="number" class="form-control" min="1" step="1"
+              <input id="total-points" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'points')"
                      [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption" aria-label="Total Points Input">
             </div>
             <div class="col-sm-6 text-start">
@@ -47,7 +47,7 @@
             <div class="col-sm-6">
               <input id="per-option-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
                      (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Times Number of Options Checkbox">
-              <input id="per-option-points" type="number" class="form-control" min="1" step="1"
+              <input id="per-option-points" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'points')"
                      [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption" aria-label="Points Input">
             </div>
             <div class="col-sm-6 text-start">
@@ -64,7 +64,7 @@
                 <input id="min-point-checkbox" class="form-check-input" type="checkbox"
                        [ngModel]="hasMinPoint"
                        (ngModelChange)="resetMinPoint($event)" [disabled]="!isEditable" aria-label="Minimum Value Checkbox">
-                <input id="min-point" type="number" class="form-control" min="1" step="1"
+                <input id="min-point" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'minPoint')"
                        [ngModel]="hasMinPoint ? model.minPoint : ''" (ngModelChange)="triggerModelChange('minPoint', $event)" [disabled]="!isEditable || !hasMinPoint" aria-label="Minimum Value Input">
                 <b class="ngb-tooltip-class" ngbTooltip="The minimum allocation of the points to an option, e.g if you specify 5 points here, the user must input a value larger than or equal to 5 for each option.">minimum per option</b>
               </label>
@@ -76,7 +76,7 @@
                 <input id="max-point-checkbox" class="form-check-input" type="checkbox"
                        [ngModel]="hasMaxPoint"
                        (ngModelChange)="resetMaxPoint($event)"  [disabled]="!isEditable" aria-label="Maximum Value Checkbox">
-                <input id="max-point" type="number" class="form-control" min="1" step="1"
+                <input id="max-point" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'maxPoint')"
                        [ngModel]="hasMaxPoint ? model.maxPoint : ''" (ngModelChange)="triggerModelChange('maxPoint', $event)" [disabled]="!isEditable || !hasMaxPoint" aria-label="Maximum Value Input">
                 <b class="ngb-tooltip-class" ngbTooltip="The maximum allocation of the points to an option, e.g if you specify 30 points here, the user must input a value smaller than or equal to 30 for each option.">maximum per option</b>
               </label>
