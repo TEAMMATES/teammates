@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 
+import teammates.storage.sqlentity.Section;
+
 /**
  * Stores constants that are widely used across classes.
  * this class contains several nested classes, each containing a specific
@@ -25,6 +27,7 @@ public final class Const {
     public static final int SECTION_SIZE_LIMIT = 100;
 
     public static final String DEFAULT_SECTION = "None";
+    public static final Section DEFAULT_SQL_SECTION = null;
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
@@ -127,6 +130,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
+        public static final String SINGLE_RECIPIENT_ID_FOR_SUBMISSION = "singlerecipientidforsubmission";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
 
@@ -316,6 +320,7 @@ public final class Const {
         private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
+        public static final String SQL_DATABUNDLE = URI_PREFIX + "/databundle/sql";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
         public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
         public static final String EXCEPTION = URI_PREFIX + "/exception";

@@ -111,6 +111,16 @@ public class Logic {
     }
 
     /**
+     * Updates the given account request.
+     *
+     * @return the updated account request.
+     */
+    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestLogic.updateAccountRequest(accountRequest);
+    }
+
+    /**
      * Creates/Resets the account request with the given email and institute
      * such that it is not registered.
      *
@@ -258,6 +268,13 @@ public class Logic {
     }
 
     /**
+     * Gets the institute of the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        return coursesLogic.getCourseInstitute(courseId);
+    }
+
+    /**
      * Creates a course.
      * @param course the course to create.
      * @return the created course.
@@ -398,6 +415,14 @@ public class Logic {
     }
 
     /**
+     * Gets a list of deadline extensions with endTime coming up soon
+     * and possibly need a closing email to be sent.
+     */
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
+        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
@@ -477,6 +502,13 @@ public class Logic {
     public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
+    }
+
+    /**
+     * Returns a list of sessions that require automated emails to be sent as they are published.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
     }
 
     /**
@@ -754,6 +786,76 @@ public class Logic {
     }
 
     /**
+     * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions: <br>
+     * * Parameters regkey and googleId are non-null.
+     */
+    public Instructor joinCourseForInstructor(String regkey, String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert googleId != null;
+        assert regkey != null;
+
+        return accountsLogic.joinCourseForInstructor(regkey, googleId);
+    }
+
+    /**
+     * Validates that the join course request is valid, then
+     * makes the instructor join the course, i.e. associate an account to the instructor with the given googleId.
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions:
+     * Parameters regkey and googleId are non-null.
+     */
+    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (googleId == null) {
+            throw new InvalidParametersException("Instructor's googleId cannot be null");
+        }
+        if (instructor == null) {
+            throw new InvalidParametersException("Instructor cannot be null");
+        }
+
+        validateJoinCourseRequest(googleId, instructor);
+        return usersLogic.joinCourseForInstructor(googleId, instructor);
+    }
+
+    /**
+     * Validates that the instructor can join the course it has as courseId field.
+     *
+     * @return true if the instructor can join the course.
+     * @throws Exception if the instructor cannot join the course.
+     */
+    private boolean validateJoinCourseRequest(String googleId, Instructor instructor)
+            throws EntityAlreadyExistsException, EntityDoesNotExistException {
+        if (instructor == null) {
+            throw new EntityDoesNotExistException("Instructor not found");
+        }
+
+        // check course exists and has not been deleted
+        Course course = getCourse(instructor.getCourseId());
+
+        if (course == null) {
+            throw new EntityDoesNotExistException("Course with id " + instructor.getCourseId() + " does not exist");
+        }
+        if (course.isCourseDeleted()) {
+            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
+        }
+
+        if (instructor.isRegistered()) {
+            throw new EntityAlreadyExistsException("Instructor has already joined course");
+        } else {
+            // Check if this Google ID has already joined this course with courseId
+            Instructor existingInstructor =
+                    usersLogic.getInstructorByGoogleId(instructor.getCourseId(), googleId);
+            if (existingInstructor != null) {
+                throw new EntityAlreadyExistsException("Instructor has already joined course");
+            }
+        }
+        return true;
+    }
+
+    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Null if no result found.
@@ -883,6 +985,32 @@ public class Logic {
     }
 
     /**
+     * Search for students. Preconditions: all parameters are non-null.
+     * @param instructors   a list of Instructors associated to a googleId,
+     *                      used for filtering of search result
+     * @return Null if no match found
+     */
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
+            throws SearchServiceException {
+        assert queryString != null;
+        assert instructors != null;
+        return usersLogic.searchStudents(queryString, instructors);
+    }
+
+    /**
+     * This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search students in the whole system.
+     * @return Null if no match found.
+     */
+    public List<Student> searchStudentsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return usersLogic.searchStudentsInWholeSystem(queryString);
+    }
+
+    /**
      * Deletes a student cascade its associated feedback responses, deadline
      * extensions and comments.
      *
@@ -909,6 +1037,23 @@ public class Logic {
         assert courseId != null;
 
         usersLogic.deleteStudentsInCourseCascade(courseId);
+    }
+
+    /**
+     * Make the student join the course, i.e. associate the Google ID to the student.<br>
+     * Create an account for the student if no existing account is found.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @param key the registration key
+     */
+    public Student joinCourseForStudent(String key, String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert googleId != null;
+        assert key != null;
+
+        return accountsLogic.joinCourseForStudent(key, googleId);
+
     }
 
     /**
@@ -1078,6 +1223,22 @@ public class Logic {
     }
 
     /**
+     * Puts searchable instructor to the database.
+     */
+    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
+        usersLogic.putInstructorDocument(instructor);
+    }
+
+    /**
+     * Creates or updates search document for the given account request.
+     *
+     * @see AccountRequestsLogic#putDocument(AccountRequest)
+     */
+    public void putAccountRequestDocument(AccountRequest accountRequest) throws SearchServiceException {
+        accountRequestLogic.putDocument(accountRequest);
+    }
+
+    /**
      * Removes the given data bundle from the database.
      */
     public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
@@ -1148,6 +1309,33 @@ public class Logic {
     }
 
     /**
+     * Creates a feedback response.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return created feedback response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackResponse != null;
+        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
+    }
+
+    /**
+     * Deletes a feedback response and cascades its associated comments.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
+        assert feedbackResponse != null;
+        feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
+    }
+
+    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
@@ -1183,6 +1371,25 @@ public class Logic {
             FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
             throws EntityDoesNotExistException {
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
+    }
+
+    /**
+     * Updates a feedback response and comments by {@link FeedbackResponse}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponse != null;
+
+        return feedbackResponsesLogic.updateFeedbackResponseCascade(feedbackResponse);
     }
 
     /**
@@ -1279,5 +1486,54 @@ public class Logic {
     public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
+    }
+
+    /**
+     * Returns a list of feedback sessions that need an "Open" email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    }
+
+    /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
+     * Creates or updates search document for the given student.
+     *
+     * @see UsersLogic#putStudentDocument(Student)
+     */
+    public void putStudentDocument(Student student) throws SearchServiceException {
+        usersLogic.putStudentDocument(student);
+    }
+
+    /**
+     * This is used by admin to search account requests in the whole system.
+     *
+     * @return A list of {@link AccountRequest} or {@code null} if no match found.
+     */
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Returns a list of sessions that are going to close soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+    }
+
+    /**
+     * Returns a list of sessions that are going to open soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
     }
 }

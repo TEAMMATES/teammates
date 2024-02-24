@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { InstructorHelpPanelComponent } from './instructor-help-panel.component';
+import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 
 describe('InstructorHelpPanelComponent', () => {
   let component: InstructorHelpPanelComponent;

@@ -55,8 +55,8 @@ export class IndividualExtensionDateModalComponent {
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
   DateTime: typeof DateTime = DateTime;
 
-  extendByDeadlineKey: String = '';
-  extendByDeadlineOptions: Map<String, Number> = new Map([
+  extendByDeadlineKey: string = '';
+  extendByDeadlineOptions: Map<string, number> = new Map([
     ['12 hours', Hours.TWELVE],
     ['1 day', Hours.IN_ONE_DAY],
     ['3 days', Hours.IN_THREE_DAYS],

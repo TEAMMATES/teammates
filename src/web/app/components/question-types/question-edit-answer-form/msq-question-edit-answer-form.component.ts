@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedback-response-details';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The Msq question submission form for a recipient.

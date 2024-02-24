@@ -1,9 +1,9 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
   FeedbackQuestionType,
 } from '../api-output';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackConstantSumResponseDetails}.

@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 import { FeedbackQuestionType } from '../../../types/api-output';
 
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { QuestionTypeHelpPathPipe } from '../teammates-common/question-type-help-path.pipe';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 
 describe('AddingQuestionPanelComponent', () => {
   let component: AddingQuestionPanelComponent;

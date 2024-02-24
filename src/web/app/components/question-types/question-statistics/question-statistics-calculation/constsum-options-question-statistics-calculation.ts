@@ -17,6 +17,11 @@ export class ConstsumOptionsQuestionStatisticsCalculation
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(question: FeedbackConstantSumQuestionDetails) {
+    super(question);
+  }
+
   calculateStatistics(): void {
     this.pointsPerOption = {};
     this.totalPointsPerOption = {};

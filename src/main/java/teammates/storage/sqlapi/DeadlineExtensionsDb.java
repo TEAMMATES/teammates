@@ -3,12 +3,15 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.User;
@@ -115,6 +118,24 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
         if (de != null) {
             delete(de);
         }
+    }
+
+    /**
+     * Gets a list of deadline extensions with endTime coming up soon
+     * and possibly need a closing email to be sent.
+     */
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
+        Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
+
+        cr.select(root).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("endTime"), Instant.now()),
+                cb.lessThanOrEqualTo(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(1)),
+                cb.equal(root.get("isClosingSoonEmailSent"), false)
+                ));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

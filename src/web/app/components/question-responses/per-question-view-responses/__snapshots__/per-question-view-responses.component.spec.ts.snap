@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PerQuestionViewResponsesComponent should snap response with comments 1`] = `
+<tm-per-question-view-responses
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  deleteCommentEvent={[Function EventEmitter_]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  groupByTeam={[Function Boolean]}
+  indicateMissingResponses={[Function Boolean]}
+  instructorCommentTableModel={[Function Object]}
+  instructorCommentTableModelChange={[Function EventEmitter_]}
+  isDisplayOnly="false"
+  isExpandAll="false"
+  ngbModal={[Function _NgbModal]}
+  question={[Function Object]}
+  responses={[Function Array]}
+  responsesToShow={[Function Array]}
+  saveNewCommentEvent={[Function EventEmitter_]}
+  section=""
+  sectionType={[Function String]}
+  session={[Function Object]}
+  showGiver={[Function Boolean]}
+  showRecipient={[Function Boolean]}
+  sortBy="0"
+  sortOrder={[Function Number]}
+  statistics=""
+  tableComparatorService={[Function TableComparatorService]}
+  updateCommentEvent={[Function EventEmitter_]}
+>
+  <div>
+    <table
+      class="table table-bordered"
+      id="response-table"
+    >
+      <thead>
+        <tr
+          class="header"
+        >
+          <th
+            aria-sort="none"
+            class="sortable-header"
+          >
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
+          </th>
+          <th
+            aria-sort="none"
+            class="sortable-header"
+          >
+            <button>
+               Giver 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
+          </th>
+          <th
+            aria-sort="none"
+            class="sortable-header"
+          >
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
+          </th>
+          <th
+            aria-sort="none"
+            class="sortable-header"
+          >
+            <button>
+               Recipient 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
+          </th>
+          <th>
+            Response
+          </th>
+          <th>
+            Comment for Response
+          </th>
+          <th
+            class="text-center no-print actions-cell"
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Tutorial Group 135
+          </td>
+          <td>
+             Jennie Kim  (jenniekim@gmail.com) 
+          </td>
+          <td>
+             Tutorial Group 246 
+          </td>
+          <td>
+             Lisa Mano  (lisamano@gmail.com) 
+          </td>
+          <td>
+            <tm-single-response>
+            </tm-single-response>
+          </td>
+          <td>
+            <div>
+              commentText
+            </div>
+          </td>
+          <td
+            class="text-center no-print"
+          >
+            <button
+              class="btn btn-light btn-sm btn-margin-left"
+              id="btn-add-comment"
+            >
+              Add Comment 
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</tm-per-question-view-responses>
+`;

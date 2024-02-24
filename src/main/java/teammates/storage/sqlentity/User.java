@@ -187,6 +187,15 @@ public abstract class User extends BaseEntity {
         return null;
     }
 
+    /**
+     * Sets google id of account if account and googleId provided is not null.
+     */
+    public void setGoogleId(String googleId) {
+        if (googleId != null && getAccount() != null) {
+            getAccount().setGoogleId(googleId);
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {

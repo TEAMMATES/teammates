@@ -6,14 +6,12 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.StudentHomePage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_HOME_PAGE}.
  */
-public class StudentHomePageAxeTest extends BaseE2ETestCase {
+public class StudentHomePageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -28,8 +26,8 @@ public class StudentHomePageAxeTest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
         StudentHomePage homePage = loginToPage(url, StudentHomePage.class, "tm.e2e.SHome.student");
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(homePage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(homePage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }
