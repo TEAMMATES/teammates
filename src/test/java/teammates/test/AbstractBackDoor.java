@@ -673,10 +673,10 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback question from database.
+     * Get feedback question data from database.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
-                                                                 int qnNumber) {
+    public FeedbackQuestionData getFeedbackQuestionData(String courseId, String feedbackSessionName,
+                                                                int qnNumber) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
         params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -687,11 +687,19 @@ public abstract class AbstractBackDoor {
         }
 
         FeedbackQuestionsData questionsData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
-        FeedbackQuestionData question = questionsData.getQuestions()
+        return questionsData.getQuestions()
                 .stream()
                 .filter(fq -> fq.getQuestionNumber() == qnNumber)
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Get feedback question from database.
+     */
+    public FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
+                                                                 int qnNumber) {
+        FeedbackQuestionData question = getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
 
         if (question == null) {
             return null;
@@ -746,10 +754,10 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response from database.
+     * Get feedback response data from database.
      */
-    public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
-                                                                 String recipient) {
+    public FeedbackResponseData getFeedbackResponseData(String feedbackQuestionId, String giver,
+                                                                String recipient) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -760,11 +768,19 @@ public abstract class AbstractBackDoor {
         }
 
         FeedbackResponsesData responsesData = JsonUtils.fromJson(response.responseBody, FeedbackResponsesData.class);
-        FeedbackResponseData fr = responsesData.getResponses()
+        return responsesData.getResponses()
                 .stream()
                 .filter(r -> r.getGiverIdentifier().equals(giver) && r.getRecipientIdentifier().equals(recipient))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Get feedback response from database.
+     */
+    public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
+                                                                 String recipient) {
+        FeedbackResponseData fr = getFeedbackResponseData(feedbackQuestionId, giver, recipient);
 
         if (fr == null) {
             return null;
