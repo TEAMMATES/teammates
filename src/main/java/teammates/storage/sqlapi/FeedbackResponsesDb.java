@@ -165,7 +165,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
-     * Get responses responses for a question.
+     * Get responses for a question.
      */
     public List<FeedbackResponse> getResponsesForQuestion(UUID questionId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
