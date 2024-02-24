@@ -16,13 +16,12 @@ import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
 
-
 public class SeedDb {
     private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
-        .setConsistency(1.0)
-        .setPort(8482)
-        .setStoreOnDisk(false)
-        .build();
+            .setConsistency(1.0)
+            .setPort(8482)
+            .setStoreOnDisk(false)
+            .build();
 
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
@@ -31,8 +30,7 @@ public class SeedDb {
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
         ObjectifyService.init(new ObjectifyFactory(
-                options.getService()
-        ));
+                options.getService()));
         OfyHelper.registerEntityClasses();
 
         LogicStarter.initializeDependencies();
@@ -84,6 +82,18 @@ public class SeedDb {
         }
         System.out.println(String.format("Verify account: %s", logic.getAccountsForEmail("instr1@course1.tmt")));
         System.out.println(String.format("Verify account: %s", logic.getAccountsForEmail("instr2@course1.tmt")));
+    }
+
+    protected void seedSetup() throws Exception {
+        this.setupDbLayer();
+        this.setupObjectify();
+
+        this.persistTypicalDataBundle();
+    }
+
+    protected void seedTearDown() throws Exception {
+        this.tearDownObjectify();
+        this.tearDownLocalDatastoreHelper();
     }
 
     public static void main(String[] args) throws Exception {

@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import teammates.common.util.HibernateUtil;
 
 import com.google.cloud.datastore.Cursor;
@@ -228,11 +231,15 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     private void flushEntitiesSavingBuffer() {
         if (!entitiesSavingBuffer.isEmpty() && !isPreview()) {
             log("Saving entities in batch..." + entitiesSavingBuffer.size());
+
+            HibernateUtil.beginTransaction();
             for (T entity : entitiesSavingBuffer) {
                 HibernateUtil.persist(entity);
             }
+
             HibernateUtil.flushSession();
             HibernateUtil.clearSession();
+            HibernateUtil.commitTransaction();
         }
         entitiesSavingBuffer.clear();
     }
