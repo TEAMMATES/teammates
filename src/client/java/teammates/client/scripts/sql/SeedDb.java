@@ -37,13 +37,13 @@ public class SeedDb extends DatastoreClient {
         closeable.close();
     }
 
-    protected String getTestDataFolder() {
-        return "src/test/resources/data/";
+    protected String getSrcFolder() {
+        return "src/client/java/teammates/client/scripts/sql/";
     }
 
     protected DataBundle loadDataBundle(String jsonFileName) {
         try {
-            String pathToJsonFile = getTestDataFolder() + jsonFileName;
+            String pathToJsonFile = getSrcFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {
