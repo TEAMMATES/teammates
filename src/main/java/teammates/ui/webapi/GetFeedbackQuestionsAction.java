@@ -142,13 +142,13 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+            Student student = getSqlStudentOfCourseFromRequest(courseId);
             questions.forEach(question ->
                     sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
-                            studentAttributes.getEmail(), studentAttributes.getTeam()));
+                            student.getEmail(), student.getTeamName()));
             break;
         case INSTRUCTOR_SUBMISSION:
-            InstructorAttributes instructor = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
             questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             questions.forEach(question ->
                     sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
