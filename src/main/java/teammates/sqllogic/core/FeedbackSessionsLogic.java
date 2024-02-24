@@ -522,7 +522,6 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
             expectedTotal += usersLogic.getStudentsForCourse(fs.getCourse().getId()).size();
-            // usersLogic.getUn
         }
 
         // Pre-flight check to ensure there are questions for instructors.
