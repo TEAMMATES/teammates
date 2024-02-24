@@ -95,7 +95,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in email field");
     
         // Attempt to use SQL commands in email field
-        String email = "name'; DROP TABLE AccountRequest; --@gmail.com";
+        String email = "name'; DROP TABLE account_requests; --@gmail.com";
         AccountRequest accountRequest = new AccountRequest(email, "name", "institute");
     
         // The regex check should fail and throw an exception
