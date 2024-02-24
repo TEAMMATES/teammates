@@ -108,7 +108,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in name field");
     
         // Attempt to use SQL commands in name field
-        String name = "name'; SELECT * FROM AccountRequest; --";
+        String name = "name'; SELECT * FROM account_requests; --";
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", name, "institute");
     
         // The system should treat the input as a plain text string
@@ -122,7 +122,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in institute field");
     
         // Attempt to use SQL commands in institute field
-        String institute = "institute'; DROP TABLE AccountRequest; --";
+        String institute = "institute'; DROP TABLE account_requests; --";
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", institute);
     
         // The system should treat the input as a plain text string
