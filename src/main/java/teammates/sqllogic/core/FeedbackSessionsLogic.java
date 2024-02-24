@@ -172,9 +172,8 @@ public final class FeedbackSessionsLogic {
 
         Set<String> giverSet = new HashSet<>();
 
-        // TODO: to check if this is the correct way to get the giver set
-        feedbackSession.getFeedbackQuestions().forEach(question -> {
-            question.getFeedbackResponses().forEach(response -> {
+        fqLogic.getFeedbackQuestionsForSession(feedbackSession).forEach(question -> {
+            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
                 giverSet.add(response.getGiver());
             });
         });
