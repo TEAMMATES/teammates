@@ -204,6 +204,15 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @Override
+    protected void removeSqlDataBundle(SqlDataBundle dataBundle) {
+        try {
+            sqlLogic.removeDataBundle(dataBundle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected boolean doPutDocuments(DataBundle dataBundle) {
         try {
             logic.putDocuments(dataBundle);

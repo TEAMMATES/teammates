@@ -2,17 +2,17 @@ package teammates.e2e.cases;
 
 import java.time.Instant;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminSearchPage;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -24,8 +24,9 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         if (!TestProperties.INCLUDE_SEARCH_TESTS) {
             return;
         }
-
         testData = loadDataBundle("/AdminSearchPageE2ETest.json");
+        sqlTestData = removeAndRestoreSqlDataBundle(
+            loadSqlDataBundle("/AdminSearchPageE2ETest_SqlEntities.json"));
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
     }
@@ -40,10 +41,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         AdminSearchPage searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
-        CourseAttributes course = testData.courses.get("typicalCourse1");
-        StudentAttributes student = testData.students.get("student1InCourse1");
-        InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        AccountRequestAttributes accountRequest = testData.accountRequests.get("instructor1OfCourse1");
+        teammates.storage.sqlentity.Course course = sqlTestData.courses.get("typicalCourse1");
+        Student student = sqlTestData.students.get("student1");
+        Instructor instructor = sqlTestData.instructors.get("instructor1");
+        AccountRequest accountRequest = sqlTestData.accountRequests.get("instructor1OfCourse1");
 
         ______TS("Typical case: Search student email");
         String searchContent = student.getEmail();
@@ -131,7 +132,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()).getRegisteredAt());
 
         ______TS("Typical case: Delete account request successful");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor1");
+        accountRequest = sqlTestData.accountRequests.get("unregisteredInstructor1");
         searchContent = accountRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
@@ -140,29 +141,29 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
     }
 
-    private String getExpectedStudentDetails(StudentAttributes student) {
+    private String getExpectedStudentDetails(Student student) {
         return String.format("%s [%s] (%s)", student.getCourse(),
                 student.getSection() == null ? Const.DEFAULT_SECTION : student.getSection(), student.getTeam());
     }
 
-    private String getExpectedStudentHomePageLink(StudentAttributes student) {
+    private String getExpectedStudentHomePageLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                 .withUserId(student.getGoogleId())
                 .toAbsoluteString()
                 : "";
     }
 
-    private String getExpectedStudentManageAccountLink(StudentAttributes student) {
+    private String getExpectedStudentManageAccountLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getGoogleId())
                 .toAbsoluteString()
                 : "";
     }
 
-    private int getExpectedNumExpandedRows(StudentAttributes student) {
+    private int getExpectedNumExpandedRows(Student student) {
         int expectedNumExpandedRows = 2;
-        for (FeedbackSessionAttributes sessions : testData.feedbackSessions.values()) {
-            if (sessions.getCourseId().equals(student.getCourse())) {
+        for (FeedbackSession sessions : sqlTestData.feedbackSessions.values()) {
+            if (sessions.getCourse().equals(student.getCourse())) {
                 expectedNumExpandedRows += 1;
                 if (sessions.getResultsVisibleFromTime().isBefore(Instant.now())) {
                     expectedNumExpandedRows += 1;
@@ -172,18 +173,22 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return expectedNumExpandedRows;
     }
 
-    private String getExpectedInstructorHomePageLink(InstructorAttributes instructor) {
+    private String getExpectedInstructorHomePageLink(Instructor instructor) {
         String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
         return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                 .withUserId(googleId)
                 .toAbsoluteString();
     }
 
-    private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
+    private String getExpectedInstructorManageAccountLink(Instructor instructor) {
         String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();
     }
 
+    @AfterClass
+    public void classTeardown() {
+        removeSqlDataBundle(sqlTestData);
+    }
 }

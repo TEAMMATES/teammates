@@ -269,6 +269,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract boolean doRemoveAndRestoreDataBundle(DataBundle testData);
 
+    protected abstract void removeSqlDataBundle(SqlDataBundle dataBundle);
+
     protected SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         SqlDataBundle dataBundle = doRemoveAndRestoreSqlDataBundle(testData);
