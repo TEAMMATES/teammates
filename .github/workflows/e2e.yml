@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - release
+      - v9-migration
   pull_request:
     branches:
       - master
       - release
+      - v9-migration
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:

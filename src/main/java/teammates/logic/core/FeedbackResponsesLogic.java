@@ -979,7 +979,7 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Deletes a feedback response cascade its associated comments.
+     * Deletes a feedback response and cascades its associated comments.
      */
     public void deleteFeedbackResponseCascade(String responseId) {
         frcLogic.deleteFeedbackResponseComments(

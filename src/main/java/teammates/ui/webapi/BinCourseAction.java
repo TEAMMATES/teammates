@@ -3,12 +3,13 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
 import teammates.ui.output.CourseData;
 
 /**
  * Move a course to the recycle bin.
  */
-class BinCourseAction extends Action {
+public class BinCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -22,18 +23,31 @@ class BinCourseAction extends Action {
         }
 
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
-                logic.getCourse(idOfCourseToBin), Const.InstructorPermissions.CAN_MODIFY_COURSE);
+
+        if (!isCourseMigrated(idOfCourseToBin)) {
+            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
+                    courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+            return;
+        }
+
+        Course course = sqlLogic.getCourse(idOfCourseToBin);
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToBin, userInfo.id),
+                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override
     public JsonResult execute() {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-            courseAttributes.setDeletedAt(logic.moveCourseToRecycleBin(idOfCourseToBin));
+            if (!isCourseMigrated(idOfCourseToBin)) {
+                CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
+                courseAttributes.setDeletedAt(logic.moveCourseToRecycleBin(idOfCourseToBin));
+                return new JsonResult(new CourseData(courseAttributes));
+            }
 
-            return new JsonResult(new CourseData(courseAttributes));
+            Course binnedCourse = sqlLogic.moveCourseToRecycleBin(idOfCourseToBin);
+            return new JsonResult(new CourseData(binnedCourse));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

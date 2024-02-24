@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
  * The API output format of {@link FeedbackResponseAttributes}.
@@ -27,6 +28,13 @@ public class FeedbackResponseData extends ApiOutput {
         this.giverIdentifier = feedbackResponseAttributes.getGiver();
         this.recipientIdentifier = feedbackResponseAttributes.getRecipient();
         this.responseDetails = feedbackResponseAttributes.getResponseDetailsCopy();
+    }
+
+    public FeedbackResponseData(FeedbackResponse feedbackResponse) {
+        this.feedbackResponseId = feedbackResponse.getId().toString();
+        this.giverIdentifier = feedbackResponse.getGiver();
+        this.recipientIdentifier = feedbackResponse.getRecipient();
+        this.responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
     }
 
     public String getFeedbackResponseId() {

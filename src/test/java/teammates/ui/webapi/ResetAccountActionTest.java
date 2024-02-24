@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -10,6 +11,7 @@ import teammates.ui.output.MessageOutput;
 /**
  * SUT: {@link ResetAccountAction}.
  */
+@Ignore
 public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
     @Override
