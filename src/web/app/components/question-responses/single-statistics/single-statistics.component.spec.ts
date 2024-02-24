@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { QuestionStatisticsModule } from '../../question-types/question-statistics/question-statistics.module';
 import { SingleStatisticsComponent } from './single-statistics.component';
+import { QuestionStatisticsModule } from '../../question-types/question-statistics/question-statistics.module';
 
 describe('SingleStatisticsComponent', () => {
   let component: SingleStatisticsComponent;

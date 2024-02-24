@@ -1234,6 +1234,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
+
+        ______TS("Instructor preview student result");
+        params = generateParameters(feedbackSession, Intent.STUDENT_RESULT, "", "", student1InCourse1.getEmail());
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
     @Test
@@ -1251,7 +1257,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Only instructor with correct privilege can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, params
         );
 
         ______TS("Instructor moderates instructor submission with correct privilege will pass");
@@ -1262,13 +1268,21 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, params);
 
-        ______TS("Instructor preview instructor result with correct privilege will pass");
+        ______TS("Instructor previews instructor submission with correct privilege will pass");
 
         String[] previewInstructorSubmissionParams =
                 generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION,
                         "", "", instructor1OfCourse1.getEmail());
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorSubmissionParams);
+
+        ______TS("Instructor previews instructor result with correct privilege will pass");
+
+        String[] previewInstructorResultParams =
+                generateParameters(feedbackSession, Intent.INSTRUCTOR_RESULT,
+                        "", "", instructor1OfCourse1.getEmail());
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorResultParams);
     }
 
     private String[] generateParameters(FeedbackSessionAttributes session, Intent intent,

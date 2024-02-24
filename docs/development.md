@@ -32,7 +32,7 @@ First, you need to compile some type definitions from the back-end to be used in
 ./gradlew generateTypes
 ```
 
-To start the dev server, run the following command until you see something like `｢wdm｣: Compiled successfully.`:
+To start the dev server, run the following command until you see something like `Angular Live Development Server is listening on localhost`:
 
 ```sh
 npm run start
@@ -52,7 +52,10 @@ To stop the dev server, press `Ctrl + C`.
 
 ## Managing the dev server: back-end
 
+<box type="definition">
+
 Back-end dev server is the Jetty-based server handling all the business logic, including data storage.
+</box>
 
 ### Pre-requisites
 
@@ -63,10 +66,21 @@ The details on how to run them locally can be found [here (for local Datastore e
 If you have access to Docker, we have a Docker compose definition to run those services:
 
 ```sh
+docker compose up -d
+```
+If the above command does not work, you may not have the updated v2 version of Docker. You may want to try this instead:
+
+```sh
 docker-compose up -d
 ```
+For more information on Docker, you may wish to refer to the [Docker Documentation](https://docs.docker.com/compose/reference/).
 
 ### Starting the dev server
+
+<box type="wrong">
+
+Some IDEs may offer a shortcut to run the Application main class directly. Do not run the server this way.
+</box>
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
@@ -88,7 +102,7 @@ The dev server URL will be `http://localhost:8080`.
 
 If you started the server in the background, use any method available in your OS to stop the process at port `8080`.
 
-If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
+If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it.
 
 ## Building front-end files
 
@@ -119,8 +133,8 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
   You will be granted access only if your account has admin permission as defined in `build.properties`.
 
-1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
-  e.g `http://localhost:8080/web/student/home?user=johnKent`.
+1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students. 
+   For more information, refer to [Masquerading as another user](#masquerading-as-another-user).
 
 </panel>
 
@@ -178,6 +192,35 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
+### Masquerading as another user
+
+Masquerade mode is a feature that enables the admin to log in as mock instructors/students for testing and situations where masquerading as another user is applicable.
+
+Essentially, when you are logged into the administrator account, you will be able to conveniently and directly access the other instructor/student accounts. When in masquerade mode, you should see a `(M)` at the top right of the page you are on.
+
+**Note**:
+If you decide to use port `8080` for the following steps below, make sure you have run `npm run build` in your project root. For more information, refer to [Building front-end files](#building-front-end-files). Else, you may use port `4200` which is TEAMMATES' frontend URL.
+
+To prepare for _masquerade mode_, do the following:
+
+- Log in as an administrator via http://localhost:4200/web/admin/home.
+  - For more information, refer to the [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance) section above in this document.
+- Create a new instructor by filling in the Name, Email, and Institution fields in the form provided. Once done, click on _Add Instructor_, followed by _Add_ under the **Action** column.
+  - Copy the link address from the **_join link_**.
+- Log out from the administrator account. Use the link you copied in the previous step and paste it into your browser's search bar. Enter the new account's email and register for the course.
+  - Now, the registration is !!completed!! and we have a new account that we can masquerade as.
+- Lastly, log out from the current account and log back in as an administrator and follow the rest of the steps below.
+
+To masquerade as an **_instructor_**:
+
+- Use the instructor's path `/web/instructor/home` with the instructor's email appended as a query parameter, e.g., `http://localhost:4200/web/instructor/home?user=kelvin@gmail.com`.
+- For convenience, http://localhost:4200/web/instructor/home?user=INSTRUCTOR_EMAIL. Double click on `INSTRUCTOR_EMAIL` to replace it with the instructor's email.
+
+To masquerade as a **_student_**:
+
+- Use the student's path `/web/student/home` with the student's email appended as a query parameter, e.g., `http://localhost:4200/web/student/home?user=janethestudent@gmail.com`.
+- For convenience, http://localhost:4200/web/student/home?user=STUDENT_EMAIL. Double click on `STUDENT_EMAIL` to replace it with the student's email.
+
 ## Running the Datastore emulator
 
 The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
@@ -199,9 +242,15 @@ The Datastore emulator will be running in the port specified in the `build.prope
 We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
 
 ```sh
+docker compose run -p 8484:8484 datastore
+```
+If the above command does not work, you may want to try this instead:
+
+```sh
 docker-compose run -p 8484:8484 datastore
 ```
 
+**Verification:** Should receive an "Ok" response in the browser at `http://localhost:8484`.
 </panel>
 
 <panel header="**Using Cloud SDK**">
@@ -244,11 +293,20 @@ There are two big categories of testing in TEAMMATES:
 
 #### Running the tests
 
+##### Frontend tests
+
 To run all front-end component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
 
 ```sh
 npm run test
 ```
+
+To update snapshots, run the following command:
+```sh
+npm run test
+```
+
+Followed by `a` to run all the test cases. Check through the snapshots to make sure that the changes are as expected, and press `u` to update them.
 
 To run all front-end component tests once and generate coverage data afterwards, run the following command:
 
@@ -259,6 +317,8 @@ npm run coverage
 To run an individual test in a test file, change `it` in the `*.spec.ts` file to `fit`.
 
 To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.
+
+##### Backend tests
 
 Back-end component tests follow this configuration:
 

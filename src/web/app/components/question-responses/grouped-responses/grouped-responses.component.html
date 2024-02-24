@@ -32,7 +32,7 @@
                     [giverEmail]="response.allResponses[0].giverEmail"
                     [recipientEmail]="response.allResponses[0].recipientEmail"
                     [statistics]="response.questionStatistics"></tm-single-response>
-            <button id="btn-add-comment" (click)="toggleAddComment(response.allResponses[0].responseId)"
+            <button aria-label="Add comment" id="btn-add-comment" (click)="toggleAddComment(response.allResponses[0].responseId)"
                     *ngIf="!response.allResponses[0].isMissingResponse && response.feedbackQuestion.questionType !== 'CONTRIB'"
                     ngbTooltip="Add comment" type="button" class="btn btn-outline-primary btn-sm comment-button">
               <i class="fas fa-comment"></i>

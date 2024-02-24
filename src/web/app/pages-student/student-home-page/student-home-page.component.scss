@@ -1,3 +1,12 @@
 .margin-0 {
   margin: 0;
 }
+
+// applies only to mobile screens
+@media (width <= 768px) {
+  .custom-button {
+    width: 100px;
+    margin-bottom: 5px;
+    margin-right: 0;
+  }
+}

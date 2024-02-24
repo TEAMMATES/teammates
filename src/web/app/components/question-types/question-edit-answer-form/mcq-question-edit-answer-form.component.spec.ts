@@ -3,9 +3,9 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { FeedbackMcqQuestionDetails } from 'src/web/types/api-output';
+import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-form.component';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-form.component';
 
 describe('McqQuestionEditAnswerFormComponent', () => {
   let component: McqQuestionEditAnswerFormComponent;

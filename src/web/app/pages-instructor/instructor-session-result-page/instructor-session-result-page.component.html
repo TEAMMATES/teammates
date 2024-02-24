@@ -106,7 +106,7 @@
 </tm-loading-retry>
 
 <tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="loadNoResponseStudents(courseId, fsName)">
-  <div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
+  <div class="top-padded" *ngIf="isNoResponsePanelLoaded">
     <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
                                              [noResponseStudents]="noResponseStudents"
                                              [section]="section" [session]="session"
@@ -114,6 +114,13 @@
                                              (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
   </div>
 </tm-loading-retry>
+
+<div *ngIf="!(hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed || isFeedbackSessionLoading)" class="card top-padded">
+  <tm-preview-session-result-panel [courseId]="courseId" [feedbackSessionName]="session.feedbackSessionName"
+                                   [studentsOfCourse]="allStudentsInCourse" [emailOfStudentToPreview]="emailOfStudentToPreview"
+                                   [instructorsOfCourse]="allInstructorsInCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
+  ></tm-preview-session-result-panel>
+</div>
 
 <ng-template #downloadTooltip>
   Download session results<br/>

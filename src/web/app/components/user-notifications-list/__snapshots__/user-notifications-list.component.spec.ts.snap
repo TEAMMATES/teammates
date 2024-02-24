@@ -5,7 +5,6 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -80,13 +79,17 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-down"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -109,13 +112,17 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-down"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
@@ -131,7 +138,6 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed={[Function Boolean]}
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -178,7 +184,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -253,19 +258,22 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -307,19 +315,22 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -354,7 +365,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -430,19 +440,22 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -484,19 +497,22 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -531,7 +547,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -607,19 +622,22 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -661,19 +679,22 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-header-btn-toolbar"
             >
               <tm-panel-chevron>
-                <div
-                  class="chevron"
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
                     class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                </div>
+                </button>
               </tm-panel-chevron>
             </div>
           </div>
           <div
             class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-            style=""
           >
             <div
               class="card-body pb-0"
@@ -708,7 +729,6 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications={[Function Boolean]}
   notificationService={[Function NotificationService]}
@@ -756,7 +776,6 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}

@@ -13,19 +13,70 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session closing emails to be sent.
  */
-class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
+public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
     public JsonResult execute() {
+        executeForDatastoreFeedbackSessions();
+
+        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsClosingWithinTimeLimit();
+
+        for (FeedbackSession session : sessions) {
+            RequestTracer.checkRemainingTime();
+            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionClosingEmails(session);
+            try {
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                session.setClosingSoonEmailSent(true);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+
+        executeForDatastoreExtendedDeadlines();
+
+        // Group deadline extensions by feedback sessions
+        Collection<List<DeadlineExtension>> groupedDeadlineExtensions =
+                sqlLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail()
+                    .stream()
+                    .collect(Collectors.groupingBy(de -> de.getFeedbackSession()))
+                    .values();
+
+        for (var deadlineExtensions : groupedDeadlineExtensions) {
+            RequestTracer.checkRemainingTime();
+
+            FeedbackSession session = deadlineExtensions.get(0).getFeedbackSession();
+            if (!session.isClosingEmailEnabled()) {
+                continue;
+            }
+
+            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator
+                    .generateFeedbackSessionClosingWithExtensionEmails(session, deadlineExtensions);
+            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+
+            for (var de : deadlineExtensions) {
+                de.setClosingSoonEmailSent(true);
+            }
+        }
+
+        return new JsonResult("Successful");
+    }
+
+    private void executeForDatastoreFeedbackSessions() {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosingWithinTimeLimit();
 
         for (FeedbackSessionAttributes session : sessions) {
+            if (isCourseMigrated(session.getCourseId())) {
+                continue;
+            }
+
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosingEmails(session);
             try {
@@ -39,18 +90,24 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                 log.severe("Unexpected error", e);
             }
         }
+    }
 
+    private void executeForDatastoreExtendedDeadlines() {
         // group deadline extensions by courseId and feedbackSessionName
-        Collection<List<DeadlineExtensionAttributes>> groupedDeadlineExtensions =
+        Collection<List<DeadlineExtensionAttributes>> groupedDeadlineExtensionsAttributes =
                 logic.getDeadlineExtensionsPossiblyNeedingClosingEmail()
                         .stream()
                         .collect(Collectors.groupingBy(de -> de.getCourseId() + "%" + de.getFeedbackSessionName()))
                         .values();
 
-        for (var deadlineExtensions : groupedDeadlineExtensions) {
+        for (var deadlineExtensions : groupedDeadlineExtensionsAttributes) {
+            String courseId = deadlineExtensions.get(0).getCourseId();
+            if (isCourseMigrated(courseId)) {
+                continue;
+            }
+
             RequestTracer.checkRemainingTime();
             String feedbackSessionName = deadlineExtensions.get(0).getFeedbackSessionName();
-            String courseId = deadlineExtensions.get(0).getCourseId();
             FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
             if (feedbackSession == null || !feedbackSession.isClosingEmailEnabled()) {
                 continue;
@@ -75,8 +132,6 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                 log.severe("Unexpected error", e);
             }
         }
-
-        return new JsonResult("Successful");
     }
 
     /**

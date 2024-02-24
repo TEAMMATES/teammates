@@ -1,10 +1,10 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import {
   NumScaleQuestionStatisticsCalculation,
 } from './question-statistics-calculation/num-scale-question-statistics-calculation';
+import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for numerical scale questions.

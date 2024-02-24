@@ -4,6 +4,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
+import { CopyInstructorsFromOtherCoursesModalComponent } from './copy-instructors-from-other-courses-modal.component';
 import { InstructorService } from '../../../../services/instructor.service';
 import {
   Instructor,
@@ -16,8 +18,6 @@ import { LoadingRetryModule } from '../../../components/loading-retry/loading-re
 import { LoadingSpinnerModule } from '../../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
-import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
-import { CopyInstructorsFromOtherCoursesModalComponent } from './copy-instructors-from-other-courses-modal.component';
 
 describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
 

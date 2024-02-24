@@ -1245,17 +1245,17 @@ public class Logic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForUser(String, String, String, boolean, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForUser(String, String, String, boolean, String, boolean)
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
-            @Nullable String questionId) {
+            @Nullable String questionId, boolean isPreviewResults) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, isInstructor, questionId);
+                feedbackSessionName, courseId, userEmail, isInstructor, questionId, isPreviewResults);
     }
 
     /**
@@ -1333,7 +1333,7 @@ public class Logic {
     }
 
     /**
-     * Deletes a feedback response cascade its associated comments.
+     * Deletes a feedback response and cascades its associated comments.
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
