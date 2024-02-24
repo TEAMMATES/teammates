@@ -160,7 +160,6 @@ public class AdminNotificationsPage extends AppPage {
             getTableDisplayDateString(notification.getEndTime()),
             notification.getTargetUser().toString(),
             getNotificationStyle(notification.getStyle()),
-            getTableDisplayDateString(notification.getCreatedAt()),
         };
     }
 
