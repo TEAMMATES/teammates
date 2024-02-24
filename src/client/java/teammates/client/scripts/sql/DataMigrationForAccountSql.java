@@ -8,23 +8,7 @@ import com.googlecode.objectify.cmd.Query;
 public class DataMigrationForAccountSql extends
         DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Account, teammates.storage.sqlentity.Account> {
     public static void main(String[] args) {
-        SeedDb seedDb = new SeedDb();
-        try {
-            seedDb.seedSetup();
-            // seedDb.setupDbLayer();
-            // seedDb.setupObjectify();
-            // seedDb.persistTypicalDataBundle();
-
-            // seedDb.verify();
-            DataMigrationForAccountSql script = new DataMigrationForAccountSql();
-            script.doOperation();
-
-            seedDb.seedTearDown();
-            // seedDb.tearDownObjectify();
-            // seedDb.tearDownLocalDatastoreHelper();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new DataMigrationForAccountSql().doOperationRemotely();
     }
 
     @Override
