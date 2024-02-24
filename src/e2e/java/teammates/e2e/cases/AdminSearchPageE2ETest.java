@@ -41,7 +41,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         AdminSearchPage searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
-        teammates.storage.sqlentity.Course course = sqlTestData.courses.get("typicalCourse1");
+        teammates.storage.sqlentity.Course course = sqlTestData.courses.get("course1");
         Student student = sqlTestData.students.get("student1");
         Instructor instructor = sqlTestData.instructors.get("instructor1");
         AccountRequest accountRequest = sqlTestData.accountRequests.get("instructor1OfCourse1");
