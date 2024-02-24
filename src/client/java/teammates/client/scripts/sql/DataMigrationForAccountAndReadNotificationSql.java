@@ -61,18 +61,6 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
 
     public static void main(String[] args) {
         new DataMigrationForAccountAndReadNotificationSql().doOperationRemotely();
-        // SeedDb seedDb = new SeedDb();
-        // try {
-        // seedDb.seedSetup();
-
-        // DataMigrationForAccountAndReadNotificationSql script = new
-        // DataMigrationForAccountAndReadNotificationSql();
-        // script.doOperation();
-
-        // seedDb.seedTearDown();
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
     }
 
     private DataMigrationForAccountAndReadNotificationSql() {
@@ -91,7 +79,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     private boolean isPreview() {
-        return false;
+        return true;
     }
 
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {

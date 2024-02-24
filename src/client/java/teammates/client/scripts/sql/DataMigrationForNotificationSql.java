@@ -20,7 +20,7 @@ public class DataMigrationForNotificationSql extends
 
   @Override
   protected boolean isPreview() {
-    return false;
+    return true;
   }
 
   @Override
