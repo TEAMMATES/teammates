@@ -1,4 +1,4 @@
-package teammates.client.scripts;
+package teammates.client.scripts.sql;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package teammates.client.scripts;
+package teammates.client.scripts.sql;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +24,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.connector.DatastoreClient;
+import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.test.FileHelper;
@@ -33,15 +34,17 @@ import teammates.test.FileHelper;
  *
  * <ul>
  * <li>Supports full scan of entities without {@code OutOfMemoryError}.</li>
- * <li>Supports automatic continuation from the last failure point (Checkpoint feature).</li>
- * <li>Supports transaction between {@link #isMigrationNeeded(BaseEntity)} and {@link #migrateEntity(BaseEntity)}.</li>
+ * <li>Supports automatic continuation from the last failure point (Checkpoint
+ * feature).</li>
+ * <li>Supports transaction between {@link #isMigrationNeeded(BaseEntity)} and
+ * {@link #migrateEntity(BaseEntity)}.</li>
  * <li>Supports batch saving if transaction is not used.</li>
  * </ul>
+ * 
  * @param <E> The datastore entity type to be migrated by the script.
  * @param <T> The SQL entity type to be migrated by the script.
  */
-public abstract class DataMigrationEntitiesBaseScriptSql<
-        E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity> 
+public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity>
         extends DatastoreClient {
 
     // the folder where the cursor position and console output is saved as a file
@@ -50,7 +53,8 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     // 100 is the optimal batch size as there won't be too much time interval
     // between read and save (if transaction is not used)
     // cannot set number greater than 300
-    // see https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
+    // see
+    // https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
     private static final int BATCH_SIZE = 100;
 
     // Creates the folder that will contain the stored log.
@@ -71,10 +75,11 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
         numberOfUpdatedEntities = new AtomicLong();
 
         entitiesSavingBuffer = new ArrayList<>();
-     
-        String connectionUrl = "";
-        String username = "";
-        String password = "";
+
+        String connectionUrl = ClientProperties.SCRIPT_API_URL;
+        String username = ClientProperties.SCRIPT_API_NAME;
+        String password = ClientProperties.SCRIPT_API_PASSWORD;
+
         HibernateUtil.buildSessionFactory(connectionUrl, username, password);
     }
 
@@ -91,24 +96,35 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     /**
      * Checks whether data migration is needed.
      *
-     * <p>Causation: this method might be called in multiple threads if using transaction.</p>
+     * <p>
+     * Causation: this method might be called in multiple threads if using
+     * transaction.
+     * </p>
      */
     protected abstract boolean isMigrationNeeded(E entity);
 
     /**
      * Migrates the entity.
      *
-     * <p>Causation: this method might be called in multiple threads if using transaction.</p>
+     * <p>
+     * Causation: this method might be called in multiple threads if using
+     * transaction.
+     * </p>
      */
     protected abstract void migrateEntity(E oldEntity) throws Exception;
 
     /**
      * Determines whether the migration should be done in a transaction.
      *
-     * <p>Transaction is useful for data consistency. However, there are some limitations on operations
-     * inside a transaction. In addition, the performance of the script will also be affected.
+     * <p>
+     * Transaction is useful for data consistency. However, there are some
+     * limitations on operations
+     * inside a transaction. In addition, the performance of the script will also be
+     * affected.
      *
-     * @see <a href="https://cloud.google.com/datastore/docs/concepts/cloud-datastore-transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
+     * @see <a href=
+     *      "https://cloud.google.com/datastore/docs/concepts/cloud-datastore-transactions#what_can_be_done_in_a_transaction">What
+     *      can be done in a transaction</a>
      */
     protected boolean shouldUseTransaction() {
         return false;
@@ -150,7 +166,8 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
             doMigration(entity);
         };
         if (isPreview()) {
-            // even transaction is enabled, there is no need to use transaction in preview mode
+            // even transaction is enabled, there is no need to use transaction in preview
+            // mode
             task.run();
         } else {
             ofy().transact(task);
@@ -263,8 +280,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
      */
     private Optional<Cursor> readPositionOfCursorFromFile() {
         try {
-            String cursorPosition =
-                    FileHelper.readFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
+            String cursorPosition = FileHelper.readFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
             return Optional.of(Cursor.fromUrlSafe(cursorPosition));
         } catch (IOException | IllegalArgumentException e) {
             return Optional.empty();
@@ -304,7 +320,8 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     }
 
     /**
-     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * Returns true if {@code text} contains at least one of the {@code strings} or
+     * if {@code strings} is empty.
      * If {@code text} is null, false is returned.
      */
     private static boolean isTextContainingAny(String text, List<String> strings) {
@@ -321,11 +338,20 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
 
     /**
      * Returns true if the {@code string} has evidence of having been sanitized.
-     * A string is considered sanitized if it does not contain any of the chars '<', '>', '/', '\"', '\'',
-     * and contains at least one of their sanitized equivalents or the sanitized equivalent of '&'.
+     * A string is considered sanitized if it does not contain any of the chars '<',
+     * '>', '/', '\"', '\'',
+     * and contains at least one of their sanitized equivalents or the sanitized
+     * equivalent of '&'.
      *
-     * <p>Eg. "No special characters", "{@code <p>&quot;with quotes&quot;</p>}" are considered to be not sanitized.<br>
-     *     "{@code &lt;p&gt; a p tag &lt;&#x2f;p&gt;}" is considered to be sanitized.
+     * <p>
+     * Eg. "No special characters", "{@code 
+     * 
+    <p>
+     * &quot;with quotes&quot;
+     * 
+    </p>
+     * }" are considered to be not sanitized.<br>
+     * "{@code &lt;p&gt; a p tag &lt;&#x2f;p&gt;}" is considered to be sanitized.
      * </p>
      */
     static boolean isSanitizedHtml(String string) {
@@ -335,7 +361,8 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     }
 
     /**
-     * Returns the desanitized {@code string} if it is sanitized, otherwise returns the unchanged string.
+     * Returns the desanitized {@code string} if it is sanitized, otherwise returns
+     * the unchanged string.
      */
     static String desanitizeIfHtmlSanitized(String string) {
         return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
@@ -344,7 +371,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     /**
      * Recovers a html-sanitized string using {@link #sanitizeForHtml}
      * to original encoding for appropriate display.<br>
-     * It restores encoding for < > \ / ' &  <br>
+     * It restores encoding for < > \ / ' & <br>
      * The method should only be used once on sanitized html
      *
      * @return recovered string

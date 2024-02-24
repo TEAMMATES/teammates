@@ -1,11 +1,12 @@
-package teammates.client.scripts;
+package teammates.client.scripts.sql;
 
 import com.googlecode.objectify.cmd.Query;
+
 /**
  * DataMigrationForAccountSql
  */
-public class DataMigrationForAccountSql extends DataMigrationEntitiesBaseScriptSql<
-        teammates.storage.entity.Account, teammates.storage.sqlentity.Account> {
+public class DataMigrationForAccountSql extends
+        DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Account, teammates.storage.sqlentity.Account> {
     public static void main(String[] args) {
         SeedDb seedDb = new SeedDb();
         try {
