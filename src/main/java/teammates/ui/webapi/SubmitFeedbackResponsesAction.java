@@ -361,15 +361,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
         log.info(JsonUtils.toCompactJson(submitRequest));
 
-        if (isSingleRecipientSubmission) {
-            // only keep the response for the recipient when the request is a single-recipient submission
-            List<FeedbackResponsesRequest.FeedbackResponseRequest> responseRequests = submitRequest.getResponses();
-            submitRequest.setResponses(
-                    responseRequests.stream()
-                            .filter(r -> recipientId.equals(r.getRecipient()))
-                            .collect(Collectors.toList()));
-        }
-
         for (String recipient : submitRequest.getRecipients()) {
             if (!recipientsOfTheQuestion.containsKey(recipient)) {
                 throw new InvalidOperationException(
@@ -435,23 +426,17 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                         .validateResponsesDetails(responseDetails, numRecipients);
 
         if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(String.join("\n", questionSpecificErrors));
+            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
         }
 
-        if (!isSingleRecipientSubmission) {
-            List<String> recipients = submitRequest.getRecipients();
-            List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
-                    .filter(entry -> !recipients.contains(entry.getKey()))
-                    .map(entry -> entry.getValue())
-                    .collect(Collectors.toList());
+        List<String> recipients = submitRequest.getRecipients();
+        List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
+                .filter(entry -> !recipients.contains(entry.getKey()))
+                .map(entry -> entry.getValue())
+                .collect(Collectors.toList());
 
-            for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
-                logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
-            }
-        } else if (submitRequest.getRecipients().isEmpty() && existingResponsesPerRecipient.containsKey(recipientId)) {
-            // delete a single recipient submission
-            FeedbackResponseAttributes feedbackResponseToDelete = existingResponsesPerRecipient.get(recipientId);
-            logic.deleteFeedbackResponseCascade(feedbackResponseToDelete.getId());
+        for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
+            logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
         }
 
         List<FeedbackResponseAttributes> output = new ArrayList<>();
