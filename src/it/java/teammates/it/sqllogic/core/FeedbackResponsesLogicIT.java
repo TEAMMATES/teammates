@@ -2,6 +2,7 @@ package teammates.it.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -15,6 +16,7 @@ import teammates.sqllogic.core.FeedbackResponsesLogic;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.User;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.
@@ -64,7 +66,9 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
         Section newGiverSection = typicalDataBundle.sections.get("section1InCourse2");
         Section newRecipientSection = typicalDataBundle.sections.get("section2InCourse1");
-        String newGiver = "new test giver";
+        User newGiver = typicalDataBundle.students.get("student1InCourse1");
+        // As assertion uses UUID to compare, let's change the UUID.
+        newGiver.setId(UUID.randomUUID());
 
         for (FeedbackResponseComment frc : oldComments) {
             assertNotEquals(frc.getGiverSection(), newGiverSection);

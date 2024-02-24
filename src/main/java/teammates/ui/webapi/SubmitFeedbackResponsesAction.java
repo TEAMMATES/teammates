@@ -27,6 +27,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -186,16 +187,13 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         final FeedbackQuestion feedbackQuestion = feedbackQuestionSql;
         List<FeedbackResponse> existingResponses;
         Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
-
-        String giverIdentifier;
+        User giver;
         Section giverSection;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
-            giverIdentifier =
-                    feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                            ? student.getTeamName() : student.getEmail();
+            giver = student;
             giverSection = student.getSection();
             existingResponses = sqlLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
             recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, null, student);
@@ -204,7 +202,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
-            giverIdentifier = instructor.getEmail();
+            giver = instructor;
             giverSection = Const.DEFAULT_SQL_SECTION;
             existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
@@ -216,7 +214,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         }
 
         Map<String, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
-        existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
+        existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient().getEmail(), response));
 
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
         log.info(JsonUtils.toCompactJson(submitRequest));
@@ -233,19 +231,20 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
 
         submitRequest.getResponses().forEach(responseRequest -> {
-            String recipient = responseRequest.getRecipient();
+            String recipientEmail = responseRequest.getRecipient();
+            User recipient = sqlLogic.getUserByEmail(courseId, recipientEmail);
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
 
-            if (existingResponsesPerRecipient.containsKey(recipient)) {
+            if (existingResponsesPerRecipient.containsKey(recipientEmail)) {
                 Section recipientSection = getRecipientSection(feedbackQuestion.getCourseId(),
                         feedbackQuestion.getGiverType(),
-                        feedbackQuestion.getRecipientType(), recipient);
+                        feedbackQuestion.getRecipientType(), recipientEmail);
 
-                FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(recipient);
+                FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(recipientEmail);
                 FeedbackResponse updatedFeedbackResponse = FeedbackResponse.updateResponse(
                         existingFeedbackResponse,
                         feedbackQuestion,
-                        giverIdentifier,
+                        giver,
                         giverSection,
                         recipient,
                         recipientSection,
@@ -256,12 +255,12 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             } else {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                         feedbackQuestion,
-                        giverIdentifier,
+                        giver,
                         giverSection,
                         recipient,
                         getRecipientSection(feedbackQuestion.getCourseId(),
                             feedbackQuestion.getGiverType(),
-                            feedbackQuestion.getRecipientType(), recipient),
+                            feedbackQuestion.getRecipientType(), recipient.getEmail()),
                         responseDetails
                     );
 

@@ -151,8 +151,8 @@ public abstract class FeedbackResponse extends BaseEntity {
      */
     public static FeedbackResponse updateResponse(
             FeedbackResponse originalFeedbackResponse,
-            FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String receiver, Section receiverSection,
+            FeedbackQuestion feedbackQuestion, User giver,
+            Section giverSection, User receiver, Section receiverSection,
             FeedbackResponseDetails responseDetails
     ) {
         FeedbackResponse updatedFeedbackResponse = FeedbackResponse.makeResponse(
