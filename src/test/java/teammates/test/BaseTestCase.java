@@ -199,7 +199,7 @@ public class BaseTestCase {
     }
 
     protected FeedbackResponseComment getTypicalResponseComment(Long id) {
-        FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
+        FeedbackResponseComment comment = new FeedbackResponseComment(null, null,
                 FeedbackParticipantType.STUDENTS, null, null, "",
                 false, false,
                 null, null, null);
