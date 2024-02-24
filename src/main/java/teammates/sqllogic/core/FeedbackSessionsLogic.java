@@ -475,4 +475,24 @@ public final class FeedbackSessionsLogic {
                 requiredSessions.size()));
         return requiredSessions;
     }
+
+    /**
+     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * and need an open email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            if (session.isOpened() && session.getCourse().getDeletedAt() == null) {
+                sessionsToSendEmailsFor.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                sessionsToSendEmailsFor.size()));
+        return sessionsToSendEmailsFor;
+    }
 }
