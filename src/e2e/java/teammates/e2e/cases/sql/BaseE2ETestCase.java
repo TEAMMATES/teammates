@@ -247,7 +247,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     }
 
     FeedbackResponseData getFeedbackResponse(String questionId, String giver, String recipient) {
-        return BACKDOOR.getFeedbackResponseData(questionId, recipient, recipient);
+        return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
     }
 
     @Override
