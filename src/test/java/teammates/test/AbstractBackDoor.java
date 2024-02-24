@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
@@ -349,9 +350,9 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets an account from the database.
+     * Gets account data from the database.
      */
-    public AccountAttributes getAccount(String googleId) {
+    public AccountData getAccountData(String googleId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.INSTRUCTOR_ID, googleId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT, params);
@@ -359,7 +360,14 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        AccountData accountData = JsonUtils.fromJson(response.responseBody, AccountData.class);
+        return JsonUtils.fromJson(response.responseBody, AccountData.class);
+    }
+
+    /**
+     * Gets an account from the database.
+     */
+    public AccountAttributes getAccount(String googleId) {
+        AccountData accountData = getAccountData(googleId);
         return AccountAttributes.builder(accountData.getGoogleId())
                 .withName(accountData.getName())
                 .withEmail(accountData.getEmail())
@@ -906,6 +914,15 @@ public abstract class AbstractBackDoor {
     public void deleteNotification(String notificationId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
+        executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Deletes a notification from the database.
+     */
+    public void deleteNotification(UUID notificationId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
     }
 
