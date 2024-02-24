@@ -9,16 +9,7 @@ public class DataMigrationForNotificationSql extends DataMigrationEntitiesBaseSc
         teammates.storage.entity.Notification, teammates.storage.sqlentity.Notification> {
 
   public static void main(String[] args) {
-    SeedDb seedDb = new SeedDb();
-    try {
-        seedDb.seedSetup();
-        DataMigrationForNotificationSql script = new DataMigrationForNotificationSql();
-        script.doOperation();
-    
-        seedDb.seedTearDown();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+    new DataMigrationForNotificationSql().doOperationRemotely();
   }
 
   @Override

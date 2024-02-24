@@ -3,11 +3,12 @@ package teammates.client.scripts.sql;
 import java.io.IOException;
 
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
+import teammates.common.util.Config;
+import teammates.client.connector.DatastoreClient;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.FileHelper;
@@ -16,37 +17,24 @@ import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
 
-public class SeedDb {
-    private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
-            .setConsistency(1.0)
-            .setPort(8482)
-            .setStoreOnDisk(false)
-            .build();
-
+public class SeedDb extends DatastoreClient {
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
 
     public void setupDbLayer() throws Exception {
-        LOCAL_DATASTORE_HELPER.start();
-        DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
-        ObjectifyService.init(new ObjectifyFactory(
-                options.getService()));
-        OfyHelper.registerEntityClasses();
-
         LogicStarter.initializeDependencies();
     }
 
     public void setupObjectify() {
-        closeable = ObjectifyService.begin();
+        DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
+        ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
+        OfyHelper.registerEntityClasses();
 
+        closeable = ObjectifyService.begin();
     }
 
     public void tearDownObjectify() {
         closeable.close();
-    }
-
-    public void tearDownLocalDatastoreHelper() throws Exception {
-        LOCAL_DATASTORE_HELPER.stop();
     }
 
     protected String getTestDataFolder() {
@@ -84,28 +72,17 @@ public class SeedDb {
         System.out.println(String.format("Verify account: %s", logic.getAccountsForEmail("instr2@course1.tmt")));
     }
 
-    protected void seedSetup() throws Exception {
-        this.setupDbLayer();
-        this.setupObjectify();
-
-        this.persistTypicalDataBundle();
-    }
-
-    protected void seedTearDown() throws Exception {
-        this.tearDownObjectify();
-        this.tearDownLocalDatastoreHelper();
-    }
-
     public static void main(String[] args) throws Exception {
-        SeedDb seedDb = new SeedDb();
-        seedDb.setupDbLayer();
-        seedDb.setupObjectify();
+        new SeedDb().doOperationRemotely();
+    }
 
-        seedDb.persistTypicalDataBundle();
-        seedDb.verify();
+    @Override
+    protected void doOperation() {
+        try {
+        // LogicStarter.initializeDependencies();
+        this.persistTypicalDataBundle();
+        } catch (Exception e) {
 
-        seedDb.tearDownObjectify();
-        seedDb.tearDownLocalDatastoreHelper();
-
+        }
     }
 }
