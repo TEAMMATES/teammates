@@ -41,8 +41,8 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         AdminNotificationsPage notificationsPage = loginAdminToPage(url, AdminNotificationsPage.class);
         // Only validates that the notifications are present in the notifications table instead of checking every row
         // This is because the page will display all notifications in the database, which is not predictable
-        notificationsPage.verifyNotificationsTableRow(notifications[0]); // works
-        notificationsPage.verifyNotificationsTableRow(notifications[1]); // works
+        notificationsPage.verifyNotificationsTableRow(notifications[0]);
+        notificationsPage.verifyNotificationsTableRow(notifications[1]);
         NotificationData notif = BACKDOOR.getNotificationData(notifications[0].getId().toString());
         assertEquals(notif.getNotificationId(), notifications[0].getId().toString());
         assertEquals(notif.getMessage(), notifications[0].getMessage());
