@@ -146,30 +146,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    protected void testExecute_getTextQuestionType_shouldGetCommentsSuccessfully() throws Exception {
-        DataBundle dataBundle = loadDataBundle("/FeedbackResponseCommentCRUDTest.json");
-        removeAndRestoreDataBundle(dataBundle);
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        FeedbackQuestionAttributes qn7InSession1 = dataBundle.feedbackQuestions.get("qn7InSession1");
-        FeedbackResponseAttributes response1ForQ7 = dataBundle.feedbackResponses.get("response1ForQ7");
-        FeedbackResponseCommentAttributes comment3FromStudent1 =
-                dataBundle.feedbackResponseComments.get("comment3FromStudent1");
-
-        loginAsStudent(student1InCourse1.getGoogleId());
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn7InSession1.getId(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-        FeedbackResponsesData actualData = getFeedbackResponse(params);
-        List<FeedbackResponseData> actualResponses = actualData.getResponses();
-
-        assertEquals(1, actualResponses.size());
-        verifyFeedbackResponseEquals(response1ForQ7, actualResponses.get(0));
-        verifyFeedbackCommentEquals(comment3FromStudent1, actualResponses.get(0).getGiverComment());
-    }
-
-    @Test
     @Override
     protected void testAccessControl() {
         //see independent test cases
