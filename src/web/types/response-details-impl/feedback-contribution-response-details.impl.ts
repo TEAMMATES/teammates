@@ -1,10 +1,10 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
   FeedbackQuestionType,
 } from '../api-output';
 import { CONTRIBUTION_POINT_NOT_SUBMITTED, CONTRIBUTION_POINT_NOT_SURE } from '../feedback-response-details';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackContributionResponseDetails}.

@@ -96,7 +96,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "btn-create-session")
     private WebElement createSessionButton;
 
-    @FindBy(className = "sessions-table")
+    @FindBy(id = "sessions-table")
     private WebElement sessionsTable;
 
     @FindBy(id = "deleted-sessions-heading")
@@ -501,6 +501,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     private int getSoftDeletedFeedbackSessionRowId(String courseId, String sessionName) {
         int i = 0;
+        assertEquals(courseId, getSoftDeletedFeedbackSessionCourseId(i));
+        assertEquals(sessionName, getSoftDeletedFeedbackSessionName(i));
 
         while (i < getNumSoftDeletedFeedbackSessions()) {
             if (getSoftDeletedFeedbackSessionCourseId(i).equals(courseId)

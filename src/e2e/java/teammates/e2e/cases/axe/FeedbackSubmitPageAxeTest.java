@@ -6,14 +6,12 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_SESSION_SUBMISSION_PAGE}.
  */
-public class FeedbackSubmitPageAxeTest extends BaseE2ETestCase {
+public class FeedbackSubmitPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -31,8 +29,8 @@ public class FeedbackSubmitPageAxeTest extends BaseE2ETestCase {
         FeedbackSubmitPage feedbackSubmitPage = loginToPage(url, FeedbackSubmitPage.class,
                 testData.students.get("Alice").getGoogleId());
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(feedbackSubmitPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(feedbackSubmitPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }

@@ -2,7 +2,6 @@
 
 exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -13,7 +12,7 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   timezoneService={[Function TimezoneService]}
@@ -46,7 +45,6 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
 
 exports[`UserJoinPageComponent should snap with default fields 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -57,7 +55,7 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
   isLoading={[Function Boolean]}
   key={[Function String]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   timezoneService={[Function TimezoneService]}
@@ -84,7 +82,6 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
 
 exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -95,7 +92,7 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   timezoneService={[Function TimezoneService]}
@@ -128,7 +125,6 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 
 exports[`UserJoinPageComponent should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -139,7 +135,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   timezoneService={[Function TimezoneService]}
@@ -172,7 +168,6 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
 
 exports[`UserJoinPageComponent should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -183,7 +178,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   timezoneService={[Function TimezoneService]}

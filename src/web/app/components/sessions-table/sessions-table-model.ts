@@ -1,4 +1,6 @@
 import { FeedbackSession, InstructorPermissionSet } from '../../../types/api-output';
+/* eslint-disable-next-line import/no-cycle */
+import { ColumnData, SortableTableCellData } from '../sortable-table/sortable-table.component';
 
 /**
  * The model for a row of the sessions table.
@@ -40,19 +42,36 @@ export enum SessionsTableColumn {
    * End date of the feedback session column.
    */
   END_DATE,
+  /**
+   * Response rate of the feedback session column.
+   */
+  RESPONSE_RATE,
+  /**
+   * Responses of the feedback session column.
+   */
+  RESPONSES,
+  /**
+   * Actions of the feedback session column.
+   */
+  ACTIONS,
 }
 
-/**
- * The color scheme of the header of the table
- */
-export enum SessionsTableHeaderColorScheme {
-  /**
-   * Blue background with white text.
-   */
-  BLUE,
+/** Map from column to its name. */
+export const SessionsTableColumnNames = new Map<SessionsTableColumn, string>([
+  [SessionsTableColumn.COURSE_ID, 'Course ID'],
+  [SessionsTableColumn.START_DATE, 'Start Date'],
+  [SessionsTableColumn.END_DATE, 'End Date'],
+  [SessionsTableColumn.RESPONSE_RATE, 'Response Rate'],
+  [SessionsTableColumn.RESPONSES, 'Responses'],
+  [SessionsTableColumn.ACTIONS, 'Action(s)'],
+]);
 
-  /**
-   * White background with black text.
-   */
-  WHITE,
+/** Generate header. */
+export interface SessionsTableColumnData extends ColumnData {
+  columnType?: SessionsTableColumn;
+}
+
+/** Generate Row. */
+export interface SessionsTableRowData extends SortableTableCellData {
+  columnType?: SessionsTableColumn;
 }

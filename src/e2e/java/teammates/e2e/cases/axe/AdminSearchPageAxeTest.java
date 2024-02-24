@@ -6,15 +6,13 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.AdminSearchPage;
-import teammates.e2e.util.AxeUtil;
 import teammates.e2e.util.TestProperties;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
  */
-public class AdminSearchPageAxeTest extends BaseE2ETestCase {
+public class AdminSearchPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -40,8 +38,8 @@ public class AdminSearchPageAxeTest extends BaseE2ETestCase {
         searchPage.inputSearchContent(testData.students.get("student1InCourse1").getEmail());
         searchPage.clickSearchButton();
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(searchPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(searchPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }

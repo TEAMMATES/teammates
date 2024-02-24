@@ -1,8 +1,8 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import { StringHelper } from '../../services/string-helper';
 import {
   FeedbackQuestionType, FeedbackTextQuestionDetails, FeedbackTextResponseDetails,
 } from '../api-output';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackTextResponseDetails}.

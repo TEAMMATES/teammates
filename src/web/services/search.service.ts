@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { CourseService } from './course.service';
+import { FeedbackSessionsService } from './feedback-sessions.service';
+import { HttpRequestService } from './http-request.service';
+import { InstructorService } from './instructor.service';
+import { LinkService } from './link.service';
+import { TimezoneService } from './timezone.service';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
@@ -15,12 +21,6 @@ import {
   Students,
 } from '../types/api-output';
 import { Intent } from '../types/api-request';
-import { CourseService } from './course.service';
-import { FeedbackSessionsService } from './feedback-sessions.service';
-import { HttpRequestService } from './http-request.service';
-import { InstructorService } from './instructor.service';
-import { LinkService } from './link.service';
-import { TimezoneService } from './timezone.service';
 
 /**
  * Handles the logic for search.

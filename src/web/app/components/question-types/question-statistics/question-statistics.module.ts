@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
-import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from './constsum-recipients-question-statistics.component';
 import {
@@ -20,6 +18,8 @@ import { RankOptionsQuestionStatisticsComponent } from './rank-options-question-
 import { RankRecipientsQuestionStatisticsComponent } from './rank-recipients-question-statistics.component';
 import { RubricQuestionStatisticsComponent } from './rubric-question-statistics.component';
 import { TextQuestionStatisticsComponent } from './text-question-statistics.component';
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
+import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 
 /**
  * Module for all different types of question statistics.

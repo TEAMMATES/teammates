@@ -1,10 +1,10 @@
+import { DeadlineExtensionHelper } from './deadline-extension-helper';
 import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../app/pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
 import { Instructor, JoinState, Student } from '../types/api-output';
 import { InstructorPermissionRole } from '../types/api-request';
-import { DeadlineExtensionHelper } from './deadline-extension-helper';
 
 const timeNow = Date.now();
 const fixedLengthOfTime = 1000000;

@@ -1,6 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpRequestService } from './http-request.service';
+import {
+  AccountRequestSearchResult,
+  InstructorAccountSearchResult,
+  SearchService,
+  StudentAccountSearchResult,
+} from './search.service';
+import { TimezoneService } from './timezone.service';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
@@ -16,14 +25,6 @@ import {
   SessionVisibleSetting,
   Student,
 } from '../types/api-output';
-import { HttpRequestService } from './http-request.service';
-import {
-  AccountRequestSearchResult,
-  InstructorAccountSearchResult,
-  SearchService,
-  StudentAccountSearchResult,
-} from './search.service';
-import { TimezoneService } from './timezone.service';
 
 describe('SearchService', () => {
   let spyHttpRequestService: any;
@@ -191,12 +192,7 @@ describe('SearchService', () => {
   };
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [

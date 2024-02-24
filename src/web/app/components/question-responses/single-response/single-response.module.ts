@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { QuestionResponseModule } from '../../question-types/question-response/question-response.module';
 import { SingleResponseComponent } from './single-response.component';
+import { QuestionResponseModule } from '../../question-types/question-response/question-response.module';
 
 /**
  * Module for single response component.

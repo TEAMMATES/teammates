@@ -1,9 +1,9 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
   FeedbackQuestionType, FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
 } from '../api-output';
 import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../feedback-response-details';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackRankRecipientsResponseDetails}.

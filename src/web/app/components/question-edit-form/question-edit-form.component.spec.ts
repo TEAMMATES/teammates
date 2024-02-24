@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { QuestionEditFormModel } from './question-edit-form-model';
+import { QuestionEditFormComponent } from './question-edit-form.component';
 import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
 import {
   EXAMPLE_ESSAY_QUESTION_MODEL,
@@ -19,8 +21,6 @@ import {
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
 import { VisibilityPanelModule } from '../visibility-panel/visibility-panel.module';
-import { QuestionEditFormModel } from './question-edit-form-model';
-import { QuestionEditFormComponent } from './question-edit-form.component';
 
 describe('QuestionEditFormComponent', () => {
   let component: QuestionEditFormComponent;

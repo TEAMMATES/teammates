@@ -8,7 +8,7 @@ This document describes how the issue tracker is used by the TEAMMATES project.
 
 ## Issue lifecycle
 
-<img src="images/IssueLifecycle.png" width="600">
+<puml src="diagrams/IssueLifecycle.puml"></puml>
 
 Given above is an illustration of the issue lifecycle.
 Colors indicate which roles are involved in which states/transitions.
@@ -26,9 +26,7 @@ Grouped Labels
 * **Priority (`p.*`)**: Classifies issues based on **importance**, as determined by the project maintainers
 * **Aspect (`a-*`)**: Classifies issues based on the **aspect**
   * No `a-*` label: no specific aspect tackled, usually the case for enhancements or new features
-* **Technology (`t-*`)**: Classifies issues based on the **technology/tool stack** involved
-  * No `t-*` label: usually documentation update, or mixture of many languages
-  
+
 Standalone Labels
 
 * `enhancement`: Indicates new feature requests that have been accepted

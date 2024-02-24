@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { RankOptionsQuestionAdditionalInfoComponent } from './rank-options-question-additional-info.component';
 import { FeedbackQuestionType, FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
-import { RankOptionsQuestionAdditionalInfoComponent } from './rank-options-question-additional-info.component';
 
 describe('RankOptionsQuestionAdditionalInfoComponent', () => {
   let component: RankOptionsQuestionAdditionalInfoComponent;

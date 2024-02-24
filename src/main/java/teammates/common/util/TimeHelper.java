@@ -40,6 +40,20 @@ public final class TimeHelper {
     }
 
     /**
+     * Returns an Instant that is offset by a number of months from now.
+     *
+     * @param offsetInMonths integer number of months to offset by
+     * @param timeZone string representing the time zone to compute local datetime
+     * @return an Instant offset by {@code offsetInMonths} days
+     */
+    public static Instant getInstantMonthsOffsetFromNow(long offsetInMonths, String timeZone) {
+        Instant now = Instant.now();
+        ZonedDateTime zdt = now.atZone(ZoneId.of(timeZone));
+        ZonedDateTime offsetZdt = zdt.plusMonths(offsetInMonths);
+        return offsetZdt.toInstant();
+    }
+
+    /**
      * Returns an Instant that is offset by a number of days before now.
      *
      * @param offsetInDays integer number of days to offset by

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
@@ -11,7 +12,6 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The contribution question submission form for a recipient.

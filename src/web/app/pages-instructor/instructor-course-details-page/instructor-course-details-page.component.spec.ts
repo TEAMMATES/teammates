@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
+import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 import { CourseStatistics } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -12,8 +14,6 @@ import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
-import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
-import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 
 const course: Course = {
   courseId: 'CS101',

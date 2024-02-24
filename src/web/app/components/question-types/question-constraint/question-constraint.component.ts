@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackQuestionDetails } from '../../../../types/api-output';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
@@ -9,7 +9,7 @@ import {
  */
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export abstract class QuestionConstraintComponent<Q extends FeedbackQuestionDetails> {
+export abstract class QuestionConstraintComponent<Q extends FeedbackQuestionDetails> implements OnInit {
 
   @Input()
   get recipientSubmissionForms(): FeedbackResponseRecipientSubmissionFormModel[] {
@@ -17,7 +17,6 @@ export abstract class QuestionConstraintComponent<Q extends FeedbackQuestionDeta
   }
   set recipientSubmissionForms(models: FeedbackResponseRecipientSubmissionFormModel[]) {
     this.formModels = models;
-    this.isValidEvent.emit(this.isValid);
   }
 
   abstract get isValid(): boolean;
@@ -29,6 +28,10 @@ export abstract class QuestionConstraintComponent<Q extends FeedbackQuestionDeta
   isValidEvent: EventEmitter<boolean> = new EventEmitter();
 
   private formModels: FeedbackResponseRecipientSubmissionFormModel[] = [];
+
+  ngOnInit(): void {
+    this.isValidEvent.emit(this.isValid);
+  }
 
   protected constructor(questionDetails: Q) {
     this.questionDetails = questionDetails;

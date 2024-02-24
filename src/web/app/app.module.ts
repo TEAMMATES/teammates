@@ -9,8 +9,6 @@ import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbDatepickerModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
-import { environment } from '../environments/environment';
-import { Intent } from '../types/api-request';
 import { AppComponent } from './app.component';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
@@ -29,6 +27,8 @@ import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.comp
 import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
+import { environment } from '../environments/environment';
+import { Intent } from '../types/api-request';
 
 const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
 const customUrlSerializerProvider: Provider = {
@@ -160,7 +160,7 @@ if (environment.maintenance) {
     BrowserAnimationsModule,
     HttpClientModule,
     NgbDropdownModule,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, {}),
     ErrorReportModule,
     ToastModule,
     LoaderBarModule,

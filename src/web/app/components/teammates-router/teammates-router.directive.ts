@@ -1,6 +1,6 @@
 import { LocationStrategy } from '@angular/common';
-import { Directive, Input } from '@angular/core';
-import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
+import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MasqueradeModeService } from '../../../services/masquerade-mode.service';
 
 /**
@@ -9,7 +9,7 @@ import { MasqueradeModeService } from '../../../services/masquerade-mode.service
 @Directive({
   selector: 'a[tmRouterLink]',
 })
-export class TeammatesRouterDirective extends RouterLinkWithHref {
+export class TeammatesRouterDirective extends RouterLink {
   private queryParamsInternal: { [k: string]: any } = {};
 
   @Input()
@@ -18,7 +18,7 @@ export class TeammatesRouterDirective extends RouterLinkWithHref {
   }
 
   @Input()
-  // @ts-ignore
+  // @ts-expect-error query params is redefined in this class
   set queryParams(params: { [k: string]: any }) {
     this.queryParamsInternal = params;
   }
@@ -31,8 +31,9 @@ export class TeammatesRouterDirective extends RouterLinkWithHref {
     return this.queryParamsInternal;
   }
 
-  constructor(router: Router, route: ActivatedRoute, locationStrategy: LocationStrategy,
+  constructor(router: Router, route: ActivatedRoute,
+              renderer: Renderer2, el: ElementRef, locationStrategy: LocationStrategy,
               private masqueradeModeService: MasqueradeModeService) {
-    super(router, route, locationStrategy);
+    super(router, route, null, renderer, el, locationStrategy);
   }
 }

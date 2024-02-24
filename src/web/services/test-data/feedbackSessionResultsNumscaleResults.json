@@ -81,6 +81,15 @@
             "answer": "No Response",
             "questionType": "TEXT"
           },
+           "participantComment": {
+            "feedbackResponseCommentId": 53666,
+            "commentText": "Instructor 3 comment",
+            "createdAt": 1451692743000,
+            "lastEditedAt": 1451692740010,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
+          },
           "instructorComments": []
         }
       ],
@@ -150,6 +159,15 @@
           "responseDetails": {
             "answer": 2.0,
             "questionType": "NUMSCALE"
+          },
+           "participantComment": {
+            "feedbackResponseCommentId": 23453,
+            "commentText": "Student 2 comment",
+            "createdAt": 1451692740000,
+            "lastEditedAt": 1451692740000,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
           },
           "instructorComments": []
         },

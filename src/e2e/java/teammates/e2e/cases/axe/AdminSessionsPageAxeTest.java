@@ -10,14 +10,12 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.AdminSessionsPage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SESSIONS_PAGE}.
  */
-public class AdminSessionsPageAxeTest extends BaseE2ETestCase {
+public class AdminSessionsPageAxeTest extends BaseAxeTestCase {
     private Instant instant3DaysAgo = TimeHelper.getInstantDaysOffsetFromNow(-3);
     private Instant instantTomorrow = TimeHelper.getInstantDaysOffsetFromNow(1);
     private Instant instant3DaysLater = TimeHelper.getInstantDaysOffsetFromNow(3);
@@ -61,9 +59,8 @@ public class AdminSessionsPageAxeTest extends BaseE2ETestCase {
         AppUrl sessionsUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_SESSIONS_PAGE);
         AdminSessionsPage sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(sessionsPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
-
+        Results results = getAxeBuilder().analyze(sessionsPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }

@@ -1,0 +1,192 @@
+<div class="d-flex gap-1">
+  <a
+    *ngIf="instructorPrivileges.canModifySession; else editSessionBtn"
+    tmRouterLink="/web/instructor/sessions/edit"
+    [queryParams]="{
+      courseid: courseId,
+      fsname: fsName,
+      editingMode: true
+    }"
+  >
+    <ng-container *ngTemplateOutlet="editSessionBtn"></ng-container>
+  </a>
+  <ng-template #editSessionBtn>
+    <button
+      type="button"
+      class="btn btn-light btn-sm"
+      [disabled]="!instructorPrivileges.canModifySession"
+    >
+      Edit
+    </button>
+  </ng-template>
+  <button
+    type="button"
+    class="btn-soft-delete-{{ idx }} btn btn-light btn-sm"
+    (click)="moveSessionToRecycleBin()"
+    [disabled]="!instructorPrivileges.canModifySession"
+  >
+    Delete
+  </button>
+  <button
+    type="button"
+    class="btn-copy-{{ idx }} btn btn-light btn-sm"
+    ngbTooltip="Copy feedback session details"
+    (click)="copySession()"
+  >
+    Copy
+  </button>
+
+  <a
+    *ngIf="
+      submissionStatus === FeedbackSessionSubmissionStatus.OPEN &&
+        instructorPrivileges.canSubmitSessionInSections;
+      else submitBtn
+    "
+    tmRouterLink="/web/instructor/sessions/submission"
+    [queryParams]="{
+      courseid: courseId,
+      fsname: fsName,
+      editingMode: true
+    }"
+  >
+    <ng-container *ngTemplateOutlet="submitBtn"></ng-container>
+  </a>
+  <ng-template #submitBtn>
+    <button
+      type="button"
+      class="btn btn-light btn-sm"
+      ngbTooltip="Start submitting feedback"
+      [disabled]="
+        submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
+        !instructorPrivileges.canSubmitSessionInSections
+      "
+      (click)="onSubmitSessionAsInstructor()"
+    >
+      Submit
+    </button>
+  </ng-template>
+  <div ngbDropdown class="d-inline-block" container="body">
+    <button
+      class="btn-results-{{ idx }} btn btn-light btn-sm"
+      ngbDropdownToggle
+    >
+      Results
+    </button>
+    <div ngbDropdownMenu>
+      <a
+        class="btn dropdown-item clickable"
+        [ngClass]="{
+          disabled: !instructorPrivileges.canViewSessionInSections
+        }"
+        tmRouterLink="/web/instructor/sessions/result"
+        [queryParams]="{
+          courseid: courseId,
+          fsname: fsName
+        }"
+        >View Results (from/to me)</a
+      >
+      <a
+        class="btn dropdown-item clickable"
+        [ngClass]="{
+          disabled: !instructorPrivileges.canViewSessionInSections
+        }"
+        tmRouterLink="/web/instructor/sessions/report"
+        [queryParams]="{
+          courseid: courseId,
+          fsname: fsName
+        }"
+        >View Results (course-wide)</a
+      >
+      <button
+        class="btn-unpublish-{{ idx }} btn dropdown-item clickable"
+        ngbTooltip="Make responses no longer visible"
+        placement="left"
+        container="body"
+        *ngIf="
+          ![
+            FeedbackSessionSubmissionStatus.NOT_VISIBLE,
+            FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN
+          ].includes(submissionStatus) &&
+            publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+          else publishButton
+        "
+        [disabled]="!instructorPrivileges.canModifySession"
+        (click)="unpublishSession()"
+      >
+        Unpublish Results
+      </button>
+      <ng-template #publishButton>
+        <button
+          class="btn-publish-{{ idx }} btn dropdown-item clickable"
+          [disabled]="
+            [
+              FeedbackSessionSubmissionStatus.NOT_VISIBLE,
+              FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN
+            ].includes(submissionStatus) ||
+            publishStatus === FeedbackSessionPublishStatus.PUBLISHED ||
+            !instructorPrivileges.canModifySession
+          "
+          ngbTooltip="Make session responses available for viewing"
+          placement="left"
+          container="body"
+          (click)="publishSession()"
+        >
+          Publish Results
+        </button>
+      </ng-template>
+      <button
+        class="btn-resend-{{ idx }} btn dropdown-item clickable"
+        *ngIf="publishStatus === FeedbackSessionPublishStatus.PUBLISHED"
+        (click)="remindResultsLinkToStudent()"
+      >
+        Resend link to view results
+      </button>
+      <button
+        class="btn-download-{{ idx }} btn dropdown-item clickable"
+        (click)="downloadSessionResults()"
+        [disabled]="!instructorPrivileges.canViewSessionInSections"
+      >
+        Download Results
+      </button>
+    </div>
+  </div>
+  <div
+    ngbDropdown
+    class="d-inline-block"
+    container="body"
+    ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+  >
+    <button
+      ngbDropdownToggle
+      class="btn-remind-{{ idx }} btn btn-light btn-sm"
+      [disabled]="
+        submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
+        !instructorPrivileges.canModifySession
+      "
+    >
+      <div class="d-inline-flex">
+        <span>Remind</span>
+        <div class="padding-left-7px">
+          <tm-ajax-loading
+            [color]="'#000000'"
+            *ngIf="isSendReminderLoading && rowClicked === idx"
+          ></tm-ajax-loading>
+        </div>
+      </div>
+    </button>
+    <div ngbDropdownMenu>
+      <button
+        class="btn-remind-all-{{ idx }} btn dropdown-item clickable"
+        (click)="sendRemindersToAllNonSubmitters(); setRowClicked()"
+      >
+        Remind all non-submitters
+      </button>
+      <button
+        class="btn-remind-selected-{{ idx }} btn dropdown-item clickable"
+        (click)="sendRemindersToSelectedNonSubmitters(); setRowClicked()"
+      >
+        Select non-submitters to remind
+      </button>
+    </div>
+  </div>
+</div>

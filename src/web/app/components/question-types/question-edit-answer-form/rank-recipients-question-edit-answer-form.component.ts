@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
@@ -7,7 +8,6 @@ import {
   DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS, DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The Rank recipients question submission form for a recipient.

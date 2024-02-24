@@ -5,7 +5,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -28,11 +27,13 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded={[Function Boolean]}
   isCopyingCourse="false"
-  isLoading={[Function Boolean]}
+  isLoadingActiveCourses={[Function Boolean]}
+  isLoadingArchivedCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -57,6 +58,42 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
        Add New Course 
     </button>
   </div><tm-loading-retry>
+    <div
+      class="course-section"
+    >
+      <h2
+        class="h3"
+      >
+        Active courses
+      </h2>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry><div
+    class="course-section"
+  >
+    <h2
+      class="h3 text-muted"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-file-archive"
+      />
+       Archived courses 
+    </h2>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -72,196 +109,36 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
         </div>
       </div>
     </tm-loading-spinner>
-  </tm-loading-retry><div
-    class="course-section"
+  </div><div
+    class="row course-section margin-top-30px"
   >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
     <div
-      class="card top-padded"
+      class="col-12"
     >
-      <div
-        class="card-header bg-info cursor-pointer"
-        id="archived-table-heading"
+      <h2
+        class="h3 text-muted"
       >
-        <b>
-          Archive
-        </b>
+        <span
+          aria-hidden="true"
+          class="fa fa-trash-alt"
+        />
+         Deleted courses 
+      </h2>
+      <tm-loading-spinner>
         <div
-          class="card-header-btn-toolbar"
+          class="loading-container"
         >
-          <tm-panel-chevron>
-            <div
-              class="chevron"
-            >
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
-          </tm-panel-chevron>
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
         </div>
-      </div>
-      <div
-        class="card-body archive-body table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
-        style=""
-      >
-        <table
-          class="table table-striped table-bordered archive-table"
-          id="archived-courses-table"
-        >
-          <thead>
-            <tr
-              class="background-color-medium-gray text-color-gray"
-            >
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Course ID 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="ascending"
-                class="sortable-header"
-              >
-                <button>
-                   Course Name 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-up"
-                      style=""
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Creation Date 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                class="text-center"
-              >
-                Action(s)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              style=""
-            >
-              <td
-                class="text-break"
-                id="archived-course-id-0"
-              >
-                CS2104
-              </td>
-              <td
-                class="text-break"
-              >
-                Can modify archived
-              </td>
-              <td>
-                <span
-                  class="ngb-tooltip-class"
-                  container="body"
-                >
-                  5 Nov 2002
-                </span>
-              </td>
-              <td
-                class="text-center actions-cell"
-              >
-                <button
-                  class="btn btn-light btn-sm"
-                  id="btn-unarchive-0"
-                >
-                   Unarchive 
-                </button>
-                <button
-                  class="btn btn-light btn-sm"
-                  id="btn-soft-delete-archived-0"
-                  ngbtooltip="Delete the course and its corresponding students and sessions"
-                >
-                   Delete 
-                </button>
-              </td>
-            </tr>
-            <tr
-              style=""
-            >
-              <td
-                class="text-break"
-                id="archived-course-id-1"
-              >
-                CS2106
-              </td>
-              <td
-                class="text-break"
-              >
-                Cannot modify archived
-              </td>
-              <td>
-                <span
-                  class="ngb-tooltip-class"
-                  container="body"
-                >
-                  5 Nov 2002
-                </span>
-              </td>
-              <td
-                class="text-center actions-cell"
-              >
-                <button
-                  class="btn btn-light btn-sm"
-                  id="btn-unarchive-1"
-                >
-                   Unarchive 
-                </button>
-                <button
-                  class="btn btn-light btn-sm disabled"
-                  id="btn-soft-delete-archived-disabled-1"
-                >
-                   Delete 
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      </tm-loading-spinner>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -272,7 +149,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -295,11 +171,13 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
-  isLoading={[Function Boolean]}
+  isLoadingActiveCourses={[Function Boolean]}
+  isLoadingArchivedCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -324,6 +202,42 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
        Add New Course 
     </button>
   </div><tm-loading-retry>
+    <div
+      class="course-section"
+    >
+      <h2
+        class="h3"
+      >
+        Active courses
+      </h2>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry><div
+    class="course-section"
+  >
+    <h2
+      class="h3 text-muted"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-file-archive"
+      />
+       Archived courses 
+    </h2>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -339,7 +253,38 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
         </div>
       </div>
     </tm-loading-spinner>
-  </tm-loading-retry>
+  </div><div
+    class="row course-section margin-top-30px"
+  >
+    <div
+      class="col-12"
+    >
+      <h2
+        class="h3 text-muted"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-trash-alt"
+        />
+         Deleted courses 
+      </h2>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </div>
 </tm-instructor-courses-page>
 `;
 
@@ -348,7 +293,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -371,11 +315,13 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
-  isLoading="false"
+  isLoadingActiveCourses="false"
+  isLoadingArchivedCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -399,313 +345,315 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    <div>
-      <div
-        class="course-section"
+    <div
+      class="course-section"
+    >
+      <h2
+        class="h3"
       >
-        <h2
-          class="h3"
-        >
-          Active courses
-        </h2>
-        <div
-          class="table table-responsive"
-        >
-          <table
-            class="table table-striped table-bordered margin-0"
-            id="active-courses-table"
+        Active courses
+      </h2>
+      <div>
+        <div>
+          <div
+            class="table table-responsive"
           >
-            <thead>
-              <tr
-                class="bg-primary text-white"
-              >
-                <th
-                  aria-sort="none"
-                  class="sortable-header"
-                  id="sort-course-id"
+            <table
+              class="table table-striped table-bordered margin-0"
+              id="active-courses-table"
+            >
+              <thead>
+                <tr
+                  class="bg-primary text-white"
                 >
-                  <button>
-                     Course ID 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th
-                  aria-sort="none"
-                  class="sortable-header"
-                  id="sort-course-name"
-                >
-                  <button>
-                     Course Name 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th
-                  aria-sort="ascending"
-                  class="sortable-header"
-                  id="sort-creation-date"
-                >
-                  <button>
-                     Creation Date 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      <i
-                        class="fas fa-sort-up"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th>
-                  Sections
-                </th>
-                <th>
-                  Teams
-                </th>
-                <th>
-                  Total Students
-                </th>
-                <th>
-                  Total Unregistered
-                </th>
-                <th
-                  class="text-center"
-                >
-                  Action(s)
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td
-                  class="text-break"
-                  id="course-id-0"
-                >
-                  CS3281
-                </td>
-                <td
-                  class="text-break"
-                >
-                  Modifiable Students and Courses
-                </td>
-                <td>
-                  <span
-                    class="ngb-tooltip-class"
-                    container="body"
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                    id="sort-course-id"
                   >
-                     5 Nov 2018 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td
-                  class="text-center actions-cell"
-                >
-                  <a
-                    class="btn btn-light btn-sm"
-                    href="/web/instructor/courses/enroll?courseid=CS3281"
-                    id="btn-enroll-0"
-                    ngbtooltip="Enroll student into the course"
-                    tmrouterlink="/web/instructor/courses/enroll"
+                    <button>
+                       Course ID 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                    id="sort-course-name"
                   >
-                     Enroll 
-                  </a>
-                  <div
-                    class="d-inline-block dropdown"
-                    ngbdropdown=""
+                    <button>
+                       Course Name 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="sortable-header"
+                    id="sort-creation-date"
+                  >
+                    <button>
+                       Creation Date 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                        <i
+                          class="fas fa-sort-up"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th>
+                    Sections
+                  </th>
+                  <th>
+                    Teams
+                  </th>
+                  <th>
+                    Total Students
+                  </th>
+                  <th>
+                    Total Unregistered
+                  </th>
+                  <th
+                    class="text-center"
+                  >
+                    Action(s)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="course-id-0"
+                  >
+                    CS3281
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Modifiable Students and Courses
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Nov 2018 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
+                  >
+                    <a
+                      class="btn btn-light btn-sm custom-button-active"
+                      href="/web/instructor/courses/enroll?courseid=CS3281"
+                      id="btn-enroll-0"
+                      ngbtooltip="Enroll student into the course"
+                      tmrouterlink="/web/instructor/courses/enroll"
+                    >
+                       Enroll 
+                    </a>
+                    <div
+                      class="d-inline-block dropdown"
+                      ngbdropdown=""
+                    >
+                      <button
+                        aria-expanded="false"
+                        class="dropdown-toggle btn btn-light btn-sm custom-button-active"
+                        id="btn-other-actions-0"
+                        ngbdropdowntoggle=""
+                      >
+                        Other Actions
+                      </button>
+                      <div
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
+                      >
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/details?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/details"
+                        >
+                           View 
+                        </a>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/edit?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/edit"
+                        >
+                           Edit 
+                        </a>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-copy-0"
+                          ngbtooltip="Copy the course and its corresponding sessions"
+                          placement="left"
+                        >
+                           Copy 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-archive-0"
+                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                          placement="left"
+                        >
+                           Archive 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-soft-delete-0"
+                          ngbtooltip="Delete the course and its corresponding students and sessions"
+                          placement="left"
+                        >
+                           Delete 
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="course-id-1"
+                  >
+                    CS3282
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Nothing modifiable
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       2 Feb 2019 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
                   >
                     <button
-                      aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
-                      id="btn-other-actions-0"
-                      ngbdropdowntoggle=""
+                      class="btn btn-light btn-sm disabled"
+                      id="btn-enroll-disabled-1"
                     >
-                      Other Actions
+                       Enroll 
                     </button>
                     <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
+                      class="d-inline-block dropdown"
+                      ngbdropdown=""
                     >
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/details?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/details"
-                      >
-                         View 
-                      </a>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/edit"
-                      >
-                         Edit 
-                      </a>
                       <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-copy-0"
-                        ngbtooltip="Copy the course and its corresponding sessions"
-                        placement="left"
+                        aria-expanded="false"
+                        class="dropdown-toggle btn btn-light btn-sm custom-button-active"
+                        id="btn-other-actions-1"
+                        ngbdropdowntoggle=""
                       >
-                         Copy 
+                        Other Actions
                       </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-archive-0"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                        placement="left"
+                      <div
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
                       >
-                         Archive 
-                      </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-soft-delete-0"
-                        ngbtooltip="Delete the course and its corresponding students and sessions"
-                        placement="left"
-                      >
-                         Delete 
-                      </button>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/details?courseid=CS3282"
+                          tmrouterlink="/web/instructor/courses/details"
+                        >
+                           View 
+                        </a>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/edit?courseid=CS3282"
+                          tmrouterlink="/web/instructor/courses/edit"
+                        >
+                           Edit 
+                        </a>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-archive-1"
+                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                          placement="left"
+                        >
+                           Archive 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item disabled"
+                          id="btn-soft-delete-disabled-1"
+                        >
+                           Delete 
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  class="text-break"
-                  id="course-id-1"
-                >
-                  CS3282
-                </td>
-                <td
-                  class="text-break"
-                >
-                  Nothing modifiable
-                </td>
-                <td>
-                  <span
-                    class="ngb-tooltip-class"
-                    container="body"
-                  >
-                     2 Feb 2019 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td
-                  class="text-center actions-cell"
-                >
-                  <button
-                    class="btn btn-light btn-sm disabled"
-                    id="btn-enroll-disabled-1"
-                  >
-                     Enroll 
-                  </button>
-                  <div
-                    class="d-inline-block dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
-                      id="btn-other-actions-1"
-                      ngbdropdowntoggle=""
-                    >
-                      Other Actions
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                    >
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/details?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/details"
-                      >
-                         View 
-                      </a>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/edit?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/edit"
-                      >
-                         Edit 
-                      </a>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-archive-1"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                        placement="left"
-                      >
-                         Archive 
-                      </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item disabled"
-                        id="btn-soft-delete-disabled-1"
-                      >
-                         Delete 
-                      </button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -721,31 +669,21 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       />
        Archived courses 
     </h2>
-    <div
-      class="card top-padded"
-    >
+    <tm-loading-spinner>
       <div
-        class="card-header bg-info cursor-pointer"
-        id="archived-table-heading"
+        class="loading-container"
       >
-        <b>
-          Archive
-        </b>
         <div
-          class="card-header-btn-toolbar"
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
         >
-          <tm-panel-chevron>
-            <div
-              class="chevron"
-            >
-              <i
-                class="fas fa-chevron-down"
-              />
-            </div>
-          </tm-panel-chevron>
+          Loading...
         </div>
       </div>
-    </div>
+    </tm-loading-spinner>
   </div><div
     class="row course-section margin-top-30px"
   >
@@ -761,49 +699,21 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         />
          Deleted courses 
       </h2>
-      <div
-        class="card bg-light top-padded"
-      >
+      <tm-loading-spinner>
         <div
-          class="card-header bg-secondary text-white cursor-pointer"
-          id="deleted-table-heading"
+          class="loading-container"
         >
-          <b>
-            Recycle Bin
-          </b>
           <div
-            class="card-header-btn-toolbar"
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
           >
-            <button
-              class="btn btn-secondary btn-sm disabled"
-            >
-              <i
-                aria-hidden="true"
-                class="fas fa-check"
-              />
-               Restore All 
-            </button>
-            <button
-              class="btn btn-secondary btn-sm disabled"
-            >
-              <i
-                aria-hidden="true"
-                class="fas fa-times"
-              />
-               Delete All 
-            </button>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-down"
-                />
-              </div>
-            </tm-panel-chevron>
+            Loading...
           </div>
         </div>
-      </div>
+      </tm-loading-spinner>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -814,7 +724,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -837,11 +746,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isAddNewCourseFormExpanded={[Function Boolean]}
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
-  isLoading="false"
+  isLoadingActiveCourses="false"
+  isLoadingArchivedCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -868,14 +779,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   </div><div
     class="course-section ng-trigger ng-trigger-collapseAnim ng-animating"
     id="add-course-section"
-    style=""
   >
     <tm-course-edit-form>
       <div
         class="card"
       >
         <div
-          class="card-header bg-primary text-white"
+          class="card-header bg-primary text-white add-mode"
         >
           <strong
             style=""
@@ -1097,15 +1007,82 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
       </div>
     </tm-course-edit-form>
   </div><tm-loading-retry>
-    <div>
-      <div
-        class="alert alert-warning margin-top-30px"
-        role="alert"
+    <div
+      class="course-section"
+    >
+      <h2
+        class="h3"
       >
-         You do not seem to have any active courses. Use the button above to create a new course. 
+        Active courses
+      </h2>
+      <div>
+        <div
+          class="alert alert-warning margin-top-30px"
+          role="alert"
+        >
+           You do not seem to have any active courses. Use the button above to create a new course. 
+        </div>
       </div>
     </div>
-  </tm-loading-retry>
+  </tm-loading-retry><div
+    class="course-section"
+  >
+    <h2
+      class="h3 text-muted"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-file-archive"
+      />
+       Archived courses 
+    </h2>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </div><div
+    class="row course-section margin-top-30px"
+  >
+    <div
+      class="col-12"
+    >
+      <h2
+        class="h3 text-muted"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-trash-alt"
+        />
+         Deleted courses 
+      </h2>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </div>
 </tm-instructor-courses-page>
 `;
 
@@ -1114,7 +1091,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1137,11 +1113,13 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
-  isLoading="false"
+  isLoadingActiveCourses="false"
+  isLoadingArchivedCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -1165,313 +1143,315 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    <div>
-      <div
-        class="course-section"
+    <div
+      class="course-section"
+    >
+      <h2
+        class="h3"
       >
-        <h2
-          class="h3"
-        >
-          Active courses
-        </h2>
-        <div
-          class="table table-responsive"
-        >
-          <table
-            class="table table-striped table-bordered margin-0"
-            id="active-courses-table"
+        Active courses
+      </h2>
+      <div>
+        <div>
+          <div
+            class="table table-responsive"
           >
-            <thead>
-              <tr
-                class="bg-primary text-white"
-              >
-                <th
-                  aria-sort="none"
-                  class="sortable-header"
-                  id="sort-course-id"
+            <table
+              class="table table-striped table-bordered margin-0"
+              id="active-courses-table"
+            >
+              <thead>
+                <tr
+                  class="bg-primary text-white"
                 >
-                  <button>
-                     Course ID 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th
-                  aria-sort="none"
-                  class="sortable-header"
-                  id="sort-course-name"
-                >
-                  <button>
-                     Course Name 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th
-                  aria-sort="ascending"
-                  class="sortable-header"
-                  id="sort-creation-date"
-                >
-                  <button>
-                     Creation Date 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      <i
-                        class="fas fa-sort-up"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th>
-                  Sections
-                </th>
-                <th>
-                  Teams
-                </th>
-                <th>
-                  Total Students
-                </th>
-                <th>
-                  Total Unregistered
-                </th>
-                <th
-                  class="text-center"
-                >
-                  Action(s)
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td
-                  class="text-break"
-                  id="course-id-0"
-                >
-                  CS3281
-                </td>
-                <td
-                  class="text-break"
-                >
-                  Modifiable Students and Courses
-                </td>
-                <td>
-                  <span
-                    class="ngb-tooltip-class"
-                    container="body"
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                    id="sort-course-id"
                   >
-                     5 Nov 2018 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     1 
-                  </span>
-                </td>
-                <td
-                  class="text-center actions-cell"
-                >
-                  <a
-                    class="btn btn-light btn-sm"
-                    href="/web/instructor/courses/enroll?courseid=CS3281"
-                    id="btn-enroll-0"
-                    ngbtooltip="Enroll student into the course"
-                    tmrouterlink="/web/instructor/courses/enroll"
+                    <button>
+                       Course ID 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                    id="sort-course-name"
                   >
-                     Enroll 
-                  </a>
-                  <div
-                    class="d-inline-block dropdown"
-                    ngbdropdown=""
+                    <button>
+                       Course Name 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="sortable-header"
+                    id="sort-creation-date"
+                  >
+                    <button>
+                       Creation Date 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                        <i
+                          class="fas fa-sort-up"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th>
+                    Sections
+                  </th>
+                  <th>
+                    Teams
+                  </th>
+                  <th>
+                    Total Students
+                  </th>
+                  <th>
+                    Total Unregistered
+                  </th>
+                  <th
+                    class="text-center"
+                  >
+                    Action(s)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="course-id-0"
+                  >
+                    CS3281
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Modifiable Students and Courses
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Nov 2018 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       1 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
+                  >
+                    <a
+                      class="btn btn-light btn-sm custom-button-active"
+                      href="/web/instructor/courses/enroll?courseid=CS3281"
+                      id="btn-enroll-0"
+                      ngbtooltip="Enroll student into the course"
+                      tmrouterlink="/web/instructor/courses/enroll"
+                    >
+                       Enroll 
+                    </a>
+                    <div
+                      class="d-inline-block dropdown"
+                      ngbdropdown=""
+                    >
+                      <button
+                        aria-expanded="false"
+                        class="dropdown-toggle btn btn-light btn-sm custom-button-active"
+                        id="btn-other-actions-0"
+                        ngbdropdowntoggle=""
+                      >
+                        Other Actions
+                      </button>
+                      <div
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
+                      >
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/details?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/details"
+                        >
+                           View 
+                        </a>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/edit?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/edit"
+                        >
+                           Edit 
+                        </a>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-copy-0"
+                          ngbtooltip="Copy the course and its corresponding sessions"
+                          placement="left"
+                        >
+                           Copy 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-archive-0"
+                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                          placement="left"
+                        >
+                           Archive 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-soft-delete-0"
+                          ngbtooltip="Delete the course and its corresponding students and sessions"
+                          placement="left"
+                        >
+                           Delete 
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="course-id-1"
+                  >
+                    CS3282
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Nothing modifiable
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       2 Feb 2019 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                       2 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
                   >
                     <button
-                      aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
-                      id="btn-other-actions-0"
-                      ngbdropdowntoggle=""
+                      class="btn btn-light btn-sm disabled"
+                      id="btn-enroll-disabled-1"
                     >
-                      Other Actions
+                       Enroll 
                     </button>
                     <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
+                      class="d-inline-block dropdown"
+                      ngbdropdown=""
                     >
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/details?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/details"
-                      >
-                         View 
-                      </a>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/edit"
-                      >
-                         Edit 
-                      </a>
                       <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-copy-0"
-                        ngbtooltip="Copy the course and its corresponding sessions"
-                        placement="left"
+                        aria-expanded="false"
+                        class="dropdown-toggle btn btn-light btn-sm custom-button-active"
+                        id="btn-other-actions-1"
+                        ngbdropdowntoggle=""
                       >
-                         Copy 
+                        Other Actions
                       </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-archive-0"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                        placement="left"
+                      <div
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
                       >
-                         Archive 
-                      </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-soft-delete-0"
-                        ngbtooltip="Delete the course and its corresponding students and sessions"
-                        placement="left"
-                      >
-                         Delete 
-                      </button>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/details?courseid=CS3282"
+                          tmrouterlink="/web/instructor/courses/details"
+                        >
+                           View 
+                        </a>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/edit?courseid=CS3282"
+                          tmrouterlink="/web/instructor/courses/edit"
+                        >
+                           Edit 
+                        </a>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-archive-1"
+                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                          placement="left"
+                        >
+                           Archive 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item disabled"
+                          id="btn-soft-delete-disabled-1"
+                        >
+                           Delete 
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  class="text-break"
-                  id="course-id-1"
-                >
-                  CS3282
-                </td>
-                <td
-                  class="text-break"
-                >
-                  Nothing modifiable
-                </td>
-                <td>
-                  <span
-                    class="ngb-tooltip-class"
-                    container="body"
-                  >
-                     2 Feb 2019 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                     2 
-                  </span>
-                </td>
-                <td
-                  class="text-center actions-cell"
-                >
-                  <button
-                    class="btn btn-light btn-sm disabled"
-                    id="btn-enroll-disabled-1"
-                  >
-                     Enroll 
-                  </button>
-                  <div
-                    class="d-inline-block dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
-                      id="btn-other-actions-1"
-                      ngbdropdowntoggle=""
-                    >
-                      Other Actions
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                    >
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/details?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/details"
-                      >
-                         View 
-                      </a>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/edit?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/edit"
-                      >
-                         Edit 
-                      </a>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-archive-1"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                        placement="left"
-                      >
-                         Archive 
-                      </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item disabled"
-                        id="btn-soft-delete-disabled-1"
-                      >
-                         Delete 
-                      </button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -1487,31 +1467,21 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       />
        Archived courses 
     </h2>
-    <div
-      class="card top-padded"
-    >
+    <tm-loading-spinner>
       <div
-        class="card-header bg-info cursor-pointer"
-        id="archived-table-heading"
+        class="loading-container"
       >
-        <b>
-          Archive
-        </b>
         <div
-          class="card-header-btn-toolbar"
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
         >
-          <tm-panel-chevron>
-            <div
-              class="chevron"
-            >
-              <i
-                class="fas fa-chevron-down"
-              />
-            </div>
-          </tm-panel-chevron>
+          Loading...
         </div>
       </div>
-    </div>
+    </tm-loading-spinner>
   </div><div
     class="row course-section margin-top-30px"
   >
@@ -1527,53 +1497,21 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         />
          Deleted courses 
       </h2>
-      <div
-        class="card bg-light top-padded"
-      >
+      <tm-loading-spinner>
         <div
-          class="card-header bg-secondary text-white cursor-pointer"
-          id="deleted-table-heading"
+          class="loading-container"
         >
-          <b>
-            Recycle Bin
-          </b>
           <div
-            class="card-header-btn-toolbar"
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
           >
-            <button
-              class="btn btn-secondary btn-sm"
-              id="btn-restore-all"
-              ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
-            >
-              <i
-                aria-hidden="true"
-                class="fas fa-check"
-              />
-               Restore All 
-            </button>
-            <button
-              class="btn btn-secondary btn-sm"
-              id="btn-delete-all"
-              ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
-            >
-              <i
-                aria-hidden="true"
-                class="fas fa-times"
-              />
-               Delete All 
-            </button>
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-down"
-                />
-              </div>
-            </tm-panel-chevron>
+            Loading...
           </div>
         </div>
-      </div>
+      </tm-loading-spinner>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -1584,7 +1522,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1607,11 +1544,13 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
-  isLoading={[Function Boolean]}
+  isLoadingActiveCourses={[Function Boolean]}
+  isLoadingArchivedCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -1636,6 +1575,42 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
        Add New Course 
     </button>
   </div><tm-loading-retry>
+    <div
+      class="course-section"
+    >
+      <h2
+        class="h3"
+      >
+        Active courses
+      </h2>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry><div
+    class="course-section"
+  >
+    <h2
+      class="h3 text-muted"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-file-archive"
+      />
+       Archived courses 
+    </h2>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -1651,7 +1626,38 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </tm-loading-spinner>
-  </tm-loading-retry>
+  </div><div
+    class="row course-section margin-top-30px"
+  >
+    <div
+      class="col-12"
+    >
+      <h2
+        class="h3 text-muted"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-trash-alt"
+        />
+         Deleted courses 
+      </h2>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </div>
 </tm-instructor-courses-page>
 `;
 
@@ -1660,7 +1666,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1683,11 +1688,13 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
-  isLoading="false"
+  isLoadingActiveCourses="false"
+  isLoadingArchivedCourses={[Function Boolean]}
+  isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef2]}
-  ngbModal={[Function NgbModal]}
+  ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
@@ -1711,336 +1718,410 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    <div>
-      <div
-        class="course-section"
+    <div
+      class="course-section"
+    >
+      <h2
+        class="h3"
       >
-        <h2
-          class="h3"
-        >
-          Active courses
-        </h2>
-        <div
-          class="table table-responsive"
-        >
-          <table
-            class="table table-striped table-bordered margin-0"
-            id="active-courses-table"
+        Active courses
+      </h2>
+      <div>
+        <div>
+          <div
+            class="table table-responsive"
           >
-            <thead>
-              <tr
-                class="bg-primary text-white"
-              >
-                <th
-                  aria-sort="none"
-                  class="sortable-header"
-                  id="sort-course-id"
+            <table
+              class="table table-striped table-bordered margin-0"
+              id="active-courses-table"
+            >
+              <thead>
+                <tr
+                  class="bg-primary text-white"
                 >
-                  <button>
-                     Course ID 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th
-                  aria-sort="none"
-                  class="sortable-header"
-                  id="sort-course-name"
-                >
-                  <button>
-                     Course Name 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th
-                  aria-sort="ascending"
-                  class="sortable-header"
-                  id="sort-creation-date"
-                >
-                  <button>
-                     Creation Date 
-                    <span
-                      aria-hidden="true"
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      <i
-                        class="fas fa-sort-up"
-                      />
-                    </span>
-                  </button>
-                </th>
-                <th>
-                  Sections
-                </th>
-                <th>
-                  Teams
-                </th>
-                <th>
-                  Total Students
-                </th>
-                <th>
-                  Total Unregistered
-                </th>
-                <th
-                  class="text-center"
-                >
-                  Action(s)
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td
-                  class="text-break"
-                  id="course-id-0"
-                >
-                  CS3281
-                </td>
-                <td
-                  class="text-break"
-                >
-                  Modifiable Students and Courses
-                </td>
-                <td>
-                  <span
-                    class="ngb-tooltip-class"
-                    container="body"
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                    id="sort-course-id"
                   >
-                     5 Nov 2018 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    <a>
-                       Show 
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span>
+                    <button>
+                       Course ID 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                    id="sort-course-name"
+                  >
+                    <button>
+                       Course Name 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="sortable-header"
+                    id="sort-creation-date"
+                  >
+                    <button>
+                       Creation Date 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                        <i
+                          class="fas fa-sort-up"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th>
+                    Sections
+                  </th>
+                  <th>
+                    Teams
+                  </th>
+                  <th>
+                    Total Students
+                  </th>
+                  <th>
+                    Total Unregistered
+                  </th>
+                  <th
+                    class="text-center"
+                  >
+                    Action(s)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="course-id-0"
+                  >
+                    CS3281
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Modifiable Students and Courses
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Nov 2018 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                        id="show-statistics-0"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
+                  >
                     <a
-                      id="show-statistics-0"
+                      class="btn btn-light btn-sm custom-button-active"
+                      href="/web/instructor/courses/enroll?courseid=CS3281"
+                      id="btn-enroll-0"
+                      ngbtooltip="Enroll student into the course"
+                      tmrouterlink="/web/instructor/courses/enroll"
                     >
-                       Show 
+                       Enroll 
                     </a>
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    <a>
-                       Show 
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    <a>
-                       Show 
-                    </a>
-                  </span>
-                </td>
-                <td
-                  class="text-center actions-cell"
-                >
-                  <a
-                    class="btn btn-light btn-sm"
-                    href="/web/instructor/courses/enroll?courseid=CS3281"
-                    id="btn-enroll-0"
-                    ngbtooltip="Enroll student into the course"
-                    tmrouterlink="/web/instructor/courses/enroll"
+                    <div
+                      class="d-inline-block dropdown"
+                      ngbdropdown=""
+                    >
+                      <button
+                        aria-expanded="false"
+                        class="dropdown-toggle btn btn-light btn-sm custom-button-active"
+                        id="btn-other-actions-0"
+                        ngbdropdowntoggle=""
+                      >
+                        Other Actions
+                      </button>
+                      <div
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
+                      >
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/details?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/details"
+                        >
+                           View 
+                        </a>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/edit?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/edit"
+                        >
+                           Edit 
+                        </a>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-copy-0"
+                          ngbtooltip="Copy the course and its corresponding sessions"
+                          placement="left"
+                        >
+                           Copy 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-archive-0"
+                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                          placement="left"
+                        >
+                           Archive 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-soft-delete-0"
+                          ngbtooltip="Delete the course and its corresponding students and sessions"
+                          placement="left"
+                        >
+                           Delete 
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="course-id-1"
                   >
-                     Enroll 
-                  </a>
-                  <div
-                    class="d-inline-block dropdown"
-                    ngbdropdown=""
+                    CS3282
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Nothing modifiable
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       2 Feb 2019 
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                        id="show-statistics-1"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      <button
+                        class="link-button"
+                      >
+                         Show 
+                      </button>
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
                   >
                     <button
-                      aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
-                      id="btn-other-actions-0"
-                      ngbdropdowntoggle=""
+                      class="btn btn-light btn-sm disabled"
+                      id="btn-enroll-disabled-1"
                     >
-                      Other Actions
+                       Enroll 
                     </button>
                     <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
+                      class="d-inline-block dropdown"
+                      ngbdropdown=""
                     >
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/details?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/details"
-                      >
-                         View 
-                      </a>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/edit"
-                      >
-                         Edit 
-                      </a>
                       <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-copy-0"
-                        ngbtooltip="Copy the course and its corresponding sessions"
-                        placement="left"
+                        aria-expanded="false"
+                        class="dropdown-toggle btn btn-light btn-sm custom-button-active"
+                        id="btn-other-actions-1"
+                        ngbdropdowntoggle=""
                       >
-                         Copy 
+                        Other Actions
                       </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-archive-0"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                        placement="left"
+                      <div
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
                       >
-                         Archive 
-                      </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-soft-delete-0"
-                        ngbtooltip="Delete the course and its corresponding students and sessions"
-                        placement="left"
-                      >
-                         Delete 
-                      </button>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/details?courseid=CS3282"
+                          tmrouterlink="/web/instructor/courses/details"
+                        >
+                           View 
+                        </a>
+                        <a
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          href="/web/instructor/courses/edit?courseid=CS3282"
+                          tmrouterlink="/web/instructor/courses/edit"
+                        >
+                           Edit 
+                        </a>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item clickable"
+                          container="body"
+                          id="btn-archive-1"
+                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                          placement="left"
+                        >
+                           Archive 
+                        </button>
+                        <button
+                          class="btn btn-primary btn-sm dropdown-item disabled"
+                          id="btn-soft-delete-disabled-1"
+                        >
+                           Delete 
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  class="text-break"
-                  id="course-id-1"
-                >
-                  CS3282
-                </td>
-                <td
-                  class="text-break"
-                >
-                  Nothing modifiable
-                </td>
-                <td>
-                  <span
-                    class="ngb-tooltip-class"
-                    container="body"
-                  >
-                     2 Feb 2019 
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    <a>
-                       Show 
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    <a
-                      id="show-statistics-1"
-                    >
-                       Show 
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    <a>
-                       Show 
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    <a>
-                       Show 
-                    </a>
-                  </span>
-                </td>
-                <td
-                  class="text-center actions-cell"
-                >
-                  <button
-                    class="btn btn-light btn-sm disabled"
-                    id="btn-enroll-disabled-1"
-                  >
-                     Enroll 
-                  </button>
-                  <div
-                    class="d-inline-block dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      class="dropdown-toggle btn btn-light btn-sm"
-                      id="btn-other-actions-1"
-                      ngbdropdowntoggle=""
-                    >
-                      Other Actions
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                    >
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/details?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/details"
-                      >
-                         View 
-                      </a>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/edit?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/edit"
-                      >
-                         Edit 
-                      </a>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        container="body"
-                        id="btn-archive-1"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                        placement="left"
-                      >
-                         Archive 
-                      </button>
-                      <button
-                        class="btn btn-primary btn-sm dropdown-item disabled"
-                        id="btn-soft-delete-disabled-1"
-                      >
-                         Delete 
-                      </button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </tm-loading-retry>
+  </tm-loading-retry><div
+    class="course-section"
+  >
+    <h2
+      class="h3 text-muted"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-file-archive"
+      />
+       Archived courses 
+    </h2>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </div><div
+    class="row course-section margin-top-30px"
+  >
+    <div
+      class="col-12"
+    >
+      <h2
+        class="h3 text-muted"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-trash-alt"
+        />
+         Deleted courses 
+      </h2>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </div>
 </tm-instructor-courses-page>
 `;

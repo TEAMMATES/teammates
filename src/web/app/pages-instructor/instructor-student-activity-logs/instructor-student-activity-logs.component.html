@@ -112,7 +112,7 @@
           </div>
         </div>
         <div *ngIf="results.isTabExpanded">
-          <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
+          <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body mb-4">
             <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
           </div>
           <ng-template #noActivityTemplate>

@@ -5,6 +5,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
+import { InstructorSessionsPageModule } from './instructor-sessions-page.module';
+import {
+  SessionPermanentDeletionConfirmModalComponent,
+} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
+import {
+  SessionsPermanentDeletionConfirmModalComponent,
+} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -15,14 +23,6 @@ import {
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../types/api-output';
-import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
-import { InstructorSessionsPageModule } from './instructor-sessions-page.module';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
-  SessionsPermanentDeletionConfirmModalComponent,
-} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 
 describe('InstructorSessionsPageComponent', () => {
   let component: InstructorSessionsPageComponent;
@@ -198,10 +198,10 @@ describe('InstructorSessionsPageComponent', () => {
     expect(sessionSpy).toHaveBeenCalledTimes(1);
 
     expect(component.sessionsTableRowModels.length).toEqual(2);
-    expect(component.sessionsTableRowModels[0].feedbackSession.courseId).toEqual('CS3281');
-    expect(component.sessionsTableRowModels[0].feedbackSession.feedbackSessionName).toEqual('Second Session');
-    expect(component.sessionsTableRowModels[1].feedbackSession.courseId).toEqual('CS1231');
-    expect(component.sessionsTableRowModels[1].feedbackSession.feedbackSessionName).toEqual('First Session');
+    expect(component.sessionsTableRowModels[0].feedbackSession.courseId).toEqual('CS1231');
+    expect(component.sessionsTableRowModels[0].feedbackSession.feedbackSessionName).toEqual('First Session');
+    expect(component.sessionsTableRowModels[1].feedbackSession.courseId).toEqual('CS3281');
+    expect(component.sessionsTableRowModels[1].feedbackSession.feedbackSessionName).toEqual('Second Session');
   });
 
   it('should load all feedback sessions in recycle bin that can be accessed by instructor', () => {

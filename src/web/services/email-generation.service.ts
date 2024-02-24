@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Email } from '../types/api-output';
 import { EmailType } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles email generation.

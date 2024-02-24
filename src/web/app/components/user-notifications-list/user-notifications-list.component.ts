@@ -45,7 +45,7 @@ export class UserNotificationsListComponent implements OnInit {
 
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
-  readNotifications: Set<String> = new Set();
+  readNotifications: Set<string> = new Set();
 
   isLoadingNotifications: boolean = false;
   hasLoadingFailed: boolean = false;

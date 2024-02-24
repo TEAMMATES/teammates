@@ -7,6 +7,7 @@ import { DetailedSettings } from 'handsontable/plugins/contextMenu';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { concat, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { EnrollStatus } from './enroll-status';
 import { CourseService } from '../../../services/course.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -18,7 +19,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { StatusMessage } from '../../components/status-message/status-message';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { EnrollStatus } from './enroll-status';
 
 interface EnrollResultPanel {
   status: EnrollStatus;

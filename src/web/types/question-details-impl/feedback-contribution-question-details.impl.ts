@@ -1,3 +1,4 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   ContributionQuestionStatisticsCalculation,
 } from '../../app/components/question-types/question-statistics/question-statistics-calculation/contribution-question-statistics-calculation';
@@ -10,7 +11,6 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../feedback-response-details';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackContributionQuestionDetails}.

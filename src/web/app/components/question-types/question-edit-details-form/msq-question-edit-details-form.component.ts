@@ -1,12 +1,12 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
+import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
-import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
  * Question details edit form component for Msq question.

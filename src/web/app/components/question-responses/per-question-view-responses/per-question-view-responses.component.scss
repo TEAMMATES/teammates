@@ -2,7 +2,7 @@
   cursor: pointer;
 
   i {
-    margin-left: .3em;
+    margin-left: 0.3em;
   }
 
   .fa-stack {
@@ -30,7 +30,7 @@
   min-width: 160px;
 }
 
-@media (min-width: 1000px) {
+@media (width >= 1000px) {
   .actions-cell {
     min-width: 300px;
   }

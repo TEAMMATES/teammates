@@ -1,17 +1,4 @@
-import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
-import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
-import {
-  FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackResponseDetails, FeedbackTextQuestionDetails,
-  FeedbackVisibilityType,
-  NumberOfEntitiesToGiveFeedbackToSetting,
-} from '../../../types/api-output';
-import { VisibilityControl } from '../../../types/visibility-control';
-import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
-import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
-import { collapseAnim } from '../teammates-common/collapse-anim';
+import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -19,6 +6,36 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
+import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
+import {
+  FeedbackConstantSumResponseDetails,
+  FeedbackMcqResponseDetails,
+  FeedbackMsqResponseDetails,
+  FeedbackNumericalScaleResponseDetails,
+  FeedbackParticipantType,
+  FeedbackQuestionType,
+  FeedbackRankOptionsResponseDetails,
+  FeedbackResponseDetails,
+  FeedbackRubricResponseDetails,
+  FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../types/api-output';
+import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
+import { VisibilityControl } from '../../../types/visibility-control';
+import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
+import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { ConstsumRecipientsQuestionConstraintComponent }
+  from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
+import { ContributionQuestionConstraintComponent }
+  from '../question-types/question-constraint/contribution-question-constraint.component';
+import { RankRecipientsQuestionConstraintComponent }
+  from '../question-types/question-constraint/rank-recipients-question-constraint.component';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 
 /**
  * The question submission form for a question.
@@ -58,16 +75,24 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
     this.visibilityStateMachine =
-        this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
+      this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
     const visibilitySetting: { [TKey in VisibilityControl]: FeedbackVisibilityType[] } = {
       SHOW_RESPONSE: model.showResponsesTo,
       SHOW_GIVER_NAME: model.showGiverNameTo,
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
     };
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
-    this.allowedToHaveParticipantComment =
-        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
     this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
+
+    // Initialise the "hasResponseChanged" variable and the "isTabExpandedForRecipients" variable
+    // for a recipient when the recipients of the questions is not loaded.
+    this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
+      if (!this.model.hasResponseChangedForRecipients.has(recipient.recipientIdentifier)) {
+        this.model.hasResponseChangedForRecipients.set(recipient.recipientIdentifier, false);
+      }
+
+      this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
+    });
   }
 
   @Input()
@@ -75,6 +100,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Input()
   isSubmitAllClicked: boolean = false;
+
+  allSessionViews = SessionView;
+
+  @Input()
+  currentSelectedSessionView: SessionView = SessionView.DEFAULT;
+
+  @Input()
+  recipientId: string = '';
 
   @Output()
   isSubmitAllClickedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -84,6 +117,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Output()
   responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
+
+  @ViewChild(ContributionQuestionConstraintComponent)
+  private contributionQuestionConstraint!: ContributionQuestionConstraintComponent;
+
+  @ViewChild(RankRecipientsQuestionConstraintComponent)
+  private rankRecipientsQuestionConstraint!: RankRecipientsQuestionConstraintComponent;
+
+  @ViewChild(ConstsumRecipientsQuestionConstraintComponent)
+  private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
     isLoading: false,
@@ -112,6 +154,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     showGiverNameTo: [],
     showRecipientNameTo: [],
     showResponsesTo: [],
+
+    hasResponseChangedForRecipients: new Map<string, boolean>(),
+    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
@@ -121,14 +166,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
-  allowedToHaveParticipantComment: boolean = false;
   isEveryRecipientSorted: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
-              private feedbackResponseService: FeedbackResponsesService) {
+    private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
-        this.feedbackQuestionsService.getNewVisibilityStateMachine(
-            this.model.giverType, this.model.recipientType);
+      this.feedbackQuestionsService.getNewVisibilityStateMachine(
+        this.model.giverType, this.model.recipientType);
   }
 
   get hasSectionTeam(): boolean {
@@ -164,21 +208,47 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
         this.isSaved = false;
       }
+
+      this.model.hasResponseChangedForRecipients.forEach((_hasResponseChanged: boolean, recipientId: string) => {
+        this.model.hasResponseChangedForRecipients.set(recipientId, false);
+      });
     }
+
+    this.model.hasResponseChangedForRecipients.forEach((hasResponseChanged: boolean) => {
+      if (hasResponseChanged) {
+        this.isSaved = false;
+      }
+    });
   }
 
   toggleQuestionTab(): void {
-    this.model.isTabExpanded = !this.model.isTabExpanded;
+    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
+      this.model.isTabExpanded = !this.model.isTabExpanded;
+    } else {
+      this.model.isTabExpandedForRecipients
+          .set(this.recipientId, !(this.model.isTabExpandedForRecipients.get(this.recipientId)!));
+    }
     this.formModelChange.emit(this.model);
   }
 
+  shouldTabExpand(): boolean {
+    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
+      return this.model.isTabExpanded;
+    }
+
+    if (this.model.isTabExpandedForRecipients.get(this.recipientId) === undefined) {
+      this.model.isTabExpandedForRecipients.set(this.recipientId, true);
+    }
+    return this.model.isTabExpandedForRecipients.get(this.recipientId)!;
+  }
+
   private compareByName(firstRecipient: FeedbackResponseRecipient,
-     secondRecipient: FeedbackResponseRecipient): number {
+    secondRecipient: FeedbackResponseRecipient): number {
     return firstRecipient.recipientName.localeCompare(secondRecipient.recipientName);
   }
 
   private compareBySection(firstRecipient: FeedbackResponseRecipient,
-     secondRecipient: FeedbackResponseRecipient): number {
+    secondRecipient: FeedbackResponseRecipient): number {
 
     if (firstRecipient.recipientSection && secondRecipient.recipientSection) {
       return firstRecipient.recipientSection.localeCompare(secondRecipient.recipientSection);
@@ -196,7 +266,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   private compareByTeam(firstRecipient: FeedbackResponseRecipient,
-     secondRecipient: FeedbackResponseRecipient): number {
+    secondRecipient: FeedbackResponseRecipient): number {
 
     if (firstRecipient.recipientTeam && secondRecipient.recipientTeam) {
       return firstRecipient.recipientTeam.localeCompare(secondRecipient.recipientTeam);
@@ -214,7 +284,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   private updateSubmissionFormIndexes(): void {
-    const indexes: Map<String, number> = new Map();
+    const indexes: Map<string, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
       indexes.set(recipient.recipientIdentifier, index + 1);
     });
@@ -239,7 +309,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
         return this.compareBySection(firstRecipient, secondRecipient)
           || this.compareByTeam(firstRecipient, secondRecipient);
-        });
+      });
 
     } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
       this.model.recipientList.sort(this.compareByTeam);
@@ -261,8 +331,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   getRecipientName(recipientIdentifier: string): string {
     const recipient: FeedbackResponseRecipient | undefined =
-        this.model.recipientList.find(
-            (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
+      this.model.recipientList.find(
+        (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
     return recipient ? recipient.recipientName : 'Unknown';
   }
 
@@ -271,8 +341,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   isRecipientSelected(recipient: FeedbackResponseRecipient): boolean {
     return this.model.recipientSubmissionForms.some(
-        (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-            recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
+      (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+        recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
   }
 
   /**
@@ -282,19 +352,33 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (!this.isFormsDisabled) {
       this.hasResponseChanged = true;
       this.isSubmitAllClickedChange.emit(false);
+      this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
 
-      const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-          this.model.recipientSubmissionForms.slice();
-      recipientSubmissionForms[index] = {
-        ...recipientSubmissionForms[index],
+      this.model.recipientSubmissionForms[index] =
+      {
+        ...this.model.recipientSubmissionForms[index],
         [field]: data,
       };
 
-      this.formModelChange.emit({
-        ...this.model,
-        recipientSubmissionForms,
-      });
+      this.updateIsValidByQuestionConstraint();
+      this.formModelChange.emit(this.model);
     }
+  }
+
+  updateIsValidByQuestionConstraint(): void {
+    let isValid: boolean = false;
+    const questionType: string = this.model.questionType;
+    if (questionType === FeedbackQuestionType.CONTRIB) {
+      isValid = this.contributionQuestionConstraint.isValid;
+    } else if (questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+      isValid = this.rankRecipientsQuestionConstraint.isValid;
+    } else if (questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+      isValid = this.constsumRecipientQuesitonConstraint.isValid;
+    } else {
+      return;
+    }
+
+    this.updateValidity(isValid);
   }
 
   /**
@@ -333,13 +417,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return;
     }
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver',
-        {
-          ...commentModel,
-          commentEditFormModel: {
-            commentText: commentModel.originalComment.commentText,
-          },
-          isEditing: false,
-        });
+      {
+        ...commentModel,
+        commentEditFormModel: {
+          commentText: commentModel.originalComment.commentText,
+        },
+        isEditing: false,
+      });
   }
 
   /**
@@ -347,7 +431,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   isFeedbackResponseDetailsEmpty(responseDetails: FeedbackResponseDetails): boolean {
     return this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
-        this.model.questionType, responseDetails);
+      this.model.questionType, responseDetails);
   }
 
   /**
@@ -355,13 +439,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   updateValidity(isValid: boolean): void {
     if (this.model.recipientSubmissionForms.length === 0) { return; }
-    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-        this.model.recipientSubmissionForms.slice().map(
-            (model: FeedbackResponseRecipientSubmissionFormModel) => ({ ...model, isValid }));
-    this.formModelChange.emit({
-      ...this.model,
-      recipientSubmissionForms,
-    });
+
+    for (const recipientSubmissionForm of this.model.recipientSubmissionForms) {
+      recipientSubmissionForm.isValid = isValid;
+    }
+
+    this.formModelChange.emit(this.model);
   }
 
   /**
@@ -370,6 +453,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   saveFeedbackResponses(): void {
     this.isSaved = true;
     this.hasResponseChanged = false;
+    this.model.hasResponseChangedForRecipients.forEach(
+        (_hasResponseChangedForRecipient: boolean, recipientId: string) => {
+        this.model.hasResponseChangedForRecipients.set(recipientId, false);
+    });
     this.responsesSave.emit(this.model);
   }
 
@@ -406,7 +493,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   toggleSectionTeam(event: Event): void {
-    const checkbox : HTMLInputElement = event.target as HTMLInputElement;
+    const checkbox: HTMLInputElement = event.target as HTMLInputElement;
     if (checkbox.checked) {
       this.isSectionTeamShown = true;
       this.sortRecipientsBySectionTeam();
@@ -421,5 +508,69 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   refreshCssForDropdownMCQ(add: boolean): void {
     this.isMCQDropDownEnabled = add;
+  }
+
+  /**
+   * Checks whether the response of this question has been saved for this recipient.
+   */
+  isSavedForRecipient(recipientId: string): boolean {
+    switch (this.model.questionType) {
+      case FeedbackQuestionType.TEXT:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+              result || (form.recipientIdentifier === recipientId
+                  && !((form.responseDetails as FeedbackTextResponseDetails).answer === ''
+                      || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+            false);
+      case FeedbackQuestionType.MCQ:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                  && !((form.responseDetails as FeedbackMcqResponseDetails).answer === ''
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+            false);
+      case FeedbackQuestionType.MSQ:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                  && !((form.responseDetails as FeedbackMsqResponseDetails).answers.length === 0
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+            false);
+      case FeedbackQuestionType.NUMSCALE:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+               result || (form.recipientIdentifier === recipientId
+                && !((form.responseDetails as FeedbackNumericalScaleResponseDetails)
+                  .answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED
+                || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+            false);
+      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                  && !((form.responseDetails as FeedbackConstantSumResponseDetails)
+                    .answers.length === 0
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+            false);
+      case FeedbackQuestionType.RUBRIC:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                  && !((form.responseDetails as FeedbackRubricResponseDetails)
+                    .answer.length === 0
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                  && !((form.responseDetails as FeedbackRankOptionsResponseDetails).answers.length === 0
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+      case FeedbackQuestionType.CONTRIB:
+      case FeedbackQuestionType.RANK_RECIPIENTS:
+        return this.isSaved;
+      default:
+        return false;
+    }
   }
 }

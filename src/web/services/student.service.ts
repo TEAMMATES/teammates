@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { CourseService } from './course.service';
+import { CsvHelper } from './csv-helper';
+import { HttpRequestService } from './http-request.service';
+import { TableComparatorService } from './table-comparator.service';
 import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
 import { ResourceEndpoints } from '../types/api-const';
 import { Course, EnrollStudents, MessageOutput, RegenerateKey, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
-import { CourseService } from './course.service';
-import { CsvHelper } from './csv-helper';
-import { HttpRequestService } from './http-request.service';
-import { TableComparatorService } from './table-comparator.service';
 
 /**
  * Handles student related logic provision.

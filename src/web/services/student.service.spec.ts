@@ -1,12 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { ResourceEndpoints } from '../types/api-const';
-import { Course, Students } from '../types/api-output';
-import { StudentUpdateRequest } from '../types/api-request';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { StudentService } from './student.service';
+import { ResourceEndpoints } from '../types/api-const';
+import { Course, Students } from '../types/api-output';
+import { StudentUpdateRequest } from '../types/api-request';
 
 const defaultStudentUpdateRequest: StudentUpdateRequest = {
   name: 'John Doe',
@@ -20,7 +20,7 @@ const defaultStudentUpdateRequest: StudentUpdateRequest = {
 const studentCsvListTester:
     (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void) => void =
     (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): void => {
-      // eslint-disable-next-line import/no-dynamic-require,global-require
+      // eslint-disable-next-line import/no-dynamic-require,global-require,@typescript-eslint/no-var-requires
       const testData: any = require(`./test-data/${courseId}`);
       const course: Course = testData.course;
       const students: Students = testData.students;

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionResponse } from './question-response';
 import {
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
@@ -7,7 +8,6 @@ import {
   DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { QuestionResponse } from './question-response';
 
 /**
  * Rank recipients question response.

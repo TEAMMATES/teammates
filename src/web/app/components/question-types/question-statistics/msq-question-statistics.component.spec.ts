@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { FeedbackMsqResponseDetails } from '../../../../types/api-output';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { MsqQuestionStatisticsComponent } from './msq-question-statistics.component';
 import { Response } from './question-statistics';
 import ResponseTestData from './test-data/msqQuestionResponses.json';
+import { FeedbackMsqResponseDetails } from '../../../../types/api-output';
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 
 describe('MsqQuestionStatisticsComponent', () => {
   let component: MsqQuestionStatisticsComponent;

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackRankRecipientsQuestionDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
-import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
  * Question details edit form component for Rank Recipients question.

@@ -61,6 +61,9 @@ export class QuestionResponsePanelComponent {
   @Input()
   regKey: string = '';
 
+  @Input()
+  previewAsPerson: string = '';
+
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
     if (this.intent === Intent.STUDENT_RESULT) {
@@ -88,17 +91,21 @@ export class QuestionResponsePanelComponent {
       feedbackSessionName: this.session.feedbackSessionName,
       intent: this.intent,
       key: this.regKey,
+      previewAs: this.previewAsPerson,
     }).subscribe({
       next: (sessionResults: SessionResults) => {
         const responses: QuestionOutput = sessionResults.questions[0];
         if (responses) {
+          question.hasResponse = true;
           question.feedbackQuestion = responses.feedbackQuestion;
           question.allResponses = responses.allResponses;
           question.otherResponses = responses.otherResponses;
           question.questionStatistics = responses.questionStatistics;
           question.responsesFromSelf = responses.responsesFromSelf;
           question.responsesToSelf = responses.responsesToSelf;
-        } else {
+          question.hasResponseButNotVisibleForPreview = responses.hasResponseButNotVisibleForPreview;
+          question.hasCommentNotVisibleForPreview = responses.hasCommentNotVisibleForPreview;
+      } else {
           question.hasResponse = false;
           if (question.errorMessage) {
             this.statusMessageService.showSuccessToast('Question '

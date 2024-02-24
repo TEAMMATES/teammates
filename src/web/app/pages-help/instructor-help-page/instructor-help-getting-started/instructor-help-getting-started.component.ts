@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../../environments/environment';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
@@ -29,7 +31,9 @@ export class InstructorHelpGettingStartedComponent {
   readonly supportEmail: string = environment.supportEmail;
   instructorHelpPath: string = '';
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: any) {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;
@@ -45,9 +49,11 @@ export class InstructorHelpGettingStartedComponent {
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
     if (destination) {
-      destination.scrollIntoView();
-      // to prevent the navbar from covering the text
-      window.scrollTo(0, window.scrollY - 50);
+      this.pageScrollService.scroll({
+        document: this.document,
+        scrollTarget: `#${target}`,
+        scrollOffset: 70,
+      });
     }
     return false;
   }

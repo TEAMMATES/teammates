@@ -812,9 +812,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     // Methods for interacting with WebElements
 
     private WebElement getNoResponseTable() {
+        WebElement noResponseHeader = noResponsePanel.findElement(By.className("card-header"));
         By tableId = By.id("no-response-table");
         if (!isElementPresent(tableId)) {
-            click(noResponsePanel);
+            click(noResponseHeader);
         }
         return waitForElementPresence(tableId);
     }
@@ -1018,7 +1019,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getCommentGiver(WebElement commentField) {
-        String commentGiverDescription = commentField.findElement(By.id("comment-giver-name")).getText();
+        String commentGiverDescription = commentField.findElement(By.className("comment-giver-name")).getText();
         return commentGiverDescription.split(" commented")[0];
     }
 

@@ -6,15 +6,13 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.InstructorSearchPage;
-import teammates.e2e.util.AxeUtil;
 import teammates.e2e.util.TestProperties;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SEARCH_PAGE}.
  */
-public class InstructorSearchPageAxeTest extends BaseE2ETestCase {
+public class InstructorSearchPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -41,8 +39,8 @@ public class InstructorSearchPageAxeTest extends BaseE2ETestCase {
 
         searchPage.search("student2");
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(searchPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(searchPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }

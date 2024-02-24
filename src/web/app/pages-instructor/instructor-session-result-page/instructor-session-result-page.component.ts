@@ -4,6 +4,9 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
+import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
+import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -24,6 +27,7 @@ import {
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
   Instructor,
+  Instructors,
   QuestionOutput,
   ResponseOutput, ResponseVisibleSetting,
   SessionResults, SessionVisibleSetting,
@@ -40,9 +44,6 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
-import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
-import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
-import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
 /**
  * Per section view tab model.
@@ -115,6 +116,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   hasNoResponseLoadingFailed: boolean = false;
 
   allStudentsInCourse: Student[] = [];
+  emailOfStudentToPreview: string = '';
+  allInstructorsInCourse: Instructor[] = [];
+  emailOfInstructorToPreview: string = '';
 
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
@@ -254,7 +258,45 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         }).subscribe({
           next: (allStudents: Students) => {
             this.allStudentsInCourse = allStudents.students;
+
+            // sort the student list based on team name and student name
+            this.allStudentsInCourse.sort((a: Student, b: Student): number => {
+              const teamNameCompare: number = a.teamName.localeCompare(b.teamName);
+              if (teamNameCompare === 0) {
+                return a.name.localeCompare(b.name);
+              }
+              return teamNameCompare;
+            });
+
+            // select the first student
+            if (this.allStudentsInCourse.length >= 1) {
+              this.emailOfStudentToPreview = this.allStudentsInCourse[0].email;
+            }
+
             this.loadNoResponseStudents(courseId, feedbackSessionName);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+
+        // load all instructors in course
+        this.instructorService.loadInstructors({
+          courseId: this.courseId,
+          intent: Intent.FULL_DETAIL,
+        }).subscribe({
+          next: (instructors: Instructors) => {
+            this.allInstructorsInCourse = instructors.instructors;
+
+            // sort the instructor list based on name
+            this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
+              return a.name.localeCompare(b.name);
+            });
+
+            // select the first instructor
+            if (this.allInstructorsInCourse.length >= 1) {
+              this.emailOfInstructorToPreview = this.allInstructorsInCourse[0].email;
+            }
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);

@@ -4,6 +4,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
+import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal.component';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import {
   FeedbackMcqQuestionDetails,
@@ -21,8 +23,6 @@ import { LoadingRetryModule } from '../../../components/loading-retry/loading-re
 import { LoadingSpinnerModule } from '../../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
-import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
-import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal.component';
 
 describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
 

@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
+import { ContributionComponent } from './contribution.component';
 import { SimpleModalService } from '../../../../../services/simple-modal.service';
 import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
@@ -15,8 +17,6 @@ import {
 import {
   ContributionQuestionStatisticsCalculation,
 } from '../question-statistics-calculation/contribution-question-statistics-calculation';
-import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
-import { ContributionComponent } from './contribution.component';
 
 /**
  * Statistics for contribution questions.
@@ -88,27 +88,44 @@ export class ContributionQuestionStatisticsComponent
           value: statistics.results[email].claimed,
           customComponent: {
             component: ContributionComponent,
-            componentData: { value: statistics.results[email].claimed },
+            componentData: () => {
+              return {
+                value: statistics.results[email].claimed,
+              };
+            },
           },
         },
         {
           value: statistics.results[email].perceived,
           customComponent: {
             component: ContributionComponent,
-            componentData: { value: statistics.results[email].perceived },
+            componentData: () => {
+              return {
+                value: statistics.results[email].perceived,
+              };
+            },
           },
         },
         {
           value: this.emailToDiff[email],
           customComponent: {
             component: ContributionComponent,
-            componentData: { value: this.emailToDiff[email], diffOnly: true },
+            componentData: () => {
+              return {
+                value: this.emailToDiff[email],
+                diffOnly: true,
+              };
+            },
           },
         },
         {
           customComponent: {
             component: ContributionRatingsListComponent,
-            componentData: { ratingsList: statistics.results[email].perceivedOthers },
+            componentData: () => {
+              return {
+                ratingsList: statistics.results[email].perceivedOthers,
+              };
+            },
           },
         },
       ];

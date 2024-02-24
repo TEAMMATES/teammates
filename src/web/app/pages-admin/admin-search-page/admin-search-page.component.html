@@ -5,9 +5,11 @@
     </p>
 
     <div class="input-group">
-      <input id="search-box" type="text" class="form-control" aria-label="Search" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+      <input id="search-box" type="text" class="form-control" aria-label="Search" [(ngModel)]="searchQuery"
+             (keyup.enter)="search()" [maxlength]="characterLimit">
       <button id="search-button" class="btn btn-primary input-group-text" (click)="search()">Search</button>
     </div>
+    <span>{{ characterLimit - searchQuery.length }} characters left</span>
   </div>
 </div>
 

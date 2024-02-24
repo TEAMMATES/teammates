@@ -3,9 +3,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TemplateQuestionModalComponent } from './template-question-modal.component';
 import { QuestionEditFormModule } from '../../../components/question-edit-form/question-edit-form.module';
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
-import { TemplateQuestionModalComponent } from './template-question-modal.component';
 
 describe('TemplateQuestionModalComponent', () => {
   let component: TemplateQuestionModalComponent;

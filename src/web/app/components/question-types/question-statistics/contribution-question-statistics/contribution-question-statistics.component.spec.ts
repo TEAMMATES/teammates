@@ -3,10 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicModule } from 'ng-dynamic-component';
-import { SortableTableComponent } from '../../../sortable-table/sortable-table.component';
-import { TeammatesRouterModule } from '../../../teammates-router/teammates-router.module';
 import { ContributionQuestionStatisticsComponent } from './contribution-question-statistics.component';
 import { ContributionComponent } from './contribution.component';
+import { SortableTableComponent } from '../../../sortable-table/sortable-table.component';
+import { TeammatesRouterModule } from '../../../teammates-router/teammates-router.module';
 
 describe('ContributionQuestionStatisticsComponent', () => {
   let component: ContributionQuestionStatisticsComponent;

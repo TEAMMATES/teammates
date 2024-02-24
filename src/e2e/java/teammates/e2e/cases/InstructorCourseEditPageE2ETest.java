@@ -68,9 +68,9 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .build();
 
         editPage.addInstructor(newInstructor);
-        editPage.verifyStatusMessage("\"The instructor " + newInstructor.getName() + " has been added successfully. "
+        editPage.verifyStatusMessage("The instructor " + newInstructor.getName() + " has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to " + newInstructor.getEmail()
-                + " in a few minutes.\"");
+                + " in a few minutes.");
         editPage.verifyInstructorDetails(newInstructor);
         verifyPresentInDatabase(newInstructor);
 

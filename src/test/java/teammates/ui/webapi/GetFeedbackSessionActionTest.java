@@ -1234,6 +1234,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
+
+        ______TS("Instructor preview student result");
+        params = generateParameters(feedbackSession, Intent.STUDENT_RESULT, "", "", student1InCourse1.getEmail());
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
     @Test

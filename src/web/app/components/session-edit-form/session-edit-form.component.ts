@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
+import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -22,7 +23,6 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
 /**
  * Form to Add/Edit feedback sessions.
@@ -135,6 +135,36 @@ export class SessionEditFormComponent {
   }
 
   /**
+   * Triggers the change of the model when the submission opening date changes.
+   */
+  triggerSubmissionOpeningDateModelChange(field: string, date: DateFormat): void {
+    const minDate: DateFormat = this.minDateForSubmissionStart;
+    const minTime: TimeFormat = this.minTimeForSubmissionStart;
+
+    // Case where date is same as earliest date and time is earlier than earliest possible time
+    if (DateTimeService.compareDateFormat(date, minDate) === 0
+    && DateTimeService.compareTimeFormat(this.model.submissionStartTime, minTime) === -1) {
+      this.configureSubmissionOpeningTime(minTime);
+      this.model.submissionStartTime = minTime;
+    }
+
+    this.triggerModelChange(field, date);
+  }
+
+  /**
+   * Configures the time for the submission opening time.
+   */
+  configureSubmissionOpeningTime(time : TimeFormat) : void {
+    if (time.hour === 23 && time.minute > 0) {
+      time.minute = 59;
+    } else if (time.hour < 23 && time.minute > 0) {
+      // Case where minutes is not 0 since the earliest time with 0 minutes is the hour before
+      time.hour += 1;
+      time.minute = 0;
+    }
+  }
+
+  /**
    * Handles course Id change event.
    *
    * <p>Used in ADD mode.
@@ -175,17 +205,17 @@ export class SessionEditFormComponent {
   /**
    * Gets the maximum date for a session to be opened.
    *
-   * <p> The maximum session opening datetime is 90 days from now.
+   * <p> The maximum session opening datetime is 12 months from now.
    */
   get maxDateForSubmissionStart(): DateFormat {
-    const ninetyDaysFromNow = moment().tz(this.model.timeZone).add(90, 'days');
-    return this.datetimeService.getDateInstance(ninetyDaysFromNow);
+    const twelveMonthsFromNow = moment().tz(this.model.timeZone).add(12, 'months');
+    return this.datetimeService.getDateInstance(twelveMonthsFromNow);
   }
 
   /**
    * Gets the maximum time for a session to be opened.
    *
-   * <p> The maximum session opening datetime is 90 days from now.
+   * <p> The maximum session opening time is 23:59h.
    */
   get maxTimeForSubmissionStart(): TimeFormat {
     return getLatestTimeFormat();
@@ -216,8 +246,11 @@ export class SessionEditFormComponent {
         this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
     const submissionStartTime: moment.Moment =
         this.datetimeService.getMomentInstanceFromTime(this.model.submissionStartTime);
-    const submissionStartDateTime: moment.Moment = submissionStartDate
-        .add(submissionStartTime.hour()).add(submissionStartTime.minute());
+
+    const submissionStartDateTime: moment.Moment = submissionStartDate.clone()
+    .hours(submissionStartTime.hour())
+    .minutes(submissionStartTime.minute());
+
     const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
 
     if (submissionStartDateTime.isAfter(oneHourBeforeNow)) {
@@ -229,17 +262,17 @@ export class SessionEditFormComponent {
   /**
    * Gets the maximum date for a session to be closed.
    *
-   * <p> The maximum session closing datetime is 180 days from now.
+   * <p> The maximum session closing datetime is 12 months from now.
    */
   get maxDateForSubmissionEnd(): DateFormat {
-    const oneHundredAndEightyDaysFromNow = moment().tz(this.model.timeZone).add(180, 'days');
-    return this.datetimeService.getDateInstance(oneHundredAndEightyDaysFromNow);
+    const twelveMonthsFromNow = moment().tz(this.model.timeZone).add(12, 'months');
+    return this.datetimeService.getDateInstance(twelveMonthsFromNow);
   }
 
   /**
    * Gets the maximum time for a session to be closed.
    *
-   * <p> The maximum session closing datetime is 180 days from now.
+   * <p> The maximum session closing time is 23:59H.
    */
   get maxTimeForSubmissionEnd(): TimeFormat {
     return getLatestTimeFormat();

@@ -17,17 +17,31 @@ import {
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessionStats,
+  FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
+import { getDefaultDateFormat, getLatestTimeFormat } from '../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
-import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
+import { SessionEditFormModel } from '../components/session-edit-form/session-edit-form-model';
+import {
+  CopySessionResult,
+  SessionsTableColumn,
+  SessionsTableColumnNames,
+  SessionsTableRowModel,
+} from '../components/sessions-table/sessions-table-model';
 import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
+import {
+  ColumnData,
+  SortableTableCellData,
+} from '../components/sortable-table/sortable-table.component';
+import { PublishStatusNamePipe } from '../components/teammates-common/publish-status-name.pipe';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -42,6 +56,45 @@ export abstract class InstructorSessionBasePageComponent {
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+
+  private publishStatusName: PublishStatusNamePipe = new PublishStatusNamePipe();
+
+  sessionEditFormModel: SessionEditFormModel = {
+    courseId: '',
+    timeZone: 'UTC',
+    courseName: '',
+    feedbackSessionName: '',
+    instructions: '',
+
+    submissionStartTime: getLatestTimeFormat(),
+    submissionStartDate: getDefaultDateFormat(),
+    submissionEndTime: getLatestTimeFormat(),
+    submissionEndDate: getDefaultDateFormat(),
+    gracePeriod: 0,
+
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    customSessionVisibleTime: getLatestTimeFormat(),
+    customSessionVisibleDate: getDefaultDateFormat(),
+
+    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    customResponseVisibleTime: getLatestTimeFormat(),
+    customResponseVisibleDate: getDefaultDateFormat(),
+
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+
+    templateSessionName: '',
+
+    isSaving: false,
+    isEditable: false,
+    isDeleting: false,
+    isCopying: false,
+    hasVisibleSettingsPanelExpanded: false,
+    hasEmailSettingsPanelExpanded: false,
+  };
 
   protected constructor(protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
@@ -249,23 +302,43 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRate(model: SessionsTableRowModel): void {
-    model.isLoadingResponseRate = true;
-    this.feedbackSessionsService.loadSessionStatistics(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-    )
-        .pipe(finalize(() => {
-          model.isLoadingResponseRate = false;
-        }))
-        .subscribe({
-          next: (resp: FeedbackSessionStats) => {
-            model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+  loadResponseRate(cb: (
+    models: SessionsTableRowModel[]) => void, models: SessionsTableRowModel[],
+    idx: number,
+  ): void {
+    models[idx] = {
+      ...models[idx],
+      isLoadingResponseRate: true,
+    };
+    cb(models);
+
+    this.feedbackSessionsService
+      .loadSessionStatistics(models[idx].feedbackSession.courseId, models[idx].feedbackSession.feedbackSessionName)
+      .pipe(
+        finalize(() => {
+          models[idx] = {
+            ...models[idx],
+            isLoadingResponseRate: false,
+          };
+          cb(models);
+        }),
+      )
+      .subscribe({
+        next: (resp: FeedbackSessionStats) => {
+          models[idx] = {
+            ...models[idx],
+            responseRate: `${resp.submittedTotal} / ${resp.expectedTotal}`,
+          };
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+        complete: () => {
+          /* eslint no-param-reassign: "off" */
+          models = [...models];
+          cb(models);
+        },
+      });
   }
 
   /**
@@ -407,68 +480,155 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Publishes a feedback session.
    */
-  publishSession(model: SessionsTableRowModel): void {
+  publishSession(model: SessionsTableRowModel, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     this.isResultActionLoading = true;
-    this.feedbackSessionsService.publishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-    )
-        .pipe(finalize(() => {
-          this.isResultActionLoading = false;
-        }))
-        .subscribe({
-          next: (feedbackSession: FeedbackSession) => {
-            model.feedbackSession = feedbackSession;
-            model.responseRate = '';
 
-            this.statusMessageService.showSuccessToast('The feedback session has been published. '
-                + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-            if (this.publishUnpublishRetryAttempts) {
-              this.publishUnpublishRetryAttempts -= 1;
-            } else {
-              this.openErrorReportModal(resp);
-            }
-          },
-        });
+    const colIdx = columnsData.findIndex(
+      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSES),
+    );
+
+    const actionsColIdx = columnsData.findIndex(
+      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.ACTIONS),
+    );
+
+    this.feedbackSessionsService
+      .publishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
+      .pipe(finalize(() => {
+          this.isResultActionLoading = false;
+        }),
+      )
+      .subscribe({
+        next: (feedbackSession: FeedbackSession) => {
+          model.feedbackSession = feedbackSession;
+          model.responseRate = '';
+
+          rowData[colIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[colIdx].customComponent!.componentData!,
+              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
+            };
+          };
+
+          rowData[actionsColIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[actionsColIdx].customComponent!.componentData!,
+              publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            };
+          };
+
+          this.statusMessageService.showSuccessToast(
+            'The feedback session has been published. '
+              + 'Please allow up to 1 hour for all the notification emails to be sent out.',
+          );
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (this.publishUnpublishRetryAttempts) {
+            this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
+          }
+        },
+      });
   }
 
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSession(model: SessionsTableRowModel): void {
+  unpublishSession(model: SessionsTableRowModel, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     this.isResultActionLoading = true;
-    this.feedbackSessionsService.unpublishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-    )
-        .pipe(finalize(() => {
-          this.isResultActionLoading = false;
-        }))
-        .subscribe({
-          next: (feedbackSession: FeedbackSession) => {
-            model.feedbackSession = feedbackSession;
-            model.responseRate = '';
 
-            this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-            if (this.publishUnpublishRetryAttempts) {
-              this.publishUnpublishRetryAttempts -= 1;
-            } else {
-              this.openErrorReportModal(resp);
-            }
-          },
-        });
+    const responseColIdx = columnsData.findIndex(
+        (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.RESPONSES),
+    );
+
+    const actionsColIdx = columnsData.findIndex(
+      (colData) => colData.header === SessionsTableColumnNames.get(SessionsTableColumn.ACTIONS),
+    );
+
+    this.feedbackSessionsService
+      .unpublishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
+      .pipe(
+        finalize(() => {
+          this.isResultActionLoading = false;
+        }),
+      )
+      .subscribe({
+        next: (feedbackSession: FeedbackSession) => {
+          model.feedbackSession = feedbackSession;
+          model.responseRate = '';
+
+          rowData[responseColIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[responseColIdx].customComponent!.componentData!,
+              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
+            };
+          };
+
+          rowData[actionsColIdx].customComponent!.componentData! = () => {
+            return {
+              ...rowData[actionsColIdx].customComponent!.componentData!,
+              publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+            };
+          };
+
+          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (this.publishUnpublishRetryAttempts) {
+            this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
+          }
+        },
+      });
   }
 
   openErrorReportModal(resp: ErrorMessageOutput): void {
     const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
     modal.componentInstance.requestId = resp.error.requestId;
     modal.componentInstance.errorMessage = resp.error.message;
+  }
+
+  triggerModelChange(data: SessionEditFormModel): void {
+    const { submissionStartDate, submissionEndDate, submissionStartTime, submissionEndTime } = data;
+
+    const startDate = new Date(submissionStartDate.year, submissionStartDate.month, submissionStartDate.day);
+    const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
+
+    if (startDate > endDate) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: submissionStartDate,
+        submissionEndTime:
+          submissionStartTime.hour > submissionEndTime.hour || (
+            submissionStartTime.hour === submissionEndTime.hour
+            && submissionStartTime.minute > submissionEndTime.minute
+          )
+            ? submissionStartTime
+            : submissionEndTime,
+      };
+    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour > submissionEndTime.hour) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: submissionStartDate,
+        submissionEndTime: {
+          ...submissionStartTime,
+          hour: submissionStartTime.hour,
+        },
+      };
+    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour === submissionEndTime.hour
+        && submissionStartTime.minute > submissionEndTime.minute) {
+      this.sessionEditFormModel = {
+        ...data,
+        submissionEndDate: submissionStartDate,
+        submissionEndTime: {
+          ...submissionStartTime,
+          minute: submissionStartTime.minute,
+        },
+      };
+    }
   }
 }
 
@@ -479,7 +639,7 @@ interface SessionTimestampData {
   responseVisibleTimestamp: string;
 }
 
-interface TweakedTimestampData {
+export interface TweakedTimestampData {
   oldTimestamp: SessionTimestampData;
   newTimestamp: SessionTimestampData;
 }

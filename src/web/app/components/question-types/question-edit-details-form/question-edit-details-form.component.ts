@@ -38,4 +38,52 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
   triggerModelChangeBatch(obj: Partial<D>): void {
     this.detailsChange.emit({ ...this.model, ...obj });
   }
+
+  onIntegerInput(event: KeyboardEvent): void {
+    const { key } = event;
+    const isBackspace = key === 'Backspace';
+    const isDigit = /[0-9]/.test(key);
+    if (!isBackspace && !isDigit) {
+      event.preventDefault();
+    }
+  }
+
+  onFloatInput(event: KeyboardEvent): void {
+    const { key } = event;
+    const isBackspace = key === 'Backspace';
+    const isDecimal = key === '.';
+    const isDigit = /[0-9]/.test(key);
+    if (!isBackspace && !isDigit && !isDecimal) {
+      event.preventDefault();
+    }
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    const { clipboardData } = event;
+    if (clipboardData == null) {
+      return;
+    }
+    const pastedText = clipboardData.getData('text');
+    const isDigit = /^\d+$/.test(pastedText);
+    if (!isDigit) {
+      event.preventDefault();
+    }
+  }
+
+  restrictIntegerInputLength(event : InputEvent, field: keyof D) : void {
+    const target : HTMLInputElement = event.target as HTMLInputElement;
+    if (target.value != null && target.value.length > 9) {
+      target.value = target.value.substring(0, 9);
+      this.triggerModelChange(field, parseInt(target.value, 10) as any);
+    }
+  }
+
+  restrictFloatInputLength(event : InputEvent, field: keyof D) : void {
+    const target : HTMLInputElement = event.target as HTMLInputElement;
+    if (target.value != null && target.value.length > 9) {
+      target.value = target.value.substring(0, 9);
+      this.triggerModelChange(field, parseFloat(target.value) as any);
+    }
+  }
+
 }

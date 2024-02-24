@@ -1,6 +1,9 @@
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import {
+  InstructorSessionBasePageComponent,
+} from './instructor-session-base-page.component';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
@@ -34,9 +37,6 @@ import {
   SessionsTableRowModel,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import {
-  InstructorSessionBasePageComponent,
-} from './instructor-session-base-page.component';
 
 /**
  * The base page for session related page.

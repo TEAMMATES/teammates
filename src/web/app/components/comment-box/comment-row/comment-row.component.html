@@ -19,8 +19,8 @@
         <span class="by-response-giver text-secondary" *ngIf="isFeedbackParticipantComment">
           Comment by response giver.
         </span>
-        <span class="text-secondary" *ngIf="!isFeedbackParticipantComment">
-          <span id="comment-giver-name">{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
+        <ng-container class="text-secondary" *ngIf="!isFeedbackParticipantComment">
+          <span class="comment-giver-name">{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
           <span class="ngb-tooltip-class" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">
             {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span>
           <ng-container *ngIf="model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt">
@@ -28,7 +28,7 @@
             <span id="last-editor-name" style="margin-right: .25rem;" class="ngb-tooltip-class"
                   [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
           </ng-container>
-        </span>
+        </ng-container>
 
         <i class="fa fa-eye" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
 

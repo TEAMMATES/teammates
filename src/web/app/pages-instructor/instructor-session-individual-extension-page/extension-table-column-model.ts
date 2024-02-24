@@ -8,6 +8,7 @@ export interface StudentExtensionTableColumnModel {
   extensionDeadline: number;
   hasExtension: boolean;
   isSelected: boolean;
+  hasSubmittedSession?: boolean;
 }
 
 export interface InstructorExtensionTableColumnModel {
@@ -17,4 +18,5 @@ export interface InstructorExtensionTableColumnModel {
   extensionDeadline: number;
   hasExtension: boolean;
   isSelected: boolean;
+  hasSubmittedSession?: boolean;
 }

@@ -5,6 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 import { AddingQuestionPanelModule } from '../../../components/adding-question-panel/adding-question-panel.module';
 import {
     CommentBoxModule,
@@ -40,7 +41,6 @@ import {
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
 import { ExampleBoxModule } from '../example-box/example-box.module';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
-import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 
 describe('InstructorHelpSessionsSectionComponent', () => {
   let component: InstructorHelpSessionsSectionComponent;

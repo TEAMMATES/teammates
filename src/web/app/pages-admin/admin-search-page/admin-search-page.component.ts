@@ -38,6 +38,7 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
+  characterLimit = 100;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -313,7 +314,7 @@ export class AdminSearchPageComponent {
    * Updates the student's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
-    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
+    const updateSessions = (sessions: FeedbackSessionsGroup): void => {
       Object.keys(sessions).forEach((key: string): void => {
         sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
       });
@@ -330,7 +331,7 @@ export class AdminSearchPageComponent {
    * Updates the instructor's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedInstructorCourseLinks(instructor: InstructorAccountSearchResult, newKey: string): void {
-    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
+    const updateSessions = (sessions: FeedbackSessionsGroup): void => {
       Object.keys(sessions).forEach((key: string): void => {
         sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
       });

@@ -1,10 +1,10 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import { StringHelper } from '../../services/string-helper';
 import {
   FeedbackQuestionType, FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
 } from '../api-output';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../feedback-response-details';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackRubricResponseDetails}.

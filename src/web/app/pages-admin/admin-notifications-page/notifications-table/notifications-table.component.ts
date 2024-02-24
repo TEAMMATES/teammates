@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { Notification } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
 
 @Component({
   selector: 'tm-notifications-table',
@@ -34,7 +34,7 @@ export class NotificationsTableComponent {
   sortNotificationsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
 
   @Output()
-  deleteNotificationEvent: EventEmitter<String> = new EventEmitter();
+  deleteNotificationEvent: EventEmitter<string> = new EventEmitter();
 
   @Output()
   loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
@@ -48,7 +48,7 @@ export class NotificationsTableComponent {
     this.sortNotificationsTableRowModelsEvent.emit(by);
   }
 
-  getAriaSort(by: SortBy): String {
+  getAriaSort(by: SortBy): string {
     if (by !== this.notificationsTableRowModelsSortBy) {
       return 'none';
     }

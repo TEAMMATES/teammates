@@ -1,6 +1,6 @@
-import { CommentOutput } from '../../../types/api-output';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
+import { CommentOutput } from '../../../types/api-output';
 
 describe('CommentsToCommentTableModelPipe', () => {
   it('converts comments to comment table model correctly', () => {

@@ -1,5 +1,6 @@
-package teammates.e2e.util;
+package teammates.e2e.cases.axe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,37 +9,35 @@ import com.deque.html.axecore.results.Results;
 import com.deque.html.axecore.results.Rule;
 import com.deque.html.axecore.selenium.AxeBuilder;
 
+import teammates.e2e.cases.BaseE2ETestCase;
+
 /**
- * Utility class for accessibility tests.
+ * Base class for all accessibility tests using Axe.
  */
-public final class AxeUtil {
+abstract class BaseAxeTestCase extends BaseE2ETestCase {
 
     /**
      * List of rules to be disabled for accessibility tests:
      * 1. colour-contrast - disabled as Bootstrap default colours are used as much as possible throughout the website.
-     * 2. empty-table-header - disabled for the instructor student enroll page,
-     * as the page uses Handsontable which does not yet support accessibility.
-     * 3. landmark-complementary-is-top-level - temporarily disabled due to a bug in TinyMCE,
-     * and will be fixed in a future update. See https://github.com/tinymce/tinymce/issues/7639
-     * 4. landmark-unique - disabled for instructor feedback edit page, likely also caused by TinyMCE.
      */
-    public static final List<String> DISABLED_RULES = Arrays.asList(
-            "color-contrast", "empty-table-header", "landmark-complementary-is-top-level", "landmark-unique"
+    private static final List<String> COMMON_DISABLED_RULES = Arrays.asList(
+            "color-contrast"
     );
 
     /**
      * Builder for accessibility tests.
      */
-    public static final AxeBuilder AXE_BUILDER = new AxeBuilder().disableRules(DISABLED_RULES);
-
-    private AxeUtil() {
-        // Utility class
+    AxeBuilder getAxeBuilder(String... additionalDisabledRules) {
+        List<String> disabledRules = new ArrayList<>();
+        disabledRules.addAll(COMMON_DISABLED_RULES);
+        disabledRules.addAll(Arrays.asList(additionalDisabledRules));
+        return new AxeBuilder().disableRules(disabledRules);
     }
 
     /**
      * Formats accessibility violations into a readable string.
      */
-    public static String formatViolations(Results results) {
+    static String formatViolations(Results results) {
         int ruleCounter = 1;
         StringBuilder builder = new StringBuilder(500);
         for (Rule rule : results.getViolations()) {
@@ -55,4 +54,5 @@ public final class AxeUtil {
         }
         return builder.toString();
     }
+
 }

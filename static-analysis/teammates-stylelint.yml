@@ -1,27 +1,14 @@
-extends: "stylelint-config-standard"
+extends: stylelint-config-standard-scss
+overrides:
+  - files:
+    - "*.html"
+    customSyntax: postcss-html
 rules:
-    color-hex-case: "upper"
-    no-descending-specificity: null
-    number-leading-zero: "never"
-    indentation: 2
-    no-empty-source: null
-    max-empty-lines: 1
-    max-line-length: 120
-
-    custom-media-pattern: "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
-    custom-property-pattern: "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
-    selector-class-pattern: "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
-    selector-id-pattern: "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
-
-    at-rule-no-vendor-prefix: true
-    media-feature-name-no-vendor-prefix: true
-    property-no-vendor-prefix: true
-    selector-no-vendor-prefix: true
-    value-no-vendor-prefix: true
-
-    selector-pseudo-element-no-unknown: [
-        true,
-        {
-            ignorePseudoElements: ["ng-deep"]
-        }
-    ]
+  no-descending-specificity: null
+  no-empty-source: null
+  number-max-precision: 5
+  scss/no-global-function-names: null
+  selector-pseudo-element-no-unknown:
+  - true
+  - ignorePseudoElements:
+    - ng-deep

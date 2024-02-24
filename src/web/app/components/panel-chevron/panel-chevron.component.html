@@ -1,4 +1,4 @@
-<div class="chevron">
-  <i class="fas fa-chevron-down" *ngIf="!isExpanded"></i>
-  <i class="fas fa-chevron-up" *ngIf="isExpanded"></i>
-</div>
+<button type="button" class="chevron btn-course btn btn-primary btn-sm" aria-label="Expand panel" [attr.aria-expanded]=isExpanded>
+  <i class="fas fa-chevron-down" [style.color]="chevronColor" *ngIf="!isExpanded"></i>
+  <i class="fas fa-chevron-up" [style.color]="chevronColor" *ngIf="isExpanded"></i>
+</button>

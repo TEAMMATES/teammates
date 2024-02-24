@@ -6,11 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { AuthService } from '../services/auth.service';
-import { StatusMessageService } from '../services/status-message.service';
 import { AjaxLoadingModule } from './components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { LoginPageComponent } from './login-page.component';
+import { AuthService } from '../services/auth.service';
+import { StatusMessageService } from '../services/status-message.service';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { UsageStatisticsRange } from '../types/api-output';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles usage statistics provision.

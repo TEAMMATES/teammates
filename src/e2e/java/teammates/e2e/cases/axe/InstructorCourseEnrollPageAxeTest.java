@@ -6,14 +6,12 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
  */
-public class InstructorCourseEnrollPageAxeTest extends BaseE2ETestCase {
+public class InstructorCourseEnrollPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -29,8 +27,11 @@ public class InstructorCourseEnrollPageAxeTest extends BaseE2ETestCase {
         InstructorCourseEnrollPage enrollPage = loginToPage(url, InstructorCourseEnrollPage.class,
                 testData.instructors.get("ICEnroll.teammates.test").getGoogleId());
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(enrollPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        // These rules are disabled due to Handsontable, which is yet to support accessibility
+        Results results = getAxeBuilder(
+                "aria-hidden-focus", "aria-required-children", "aria-required-parent"
+        ).analyze(enrollPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }

@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -25,18 +26,6 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             new ArrayList<>(Arrays.asList(0, 10, 15, 50, 100, 150, 190, 195, 200));
     static final List<Integer> INVALID_CONTRIBUTION_RESPONSE_ANSWERS =
             new ArrayList<>(Arrays.asList(-983, -1, 1, 4, 19, 51, 101, 199, 201, 1000));
-
-    @Test
-    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
-    }
-
-    @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
 
     @Test
     public void testIsIndividualResponsesShownToStudents_shouldReturnFalse() {
@@ -119,8 +108,9 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
-                        responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        responseBundle.feedbackQuestions, new HashMap<>(), new HashSet<>(),
+                        new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
+                        new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 

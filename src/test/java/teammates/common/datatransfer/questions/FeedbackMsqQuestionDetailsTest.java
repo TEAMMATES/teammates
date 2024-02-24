@@ -405,18 +405,23 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnTrue() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
-        assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
-
-    @Test
     public void testShouldChangesRequireResponseDeletion_differentMsqChoices_shouldReturnTrue() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choice1", "choice2"));
 
         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
         newMsqDetails.setMsqChoices(List.of("choice1", "choice 3"));
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentNumberMsqChoices_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choice1", "choice2"));
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMsqChoices(List.of("choice1", "choice2", "choice3", "choice4"));
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
     }

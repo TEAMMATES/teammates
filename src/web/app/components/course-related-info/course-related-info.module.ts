@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { CourseRelatedInfoComponent } from './course-related-info.component';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 @NgModule({
   declarations: [

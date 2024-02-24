@@ -41,10 +41,10 @@ component E2E {
 
 component Client  {
     folder "client::scripts" as ClientScripts
-    folder "client::remoteapi" as ClientRemoteApi
+    folder "client::connector" as ClientConnector
 }
 
-database "Google\nCloud\Datastore" as GCD STORAGE_COLOR_T1
+database "Google\nCloud\nDatastore" as GCD STORAGE_COLOR_T1
 
 UI ..> Common
 Logic ..> Common
@@ -55,7 +55,7 @@ UiWebApi ..> LogicApi
 LogicCore ..> StorageApi
 StorageApi ..> GCD
 E2EPageObjects ..> UiWebsite
-ClientRemoteApi ..> GCD
+ClientConnector ..> GCD
 
 LogicApi ..> LogicCore
 LogicApi ..> LogicExternal
@@ -63,7 +63,7 @@ StorageApi ..> StorageEntity
 StorageSearch <..> StorageApi
 E2ECases ..> E2EPageObjects
 E2ECases ..> E2EUtil
-ClientScripts ..> ClientRemoteApi
+ClientScripts ..> ClientConnector
 
 ' The hidden associations are for positioning purposes only
 Common -[hidden]down- UI
@@ -97,7 +97,7 @@ StorageEntity -[hidden]down- StorageApi
 StorageApi -[hidden]down- StorageSearch
 E2EPageObjects -[hidden]down- E2ECases
 E2ECases -[hidden]down- E2EUtil
-ClientScripts -[hidden]down- ClientRemoteApi
+ClientScripts -[hidden]down- ClientConnector
 CommonUtil -[hidden]right- CommonException
 CommonException -[hidden]right- CommonDataTransfer
 CommonDataTransfer -[hidden]down- StorageEntity

@@ -21,6 +21,7 @@
   width: 100%;
   word-break: break-all;
   max-height: 90vh;
+  min-width: 1030px;
 
   thead {
     flex: 0 0 auto;
@@ -97,4 +98,12 @@
   overflow: hidden;
   width: 100%;
   white-space: nowrap;
+}
+
+.logs-table-container {
+  div.col-12 {
+    padding-right: 0;
+  }
+
+  margin-right: 0;
 }

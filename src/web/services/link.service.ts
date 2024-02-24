@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Instructor, Student } from '../types/api-output';
 import { NavigationService } from './navigation.service';
+import { Instructor, Student } from '../types/api-output';
 
 /**
  * Handles the logic for generating links on the client.

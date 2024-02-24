@@ -1,8 +1,17 @@
 .invalid-field {
   padding-top: 5px;
-  color: #B50000;
+  color: #b50000;
 }
 
 .fill-plain {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
+}
+
+@media (width <= 576px) {
+  .add-mode {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+  }
 }

@@ -1,3 +1,4 @@
+import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-msq-question-details';
 import {
   MsqQuestionStatisticsCalculation,
 } from '../../app/components/question-types/question-statistics/question-statistics-calculation/msq-question-statistics-calculation';
@@ -7,7 +8,6 @@ import {
   FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
-import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-msq-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackMsqQuestionDetails}.

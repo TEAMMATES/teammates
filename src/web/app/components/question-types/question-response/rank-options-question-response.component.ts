@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QuestionResponse } from './question-response';
 import {
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
@@ -10,7 +11,6 @@ import {
 import {
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
-import { QuestionResponse } from './question-response';
 
 /**
  * Rank options question response.

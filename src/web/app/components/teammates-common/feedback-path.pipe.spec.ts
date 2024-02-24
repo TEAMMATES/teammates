@@ -1,9 +1,9 @@
-import { FeedbackParticipantType } from '../../../types/api-output';
 import {
   GiverTypeDescriptionPipe,
   RecipientTypeDescriptionPipe,
   RecipientTypeSimplifiedDescriptionPipe,
 } from './feedback-path.pipe';
+import { FeedbackParticipantType } from '../../../types/api-output';
 
 describe('GiverTypeDescriptionPipe', () => {
   const pipe: GiverTypeDescriptionPipe = new GiverTypeDescriptionPipe();

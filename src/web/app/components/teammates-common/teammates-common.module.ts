@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-
 import { EnumToArrayPipe } from './enum-to-array.pipe';
 import {
   GiverTypeDescriptionPipe,
@@ -30,6 +28,7 @@ import {
   VisibilityTypeDescriptionPipe,
   VisibilityTypeNamePipe,
 } from './visibility-setting.pipe';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 /**
  * Common module in the project.

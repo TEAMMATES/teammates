@@ -2,9 +2,9 @@
 
 exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -35,6 +35,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="100"
           type="text"
         />
         <button
@@ -44,6 +45,9 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -329,9 +333,9 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 
 exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -362,6 +366,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="100"
           type="text"
         />
         <button
@@ -371,6 +376,9 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
           Search
         </button>
       </div>
+      <span>
+        96 characters left
+      </span>
     </div>
   </div>
 </tm-admin-search-page>
@@ -378,9 +386,9 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 
 exports[`AdminSearchPageComponent should snap with an expanded account requests table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -411,6 +419,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="100"
           type="text"
         />
         <button
@@ -420,6 +429,9 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -515,7 +527,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
             >
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
-                style=""
               >
                 <li
                   class="list-group-item list-group-item-info"
@@ -540,9 +551,9 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
 
 exports[`AdminSearchPageComponent should snap with an expanded instructor table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -573,6 +584,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="100"
           type="text"
         />
         <button
@@ -582,6 +594,9 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -793,9 +808,9 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 
 exports[`AdminSearchPageComponent should snap with an expanded student table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -826,6 +841,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="100"
           type="text"
         />
         <button
@@ -835,6 +851,9 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div><div
     class="card bg-light top-padded"
@@ -977,7 +996,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             >
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
-                style=""
               >
                 <li
                   class="list-group-item list-group-item-success has-success"
@@ -1096,9 +1114,9 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 
 exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  characterLimit={[Function Number]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -1129,6 +1147,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
           aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
+          maxlength="100"
           type="text"
         />
         <button
@@ -1138,6 +1157,9 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
           Search
         </button>
       </div>
+      <span>
+        100 characters left
+      </span>
     </div>
   </div>
 </tm-admin-search-page>

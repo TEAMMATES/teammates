@@ -7,7 +7,6 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   SEVERITIES={[Function Array]}
-  __ngContext__={[Function Number]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
   datetimeService={[Function DateTimeService]}
@@ -57,16 +56,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><div>
-    <div
-      class="center mb-4"
-    >
-    </div>
-    <div
-      class="center mb-4"
-    >
-    </div>
-  </div>
+  </tm-loading-spinner>
 </tm-logs-page>
 `;
 
@@ -77,7 +67,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   SEVERITIES={[Function Array]}
-  __ngContext__={[Function Number]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
   datetimeService={[Function DateTimeService]}
@@ -123,7 +112,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
         class="row form-group"
       >
         <div
-          class="col-6"
+          class="col-12 col-sm-6"
         >
           <div
             class="col-12 mb-1"
@@ -136,10 +125,10 @@ exports[`LogsPageComponent should snap when searching for details in search form
             </label>
           </div>
           <div
-            class="col-12 row"
+            class="row"
           >
             <div
-              class="col-md-8"
+              class="col-6"
             >
               <div
                 class="input-group"
@@ -161,7 +150,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </div>
             </div>
             <div
-              class="col-md-4"
+              class="col-6"
               id="logs-from-timepicker"
             >
               <ngb-timepicker
@@ -216,10 +205,10 @@ exports[`LogsPageComponent should snap when searching for details in search form
             </label>
           </div>
           <div
-            class="col-12 row"
+            class="row"
           >
             <div
-              class="col-md-8"
+              class="col-6"
             >
               <div
                 class="input-group"
@@ -241,7 +230,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </div>
             </div>
             <div
-              class="col-md-4"
+              class="col-6"
               id="logs-to-timepicker"
             >
               <ngb-timepicker
@@ -287,7 +276,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
           </div>
         </div>
         <div
-          class="col-4"
+          class="col-12 col-sm-4"
         >
           <div
             class="col-12"
@@ -419,10 +408,10 @@ exports[`LogsPageComponent should snap when searching for details in search form
           </div>
         </div>
         <div
-          class="col-1 mt-4"
+          class="col-2 col-sm-1 mt-1"
         >
           <button
-            class="float-end btn btn-primary"
+            class="btn btn-primary"
             id="query-button"
           >
             Query
@@ -450,25 +439,30 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </div>
     </div>
-  </div><div>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
+    <div>
+      <tm-loading-spinner>
         <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
+          class="loading-container"
         >
-          Loading...
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
         </div>
+      </tm-loading-spinner>
+      <div
+        class="overflow-x-scroll"
+      >
       </div>
-    </tm-loading-spinner>
-    <div
-      class="center mb-4"
-    >
+      <div
+        class="center mb-4"
+      >
+      </div>
     </div>
   </div>
 </tm-logs-page>
@@ -481,7 +475,6 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   SEVERITIES={[Function Array]}
-  __ngContext__={[Function Number]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
   datetimeService={[Function DateTimeService]}
@@ -531,15 +524,6 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><div>
-    <div
-      class="center mb-4"
-    >
-    </div>
-    <div
-      class="center mb-4"
-    >
-    </div>
-  </div>
+  </tm-loading-spinner>
 </tm-logs-page>
 `;

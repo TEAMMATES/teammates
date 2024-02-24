@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { QuestionResponse } from './question-response';
 import {
   ContributionStatistics,
   FeedbackContributionQuestionDetails,
@@ -14,7 +15,6 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
-import { QuestionResponse } from './question-response';
 
 /**
  * Contribution question response.

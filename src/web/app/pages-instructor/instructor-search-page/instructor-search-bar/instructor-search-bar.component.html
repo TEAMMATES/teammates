@@ -13,11 +13,12 @@
     <div class="form-group">
       <div class="input-group">
         <input type="text" id="search-keyword" class="form-control" [ngModel]="searchParams.searchKey"
-          (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" placeholder="Your search keyword">
+          (ngModelChange)="onSearchKeyChange($event)" [maxlength]="characterLimit" (keyup.enter)="search()" placeholder="Your search keyword">
         <button class="btn btn-primary input-group-text" id="btn-search" (click)="search()"
                 [disabled]="searchParams.searchKey === ''"
         >Search</button>
       </div>
+      <span>{{ characterLimit - searchParams.searchKey.length }} characters left</span>
     </div>
   </div>
 </div>

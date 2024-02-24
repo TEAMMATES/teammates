@@ -57,51 +57,117 @@
 </div>
 
 <div class="card card-plain" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
-  <div class="card-body">
-    <div class="row text-center">
-      <label class="col-md-2 text-md-end">Course ID:</label>
-      <div id="course-id" class="col-md-10 text-md-start">{{ courseId }}</div>
-    </div>
-    <div class="row text-center" *ngIf="courseName">
-      <label class="col-md-2 text-md-end">Course name:</label>
-      <div id="course-name" class="col-md-10 text-md-start">{{ courseName }}</div>
-    </div>
-    <div class="row text-center" *ngIf="courseInstitute">
-      <label class="col-md-2 text-md-end">Course institute:</label>
-      <div id="course-institute" class="col-md-10 text-md-start">{{ courseInstitute }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-end">Session:</label>
-      <div id="fs-name" class="col-md-10 text-md-start">{{ feedbackSessionName }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-end">Opening time:</label>
-      <div id="opening-time" class="col-md-10 text-md-start">{{ formattedSessionOpeningTime }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-end">Closing time:</label>
-      <div id="closing-time" class="col-md-10 text-md-start">{{ formattedSessionClosingTime }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-end">Instructions:</label>
-      <div id="instructions" class="col-md-10 text-md-start" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+  <div class="card card-plain">
+    <div class="card-body">
+      <div class="row text-center">
+        <label class="col-md-2 text-md-end">Course ID:</label>
+        <div id="course-id" class="col-md-10 text-md-start">{{ courseId }}</div>
+      </div>
+      <div class="row text-center" *ngIf="courseName">
+        <label class="col-md-2 text-md-end">Course name:</label>
+        <div id="course-name" class="col-md-10 text-md-start">{{ courseName }}</div>
+      </div>
+      <div class="row text-center" *ngIf="courseInstitute">
+        <label class="col-md-2 text-md-end">Course institute:</label>
+        <div id="course-institute" class="col-md-10 text-md-start">{{ courseInstitute }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-end">Session:</label>
+        <div id="fs-name" class="col-md-10 text-md-start">{{ feedbackSessionName }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-end">Opening time:</label>
+        <div id="opening-time" class="col-md-10 text-md-start">{{ formattedSessionOpeningTime }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-end">Closing time:</label>
+        <div id="closing-time" class="col-md-10 text-md-start">{{ formattedSessionClosingTime }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-end">Instructions:</label>
+        <div id="instructions" class="col-md-10 text-md-start" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+      </div>
+      <div class="row text-center d-flex align-items-center">
+        <label class="col-md-2 text-md-end">Group by:</label>
+        <div id="group-by" class="col-md-10 text-md-start">
+          <select class="w-25 form-control form-select" id="select-group-by" (change)="toggleViewChange($event.target.value)" [attr.aria-label]="'Select group by view'">
+            <option *ngFor="let entry of allSessionViews | keyvalue" [value]="entry.value">
+              {{ entry.value }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
-    <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
-                                 [attr.id]="questionSubmissionForm.feedbackQuestionId"
-                                 inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
-                                 [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
-                                 [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                 [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
-                                 (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                                 [isQuestionCountOne]="isQuestionCountOne"
-                                 [(isSubmitAllClicked)]="isSubmitAllClicked"
-    ></tm-question-submission-form>
-
+    <ng-container *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS">
+      <h1 class="my-3">Grouped Questions</h1>
+      <div class="card" *ngIf="recipientQuestionMap.size === 0">
+        <h2 class="my-2 mx-2">There are no groupable questions</h2>
+      </div>
+      <ng-container *ngFor="let entry of recipientQuestionMap | keyvalue">
+        <div class="card px-4">
+          <h2 class="my-4">{{ getRecipientName(entry.key) }}</h2>
+          <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
+            <ng-container *ngIf="entry.value.has(questionSubmissionForm.questionNumber)">
+              <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                          inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
+                                          [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
+                                          [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                          [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, entry.key)"
+                                          (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                          [isQuestionCountOne]="isQuestionCountOne"
+                                          [(isSubmitAllClicked)]="isSubmitAllClicked"
+                                          [currentSelectedSessionView]="currentSelectedSessionView"
+                                          [recipientId]="entry.key"
+              ></tm-question-submission-form>
+            </ng-container>
+          </ng-container>
+          <div class="row mb-4">
+            <div class="col-12 text-center">
+              <button id="btn-submit-by-recipient" type="submit" class="btn btn-success"
+                ngbTooltip="You can save your responses at any time and come back later to continue."
+                (click)="saveResponsesForSelectedRecipientQuestions(entry.key, questionSubmissionForms)"
+                [disabled]="isSavingResponses || isSubmissionFormsDisabled"><tm-ajax-loading
+                  *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for {{ getRecipientName(entry.key) }}</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <h1 class="my-3">Ungrouped Questions</h1>
+      <div class="card" *ngIf="ungroupableQuestions.size === 0">
+        <h2 class="my-2 mx-2">There are no ungroupable questions</h2>
+      </div>
+      <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
+        <ng-container *ngIf="ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)">
+          <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                      inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
+                                      [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
+                                      [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                      [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, null)"
+                                      (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                      [isQuestionCountOne]="isQuestionCountOne"
+                                      [(isSubmitAllClicked)]="isSubmitAllClicked"
+          ></tm-question-submission-form>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="currentSelectedSessionView === allSessionViews.DEFAULT">
+      <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
+                                   [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                   inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
+                                   [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
+                                   [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                   [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, null)"
+                                   (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                   [isQuestionCountOne]="isQuestionCountOne"
+                                   [(isSubmitAllClicked)]="isSubmitAllClicked"
+                                   [currentSelectedSessionView]="currentSelectedSessionView"
+      ></tm-question-submission-form>
+    </ng-container>
     <div class="row" *ngIf="questionsNeedingSubmission.length === 0">
       <div class="col-12 text-center">
         <div class="alert alert-info" role="alert">
@@ -114,7 +180,7 @@
       <div class="col-12 text-center">
         <button id="btn-submit" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
-                (click)="saveFeedbackResponses(questionSubmissionForms)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+                (click)="saveFeedbackResponses(questionSubmissionForms, true, null)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
         ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for All Questions</button>
       </div>
     </div>

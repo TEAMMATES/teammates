@@ -1,17 +1,17 @@
 .editor {
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 .editor-disabled {
-  background-color: #E9ECEF;
+  background-color: #e9ecef;
   opacity: 1;
 
   ::ng-deep .tox-tinymce {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 
 .placeholder {
-  padding: .375rem .75rem;
+  padding: 0.375rem 0.75rem;
   position: absolute;
 }

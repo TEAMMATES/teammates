@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CommentOutput } from '../../../types/api-output';
 import { CommentRowModel } from './comment-row/comment-row.component';
+import { CommentOutput } from '../../../types/api-output';
 
 /**
  * Transforms comment to comment row model.

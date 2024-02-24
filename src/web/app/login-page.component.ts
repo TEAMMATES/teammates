@@ -3,11 +3,11 @@ import { GoogleAuthProvider } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
+import { ErrorMessageOutput } from './error-message-output';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { SendLoginEmailResponse } from '../types/api-output';
-import { ErrorMessageOutput } from './error-message-output';
 
 /**
  * Login page component.

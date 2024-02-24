@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
  * Additional info for rubric questions.

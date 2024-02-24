@@ -1,3 +1,4 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   RankRecipientsQuestionStatisticsCalculation,
 } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-recipients-question-statistics-calculation';
@@ -6,7 +7,6 @@ import {
   FeedbackRankRecipientsQuestionDetails, QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackRankRecipientsQuestionDetails}.
@@ -44,6 +44,7 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
     statsRows.push([
       'Team',
       'Recipient',
+      'Recipient Email',
       'Self Rank',
       'Overall Rank',
       'Overall Rank Excluding Self',
@@ -56,6 +57,7 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
       statsRows.push([
         statsCalculation.emailToTeamName[recipient],
         statsCalculation.emailToName[recipient],
+        recipient,
         statsCalculation.selfRankPerOption[recipient]
             ? String(statsCalculation.selfRankPerOption[recipient]) : emptyStr,
         statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : emptyStr,

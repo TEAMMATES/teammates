@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 
+import { HttpRequestService } from './http-request.service';
 import { default as timezone } from '../data/timezone.json';
 import { ResourceEndpoints } from '../types/api-const';
 import { TimeZones } from '../types/api-output';
 import { DateFormat, TimeFormat } from '../types/datetime-const';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles timezone information provision.

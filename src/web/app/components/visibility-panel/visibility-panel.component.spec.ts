@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { VisibilityPanelComponent } from './visibility-panel.component';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
-import { VisibilityPanelComponent } from './visibility-panel.component';
 
 describe('VisibilityPanelComponent', () => {
   let component: VisibilityPanelComponent;

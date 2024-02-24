@@ -639,6 +639,7 @@ public abstract class AppPage {
      */
     public void verifyStatusMessage(String expectedMessage) {
         verifyStatusMessageWithLinks(expectedMessage, new String[] {});
+        closeToast();
     }
 
     /**
@@ -665,6 +666,14 @@ public abstract class AppPage {
                 }
             }
         }
+    }
+
+    /**
+     * Closes toast message.
+     */
+    public void closeToast() {
+        WebElement toastCloseButton = waitForElementPresence(By.className("btn-close"));
+        click(toastCloseButton);
     }
 
     /**

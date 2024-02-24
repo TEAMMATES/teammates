@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionResponse } from './question-response';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -8,7 +9,6 @@ import {
   DEFAULT_MSQ_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../types/feedback-response-details';
-import { QuestionResponse } from './question-response';
 
 /**
  * MSQ question response.

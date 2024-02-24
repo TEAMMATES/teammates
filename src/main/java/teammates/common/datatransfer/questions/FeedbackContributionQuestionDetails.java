@@ -398,11 +398,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return false;
     }
 
-    @Override
-    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
-        return false;
-    }
-
     public boolean isZeroSum() {
         return isZeroSum;
     }

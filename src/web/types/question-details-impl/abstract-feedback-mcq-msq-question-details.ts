@@ -1,7 +1,7 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   McqMsqQuestionStatisticsCalculation,
 } from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-msq-question-statistics-calculation';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Abstract class for MCQ/MSQ question detail.

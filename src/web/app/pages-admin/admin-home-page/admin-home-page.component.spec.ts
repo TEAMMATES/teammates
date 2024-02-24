@@ -3,6 +3,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
+import { AdminHomePageComponent } from './admin-home-page.component';
+import { InstructorData } from './instructor-data';
+import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
@@ -11,9 +14,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { AdminHomePageComponent } from './admin-home-page.component';
-import { InstructorData } from './instructor-data';
-import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;

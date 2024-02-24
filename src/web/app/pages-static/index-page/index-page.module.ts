@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { IndexPageComponent } from './index-page.component';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 
 const routes: Routes = [
   {

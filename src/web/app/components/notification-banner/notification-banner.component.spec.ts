@@ -5,13 +5,12 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { NotificationBannerComponent } from './notification-banner.component';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { MarkNotificationAsReadRequest } from '../../../types/api-request';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-
-import { NotificationBannerComponent } from './notification-banner.component';
 
 describe('NotificationBannerComponent', () => {
   let component: NotificationBannerComponent;

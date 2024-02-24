@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { MsqQuestionAdditionalInfoComponent } from './msq-question-additional-info.component';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
@@ -7,7 +8,6 @@ import {
 } from '../../../../types/api-output';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { MsqQuestionAdditionalInfoComponent } from './msq-question-additional-info.component';
 
 describe('MsqQuestionAdditionalInfoComponent', () => {
   let component: MsqQuestionAdditionalInfoComponent;

@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
-import { NavigationService } from '../../../../services/navigation.service';
 import { collapseAnim } from './collapse-anim';
+import { NavigationService } from '../../../../services/navigation.service';
 
 /**
  * A standalone panel for instructor help page content.

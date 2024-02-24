@@ -1,10 +1,10 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
 } from '../api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../feedback-response-details';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackNumericalScaleResponseDetails}.

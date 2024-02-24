@@ -12,6 +12,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
+    'lodash-es': 'lodash'
   },
   globalSetup: 'jest-preset-angular/global-setup',
 };

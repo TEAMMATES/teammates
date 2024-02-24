@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { GeneralSectionQuestions } from './general-section-questions';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import { GeneralSectionQuestions } from './general-section-questions';
 
 /**
  * General Section of the Instructor Help Page.

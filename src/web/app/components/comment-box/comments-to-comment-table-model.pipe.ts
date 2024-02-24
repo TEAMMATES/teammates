@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CommentOutput } from '../../../types/api-output';
 import { CommentTableModel } from './comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
+import { CommentOutput } from '../../../types/api-output';
 
 /**
  * Transforms comments to readonly comment table model.

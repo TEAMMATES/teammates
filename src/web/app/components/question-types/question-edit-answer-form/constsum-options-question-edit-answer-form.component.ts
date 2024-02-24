@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
@@ -8,7 +9,6 @@ import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The constsum question options submission form for a recipient.
@@ -29,8 +29,8 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(), DEFAULT_CONSTSUM_RESPONSE_DETAILS());
   }
 
-  getAriaLabelForOption(option: String): String {
-    const baseAriaLabel: String = this.getAriaLabel();
+  getAriaLabelForOption(option: string): string {
+    const baseAriaLabel: string = this.getAriaLabel();
     return `${baseAriaLabel} for ${option} Option`;
   }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -9,7 +10,6 @@ import {
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The numerical scale question submission form for a recipient.

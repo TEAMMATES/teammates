@@ -536,11 +536,11 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("The start time for this feedback session cannot be earlier than 2 hours before now.",
                 FieldValidator.getInvalidityInfoForNewStartTime(threeHoursBeforeNowRounded, Const.DEFAULT_TIME_ZONE));
 
-        Instant ninetyOneDaysFromNowRounded = TimeHelperExtension
-                .getInstantDaysOffsetFromNow(91)
+        Instant thirteenMonthsFromNow = TimeHelperExtension
+                .getInstantMonthsOffsetFromNow(13, Const.DEFAULT_TIME_ZONE)
                 .truncatedTo(ChronoUnit.HOURS);
-        assertEquals("The start time for this feedback session cannot be later than 90 days from now.",
-                FieldValidator.getInvalidityInfoForNewStartTime(ninetyOneDaysFromNowRounded, Const.DEFAULT_TIME_ZONE));
+        assertEquals("The start time for this feedback session cannot be later than 12 months from now.",
+                FieldValidator.getInvalidityInfoForNewStartTime(thirteenMonthsFromNow, Const.DEFAULT_TIME_ZONE));
 
         Instant notAtHourMark = TimeHelperExtension
                 .getInstantHoursOffsetFromNow(1)
@@ -571,11 +571,11 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("The end time for this feedback session cannot be earlier than 1 hour before now.",
                 FieldValidator.getInvalidityInfoForNewEndTime(twoHoursBeforeNowRounded, Const.DEFAULT_TIME_ZONE));
 
-        Instant oneHundredAndEightyOneDaysFromNowRounded = TimeHelperExtension
-                .getInstantDaysOffsetFromNow(181)
+        Instant thirteenMonthsFromNow = TimeHelperExtension
+                .getInstantMonthsOffsetFromNow(13, Const.DEFAULT_TIME_ZONE)
                 .truncatedTo(ChronoUnit.HOURS);
-        assertEquals("The end time for this feedback session cannot be later than 180 days from now.",
-                FieldValidator.getInvalidityInfoForNewEndTime(oneHundredAndEightyOneDaysFromNowRounded,
+        assertEquals("The end time for this feedback session cannot be later than 12 months from now.",
+                FieldValidator.getInvalidityInfoForNewEndTime(thirteenMonthsFromNow,
                         Const.DEFAULT_TIME_ZONE));
 
         Instant notAtHourMark = TimeHelperExtension

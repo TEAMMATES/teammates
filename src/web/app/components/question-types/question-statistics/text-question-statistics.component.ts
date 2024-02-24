@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { QuestionStatistics } from './question-statistics';
 import { FeedbackTextQuestionDetails, FeedbackTextResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { QuestionStatistics } from './question-statistics';
 
 /**
  * Statistics for text questions.

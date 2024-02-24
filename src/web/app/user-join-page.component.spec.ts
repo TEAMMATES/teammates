@@ -5,6 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
+import { SimpleModalType } from './components/simple-modal/simple-modal-type';
+import { UserJoinPageComponent } from './user-join-page.component';
 import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
@@ -12,9 +15,6 @@ import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
 import { createMockNgbModalRef } from '../test-helpers/mock-ngb-modal-ref';
-import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
-import { SimpleModalType } from './components/simple-modal/simple-modal-type';
-import { UserJoinPageComponent } from './user-join-page.component';
 
 describe('UserJoinPageComponent', () => {
   let component: UserJoinPageComponent;

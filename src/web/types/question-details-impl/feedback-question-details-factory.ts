@@ -1,3 +1,14 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
+import { FeedbackConstantSumOptionsQuestionDetailsImpl } from './feedback-constsum-options-question-details.impl';
+import { FeedbackConstantSumRecipientsQuestionDetailsImpl } from './feedback-constsum-recipient-question-details.impl';
+import { FeedbackContributionQuestionDetailsImpl } from './feedback-contribution-question-details.impl';
+import { FeedbackMcqQuestionDetailsImpl } from './feedback-mcq-question-details.impl';
+import { FeedbackMsqQuestionDetailsImpl } from './feedback-msq-question-details.impl';
+import { FeedbackNumericalScaleQuestionDetailsImpl } from './feedback-num-scale-question-details.impl';
+import { FeedbackRankOptionsQuestionDetailsImpl } from './feedback-rank-options-question-details.impl';
+import { FeedbackRankRecipientsQuestionDetailsImpl } from './feedback-rank-recipients-question-details.impl';
+import { FeedbackRubricQuestionDetailsImpl } from './feedback-rubric-question-details.impl';
+import { FeedbackTextQuestionDetailsImpl } from './feedback-text-question-details.impl';
 import {
   FeedbackConstantSumQuestionDetails,
   FeedbackContributionQuestionDetails,
@@ -11,17 +22,6 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackTextQuestionDetails,
 } from '../api-output';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import { FeedbackConstantSumOptionsQuestionDetailsImpl } from './feedback-constsum-options-question-details.impl';
-import { FeedbackConstantSumRecipientsQuestionDetailsImpl } from './feedback-constsum-recipient-question-details.impl';
-import { FeedbackContributionQuestionDetailsImpl } from './feedback-contribution-question-details.impl';
-import { FeedbackMcqQuestionDetailsImpl } from './feedback-mcq-question-details.impl';
-import { FeedbackMsqQuestionDetailsImpl } from './feedback-msq-question-details.impl';
-import { FeedbackNumericalScaleQuestionDetailsImpl } from './feedback-num-scale-question-details.impl';
-import { FeedbackRankOptionsQuestionDetailsImpl } from './feedback-rank-options-question-details.impl';
-import { FeedbackRankRecipientsQuestionDetailsImpl } from './feedback-rank-recipients-question-details.impl';
-import { FeedbackRubricQuestionDetailsImpl } from './feedback-rubric-question-details.impl';
-import { FeedbackTextQuestionDetailsImpl } from './feedback-text-question-details.impl';
 
 /**
  * Factory to generate frontend question details implementation classes.

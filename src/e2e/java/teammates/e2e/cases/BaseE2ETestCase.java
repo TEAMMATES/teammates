@@ -363,5 +363,4 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             return false;
         }
     }
-
 }

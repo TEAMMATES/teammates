@@ -1,0 +1,30 @@
+name: Comment on Good First Issue
+
+on:
+  issues:
+    types:
+      - labeled
+
+jobs:
+  comment:
+    if: github.event.label.name == 'good first issue'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Add comment
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            let body = `**Good First Issue - Notes for Contributors**
+              This issue is for **first-time contributors only**. If you are new to TEAMMATES, feel free to submit a PR for this issue.\n\n`
+            body += "*Please note that we allow only one `good first issue` per contributor.* If you have already made a prior contribution to TEAMMATES, you may wish to take a look at issues with the `help wanted` tag instead.\n\n"
+            body += "**We do not assign issues to contributors**. If you would like to pick up this issue, do post a comment below to express your interest and check if there is anyone else who is already working on the issue. We will do our best to reply and give you the go-ahead, but if we don't, feel free to submit a PR as long as there is no one else working on it.\n\n"
+            body += "**To get started**, do read through our [contributing guidelines](https://teammates.github.io/teammates/contributing-doc.html) carefully, and [set up a development environment on your local machine](https://teammates.github.io/teammates/setting-up.html) before making a PR.\n\n"
+            body += "If you need any clarifications on our [developer guide](https://teammates.github.io/teammates/index.html), or are facing issues that are not found in our [troubleshooting guide](https://teammates.github.io/teammates/troubleshooting-guide.html), please [post a message in our discussion forum](https://github.com/TEAMMATES/teammates/discussions)."
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            })

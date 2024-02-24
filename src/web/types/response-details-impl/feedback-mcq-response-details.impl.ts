@@ -1,5 +1,5 @@
-import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails, FeedbackQuestionType } from '../api-output';
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
+import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails, FeedbackQuestionType } from '../api-output';
 
 /**
  * Concrete implementation of {@link FeedbackMcqResponseDetails}.

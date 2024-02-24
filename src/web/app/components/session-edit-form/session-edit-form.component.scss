@@ -1,5 +1,5 @@
 .card-plain {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
   background-image: none;
   border: 0;
   box-shadow: 0 0 0 0;
@@ -8,8 +8,8 @@
 .close-header {
   display: flex;
   justify-content: right;
-  padding-top: .3rem;
-  padding-right: .3rem;
+  padding-top: 0.3rem;
+  padding-right: 0.3rem;
   margin-bottom: 0;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .border-left-gray {
-  border-left: 1px solid #DDD;
+  border-left: 1px solid #ddd;
 }
 
 .margin-top-20px {
@@ -50,7 +50,7 @@
 .session-heading-text {
   display: flex;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     width: 120px;
   }
 }
@@ -58,7 +58,12 @@
 .session-heading-text h5 {
   margin: auto auto auto 0;
 
-  @media (max-width: 576px) {
-    margin-bottom: .5rem;
+  @media (width <= 576px) {
+    margin-bottom: 0.5rem;
   }
+}
+
+.invalid-field {
+  padding-top: 5px;
+  color: #b50000;
 }

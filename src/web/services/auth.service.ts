@@ -3,11 +3,11 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthProvider } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
 import { AuthInfo, SendLoginEmailResponse, RegkeyValidity } from '../types/api-output';
 import { Intent } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles user authentication.

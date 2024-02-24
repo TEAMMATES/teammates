@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HttpRequestService } from './http-request.service';
+import { SessionResultCsvService } from './session-result-csv.service';
+import { StudentService } from './student.service';
 import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -27,9 +30,6 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
-import { SessionResultCsvService } from './session-result-csv.service';
-import { StudentService } from './student.service';
 
 /**
  * A template session.
@@ -373,6 +373,7 @@ export class FeedbackSessionsService {
     groupBySection?: string,
     key?: string,
     sectionByGiverReceiver?: string,
+    previewAs?: string,
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
@@ -394,6 +395,10 @@ export class FeedbackSessionsService {
 
     if (queryParams.sectionByGiverReceiver) {
       paramMap['sectionByGiverReceiver'] = queryParams.sectionByGiverReceiver;
+    }
+
+    if (queryParams.previewAs) {
+      paramMap['previewas'] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);

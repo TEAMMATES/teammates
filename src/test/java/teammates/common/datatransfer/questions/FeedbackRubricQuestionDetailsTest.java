@@ -253,16 +253,4 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         responseDetails.setAnswer(Arrays.asList(0, null, 0));
         assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
     }
-
-    @Test
-    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
-        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
-    }
-
-    @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
 }

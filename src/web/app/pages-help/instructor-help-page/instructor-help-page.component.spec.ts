@@ -5,9 +5,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import { InstructorHelpPageModule } from './instructor-help-page.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 
 describe('InstructorHelpPageComponent', () => {
   let component: InstructorHelpPageComponent;

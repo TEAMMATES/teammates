@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CommentVisibilityStateMachine } from './comment-visibility-state-machine';
+import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { FeedbackResponseComment, FeedbackVisibilityType } from '../types/api-output';
 import {
   FeedbackResponseCommentCreateRequest,
   FeedbackResponseCommentUpdateRequest, Intent,
 } from '../types/api-request';
-import { CommentVisibilityStateMachine } from './comment-visibility-state-machine';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles requests to the back-end related to response comments.

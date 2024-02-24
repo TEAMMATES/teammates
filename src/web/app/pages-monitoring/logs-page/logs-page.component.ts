@@ -438,6 +438,9 @@ export class LogsPageComponent implements OnInit {
     this.queryParams.order = DESCENDING_ORDER;
     this.queryParams.endTime = this.searchStartTime;
     this.searchStartTime -= Milliseconds.IN_TEN_MINUTES;
+    [this.formModel.logsDateFrom, this.formModel.logsTimeFrom] =
+    this.datetimeService.getDateTimeFromDateTimeDeltaMinutes(this.formModel.logsDateFrom,
+      this.formModel.logsTimeFrom, -10);
     this.queryParams.startTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
@@ -447,6 +450,9 @@ export class LogsPageComponent implements OnInit {
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.searchEndTime;
     this.searchEndTime += Milliseconds.IN_TEN_MINUTES;
+    [this.formModel.logsDateTo, this.formModel.logsTimeTo] =
+    this.datetimeService.getDateTimeFromDateTimeDeltaMinutes(this.formModel.logsDateTo,
+      this.formModel.logsTimeTo, 10);
     this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }

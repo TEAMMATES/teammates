@@ -1,9 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ResourceEndpoints } from '../types/api-const';
-import { AccountCreateRequest } from '../types/api-request';
 import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
+import { ResourceEndpoints } from '../types/api-const';
+import { AccountCreateRequest } from '../types/api-request';
 
 describe('AccountService', () => {
   let spyHttpRequestService: any;
@@ -11,12 +12,7 @@ describe('AccountService', () => {
   const id: string = 'TestID';
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,

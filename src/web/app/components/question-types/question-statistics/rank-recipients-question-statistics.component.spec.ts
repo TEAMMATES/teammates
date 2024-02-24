@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Response } from './question-statistics';
+import { RankRecipientsQuestionStatisticsComponent } from './rank-recipients-question-statistics.component';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRankRecipientsResponseDetails,
 } from '../../../../types/api-output';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
-import { Response } from './question-statistics';
-import { RankRecipientsQuestionStatisticsComponent } from './rank-recipients-question-statistics.component';
 
 describe('RankRecipientsQuestionStatisticsComponent', () => {
   let component: RankRecipientsQuestionStatisticsComponent;

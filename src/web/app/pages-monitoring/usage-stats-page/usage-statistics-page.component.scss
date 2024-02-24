@@ -1,12 +1,12 @@
 .bg-form {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
 }
 
 .no-border {
   border: 0;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .col-4 {
     width: auto;
   }

@@ -68,7 +68,7 @@ export class SessionsRecycleBinTableComponent {
     this.sortRecycleBinFeedbackSessionRowsEvent.emit(by);
   }
 
-  getAriaSort(by: SortBy): String {
+  getAriaSort(by: SortBy): string {
     if (by !== this.recycleBinFeedbackSessionRowModelsSortBy) {
       return 'none';
     }

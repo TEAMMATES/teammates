@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CoursesSectionQuestions } from './courses-section-questions';
 import { environment } from '../../../../environments/environment';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import { CoursesSectionQuestions } from './courses-section-questions';
 
 /**
  * Courses section of the Instructor Help Page

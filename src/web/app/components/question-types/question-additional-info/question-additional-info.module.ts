@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { ConstsumOptionsQuestionAdditionalInfoComponent } from './constsum-options-question-additional-info.component';
 import {
   ConstsumRecipientsQuestionAdditionalInfoComponent,
@@ -13,6 +12,7 @@ import { RankOptionsQuestionAdditionalInfoComponent } from './rank-options-quest
 import { RankRecipientsQuestionAdditionalInfoComponent } from './rank-recipients-question-additional-info.component';
 import { RubricQuestionAdditionalInfoComponent } from './rubric-question-additional-info.component';
 import { TextQuestionAdditionalInfoComponent } from './text-question-additional-info.component';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 
 /**
  * Module for all additional info components for all different question types.

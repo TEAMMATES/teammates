@@ -53,6 +53,15 @@
             "otherFieldContent": "",
             "questionType": "MCQ"
           },
+          "participantComment": {
+            "feedbackResponseCommentId": 365,
+            "commentText": "Student 1 comment",
+            "createdAt": 1451692740000,
+            "lastEditedAt": 1451692740000,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
+          },
           "instructorComments": []
         },
         {

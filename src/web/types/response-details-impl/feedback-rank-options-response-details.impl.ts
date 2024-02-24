@@ -1,8 +1,8 @@
+import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
   FeedbackQuestionType, FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
 } from '../api-output';
-import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackRankOptionsResponseDetails}.

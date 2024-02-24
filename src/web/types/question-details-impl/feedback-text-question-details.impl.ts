@@ -1,8 +1,8 @@
+import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   FeedbackQuestionType,
   FeedbackTextQuestionDetails,
 } from '../api-output';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackTextQuestionDetails}.

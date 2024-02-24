@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RouterTestingModule } from '@angular/router/testing';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { CourseRelatedInfoComponent } from './course-related-info.component';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 describe('CourseRelatedInfoComponent', () => {
   let component: CourseRelatedInfoComponent;

@@ -1,5 +1,5 @@
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed" [message]="'Failed to load course'" (retryEvent)="loadCourseInfo()">
-  <div *tmIsLoading="isCourseLoading" class="card bg-light top-padded text-center">
+  <div *tmIsLoading="isCourseLoading">
   <tm-course-edit-form
     [formMode]="CourseEditFormMode.EDIT"
     [(formModel)]="courseFormModel"

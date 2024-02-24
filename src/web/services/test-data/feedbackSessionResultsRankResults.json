@@ -296,6 +296,15 @@
             "answer": "No Response",
             "questionType": "TEXT"
           },
+          "participantComment": {
+            "feedbackResponseCommentId": 177,
+            "commentText": "Student 5 comment",
+            "createdAt": 1237497658010,
+            "lastEditedAt": 2245905638000,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
+          },
           "instructorComments": []
         },
         {
@@ -566,6 +575,15 @@
               -999
             ],
             "questionType": "RANK_OPTIONS"
+          },
+          "participantComment": {
+            "feedbackResponseCommentId": 177,
+            "commentText": "Student 1 comment",
+            "createdAt": 1237497658010,
+            "lastEditedAt": 2245905638000,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
           },
           "instructorComments": []
         },

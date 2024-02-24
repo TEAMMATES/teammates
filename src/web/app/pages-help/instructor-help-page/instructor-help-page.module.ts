@@ -4,6 +4,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { ExampleBoxModule } from './example-box/example-box.module';
+import {
+  InstructorHelpCoursesSectionComponent,
+} from './instructor-help-courses-section/instructor-help-courses-section.component';
+import {
+  InstructorHelpGeneralSectionComponent,
+} from './instructor-help-general-section/instructor-help-general-section.component';
+import { InstructorHelpPageComponent } from './instructor-help-page.component';
+import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
+import {
+  InstructorHelpQuestionsSectionComponent,
+} from './instructor-help-questions-section/instructor-help-questions-section.component';
+import {
+  InstructorHelpSessionsSectionComponent,
+} from './instructor-help-sessions-section/instructor-help-sessions-section.component';
+import {
+  InstructorHelpStudentsSectionComponent,
+} from './instructor-help-students-section/instructor-help-students-section.component';
 import { AddingQuestionPanelModule } from '../../components/adding-question-panel/adding-question-panel.module';
 import { CommentBoxModule } from '../../components/comment-box/comment-box.module';
 import { CourseRelatedInfoModule } from '../../components/course-related-info/course-related-info.module';
@@ -41,25 +59,6 @@ import {
 import {
   InstructorSessionResultViewModule,
 } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
-
-import { ExampleBoxModule } from './example-box/example-box.module';
-import {
-  InstructorHelpCoursesSectionComponent,
-} from './instructor-help-courses-section/instructor-help-courses-section.component';
-import {
-  InstructorHelpGeneralSectionComponent,
-} from './instructor-help-general-section/instructor-help-general-section.component';
-import { InstructorHelpPageComponent } from './instructor-help-page.component';
-import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
-import {
-  InstructorHelpQuestionsSectionComponent,
-} from './instructor-help-questions-section/instructor-help-questions-section.component';
-import {
-  InstructorHelpSessionsSectionComponent,
-} from './instructor-help-sessions-section/instructor-help-sessions-section.component';
-import {
-  InstructorHelpStudentsSectionComponent,
-} from './instructor-help-students-section/instructor-help-students-section.component';
 
 const routes: Routes = [
   {

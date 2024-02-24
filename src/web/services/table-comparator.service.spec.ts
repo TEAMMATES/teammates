@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { TableComparatorService } from './table-comparator.service';
 import { InstructorPermissionRole } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
-import { TableComparatorService } from './table-comparator.service';
 
 describe('SortableService', () => {
   let service: TableComparatorService;

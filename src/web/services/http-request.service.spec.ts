@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 import { HttpRequestService } from './http-request.service';
+import { environment } from '../environments/environment';
+import createSpyFromClass from '../test-helpers/create-spy-from-class';
 
 describe('HttpRequestService', () => {
   const backendUrl: string = environment.backendUrl;
@@ -12,12 +13,7 @@ describe('HttpRequestService', () => {
   let service: HttpRequestService;
 
   beforeEach(() => {
-    spyHttpClient = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpClient = createSpyFromClass(HttpRequestService);
     spyHttpClient.get.mockReturnValue(new Observable<ArrayBuffer>());
     TestBed.configureTestingModule({
       providers: [
