@@ -26,7 +26,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         }
         testData = loadDataBundle("/AdminSearchPageE2ETest.json");
         sqlTestData = removeAndRestoreSqlDataBundle(
-            loadSqlDataBundle("/AdminSearchPageE2ETest_SqlEntities.json"));
+            loadSqlDataBundle("/AdminSearchPageE2ETest_SQLEntities.json"));
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
     }
