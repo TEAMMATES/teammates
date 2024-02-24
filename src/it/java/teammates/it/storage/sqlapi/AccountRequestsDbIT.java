@@ -6,12 +6,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 
 /**
- * SUT: {@link CoursesDb}.
+ * SUT: {@link AccountRequestsDb}.
  */
 public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
@@ -87,5 +88,46 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         AccountRequest actual = accountRequestDb.getAccountRequest(
                 accountRequest.getEmail(), accountRequest.getInstitute());
         verifyEquals(accountRequest, actual);
+    }
+
+    @Test
+    public void testSqlInjectionInEmailField() throws Exception {
+        ______TS("SQL Injection test in email field");
+    
+        // Attempt to use SQL commands in email field
+        String email = "name'; DROP TABLE AccountRequest; --@gmail.com";
+        AccountRequest accountRequest = new AccountRequest(email, "name", "institute");
+    
+        // The regex check should fail and throw an exception
+        assertThrows(InvalidParametersException.class,
+                () -> accountRequestDb.createAccountRequest(accountRequest));
+    }
+    
+    @Test
+    public void testSqlInjectionInNameField() throws Exception {
+        ______TS("SQL Injection test in name field");
+    
+        // Attempt to use SQL commands in name field
+        String name = "name'; SELECT * FROM AccountRequest; --";
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", name, "institute");
+    
+        // The system should treat the input as a plain text string
+        accountRequestDb.createAccountRequest(accountRequest);
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        assertEquals(name, actual.getName());
+    }
+    
+    @Test
+    public void testSqlInjectionInInstituteField() throws Exception {
+        ______TS("SQL Injection test in institute field");
+    
+        // Attempt to use SQL commands in institute field
+        String institute = "institute'; DROP TABLE AccountRequest; --";
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", institute);
+    
+        // The system should treat the input as a plain text string
+        accountRequestDb.createAccountRequest(accountRequest);
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), institute);
+        assertEquals(institute, actual.getInstitute());
     }
 }
