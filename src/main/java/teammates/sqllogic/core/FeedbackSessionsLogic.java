@@ -172,7 +172,25 @@ public final class FeedbackSessionsLogic {
 
         Set<String> giverSet = new HashSet<>();
 
+
         fqLogic.getFeedbackQuestionsForSession(feedbackSession).forEach(question -> {
+            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
+                giverSet.add(response.getGiver());
+            });
+        });
+
+        return giverSet;
+    }
+
+    /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession fs) {
+        assert fs != null;
+
+        Set<String> giverSet = new HashSet<>();
+
+        fqLogic.getFeedbackQuestionsForSession(fs).forEach(question -> {
             frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
                 giverSet.add(response.getGiver());
             });
