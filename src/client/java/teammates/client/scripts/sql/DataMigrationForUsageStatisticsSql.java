@@ -11,6 +11,10 @@ public class DataMigrationForUsageStatisticsSql extends
         teammates.storage.entity.UsageStatistics,
         UsageStatistics> {
 
+    public static void main(String[] args) {
+        new DataMigrationForUsageStatisticsSql().doOperationRemotely();
+    }
+
     @Override
     protected Query<teammates.storage.entity.UsageStatistics> getFilterQuery() {
         // returns all UsageStatistics entities
@@ -22,7 +26,7 @@ public class DataMigrationForUsageStatisticsSql extends
      */
     @Override
     protected boolean isPreview() {
-        return true;
+        return false;
     }
 
     /**
