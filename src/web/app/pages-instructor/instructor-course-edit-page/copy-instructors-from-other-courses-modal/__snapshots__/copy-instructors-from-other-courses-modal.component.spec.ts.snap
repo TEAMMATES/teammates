@@ -5,7 +5,6 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -81,13 +80,17 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
             class="card-header-btn-toolbar"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
         </div>
@@ -142,7 +145,6 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -218,13 +220,17 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
             class="card-header-btn-toolbar"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
         </div>
@@ -316,7 +322,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                       <td>
                         <div>
                           <input
-                            class="form-control no-shadow ng-untouched ng-pristine ng-valid"
+                            class="form-check-input no-shadow ng-untouched ng-pristine ng-valid"
                             id="enabled-checkbox"
                             type="checkbox"
                           />
@@ -339,7 +345,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                       <td>
                         <div>
                           <input
-                            class="form-control no-shadow ng-untouched ng-pristine ng-valid"
+                            class="form-check-input no-shadow ng-untouched ng-pristine ng-valid"
                             id="enabled-checkbox"
                             type="checkbox"
                           />
@@ -402,7 +408,6 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -478,13 +483,17 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
             class="card-header-btn-toolbar"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-up"
+                  style="color: white;"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
         </div>
@@ -536,7 +545,6 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -612,13 +620,17 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
             class="card-header-btn-toolbar"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="false"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-down"
+                  style="color: white;"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
         </div>
@@ -640,13 +652,17 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
             class="card-header-btn-toolbar"
           >
             <tm-panel-chevron>
-              <div
-                class="chevron"
+              <button
+                aria-expanded="false"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
               >
                 <i
                   class="fas fa-chevron-down"
+                  style="color: white;"
                 />
-              </div>
+              </button>
             </tm-panel-chevron>
           </div>
         </div>
@@ -679,7 +695,6 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}

@@ -19,24 +19,6 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
 
     /**
-     * Validates the questionType of the corresponding question.
-     */
-    void validQuestionForCommentInSubmission(FeedbackQuestionAttributes feedbackQuestion) {
-        if (!feedbackQuestion.getQuestionDetailsCopy().isFeedbackParticipantCommentsOnResponsesAllowed()) {
-            throw new InvalidHttpParameterException("Invalid question type for comment in submission");
-        }
-    }
-
-    /**
-     * Validates the questionType of the corresponding question.
-     */
-    void validQuestionForCommentInSubmission(FeedbackQuestion feedbackQuestion) {
-        if (!feedbackQuestion.getQuestionDetailsCopy().isFeedbackParticipantCommentsOnResponsesAllowed()) {
-            throw new InvalidHttpParameterException("Invalid question type for comment in submission");
-        }
-    }
-
-    /**
      * Validates comment doesn't exist of corresponding response.
      */
     void verifyCommentNotExist(String feedbackResponseId) throws InvalidOperationException {

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -35,7 +36,6 @@ import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
-import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -111,6 +111,7 @@ describe('SessionResultPageComponent', () => {
     courseid: 'CS3281',
     fsname: 'Peer Feedback',
     key: 'reg-key',
+    previewas: '',
   };
 
   beforeEach(waitForAsync(() => {
@@ -235,6 +236,18 @@ describe('SessionResultPageComponent', () => {
       studentDeadlines: {},
       instructorDeadlines: {},
     };
+    component.questions = [];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when previewing results', () => {
+    component.intent = Intent.STUDENT_RESULT;
+    component.regKey = '';
+    component.previewAsPerson = 'alice2@tmt.tmt';
+    component.personName = 'Alice2';
+    component.personEmail = 'alice2@tmt.tmt';
+    component.session = testFeedbackSession;
     component.questions = [];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -378,7 +391,9 @@ describe('SessionResultPageComponent', () => {
       otherResponses: [],
       isLoading: false,
       isLoaded: false,
-      hasResponse: true,
+      hasResponse: false,
+      hasResponseButNotVisibleForPreview: false,
+      hasCommentNotVisibleForPreview: false,
     };
 
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
@@ -393,6 +408,7 @@ describe('SessionResultPageComponent', () => {
       feedbackSessionName: testQueryParams['fsname'],
       intent: Intent.STUDENT_RESULT,
       key: testQueryParams['key'],
+      previewAs: testQueryParams['previewas'],
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

@@ -1569,4 +1569,12 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       ],
     ],
   } as FeedbackRubricQuestionDetails,
+  hasResponseChangedForRecipients: new Map<string, boolean>([
+    ['alice', false],
+    ['bob', false],
+  ]),
+  isTabExpandedForRecipients: new Map<string, boolean>([
+    ['alice', true],
+    ['bob', true],
+  ]),
 };

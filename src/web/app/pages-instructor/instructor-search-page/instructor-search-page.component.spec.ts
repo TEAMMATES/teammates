@@ -3,13 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { HttpRequestService } from '../../../services/http-request.service';
-import { ResourceEndpoints } from '../../../types/api-const';
-import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
-import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { InstructorSearchPageModule } from './instructor-search-page.module';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
+import { HttpRequestService } from '../../../services/http-request.service';
+import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
+import { ResourceEndpoints } from '../../../types/api-const';
+import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import { StudentListRowModel } from '../../components/student-list/student-list.component';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -55,12 +56,7 @@ describe('InstructorSearchPageComponent', () => {
   };
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
+    spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [

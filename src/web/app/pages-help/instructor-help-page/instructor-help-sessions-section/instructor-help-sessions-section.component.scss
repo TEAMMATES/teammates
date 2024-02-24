@@ -1,9 +1,9 @@
 .background-color-light-blue {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
 }
 
 .background-color-light-green {
-  background-color: #E0EEEE;
+  background-color: #e0eeee;
 }
 
 .preview-select {
@@ -13,8 +13,8 @@
 
 .ui-text {
   font-weight: bold;
-  color: #908B8B;
-  background-color: #E6E9E9;
+  color: #908b8b;
+  background-color: #e6e9e9;
   font-size: 13px;
   padding-left: 1%;
   padding-right: 1%;
@@ -33,7 +33,7 @@
 }
 
 .bg-info {
-  background-color: #E5E5E6 !important;
+  background-color: #e5e5e6 !important;
 }
 
 .instr-help-qn-first {
@@ -58,22 +58,22 @@ button {
     display: none;
   }
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     .fa-anchor {
       display: block;
       cursor: pointer;
     }
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     &:hover {
       .fa-anchor {
         display: block;
-        opacity: 30%;
+        opacity: 0.3;
         cursor: pointer;
 
         &:hover {
-          opacity: 100%;
+          opacity: 1;
         }
       }
     }
@@ -86,7 +86,7 @@ button {
   padding-left: 0;
 
   li::before {
-    content: "Alternative " counter(elementcounter) ": ";
+    content: 'Alternative ' counter(elementcounter) ': ';
     counter-increment: elementcounter;
   }
 }

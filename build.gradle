@@ -76,7 +76,7 @@ dependencies {
     implementation("org.eclipse.jetty:jetty-annotations")
     implementation("org.jsoup:jsoup:1.15.2")
     implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
-    implementation("org.postgresql:postgresql:42.5.2")
+    implementation("org.postgresql:postgresql:42.7.2")
 
     testAnnotationProcessor(testng)
 
@@ -464,9 +464,8 @@ def afterTestClosure = { descriptor, result ->
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
             process.waitFor()
-            def deleteCommand = isWindows ? "del" : "rm"
-            "${deleteCommand} ${expectedFileName}".execute()
-            "${deleteCommand} ${actualFileName}".execute()
+            delete expectedFileName
+            delete actualFileName
         } else {
             println "${result.exception.getClass().getName()}: ${result.exception.getMessage()}"
         }
@@ -584,18 +583,22 @@ task componentTests(type: Test) {
 }
 
 task e2eTests {
-    description "Runs the full E2E test suite and retries failed test up to ${numOfTestRetries} times."
+    description "Runs the E2E test suite and retries failed test up to ${numOfTestRetries} times."
     group "Test"
 }
 
 (1..numOfTestRetries + 1).each { id ->
     def isFirstTry = id == 1
     def isLastRetry = id == numOfTestRetries + 1
+    def runUnstableTests = project.hasProperty('unstable')
+    def outputFileName = runUnstableTests ? "e2e-unstable-test-try-" : "e2e-test-try-"
 
     task "e2eTestTry${id}"(type: Test) {
         useTestNG()
-        options.suites isFirstTry ? "src/e2e/resources/testng-e2e.xml" : file("${buildDir}/reports/e2e-test-try-${id - 1}/testng-failed.xml")
-        options.outputDirectory = file("${buildDir}/reports/e2e-test-try-${id}")
+        options.suites isFirstTry
+                ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e.xml" : "src/e2e/resources/testng-e2e.xml")
+                : file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml")
+        options.outputDirectory = file("${buildDir}/reports/${outputFileName}${id}")
         options.useDefaultListeners = true
         ignoreFailures = !isLastRetry
         maxHeapSize = "1g"
@@ -610,7 +613,7 @@ task e2eTests {
             afterSuite checkTestNgFailureClosure
         }
         onlyIf {
-            isFirstTry || file("${buildDir}/reports/e2e-test-try-${id - 1}/testng-failed.xml").exists()
+            isFirstTry || file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml").exists()
         }
     }
     e2eTests.dependsOn "e2eTestTry${id}"

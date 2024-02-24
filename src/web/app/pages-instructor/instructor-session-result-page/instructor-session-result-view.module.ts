@@ -3,6 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
+import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
+import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
+import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
+import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
+import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -20,12 +26,6 @@ import {
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
-import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
-import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
-import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
-import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
-import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 
 /**
  * Module for different view components of instructor session results page.

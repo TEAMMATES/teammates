@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
+import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
+import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
@@ -9,8 +11,6 @@ import { ApiConst } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, Student } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
-import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
 
 /**
  * Instructor search page.

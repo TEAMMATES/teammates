@@ -7,14 +7,16 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 table-responsive">
+    <div class="col-sm-12 table-responsive mb-4">
       <tm-sortable-table [columns]="summaryColumnsData" [rows]="summaryRowsData"></tm-sortable-table>
     </div>
     <div class="col-sm-12 table-responsive" *ngIf="question.hasAssignedWeights" style="margin-top: 20px;">
       <strong class="text-color-gray">
         Per Recipient Statistics
       </strong>
-      <tm-sortable-table [columns]="perRecipientColumnsData" [rows]="perRecipientRowsData" [initialSortBy]="SortBy.MCQ_WEIGHT_AVERAGE"></tm-sortable-table>
+      <div class="mb-4">
+        <tm-sortable-table [columns]="perRecipientColumnsData" [rows]="perRecipientRowsData" [initialSortBy]="SortBy.MCQ_WEIGHT_AVERAGE"></tm-sortable-table>
+      </div>
     </div>
   </div>
 </div>
