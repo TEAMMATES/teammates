@@ -636,6 +636,28 @@ public class Logic {
     }
 
     /**
+     * Gets the expected number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getExpectedTotalSubmission(fs);
+    }
+
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getActualTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getActualTotalSubmission(fs);
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
