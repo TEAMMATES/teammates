@@ -1,0 +1,24 @@
+title: "Help Request: [summary of your problem]"
+body:
+- type: textarea
+  attributes:
+    label: "Environment"
+    description: "Describe your environment."
+    value: |
+      - **Commit SHA:** <!-- Result of running the command `git rev-parse HEAD` -->
+      - **Operating System:**
+      - **JDK Version:**
+      - **Node.js Version:**
+      - **Firefox / Chrome Version (if applicable):**
+- type: textarea
+  attributes:
+    label: "Intention"
+    description: "Describe what you are trying to do or needing help for."
+    value: |
+      <!-- e.g. if you were setting up the project, tell us the step in the setting up guide at which you are stuck. -->
+      <!-- e.g. if you were resolving test failures, tell us which tests are failing. -->
+      <!-- Include information such as screenshots, error stack traces, or console messages to help us troubleshoot. -->
+- type: textarea
+  attributes:
+    label: "Resolution Attempt"
+    description: "Tell us the steps you have taken to try to (unsuccessfully) resolve the problem and the outcomes."

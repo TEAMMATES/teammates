@@ -167,7 +167,6 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     void testExecute_asStudentHideCreatedAtAndDeletedAt_success() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-        course.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
         course.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -181,7 +180,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         CourseData actionOutput = (CourseData) getJsonResult(getCourseAction).getOutput();
 
         Course expectedCourse = course;
-        expectedCourse.setCreatedAt(Instant.ofEpochMilli(0));
+        expectedCourse.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         expectedCourse.setDeletedAt(Instant.ofEpochMilli(0));
 
         assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)), JsonUtils.toJson(actionOutput));

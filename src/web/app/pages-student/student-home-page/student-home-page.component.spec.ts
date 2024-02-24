@@ -1,8 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { StudentHomePageComponent } from './student-home-page.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import {
@@ -16,11 +18,11 @@ import {
 } from '../../../types/api-output';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
-import { StudentHomePageComponent } from './student-home-page.component';
 
 const studentCourseA: any = {
   course: {
@@ -80,6 +82,10 @@ const studentCourseA: any = {
       isSubmitted: true,
     },
   ],
+  isFeedbackSessionsLoading: false,
+  hasFeedbackSessionsLoadingFailed: false,
+  isTabExpanded: true,
+  hasPopulated: true,
 };
 
 const studentCourseB: any = {
@@ -140,6 +146,10 @@ const studentCourseB: any = {
       isSubmitted: true,
     },
   ],
+  isFeedbackSessionsLoading: false,
+  hasFeedbackSessionsLoadingFailed: false,
+  isTabExpanded: true,
+  hasPopulated: true,
 };
 
 const studentCourseC: any = {
@@ -200,17 +210,23 @@ const studentCourseC: any = {
       isSubmitted: true,
     },
   ],
+  isFeedbackSessionsLoading: false,
+  hasFeedbackSessionsLoadingFailed: false,
+  isTabExpanded: true,
+  hasPopulated: true,
 };
 
 const studentCourses: Courses = {
-  courses: [{
-    courseId: 'CS1231',
-    courseName: 'Discrete Structures',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
-    deletionTimestamp: 0,
-  }],
+  courses: [
+    {
+      courseId: 'CS1231',
+      courseName: 'Discrete Structures',
+      institute: 'Test Institute',
+      timeZone: 'Asia/Singapore',
+      creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
+      deletionTimestamp: 0,
+    },
+  ],
 };
 
 const studentFeedbackSessions: FeedbackSessions = {
@@ -280,11 +296,7 @@ describe('StudentHomePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StudentHomePageComponent,
-        ResponseStatusPipe,
-        SubmissionStatusPipe,
-      ],
+      declarations: [StudentHomePageComponent, ResponseStatusPipe, SubmissionStatusPipe],
       imports: [
         HttpClientTestingModule,
         NgbModule,
@@ -293,9 +305,11 @@ describe('StudentHomePageComponent', () => {
         LoadingSpinnerModule,
         LoadingRetryModule,
         TeammatesRouterModule,
+        NgbCollapseModule,
+        BrowserAnimationsModule,
+        PanelChevronModule,
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -494,7 +508,7 @@ describe('StudentHomePageComponent', () => {
             sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
             isClosingEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
@@ -507,6 +521,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: true,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: true,
+      hasPopulated: true,
     };
 
     component.courses = [studentCourse];
@@ -553,6 +571,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: false,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: true,
+      hasPopulated: true,
     };
 
     component.courses = [studentCourse];
@@ -599,6 +621,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: false,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: true,
+      hasPopulated: true,
     };
 
     component.courses = [studentCourse];
@@ -644,6 +670,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: true,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: true,
+      hasPopulated: true,
     };
 
     component.courses = [studentCourse];
@@ -689,6 +719,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: true,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: true,
+      hasPopulated: true,
     };
 
     component.courses = [studentCourse];
@@ -791,6 +825,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: true,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: true,
+      hasPopulated: true,
     };
 
     component.courses = [studentCourse];
@@ -864,6 +902,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: true,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: true,
+      hasPopulated: true,
     };
 
     component.courses = [studentCourse];

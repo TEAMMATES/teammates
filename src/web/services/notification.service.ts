@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   MessageOutput,
@@ -13,7 +14,6 @@ import {
   NotificationCreateRequest,
   NotificationUpdateRequest,
 } from '../types/api-request';
-import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles notification related logic injection

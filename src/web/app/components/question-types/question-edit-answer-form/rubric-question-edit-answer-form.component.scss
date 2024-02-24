@@ -1,18 +1,18 @@
 .row-answered {
-  background-color: #DFF0D8;
+  background-color: #dff0d8;
 }
 
 .answer-cell:hover {
-  background-color: #D9EDF7 !important;
+  background-color: #d9edf7 !important;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .desktop-view {
     display: none;
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .mobile-view {
     display: none;
   }

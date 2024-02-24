@@ -16,6 +16,11 @@ export class NumScaleQuestionStatisticsCalculation
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
   recipientEmails: Record<string, string> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(question: FeedbackNumericalScaleQuestionDetails) {
+    super(question);
+  }
+
   calculateStatistics(): void {
     this.teamToRecipientToScores = {};
 

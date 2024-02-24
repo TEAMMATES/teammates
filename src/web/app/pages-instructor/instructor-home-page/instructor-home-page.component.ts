@@ -24,13 +24,19 @@ import {
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
+import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
-  SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import {
+  SortableEvent,
+  SortableTableHeaderColorScheme,
+} from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -65,18 +71,27 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   private static readonly coursesToLoad: number = 3;
   // enum
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
+  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
   SortBy: typeof SortBy = SortBy;
 
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // data
   courseTabModels: CourseTabModel[] = [];
+  allCoursesList: Course[] = [];
 
   hasCoursesLoaded: boolean = false;
   hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
+  isCopyingCourse: boolean = false;
+
+  numberOfSessionsCopied = 0;
+  totalNumberOfSessionsToCopy = 0;
+  copyProgressPercentage = 0;
+
+  initialSortBy = SortBy.SESSION_END_DATE;
+  sortOrder = SortOrder.DESC;
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
@@ -120,6 +135,120 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
+   * Initializes course tab model data on load.
+   */
+  initializeCourseTabModule(course: Course): void {
+    const model: CourseTabModel = {
+        course,
+        instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
+        sessionsTableRowModels: [],
+        isTabExpanded: false,
+        isAjaxSuccess: true,
+        hasPopulated: false,
+        hasLoadingFailed: false,
+        sessionsTableRowModelsSortBy: SortBy.NONE,
+        sessionsTableRowModelsSortOrder: SortOrder.ASC,
+      };
+
+    this.courseTabModels.push(model);
+  }
+
+  /**
+   * Creates a copy of a course including the selected sessions.
+   */
+  onCopy(courseId: string, courseName: string, timeZone: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorToast('Course is not found!');
+      return;
+    }
+
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe({
+      next: (response: FeedbackSessions) => {
+        const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+        modalRef.componentInstance.oldCourseId = courseId;
+        modalRef.componentInstance.oldCourseName = courseName;
+        modalRef.componentInstance.allCourses = this.allCoursesList;
+        modalRef.componentInstance.newTimeZone = timeZone;
+        modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
+        modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
+        modalRef.result.then((result: CopyCourseModalResult) => this.createCopiedCourse(result), () => {
+        });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+
+  /**
+   * Creates a new course with the selected feedback sessions
+   */
+  createCopiedCourse(result: CopyCourseModalResult): void {
+    this.isCopyingCourse = true;
+    this.modifiedSession = {};
+    this.numberOfSessionsCopied = 0;
+    this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
+    this.copyProgressPercentage = 0;
+
+    this.courseService.createCourse(result.newCourseInstitute, {
+      courseName: result.newCourseName,
+      timeZone: result.newTimeZone,
+      courseId: result.newCourseId,
+    })
+    .subscribe({
+      next: () => {
+        // Wrap in a Promise to wait for all feedback sessions to be copied
+        const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
+          if (result.selectedFeedbackSessionList.size === 0) {
+            this.progressBarService.updateProgress(100);
+            resolve();
+
+            return;
+          }
+
+          result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
+            this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId, result.oldCourseId)
+                .pipe(finalize(() => {
+                  this.numberOfSessionsCopied += 1;
+                  this.copyProgressPercentage =
+                      Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+                  this.progressBarService.updateProgress(this.copyProgressPercentage);
+
+                  if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
+                    resolve();
+                  }
+                }))
+                .subscribe();
+            });
+          });
+
+        promise.then(() => {
+          this.courseService
+              .getCourseAsInstructor(result.newCourseId)
+              .subscribe((course: Course) => {
+                this.allCoursesList.push(course);
+                this.initializeCourseTabModule(course);
+                this.sortCoursesBy(this.instructorCoursesSortBy);
+                this.isCopyingCourse = false;
+                if (Object.keys(this.modifiedSession).length > 0) {
+                  this.coursesOfModifiedSession = [];
+                  this.simpleModalService.openInformationModal('Note On Modified Session Timings',
+                      SimpleModalType.WARNING, this.modifiedTimestampsModal);
+                } else {
+                  this.statusMessageService.showSuccessToast('The course has been added.');
+                }
+              });
+        });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        this.isCopyingCourse = false;
+        this.hasCoursesLoadingFailed = true;
+      },
+    });
+  }
+
+  /**
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
@@ -137,8 +266,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
             return model.course.courseId !== courseId;
           });
-          this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
-            You can retrieve it from the Courses page.`);
+          this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived. `
+             + 'You can retrieve it from the Courses page.');
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -171,6 +300,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       });
     }, () => {});
   }
+
   /**
    * Loads courses of current instructor.
    */
@@ -185,19 +315,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         .subscribe({
           next: (courses: Courses) => {
             courses.courses.forEach((course: Course) => {
-              const model: CourseTabModel = {
-                course,
-                instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
-                sessionsTableRowModels: [],
-                isTabExpanded: false,
-                isAjaxSuccess: true,
-                hasPopulated: false,
-                hasLoadingFailed: false,
-                sessionsTableRowModelsSortBy: SortBy.NONE,
-                sessionsTableRowModelsSortOrder: SortOrder.ASC,
-              };
-
-              this.courseTabModels.push(model);
+              this.allCoursesList.push(course);
+              this.initializeCourseTabModule(course);
             });
             this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
             this.sortCoursesBy(this.instructorCoursesSortBy);
@@ -207,38 +326,55 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
+    this.courseService.getAllCoursesAsInstructor('archived').subscribe({
+      next: (resp: Courses) => {
+        this.allCoursesList.push(...resp.courses);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasCoursesLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+    this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
+      next: (resp: Courses) => {
+        this.allCoursesList.push(...resp.courses);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasCoursesLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
    * Loads the feedback session in the course and sorts them according to end date.
    */
-  loadFeedbackSessions(index: number): void {
-    const model: CourseTabModel = this.courseTabModels[index];
+  loadFeedbackSessions(rowIndex: Index): void {
+    const model: CourseTabModel = this.courseTabModels[rowIndex];
     model.hasLoadingFailed = false;
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
-          .subscribe({
-            next: (response: FeedbackSessions) => {
-              response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
-                const m: SessionsTableRowModel = {
-                  feedbackSession,
-                  responseRate: '',
-                  isLoadingResponseRate: false,
-                  instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
-                };
-                model.sessionsTableRowModels.push(m);
-              });
-              model.hasPopulated = true;
-              if (!model.isAjaxSuccess) {
-                model.isAjaxSuccess = true;
-              }
-            },
-            error: (resp: ErrorMessageOutput) => {
-              model.hasLoadingFailed = true;
-              this.statusMessageService.showErrorToast(resp.error.message);
-            },
-            complete: () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE),
-          });
+        .subscribe({
+          next: (response: FeedbackSessions) => {
+            response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+              const m: SessionsTableRowModel = {
+                feedbackSession,
+                responseRate: '',
+                isLoadingResponseRate: false,
+                instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
+              };
+              model.sessionsTableRowModels.push(m);
+            });
+            model.hasPopulated = true;
+            if (!model.isAjaxSuccess) {
+              model.isAjaxSuccess = true;
+            }
+          },
+          error: (resp: ErrorMessageOutput) => {
+            model.hasLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
     }
   }
 
@@ -313,27 +449,26 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModelsEvent(tabIndex: number, by: SortBy): void {
+  sortSessionsTableRowModelsEvent(tabIndex: number, event: SortableEvent): void {
     const tab: CourseTabModel = this.courseTabModels[tabIndex];
-
-    tab.sessionsTableRowModelsSortBy = by;
-    // reverse the sort order
-    tab.sessionsTableRowModelsSortOrder =
-        tab.sessionsTableRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    tab.sessionsTableRowModels.sort(this.sortModelsBy(by, tab.sessionsTableRowModelsSortOrder));
+    tab.sessionsTableRowModelsSortOrder = event.sortOrder;
+    tab.sessionsTableRowModelsSortBy = event.sortBy;
+    tab.sessionsTableRowModels.sort(this.sortModelsBy(event.sortBy, event.sortOrder));
   }
 
   /**
    * Loads response rate of a feedback session.
    */
-  loadResponseRateEventHandler(tabIndex: number, rowIndex: number): void {
-    this.loadResponseRate(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
+  loadResponseRateEventHandler(tabIndex: number, rowIndex: Index): void {
+    this.loadResponseRate((models: SessionsTableRowModel[]): void => {
+      this.courseTabModels[tabIndex].sessionsTableRowModels = [...models];
+    }, this.courseTabModels[tabIndex].sessionsTableRowModels, rowIndex);
   }
 
   /**
    * Moves the feedback session to the recycle bin.
    */
-  moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: number): void {
+  moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: Index): void {
     const model: SessionsTableRowModel = this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex];
 
     this.feedbackSessionsService.moveSessionToRecycleBin(
@@ -364,7 +499,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
+      this.copySingleSession(requestList[0].pipe(finalize(() => {
+        this.isCopyLoading = false;
+      })), this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -394,28 +531,30 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   /**
    * Submits the feedback session as instructor.
    */
-  submitSessionAsInstructorEventHandler(tabIndex: number, rowIndex: number): void {
+  submitSessionAsInstructorEventHandler(tabIndex: number, rowIndex: Index): void {
     this.submitSessionAsInstructor(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
 
   /**
    * Publishes a feedback session.
    */
-  publishSessionEventHandler(tabIndex: number, rowIndex: number): void {
-    this.publishSession(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
+  publishSessionEventHandler(tabIndex: number, event: MutateEvent): void {
+    const model = this.courseTabModels[tabIndex].sessionsTableRowModels[event.idx];
+    this.publishSession(model, event.rowData, event.columnsData);
   }
 
   /**
    * Unpublishes a feedback session.
    */
-  unpublishSessionEventHandler(tabIndex: number, rowIndex: number): void {
-    this.unpublishSession(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
+  unpublishSessionEventHandler(tabIndex: number, event: MutateEvent): void {
+    const model = this.courseTabModels[tabIndex].sessionsTableRowModels[event.idx];
+    this.unpublishSession(model, event.rowData, event.columnsData);
   }
 
   /**
    * Downloads the result of a feedback session in csv.
    */
-  downloadSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
+  downloadSessionResultEventHandler(tabIndex: number, rowIndex: Index): void {
     this.downloadSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
 }

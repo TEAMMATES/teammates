@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionResponse } from './question-response';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -7,7 +8,6 @@ import {
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { QuestionResponse } from './question-response';
 
 /**
  * Numerical scale question response.

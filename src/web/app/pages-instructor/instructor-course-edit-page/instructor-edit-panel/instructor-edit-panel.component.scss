@@ -1,11 +1,11 @@
 .fill-plain {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
 }
 
 .control-label {
   font-weight: 700;
 
-  @media (min-width: 576px) {
+  @media (width >= 576px) {
     text-align: right;
   }
 }
@@ -15,5 +15,5 @@
 }
 
 .margin-bottom-label {
-  margin-bottom: .5rem; // same margin as label
+  margin-bottom: 0.5rem; // same margin as label
 }

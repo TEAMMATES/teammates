@@ -3,7 +3,6 @@
 exports[`CopySessionModalComponent should snap with default fields 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
@@ -44,15 +43,26 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
         >
           <label>
             <b>
-              Name for copied session
+              Name for copied session*
             </b>
           </label>
           <input
-            class="form-control ng-untouched ng-pristine ng-valid"
+            class="form-control ng-untouched ng-pristine ng-invalid"
             id="copy-session-name"
             maxlength="64"
+            required=""
             type="text"
           />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field "Name for copied session" should not be empty. 
+          </div>
           <span>
             64 characters left
           </span>
@@ -83,7 +93,6 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
 exports[`CopySessionModalComponent should snap with some session and courses candidates 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
@@ -124,15 +133,26 @@ exports[`CopySessionModalComponent should snap with some session and courses can
         >
           <label>
             <b>
-              Name for copied session
+              Name for copied session*
             </b>
           </label>
           <input
-            class="form-control ng-untouched ng-pristine ng-valid"
+            class="form-control ng-untouched ng-pristine ng-invalid"
             id="copy-session-name"
             maxlength="64"
+            required=""
             type="text"
           />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field "Name for copied session" should not be empty. 
+          </div>
           <span>
             52 characters left
           </span>
