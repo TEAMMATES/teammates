@@ -67,7 +67,7 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public void verifyNotificationsTableRow(NotificationAttributes notification) {
-        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+        WebElement notificationRow = getNotificationRow(notification);
         verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
     }
 
@@ -121,7 +121,26 @@ public class AdminNotificationsPage extends AppPage {
         WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
         if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
             click(creationTimeHeader);
+            click(creationTimeHeader);
         }
+    }
+
+    public void sortNotificationsTableByAscendingCreateTime() {
+        WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
+        if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
+            click(creationTimeHeader);
+        }
+    }
+
+    private WebElement getNotificationRow(NotificationAttributes notification) {
+        List<WebElement> notificationRows = notificationsTable.findElements(By.cssSelector("tbody tr"));
+        for (WebElement notificationRow : notificationRows) {
+            List<WebElement> notificationCells = notificationRow.findElements(By.tagName("td"));
+            if (notificationCells.get(0).getText().equals(notification.getTitle())) {
+                return notificationRow;
+            }
+        }
+        return null;
     }
 
     private void clickAddNotificationButton() {
