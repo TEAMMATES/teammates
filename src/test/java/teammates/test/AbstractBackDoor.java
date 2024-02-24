@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
@@ -28,6 +29,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -268,7 +272,7 @@ public abstract class AbstractBackDoor {
     /**
      * Removes and restores given data in the database. This method is to be called on test startup.
      */
-    public String removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
+    public SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
         removeSqlDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
@@ -276,7 +280,11 @@ public abstract class AbstractBackDoor {
             throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
                     + putRequestOutput.responseBody);
         }
-        return putRequestOutput.responseBody;
+
+        JsonObject jsonObject = JsonParser.parseString(putRequestOutput.responseBody).getAsJsonObject();
+        // data bundle is nested under message key
+        String message = jsonObject.get("message").getAsString();
+        return JsonUtils.fromJson(message, SqlDataBundle.class);
     }
 
     /**
@@ -342,9 +350,9 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets an account from the database.
+     * Gets account data from the database.
      */
-    public AccountAttributes getAccount(String googleId) {
+    public AccountData getAccountData(String googleId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.INSTRUCTOR_ID, googleId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT, params);
@@ -352,7 +360,14 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        AccountData accountData = JsonUtils.fromJson(response.responseBody, AccountData.class);
+        return JsonUtils.fromJson(response.responseBody, AccountData.class);
+    }
+
+    /**
+     * Gets an account from the database.
+     */
+    public AccountAttributes getAccount(String googleId) {
+        AccountData accountData = getAccountData(googleId);
         return AccountAttributes.builder(accountData.getGoogleId())
                 .withName(accountData.getName())
                 .withEmail(accountData.getEmail())
@@ -883,6 +898,15 @@ public abstract class AbstractBackDoor {
     public void deleteNotification(String notificationId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
+        executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Deletes a notification from the database.
+     */
+    public void deleteNotification(UUID notificationId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
     }
 

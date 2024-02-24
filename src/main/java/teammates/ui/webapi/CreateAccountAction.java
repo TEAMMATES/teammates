@@ -71,7 +71,7 @@ public class CreateAccountAction extends Action {
         try {
             // persists sample data such as course, students, instructor and feedback sessions
             courseId = importAndPersistDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter here
             // EntityAlreadyExistsException should not be thrown as the generated demo course id should not exist.
             // If it is thrown, some programming error is the cause.
@@ -138,7 +138,7 @@ public class CreateAccountAction extends Action {
      */
     private String importAndPersistDemoData(String instructorEmail, String instructorName,
             String instructorInstitute, String timezone)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();
