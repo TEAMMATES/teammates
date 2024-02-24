@@ -15,20 +15,26 @@ public class FeedbackResponsesData extends ApiOutput {
     private List<FeedbackResponseData> responses;
 
     private FeedbackResponsesData(List<FeedbackResponseData> responses) {
-        // Disabled, use static methods for initialization instead.
-    }
-
-    // TODO: When deleting Attributes, make constructor to be createFromEntity
-    public static FeedbackResponsesData createFromAttributes(List<FeedbackResponseAttributes> responses) {
-        return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList()));
-    }
-
-    public static FeedbackResponsesData createFromEntity(List<FeedbackResponse> responses) {
-        return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList()));
+        this.responses = responses;
     }
 
     public FeedbackResponsesData() {
         responses = Collections.emptyList();
+    }
+
+    /**
+     *  Creates FeedbackResponsesData from a list of FeedbackResponseAttributes.
+     *  TODO: When deleting Attributes, rename createFromEntity to be constructor.
+     */
+    public static FeedbackResponsesData createFromAttributes(List<FeedbackResponseAttributes> responses) {
+        return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList()));
+    }
+
+    /**
+     *  Creates FeedbackResponsesData from a list of FeedbackResponse.
+     */
+    public static FeedbackResponsesData createFromEntity(List<FeedbackResponse> responses) {
+        return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList()));
     }
 
     public void setResponses(List<FeedbackResponseData> responses) {

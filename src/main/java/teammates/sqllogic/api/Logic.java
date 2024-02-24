@@ -417,6 +417,14 @@ public class Logic {
     }
 
     /**
+     * Gets a list of deadline extensions with endTime coming up soon
+     * and possibly need a closing email to be sent.
+     */
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
+        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
@@ -496,6 +504,13 @@ public class Logic {
     public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
+    }
+
+    /**
+     * Returns a list of sessions that require automated emails to be sent as they are published.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
     }
 
     /**
@@ -1217,6 +1232,15 @@ public class Logic {
     }
 
     /**
+     * Creates or updates search document for the given account request.
+     *
+     * @see AccountRequestsLogic#putDocument(AccountRequest)
+     */
+    public void putAccountRequestDocument(AccountRequest accountRequest) throws SearchServiceException {
+        accountRequestLogic.putDocument(accountRequest);
+    }
+
+    /**
      * Removes the given data bundle from the database.
      */
     public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
@@ -1297,13 +1321,13 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the response already exist
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-        throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert feedbackResponse != null;
         return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
     }
 
     /**
-     * Deletes a feedback response cascade its associated comments.
+     * Deletes a feedback response and cascades its associated comments.
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
@@ -1467,6 +1491,20 @@ public class Logic {
     }
 
     /**
+     * Returns a list of feedback sessions that need an "Open" email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    }
+
+    /**
+     * Returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
      * Creates or updates search document for the given student.
      *
      * @see UsersLogic#putStudentDocument(Student)
@@ -1485,5 +1523,19 @@ public class Logic {
         assert queryString != null;
 
         return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Returns a list of sessions that are going to close soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+    }
+
+    /**
+     * Returns a list of sessions that are going to open soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
     }
 }
