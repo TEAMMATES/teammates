@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         SqlSessionResultsBundle bundle =
                 new SqlSessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
+                        new HashSet<>(),
+                        new HashSet<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(),
                         new HashMap<>(),
@@ -66,6 +69,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         SqlSessionResultsBundle bundle =
                 new SqlSessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
+                        new HashSet<>(),
+                        new HashSet<>(),
                         new ArrayList<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new HashMap<>(),
@@ -121,6 +126,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         SqlSessionResultsBundle bundle =
                 new SqlSessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
+                        new HashSet<>(),
+                        new HashSet<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(),
                         responseGiverVisibilityTable,
@@ -153,6 +160,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         SqlSessionResultsBundle bundle =
                 new SqlSessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
+                        new HashSet<>(),
+                        new HashSet<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(),
                         new HashMap<>(),

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -17,6 +18,8 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 public class SqlSessionResultsBundle {
 
     private final List<FeedbackQuestion> questions;
+    private final Set<FeedbackQuestion> questionsNotVisibleForPreviewSet;
+    private final Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet;
     private final Map<FeedbackQuestion, List<FeedbackResponse>> questionResponseMap;
     private final Map<FeedbackQuestion, List<FeedbackResponse>> questionMissingResponseMap;
     private final Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap;
@@ -26,6 +29,8 @@ public class SqlSessionResultsBundle {
     private final SqlCourseRoster roster;
 
     public SqlSessionResultsBundle(List<FeedbackQuestion> questions,
+                                Set<FeedbackQuestion> questionsNotVisibleForPreviewSet,
+                                Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet,
                                 List<FeedbackResponse> responses,
                                 List<FeedbackResponse> missingResponses,
                                 Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
@@ -35,6 +40,8 @@ public class SqlSessionResultsBundle {
                                 SqlCourseRoster roster) {
 
         this.questions = questions;
+        this.questionsNotVisibleForPreviewSet = questionsNotVisibleForPreviewSet;
+        this.questionsWithCommentNotVisibleForPreviewSet = questionsWithCommentNotVisibleForPreviewSet;
         this.responseCommentsMap = responseCommentsMap;
         this.responseGiverVisibilityTable = responseGiverVisibilityTable;
         this.responseRecipientVisibilityTable = responseRecipientVisibilityTable;
@@ -153,5 +160,13 @@ public class SqlSessionResultsBundle {
 
     public Map<Long, Boolean> getCommentGiverVisibilityTable() {
         return commentGiverVisibilityTable;
+    }
+
+    public Set<FeedbackQuestion> getQuestionsNotVisibleForPreviewSet() {
+        return questionsNotVisibleForPreviewSet;
+    }
+
+    public Set<FeedbackQuestion> getQuestionsWithCommentNotVisibleForPreviewSet() {
+        return questionsWithCommentNotVisibleForPreviewSet;
     }
 }

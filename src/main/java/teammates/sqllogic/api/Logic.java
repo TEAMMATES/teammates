@@ -1231,13 +1231,13 @@ public class Logic {
      */
     public SqlSessionResultsBundle getSessionResultsForUser(
             FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
-            @Nullable UUID questionId) {
+            @Nullable UUID questionId, boolean isPreviewResults) {
         assert feedbackSession != null;
         assert courseId != null;
         assert userEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, courseId, userEmail, isInstructor, questionId);
+                feedbackSession, courseId, userEmail, isInstructor, questionId, isPreviewResults);
     }
 
     /**

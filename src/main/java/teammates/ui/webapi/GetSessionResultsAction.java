@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import javax.ws.rs.HEAD;
-
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SqlSessionResultsBundle;
@@ -199,7 +197,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             instructor = getPossiblyUnregisteredSqlInstructor(courseId);
 
             bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, instructor.getEmail(),
-                    true, questionUuid);
+                    true, questionUuid, isPreviewResults);
 
             // Build a fake student object, as the results will be displayed as if they are displayed to a student
             student = new Student(instructor.getCourse(), instructor.getName(), instructor.getEmail(), "");
@@ -211,7 +209,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             student = getSqlStudentOfCourseFromRequest(courseId);
 
             bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, student.getEmail(),
-                    false, questionUuid);
+                    false, questionUuid, isPreviewResults);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case INSTRUCTOR_SUBMISSION:
