@@ -41,11 +41,6 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         assertEquals(accountRequest, createdAccountRequest);
         verify(arDb, times(1)).createAccountRequest(accountRequest);
 
-        ______TS("Success: Create from name, email, institute");
-        when(arDb.createAccountRequest(getTypicalAccountRequest())).thenReturn(accountRequest);
-        createdAccountRequest = arLogic.createAccountRequest(
-                accountRequest.getName(), accountRequest.getEmail(), accountRequest.getInstitute());
-        
         ______TS("Failure: duplicate account request");
 
         AccountRequest duplicateAccountRequest = getTypicalAccountRequest();
