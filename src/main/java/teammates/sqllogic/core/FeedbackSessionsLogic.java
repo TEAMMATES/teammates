@@ -9,7 +9,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -168,10 +167,27 @@ public final class FeedbackSessionsLogic {
         FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
 
         Set<String> giverSet = new HashSet<>();
-        
+
         // TODO: to check if this is the correct way to get the giver set
         feedbackSession.getFeedbackQuestions().forEach(question -> {
             question.getFeedbackResponses().forEach(response -> {
+                giverSet.add(response.getGiver());
+            });
+        });
+
+        return giverSet;
+    }
+
+    /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession fs) {
+        assert fs != null;
+
+        Set<String> giverSet = new HashSet<>();
+
+        fqLogic.getFeedbackQuestionsForSession(fs).forEach(question -> {
+            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
                 giverSet.add(response.getGiver());
             });
         });
@@ -389,7 +405,7 @@ public final class FeedbackSessionsLogic {
             session.setPublishedEmailSent(session.isPublished());
         }
     }
-    
+
     /**
      * Gets the expected number of submissions for a feedback session.
      */
@@ -398,10 +414,11 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
             expectedTotal += usersLogic.getStudentsForCourse(fs.getCourse().getId()).size();
+            // usersLogic.getUn
         }
 
         // Pre-flight check to ensure there are questions for instructors.
-        if (!fqLogic.hasFeedbackQuestionsForInstructors(fs.getFeedbackQuestions(), true)) {
+        if (!fqLogic.hasFeedbackQuestionsForInstructors(questions, true)) {
             return expectedTotal;
         }
 
@@ -427,6 +444,6 @@ public final class FeedbackSessionsLogic {
      * Gets the actual number of submissions for a feedback session.
      */
     public int getActualTotalSubmission(FeedbackSession fs) {
-        return getGiverSetThatAnsweredFeedbackSession(fs.getCourse().getId(), fs.getName()).size();
+        return getGiverSetThatAnsweredFeedbackSession(fs).size();
     }
 }

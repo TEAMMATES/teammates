@@ -3,8 +3,8 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionStatsData;
 
 /**
@@ -41,7 +41,7 @@ public class GetSessionResponseStatsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-       if (isCourseMigrated(courseId)) {
+        if (isCourseMigrated(courseId)) {
             FeedbackSession fsa = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
             int expectedTotal = sqlLogic.getExpectedTotalSubmission(fsa);
             int actualTotal = sqlLogic.getActualTotalSubmission(fsa);

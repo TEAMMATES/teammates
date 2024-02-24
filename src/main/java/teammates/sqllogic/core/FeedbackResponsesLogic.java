@@ -251,6 +251,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets all responses given by a user for a question.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesForQuestion(UUID feedbackQuestionId) {
+        return frDb.getResponsesForQuestion(feedbackQuestionId);
+    }
+
+    /**
      * Updates the relevant responses before the deletion of a student.
      * This method takes care of the following:
      * Making existing responses of 'rank recipient question' consistent.

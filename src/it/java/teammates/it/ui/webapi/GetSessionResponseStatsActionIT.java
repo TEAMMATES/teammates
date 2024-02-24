@@ -6,12 +6,11 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionStatsData;
 import teammates.ui.webapi.GetSessionResponseStatsAction;
 import teammates.ui.webapi.JsonResult;
-
 
 /**
  * SUT: {@link GetSessionResponseStatsAction}.
@@ -20,12 +19,12 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
 
     @Override
     @BeforeMethod
-       protected void setUp() throws Exception {
-           super.setUp();
-           persistDataBundle(typicalBundle);
-           HibernateUtil.flushSession();
-       }
-    
+    protected void setUp() throws Exception {
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
+    }
+
     @Override
     String getActionUri() {
         return Const.ResourceURIs.SESSION_STATS;
@@ -51,12 +50,11 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
         };
 
         GetSessionResponseStatsAction a = getAction(submissionParams);
-        // TODO: current throws error at getGiverSetThatAnsweredFeedbackSession
         JsonResult r = getJsonResult(a);
 
         FeedbackSessionStatsData output = (FeedbackSessionStatsData) r.getOutput();
-        assertEquals(10, output.getExpectedTotal());
-        assertEquals(5, output.getSubmittedTotal());
+        assertEquals(7, output.getExpectedTotal());
+        assertEquals(3, output.getSubmittedTotal());
 
         ______TS("fail: instructor accesses stats of non-existent feedback session");
 
