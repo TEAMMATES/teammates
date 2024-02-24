@@ -14,7 +14,7 @@
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt",
       "readNotifications": {
-        "642c4480-ae5e-4292-85ef-b7fb1b0a683": "2011-02-02T00:00:00Z"
+        "642c4480-ae5e-4292-85ef-b7fb1b0a683f": "2011-02-02T00:00:00Z"
       }
     },
     "helperOfCourse1": {
@@ -1982,7 +1982,6 @@
       "createdAt": "2011-01-01T00:00:00Z"
     }
   },
-
   "notifications": {
     "notification1": {
       "notificationId": "bbc6ced5-3d54-41f7-b7bb-843fd8166173",
