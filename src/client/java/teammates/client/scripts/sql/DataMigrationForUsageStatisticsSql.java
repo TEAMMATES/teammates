@@ -26,7 +26,7 @@ public class DataMigrationForUsageStatisticsSql extends
      */
     @Override
     protected boolean isPreview() {
-        return false;
+        return true;
     }
 
     /**
