@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { StudentViewResponsesComponent } from './student-view-responses.component';
 import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
-import { StudentViewResponsesComponent } from './student-view-responses.component';
 
 describe('StudentViewResponsesComponent', () => {
   let component: StudentViewResponsesComponent;

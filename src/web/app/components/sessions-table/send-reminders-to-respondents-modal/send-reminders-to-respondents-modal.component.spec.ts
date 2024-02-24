@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal.component';
+import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 
 @Component({ selector: 'tm-ajax-preload', template: '' })
 class AjaxPreloadComponent {}

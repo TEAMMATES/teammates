@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { ErrorReportComponent } from './error-report.component';
+import { HttpRequestService } from '../../../services/http-request.service';
 
 describe('ErrorReportComponent', () => {
   let component: ErrorReportComponent;
@@ -76,5 +76,11 @@ describe('ErrorReportComponent', () => {
   it('should snap with default view', () => {
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should disable error reporting if CSRF error message is detected', () => {
+      component.errorMessage = 'Missing CSRF token.';
+      component.ngOnInit();
+      expect(component.errorReportEnabled).toBe(false);
+    });
 
 });

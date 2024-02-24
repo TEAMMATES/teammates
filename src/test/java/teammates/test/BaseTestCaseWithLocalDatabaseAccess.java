@@ -214,4 +214,8 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         }
     }
 
+    protected void clearObjectifyCache() {
+        ObjectifyService.ofy().clear();
+    }
+
 }

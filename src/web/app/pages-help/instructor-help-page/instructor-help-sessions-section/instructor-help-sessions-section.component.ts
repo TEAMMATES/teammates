@@ -1,4 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  EXAMPLE_COMMENT_EDIT_FORM_MODEL,
+  EXAMPLE_COURSE_CANDIDATES,
+  EXAMPLE_FEEDBACK_SESSION,
+  EXAMPLE_GRQ_RESPONSES,
+  EXAMPLE_INSTRUCTORS,
+  EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL,
+  EXAMPLE_QUESTIONS_WITH_RESPONSES,
+  EXAMPLE_RECYCLE_BIN_FEEDBACK_SESSIONS,
+  EXAMPLE_RESPONSE,
+  EXAMPLE_RESPONSE_WITH_COMMENT,
+  EXAMPLE_SESSION_EDIT_FORM_MODEL,
+  EXAMPLE_STUDENTS,
+  EXAMPLE_TEMPLATE_SESSIONS,
+} from './instructor-help-sessions-data';
+import { SessionsSectionQuestions } from './sessions-section-questions';
 import { environment } from '../../../../environments/environment';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
@@ -31,22 +47,6 @@ import {
 import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/session-result-page.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import {
-  EXAMPLE_COMMENT_EDIT_FORM_MODEL,
-  EXAMPLE_COURSE_CANDIDATES,
-  EXAMPLE_FEEDBACK_SESSION,
-  EXAMPLE_GRQ_RESPONSES,
-  EXAMPLE_INSTRUCTORS,
-  EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL,
-  EXAMPLE_QUESTIONS_WITH_RESPONSES,
-  EXAMPLE_RECYCLE_BIN_FEEDBACK_SESSIONS,
-  EXAMPLE_RESPONSE,
-  EXAMPLE_RESPONSE_WITH_COMMENT,
-  EXAMPLE_SESSION_EDIT_FORM_MODEL,
-  EXAMPLE_STUDENTS,
-  EXAMPLE_TEMPLATE_SESSIONS,
-} from './instructor-help-sessions-data';
-import { SessionsSectionQuestions } from './sessions-section-questions';
 
 /**
  * Sessions Section of the Instructor Help Page.

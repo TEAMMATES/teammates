@@ -1,4 +1,6 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -7,8 +9,6 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
-import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
-import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
 /**
  * Abstract component for all different view type components of instructor sessions result page.

@@ -77,7 +77,9 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
-  isLoading: boolean = false;
+  isLoadingActiveCourses: boolean = false;
+  isLoadingArchivedCourses: boolean = false;
+  isLoadingSoftDeletedCourses: boolean = false;
   hasLoadingFailed: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
@@ -126,7 +128,9 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   loadInstructorCourses(): void {
     this.hasLoadingFailed = false;
-    this.isLoading = true;
+    this.isLoadingActiveCourses = true;
+    this.isLoadingArchivedCourses = true;
+    this.isLoadingSoftDeletedCourses = true;
     this.activeCourses = [];
     this.archivedCourses = [];
     this.softDeletedCourses = [];
@@ -150,10 +154,10 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.activeCourses.push(activeCourse);
         });
         this.activeCoursesDefaultSort();
-        this.isLoading = false;
+        this.isLoadingActiveCourses = false;
       },
       error: (resp: ErrorMessageOutput) => {
-        this.isLoading = false;
+        this.isLoadingActiveCourses = false;
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
@@ -176,8 +180,10 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.archivedCourses.push(archivedCourse);
           this.archivedCoursesDefaultSort();
         }
+        this.isLoadingArchivedCourses = false;
       },
       error: (resp: ErrorMessageOutput) => {
+        this.isLoadingArchivedCourses = false;
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
@@ -204,8 +210,10 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.canRestoreAll = false;
           }
         }
+        this.isLoadingSoftDeletedCourses = false;
       },
       error: (resp: ErrorMessageOutput) => {
+        this.isLoadingSoftDeletedCourses = false;
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
@@ -260,8 +268,8 @@ export class InstructorCoursesPageComponent implements OnInit {
       next: (courseArchive: CourseArchive) => {
         if (courseArchive.isArchived) {
           this.changeModelFromActiveToArchived(courseId);
-          this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived.
-          It will not appear on the home page anymore.`);
+          this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived. `
+          + 'It will not appear on the home page anymore.');
         } else {
           this.changeModelFromArchivedToActive(courseId);
           this.statusMessageService.showSuccessToast('The course has been unarchived.');
@@ -802,7 +810,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
   }
 
-  getAriaSortActive(by: SortBy): String {
+  getAriaSortActive(by: SortBy): string {
     if (by !== this.activeTableSortBy) {
       return 'none';
     }
@@ -828,7 +836,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
   }
 
-  getAriaSortArchived(by: SortBy): String {
+  getAriaSortArchived(by: SortBy): string {
     if (by !== this.archivedTableSortBy) {
       return 'none';
     }
@@ -854,7 +862,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }
 
-  getAriaSortDeleted(by: SortBy): String {
+  getAriaSortDeleted(by: SortBy): string {
     if (by !== this.deletedTableSortBy) {
       return 'none';
     }

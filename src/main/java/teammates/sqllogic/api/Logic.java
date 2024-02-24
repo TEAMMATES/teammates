@@ -1489,6 +1489,13 @@ public class Logic {
     }
 
     /**
+     * Returns a list of feedback sessions that need an "Open" email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    }
+
+    /**
      * Returns a list of sessions that were closed within past hour.
      */
     public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {

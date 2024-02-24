@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import {
   ConstsumOptionsQuestionEditDetailsFormComponent,
@@ -24,6 +22,8 @@ import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipient
 import { RubricQuestionEditDetailsFormComponent } from './rubric-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 
 /**
  * Module for all different types of question edit details forms.

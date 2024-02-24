@@ -82,12 +82,16 @@
         <br/>
         <div class="row text-center">
           <div class="col-md-2 text-md-end font-bold">
-            <span *ngIf="formMode === SessionEditFormMode.ADD" class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name</span>
+            <span *ngIf="formMode === SessionEditFormMode.ADD" class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name*</span>
             <span *ngIf="formMode !== SessionEditFormMode.ADD">Session Name</span>
           </div>
           <div class="col-md-10 text-md-start">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
-              <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="64" />
+              <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="64" required #sessionName="ngModel" />
+              <div [hidden]="sessionName.valid || (sessionName.pristine && sessionName.untouched)" class="invalid-field">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                The field Session Name should not be empty.
+              </div>
               <div>
                 {{FEEDBACK_SESSION_NAME_MAX_LENGTH - model.feedbackSessionName.length}} characters left
               </div>
@@ -101,7 +105,7 @@
             <span class="ngb-tooltip-class" ngbTooltip="Will be displayed at the top of the page when users respond to the session.">Instructions</span>
           </div>
           <div class="col-md-10 text-md-start">
-            <tm-rich-text-editor id="instructions" [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable"></tm-rich-text-editor>
+            <tm-rich-text-editor id="instructions" [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable" [hasCharacterLimit]="true"></tm-rich-text-editor>
           </div>
         </div>
         <br/>
@@ -135,7 +139,7 @@
             </div>
             <div class="row text-center align-items-center">
               <div id="submission-start-date" class="col-md-7 col-xs-center">
-                <tm-datepicker [isDisabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('submissionStartDate', $event)"
+                <tm-datepicker [isDisabled]="!model.isEditable" (dateChangeCallback)="triggerSubmissionOpeningDateModelChange('submissionStartDate', $event)"
                                [minDate]="minDateForSubmissionStart" [maxDate]="maxDateForSubmissionStart"
                                [date]="model.submissionStartDate"></tm-datepicker>
               </div>
@@ -173,8 +177,8 @@
           </div>
           <div class="col-md-4 border-left-gray">
             <div class="row text-center">
-              <div class="ngb-tooltip-class col-12 text-md-start ms-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
-                <label for="grace-period" class="control-label font-bold">
+              <div class="col-12 text-md-start ms-md-2">
+                <label for="grace-period" class="ngb-tooltip-class control-label font-bold" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
                   Grace period
                 </label>
               </div>
@@ -339,7 +343,7 @@
       <div class="col-12 text-center">
         <span class="loader"></span>
         <div *ngIf="formMode === SessionEditFormMode.ADD">
-          <button id="btn-create-session" type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving" (click)="submitFormHandler()">
+          <button id="btn-create-session" type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving || !model.feedbackSessionName" (click)="submitFormHandler()">
             <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Create Feedback Session
           </button>
           <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>

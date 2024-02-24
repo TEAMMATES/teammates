@@ -6,14 +6,12 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.BaseE2ETestCase;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
-import teammates.e2e.util.AxeUtil;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
  */
-public class InstructorCourseEditPageAxeTest extends BaseE2ETestCase {
+public class InstructorCourseEditPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
@@ -29,8 +27,8 @@ public class InstructorCourseEditPageAxeTest extends BaseE2ETestCase {
         InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class,
                 testData.instructors.get("ICEdit.coowner.CS2104").getGoogleId());
 
-        Results results = AxeUtil.AXE_BUILDER.analyze(editPage.getBrowser().getDriver());
-        assertTrue(AxeUtil.formatViolations(results), results.violationFree());
+        Results results = getAxeBuilder().analyze(editPage.getBrowser().getDriver());
+        assertTrue(formatViolations(results), results.violationFree());
     }
 
 }

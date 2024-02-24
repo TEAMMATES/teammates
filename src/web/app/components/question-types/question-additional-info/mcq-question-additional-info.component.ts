@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { QuestionAdditionalInfo } from './question-additional-info';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
 } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
  * Additional info for MCQ questions.

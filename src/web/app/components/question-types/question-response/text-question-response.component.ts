@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuestionResponse } from './question-response';
 import {
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
@@ -7,7 +8,6 @@ import {
   DEFAULT_TEXT_QUESTION_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { QuestionResponse } from './question-response';
 
 /**
  * Text question response.

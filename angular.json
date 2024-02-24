@@ -26,7 +26,6 @@
             "polyfills": "src/web/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": [
-              "core-js",
               "moment-timezone"
             ],
             "assets": [

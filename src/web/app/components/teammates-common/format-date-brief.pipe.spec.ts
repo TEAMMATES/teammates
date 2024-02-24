@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { TimezoneService } from '../../../services/timezone.service';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
+import { TimezoneService } from '../../../services/timezone.service';
 
 describe('FormatDateBriefPipe', () => {
   beforeEach(() => {

@@ -1,31 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import {
-  ContributionStatistics,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackNumericalScaleResponseDetails,
-  FeedbackSession,
-  ResponseOutput,
-} from '../../../../types/api-output';
-import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
-import {
-  QuestionEditFormMode,
-  QuestionEditFormModel,
-} from '../../../components/question-edit-form/question-edit-form-model';
-import {
-  QuestionSubmissionFormModel,
-} from '../../../components/question-submission-form/question-submission-form-model';
-import { Response } from '../../../components/question-types/question-statistics/question-statistics';
-import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
-import {
-  QuestionTabModel,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
-import { Sections } from '../sections';
-import {
   EXAMPLE_CONTRIBUTION_STATISTICS,
   EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
   EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL,
@@ -59,6 +33,32 @@ import {
   EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT,
 } from './instructor-help-questions-data';
 import { QuestionsSectionQuestions } from './questions-section-questions';
+import {
+  ContributionStatistics,
+  FeedbackConstantSumQuestionDetails,
+  FeedbackNumericalScaleResponseDetails,
+  FeedbackSession,
+  ResponseOutput,
+} from '../../../../types/api-output';
+import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
+import {
+  QuestionEditFormMode,
+  QuestionEditFormModel,
+} from '../../../components/question-edit-form/question-edit-form-model';
+import {
+  QuestionSubmissionFormModel,
+} from '../../../components/question-submission-form/question-submission-form-model';
+import { Response } from '../../../components/question-types/question-statistics/question-statistics';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import {
+  QuestionTabModel,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import {
+  InstructorSessionResultSectionType,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { Sections } from '../sections';
 
 /**
  * Questions Section of the Instructor Help Page.

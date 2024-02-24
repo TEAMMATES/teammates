@@ -1,10 +1,10 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import {
   RankOptionsQuestionStatisticsCalculation,
 } from './question-statistics-calculation/rank-options-question-statistics-calculation';
+import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for rank options questions.

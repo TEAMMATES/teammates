@@ -1,10 +1,10 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import {
   MsqQuestionStatisticsCalculation,
 } from './question-statistics-calculation/msq-question-statistics-calculation';
+import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for MSQ questions.
