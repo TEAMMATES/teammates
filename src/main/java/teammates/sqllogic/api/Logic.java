@@ -1231,7 +1231,7 @@ public class Logic {
      * Persists the given data bundle to the database.
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
 
