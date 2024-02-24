@@ -53,10 +53,8 @@ public class DataMigrationForAccountRequestSql extends DataMigrationEntitiesBase
             newEntity.setRegisteredAt(oldEntity.getRegisteredAt());
         }
 
-        // set createdAt to the old value if exists
-        if (oldEntity.getCreatedAt() != null) {
-            newEntity.setCreatedAt(oldEntity.getCreatedAt());
-        }
+        // for the createdAt, the Hibernate annotation will auto generate the value always
+        // even if we set it.
 
         // for the updatedAt, we will let the db auto generate since this is the latest update time
         // is during the migration
