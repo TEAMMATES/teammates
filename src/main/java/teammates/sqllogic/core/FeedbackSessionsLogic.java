@@ -174,7 +174,7 @@ public final class FeedbackSessionsLogic {
 
         fqLogic.getFeedbackQuestionsForSession(feedbackSession).forEach(question -> {
             frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
+                giverSet.add(response.getGiver().getEmail());
             });
         });
 
@@ -191,7 +191,7 @@ public final class FeedbackSessionsLogic {
 
         fqLogic.getFeedbackQuestionsForSession(fs).forEach(question -> {
             frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
+                giverSet.add(response.getGiver().getEmail());
             });
         });
 
