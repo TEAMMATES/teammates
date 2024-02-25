@@ -25,8 +25,6 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
             accountRequests = sqlLogic.searchAccountRequestsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            accountRequests = new ArrayList<>();
         }
 
         List<AccountRequestAttributes> requestsDatastore;
@@ -34,8 +32,6 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
             requestsDatastore = logic.searchAccountRequestsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            requestsDatastore = new ArrayList<>();
         }
 
         List<AccountRequestData> accountRequestDataList = new ArrayList<>();

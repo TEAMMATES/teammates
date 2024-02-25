@@ -25,9 +25,6 @@ public class SearchInstructorsAction extends AdminOnlyAction {
             instructors = sqlLogic.searchInstructorsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            // Solr search service is not active
-            instructors = new ArrayList<>();
         }
 
         // Catching of NullPointerException for both Solr searches below is necessary for running of tests.
@@ -45,9 +42,6 @@ public class SearchInstructorsAction extends AdminOnlyAction {
             instructorsDatastore = logic.searchInstructorsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            // Solr search service is not active
-            instructorsDatastore = new ArrayList<>();
         }
 
         List<InstructorData> instructorDataList = new ArrayList<>();

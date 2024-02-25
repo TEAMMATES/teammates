@@ -223,8 +223,8 @@ abstract class SearchManager<T extends BaseEntity> {
             if (entity == null) {
                 // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem
-                String id = (String) document.getFirstValue("id");
-                deleteDocuments(Collections.singletonList(id));
+                // String id = (String) document.getFirstValue("id");
+                // deleteDocuments(Collections.singletonList(id));
                 continue;
             }
             result.add(entity);

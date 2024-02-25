@@ -49,9 +49,6 @@ public class SearchStudentsAction extends Action {
             }
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            // Solr search service is not active
-            students = new ArrayList<>();
         }
 
         // Search in datastore. For more information on dual db support, see this [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
@@ -67,9 +64,6 @@ public class SearchStudentsAction extends Action {
             }
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            // Solr search service is not active
-            studentsDatastore = new ArrayList<>();
         }
 
         List<StudentData> studentDataList = new ArrayList<>();
