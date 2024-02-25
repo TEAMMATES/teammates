@@ -286,6 +286,18 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData);
 
+    protected void putDocumentsSQL(SqlDataBundle testData) {
+        int retryLimit = OPERATION_RETRY_COUNT;
+        boolean isOperationSuccess = doPutDocuments(testData);
+        while (!isOperationSuccess && retryLimit > 0) {
+            retryLimit--;
+            print("Re-trying putDocumentsSQL");
+            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
+            isOperationSuccess = doPutDocuments(testData);
+        }
+        assertTrue(isOperationSuccess);
+    }
+
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         boolean isOperationSuccess = doPutDocuments(testData);
@@ -300,4 +312,5 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract boolean doPutDocuments(DataBundle testData);
 
+    protected abstract boolean doPutDocuments(SqlDataBundle testData);
 }

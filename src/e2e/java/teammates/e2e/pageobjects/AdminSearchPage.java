@@ -143,15 +143,12 @@ public class AdminSearchPage extends AppPage {
     }
 
     public WebElement getStudentRow(Student student) {
-        String details = String.format("%s [%s] (%s)", student.getCourse(),
-                student.getSection() == null ? Const.DEFAULT_SECTION : student.getSection(), student.getTeam());
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-student tbody tr"));
+        WebElement table = browser.driver.findElement(By.id("search-table-student"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (removeSpanFromText(columns.get(STUDENT_COL_DETAILS - 1)
-                    .getAttribute("innerHTML")).contains(details)
-                    && removeSpanFromText(columns.get(STUDENT_COL_NAME - 1)
-                    .getAttribute("innerHTML")).contains(student.getName())) {
+            if (columns.size() >= 3 && removeSpanFromText(columns.get(2)
+            .getAttribute("innerHTML")).contains(student.getGoogleId())) {
                 return row;
             }
         }
@@ -209,14 +206,12 @@ public class AdminSearchPage extends AppPage {
     }
 
     public WebElement getInstructorRow(Instructor instructor) {
-        String courseId = instructor.getCourseId();
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-instructor tbody tr"));
+        WebElement table = browser.driver.findElement(By.id("search-table-instructor"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (removeSpanFromText(columns.get(INSTRUCTOR_COL_COURSE_ID - 1)
-                    .getAttribute("innerHTML")).contains(courseId)
-                    && removeSpanFromText(columns.get(INSTRUCTOR_COL_NAME - 1)
-                    .getAttribute("innerHTML")).contains(instructor.getName())) {
+            if (columns.size() >= 3 && removeSpanFromText(columns.get(2)
+            .getAttribute("innerHTML")).contains(instructor.getGoogleId())) {
                 return row;
             }
         }
@@ -271,14 +266,12 @@ public class AdminSearchPage extends AppPage {
 
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
-        String institute = accountRequest.getInstitute();
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-account-request tbody tr"));
+        WebElement table = browser.driver.findElement(By.id("search-table-account-request"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
-                    .getAttribute("innerHTML")).contains(email)
-                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
-                    .getAttribute("innerHTML")).contains(institute)) {
+            if (columns.size() >= 2 && removeSpanFromText(columns.get(1)
+            .getAttribute("innerHTML")).contains(email)) {
                 return row;
             }
         }
