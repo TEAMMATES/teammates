@@ -53,7 +53,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
         JsonResult r = getJsonResult(a);
 
         FeedbackSessionStatsData output = (FeedbackSessionStatsData) r.getOutput();
-        assertEquals(7, output.getExpectedTotal());
+        assertEquals(8, output.getExpectedTotal());
         assertEquals(3, output.getSubmittedTotal());
 
         ______TS("fail: instructor accesses stats of non-existent feedback session");
