@@ -36,7 +36,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         testEditPage();
         logout();
         testSubmitPage();
-     }
+    }
 
     @Override
     protected void testEditPage() {
