@@ -36,7 +36,8 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         removeAndRestoreDataBundle(testData);
 
-        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCourseDetailsPageE2ETest_SqlEntities.json"));
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorCourseDetailsPageE2ETest_SqlEntities.json"));
 
         course = testData.courses.get("ICDet.CS2104");
         fileName = "/" + course.getId() + "_studentList.csv";
