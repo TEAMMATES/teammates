@@ -338,18 +338,6 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Data bundle is null");
         }
 
-        dataBundle.feedbackResponseComments.values().forEach(responseComment -> {
-            frcLogic.deleteFeedbackResponseComment(responseComment.getId());
-        });
-
-        dataBundle.feedbackSessions.values().forEach(session -> {
-            fsLogic.deleteFeedbackSessionCascade(session.getName(), session.getCourse().getId());
-        });
-
-        dataBundle.feedbackQuestions.values().forEach(question -> {
-            fqLogic.deleteFeedbackQuestionCascade(question.getId());
-        });
-
         dataBundle.courses.values().forEach(course -> {
             coursesLogic.deleteCourseCascade(course.getId());
         });

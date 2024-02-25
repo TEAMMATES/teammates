@@ -286,7 +286,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData);
 
-    protected void putDocumentsSQL(SqlDataBundle testData) {
+    protected void putDocumentsSql(SqlDataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         boolean isOperationSuccess = doPutDocuments(testData);
         while (!isOperationSuccess && retryLimit > 0) {

@@ -2,19 +2,19 @@
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.ASearch.instr1",
+      "googleId": "tm.e2e.ASearch.instr",
       "name": "Instructor 1",
       "email": "ASearch.instructor1@gmail.tmt"
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000006",
-      "googleId": "unregisteredInstructor1",
+      "googleId": "unregisteredInstructor",
       "name": "Unregistered Instructor 1 of Course1",
       "email": "unregisteredinstructor1@gmail.tmt"
     },
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "googleId": "tm.e2e.ASearch.student1",
+      "googleId": "tm.e2e.ASearch.student",
       "name": "Student1 in course1",
       "email": "ASearch.student1@gmail.tmt"
     }
@@ -25,7 +25,8 @@
       "googleId": "unregisteredInstructor1",
       "name": "Unregistered Instructor 1 of Course1",
       "email": "unregisteredinstructor1@gmail.tmt",
-      "institute":"TEAMMATES Test Institute 0"
+      "institute":"TEAMMATES Test Institute 0",
+      "registeredAt": "2010-02-14T00:00:00Z"
     }
   },
   "courses": {
@@ -65,7 +66,7 @@
         "id": "course-1"
       },
       "name": "Instructor1 of Course1",
-      "email": "ASearch.instructor1@gmail.tmt",
+      "email": "ASearch.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",

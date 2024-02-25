@@ -11,7 +11,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
@@ -147,8 +146,10 @@ public class AdminSearchPage extends AppPage {
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.size() >= 3 && removeSpanFromText(columns.get(2)
-            .getAttribute("innerHTML")).contains(student.getGoogleId())) {
+            if (columns.size() >= 3 && (removeSpanFromText(columns.get(2)
+                    .getAttribute("innerHTML")).contains(student.getGoogleId())
+                    || removeSpanFromText(columns.get(1)
+                    .getAttribute("innerHTML")).contains(student.getName()))) {
                 return row;
             }
         }
@@ -210,8 +211,10 @@ public class AdminSearchPage extends AppPage {
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.size() >= 3 && removeSpanFromText(columns.get(2)
-            .getAttribute("innerHTML")).contains(instructor.getGoogleId())) {
+            if (columns.size() >= 3 && (removeSpanFromText(columns.get(2)
+                    .getAttribute("innerHTML")).contains(instructor.getGoogleId())
+                    || removeSpanFromText(columns.get(1)
+                    .getAttribute("innerHTML")).contains(instructor.getName()))) {
                 return row;
             }
         }
@@ -271,7 +274,7 @@ public class AdminSearchPage extends AppPage {
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (columns.size() >= 2 && removeSpanFromText(columns.get(1)
-            .getAttribute("innerHTML")).contains(email)) {
+                    .getAttribute("innerHTML")).contains(email)) {
                 return row;
             }
         }
@@ -372,6 +375,21 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedHomePageLink, actualHomepageLink);
     }
 
+    public void verifyStudentRowContentAfterReset(Student student, Course course) {
+        WebElement studentRow = getStudentRow(student);
+        String actualName = getStudentName(studentRow);
+        String actualInstitute = getStudentInstitute(studentRow);
+        String actualComment = getStudentComments(studentRow);
+
+        String expectedName = student.getName();
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
+
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedInstitute, actualInstitute);
+        assertEquals(expectedComment, actualComment);
+    }
+
     public void verifyStudentExpandedLinks(Student student, int expectedNumExpandedRows) {
         clickExpandStudentLinks();
         WebElement studentRow = getStudentRow(student);
@@ -407,6 +425,21 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedHomePageLink, actualHomePageLink);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
+    }
+
+    public void verifyInstructorRowContentAfterReset(Instructor instructor, Course course) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        String actualCourseId = getInstructorCourseId(instructorRow);
+        String actualName = getInstructorName(instructorRow);
+        String actualInstitute = getInstructorInstitute(instructorRow);
+
+        String expectedCourseId = instructor.getCourseId();
+        String expectedName = instructor.getName();
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+
+        assertEquals(expectedCourseId, actualCourseId);
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedInstitute, actualInstitute);
     }
 
     public void verifyInstructorExpandedLinks(Instructor instructor) {
