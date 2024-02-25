@@ -77,14 +77,16 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         }
 
         // update only if change
-        boolean hasSameAttributes = this.<Map<String, Instant>>hasSameValue(account.getReadNotifications(),
-                newAttributes.getReadNotifications());
+        boolean hasSameAttributes =
+                this.<Map<String, Instant>>hasSameValue(account.getReadNotifications(), newAttributes.getReadNotifications())
+                && this.hasSameValue(account.isMigrated(), newAttributes.isMigrated());
         if (hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Account.class.getSimpleName(), updateOptions));
             return newAttributes;
         }
 
         account.setReadNotifications(newAttributes.getReadNotifications());
+        account.setMigrated(newAttributes.isMigrated());
 
         saveEntity(account);
 

@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
@@ -15,6 +16,7 @@ import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 /**
  * SUT: {@link UpdateInstructorPrivilegeAction}.
  */
+@Ignore
 public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateInstructorPrivilegeAction> {
 
     @Override

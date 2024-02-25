@@ -1,4 +1,4 @@
-package teammates.ui.output;
+package teammates.common.datatransfer;
 
 import teammates.common.util.Const;
 

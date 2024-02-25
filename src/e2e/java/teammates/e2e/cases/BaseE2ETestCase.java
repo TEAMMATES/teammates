@@ -10,6 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -52,6 +53,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Data to be used in the test.
      */
     protected DataBundle testData;
+
+    /**
+     * Sql Data to be used in the test.
+     */
+    protected SqlDataBundle sqlTestData;
 
     private Browser browser;
 
@@ -350,6 +356,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         } catch (HttpRequestFailedException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    protected SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData) {
+        try {
+            return BACKDOOR.removeAndRestoreSqlDataBundle(testData);
+        } catch (HttpRequestFailedException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

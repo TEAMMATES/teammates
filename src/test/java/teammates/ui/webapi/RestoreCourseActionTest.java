@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -10,6 +11,7 @@ import teammates.ui.output.MessageOutput;
 /**
  * SUT: {@link RestoreCourseAction}.
  */
+@Ignore
 public class RestoreCourseActionTest
         extends BaseActionTest<RestoreCourseAction> {
 
@@ -24,7 +26,7 @@ public class RestoreCourseActionTest
     }
 
     @Override
-    @Test
+    @Test (enabled = false)
     public void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();

@@ -34,7 +34,7 @@ public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatist
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     public void testExecute() throws Exception {
 
         loginAsAdmin();

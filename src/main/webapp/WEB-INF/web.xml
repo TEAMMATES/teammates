@@ -55,7 +55,16 @@
         <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
     </listener>
     <listener>
+        <listener-class>teammates.storage.sqlsearch.SearchManagerStarter</listener-class>
+    </listener>
+    <listener>
         <listener-class>teammates.logic.core.LogicStarter</listener-class>
+    </listener>
+    <listener>
+        <listener-class>teammates.sqllogic.core.LogicStarter</listener-class>
+    </listener>
+    <listener>
+        <listener-class>teammates.ui.servlets.HibernateContextListener</listener-class>
     </listener>
 
     <welcome-file-list>
