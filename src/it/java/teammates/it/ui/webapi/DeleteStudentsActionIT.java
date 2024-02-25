@@ -48,7 +48,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
 
         List<Student> studentsToDelete = logic.getStudentsForCourse(courseId);
 
-        assertEquals(4, studentsToDelete.size());
+        assertEquals(5, studentsToDelete.size());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
