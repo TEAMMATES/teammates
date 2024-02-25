@@ -98,10 +98,6 @@ public class SearchStudentsAction extends Action {
                         s.getGoogleId()
                 );
             }
-            // If the course has been migrated, then the student would have been added already
-            if (isCourseMigrated(studentData.getCourseId())) {
-                continue;
-            }
 
             studentDataList.add(studentData);
         }

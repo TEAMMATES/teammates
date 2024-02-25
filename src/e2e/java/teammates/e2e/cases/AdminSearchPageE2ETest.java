@@ -1,6 +1,7 @@
 package teammates.e2e.cases;
 
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.Test;
 
@@ -27,6 +28,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         testData = loadDataBundle("/AdminSearchPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = loadSqlDataBundle("/AdminSearchPageE2ETest_SqlEntities.json");
+        removeAndRestoreSqlDataBundle(sqlTestData);
         putDocuments(testData);
     }
 

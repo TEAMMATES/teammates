@@ -71,11 +71,6 @@ public class SearchInstructorsAction extends AdminOnlyAction {
                     logic.getCourseInstitute(instructor.getCourseId()),
                     instructor.getGoogleId());
 
-            // If the course has been migrated, then the instructor would have been added already
-            if (isCourseMigrated(instructorData.getCourseId())) {
-                continue;
-            }
-
             instructorDataList.add(instructorData);
         }
 
