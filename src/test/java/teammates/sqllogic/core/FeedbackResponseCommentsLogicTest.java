@@ -101,7 +101,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
         when(frcDb.createFeedbackResponseComment(comment)).thenThrow(EntityAlreadyExistsException.class);
 
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+        assertThrows(EntityAlreadyExistsException.class,
                 () -> frcLogic.createFeedbackResponseComment(comment));
 
     }
