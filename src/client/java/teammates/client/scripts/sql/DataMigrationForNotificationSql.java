@@ -2,6 +2,7 @@ package teammates.client.scripts.sql;
 
 import java.util.UUID;
 
+import teammates.common.util.HibernateUtil;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.entity.Notification;
@@ -25,7 +26,11 @@ public class DataMigrationForNotificationSql extends
 
   @Override
   protected boolean isMigrationNeeded(Notification entity) {
-    return true;
+    HibernateUtil.beginTransaction();
+    teammates.storage.sqlentity.Notification notification = HibernateUtil.get(
+        teammates.storage.sqlentity.Notification.class, UUID.fromString(entity.getNotificationId()));
+    HibernateUtil.commitTransaction();
+    return notification == null;
   }
 
   @Override

@@ -9,28 +9,23 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import teammates.common.util.HibernateUtil;
 
 import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+
+import jakarta.persistence.criteria.CriteriaDelete;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Notification;
 import teammates.test.FileHelper;
 import teammates.storage.sqlentity.ReadNotification;
@@ -83,7 +78,6 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
-        // TODO: detect if account / read notif are migrated or not
         return true;
     }
 
@@ -114,21 +108,30 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
                 oldAccount.getEmail());
 
         entitiesAccountSavingBuffer.add(newAccount);
+        migrateReadNotification(oldAccount, newAccount);
 
-        if (!oldAccount.getReadNotifications().isEmpty()) {
-            for (Map.Entry<String, Instant> entry : oldAccount.getReadNotifications().entrySet()) {
-                HibernateUtil.beginTransaction();
-                UUID notificationId = UUID.fromString(entry.getKey());
-                Notification newNotification = HibernateUtil.get(Notification.class, notificationId);
-                HibernateUtil.commitTransaction();
-                ReadNotification newReadNotification = new ReadNotification(newAccount, newNotification);
-                entitiesReadNotificationSavingBuffer.add(newReadNotification);
+    }
+
+    private void migrateReadNotification(teammates.storage.entity.Account oldAccount,
+            teammates.storage.sqlentity.Account newAccount) {
+        for (Map.Entry<String, Instant> entry : oldAccount.getReadNotifications().entrySet()) {
+            HibernateUtil.beginTransaction();
+            UUID notificationId = UUID.fromString(entry.getKey());
+            Notification newNotification = HibernateUtil.get(Notification.class, notificationId);
+            HibernateUtil.commitTransaction();
+
+            // Error if the notification does not exist in the new database
+            if (newNotification == null) {
+                logError("Notification not found: " + notificationId);
+                continue;
             }
+
+            ReadNotification newReadNotification = new ReadNotification(newAccount, newNotification);
+            entitiesReadNotificationSavingBuffer.add(newReadNotification);
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void doOperation() {
         log("Running " + getClass().getSimpleName() + "...");
         log("Preview: " + isPreview());
@@ -139,7 +142,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         } else {
             log("Start from cursor position: " + cursor.toUrlSafe());
         }
-
+        // Drop the account and read notification
+        cleanAccountAndReadNotificationInSql();
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
@@ -177,6 +181,23 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         log("Number of updated entities: " + numberOfUpdatedEntities.get());
     }
 
+    private void cleanAccountAndReadNotificationInSql() {
+        HibernateUtil.beginTransaction();
+
+        CriteriaDelete<ReadNotification> cdReadNotification = HibernateUtil.getCriteriaBuilder()
+                .createCriteriaDelete(ReadNotification.class);
+        cdReadNotification.from(ReadNotification.class);
+        HibernateUtil.executeDelete(cdReadNotification);
+
+        CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount = HibernateUtil.getCriteriaBuilder()
+                .createCriteriaDelete(
+                        teammates.storage.sqlentity.Account.class);
+        cdAccount.from(teammates.storage.sqlentity.Account.class);
+        HibernateUtil.executeDelete(cdAccount);
+
+        HibernateUtil.commitTransaction();
+    }
+
     /**
      * Flushes the saving buffer by issuing Cloud SQL save request.
      */
@@ -188,18 +209,24 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             for (teammates.storage.sqlentity.Account account : entitiesAccountSavingBuffer) {
                 HibernateUtil.persist(account);
             }
-            if (!entitiesReadNotificationSavingBuffer.isEmpty()) {
-                log("Saving notification in batch..." + entitiesReadNotificationSavingBuffer.size());
-                for (teammates.storage.sqlentity.ReadNotification rf : entitiesReadNotificationSavingBuffer) {
-                    HibernateUtil.persist(rf);
-                }
-            }
 
             HibernateUtil.flushSession();
             HibernateUtil.clearSession();
             HibernateUtil.commitTransaction();
         }
         entitiesAccountSavingBuffer.clear();
+
+        if (!entitiesReadNotificationSavingBuffer.isEmpty() && !isPreview()) {
+            log("Saving notification in batch..." + entitiesReadNotificationSavingBuffer.size());
+            HibernateUtil.beginTransaction();
+            for (teammates.storage.sqlentity.ReadNotification rf : entitiesReadNotificationSavingBuffer) {
+                HibernateUtil.persist(rf);
+            }
+            HibernateUtil.flushSession();
+            HibernateUtil.clearSession();
+            HibernateUtil.commitTransaction();
+        }
+
         entitiesReadNotificationSavingBuffer.clear();
     }
 
