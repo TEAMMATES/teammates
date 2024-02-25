@@ -66,7 +66,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
      */
     public List<StudentAttributes> search(String queryString, List<InstructorAttributes> instructors)
             throws SearchServiceException {
-        if (queryString.trim().isEmpty()) {
+        if (queryString.trim().isEmpty() || getSearchManager() == null) {
             return new ArrayList<>();
         }
 
@@ -82,7 +82,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
      */
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
             throws SearchServiceException {
-        if (queryString.trim().isEmpty()) {
+        if (queryString.trim().isEmpty() || getSearchManager() == null) {
             return new ArrayList<>();
         }
 

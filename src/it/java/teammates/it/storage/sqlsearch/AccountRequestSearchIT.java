@@ -104,7 +104,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         accountRequestsDb.createAccountRequest(ins1InCourse1);
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1, ins1General);
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1, ins1General, ins1InCourse1);
 
         ______TS("success: search for account requests; deleting account request without deleting document:"
                 + "document deleted during search, account request unsearchable");
