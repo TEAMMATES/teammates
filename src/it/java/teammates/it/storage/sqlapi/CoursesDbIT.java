@@ -124,4 +124,207 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(expectedTeams.size(), actualTeams.size());
         assertTrue(expectedTeams.containsAll(actualTeams));
     }
+
+    @Test
+    public void testSqlInjectionInCreateCourse() throws Exception {
+        ______TS("SQL Injection test in createCourse");
+
+        // Attempt to use SQL commands in name field
+        String courseName = "test'; DROP TABLE courses; --";
+        Course course = new Course("course-id", courseName, "UTC", "teammates");
+
+        // The system should treat the input as a plain text string
+        coursesDb.createCourse(course);
+        Course actual = coursesDb.getCourse("course-id");
+        assertEquals(courseName, actual.getName());
+    }
+
+    @Test
+    public void testSqlInjectionInGetCourse() throws Exception {
+        ______TS("SQL Injection test in getCourse");
+
+        Course course = new Course("course-id", "course-name", "UTC", "teammates");
+        coursesDb.createCourse(course);
+
+        // Attempt to use SQL commands in courseId field
+        String courseId = "test' OR 1 = 1; --";
+        Course actual = coursesDb.getCourse(courseId);
+        assertEquals(null, actual);
+    }
+
+    @Test
+    public void testSqlInjectionInUpdateCourse() throws Exception {
+        ______TS("SQL Injection test in updateCourse");
+
+        Course course = new Course("course-id", "name", "UTC", "institute");
+        coursesDb.createCourse(course);
+
+        // The system should treat the input as a plain text string
+        String newName = "newName'; DROP TABLE courses; --";
+        course.setName(newName);
+        coursesDb.updateCourse(course);
+        Course actual = coursesDb.getCourse("course-id");
+        assertEquals(newName, actual.getName());
+    }
+
+    @Test
+    public void testSqlInjectionInDeleteCourse() throws Exception {
+        ______TS("SQL Injection test in deleteCourse");
+
+        Course course = new Course("course-id", "name", "UTC", "institute");
+        coursesDb.createCourse(course);
+
+        String name = "newName'; DELETE FROM courses; --";
+        Course injectionCourse = new Course("course-id-injection", name, "UTC", "institute");
+        coursesDb.createCourse(injectionCourse);
+
+        coursesDb.deleteCourse(injectionCourse);
+        Course actualInjectionCourse = coursesDb.getCourse("course-id-injection");
+
+        // The course should be deleted
+        assertEquals(null, actualInjectionCourse);
+
+        // All other courses should not be deleted
+        Course actualCourse = coursesDb.getCourse("course-id");
+        assertEquals(course, actualCourse);
+    }
+
+    @Test
+    public void testSqlInjectionInCreateSection() throws Exception {
+        ______TS("SQL Injection test in createSection");
+
+        // Attempt to use SQL commands in sectionName fields
+        Course course = new Course("course-id", "name", "UTC", "institute");
+        coursesDb.createCourse(course);
+        String sectionName = "section'; DROP TABLE courses; --";    
+        Section section = new Section(course, sectionName);
+
+        // The system should treat the input as a plain text string
+        coursesDb.createSection(section);
+
+        // Check that we are still able to get courses
+        Course actualCourse = coursesDb.getCourse("course-id");
+        assertEquals(course, actualCourse);
+    }
+
+    @Test
+    public void testSqlInjectionInGetSectionByName() throws Exception {
+        ______TS("SQL Injection test in getSectionByName");
+
+        Course course = new Course("course-id", "course-name", "UTC", "institute");
+        coursesDb.createCourse(course);
+        String sectionName = "section-name";
+        Section section = new Section(course, sectionName);
+
+        coursesDb.createSection(section);
+        Section actual = coursesDb.getSectionByName("course-id", "section'; DROP TABLE courses; --");
+        assertEquals(null, actual);
+        Section actualSection = coursesDb.getSectionByName("course-id", sectionName);
+        assertEquals(sectionName, actualSection.getName());
+    }
+
+    @Test
+    public void testSqlInjectionInGetSectionByCourseIdAndTeam() throws Exception {
+        ______TS("SQL Injection test in getSectionByCourseIdAndTeam");
+
+        Course course = new Course("course-id", "course-name", "UTC", "institute");
+        Section section = new Section(course, "section-name");
+        course.addSection(section);
+        Team team = new Team(section, "team-name");
+        section.addTeam(team);
+        coursesDb.createCourse(course);
+
+        // The system should treat the input as a plain text string
+        String teamNameInjection = "team'; DROP TABLE courses; --";
+        Section actual = coursesDb.getSectionByCourseIdAndTeam("course-id", teamNameInjection);
+        assertEquals(null, actual);
+        Section actualSection = coursesDb.getSectionByCourseIdAndTeam("course-id", "team-name");
+        assertEquals("team-name", actualSection.getTeams().get(0).getName());
+    }
+
+    @Test
+    public void testSqlInjectionInDeleteSectionsByCourseId() throws Exception {
+        ______TS("SQL Injection test in deleteSectionsByCourseId");
+
+        Course course = new Course("course-id", "name", "UTC", "institute");
+        Section section = new Section(course, "section-name");
+        course.addSection(section);
+        coursesDb.createCourse(course);
+
+        String courseId = "course-id'; DELETE FROM courses; --";
+        coursesDb.deleteSectionsByCourseId(courseId);
+
+        // The sections should not be deleted
+        Section actualSection = coursesDb.getSectionByName("course-id", "section-name");
+        assertEquals(section, actualSection);
+    }
+
+    @Test
+    public void testSqlInjectionInGetTeamsForSection() throws Exception {
+        ______TS("SQL Injection test in getTeamsForSection");
+
+        Course course = new Course("course-id", "course-name", "UTC", "institute");
+        Section section = new Section(course, "section-name");
+        course.addSection(section);
+        Team team = new Team(section, "team-name");
+        section.addTeam(team);
+        coursesDb.createCourse(course);
+
+        String sectionName = "section-name' OR 1 = 1; --";
+        Section sectionInjection = new Section(course, sectionName);
+        List<Team> actual = coursesDb.getTeamsForSection(sectionInjection);
+        assertEquals(0, actual.size());
+    }
+
+    @Test
+    public void testSqlInjectionInGetTeamsForCourse() throws Exception {
+        ______TS("SQL Injection test in getTeamsForCourse");
+
+        Course course = new Course("course-id", "course-name", "UTC", "institute");
+        Section section = new Section(course, "section-name");
+        course.addSection(section);
+        Team team = new Team(section, "team-name");
+        section.addTeam(team);
+        coursesDb.createCourse(course);
+
+        String courseId = "course-id' OR 1 = 1; --";
+        List<Team> actual = coursesDb.getTeamsForCourse(courseId);
+        assertEquals(0, actual.size());
+    }
+
+    @Test
+    public void testSqlInjectionInCreateTeam() throws Exception {
+        ______TS("SQL Injection test in createTeam");
+
+        Course course = new Course("course-id", "course-name", "UTC", "institute");
+        Section section = new Section(course, "section-name");
+        course.addSection(section);
+        coursesDb.createCourse(course);
+
+        String teamName = "team'; DROP TABLE courses; --";
+        Team team = new Team(section, teamName);
+        coursesDb.createTeam(team);
+
+        List<Team> actual = coursesDb.getTeamsForSection(section);
+        assertEquals(1, actual.size());
+        assertEquals(teamName, actual.get(0).getName());
+    }
+
+    @Test
+    public void testSqlInjectionInGetTeamByName() throws Exception {
+        ______TS("SQL Injection test in getTeamByName");
+
+        Course course = new Course("course-id", "course-name", "UTC", "institute");
+        Section section = new Section(course, "section-name");
+        course.addSection(section);
+        Team team = new Team(section, "team-name");
+        section.addTeam(team);
+        coursesDb.createCourse(course);
+
+        String teamName = "team'; DROP TABLE courses; --";
+        Team actual = coursesDb.getTeamByName(section.getId(), teamName);
+        assertEquals(null, actual);
+        Team actualTeam = coursesDb.getTeamByName(section.getId(), "team-name");
+        assertEquals(team, actualTeam);
+    }
 }
