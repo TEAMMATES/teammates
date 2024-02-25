@@ -89,4 +89,91 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account actual = accountsDb.getAccount(account.getId());
         assertNull(actual);
     }
+
+    @Test
+    public void testSqlInjectionInCreateAccount() throws Exception {
+        ______TS("SQL Injection test in createAccount email field");
+
+        // Attempt to use SQL commands in email field
+        String email = "test';/**/DROP/**/TABLE/**/accounts;/**/--@gmail.com";
+        Account accountEmail = new Account("google-id-email", "name", email);
+
+        // The regex check should fail and throw an exception
+        assertThrows(InvalidParametersException.class,
+                () ->  accountsDb.createAccount(accountEmail));
+
+        ______TS("SQL Injection test in createAccount name field");
+
+        // Attempt to use SQL commands in email field
+        String name = "test';/**/DROP/**/TABLE/**/accounts;/**/--";
+        Account accountName = new Account("google-id-name", name, "email@gmail.com");
+
+        // The system should treat the input as a plain text string
+        accountsDb.createAccount(accountName);
+        Account actualAccountName = accountsDb.getAccountByGoogleId("google-id-name");
+        assertEquals(name, actualAccountName.getName());
+    }
+
+    @Test
+    public void testSqlInjectionInGetAccountByGoogleId() throws Exception {
+        ______TS("SQL Injection test in getAccountByGoogleId");
+
+        Account account = new Account("google-id", "name", "email@gmail.com");
+        accountsDb.createAccount(account);
+
+        // The system should treat the input as a plain text string
+        String googleId = "test' OR 1 = 1; --";
+        Account actual = accountsDb.getAccountByGoogleId(googleId);
+        assertEquals(null, actual);
+    }
+
+    @Test
+    public void testSqlInjectionInGetAccountsByEmail() throws Exception {
+        ______TS("SQL Injection test in getAccountsByEmail");
+
+        Account account = new Account("google-id", "name", "email@gmail.com");
+        accountsDb.createAccount(account);
+
+        // The system should treat the input as a plain text string
+        String email = "test' OR 1 = 1; --";
+        List<Account> actualAccounts = accountsDb.getAccountsByEmail(email);
+        assertEquals(0, actualAccounts.size());
+    }
+
+    @Test
+    public void testSqlInjectionInUpdateAccount() throws Exception {
+        ______TS("SQL Injection test in updateAccount");
+
+        Account account = new Account("google-id", "name", "email@gmail.com");
+        accountsDb.createAccount(account);
+
+        // The system should treat the input as a plain text string
+        String name = "newName'; DROP TABLE accounts; --";
+        account.setName(name);
+        accountsDb.updateAccount(account);
+        Account actual = accountsDb.getAccountByGoogleId("google-id");
+        assertEquals(account.getName(), actual.getName());
+    }
+
+    @Test
+    public void testSqlInjectionInDeleteAccount() throws Exception {
+        ______TS("SQL Injection test in deleteAccount");
+
+        Account account = new Account("google-id", "name", "email@gmail.com");
+        accountsDb.createAccount(account);
+
+        String name = "newName'; DELETE FROM accounts; --";
+        Account injectionAccount = new Account("google-id-injection", name, "email-injection@gmail.com");
+        accountsDb.createAccount(injectionAccount);
+
+        accountsDb.deleteAccount(injectionAccount);
+        Account actualInjectionAccount = accountsDb.getAccountByGoogleId("google-id-injection");
+
+        // The account should be deleted
+        assertEquals(null, actualInjectionAccount);
+
+        // All other accounts should not be deleted
+        Account actualAccount = accountsDb.getAccountByGoogleId("google-id");
+        assertEquals(account, actualAccount);
+    }
 }
