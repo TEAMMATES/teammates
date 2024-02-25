@@ -4,8 +4,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
