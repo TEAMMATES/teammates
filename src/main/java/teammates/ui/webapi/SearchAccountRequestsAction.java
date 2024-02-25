@@ -45,6 +45,9 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
         }
 
         for (AccountRequestAttributes request : requestsDatastore) {
+            if (request == null) {
+                continue;
+            }
             AccountRequestData accountRequestData = new AccountRequestData(request);
             accountRequestDataList.add(accountRequestData);
         }

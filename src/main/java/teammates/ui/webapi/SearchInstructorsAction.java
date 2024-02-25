@@ -65,6 +65,9 @@ public class SearchInstructorsAction extends AdminOnlyAction {
 
         // Add instructors from datastore
         for (InstructorAttributes instructor : instructorsDatastore) {
+            if (instructor == null) {
+                continue;
+            }
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getKey(),

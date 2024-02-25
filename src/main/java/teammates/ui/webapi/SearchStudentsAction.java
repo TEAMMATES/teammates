@@ -89,6 +89,9 @@ public class SearchStudentsAction extends Action {
         }
         // Add students from datastore
         for (StudentAttributes s : studentsDatastore) {
+            if (s == null) {
+                continue;
+            }
             StudentData studentData = new StudentData(s);
 
             if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
