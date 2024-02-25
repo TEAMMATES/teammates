@@ -196,7 +196,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         // Attempt to use SQL commands in sectionName fields
         Course course = new Course("course-id", "name", "UTC", "institute");
         coursesDb.createCourse(course);
-        String sectionName = "section'; DROP TABLE courses; --";    
+        String sectionName = "section'; DROP TABLE courses; --";
         Section section = new Section(course, sectionName);
 
         // The system should treat the input as a plain text string
