@@ -3,6 +3,9 @@ package teammates.client.scripts.sql;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.cloud.datastore.QueryResults;
+import com.googlecode.objectify.cmd.Query;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -10,6 +13,7 @@ import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 
 public class VerifyNonCourseEntityCounts extends DatastoreClient {
@@ -23,6 +27,14 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
 
     public static void main(String[] args) throws Exception {
         new VerifyNonCourseEntityCounts().doOperationRemotely();
+    }
+
+    private void printEntityVerification(String className, int datastoreCount, long psqlCount) {
+        System.out.println("========================================");
+        System.out.println(className);
+        System.out.println("Objectify count: " + datastoreCount);
+        System.out.println("Postgres count: " + psqlCount);
+        System.out.println("Correct number of rows?: " + (datastoreCount == psqlCount));
     }
 
 
@@ -40,6 +52,24 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
         return count;
     }
 
+    private void verifyReadNotification() {
+        Query<Account> accountQuery = ofy().load().type(Account.class);
+        QueryResults<Account> iterator = accountQuery.iterator();
+
+        int datastoreReadNotifications = 0;
+
+        while (iterator.hasNext()) {
+            Account acc = iterator.next();
+            datastoreReadNotifications += acc.getReadNotifications().size();
+        } 
+
+        Long postgresReadNotifications = countPostgresEntities(
+            teammates.storage.sqlentity.ReadNotification.class);
+
+        printEntityVerification(teammates.storage.sqlentity.ReadNotification.class.getSimpleName(),
+            datastoreReadNotifications, postgresReadNotifications);
+    }
+
 
     @Override
     protected void doOperation() {
@@ -51,8 +81,6 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
         entities.put(teammates.storage.entity.AccountRequest.class, teammates.storage.sqlentity.AccountRequest.class);
         entities.put(teammates.storage.entity.UsageStatistics.class, teammates.storage.sqlentity.UsageStatistics.class);
         entities.put(teammates.storage.entity.Notification.class, teammates.storage.sqlentity.Notification.class);
-        
-        
 
         for (Map.Entry<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entry : entities.entrySet()) {
              // fetch number of entities in datastore
@@ -64,13 +92,9 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
            
             Long postgresEntityCount = countPostgresEntities(sqlClass);
 
-
-            System.out.println("========================================");
-            System.out.println(objectifyClass.getName());
-            System.out.println("Objectify count: " + objectifyEntityCount);
-            System.out.println("Postgres count: " + postgresEntityCount);
-            
+            printEntityVerification(objectifyClass.getSimpleName(), objectifyEntityCount, postgresEntityCount);
         }
-        ofy().load().type(teammates.storage.entity.UsageStatistics.class);
+
+        verifyReadNotification();
     }
 }
