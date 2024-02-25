@@ -1,0 +1,16 @@
+{
+  "accounts": {
+    "ICEdit.coowner": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ICEdit.coowner",
+      "name": "Teammates Test",
+      "email": "ICEdit.coowner@gmail.tmt"
+    },
+    "ICEdit.observer": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.ICEdit.observer.CS2104",
+      "name": "Teammates Instructor",
+      "email": "ICEdit.observer@gmail.tmt"
+    }
+  }
+}
