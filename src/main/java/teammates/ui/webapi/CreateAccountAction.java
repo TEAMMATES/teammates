@@ -28,7 +28,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Creates a new instructor account with sample courses.
  */
-class CreateAccountAction extends Action {
+public class CreateAccountAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 

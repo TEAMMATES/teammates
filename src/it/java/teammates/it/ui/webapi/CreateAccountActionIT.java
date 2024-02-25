@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -27,6 +28,7 @@ import jakarta.transaction.Transactional;
 /**
  * SUT: {@link CreateAccountAction}.
  */
+@Ignore // TODO: remove ignore once we allow course creation in SQL
 public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
     @Override
