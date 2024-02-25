@@ -1,0 +1,16 @@
+{
+    "accounts": {
+      "teammates.test": {
+        "googleId": "tm.e2e.ISRecords.teammates.test",
+        "name": "Teammates Test",
+        "email": "teammates.test@gmail.tmt",
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "benny.c.tmms@ISR.CS2104": {
+        "googleId": "tm.e2e.ISRecords.benny.c.tmms",
+        "name": "Benny Charlés",
+        "email": "benny.c.tmms@gmail.tmt",
+        "id": "00000000-0000-4000-8000-000000000002"
+      }
+    }
+}
