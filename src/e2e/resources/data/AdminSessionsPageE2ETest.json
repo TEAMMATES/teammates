@@ -1,12 +1,4 @@
 {
-  "accounts": {
-    "instructor1OfCourse1": {
-      "googleId": "tm.e2e.ASess.instr1",
-      "name": "Instructor1 of Course1",
-      "email": "ASess.instructor1@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "typicalCourse1": {
       "id": "tm.e2e.ASess.idOfTypicalCourse1",

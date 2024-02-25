@@ -1,12 +1,4 @@
 {
-  "accounts": {
-    "instructor": {
-      "googleId": "tm.e2e.ICs.instructor",
-      "name": "Teammates Demo Instr",
-      "email": "ICs.instructor@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "CS1101": {
       "createdAt": "2012-04-02T12:00:00Z",

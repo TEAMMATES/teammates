@@ -1,0 +1,10 @@
+{
+  "accounts": {
+    "instructor": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ICs.instructor",
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt"
+    }
+  }
+}
