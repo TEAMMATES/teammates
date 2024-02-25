@@ -1,6 +1,8 @@
 
 package teammates.storage.sqlapi;
 
+import com.google.common.base.Objects;
+
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.storage.sqlentity.BaseEntity;
@@ -42,5 +44,12 @@ class EntitiesDb {
 
         HibernateUtil.remove(entity);
         log.info("Entity deleted: " + entity.toString());
+    }
+
+    /**
+     * Checks whether two values are the same.
+     */
+    <T> boolean hasSameValue(T oldValue, T newValue) {
+        return Objects.equal(oldValue, newValue);
     }
 }

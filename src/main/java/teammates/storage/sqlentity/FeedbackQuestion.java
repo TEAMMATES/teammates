@@ -243,6 +243,10 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.feedbackSession = feedbackSession;
     }
 
+    public String getFeedbackSessionName() {
+        return feedbackSession.getName();
+    }
+
     public List<FeedbackResponse> getFeedbackResponses() {
         return feedbackResponses;
     }

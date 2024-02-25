@@ -49,6 +49,29 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
+     * Gets the unique feedback response by question-giver-receiver.
+     */
+    public FeedbackResponse getFeedbackResponseForQuestionGiverRecipient(
+            UUID feedbackSessionId,
+            String giver,
+            String recipient) {
+        assert feedbackSessionId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackSession> frJoin = root.join("feedbackSession");
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(frJoin.get("id"), feedbackSessionId),
+                        cb.equal(root.get("giver"), giver),
+                        cb.equal(root.get("recipient"), recipient)
+                        ));
+
+        return HibernateUtil.createQuery(cq).getSingleResult();
+    }
+
+    /**
      * Gets all responses given by a user in a course.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(

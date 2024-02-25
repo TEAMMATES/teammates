@@ -184,6 +184,10 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.feedbackQuestion = feedbackQuestion;
     }
 
+    public UUID getFeedbackQuestionId() {
+        return feedbackQuestion.getId();
+    }
+
     public List<FeedbackResponseComment> getFeedbackResponseComments() {
         return feedbackResponseComments;
     }
