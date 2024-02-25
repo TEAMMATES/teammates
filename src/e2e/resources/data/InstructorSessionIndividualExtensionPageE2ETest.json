@@ -21,12 +21,6 @@
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Asia/Singapore"
-    },
-    "course2": {
-      "id": "tm.e2e.ISesIe.CS2105",
-      "name": "Programming Language Concepts",
-      "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "Asia/Singapore"
     }
   },
   "instructors": {
