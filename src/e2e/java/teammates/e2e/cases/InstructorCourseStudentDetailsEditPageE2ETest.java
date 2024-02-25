@@ -22,7 +22,8 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
-        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCourseStudentDetailsEditPageE2ETest_SqlEntities.json"));
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorCourseStudentDetailsEditPageE2ETest_SqlEntities.json"));
 
         student = testData.students.get("ICSDetEdit.jose.tmms");
         otherStudent = testData.students.get("ICSDetEdit.benny.c");
