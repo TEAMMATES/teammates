@@ -35,6 +35,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/FeedbackResultsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/FeedbackResultsPageE2ETest_SqlEntities.json"));
+
         course = testData.courses.get("FRes.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
         for (int i = 1; i <= testData.feedbackQuestions.size(); i++) {
