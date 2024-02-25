@@ -6,81 +6,26 @@
       "name": "Instructor 1",
       "email": "ASearch.instructor1@gmail.tmt"
     },
-    "instructor2OfCourse1": {
-      "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.ASearch.instr2",
-      "name": "Instructor 2",
-      "email": "ASearch.instructor2@gmail.tmt"
-    },
-    "instructorOfArchivedCourse": {
-      "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "instructorOfArchivedCourse",
-      "name": "Instructor Of Archived Course",
-      "email": "instructorOfArchivedCourse@archiveCourse.tmt"
-    },
-    "instructorOfUnregisteredCourse": {
-      "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "InstructorOfUnregisteredCourse",
-      "name": "Instructor Of Unregistered Course",
-      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt"
-    },
-    "instructorOfCourse2WithUniqueDisplayName": {
-      "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "instructorOfCourse2WithUniqueDisplayName",
-      "name": "Instructor Of Course 2 With Unique Display Name",
-      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
-    },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000006",
       "googleId": "unregisteredInstructor1",
-      "name": "Unregistered Instructor 1",
+      "name": "Unregistered Instructor 1 of Course1",
       "email": "unregisteredinstructor1@gmail.tmt"
-    },
-    "unregisteredInstructor2": {
-      "id": "00000000-0000-4000-8000-000000000007",
-      "googleId": "unregisteredInstructor2",
-      "name": "Unregistered Instructor 2",
-      "email": "unregisteredinstructor2@gmail.tmt"
     },
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "googleId": "tm.e2e.ASearch.student1",
       "name": "Student1 in course1",
       "email": "ASearch.student1@gmail.tmt"
-    },
-    "student2": {
-      "id": "00000000-0000-4000-8000-000000000102",
-      "googleId": "idOfStudent2Course1",
-      "name": "Student 2",
-      "email": "student2@teammates.tmt"
-    },
-    "student3": {
-      "id": "00000000-0000-4000-8000-000000000103",
-      "googleId": "idOfStudent3Course1",
-      "name": "Student 3",
-      "email": "student3@teammates.tmt"
     }
   },
   "accountRequests": {
-    "instructor1": {
-      "id": "00000000-0000-4000-8000-000000000101",
-      "name": "Instructor 1",
-      "email": "instr1@teammates.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "2010-02-14T00:00:00Z"
-    },
-    "instructor1OfCourse1": {
-      "name": "Instructor 1 of Course 1",
-      "email": "instr1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
-    },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000006",
       "googleId": "unregisteredInstructor1",
-      "name": "Unregistered Instructor 1",
-      "email": "unregisteredinstructor1@gmail.tmt"
+      "name": "Unregistered Instructor 1 of Course1",
+      "email": "unregisteredinstructor1@gmail.tmt",
+      "institute":"TEAMMATES Test Institute 0"
     }
   },
   "courses": {
@@ -155,21 +100,6 @@
       "email": "ASearch.student1@gmail.tmt",
       "name": "student1 In Course1",
       "comments": "comment for student1Course1"
-    },
-    "student2InCourse1": {
-      "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "course": {
-        "id": "course-1"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
-      "email": "student2@teammates.tmt",
-      "name": "student2 In Course1",
-      "comments": ""
     }
   },
   "feedbackSessions": {
@@ -327,38 +257,6 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "student1@teammates.tmt"
-    }
-  },
-  "notifications": {
-    "notification1": {
-      "id": "00000000-0000-4000-8000-000000001101",
-      "startTime": "2011-01-01T00:00:00Z",
-      "endTime": "2099-01-01T00:00:00Z",
-      "style": "DANGER",
-      "targetUser": "GENERAL",
-      "title": "A deprecation note",
-      "message": "<p>Deprecation happens in three minutes</p>",
-      "shown": false
-    }
-  },
-  "readNotifications": {
-    "notification1Instructor1": {
-      "id": "00000000-0000-4000-8000-000000001201",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      }
-    },
-    "notification1Student1": {
-      "id": "00000000-0000-4000-8000-000000001101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      }
     }
   }
 }
