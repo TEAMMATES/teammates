@@ -93,38 +93,38 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testSqlInjectionInEmailField() throws Exception {
         ______TS("SQL Injection test in email field");
-    
+
         // Attempt to use SQL commands in email field
         String email = "name'; DROP TABLE account_requests; --@gmail.com";
         AccountRequest accountRequest = new AccountRequest(email, "name", "institute");
-    
+
         // The regex check should fail and throw an exception
         assertThrows(InvalidParametersException.class,
                 () -> accountRequestDb.createAccountRequest(accountRequest));
     }
-    
+
     @Test
     public void testSqlInjectionInNameField() throws Exception {
         ______TS("SQL Injection test in name field");
-    
+
         // Attempt to use SQL commands in name field
         String name = "name'; SELECT * FROM account_requests; --";
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", name, "institute");
-    
+
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
         AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         assertEquals(name, actual.getName());
     }
-    
+
     @Test
     public void testSqlInjectionInInstituteField() throws Exception {
         ______TS("SQL Injection test in institute field");
-    
+
         // Attempt to use SQL commands in institute field
         String institute = "institute'; DROP TABLE account_requests; --";
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", institute);
-    
+
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
         AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), institute);
