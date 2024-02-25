@@ -41,7 +41,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         removeAndRestoreDataBundle(testData);
 
-        removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorSessionIndividualExtensionPageE2ETest_SqlEntities.json"));
+        removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorSessionIndividualExtensionPageE2ETest_SqlEntities.json"));
     }
 
     @Test
