@@ -95,12 +95,13 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in email field");
 
         // Attempt to use SQL commands in email field
-        String email = "name'; DROP TABLE account_requests; --@gmail.com";
+        String email = "email'/**/OR/**/1=1/**/@gmail.com";
         AccountRequest accountRequest = new AccountRequest(email, "name", "institute");
 
-        // The regex check should fail and throw an exception
-        assertThrows(InvalidParametersException.class,
-                () -> accountRequestDb.createAccountRequest(accountRequest));
+        // The system should treat the input as a plain text string
+        accountRequestDb.createAccountRequest(accountRequest);
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        assertEquals(email, actual.getEmail());
     }
 
     @Test
