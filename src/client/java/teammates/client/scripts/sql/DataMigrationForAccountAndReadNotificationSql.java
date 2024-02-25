@@ -120,13 +120,12 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             Notification newNotification = HibernateUtil.get(Notification.class, notificationId);
             HibernateUtil.commitTransaction();
 
-            // Skip if the notification does not exist in the new database
+            // Error if the notification does not exist in the new database
             if (newNotification == null) {
-                log("Skipping: Notification not found: " + notificationId);
+                logError("Notification not found: " + notificationId);
                 continue;
             }
-            log("Migrate Notification: " + newNotification.getId() + " to Account: " + newAccount.getId());
-            // HibernateUtil.beginTransaction();
+
             ReadNotification newReadNotification = new ReadNotification(newAccount, newNotification);
             entitiesReadNotificationSavingBuffer.add(newReadNotification);
         }
@@ -211,8 +210,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
                 HibernateUtil.persist(account);
             }
 
-            // HibernateUtil.flushSession();
-            // HibernateUtil.clearSession();
+            HibernateUtil.flushSession();
+            HibernateUtil.clearSession();
             HibernateUtil.commitTransaction();
         }
         entitiesAccountSavingBuffer.clear();
@@ -223,6 +222,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             for (teammates.storage.sqlentity.ReadNotification rf : entitiesReadNotificationSavingBuffer) {
                 HibernateUtil.persist(rf);
             }
+            HibernateUtil.flushSession();
+            HibernateUtil.clearSession();
             HibernateUtil.commitTransaction();
         }
 
