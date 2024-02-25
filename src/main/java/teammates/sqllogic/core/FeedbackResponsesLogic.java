@@ -510,4 +510,27 @@ public final class FeedbackResponsesLogic {
         }
     }
 
+    /**
+     * Updates a student's email in their given/received responses.
+     */
+    public void updateFeedbackResponsesForChangingEmail(String courseId, String oldEmail, String newEmail)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        List<FeedbackResponse> responsesFromUser =
+                getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
+
+        for (FeedbackResponse response : responsesFromUser) {
+            response.setGiver(newEmail);
+            frDb.updateFeedbackResponse(response);
+        }
+
+        List<FeedbackResponse> responsesToUser =
+                getFeedbackResponsesForRecipientForCourse(courseId, oldEmail);
+
+        for (FeedbackResponse response : responsesToUser) {
+            response.setRecipient(newEmail);
+            frDb.updateFeedbackResponse(response);
+        }
+    }
+
 }
