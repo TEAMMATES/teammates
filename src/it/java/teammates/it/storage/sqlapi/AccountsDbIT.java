@@ -99,8 +99,7 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account accountEmail = new Account("google-id-email", "name", email);
 
         // The regex check should fail and throw an exception
-        assertThrows(InvalidParametersException.class,
-                () ->  accountsDb.createAccount(accountEmail));
+        assertThrows(InvalidParametersException.class, () ->  accountsDb.createAccount(accountEmail));
 
         ______TS("SQL Injection test in createAccount name field");
 
