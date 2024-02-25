@@ -7,12 +7,15 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.test.BaseTestCase;
@@ -25,6 +28,8 @@ import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
     private static final Long TYPICAL_ID = 100L;
+    private static final Long NOT_TYPICAL_ID = 101L;
+    private static final UUID TYPICAL_UUID = UUID.randomUUID();
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private FeedbackResponseCommentsDb frcDb;
 
@@ -32,6 +37,91 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
     public void setUpMethod() {
         frcDb = mock(FeedbackResponseCommentsDb.class);
         frcLogic.initLogicDependencies(frcDb);
+    }
+
+    @Test
+    public void testGetComment_commentAlreadyExists_success() {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+
+        when(frcDb.getFeedbackResponseComment(comment.getId())).thenReturn(comment);
+
+        FeedbackResponseComment commentFetched = frcLogic.getFeedbackResponseComment(TYPICAL_ID);
+
+        assertEquals(comment, commentFetched);
+    }
+
+    @Test
+    public void testGetCommentForResponse_commentAlreadyExists_success() {
+        List<FeedbackResponseComment> expectedReturn = new ArrayList<>();
+        expectedReturn.add(getTypicalResponseComment(TYPICAL_ID));
+
+        when(frcDb.getFeedbackResponseCommentsForResponse(TYPICAL_UUID)).thenReturn(expectedReturn);
+
+        List<FeedbackResponseComment> fetchedReturn = frcLogic.getFeedbackResponseCommentsForResponse(TYPICAL_UUID);
+
+        assertEquals(expectedReturn, fetchedReturn);
+    }
+
+    @Test
+    public void testGetCommentForResponseFromParticipant_commentAlreadyExists_success() {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+
+        when(frcDb.getFeedbackResponseCommentForResponseFromParticipant(TYPICAL_UUID)).thenReturn(comment);
+
+        FeedbackResponseComment commentFetched = frcLogic
+                .getFeedbackResponseCommentForResponseFromParticipant(TYPICAL_UUID);
+
+        assertEquals(comment, commentFetched);
+    }
+
+    @Test
+    public void testGetComment_commentDoesNotExist_returnsNull() {
+        when(frcDb.getFeedbackResponseComment(NOT_TYPICAL_ID)).thenReturn(null);
+
+        FeedbackResponseComment commentFetched = frcLogic.getFeedbackResponseComment(NOT_TYPICAL_ID);
+
+        verify(frcDb, times(1)).getFeedbackResponseComment(NOT_TYPICAL_ID);
+        assertNull(commentFetched);
+    }
+
+    @Test
+    public void testCreateComment_commentDoesNotExist_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+
+        frcLogic.createFeedbackResponseComment(comment);
+
+        verify(frcDb, times(1)).createFeedbackResponseComment(comment);
+    }
+
+    @Test
+    public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException()
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+
+        when(frcDb.createFeedbackResponseComment(comment)).thenThrow(EntityAlreadyExistsException.class);
+
+        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+                () -> frcLogic.createFeedbackResponseComment(comment));
+
+    }
+
+    @Test
+    public void testDeleteComment_commentExists_success() {
+        frcLogic.deleteFeedbackResponseComment(TYPICAL_ID);
+
+        verify(frcDb, times(1)).deleteFeedbackResponseComment(TYPICAL_ID);
+    }
+
+    @Test
+    public void testUpdateCommentEmails_success() {
+        String courseId = "Course_id";
+        String oldEmail = "oldEmail@gmail.com";
+        String newEmail = "newEmail@gmail.com";
+        frcLogic.updateFeedbackResponseCommentsEmails(courseId, oldEmail, newEmail);
+
+        verify(frcDb, times(1)).updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, newEmail);
+        verify(frcDb, times(1)).updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, newEmail);
     }
 
     @Test
