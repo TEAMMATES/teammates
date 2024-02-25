@@ -39,6 +39,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         student.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/FeedbackSubmitPageE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("FSubmit.instr");
         course = testData.courses.get("FSubmit.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");

@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.sqlentity.Student;
 
 /**
  * The data transfer object for {@link CourseStudent} entities.
@@ -53,6 +54,31 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
         studentAttributes.comments = student.getComments();
         studentAttributes.key = student.getRegistrationKey();
+        if (student.getCreatedAt() != null) {
+            studentAttributes.createdAt = student.getCreatedAt();
+        }
+        if (student.getUpdatedAt() != null) {
+            studentAttributes.updatedAt = student.getUpdatedAt();
+        }
+
+        return studentAttributes;
+    }
+
+    /**
+     * Gets the {@link StudentAttributes} instance of the given {@link Student}.
+     */
+    public static StudentAttributes valueOf(Student student) {
+        StudentAttributes studentAttributes = new StudentAttributes(student.getCourseId(), student.getEmail());
+        studentAttributes.name = student.getName();
+        if (student.getGoogleId() != null) {
+            studentAttributes.googleId = student.getGoogleId();
+        }
+        studentAttributes.team = student.getTeamName();
+        if (student.getSectionName() != null) {
+            studentAttributes.section = student.getSectionName();
+        }
+        studentAttributes.comments = student.getComments();
+        // studentAttributes.key = student.getRegistrationKey();
         if (student.getCreatedAt() != null) {
             studentAttributes.createdAt = student.getCreatedAt();
         }
