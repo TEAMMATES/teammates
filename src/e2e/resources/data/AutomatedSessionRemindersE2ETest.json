@@ -1,12 +1,4 @@
 {
-  "accounts": {
-    "instructorWithEvals": {
-      "googleId": "tm.e2e.AutSesRem.instructor",
-      "name": "Test Ins for Aut Sessions Reminder",
-      "email": "AutSesRem.instructor@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "course": {
       "id": "tm.e2e.AutSesRem.course",
@@ -153,15 +145,9 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     },
     "questionForClosingSession": {
       "feedbackSessionName": "AutSesRem Closing Session",
@@ -174,15 +160,9 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     },
     "questionForPublishedSession": {
       "feedbackSessionName": "AutSesRem Published Session",
@@ -195,15 +175,9 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     }
   },
   "feedbackResponses": {},
