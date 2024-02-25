@@ -16,7 +16,8 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/InstructorCourseEnrollPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
-        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCourseEnrollPageE2ETest_SqlEntities.json"));
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorCourseEnrollPageE2ETest_SqlEntities.json"));
     }
 
     @Test
