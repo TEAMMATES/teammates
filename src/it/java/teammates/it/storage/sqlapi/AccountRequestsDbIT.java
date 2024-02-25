@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
