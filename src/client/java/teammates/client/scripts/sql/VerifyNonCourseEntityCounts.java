@@ -82,19 +82,18 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
         entities.put(teammates.storage.entity.UsageStatistics.class, teammates.storage.sqlentity.UsageStatistics.class);
         entities.put(teammates.storage.entity.Notification.class, teammates.storage.sqlentity.Notification.class);
 
+        // Compare datastore "table" to postgres table for each entity
         for (Map.Entry<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entry : entities.entrySet()) {
-             // fetch number of entities in datastore
             Class<? extends BaseEntity> objectifyClass = entry.getKey();
             Class<? extends teammates.storage.sqlentity.BaseEntity> sqlClass = entry.getValue();
 
             int objectifyEntityCount = ofy().load().type(objectifyClass).count();
-            // fetch number of entities in postgres
-           
             Long postgresEntityCount = countPostgresEntities(sqlClass);
 
             printEntityVerification(objectifyClass.getSimpleName(), objectifyEntityCount, postgresEntityCount);
         }
 
+        // Read notification did not have its own entity in datastore, therefore has to be counted differently
         verifyReadNotification();
     }
 }
