@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import { ResponseModerationButtonComponent } from './response-moderation-button.component';
+import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 
 describe('ResponseModerationButtonComponent', () => {
   let component: ResponseModerationButtonComponent;

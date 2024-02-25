@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { QuestionResponseModule } from '../../question-types/question-response/question-response.module';
 import { SingleResponseComponent } from './single-response.component';
+import { QuestionResponseModule } from '../../question-types/question-response/question-response.module';
 
 describe('SingleResponseComponent', () => {
   let component: SingleResponseComponent;

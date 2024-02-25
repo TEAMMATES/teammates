@@ -15,6 +15,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.storage.sqlentity.Notification;
 
 /**
  * Page Object Model for user notifications page.
@@ -44,10 +45,26 @@ public class UserNotificationsPage extends AppPage {
         }
     }
 
+    public void verifyNotShownNotifications(Notification[] notifications) {
+        List<String> shownNotificationIds = notificationTabs.findElements(By.className("card"))
+                .stream().map(e -> e.getAttribute("id")).collect(Collectors.toList());
+        for (Notification notification : notifications) {
+            assertFalse(shownNotificationIds.contains(notification.getId().toString()));
+        }
+    }
+
     public void verifyShownNotifications(NotificationAttributes[] notifications, Set<String> readNotificationIds) {
         // Only validates that the preset notifications are present instead of checking every notification
         // This is because the page will display all active notifications in the database, which is not predictable
         for (NotificationAttributes notification : notifications) {
+            verifyNotificationTab(notification, readNotificationIds);
+        }
+    }
+
+    public void verifyShownNotifications(Notification[] notifications, Set<String> readNotificationIds) {
+        // Only validates that the preset notifications are present instead of checking every notification
+        // This is because the page will display all active notifications in the database, which is not predictable
+        for (Notification notification : notifications) {
             verifyNotificationTab(notification, readNotificationIds);
         }
     }
@@ -91,8 +108,53 @@ public class UserNotificationsPage extends AppPage {
         }
     }
 
+    public void verifyNotificationTab(Notification notification, Set<String> readNotificationIds) {
+        boolean isRead = readNotificationIds.contains(notification.getId().toString());
+        WebElement notificationTab = notificationTabs.findElement(By.id(notification.getId().toString()));
+
+        // Check text and style of notification header
+        WebElement cardHeader = notificationTab.findElement(By.className("card-header"));
+        assertEquals(getHeaderText(notification), cardHeader.getText());
+        assertTrue(cardHeader.getAttribute("class").contains(getHeaderClass(notification.getStyle())));
+
+        // Checks if tab is open if notification is unread, and closed if notification is read
+        String chevronClass = notificationTab.findElement(By.tagName("i")).getAttribute("class");
+        if (isRead) {
+            assertTrue(chevronClass.contains("fa-chevron-down"));
+            // Open tab if notification is unread
+            click(cardHeader);
+            waitForPageToLoad();
+        } else {
+            assertTrue(chevronClass.contains("fa-chevron-up"));
+        }
+
+        // Check notification message
+        WebElement notifMessage = notificationTab.findElement(By.className("notification-message"));
+        assertEquals(notification.getMessage(), notifMessage.getAttribute("innerHTML"));
+
+        List<WebElement> markAsReadBtnList = notificationTab.findElements(By.className("btn-mark-as-read"));
+
+        if (isRead) {
+            // Check that mark as read button cannot be found if notification is read
+            assertEquals(0, markAsReadBtnList.size());
+
+            // Close tab if notification is read
+            click(cardHeader);
+            waitForPageToLoad();
+        } else {
+            // Check style of mark as read button if notification is unread
+            assertTrue(markAsReadBtnList.get(0).getAttribute("class").contains(getButtonClass(notification.getStyle())));
+        }
+    }
+
     public void markNotificationAsRead(NotificationAttributes notification) {
         WebElement notificationTab = notificationTabs.findElement(By.id(notification.getNotificationId()));
+        click(notificationTab.findElement(By.className("btn-mark-as-read")));
+        waitForPageToLoad(true);
+    }
+
+    public void markNotificationAsRead(Notification notification) {
+        WebElement notificationTab = notificationTabs.findElement(By.id(notification.getId().toString()));
         click(notificationTab.findElement(By.className("btn-mark-as-read")));
         waitForPageToLoad(true);
     }
@@ -102,6 +164,11 @@ public class UserNotificationsPage extends AppPage {
     }
 
     private String getHeaderText(NotificationAttributes notification) {
+        return String.format("%s [%s - %s]", notification.getTitle(),
+                getHeaderDateString(notification.getStartTime()), getHeaderDateString(notification.getEndTime()));
+    }
+
+    private String getHeaderText(Notification notification) {
         return String.format("%s [%s - %s]", notification.getTitle(),
                 getHeaderDateString(notification.getStartTime()), getHeaderDateString(notification.getEndTime()));
     }

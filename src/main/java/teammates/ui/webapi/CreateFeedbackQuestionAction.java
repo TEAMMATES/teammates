@@ -113,7 +113,7 @@ public class CreateFeedbackQuestionAction extends Action {
         FeedbackQuestionDetails questionDetails = attributes.getQuestionDetailsCopy();
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
         if (!questionDetailsErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
+            throw new InvalidHttpRequestBodyException(String.join("\n", questionDetailsErrors));
         }
 
         try {

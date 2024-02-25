@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { SingleResponseModule } from '../../../components/question-responses/single-response/single-response.module';
 import { InstructorSearchBarComponent } from './instructor-search-bar.component';
+import { SingleResponseModule } from '../../../components/question-responses/single-response/single-response.module';
 
 describe('InstructorSearchBarComponent', () => {
   let component: InstructorSearchBarComponent;

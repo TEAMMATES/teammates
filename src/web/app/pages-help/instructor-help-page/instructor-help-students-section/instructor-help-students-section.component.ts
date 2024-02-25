@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
+  EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,
+  EXAMPLE_STUDENT_ATTRIBUTES,
+} from './instructor-help-students-data';
+import { StudentsSectionQuestions } from './students-section-questions';
 import { environment } from '../../../../environments/environment';
 import { Student } from '../../../../types/api-output';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
@@ -7,12 +13,6 @@ import {
 } from '../../../pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import {
-  EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
-  EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,
-  EXAMPLE_STUDENT_ATTRIBUTES,
-} from './instructor-help-students-data';
-import { StudentsSectionQuestions } from './students-section-questions';
 
 /**
  * Students Section of the Instructor Help Page.

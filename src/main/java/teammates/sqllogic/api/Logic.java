@@ -638,6 +638,28 @@ public class Logic {
     }
 
     /**
+     * Gets the expected number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getExpectedTotalSubmission(fs);
+    }
+
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getActualTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getActualTotalSubmission(fs);
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
@@ -1211,7 +1233,7 @@ public class Logic {
      * Persists the given data bundle to the database.
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
 
@@ -1488,6 +1510,13 @@ public class Logic {
     public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
+    }
+
+    /**
+     * Returns a list of feedback sessions that need an "Open" email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
     }
 
     /**

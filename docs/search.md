@@ -15,6 +15,12 @@ This document will assume Solr version `8.11.1`.
 If you have access to Docker, this method is straightforward and recommended.
 
 We have provided a Docker compose definition to run dependent services, including Solr. Run it under the `solr` service name and bind to the container port `8983`:
+
+```sh
+docker compose run -p 8983:8983 solr
+```
+If the above command does not work, you may want to try this instead:
+
 ```sh
 docker-compose run -p 8983:8983 solr
 ```

@@ -145,8 +145,10 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     private void verifySameCourseDataStudent(CourseData actualCourse, Course expectedCourse) {
         assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
         assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
-        assertEquals(actualCourse.getCreationTimestamp(), 0);
-        assertEquals(actualCourse.getDeletionTimestamp(), 0);
+        assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
+        if (expectedCourse.getDeletedAt() != null) {
+            assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+        }
         assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
     }
 

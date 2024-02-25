@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
 } from '../../../../types/api-output';
@@ -6,7 +7,6 @@ import {
   DEFAULT_RUBRIC_QUESTION_DETAILS, DEFAULT_RUBRIC_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../types/feedback-response-details';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The rubric question submission form for a recipient.
@@ -58,17 +58,17 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
     this.triggerResponseDetailsChange('answer', newAnswer);
   }
 
-  getAriaLabelForChoice(choice: String, choiceDescription: String, criteria: String): String {
-    const baseAriaLabel: String = this.getAriaLabel();
-    const choiceWithDescription: String = this.getChoiceWithDescription(choice, choiceDescription);
+  getAriaLabelForChoice(choice: string, choiceDescription: string, criteria: string): string {
+    const baseAriaLabel: string = this.getAriaLabel();
+    const choiceWithDescription: string = this.getChoiceWithDescription(choice, choiceDescription);
     return `${choiceWithDescription} ${baseAriaLabel} under Criteria of ${criteria}`;
   }
 
-  getChoiceWithDescription(choice: String, choiceDescription: String): String {
+  getChoiceWithDescription(choice: string, choiceDescription: string): string {
     return choiceDescription ? `${choice} - ${choiceDescription}` : choice;
   }
 
-  getInputId(id: String, row: Number, col: Number, platform: String): String {
+  getInputId(id: string, row: number, col: number, platform: string): string {
     return `${id}-row${row}-col${col}-${platform}`;
   }
 }

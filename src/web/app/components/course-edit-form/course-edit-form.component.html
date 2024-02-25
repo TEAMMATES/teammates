@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header bg-primary text-white">
+  <div class="card-header bg-primary text-white" [ngClass]="{'add-mode': isInAddMode}">
     <strong *ngIf="isInEditMode">Course</strong>
     <strong *ngIf="isInAddMode">Create a new Course</strong>
     <div class="card-header-btn-toolbar">

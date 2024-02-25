@@ -3,7 +3,6 @@
 exports[`AdminNotificationsPageComponent should snap when notification edit form expanded for adding notification 1`] = `
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   currentNotificationEditFormMode="0"
   guessTimezone={[Function String]}
   hasNotificationLoadingFailed="false"
@@ -44,7 +43,6 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
     </button>
   </div><div
     class="margin-top-30px ng-trigger ng-trigger-collapseAnim ng-animating"
-    style=""
   >
     <tm-notification-edit-form
       style=""
@@ -678,7 +676,6 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
 exports[`AdminNotificationsPageComponent should snap when notifications are loading 1`] = `
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   currentNotificationEditFormMode="0"
   guessTimezone={[Function String]}
   hasNotificationLoadingFailed="false"
@@ -745,7 +742,6 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
 exports[`AdminNotificationsPageComponent should snap when notifications failed to load 1`] = `
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   currentNotificationEditFormMode="0"
   guessTimezone={[Function String]}
   hasNotificationLoadingFailed={[Function Boolean]}
@@ -810,7 +806,6 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
 exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
-  __ngContext__={[Function Number]}
   currentNotificationEditFormMode="0"
   guessTimezone={[Function String]}
   hasNotificationLoadingFailed="false"

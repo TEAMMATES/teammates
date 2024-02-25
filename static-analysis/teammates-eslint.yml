@@ -14,6 +14,7 @@ overrides:
     - tsconfig.json
     createDefaultProgram: true
   extends:
+  - plugin:@typescript-eslint/recommended
   - plugin:@angular-eslint/recommended
   - plugin:@angular-eslint/template/process-inline-templates
   - plugin:jest/recommended
@@ -47,8 +48,10 @@ overrides:
     - off
     "jest/expect-expect":
     - error
-    "jsdoc/newline-after-description":
+    "jsdoc/tag-lines":
     - error
+    - any
+    - startLines: 1
     "jsdoc/check-param-names":
     - error
     "jsdoc/valid-types":
@@ -103,6 +106,8 @@ overrides:
           multiline:
             delimiter: semi
             requireLast: true
+    "@typescript-eslint/no-explicit-any":
+    - off
     "deprecation/deprecation":
     - error
     arrow-body-style:

@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
@@ -19,7 +20,6 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -385,6 +385,24 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
   });
 
+  it('should restore a soft deleted course', () => {
+    component.softDeletedCourses = [courseModelCS1231];
+    expect(component.softDeletedCourses.length).toEqual(1);
+
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'restoreCourse')
+      .mockReturnValue(of(courseModelCS1231));
+    jest.spyOn(simpleModalService, 'openConfirmationModal')
+      .mockReturnValue(createMockNgbModalRef());
+
+    component.onRestore('CS1231');
+
+    expect(courseSpy).toHaveBeenCalledTimes(1);
+    expect(courseSpy).toHaveBeenNthCalledWith(1, 'CS1231');
+
+    expect(component.archivedCourses.length).toEqual(0);
+    expect(component.softDeletedCourses.length).toEqual(0);
+});
+
   it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
@@ -418,7 +436,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should show add course form and disable button when clicking on add new course', () => {
     component.activeCourses = [courseModelCS3282];
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-course');
@@ -432,7 +450,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable enroll button when instructor cannot modify student', () => {
     component.activeCourses = [courseModelCS3282];
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-enroll-disabled-0');
@@ -442,7 +460,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable delete button when instructor cannot modify active course', () => {
     component.activeCourses = [courseModelST4234];
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-soft-delete-disabled-0');
@@ -452,7 +470,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable delete button when instructor cannot modify archived course', () => {
     component.archivedCourses = [courseModelST4234];
-    component.isLoading = false;
+    component.isLoadingArchivedCourses = false;
     component.isArchivedCourseExpanded = true;
     fixture.detectChanges();
 
@@ -463,7 +481,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable restore and permanently delete buttons when instructor cannot modify deleted course', () => {
     component.softDeletedCourses = [courseModelST4234];
-    component.isLoading = false;
+    component.isLoadingSoftDeletedCourses = false;
     component.isRecycleBinExpanded = true;
     fixture.detectChanges();
 
@@ -478,7 +496,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should sort courses by their IDs', () => {
     component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
@@ -491,7 +509,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should sort courses by their names', () => {
     component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
@@ -504,7 +522,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should sort courses by their creation dates', () => {
     component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#sort-creation-date');
@@ -524,7 +542,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.archivedCourses = archivedCoursesSnap;
     component.softDeletedCourses = deletedCoursesSnap;
     component.courseStats = courseStatsSnap;
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -536,27 +554,27 @@ describe('InstructorCoursesPageComponent', () => {
     component.courseStats = courseStatsSnap;
     component.canDeleteAll = false;
     component.canRestoreAll = false;
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with no courses in course stats', () => {
     component.activeCourses = activeCoursesSnap;
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when courses are still loading', () => {
-    component.isLoading = true;
+    component.isLoadingActiveCourses = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when new course form is expanded', () => {
     component.isAddNewCourseFormExpanded = true;
-    component.isLoading = false;
+    component.isLoadingActiveCourses = false;
     // Mock the timezone service to prevent unexpected changes in time zones over time, such as daylight savings time
     const timezones: Record<string, number> = {
       Jamaica: -5 * 60,
