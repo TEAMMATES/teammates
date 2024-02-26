@@ -9,10 +9,10 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
@@ -43,7 +43,8 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
     }
 
     private void checkSpecificAccessControlDatastore(
-            String courseId, String feedbackSessionName, Intent intent, boolean isPreviewResults) throws UnauthorizedAccessException {
+            String courseId, String feedbackSessionName, Intent intent, boolean isPreviewResults)
+            throws UnauthorizedAccessException {
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         switch (intent) {
         case FULL_DETAIL:
@@ -76,7 +77,8 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
     }
 
     private void checkSpecificAccessControlSql(
-            String courseId, String feedbackSessionName, Intent intent, boolean isPreviewResults) throws UnauthorizedAccessException {
+            String courseId, String feedbackSessionName, Intent intent, boolean isPreviewResults)
+            throws UnauthorizedAccessException {
         FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
 
         switch (intent) {
@@ -130,9 +132,11 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
                 executeWithSql(courseId, feedbackSessionName, questionUuid,
                         selectedSection, fetchType, intent, isPreviewResults);
             }
-            return executeWithSql(courseId, feedbackSessionName, null, selectedSection, fetchType, intent, isPreviewResults);
+            return executeWithSql(courseId, feedbackSessionName, null, selectedSection,
+                    fetchType, intent, isPreviewResults);
         } else {
-            return executeWithDatastore(courseId, feedbackSessionName, questionId, selectedSection, fetchType, intent, isPreviewResults);
+            return executeWithDatastore(courseId, feedbackSessionName, questionId, selectedSection,
+                    fetchType, intent, isPreviewResults);
         }
     }
 

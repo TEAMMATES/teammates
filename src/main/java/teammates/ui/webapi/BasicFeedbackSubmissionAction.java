@@ -130,25 +130,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     }
 
     /**
-     * Checks the access control for student feedback result.
-     */
-    void checkAccessControlForStudentFeedbackResult(
-            Student student, FeedbackSession feedbackSession) throws UnauthorizedAccessException {
-        if (student == null) {
-            throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
-        }
-
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-
-        if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyAccessible(student, feedbackSession);
-            verifyMatchingGoogleId(student.getGoogleId());
-        } else {
-            checkAccessControlForPreview(feedbackSession, false);
-        }
-    }
-
-    /**
      * Checks the access control for student feedback submission.
      */
     void checkAccessControlForStudentFeedbackSubmission(Student student, FeedbackSession feedbackSession)
@@ -190,6 +171,25 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     void checkAccessControlForStudentFeedbackResult(
             StudentAttributes student, FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
+        if (student == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
+        }
+
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyAccessible(student, feedbackSession);
+            verifyMatchingGoogleId(student.getGoogleId());
+        } else {
+            checkAccessControlForPreview(feedbackSession, false);
+        }
+    }
+
+    /**
+     * Checks the access control for student feedback result.
+     */
+    void checkAccessControlForStudentFeedbackResult(
+            Student student, FeedbackSession feedbackSession) throws UnauthorizedAccessException {
         if (student == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
         }
