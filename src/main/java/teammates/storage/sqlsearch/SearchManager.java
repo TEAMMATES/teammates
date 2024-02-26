@@ -223,6 +223,11 @@ abstract class SearchManager<T extends BaseEntity> {
             if (entity == null) {
                 // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem
+
+                // these lines below are commented out as they interfere with the dual db search,
+                // and cause unwanted deletions, please refer to the following PR for more details
+                // [PR](https://github.com/TEAMMATES/teammates/pull/12838)
+
                 // String id = (String) document.getFirstValue("id");
                 // deleteDocuments(Collections.singletonList(id));
                 continue;
