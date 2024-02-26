@@ -136,7 +136,7 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
-     * Removes search document for the given account request
+     * Removes search document for the given account request.
      */
     public void deleteDocumentByAccountRequestId(UUID accountRequestId) {
         if (getSearchManager() != null) {
