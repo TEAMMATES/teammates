@@ -120,6 +120,18 @@ public class Account extends BaseEntity {
         return errors;
     }
 
+    // Used for sql data migration
+    public boolean equals(teammates.storage.entity.Account acc) {
+        try {
+            // UUID for account is not checked, as datastore ID is google ID
+            return this.getName() == acc.getName()
+                && this.getGoogleId() == acc.getGoogleId()
+                && this.getEmail() == acc.getEmail();
+        } catch (IllegalArgumentException iae) {
+            return false;
+        } 
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
