@@ -21,6 +21,8 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
     protected Class<E> datastoreEntityClass; 
     protected Class<T> sqlEntityClass; 
 
+    static int SQL_FETCH_BATCH_SIZE = 50;
+
     public VerifyNonCourseEntityAttributesBaseScript(
         Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
         this.datastoreEntityClass = datastoreEntityClass; 
@@ -38,6 +40,11 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      */
     protected abstract String generateID(T sqlEntity);
 
+    /**
+     * Compares the sqlEntity with the datastoreEntity
+     */
+    protected abstract boolean equals(T sqlEntity, E datastoreEntity);
+
     protected E lookupDataStoreEntity(String datastoreEntityId) {
         return ofy().load().type(datastoreEntityClass).id(datastoreEntityId).now();
     }
@@ -47,7 +54,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
         Root<T> root = cr.from(sqlEntityClass);
-
         cr.select(root);
 
         List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
@@ -64,7 +70,9 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
     protected List<Map.Entry<T, E>> checkAllEntitiesForFailures() {
         List<T> sqlEntities = lookupSqlEntities(); 
         
+        
         List<Map.Entry<T, E>> failures = new LinkedList<>(); 
+
 
         for (T sqlEntity : sqlEntities) {
             String entityId = generateID(sqlEntity);
@@ -74,8 +82,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
                 failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
                 continue;
             }
-            boolean isEqual = sqlEntity.equals(datastoreEntity); 
-            if (!isEqual) {
+            if (!equals(sqlEntity, datastoreEntity)) {
                 failures.add(new AbstractMap.SimpleEntry<T,E>(sqlEntity, datastoreEntity)); 
                 continue; 
             }

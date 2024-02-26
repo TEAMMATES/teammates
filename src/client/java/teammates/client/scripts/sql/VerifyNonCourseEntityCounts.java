@@ -37,7 +37,6 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
         System.out.println("Correct number of rows?: " + (datastoreCount == psqlCount));
     }
 
-
     private Long countPostgresEntities(Class<? extends teammates.storage.sqlentity.BaseEntity> entity) {
         HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();

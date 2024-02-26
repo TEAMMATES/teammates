@@ -1,0 +1,25 @@
+package teammates.client.scripts.sql;
+
+public class MigrateAndVerifyNonCourseEntities {
+    
+    public static void main(String[] args) {
+        try {
+            SeedDb.main(args);
+
+            DataMigrationForNotificationSql.main(args);
+            DataMigrationForAccountRequestSql.main(args);
+            DataMigrationForUsageStatisticsSql.main(args);
+            DataMigrationForAccountAndReadNotificationSql.main(args);
+    
+            VerifyNonCourseEntityCounts.main(args);
+            
+            VerifyAccountRequestAttributes.main(args);
+            VerifyUsageStatisticsAttributes.main(args);
+            VerifyAccountAttributes.main(args);
+            VerifyAccountRequestAttributes.main(args);
+            VerifyNotificationAttributes.main(args);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
