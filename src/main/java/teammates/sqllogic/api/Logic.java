@@ -299,14 +299,14 @@ public class Logic {
      * Updates a student by {@link Student}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses
-     * the student gives/receives as well as any deadline extensions given to the student.
+     * and comments the student gives/receives.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
      * <p>If section changed, cascade update all responses the student gives/receives.
      *
      * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
+     * * Student parameter is non-null.
      *
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
@@ -635,6 +635,28 @@ public class Logic {
     public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
         assert session != null;
         feedbackSessionsLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
+    }
+
+    /**
+     * Gets the expected number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getExpectedTotalSubmission(fs);
+    }
+
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getActualTotalSubmission(FeedbackSession fs) {
+        assert fs != null;
+        return feedbackSessionsLogic.getActualTotalSubmission(fs);
     }
 
     /**
@@ -1244,7 +1266,7 @@ public class Logic {
      * Persists the given data bundle to the database.
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
 

@@ -312,6 +312,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets all responses given by a user for a question.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesForQuestion(UUID feedbackQuestionId) {
+        return frDb.getResponsesForQuestion(feedbackQuestionId);
+    }
+
+    /**
      * Updates the relevant responses before the deletion of a student.
      * This method takes care of the following:
      * Making existing responses of 'rank recipient question' consistent.
@@ -510,6 +517,29 @@ public final class FeedbackResponsesLogic {
             response.setRecipientSection(newSection);
             frDb.updateFeedbackResponse(response);
             frcLogic.updateFeedbackResponseCommentsForResponse(response);
+        }
+    }
+
+    /**
+     * Updates a student's email in their given/received responses.
+     */
+    public void updateFeedbackResponsesForChangingEmail(String courseId, String oldEmail, String newEmail)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        List<FeedbackResponse> responsesFromUser =
+                getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
+
+        for (FeedbackResponse response : responsesFromUser) {
+            response.setGiver(newEmail);
+            frDb.updateFeedbackResponse(response);
+        }
+
+        List<FeedbackResponse> responsesToUser =
+                getFeedbackResponsesForRecipientForCourse(courseId, oldEmail);
+
+        for (FeedbackResponse response : responsesToUser) {
+            response.setRecipient(newEmail);
+            frDb.updateFeedbackResponse(response);
         }
     }
 

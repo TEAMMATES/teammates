@@ -76,7 +76,7 @@ dependencies {
     implementation("org.eclipse.jetty:jetty-annotations")
     implementation("org.jsoup:jsoup:1.15.2")
     implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
-    implementation("org.postgresql:postgresql:42.5.2")
+    implementation("org.postgresql:postgresql:42.7.2")
 
     testAnnotationProcessor(testng)
 
