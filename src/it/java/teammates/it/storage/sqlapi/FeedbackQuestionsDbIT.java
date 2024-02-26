@@ -1,5 +1,6 @@
 package teammates.it.storage.sqlapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -8,12 +9,14 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
 
 /**
  * SUT: {@link FeedbackQuestionsDb}.
@@ -84,4 +87,47 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertTrue(actual);
     }
+
+    private FeedbackQuestion prepareSqlInjectionTests() {
+        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fqDb.createFeedbackQuestion(fq);
+
+        // Ensure feedback_questions db has at least 1 entry / row.
+        assertNotNull(fqDb.getFeedbackQuestion(fq.getId()));
+
+        return fq;
+    }
+
+    @Test
+    public void testSqlInjectionInCreateFeedbackQuestion() {
+        prepareSqlInjectionTests();
+
+        ______TS("");
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        String maliciousDescription = "', '', '', 1, '', '', '', ''); DELETE FROM feedback_questions;--";
+
+        FeedbackQuestion fq = new FeedbackConstantSumQuestion(
+            fs, 1, maliciousDescription, FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS,
+            1, new ArrayList<FeedbackParticipantType>(),  new ArrayList<FeedbackParticipantType>(),
+            new ArrayList<FeedbackParticipantType>(), new FeedbackConstantSumQuestionDetails("")
+        );
+
+        fqDb.createFeedbackQuestion(fq);
+
+        // If SQLi is successful, feedback questions would have been deleted from db. So get will return null.
+        assertNotNull(fqDb.getFeedbackQuestion(fq.getId()));
+    }
+
+    @Test
+    public void testSqlInjectionInHasFeedbackQuestionsForGiverType() throws Exception {
+        FeedbackQuestion fq = prepareSqlInjectionTests();
+        
+        ______TS("SQL Injection test in getCourse");
+        String sessionName = "'; DELETE FROM feedback_questions;--";
+        fqDb.hasFeedbackQuestionsForGiverType(sessionName, fq.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
+
+        // If SQLi is successful, feedback questions would have been deleted from db. So get will return null.
+        assertNotNull(fqDb.getFeedbackQuestion(fq.getId()));
+    }
+
 }
