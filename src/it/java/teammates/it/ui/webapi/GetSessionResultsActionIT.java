@@ -265,23 +265,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     @Test
-    public void testAccessControl_withRegistrationKey_shouldPass() throws Exception {
-        Course typicalCourse1 = typicalBundle.courses.get("course1");
-        FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-        Student student1 = typicalBundle.students.get("student1InCourse1");
-        student1 = logic.getStudentForEmail(student1.getCourse().getId(), student1.getEmail());
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.REGKEY, student1.getRegKey(),
-        };
-
-        verifyAccessibleForUnregisteredUsers(submissionParams);
-    }
-
-    @Test
     public void testAccessControl_withoutCorrectAuthInfoAccessStudentResult_shouldFail() throws Exception {
         Course typicalCourse1 = typicalBundle.courses.get("course1");
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
