@@ -93,7 +93,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
             throws SearchServiceException {
 
-        if (queryString.trim().isEmpty() || getSearchManager() == null) {
+        if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
 

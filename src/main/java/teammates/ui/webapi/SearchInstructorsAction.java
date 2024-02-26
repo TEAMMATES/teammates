@@ -15,7 +15,6 @@ import teammates.ui.output.InstructorsData;
  */
 public class SearchInstructorsAction extends AdminOnlyAction {
 
-    @SuppressWarnings("PMD.AvoidCatchingNPE") // See comment chunk below
     @Override
     public JsonResult execute() {
         // Search for sql db
@@ -26,15 +25,6 @@ public class SearchInstructorsAction extends AdminOnlyAction {
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
         }
-
-        // Catching of NullPointerException for both Solr searches below is necessary for running of tests.
-        // Tests extend from a base test case class, that only registers one of the search managers.
-        // Hence, for tests, the other search manager is not registered and will throw a NullPointerException.
-        // It is possible to get around catching the NullPointerException, but that would require quite a bit
-        // of editing of other files.
-        // Since we will phase out the use of datastore, I think this approach is better.
-        // This also should not be a problem in production, because the method to register the search manager
-        // will be invoked by Jetty at application startup.
 
         // Search for datastore
         List<InstructorAttributes> instructorsDatastore;

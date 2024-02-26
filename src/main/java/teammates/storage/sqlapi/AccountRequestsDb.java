@@ -153,7 +153,7 @@ public final class AccountRequestsDb extends EntitiesDb {
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
 
-        if (queryString.trim().isEmpty() || getSearchManager() == null) {
+        if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
 

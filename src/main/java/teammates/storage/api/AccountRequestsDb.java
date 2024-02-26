@@ -56,7 +56,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
 
-        if (queryString.trim().isEmpty() || getSearchManager() == null) {
+        if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
 
