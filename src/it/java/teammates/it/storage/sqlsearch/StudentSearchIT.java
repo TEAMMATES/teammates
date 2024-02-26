@@ -43,6 +43,7 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu2InCourse1 = typicalBundle.students.get("student2InCourse1");
         Student stu3InCourse1 = typicalBundle.students.get("student3InCourse1");
+        Student stu4InCourse1 = typicalBundle.students.get("student4InCourse1");
         Student stu1InCourse2 = typicalBundle.students.get("student1InCourse2");
         Student unregisteredStuInCourse1 = typicalBundle.students.get("unregisteredStudentInCourse1");
         Student stu1InCourse3 = typicalBundle.students.get("student1InCourse3");
@@ -80,12 +81,12 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for students in whole system; students should be searchable by course id");
 
         results = usersDb.searchStudentsInWholeSystem("\"course-1\"");
-        verifySearchResults(results, stu1InCourse1, stu2InCourse1, stu3InCourse1, unregisteredStuInCourse1);
+        verifySearchResults(results, stu1InCourse1, stu2InCourse1, stu3InCourse1, stu4InCourse1, unregisteredStuInCourse1);
 
         ______TS("success: search for students in whole system; students should be searchable by course name");
 
         results = usersDb.searchStudentsInWholeSystem("\"Typical Course 1\"");
-        verifySearchResults(results, stu1InCourse1, stu2InCourse1, stu3InCourse1, unregisteredStuInCourse1);
+        verifySearchResults(results, stu1InCourse1, stu2InCourse1, stu3InCourse1, stu4InCourse1, unregisteredStuInCourse1);
 
         ______TS("success: search for students in whole system; students should be searchable by their name");
 
