@@ -130,4 +130,72 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertTrue(actual);
     }
+
+    private FeedbackResponse prepareSqlInjectionTest() {
+        FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
+        assertNotNull(frDb.getFeedbackResponse(fr.getId()));
+
+        return fr;
+    }
+
+    private void checkSqliFailed(FeedbackResponse fr) {
+        // If SQLi is successful, feedback responses would have been deleted from db.
+        // So get will return null.
+        assertNotNull(frDb.getFeedbackResponse(fr.getId()));
+    }
+
+    @Test
+    public void testSqlInjectionInGetFeedbackResponsesFromGiverForCourse() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in GetFeedbackResponsesFromGiverForCourse, courseId param");
+        String courseId = "'; DELETE FROM feedback_responses;--";
+        frDb.getFeedbackResponsesFromGiverForCourse(courseId, "");
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInGetFeedbackResponsesForRecipientForCourse() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in GetFeedbackResponsesForRecipientForCourse, courseId param");
+        String courseId = "'; DELETE FROM feedback_responses;--";
+        frDb.getFeedbackResponsesForRecipientForCourse(courseId, "");
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInGetFeedbackResponsesFromGiverForQuestion() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in GetFeedbackResponsesFromGiverForQuestion, giverEmail param");
+        String giverEmail = "';/**/DELETE/**/FROM/**/feedback_responses;--@gmail.com";
+        frDb.getFeedbackResponsesFromGiverForQuestion(fr.getId(), giverEmail);
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInHasResponsesFromGiverInSession() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in HasResponsesFromGiverInSession, giver param");
+        String giver = "'; DELETE FROM feedback_responses;--";
+        frDb.hasResponsesFromGiverInSession(giver, "", "");
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInHasResponsesForCourse() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in HasResponsesForCourse, courseId param");
+        String courseId = "'; DELETE FROM feedback_responses;--";
+        frDb.hasResponsesForCourse(courseId);
+
+        checkSqliFailed(fr);
+    }
 }
