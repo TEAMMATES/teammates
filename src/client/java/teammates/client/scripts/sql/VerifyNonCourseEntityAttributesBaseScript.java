@@ -16,16 +16,13 @@ import teammates.common.util.HibernateUtil;
  * Protected methods may be overriden
  */
 public abstract class VerifyNonCourseEntityAttributesBaseScript
-    <E extends teammates.storage.entity.BaseEntity, 
-        T extends teammates.storage.sqlentity.BaseEntity> extends DatastoreClient {
+    <E, T> extends DatastoreClient {
 
-    protected String dataStoreIdFieldName;
     protected Class<E> datastoreEntityClass; 
     protected Class<T> sqlEntityClass; 
 
-    public VerifyNonCourseEntityAttributesBaseScript(String dataStoreIdFieldName, 
-        Class<T> sqlEntityClass, Class<E> datastoreEntityClass) {
-        this.dataStoreIdFieldName = dataStoreIdFieldName; 
+    public VerifyNonCourseEntityAttributesBaseScript(
+        Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
         this.datastoreEntityClass = datastoreEntityClass; 
         this.sqlEntityClass = sqlEntityClass; 
         
@@ -41,11 +38,11 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      */
     protected abstract String generateID(T sqlEntity);
 
-    protected E lookupDataStoreEntity(String dataStoreIdFieldName, String idVal, Class<E> datastoreEntityClass) {
-        return ofy().load().type(datastoreEntityClass).filter(dataStoreIdFieldName, idVal).first().now();
+    protected E lookupDataStoreEntity(String datastoreEntityId) {
+        return ofy().load().type(datastoreEntityClass).id(datastoreEntityId).now();
     }
 
-    protected List<T> lookupSqlEntities(Class<T> sqlEntityClass) {
+    protected List<T> lookupSqlEntities() {
         HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
@@ -64,15 +61,14 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      * each sql entity, lookup datastore entity
      * if does not match, return failure 
      */
-    protected List<Map.Entry<T, E>> checkAllEntitiesForFailures(Class<T> sqlEntityClass,
-        Class<E> datastoreEntityClass) {
-        List<T> sqlEntities = lookupSqlEntities(sqlEntityClass); 
+    protected List<Map.Entry<T, E>> checkAllEntitiesForFailures() {
+        List<T> sqlEntities = lookupSqlEntities(); 
         
         List<Map.Entry<T, E>> failures = new LinkedList<>(); 
 
         for (T sqlEntity : sqlEntities) {
             String entityId = generateID(sqlEntity);
-            E datastoreEntity = lookupDataStoreEntity(dataStoreIdFieldName, entityId, datastoreEntityClass); 
+            E datastoreEntity = lookupDataStoreEntity(entityId); 
 
             if (datastoreEntity == null) {
                 failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
@@ -92,7 +88,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      */
     protected void runCheckAllEntities(Class<T> sqlEntityClass,
         Class<E> datastoreEntityClass) {
-        List<Map.Entry<T, E>> failedEntities = checkAllEntitiesForFailures(sqlEntityClass, datastoreEntityClass); 
+        List<Map.Entry<T, E>> failedEntities = checkAllEntitiesForFailures(); 
         System.out.println("========================================");
         if (!failedEntities.isEmpty()) {
             System.err.println("Errors detected for entity: " + sqlEntityClass.getName());
