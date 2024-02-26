@@ -102,7 +102,6 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testSqlInjectionInCreateFeedbackQuestion() {
         prepareSqlInjectionTests();
 
-        ______TS("");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         String maliciousDescription = "', '', '', 1, '', '', '', ''); DELETE FROM feedback_questions;--";
 
@@ -122,7 +121,6 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testSqlInjectionInHasFeedbackQuestionsForGiverType() throws Exception {
         FeedbackQuestion fq = prepareSqlInjectionTests();
         
-        ______TS("SQL Injection test in getCourse");
         String sessionName = "'; DELETE FROM feedback_questions;--";
         fqDb.hasFeedbackQuestionsForGiverType(sessionName, fq.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
 
