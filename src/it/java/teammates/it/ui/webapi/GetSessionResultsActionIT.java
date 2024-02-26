@@ -107,9 +107,32 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
             }
         }
 
-        ______TS("Typical: Student accesses results of their course");
+        ______TS("Typical: Instructor previews session results as student");
 
         Student student = typicalBundle.students.get("student1InCourse1");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+                Const.ParamsNames.PREVIEWAS, student.getEmail(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession,
+                        accessibleFeedbackSession.getCourse().getId(),
+                        student.getEmail(),
+                        false, null, true),
+                student);
+
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        ______TS("Typical: Student accesses results of their course");
+
         loginAsStudent(student.getGoogleId());
 
         submissionParams = new String[] {
@@ -126,7 +149,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
                         accessibleFeedbackSession.getCourse().getId(),
                         student.getEmail(),
-                        false, null),
+                        false, null, false),
                 student);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
@@ -209,8 +232,10 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
     private boolean isQuestionOutputEqual(SessionResultsData.QuestionOutput self,
                                           SessionResultsData.QuestionOutput other) {
-        if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(self.getFeedbackQuestion()))
-                || !self.getQuestionStatistics().equals(other.getQuestionStatistics())) {
+        if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(other.getFeedbackQuestion()))
+                || !self.getQuestionStatistics().equals(other.getQuestionStatistics())
+                || self.getHasResponseButNotVisibleForPreview() != other.getHasResponseButNotVisibleForPreview()
+                || self.getHasCommentNotVisibleForPreview() != other.getHasCommentNotVisibleForPreview()) {
             return false;
         }
         List<SessionResultsData.ResponseOutput> thisResponses;
@@ -290,11 +315,11 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     public void testAccessControl_studentAccessUnpublishedSessionStudentResult_shouldFail() {
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Course typicalCourse = typicalBundle.courses.get("course1");
-        FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
+        FeedbackSession unpublishedFeedbackSession = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, unpublishedFeedbackSession.getName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
         loginAsStudent(student1InCourse1.getGoogleId());
