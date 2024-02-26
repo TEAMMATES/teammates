@@ -18,16 +18,22 @@ public class VerifyUsageStatisticsAttributes extends VerifyNonCourseEntityAttrib
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.UsageStatistics sqlEntity, UsageStatistics datastoreEntity) {
-        // UUID for account is not checked, as datastore ID is startTime%timePeriod
-        return sqlEntity.getStartTime() == datastoreEntity.getStartTime()
-            && sqlEntity.getTimePeriod() == datastoreEntity.getTimePeriod()
-            && sqlEntity.getNumResponses() == datastoreEntity.getNumResponses()
-            && sqlEntity.getNumCourses() == datastoreEntity.getNumCourses()
-            && sqlEntity.getNumStudents() == datastoreEntity.getNumStudents()
-            && sqlEntity.getNumInstructors() == datastoreEntity.getNumInstructors()
-            && sqlEntity.getNumAccountRequests() == datastoreEntity.getNumAccountRequests()
-            && sqlEntity.getNumEmails() == datastoreEntity.getNumEmails()
-            && sqlEntity.getNumSubmissions() == datastoreEntity.getNumSubmissions();
+        if (datastoreEntity instanceof teammates.storage.entity.UsageStatistics) {
+            teammates.storage.entity.UsageStatistics stat =
+                (teammates.storage.entity.UsageStatistics) datastoreEntity;
+            // UUID for account is not checked, as datastore ID is startTime%timePeriod
+            return sqlEntity.getStartTime().equals(stat.getStartTime())
+                && sqlEntity.getTimePeriod() == stat.getTimePeriod()
+                && sqlEntity.getNumResponses() == stat.getNumResponses()
+                && sqlEntity.getNumCourses() == stat.getNumCourses()
+                && sqlEntity.getNumStudents() == stat.getNumStudents()
+                && sqlEntity.getNumInstructors() == stat.getNumInstructors()
+                && sqlEntity.getNumAccountRequests() == stat.getNumAccountRequests()
+                && sqlEntity.getNumEmails() == stat.getNumEmails()
+                && sqlEntity.getNumSubmissions() == stat.getNumSubmissions();
+        } else {
+            return false;
+        }
     }    
 
     public static void main(String[] args) {

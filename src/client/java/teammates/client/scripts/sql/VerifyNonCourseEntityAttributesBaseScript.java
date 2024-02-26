@@ -72,7 +72,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
 
         List<Map.Entry<T, E>> failures = new LinkedList<>();
 
-
         for (T sqlEntity : sqlEntities) {
             String entityId = generateID(sqlEntity);
             E datastoreEntity = lookupDataStoreEntity(entityId);
@@ -81,7 +80,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
                 failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
                 continue;
             }
-            boolean isEqual = sqlEntity.isEqualWithDatastoreEntity(datastoreEntity);
+            boolean isEqual = equals(sqlEntity, datastoreEntity);
             if (!isEqual) {
                 failures.add(new AbstractMap.SimpleEntry<T,E>(sqlEntity, datastoreEntity));
                 continue;

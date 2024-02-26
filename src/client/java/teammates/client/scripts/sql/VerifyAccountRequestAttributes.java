@@ -12,7 +12,8 @@ public class VerifyAccountRequestAttributes extends VerifyNonCourseEntityAttribu
 
     @Override
     protected String generateID(teammates.storage.sqlentity.AccountRequest sqlEntity) {
-        return sqlEntity.getId().toString();
+        return teammates.storage.entity.AccountRequest.generateId(
+            sqlEntity.getEmail(), sqlEntity.getInstitute());
     }
 
     public static void main(String[] args) {
@@ -23,15 +24,30 @@ public class VerifyAccountRequestAttributes extends VerifyNonCourseEntityAttribu
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.AccountRequest sqlEntity, AccountRequest datastoreEntity) {
-        try {
+        if (datastoreEntity != null && (datastoreEntity instanceof teammates.storage.entity.AccountRequest)){
+            teammates.storage.entity.AccountRequest accReq =
+                (teammates.storage.entity.AccountRequest) datastoreEntity;
             // UUID for account is not checked, as datastore ID is email%institute
-            return sqlEntity.getRegistrationKey() == datastoreEntity.getRegistrationKey()
-                && sqlEntity.getName() == datastoreEntity.getName()
-                && sqlEntity.getEmail() == datastoreEntity.getEmail()
-                && sqlEntity.getInstitute() == datastoreEntity.getInstitute()
-                && sqlEntity.getRegisteredAt() == datastoreEntity.getRegisteredAt();
-        } catch (IllegalArgumentException iae) {
+            if (!sqlEntity.getName().equals(accReq.getName())) {
+                return false;
+            }
+            if (!sqlEntity.getEmail().equals(accReq.getEmail())) {
+                return false;
+            }
+            if (!sqlEntity.getInstitute().equals(accReq.getInstitute())) {
+                return false;
+            }
+            // only need to check getRegisteredAt() as the other fields must not be null.
+            if (sqlEntity.getRegisteredAt() == null) {
+                if (accReq.getRegisteredAt() != null) {
+                    return false;
+                }
+            } else if (!sqlEntity.getRegisteredAt().equals(accReq.getRegisteredAt())) {
+                return false;
+            }
+            return true;
+        } else {
             return false;
-        } 
+        }
     }
 }
