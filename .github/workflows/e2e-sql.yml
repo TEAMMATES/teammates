@@ -3,10 +3,12 @@ name: E2E Sql Tests
 on:
   push:
     branches:
-      - v9-migration # TODO: add master and release once v9 is merged
+      - master
+      - release
   pull_request:
     branches:
-      - v9-migration # TODO: add master and release once v9 is merged
+      - master
+      - release
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
