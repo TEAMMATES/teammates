@@ -196,6 +196,12 @@ public abstract class BaseEntity {
         }
     }
 
+    /**
+     * Used for comparison of correct migration.
+     * To be deleted after sql migration is complete.
+     * @param other datastore entity
+     * @return true if the entities are equal. Otherwise, throw exception or return false.
+     */
     public boolean isEqualWithDatastoreEntity(teammates.storage.entity.BaseEntity other) {
         return false;
     }
