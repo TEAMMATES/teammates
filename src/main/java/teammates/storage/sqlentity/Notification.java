@@ -178,20 +178,27 @@ public class Notification extends BaseEntity {
     }
 
     // Used for sql data migration
-    public boolean equals(teammates.storage.entity.Notification notif) {
-        try {
-            UUID otherUuid = UUID.fromString(notif.getNotificationId());
-            return this.getId() == otherUuid
-                && this.getStartTime() == notif.getStartTime()
-                && this.getEndTime() == notif.getEndTime()
-                && this.getStyle() == notif.getStyle()
-                && this.getTargetUser() == notif.getTargetUser()
-                && this.getTitle() == notif.getTitle()
-                && this.getMessage() == notif.getMessage()
-                && this.isShown() == notif.isShown();
-        } catch (IllegalArgumentException iae) {
+    @Override
+    public boolean isEqualWithDatastoreEntity(teammates.storage.entity.BaseEntity other) {
+        if (other instanceof teammates.storage.entity.Notification) {
+            teammates.storage.entity.Notification notif =
+                (teammates.storage.entity.Notification) other;
+            try {
+                UUID otherUuid = UUID.fromString(notif.getNotificationId());
+                return this.getId().equals(otherUuid)
+                    && this.getStartTime().equals(notif.getStartTime())
+                    && this.getEndTime().equals(notif.getEndTime())
+                    && this.getStyle().equals(notif.getStyle())
+                    && this.getTargetUser().equals(notif.getTargetUser())
+                    && this.getTitle().equals(notif.getTitle())
+                    && this.getMessage().equals(notif.getMessage())
+                    && this.isShown() == notif.isShown();
+            } catch (IllegalArgumentException iae) {
+                return false;
+            }
+        } else {
             return false;
-        } 
+        }
     }
 
     @Override
