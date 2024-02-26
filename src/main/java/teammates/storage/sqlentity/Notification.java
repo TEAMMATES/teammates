@@ -177,6 +177,23 @@ public class Notification extends BaseEntity {
         return this.getId().hashCode();
     }
 
+    // Used for sql data migration
+    public boolean equals(teammates.storage.entity.Notification notif) {
+        try {
+            UUID otherUuid = UUID.fromString(notif.getNotificationId());
+            return this.getId() == otherUuid
+                && this.getStartTime() == notif.getStartTime()
+                && this.getEndTime() == notif.getEndTime()
+                && this.getStyle() == notif.getStyle()
+                && this.getTargetUser() == notif.getTargetUser()
+                && this.getTitle() == notif.getTitle()
+                && this.getMessage() == notif.getMessage()
+                && this.isShown() == notif.isShown();
+        } catch (IllegalArgumentException iae) {
+            return false;
+        } 
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
