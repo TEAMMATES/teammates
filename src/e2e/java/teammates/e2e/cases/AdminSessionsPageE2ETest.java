@@ -64,6 +64,8 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
         futureFeedbackSession.setResultsVisibleFromTime(instant24DaysLater);
 
         removeAndRestoreDataBundle(testData);
+
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/AdminSessionsPageE2ETest_SqlEntities.json"));
     }
 
     @Test

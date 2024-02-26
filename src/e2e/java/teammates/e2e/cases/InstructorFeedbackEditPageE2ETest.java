@@ -35,6 +35,9 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/InstructorFeedbackEditPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                        loadSqlDataBundle("/InstructorFeedbackEditPageE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("instructor");
         feedbackSession = testData.feedbackSessions.get("openSession");
         course = testData.courses.get("course");

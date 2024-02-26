@@ -25,6 +25,8 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorStudentListPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+
+        removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorStudentListPageE2ETest_SqlEntities.json"));
     }
 
     @Test

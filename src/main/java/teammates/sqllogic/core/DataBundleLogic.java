@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.JsonUtils;
@@ -244,9 +245,11 @@ public final class DataBundleLogic {
      * Persists data in the given {@link DataBundle} to the database.
      *
      * @throws InvalidParametersException if invalid data is encountered.
+     * @throws EntityDoesNotExistException if an entity was not found.
+     *         (ReadNotification requires Account and Notification to be created)
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
         }
@@ -264,6 +267,7 @@ public final class DataBundleLogic {
         Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
+        Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
         for (AccountRequest accountRequest : accountRequests) {
             accountRequestsLogic.createAccountRequest(accountRequest);
@@ -312,6 +316,11 @@ public final class DataBundleLogic {
 
         for (Student student : students) {
             usersLogic.createStudent(student);
+        }
+
+        for (ReadNotification readNotification : readNotifications) {
+            accountsLogic.updateReadNotifications(readNotification.getAccount().getGoogleId(),
+                    readNotification.getNotification().getId(), readNotification.getNotification().getEndTime());
         }
 
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {

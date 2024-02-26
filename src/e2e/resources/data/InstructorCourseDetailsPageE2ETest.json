@@ -1,30 +1,4 @@
 {
-  "accounts": {
-    "ICDet.instr": {
-      "googleId": "tm.e2e.ICDet.instr",
-      "name": "Teammates Test",
-      "email": "ICDet.instr@gmail.tmt",
-      "readNotifications": {}
-    },
-    "ICDet.instr2": {
-      "googleId": "tm.e2e.ICDet.instr2",
-      "name": "Teammates Test 2",
-      "email": "ICDet.instr2@gmail.tmt",
-      "readNotifications": {}
-    },
-    "Alice": {
-      "googleId": "tm.e2e.ICDet.alice.b",
-      "name": "Alice Betsy",
-      "email": "alice.b.tmms@gmail.tmt",
-      "readNotifications": {}
-    },
-    "Danny": {
-      "googleId": "tm.e2e.ICDet.danny.e",
-      "name": "Charlie Davis",
-      "email": "danny.e.tmms@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "ICDet.CS2104": {
       "id": "tm.e2e.ICDet.CS2104",

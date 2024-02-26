@@ -1,0 +1,40 @@
+{
+  "accounts": {
+    "FSubmit.instr": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.FSubmit.instr",
+      "name": "Teammates Test",
+      "email": "FSubmit.instr@gmail.tmt"
+    },
+    "FSubmit.instr2": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.FSubmit.instr2",
+      "name": "Teammates Test2",
+      "email": "FSubmit.instr2@gmail.tmt"
+    },
+    "FSubmit.alice.b": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.FSubmit.alice.b",
+      "name": "Alice B.",
+      "email": "FSubmit.alice.b@gmail.tmt"
+    },
+    "FSubmit.charlie.d": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "tm.e2e.FSubmit.charlie.d",
+      "name": "Charlie D.",
+      "email": "FSubmit.charlie.d@gmail.tmt"
+    },
+    "FSubmit.danny.e": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "googleId": "tm.e2e.FSubmit.danny.e",
+      "name": "Danny E.",
+      "email": "FSubmit.danny.e@gmail.tmt"
+    },
+    "FSubmit.emily.f": {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "googleId": "tm.e2e.FSubmit.emily.f",
+      "name": "Emily F.",
+      "email": "FSubmit.emily.f@gmail.tmt"
+    }
+  }
+}

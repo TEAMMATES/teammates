@@ -24,6 +24,9 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         testData = loadDataBundle("/FeedbackConstSumRecipientQuestionE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/FeedbackConstSumRecipientQuestionE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");

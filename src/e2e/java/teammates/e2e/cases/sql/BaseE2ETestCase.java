@@ -20,9 +20,13 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackResponseData;
 
 /**
  * Base class for all browser tests.
@@ -224,13 +228,30 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
      * Removes and restores the databundle using BACKDOOR.
      */
     @Override
-    protected boolean doRemoveAndRestoreDataBundle(SqlDataBundle testData) {
+    protected SqlDataBundle doRemoveAndRestoreDataBundle(SqlDataBundle testData) {
         try {
-            BACKDOOR.removeAndRestoreSqlDataBundle(testData);
-            return true;
+            return BACKDOOR.removeAndRestoreSqlDataBundle(testData);
         } catch (HttpRequestFailedException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
+    }
+
+    FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
+        return BACKDOOR.getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
+    }
+
+    @Override
+    protected FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq) {
+        return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSession().getName(), fq.getQuestionNumber());
+    }
+
+    FeedbackResponseData getFeedbackResponse(String questionId, String giver, String recipient) {
+        return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
+    }
+
+    @Override
+    protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
+        return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
     }
 }

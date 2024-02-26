@@ -1,0 +1,16 @@
+{
+    "accounts": {
+      "instructorOfCourse1": {
+        "googleId": "tm.e2e.ISList.instr1",
+        "name": "Instructor of Course 1",
+        "email": "ISList.instr1@gmail.tmt",
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "Student3Course3": {
+        "googleId": "tm.e2e.ISList.charlie.tmms",
+        "name": "Charlie D",
+        "email": "ISList.charlie.tmms@gmail.tmt",
+        "id": "00000000-0000-4000-8000-000000000002"
+      }
+    }
+  }

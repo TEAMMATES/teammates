@@ -26,7 +26,6 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
         // TODO check if we can automate this checking process
 
         String student1Email = TestProperties.TEST_EMAIL;
-        testData.accounts.get("instructorWithEvals").setEmail(student1Email);
         testData.instructors.get("AutSesRem.instructor").setEmail(student1Email);
         testData.students.get("alice.tmms@AutSesRem.course").setEmail(student1Email);
         testData.feedbackSessions.get("closedSession").setCreatorEmail(student1Email);
@@ -49,6 +48,9 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
         // Published time for one feedback session already set to some time in the past.
 
         removeAndRestoreDataBundle(testData);
+
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/AutomatedSessionRemindersE2ETest_SqlEntities.json"));
+        sqlTestData.accounts.get("instructorWithEvals").setEmail(student1Email);
     }
 
     @Override

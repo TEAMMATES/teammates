@@ -1,20 +1,4 @@
 {
-  "accounts": {
-    "instructor1": {
-      "googleId": "tm.e2e.ISesIe.instructor1",
-      "name": "Instructor 1",
-      "isInstructor": true,
-      "email": "instructor1.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    },
-    "instructor2": {
-      "googleId": "tm.e2e.ISesIe.instructor2",
-      "name": "Instructor 2",
-      "isInstructor": true,
-      "email": "instructor2.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    }
-  },
   "courses": {
     "course": {
       "id": "tm.e2e.ISesIe.CS2104",

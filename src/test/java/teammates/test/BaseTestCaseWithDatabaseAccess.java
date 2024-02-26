@@ -1,6 +1,7 @@
 package teammates.test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -267,6 +268,21 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     }
 
     protected abstract boolean doRemoveAndRestoreDataBundle(DataBundle testData);
+
+    protected SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle testData) {
+        int retryLimit = OPERATION_RETRY_COUNT;
+        SqlDataBundle dataBundle = doRemoveAndRestoreSqlDataBundle(testData);
+        while (dataBundle == null && retryLimit > 0) {
+            retryLimit--;
+            print("Re-trying removeAndRestoreDataBundle");
+            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
+            dataBundle = doRemoveAndRestoreSqlDataBundle(testData);
+        }
+        assertNotNull(dataBundle);
+        return dataBundle;
+    }
+
+    protected abstract SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData);
 
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

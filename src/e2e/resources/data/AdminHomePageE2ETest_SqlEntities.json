@@ -1,0 +1,19 @@
+{
+  "accounts": {
+    "AHome.instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.AHome.inst1",
+      "name": "Teammates Instr1",
+      "email": "AHome.instr1@gmail.tmt"
+    }
+  },
+  "accountRequests": {
+    "AHome.instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "name": "Teammates Instr1",
+      "email": "AHome.instr1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    }
+  }
+}

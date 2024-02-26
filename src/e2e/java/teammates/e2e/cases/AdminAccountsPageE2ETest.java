@@ -2,12 +2,12 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminAccountsPage;
+import teammates.ui.output.AccountData;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_ACCOUNTS_PAGE}.
@@ -18,6 +18,8 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/AdminAccountsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/AdminAccountsPageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -32,7 +34,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId);
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
-        AccountAttributes account = getAccount(googleId);
+        AccountData account = BACKDOOR.getAccountData(googleId);
         accountsPage.verifyAccountDetails(account);
 
         ______TS("action: remove instructor from course");
@@ -65,7 +67,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         accountsPage.clickDeleteAccount();
         accountsPage.verifyStatusMessage("Account \"" + googleId + "\" is successfully deleted.");
 
-        verifyAbsentInDatabase(account);
+        assertNull(BACKDOOR.getAccountData(googleId));
 
         // student entities should be deleted
         verifyAbsentInDatabase(student2);

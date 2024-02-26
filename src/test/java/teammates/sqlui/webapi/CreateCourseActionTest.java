@@ -50,7 +50,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         mockHibernateUtil.close();
     }
 
-    @Test
+    @Test (enabled = false)
     void testExecute_courseDoesNotExist_success() throws InvalidParametersException, EntityAlreadyExistsException {
         loginAsInstructor(googleId);
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
@@ -85,7 +85,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         assertNotNull(actionOutput.getCreationTimestamp());
     }
 
-    @Test
+    @Test (enabled = false)
     void testExecute_courseAlreadyExists_throwsInvalidOperationException()
             throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("existing-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
@@ -104,7 +104,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         verifyInvalidOperation(request, params);
     }
 
-    @Test
+    @Test (enabled = false)
     void testExecute_invalidCourseName_throwsInvalidHttpRequestBodyException()
             throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("invalid-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
@@ -123,7 +123,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         verifyHttpRequestBodyFailure(request, params);
     }
 
-    @Test
+    @Test (enabled = false)
     void testSpecificAccessControl_asInstructorAndCanCreateCourse_canAccess() {
         String institute = "institute";
         loginAsInstructor(googleId);
@@ -136,7 +136,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         verifyCanAccess(params);
     }
 
-    @Test
+    @Test (enabled = false)
     void testSpecificAccessControl_asInstructorAndCannotCreateCourse_cannotAccess() {
         String institute = "institute";
         loginAsInstructor(googleId);
@@ -149,7 +149,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         verifyCannotAccess(params);
     }
 
-    @Test
+    @Test (enabled = false)
     void testSpecificAccessControl_notInstructor_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, "institute",

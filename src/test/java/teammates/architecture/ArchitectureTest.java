@@ -351,7 +351,13 @@ public class ArchitectureTest {
                     }
                 })
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(UI_PACKAGE)
+                                && !input.getPackageName().startsWith(UI_OUTPUT_PACKAGE);
+                    }
+                })
                 .check(forClasses(E2E_PACKAGE));
 
         noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))

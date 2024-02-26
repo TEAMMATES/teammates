@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
@@ -713,6 +713,10 @@ public final class UsersLogic {
         }
     }
 
+    private boolean isEmailChanged(String originalEmail, String newEmail) {
+        return newEmail != null && !originalEmail.equals(newEmail);
+    }
+
     private boolean isTeamChanged(Team originalTeam, Team newTeam) {
         return newTeam != null && originalTeam != null
                 && !originalTeam.equals(newTeam);
@@ -726,6 +730,8 @@ public final class UsersLogic {
     /**
      * Updates a student by {@link Student}.
      *
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * and comments the student gives/receives.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
@@ -740,34 +746,49 @@ public final class UsersLogic {
     public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Student originalStudent = getStudentForEmail(student.getCourseId(), student.getEmail());
+        String courseId = student.getCourseId();
+        Student originalStudent = getStudent(student.getId());
+        String originalEmail = originalStudent.getEmail();
+        boolean changedEmail = isEmailChanged(originalEmail, student.getEmail());
+
+        // check for email conflict
+        Student s = usersDb.getStudentForEmail(courseId, student.getEmail());
+        if (changedEmail && s != null) {
+            String errorMessage = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString());
+            throw new EntityAlreadyExistsException(errorMessage);
+        }
+
         Team originalTeam = originalStudent.getTeam();
         Section originalSection = originalStudent.getSection();
-
         boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
+        // update student
+        usersDb.checkBeforeUpdateStudent(student);
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
         originalStudent.setEmail(student.getEmail());
         originalStudent.setComments(student.getComments());
 
-        Student updatedStudent = usersDb.updateStudent(originalStudent);
-        Course course = updatedStudent.getCourse();
+        // cascade email changes to responses and comments
+        if (changedEmail) {
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
+            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
+        }
 
         // adjust submissions if moving to a different team
         if (changedTeam) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(course, updatedStudent.getEmail(),
-                    updatedStudent.getTeam(), originalTeam);
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(),
+                    student.getTeam(), originalTeam);
         }
 
         // update the new section name in responses
         if (changedSection) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
-                    course, updatedStudent.getEmail(), updatedStudent.getSection());
+                    student.getCourse(), student.getEmail(), student.getSection());
         }
 
-        return updatedStudent;
+        return originalStudent;
     }
 
     /**

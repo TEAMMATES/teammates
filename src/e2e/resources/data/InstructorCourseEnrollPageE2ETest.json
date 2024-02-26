@@ -1,12 +1,4 @@
 {
-  "accounts": {
-    "ICEnroll.teammates.test": {
-      "googleId": "tm.e2e.ICEnroll.teammates.test",
-      "name": "Teammates Test",
-      "email": "teammates.test@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "ICEnroll.CS2104": {
       "id": "tm.e2e.ICEnroll.CS2104",

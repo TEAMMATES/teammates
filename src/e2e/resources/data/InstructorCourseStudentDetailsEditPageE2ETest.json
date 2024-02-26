@@ -1,12 +1,4 @@
 {
-  "accounts": {
-    "ICSDetEdit.instr": {
-      "googleId": "tm.e2e.ICSDetEdit.instr",
-      "name": "Teammates Test",
-      "email": "ICSDetEdit.instr@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "ICSDetEdit.CS2104": {
       "id": "tm.e2e.ICSDetEdit.CS2104",

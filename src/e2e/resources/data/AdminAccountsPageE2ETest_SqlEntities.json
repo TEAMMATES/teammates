@@ -1,0 +1,16 @@
+{
+  "accounts": {
+    "AAccounts.instr2": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "name": "Teammates Instr2",
+      "email": "AAccounts.instr2@gmail.tmt"
+    },
+    "AAccounts.instr3": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.AAccounts.instr3",
+      "name": "Teammates Instr3",
+      "email": "AAccounts.instr3@gmail.tmt"
+    }
+  }
+}

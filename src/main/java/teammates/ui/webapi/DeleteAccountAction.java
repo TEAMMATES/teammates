@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 
 /**
@@ -11,13 +10,11 @@ class DeleteAccountAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        AccountAttributes accountInfo = logic.getAccount(googleId);
 
-        if (accountInfo == null || accountInfo.isMigrated()) {
-            sqlLogic.deleteAccountCascade(googleId);
-        } else {
-            logic.deleteAccountCascade(googleId);
-        }
+        // deleteAccountCascade is needed for datastore for dual DB
+        // as it deletes the student and instructor entities which are not yet migrated
+        logic.deleteAccountCascade(googleId);
+        sqlLogic.deleteAccountCascade(googleId);
 
         return new JsonResult("Account is successfully deleted.");
     }

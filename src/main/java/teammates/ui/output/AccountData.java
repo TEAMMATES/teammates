@@ -36,7 +36,7 @@ public class AccountData extends ApiOutput {
         this.readNotifications = account.getReadNotifications()
                 .stream()
                 .collect(Collectors.toMap(
-                        readNotification -> readNotification.getId().toString(),
+                        readNotification -> readNotification.getNotification().getId().toString(),
                         readNotification ->
                                 readNotification.getNotification().getEndTime().toEpochMilli()));
     }

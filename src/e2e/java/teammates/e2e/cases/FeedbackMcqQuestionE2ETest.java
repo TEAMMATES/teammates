@@ -24,6 +24,8 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         testData = loadDataBundle("/FeedbackMcqQuestionE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/FeedbackMcqQuestionE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");

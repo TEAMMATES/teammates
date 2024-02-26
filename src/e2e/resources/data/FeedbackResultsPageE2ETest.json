@@ -1,42 +1,4 @@
 {
-  "accounts": {
-    "FRes.instr": {
-      "googleId": "tm.e2e.FRes.instr",
-      "name": "Teammates Test",
-      "email": "FRes.instr@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.alice.b": {
-      "googleId": "tm.e2e.FRes.alice.b",
-      "name": "Alice B.",
-      "email": "FRes.alice.b@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.benny.c": {
-      "googleId": "tm.e2e.FRes.benny.c",
-      "name": "Benny C.",
-      "email": "FRes.benny.c@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.charlie.d": {
-      "googleId": "tm.e2e.FRes.charlie.d",
-      "name": "Charlie D.",
-      "email": "FRes.charlie.d@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.danny.e": {
-      "googleId": "tm.e2e.FRes.danny.e",
-      "name": "Danny E.",
-      "email": "FRes.danny.e@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.emily.f": {
-      "googleId": "tm.e2e.FRes.emily.f",
-      "name": "Emily F.",
-      "email": "FRes.emily.f@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "FRes.CS2104": {
       "id": "tm.e2e.FRes.CS2104",

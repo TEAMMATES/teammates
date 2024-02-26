@@ -1,18 +1,4 @@
 {
-  "accounts": {
-    "ICEdit.coowner": {
-      "googleId": "tm.e2e.ICEdit.coowner",
-      "name": "Teammates Test",
-      "email": "ICEdit.coowner@gmail.tmt",
-      "readNotifications": {}
-    },
-    "ICEdit.observer": {
-      "googleId": "tm.e2e.ICEdit.observer.CS2104",
-      "name": "Teammates Instructor",
-      "email": "ICEdit.observer@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "ICEdit.CS2104": {
       "createdAt": "2010-04-02T12:00:00Z",

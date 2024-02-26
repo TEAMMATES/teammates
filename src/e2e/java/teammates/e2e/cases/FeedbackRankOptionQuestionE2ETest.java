@@ -26,6 +26,9 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         testData = loadDataBundle("/FeedbackRankOptionQuestionE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/FeedbackRankOptionQuestionE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");

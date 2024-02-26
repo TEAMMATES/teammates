@@ -109,9 +109,9 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
 
         // # of email to send =
         //    # emails sent to instructorsToNotify (ie co-owner), 1 +
-        //    # emails sent to students, 4 +
+        //    # emails sent to students, 5 +
         //    # emails sent to instructors, 3 (including instructorsToNotify)
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 9);
 
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {

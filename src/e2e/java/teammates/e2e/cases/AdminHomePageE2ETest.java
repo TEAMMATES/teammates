@@ -2,10 +2,10 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminHomePage;
+import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_HOME_PAGE}.
@@ -16,6 +16,8 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/AdminHomePageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                        loadSqlDataBundle("/AdminHomePageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -50,7 +52,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         BACKDOOR.deleteAccountRequest(email, institute);
 
         ______TS("Failure case: Instructor is already registered");
-        AccountRequestAttributes registeredAccountRequest = testData.accountRequests.get("AHome.instructor1OfCourse1");
+        AccountRequest registeredAccountRequest = sqlTestData.accountRequests.get("AHome.instructor1OfCourse1");
         homePage.queueInstructorForAdding(registeredAccountRequest.getName(),
                 registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute());
 

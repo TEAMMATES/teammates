@@ -57,7 +57,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         StudentsData response = (StudentsData) jsonResult.getOutput();
         List<StudentData> students = response.getStudents();
 
-        assertEquals(4, students.size());
+        assertEquals(5, students.size());
 
         StudentData firstStudentInStudents = students.get(0);
 

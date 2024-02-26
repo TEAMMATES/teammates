@@ -59,6 +59,12 @@
       "googleId": "idOfStudent3Course1",
       "name": "Student 3",
       "email": "student3@teammates.tmt"
+    },
+    "student4": {
+      "id": "00000000-0000-4000-8000-000000000104",
+      "googleId": "idOfStudent4Course1",
+      "name": "Student 4",
+      "email": "student4@teammates.tmt"
     }
   },
   "accountRequests": {
@@ -238,7 +244,14 @@
           "id": "00000000-0000-4000-8000-000000000204"
         },
         "name": "Team 1"
-      }
+      },
+    "team2InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000305",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "name": "Team 4"
+    }
   },
   "deadlineExtensions": {
     "student1InCourse1Session1": {
@@ -673,6 +686,21 @@
       "email": "studentOfArchivedCourse@teammates.tmt",
       "name": "Student In Archived Course",
       "comments": ""
+    },
+    "student4InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000611",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000104"
+      },
+      "course": {
+        "id": "course-1"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000305"
+      },
+      "email": "student4@teammates.tmt",
+      "name": "student4 In Course1",
+      "comments": "comment for student4Course1"
     }
   },
   "feedbackSessions": {

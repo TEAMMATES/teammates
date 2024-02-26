@@ -45,6 +45,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
+        removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorFeedbackSessionsPageE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         copiedCourse = testData.courses.get("course2");

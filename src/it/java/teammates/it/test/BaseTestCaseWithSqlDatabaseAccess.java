@@ -19,6 +19,7 @@ import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
@@ -132,7 +133,7 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
      * Persist data bundle into the db.
      */
     protected void persistDataBundle(SqlDataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         logic.persistDataBundle(dataBundle);
     }
 

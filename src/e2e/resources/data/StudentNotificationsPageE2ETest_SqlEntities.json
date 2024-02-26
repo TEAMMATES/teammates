@@ -1,0 +1,73 @@
+{
+  "accounts": {
+    "SNotifs.student": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.SNotifs.student",
+      "name": "Alice B",
+      "email": "SNotifs.student@gmail.tmt"
+    }
+  },
+  "notifications": {
+    "notification1": {
+      "id": "00000000-0000-4000-8000-000000001101",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "SNotifs.notification1",
+      "message": "<p>This notification is shown to general users</p>",
+      "shown": false
+    },
+    "notification2": {
+      "id": "00000000-0000-4000-8000-000000001102",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "STUDENT",
+      "title": "SNotifs.notification2",
+      "message": "<p>This notification is shown to students only</p>",
+      "shown": false
+    },
+    "notification3": {
+      "id": "00000000-0000-4000-8000-000000001103",
+      "startTime": "2011-03-03T00:00:00Z",
+      "endTime": "2099-03-03T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "INSTRUCTOR",
+      "title": "SNotifs.notification3",
+      "message": "<p>This notification is shown to instructors only</p>",
+      "shown": false
+    },
+    "notification4": {
+      "id": "00000000-0000-4000-8000-000000001104",
+      "startTime": "2011-04-04T00:00:00Z",
+      "endTime": "2099-04-04T00:00:00Z",
+      "style": "WARNING",
+      "targetUser": "GENERAL",
+      "title": "SNotifs.notification4",
+      "message": "<p>This notification has been read by the user</p>",
+      "shown": false
+    },
+    "expiredNotification1": {
+      "id": "00000000-0000-4000-8000-000000001105",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2011-02-02T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "SNotifs.expiredNotification1",
+      "message": "<p>This notification has expired</p>",
+      "shown": false
+    }
+  },
+  "readNotifications": {
+    "notification4SNotifs.student": {
+      "id": "00000000-0000-4000-8000-000000002100",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "notification": {
+        "id": "00000000-0000-4000-8000-000000001104"
+      }
+    }
+  }
+}
