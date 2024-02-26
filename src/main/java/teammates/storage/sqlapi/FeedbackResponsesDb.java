@@ -295,7 +295,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
             giverSectionFilter = cb.equal(giverJoin.get("name"), sectionName);
         }
         if (fetchType.shouldFetchByReceiver()) {
-            giverSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
+            recipientSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
         }
 
         cq.select(root)
@@ -333,7 +333,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
             giverSectionFilter = cb.equal(giverJoin.get("name"), sectionName);
         }
         if (fetchType.shouldFetchByReceiver()) {
-            giverSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
+            recipientSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
         }
 
         cq.select(root)
