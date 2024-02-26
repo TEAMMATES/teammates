@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.hibernate.Session;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -43,7 +45,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
     }
 
     protected List<T> lookupSqlEntities() {
-        HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
         Root<T> root = cr.from(sqlEntityClass);
@@ -51,7 +52,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
         cr.select(root);
 
         List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
-        HibernateUtil.commitTransaction();
 
         return sqlEntities;
     }
@@ -88,7 +88,9 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      */
     protected void runCheckAllEntities(Class<T> sqlEntityClass,
         Class<E> datastoreEntityClass) {
+        HibernateUtil.beginTransaction();
         List<Map.Entry<T, E>> failedEntities = checkAllEntitiesForFailures();
+
         System.out.println("========================================");
         if (!failedEntities.isEmpty()) {
             System.err.println("Errors detected for entity: " + sqlEntityClass.getName());
@@ -98,6 +100,8 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
         } else {
             System.out.println("No errors detected for entity: " + sqlEntityClass.getName());
         }
+        HibernateUtil.commitTransaction();
+
     }
 
     protected void doOperation() {
