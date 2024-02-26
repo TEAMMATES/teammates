@@ -195,4 +195,8 @@ public abstract class BaseEntity {
             return JsonUtils.fromJson(dbData, InstructorPrivileges.class);
         }
     }
+
+    public boolean isEqualWithDatastoreEntity(teammates.storage.entity.BaseEntity other) {
+        return false;
+    }
 }
