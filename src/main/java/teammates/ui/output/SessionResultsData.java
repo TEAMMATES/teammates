@@ -224,7 +224,7 @@ public class SessionResultsData extends ApiOutput {
 
         Set<FeedbackQuestion> questionsWithResponsesNotVisibleForPreview =
                 bundle.getQuestionsNotVisibleForPreviewSet();
-        questionsWithResponsesNotVisibleForPreview.forEach((question) -> {
+        questionsWithResponsesNotVisibleForPreview.forEach(question -> {
             QuestionOutput qnOutput = new QuestionOutput(question, "", true, false);
             sessionResultsData.questions.add(qnOutput);
         });

@@ -36,7 +36,7 @@ import teammates.storage.sqlentity.responses.FeedbackMissingResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
- * Handles operations related to feedback sessions.
+ * Handles operations related to feedback responses.
  *
  * @see FeedbackResponse
  * @see FeedbackResponsesDb
@@ -581,6 +581,8 @@ public final class FeedbackResponsesLogic {
         List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
         Map<FeedbackResponse, List<FeedbackResponseComment>> relatedCommentsMap = new HashMap<>();
+        Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
+        Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
         if (isCourseWide) {
             // all questions are related questions when viewing course-wide result
             for (FeedbackQuestion qn : allQuestions) {
@@ -600,8 +602,6 @@ public final class FeedbackResponsesLogic {
         Map<FeedbackResponse, Boolean> responseGiverVisibilityTable = new HashMap<>();
         Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable = new HashMap<>();
         Map<Long, Boolean> commentVisibilityTable = new HashMap<>();
-        Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
-        Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
 
         // build response
         for (FeedbackResponse response : allResponses) {
@@ -736,6 +736,7 @@ public final class FeedbackResponsesLogic {
      * @param userEmail the user viewing the feedback session
      * @param isInstructor true if the user is an instructor
      * @param questionId if not null, will only return partial bundle for the question
+     * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SqlSessionResultsBundle getSessionResultsForUser(
