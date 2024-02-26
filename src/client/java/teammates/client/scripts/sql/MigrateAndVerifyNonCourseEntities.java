@@ -8,8 +8,8 @@ public class MigrateAndVerifyNonCourseEntities {
             SeedUsageStatistics.main(args);
 
             DataMigrationForNotificationSql.main(args);
-            DataMigrationForAccountRequestSql.main(args);
             DataMigrationForUsageStatisticsSql.main(args);
+            DataMigrationForAccountRequestSql.main(args);
             DataMigrationForAccountAndReadNotificationSql.main(args);
 
             VerifyNonCourseEntityCounts.main(args);

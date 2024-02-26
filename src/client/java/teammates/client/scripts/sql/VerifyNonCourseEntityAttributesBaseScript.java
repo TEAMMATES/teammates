@@ -51,7 +51,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
         return ofy().load().type(datastoreEntityClass).id(datastoreEntityId).now();
     }
 
-    private static int SQL_FETCH_BATCH_SIZE = 1;
+    private static int SQL_FETCH_BATCH_SIZE = 500;
 
     private int calculateOffset(int pageNum) {
         return (pageNum - 1) * SQL_FETCH_BATCH_SIZE;
@@ -112,6 +112,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
 
         int numPages = getNumPages();
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
+            if (currPageNum % (numPages / 5) == 0) {
+                System.out.println(String.format("Verifed the %s percent of %s", (100 * (currPageNum / numPages)), sqlEntityClass.getName()));
+            }
+
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
             for (T sqlEntity : sqlEntities) {
