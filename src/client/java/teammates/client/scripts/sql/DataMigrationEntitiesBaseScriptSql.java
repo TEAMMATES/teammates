@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import teammates.common.util.HibernateUtil;
 
 import com.google.cloud.datastore.Cursor;
@@ -40,7 +37,7 @@ import teammates.test.FileHelper;
  * {@link #migrateEntity(BaseEntity)}.</li>
  * <li>Supports batch saving if transaction is not used.</li>
  * </ul>
- * 
+ *
  * @param <E> The datastore entity type to be migrated by the script.
  * @param <T> The SQL entity type to be migrated by the script.
  */
@@ -345,11 +342,11 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
      * equivalent of '&'.
      *
      * <p>
-     * Eg. "No special characters", "{@code 
-     * 
+     * Eg. "No special characters", "{@code
+     *
     <p>
      * &quot;with quotes&quot;
-     * 
+     *
     </p>
      * }" are considered to be not sanitized.<br>
      * "{@code &lt;p&gt; a p tag &lt;&#x2f;p&gt;}" is considered to be sanitized.
