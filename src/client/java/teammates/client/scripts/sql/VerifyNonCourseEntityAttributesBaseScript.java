@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 
-import org.hibernate.Session;
-
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.UsageStatistics;
 
 /**
  * Protected methods may be overriden
@@ -23,19 +24,18 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
     protected Class<E> datastoreEntityClass;
     protected Class<T> sqlEntityClass;
 
-    static int SQL_FETCH_BATCH_SIZE = 50;
 
     public VerifyNonCourseEntityAttributesBaseScript(
         Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
-        this.datastoreEntityClass = datastoreEntityClass;
-        this.sqlEntityClass = sqlEntityClass;
+            this.datastoreEntityClass = datastoreEntityClass;
+            this.sqlEntityClass = sqlEntityClass;
 
-        String connectionUrl = ClientProperties.SCRIPT_API_URL;
-        String username = ClientProperties.SCRIPT_API_NAME;
-        String password = ClientProperties.SCRIPT_API_PASSWORD;
+            String connectionUrl = ClientProperties.SCRIPT_API_URL;
+            String username = ClientProperties.SCRIPT_API_NAME;
+            String password = ClientProperties.SCRIPT_API_PASSWORD;
 
-        HibernateUtil.buildSessionFactory(connectionUrl, username, password);
-    }
+            HibernateUtil.buildSessionFactory(connectionUrl, username, password);
+        }
 
     /**
      * Generate the Datstore id of entity to compare with on Datastore side.
@@ -51,16 +51,54 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
         return ofy().load().type(datastoreEntityClass).id(datastoreEntityId).now();
     }
 
-    protected List<T> lookupSqlEntities() {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
-        Root<T> root = cr.from(sqlEntityClass);
-        cr.select(root);
+    private static int SQL_FETCH_BATCH_SIZE = 1;
 
-        List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
-
-        return sqlEntities;
+    private int calculateOffset(int pageNum) {
+        return (pageNum - 1) * SQL_FETCH_BATCH_SIZE;
     }
+
+    /**
+     * Get number of pages in database table.
+     */
+    private int getNumPages() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        countQuery.select(cb.count(countQuery.from(sqlEntityClass)));
+        long countResults = HibernateUtil.createQuery(countQuery).getSingleResult().longValue();
+        int numPages = (int) (Math.ceil(countResults / SQL_FETCH_BATCH_SIZE));
+
+        return numPages;
+    }
+
+    private List<T> lookupSqlEntitiesByPageNumber(int pageNum) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<T> pageQuery = cb.createQuery(sqlEntityClass);
+
+        // sort by createdAt to maintain stable order.
+        Root<T> root = pageQuery.from(sqlEntityClass);
+        pageQuery.select(root);
+        List<Order> orderList = new LinkedList<>();
+        orderList.add(cb.asc(root.get("createdAt")));
+        pageQuery.orderBy(orderList);
+
+        // perform query with pagination
+        TypedQuery<T> query = HibernateUtil.createQuery(pageQuery);
+        query.setFirstResult(calculateOffset(pageNum));
+        query.setMaxResults(SQL_FETCH_BATCH_SIZE);
+
+        return query.getResultList();
+    }
+
+    // protected List<T> lookupSqlEntities() {
+    //     CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+    //     CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
+    //     Root<T> root = cr.from(sqlEntityClass);
+    //     cr.select(root);
+
+    //     List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
+
+    //     return sqlEntities;
+    // }
 
     /**
      * Idea: lookup sql side, have all the sql entities for
@@ -68,22 +106,27 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      * if does not match, return failure
      */
     protected List<Map.Entry<T, E>> checkAllEntitiesForFailures() {
-        List<T> sqlEntities = lookupSqlEntities();
-
+        // WARNING: failures list might lead to OoM if too many entities,
+        // but okay since will fail anyway.
         List<Map.Entry<T, E>> failures = new LinkedList<>();
 
-        for (T sqlEntity : sqlEntities) {
-            String entityId = generateID(sqlEntity);
-            E datastoreEntity = lookupDataStoreEntity(entityId);
+        int numPages = getNumPages();
+        for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
+            List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
-            if (datastoreEntity == null) {
-                failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
-                continue;
-            }
-            boolean isEqual = equals(sqlEntity, datastoreEntity);
-            if (!isEqual) {
-                failures.add(new AbstractMap.SimpleEntry<T,E>(sqlEntity, datastoreEntity));
-                continue;
+            for (T sqlEntity : sqlEntities) {
+                String entityId = generateID(sqlEntity);
+                E datastoreEntity = lookupDataStoreEntity(entityId);
+
+                if (datastoreEntity == null) {
+                    failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
+                    continue;
+                }
+                boolean isEqual = equals(sqlEntity, datastoreEntity);
+                if (!isEqual) {
+                    failures.add(new AbstractMap.SimpleEntry<T,E>(sqlEntity, datastoreEntity));
+                    continue;
+                }
             }
         }
         return failures;
@@ -107,7 +150,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
             System.out.println("No errors detected for entity: " + sqlEntityClass.getName());
         }
         HibernateUtil.commitTransaction();
-
     }
 
     protected void doOperation() {
