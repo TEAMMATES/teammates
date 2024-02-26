@@ -16,8 +16,7 @@ public class VerifyNotificationAttributes extends VerifyNonCourseEntityAttribute
 
     @Override
     protected String generateID(teammates.storage.sqlentity.Notification sqlEntity) {
-        return teammates.storage.entity.UsageStatistics.generateId(
-            sqlEntity.getStartTime(), sqlEntity.getTimePeriod());
+        return sqlEntity.getId().toString();
     }
 
         // Used for sql data migration

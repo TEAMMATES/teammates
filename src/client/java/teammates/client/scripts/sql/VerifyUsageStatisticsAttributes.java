@@ -12,7 +12,8 @@ public class VerifyUsageStatisticsAttributes extends VerifyNonCourseEntityAttrib
 
     @Override
     protected String generateID(teammates.storage.sqlentity.UsageStatistics sqlEntity) {
-        return sqlEntity.getId().toString();
+        return teammates.storage.entity.UsageStatistics.generateId(
+            sqlEntity.getStartTime(), sqlEntity.getTimePeriod());
     }
 
     // Used for sql data migration
