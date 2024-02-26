@@ -15,7 +15,6 @@ import teammates.ui.output.AccountRequestsData;
  */
 public class SearchAccountRequestsAction extends AdminOnlyAction {
 
-    @SuppressWarnings("PMD.AvoidCatchingNPE") // NPE caught to identify unregistered search manager
     @Override
     public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
@@ -41,8 +40,10 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
         }
 
         for (AccountRequestAttributes request : requestsDatastore) {
-            AccountRequestData accountRequestData = new AccountRequestData(request);
-            accountRequestDataList.add(accountRequestData);
+            if (accountRequestDataList.stream().noneMatch(data -> data.getEmail().equals(request.getEmail()))) {
+                AccountRequestData accountRequestData = new AccountRequestData(request);
+                accountRequestDataList.add(accountRequestData);
+            }
         }
 
         AccountRequestsData accountRequestsData = new AccountRequestsData();
