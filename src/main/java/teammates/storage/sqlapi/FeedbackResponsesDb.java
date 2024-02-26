@@ -168,7 +168,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
-     * Get responses responses for a question.
+     * Get responses for a question.
      */
     public List<FeedbackResponse> getResponsesForQuestion(UUID questionId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -257,25 +257,6 @@ public final class FeedbackResponsesDb extends EntitiesDb {
                 .where(cb.and(
                     cb.equal(fqJoin.get("id"), questionId),
                     cb.equal(root.get("recipient"), recipient)
-                    ));
-
-        return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
-     * Gets all feedback responses for a question.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForQuestion(UUID questionId) {
-        assert questionId != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
-        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
-        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
-
-        cq.select(root)
-                .where(cb.and(
-                    cb.equal(fqJoin.get("id"), questionId)
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();

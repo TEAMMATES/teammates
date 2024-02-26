@@ -312,7 +312,7 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Gets all responses given by a user for a question.
+     * Gets all responses for a question.
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestion(UUID feedbackQuestionId) {
         return frDb.getResponsesForQuestion(feedbackQuestionId);
@@ -1024,13 +1024,6 @@ public final class FeedbackResponsesLogic {
             return getFeedbackResponsesForSession(feedbackSession, courseId);
         }
         return frDb.getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName, fetchType);
-    }
-
-    /**
-     * Gets all responses for a question.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForQuestion(UUID feedbackQuestionId) {
-        return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
 
     /**
