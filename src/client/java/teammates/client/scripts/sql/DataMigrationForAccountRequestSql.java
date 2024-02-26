@@ -24,7 +24,7 @@ public class DataMigrationForAccountRequestSql extends DataMigrationEntitiesBase
      */
     @Override
     protected boolean isPreview() {
-        return true;
+        return false;
     }
 
     /**

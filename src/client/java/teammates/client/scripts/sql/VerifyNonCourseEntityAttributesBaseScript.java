@@ -23,6 +23,8 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
     protected Class<E> datastoreEntityClass;
     protected Class<T> sqlEntityClass;
 
+    static int SQL_FETCH_BATCH_SIZE = 50;
+
     public VerifyNonCourseEntityAttributesBaseScript(
         Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
         this.datastoreEntityClass = datastoreEntityClass;
@@ -40,6 +42,11 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      */
     protected abstract String generateID(T sqlEntity);
 
+    /**
+     * Compares the sqlEntity with the datastoreEntity
+     */
+    protected abstract boolean equals(T sqlEntity, E datastoreEntity);
+
     protected E lookupDataStoreEntity(String datastoreEntityId) {
         return ofy().load().type(datastoreEntityClass).id(datastoreEntityId).now();
     }
@@ -48,7 +55,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
         Root<T> root = cr.from(sqlEntityClass);
-
         cr.select(root);
 
         List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
@@ -74,7 +80,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
                 failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
                 continue;
             }
-            boolean isEqual = sqlEntity.isEqualWithDatastoreEntity(datastoreEntity);
+            boolean isEqual = equals(sqlEntity, datastoreEntity);
             if (!isEqual) {
                 failures.add(new AbstractMap.SimpleEntry<T,E>(sqlEntity, datastoreEntity));
                 continue;
