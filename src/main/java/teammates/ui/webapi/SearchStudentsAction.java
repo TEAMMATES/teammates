@@ -85,6 +85,10 @@ public class SearchStudentsAction extends Action {
         for (StudentAttributes s : studentsDatastore) {
             StudentData studentData = new StudentData(s);
 
+            if (isCourseMigrated(studentData.getCourseId())) {
+                continue;
+            }
+
             if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getKey(),

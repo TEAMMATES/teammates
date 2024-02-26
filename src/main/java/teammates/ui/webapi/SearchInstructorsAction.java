@@ -59,7 +59,13 @@ public class SearchInstructorsAction extends AdminOnlyAction {
 
         // Add instructors from datastore
         for (InstructorAttributes instructor : instructorsDatastore) {
+
             InstructorData instructorData = new InstructorData(instructor);
+
+            if (isCourseMigrated(instructorData.getCourseId())) {
+                continue;
+            }
+
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getKey(),
                     logic.getCourseInstitute(instructor.getCourseId()),
