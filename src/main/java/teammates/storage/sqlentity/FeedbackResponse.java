@@ -48,7 +48,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "giverId", nullable = false)
     private User giver;
@@ -57,7 +57,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "giverSectionId")
     private Section giverSection;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "recipientId", nullable = false)
     private User recipient;
