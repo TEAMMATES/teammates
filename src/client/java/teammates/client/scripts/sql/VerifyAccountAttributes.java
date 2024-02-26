@@ -12,7 +12,7 @@ public class VerifyAccountAttributes extends VerifyNonCourseEntityAttributesBase
 
     @Override
     protected String generateID(teammates.storage.sqlentity.Account sqlEntity) {
-        return sqlEntity.getId().toString();
+        return sqlEntity.getGoogleId();
     }
 
     public static void main(String[] args) {
@@ -23,13 +23,6 @@ public class VerifyAccountAttributes extends VerifyNonCourseEntityAttributesBase
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.Account sqlEntity, Account datastoreEntity) {
-        try {
-            // UUID for account is not checked, as datastore ID is google ID
-            return sqlEntity.getName() == datastoreEntity.getName()
-                && sqlEntity.getGoogleId() == datastoreEntity.getGoogleId()
-                && sqlEntity.getEmail() == datastoreEntity.getEmail();
-        } catch (IllegalArgumentException iae) {
-            return false;
-        } 
+
     }
 }

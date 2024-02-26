@@ -120,6 +120,25 @@ public class Account extends BaseEntity {
         return errors;
     }
 
+    // Used for sql data migration
+    @Override
+    public boolean isEqualWithDatastoreEntity(teammates.storage.entity.BaseEntity other) {
+        if (other instanceof teammates.storage.entity.Account) {
+            teammates.storage.entity.Account acc =
+                (teammates.storage.entity.Account) other;
+            try {
+                // UUID for account is not checked, as datastore ID is google ID
+                return this.getName().equals(acc.getName())
+                    && this.getGoogleId().equals(acc.getGoogleId())
+                    && this.getEmail().equals(acc.getEmail());
+            } catch (IllegalArgumentException iae) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {

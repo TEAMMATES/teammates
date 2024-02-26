@@ -113,6 +113,27 @@ public class UsageStatistics extends BaseEntity {
         return numSubmissions;
     }
 
+    // Used for sql data migration
+    @Override
+    public boolean isEqualWithDatastoreEntity(teammates.storage.entity.BaseEntity other) {
+        if (other instanceof teammates.storage.entity.UsageStatistics) {
+            teammates.storage.entity.UsageStatistics stat =
+                (teammates.storage.entity.UsageStatistics) other;
+            // UUID for account is not checked, as datastore ID is startTime%timePeriod
+            return this.getStartTime().equals(stat.getStartTime())
+                && this.getTimePeriod() == stat.getTimePeriod()
+                && this.getNumResponses() == stat.getNumResponses()
+                && this.getNumCourses() == stat.getNumCourses()
+                && this.getNumStudents() == stat.getNumStudents()
+                && this.getNumInstructors() == stat.getNumInstructors()
+                && this.getNumAccountRequests() == stat.getNumAccountRequests()
+                && this.getNumEmails() == stat.getNumEmails()
+                && this.getNumSubmissions() == stat.getNumSubmissions();
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {

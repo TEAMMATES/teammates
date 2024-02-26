@@ -145,6 +145,41 @@ public class AccountRequest extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    // Used for sql data migration
+    @Override
+    public boolean isEqualWithDatastoreEntity(teammates.storage.entity.BaseEntity other) {
+        if (other != null && (other instanceof teammates.storage.entity.AccountRequest)){
+            teammates.storage.entity.AccountRequest accReq =
+                (teammates.storage.entity.AccountRequest) other;
+            // UUID for account is not checked, as datastore ID is email%institute
+            if (!this.getName().equals(accReq.getName())) {
+                // System.out.println("Name not equal: " + this.getName() + " " + accReq.getName());
+                return false;
+            }
+            if (!this.getEmail().equals(accReq.getEmail())) {
+                // System.out.println("Email not equal: " + this.getEmail() + " " + accReq.getEmail());
+                return false;
+            }
+            if (!this.getInstitute().equals(accReq.getInstitute())) {
+                // System.out.println("Institute not equal: " + this.getInstitute() + " " + accReq.getInstitute());
+                return false;
+            }
+            // only need to check getRegisteredAt() as the other fields must not be null.
+            if (this.getRegisteredAt() == null) {
+                if (accReq.getRegisteredAt() != null) {
+                    // System.out.println("RegisteredAt not equal: " + this.getRegisteredAt() + " " + accReq.getRegisteredAt());
+                    return false;
+                }
+            } else if (!this.getRegisteredAt().equals(accReq.getRegisteredAt())) {
+                // System.out.println("RegisteredAt not equal: " + this.getRegisteredAt() + " " + accReq.getRegisteredAt());
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
