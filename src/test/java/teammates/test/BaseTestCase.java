@@ -21,6 +21,7 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -29,6 +30,7 @@ import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -183,6 +185,14 @@ public class BaseTestCase {
                 FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(),
                 new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
                 new FeedbackTextQuestionDetails("test question text"));
+    }
+
+    protected FeedbackResponse getTypicalFeedbackResponse() {
+        Section section = getTypicalSection();
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(section.getCourse());
+        FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSession);
+        return FeedbackResponse.makeResponse(feedbackQuestion, "giver", section,
+                "recipient", section, new FeedbackTextResponseDetails());
     }
 
     protected FeedbackResponseComment getTypicalResponseComment(Long id) {
