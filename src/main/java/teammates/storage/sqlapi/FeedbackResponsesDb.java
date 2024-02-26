@@ -16,6 +16,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.User;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
@@ -130,10 +131,11 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> frJoin = root.join("feedbackQuestion");
+        Join<FeedbackResponse, User> uJoin = root.join("giver");
         cq.select(root)
                 .where(cb.and(
                         cb.equal(frJoin.get("id"), feedbackQuestionId),
-                        cb.equal(root.get("giver"), giverEmail)));
+                        cb.equal(uJoin.get("email"), giverEmail)));
         return HibernateUtil.createQuery(cq).getResultList();
     }
 
@@ -183,6 +185,11 @@ public final class FeedbackResponsesDb extends EntitiesDb {
 
     /**
      * Checks whether a user has responses in a session.
+     * 
+     * @param giver the email of the giver.
+     * @param feedbackSessionName the name of the feedback session.
+     * @param courseId the identifier of the course.
+     * @return a boolean if there are responses from the given giver in this feedback session.
      */
     public boolean hasResponsesFromGiverInSession(
             String giver, String feedbackSessionName, String courseId) {
@@ -192,10 +199,11 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
         Join<FeedbackSession, Course> courseJoin = fsJoin.join("course");
+        Join<FeedbackResponse, User> uJoin = root.join("giver");
 
         cq.select(root)
                 .where(cb.and(
-                        cb.equal(root.get("giver"), giver),
+                        cb.equal(uJoin.get("email"), giver),
                         cb.equal(fsJoin.get("name"), feedbackSessionName),
                         cb.equal(courseJoin.get("id"), courseId)));
 

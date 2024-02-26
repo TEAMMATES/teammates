@@ -64,7 +64,7 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
         };
         Instructor instructorWhoGiveComment = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        assertEquals(instructorWhoGiveComment.getEmail(), frc.getGiver());
+        assertEquals(instructorWhoGiveComment.getEmail(), frc.getGiver().getEmail());
         loginAsInstructor(instructorWhoGiveComment.getGoogleId());
         verifyCanAccess(submissionParams);
 

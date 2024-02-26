@@ -133,7 +133,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (comment.getGiver().equals(instructor.getEmail())) { // giver, allowed by default
+            if (comment.getGiver().getEmail().equals(instructor.getEmail())) { // giver, allowed by default
                 return;
             }
 
