@@ -292,7 +292,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
         Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
-        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
         Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
         ListJoin<Course, Section> sectionsJoin = cJoin.joinList("sections");
