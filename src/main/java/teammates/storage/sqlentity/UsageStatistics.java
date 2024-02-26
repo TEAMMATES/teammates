@@ -115,10 +115,8 @@ public class UsageStatistics extends BaseEntity {
 
     // Used for sql data migration
     public boolean equals(teammates.storage.entity.UsageStatistics stat) {
-        try {
-            UUID otherUuid = UUID.fromString(stat.getId());
-            return this.getId() == otherUuid
-                && this.getStartTime() == stat.getStartTime()
+            // UUID for account is not checked, as datastore ID is startTime%timePeriod
+            return this.getStartTime() == stat.getStartTime()
                 && this.getTimePeriod() == stat.getTimePeriod()
                 && this.getNumResponses() == stat.getNumResponses()
                 && this.getNumCourses() == stat.getNumCourses()
@@ -127,9 +125,6 @@ public class UsageStatistics extends BaseEntity {
                 && this.getNumAccountRequests() == stat.getNumAccountRequests()
                 && this.getNumEmails() == stat.getNumEmails()
                 && this.getNumSubmissions() == stat.getNumSubmissions();
-        } catch (IllegalArgumentException iae) {
-            return false;
-        } 
     }
 
     @Override

@@ -148,9 +148,8 @@ public class AccountRequest extends BaseEntity {
     // Used for sql data migration
     public boolean equals(teammates.storage.entity.AccountRequest accReq) {
         try {
-            UUID otherUuid = UUID.fromString(accReq.getId());
-            return this.getId() == otherUuid
-                && this.getRegistrationKey() == accReq.getRegistrationKey()
+            // UUID for account is not checked, as datastore ID is email%institute
+            return this.getRegistrationKey() == accReq.getRegistrationKey()
                 && this.getName() == accReq.getName()
                 && this.getEmail() == accReq.getEmail()
                 && this.getInstitute() == accReq.getInstitute()
