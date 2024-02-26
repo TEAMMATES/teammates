@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -218,6 +219,13 @@ public class SessionResultsData extends ApiOutput {
             }
             qnOutput.otherResponses.addAll(otherResponsesMap.values());
 
+            sessionResultsData.questions.add(qnOutput);
+        });
+
+        Set<FeedbackQuestion> questionsWithResponsesNotVisibleForPreview =
+                bundle.getQuestionsNotVisibleForPreviewSet();
+        questionsWithResponsesNotVisibleForPreview.forEach((question) -> {
+            QuestionOutput qnOutput = new QuestionOutput(question, "", true, false);
             sessionResultsData.questions.add(qnOutput);
         });
 
