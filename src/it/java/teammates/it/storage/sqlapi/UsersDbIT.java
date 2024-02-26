@@ -1,5 +1,6 @@
 package teammates.it.storage.sqlapi;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +36,8 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private Course course;
     private Instructor instructor;
     private Student student;
+    private Team team;
+    private Section section;
 
     @BeforeMethod
     @Override
@@ -43,6 +46,12 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         coursesDb.createCourse(course);
+
+        section = new Section(course, "test-section");
+        course.addSection(section);
+        team = new Team(section, "test-section");
+        section.addTeam(team);
+        coursesDb.updateCourse(course);
 
         Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
@@ -55,6 +64,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         accountsDb.createAccount(studentAccount);
         student = getTypicalStudent();
         student.setCourse(course);
+        student.setTeam(team);
         usersDb.createStudent(student);
         student.setAccount(studentAccount);
 
@@ -275,5 +285,302 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));
+    }
+
+    @Test
+    public void testSqlInjectionInCreateInstructor() throws Exception {
+        ______TS("SQL Injection test in createInstructor email field");
+
+        String email = "test';/**/DROP/**/TABLE/**/users;/**/--@gmail.com";
+        Instructor instructorEmail = getTypicalInstructor();
+        instructorEmail.setEmail(email);
+
+        // The regex check should fail and throw an exception
+        assertThrows(InvalidParametersException.class,
+                () -> usersDb.createInstructor(instructorEmail));
+
+        ______TS("SQL Injection test in createInstructor name field");
+        Instructor instructorName = getTypicalInstructor();
+        instructorName.setEmail("ins.usersdbit.1@gmail.com");
+        String name = "test';/**/DROP/**/TABLE/**/accounts;/**/--";
+        instructorName.setName(name);
+        String instructorNameRegKey = "ins.usersdbit.regkey";
+        instructorName.setRegKey(instructorNameRegKey);
+
+        usersDb.createInstructor(instructorName);
+
+        HibernateUtil.flushSession();
+
+        // The system should treat the input as a plain text string
+        Instructor actualInstructor = usersDb.getInstructorByRegKey(instructorNameRegKey);
+        assertEquals(actualInstructor.getName(), name);
+
+        ______TS("SQL Injection test in createInstructor displayName field");
+        Instructor instructorDisplayName = getTypicalInstructor();
+        instructorDisplayName.setEmail("ins.usersdbit.2@gmail.com");
+        String displayName = "test';/**/DROP/**/TABLE/**/accounts;/**/--";
+        instructorDisplayName.setDisplayName(displayName);
+        String instructorRegKeyDisplayName = "ins.usersdbit.regkey2";
+        instructorDisplayName.setRegKey(instructorRegKeyDisplayName);
+
+        usersDb.createInstructor(instructorDisplayName);
+
+        HibernateUtil.flushSession();
+
+        // The system should treat the input as a plain text string
+        Instructor actualInstructorDisplayName = usersDb.getInstructorByRegKey(instructorRegKeyDisplayName);
+        assertEquals(actualInstructorDisplayName.getDisplayName(), displayName);
+    }
+
+    @Test
+    public void testSqlInjectionInCreateStudent() throws Exception {
+        ______TS("SQL Injection test in createStudent email field");
+
+        String email = "test';/**/DROP/**/TABLE/**/users;/**/--@gmail.com";
+        Student studentEmail = getTypicalStudent();
+        studentEmail.setEmail(email);
+
+        // The regex check should fail and throw an exception
+        assertThrows(InvalidParametersException.class,
+                () -> usersDb.createStudent(studentEmail));
+
+        ______TS("SQL Injection test in createStudent name field");
+        Student studentName = getTypicalStudent();
+        studentName.setEmail("ins.usersdbit.3@gmail.com");
+        String name = "test';/**/DROP/**/TABLE/**/accounts;/**/--";
+        studentName.setName(name);
+        String studentNameRegKey = "ins.usersdbit.regkey3";
+        studentName.setRegKey(studentNameRegKey);
+
+        usersDb.createStudent(studentName);
+
+        HibernateUtil.flushSession();
+
+        // The system should treat the input as a plain text string
+        Student actualStudent = usersDb.getStudentByRegKey(studentNameRegKey);
+        assertEquals(actualStudent.getName(), name);
+    }
+
+    @Test
+    public void testSqlInjectionInGetInstructorByRegKey() throws Exception {
+        ______TS("SQL Injection test in getInstructorByRegKey");
+
+        Instructor instructor = getTypicalInstructor();
+        instructor.setEmail("instructorregkey.usersdbit@gmail.com");
+
+        usersDb.createInstructor(instructor);
+
+        // The system should treat the input as a plain text string
+        String regKey = "test' OR 1 = 1; --";
+        Instructor actualInstructor = usersDb.getInstructorByRegKey(regKey);
+        assertNull(actualInstructor);
+    }
+
+    @Test
+    public void testSqlInjectionInGetInstructorByGoogleId() throws Exception {
+        ______TS("SQL Injection test in getInstructorByGoogleId courseId field");
+        String injection = "test' OR 1 = 1; --";
+        assertNull(usersDb.getInstructorByGoogleId(injection, instructor.getAccount().getGoogleId()));
+
+        ______TS("SQL Injection test in getInstructorByGoogleId googleId field");
+        assertNull(usersDb.getInstructorByGoogleId(instructor.getCourseId(), injection));
+    }
+
+    @Test
+    public void testSqlInjectionInGetInstructorsDisplayedToStudents() throws Exception {
+        ______TS("SQL Injection test in getInstructorsDisplayedToStudents courseId field");
+        String injection = "test' OR 1 = 1; --";
+        assertEquals(usersDb.getInstructorsDisplayedToStudents(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentByRegKey() throws Exception {
+        ______TS("SQL Injection test in getStudentByRegKey");
+
+        Student student = getTypicalStudent();
+        student.setEmail("studentregkey.usersdbit@gmail.com");
+
+        usersDb.createInstructor(instructor);
+
+        // The system should treat the input as a plain text string
+        String regKey = "test' OR 1 = 1; --";
+        Student actualStudent = usersDb.getStudentByRegKey(regKey);
+        assertNull(actualStudent);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentByGoogleId() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+
+        ______TS("SQL Injection test in getStudentByGoogleId courseId field");
+        assertNull(usersDb.getStudentByGoogleId(injection, student.getAccount().getGoogleId()));
+
+        ______TS("SQL Injection test in getStudentByGoogleId googleId field");
+        assertNull(usersDb.getInstructorByGoogleId(student.getCourseId(), injection));
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentsByGoogleId() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+
+        ______TS("SQL Injection test in getStudentsByGoogleId googleId field");
+        assertEquals(usersDb.getStudentsByGoogleId(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentsByTeamName() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getStudentsByTeamName teamName field");
+        assertEquals(usersDb.getStudentsByTeamName(injection, student.getCourseId()).size(), 0);
+
+        ______TS("SQL Injection test in getStudentsByTeamName courseId field");
+        assertEquals(usersDb.getStudentsByTeamName(student.getTeamName(), injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetAllUsersByGoogleId() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getAllUsersByGoogleId googleId field");
+        assertEquals(usersDb.getAllUsersByGoogleId(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetAllInstructorsByGoogleId() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getAllInstructorsByGoogleId googleId field");
+        assertEquals(usersDb.getAllInstructorsByGoogleId(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetAllStudentsByGoogleId() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getAllStudentsByGoogleId googleId field");
+        assertEquals(usersDb.getAllStudentsByGoogleId(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetInstructorsForCourse() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getInstructorsForCourse courseId field");
+        assertEquals(usersDb.getInstructorsForCourse(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentsForCourse() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getStudentsForCourse courseId field");
+        assertEquals(usersDb.getStudentsForCourse(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetInstructorForEmail() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getInstructorForEmail courseId field");
+        assertNull(usersDb.getInstructorForEmail(injection, instructor.getEmail()));
+
+        ______TS("SQL Injection test in getInstructorForEmail userEmail field");
+        assertNull(usersDb.getInstructorForEmail(instructor.getCourseId(), injection));
+    }
+
+    @Test
+    public void testSqlInjectionInGetInstructorsForEmails() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        List<String> emails = new ArrayList<>();
+        emails.add(instructor.getEmail());
+        ______TS("SQL Injection test in getInstructorsForEmails courseId field");
+        assertEquals(usersDb.getInstructorsForEmails(injection, emails).size(), 0);
+
+        List<String> injections = new ArrayList<>();
+        injections.add("test' OR 1 = 1; --");
+        ______TS("SQL Injection test in getInstructorsForEmails userEmails field");
+        assertEquals(usersDb.getInstructorsForEmails(instructor.getCourseId(), injections).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentForEmail() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getStudentForEmail courseId field");
+        assertNull(usersDb.getStudentForEmail(injection, student.getEmail()));
+
+        ______TS("SQL Injection test in getStudentForEmail userEmail field");
+        assertNull(usersDb.getStudentForEmail(student.getCourseId(), injection));
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentsForEmails() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        List<String> emails = new ArrayList<>();
+        emails.add(student.getEmail());
+        ______TS("SQL Injection test in getStudentsForEmails courseId field");
+        assertEquals(usersDb.getStudentsForEmails(injection, emails).size(), 0);
+
+        List<String> injections = new ArrayList<>();
+        injections.add("test' OR 1 = 1; --");
+        ______TS("SQL Injection test in getStudentsForEmails userEmails field");
+        assertEquals(usersDb.getStudentsForEmails(student.getCourseId(), injections).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetAllStudentsForEmail() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getAllStudentsForEmail email field");
+        assertEquals(usersDb.getAllStudentsForEmail(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetInstructorsForGoogleId() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getInstructorsForGoogleId googleId field");
+        assertEquals(usersDb.getInstructorsForGoogleId(injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentsForSection() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getStudentsForSection sectionName field");
+        assertEquals(usersDb.getStudentsForSection(injection, student.getCourseId()).size(), 0);
+
+        ______TS("SQL Injection test in getStudentsForSection courseId field");
+        assertEquals(usersDb.getStudentsForSection(student.getSectionName(), injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentsForTeam() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getStudentsForTeam teamName field");
+        assertEquals(usersDb.getStudentsForTeam(injection, student.getCourseId()).size(), 0);
+
+        ______TS("SQL Injection test in getStudentsForTeam courseId field");
+        assertEquals(usersDb.getStudentsForTeam(student.getTeamName(), injection).size(), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetStudentCountForTeam() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getStudentCountForTeam teamName field");
+        assertEquals(usersDb.getStudentCountForTeam(injection, student.getCourseId()), 0);
+
+        ______TS("SQL Injection test in getStudentCountForTeam courseId field");
+        assertEquals(usersDb.getStudentCountForTeam(student.getTeamName(), injection), 0);
+    }
+
+    @Test
+    public void testSqlInjectionInGetSection() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getSection courseId field");
+        assertNull(usersDb.getSection(injection, section.getName()));
+
+        ______TS("SQL Injection test in getSection sectionName field");
+        assertNull(usersDb.getSection(course.getId(), injection));
+    }
+
+    @Test
+    public void testSqlInjectionInGetTeam() throws Exception {
+        String injection = "test' OR 1 = 1; --";
+        ______TS("SQL Injection test in getTeam courseId field");
+        assertNull(usersDb.getSection(injection, team.getName()));
+
+        ______TS("SQL Injection test in getTeam teamName field");
+        assertNull(usersDb.getSection(course.getId(), injection));
     }
 }
