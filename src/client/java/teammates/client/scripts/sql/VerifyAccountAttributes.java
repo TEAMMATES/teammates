@@ -1,6 +1,13 @@
 package teammates.client.scripts.sql;
 
+import java.time.Instant;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import teammates.storage.entity.Account;
+import teammates.storage.sqlentity.ReadNotification;
 
 public class VerifyAccountAttributes extends VerifyNonCourseEntityAttributesBaseScript<Account, 
     teammates.storage.sqlentity.Account> {
@@ -20,9 +27,7 @@ public class VerifyAccountAttributes extends VerifyNonCourseEntityAttributesBase
         script.doOperationRemotely();
     }
 
-    // Used for sql data migration
-    @Override
-    public boolean equals(teammates.storage.sqlentity.Account sqlEntity, Account datastoreEntity) {
+    public boolean verifyAccountFields(teammates.storage.sqlentity.Account sqlEntity, Account datastoreEntity) {
         if (datastoreEntity instanceof teammates.storage.entity.Account) {
             teammates.storage.entity.Account acc =
                 (teammates.storage.entity.Account) datastoreEntity;
@@ -37,5 +42,26 @@ public class VerifyAccountAttributes extends VerifyNonCourseEntityAttributesBase
         } else {
             return false;
         }
+    }
+    // Used for sql data migration
+    @Override
+    public boolean equals(teammates.storage.sqlentity.Account sqlEntity, Account datastoreEntity) {
+        if (!verifyAccountFields(sqlEntity, datastoreEntity)) {
+            return false;
+        }
+        
+        Map<String, Instant> datastoreReadNotifications = datastoreEntity.getReadNotifications();
+        List<ReadNotification> sqlReadNotifications = sqlEntity.getReadNotifications();
+
+        List<Instant> datastoreEndTimes = new ArrayList<Instant>(datastoreReadNotifications.values());
+        Collections.sort(datastoreEndTimes);
+
+        List<Instant> sqlEndTimes = new ArrayList<>();
+        for (ReadNotification sqlReadNotification : sqlReadNotifications) {
+            sqlEndTimes.add(sqlReadNotification.getNotification().getEndTime());
+        }
+        Collections.sort(sqlEndTimes);
+
+        return datastoreEndTimes.equals(sqlEndTimes);
     }
 }

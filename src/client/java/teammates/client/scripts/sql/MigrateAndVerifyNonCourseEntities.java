@@ -17,7 +17,6 @@ public class MigrateAndVerifyNonCourseEntities {
             VerifyAccountRequestAttributes.main(args);
             VerifyUsageStatisticsAttributes.main(args);
             VerifyAccountAttributes.main(args);
-            VerifyAccountRequestAttributes.main(args);
             VerifyNotificationAttributes.main(args);
         } catch (Exception e) {
             System.out.println(e);

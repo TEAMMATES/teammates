@@ -74,7 +74,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     private boolean isPreview() {
-        return true;
+        return false;
     }
 
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
