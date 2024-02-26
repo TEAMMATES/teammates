@@ -20,7 +20,6 @@ import teammates.storage.sqlentity.Section;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.ListJoin;
 import jakarta.persistence.criteria.Root;
 
 /**
@@ -298,7 +297,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
         Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
-        
+
         Join<FeedbackResponseComment, Section> giverJoin = root.join("giverSection");
         Join<FeedbackResponseComment, Section> recipientJoin = root.join("recipientSection");
 
