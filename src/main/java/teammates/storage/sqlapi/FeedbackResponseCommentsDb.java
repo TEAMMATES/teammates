@@ -254,7 +254,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
-     * Gets all comments which have its corresponding response given to/from a section of a feedback session of a course.
+     * Gets all comments in the given session where the giver or recipient is in the given section.
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForSessionInSection(
             String courseId, String feedbackSessionName, String sectionName) {
@@ -269,20 +269,24 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
         Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-        ListJoin<Course, Section> sectionsJoin = cJoin.joinList("sections");
+
+        Join<FeedbackResponseComment, Section> giverJoin = root.join("giverSection");
+        Join<FeedbackResponseComment, Section> recipientJoin = root.join("recipientSection");
 
         cq.select(root)
                 .where(cb.and(
                     cb.equal(cJoin.get("id"), courseId),
                     cb.equal(fsJoin.get("name"), feedbackSessionName),
-                    cb.in(cb.literal(sectionName)).value(sectionsJoin.get("name"))
+                    cb.or(
+                        cb.equal(giverJoin.get("name"), sectionName),
+                        cb.equal(recipientJoin.get("name"), sectionName))
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }
 
     /**
-     * Gets all comments which have its corresponding response given to/from a section of a feedback question of a course.
+     * Gets all comments for a question where the giver or recipient is in the given section.
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForQuestionInSection(
             UUID questionId, String sectionName) {
@@ -294,14 +298,16 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
         Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
-        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
-        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-        ListJoin<Course, Section> sectionsJoin = cJoin.joinList("sections");
+        
+        Join<FeedbackResponseComment, Section> giverJoin = root.join("giverSection");
+        Join<FeedbackResponseComment, Section> recipientJoin = root.join("recipientSection");
 
         cq.select(root)
                 .where(cb.and(
                     cb.equal(fqJoin.get("id"), questionId),
-                    cb.in(cb.literal(sectionName)).value(sectionsJoin.get("name"))
+                    cb.or(
+                        cb.equal(giverJoin.get("name"), sectionName),
+                        cb.equal(recipientJoin.get("name"), sectionName))
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();
