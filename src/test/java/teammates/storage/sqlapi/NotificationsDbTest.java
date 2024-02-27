@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -134,13 +135,40 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateNotification_invalidParameters_throwsInvalidParametersException()
-            throws EntityDoesNotExistException, InvalidParametersException {
+    public void testUpdateNotification_invalidNonNullParameter_endTimeBeforeStartTime() {
+        Notification notification = getTypicalNotificationWithId();
+        notification.setEndTime(Instant.parse("2010-01-01T00:00:00Z"));
+        assertEquals(notification.getEndTime().isBefore(notification.getStartTime()), true);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsDb.updateNotification(notification));
+
+        assertEquals("The time when the notification will expire for this notification cannot be earlier than "
+                + "the time when the notification will be visible.", ex.getMessage());
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(notification), never());
+    }
+
+    @Test
+    public void testUpdateNotification_invalidNonNullParameter_emptyTitle() {
         Notification notification = getTypicalNotificationWithId();
         notification.setTitle("");
 
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(notification));
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsDb.updateNotification(notification));
 
+        assertEquals("The field 'notification title' is empty.", ex.getMessage());
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(notification), never());
+    }
+
+    @Test
+    public void testUpdateNotification_invalidNonNullParameter_emptyMessage() {
+        Notification notification = getTypicalNotificationWithId();
+        notification.setMessage("");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsDb.updateNotification(notification));
+
+        assertEquals("The field 'notification message' is empty.", ex.getMessage());
         mockHibernateUtil.verify(() -> HibernateUtil.merge(notification), never());
     }
 

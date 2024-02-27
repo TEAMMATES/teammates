@@ -64,52 +64,6 @@ public class NotificationsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateNotification_invalidNonNullParameter_endTimeBeforeStartTime() {
-        Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getId();
-
-        when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> notificationsLogic.updateNotification(notificationId, Instant.parse("2011-01-01T00:00:01Z"),
-                Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "A deprecation note", "<p>Deprecation happens in three minutes</p>"));
-
-        assertEquals("The time when the notification will expire for this notification cannot be earlier than "
-                + "the time when the notification will be visible.", ex.getMessage());
-    }
-
-    @Test
-    public void testUpdateNotification_invalidNonNullParameter_emptyTitle() {
-        Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getId();
-
-        when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> notificationsLogic.updateNotification(notificationId, Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "", "<p>Deprecation happens in three minutes</p>"));
-
-        assertEquals("The field 'notification title' is empty.", ex.getMessage());
-    }
-
-    @Test
-    public void testUpdateNotification_invalidNonNullParameter_emptyMessage() {
-        Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getId();
-
-        when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> notificationsLogic.updateNotification(notificationId, Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "An updated deprecation note", ""));
-
-        assertEquals("The field 'notification message' is empty.", ex.getMessage());
-    }
-
-    @Test
     public void testUpdateNotification_entityDoesNotExist() {
         Notification notification = getTypicalNotificationWithId();
         UUID notificationId = notification.getId();
