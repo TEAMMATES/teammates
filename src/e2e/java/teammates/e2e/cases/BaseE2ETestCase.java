@@ -379,4 +379,15 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             return false;
         }
     }
+
+    @Override
+    protected boolean doPutDocumentsSql(SqlDataBundle testData) {
+        try {
+            BACKDOOR.putSqlDocuments(testData);
+            return true;
+        } catch (HttpRequestFailedException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

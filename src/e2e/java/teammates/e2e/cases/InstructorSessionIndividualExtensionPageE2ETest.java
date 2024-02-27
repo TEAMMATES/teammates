@@ -38,6 +38,11 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         feedbackSession = testData.feedbackSessions.get("firstSession");
         students = testData.students.values();
         instructors = testData.instructors.values();
+
+        removeAndRestoreDataBundle(testData);
+
+        removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorSessionIndividualExtensionPageE2ETest_SqlEntities.json"));
     }
 
     @Test
