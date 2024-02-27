@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,8 +17,6 @@ import { Pipes } from '../../pipes/pipes.module';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-import { DebugElement } from '@angular/core';
-
 
 describe('StudentListComponent', () => {
   let component: StudentListComponent;
@@ -32,7 +31,7 @@ describe('StudentListComponent', () => {
     isAllowedToViewStudentInSection: true,
   });
 
-  const getButtonGroupByStudentEmail = (email: string) => {
+  const getButtonGroupByStudentEmail = (email: string): DebugElement | null => {
     const studentListDebugElement = fixture.debugElement;
     if (studentListDebugElement) {
       const studentRows = studentListDebugElement.queryAll(By.css('tbody tr'));
@@ -44,16 +43,16 @@ describe('StudentListComponent', () => {
       }
     }
     return null;
-  }
+  };
 
-  const getButtonByText = (buttonGroup: DebugElement | null, text: string) => {
+  const getButtonByText = (buttonGroup: DebugElement | null, text: string): DebugElement | null => {
     if (buttonGroup) {
       const buttons = buttonGroup.queryAll(By.css('.btn'));
-      return buttons.find((button) => button.nativeElement.textContent.includes(text))
+      return buttons.find((button) => button.nativeElement.textContent.includes(text)) ?? null;
     }
 
-    return null
-  }
+    return null;
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -502,7 +501,8 @@ describe('StudentListComponent', () => {
     await promise;
 
     const expectedModalHeader = `Delete student <strong>${studentModel.student.name}</strong>?`;
-    const expectedModalContent: string = `Are you sure you want to remove <strong>${studentModel.student.name}</strong> `
+    const expectedModalContent: string = 'Are you sure you want to remove '
+        + `<strong>${studentModel.student.name}</strong> `
         + `from the course <strong>${component.courseId}?</strong>`;
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith(expectedModalHeader,
@@ -512,11 +512,12 @@ describe('StudentListComponent', () => {
     expect(component.students).not.toContain(studentModel.student.email);
   });
 
-  it('remindStudentFromCourse: should call statusMessageService.showSuccessToast with correct message upon success', () => {
+  it('remindStudentFromCourse: should call statusMessageService.showSuccessToast with'
+    + 'correct message upon success', () => {
     const successMessage = 'success';
     jest.spyOn(courseService, 'remindStudentForJoin')
         .mockReturnValue(of({ message: successMessage }));
-    const studentEmail =  'testemail@gmail.com';
+    const studentEmail = 'testemail@gmail.com';
 
     const statusMessageServiceSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
@@ -529,7 +530,7 @@ describe('StudentListComponent', () => {
     const errorMessage = 'error';
     jest.spyOn(courseService, 'remindStudentForJoin')
         .mockReturnValue(throwError(() => ({
-          error: { message: errorMessage }
+          error: { message: errorMessage },
         })));
     const studentEmail = 'testemail@gmail.com';
 

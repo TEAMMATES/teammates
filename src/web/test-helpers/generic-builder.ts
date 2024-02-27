@@ -65,5 +65,5 @@ export const studentBuilder = createBuilder<Student>({
   email: 'examplestudent@gmail.com',
   name: 'test-student',
   teamName: 'test-team-name',
-  sectionName: 'test-section-name'
-})
+  sectionName: 'test-section-name',
+});
