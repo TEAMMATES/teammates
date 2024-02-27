@@ -103,12 +103,12 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         prepareSqlInjectionTests();
 
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        String maliciousDescription = "', '', '', 1, '', '', '', ''); DELETE FROM feedback_questions;--";
+        String sqli = "', 'FeedbackTextQuestion', 329c23fd-10de-4c47-8128-115df68ba758)); DELETE FROM feedback_questions;--";
 
         FeedbackQuestion fq = new FeedbackConstantSumQuestion(
-            fs, 1, maliciousDescription, FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS,
+            fs, 1, "", FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS,
             1, new ArrayList<FeedbackParticipantType>(),  new ArrayList<FeedbackParticipantType>(),
-            new ArrayList<FeedbackParticipantType>(), new FeedbackConstantSumQuestionDetails("")
+            new ArrayList<FeedbackParticipantType>(), new FeedbackConstantSumQuestionDetails(sqli)
         );
 
         fqDb.createFeedbackQuestion(fq);
