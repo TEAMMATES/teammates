@@ -9,20 +9,20 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
-import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -69,25 +69,19 @@ public class CreateAccountAction extends Action {
         String courseId;
 
         try {
-            // persists sample data such as course, students, instructor and feedback sessions
-            courseId = importAndPersistDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
-        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
+        } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
-            // EntityAlreadyExistsException should not be thrown as the generated demo course id should not exist.
-            // If it is thrown, some programming error is the cause.
-            log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            log.severe("Unexpected error", ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
 
         assert !instructorList.isEmpty();
 
-        assert userInfo != null && userInfo.id != null;
-
         try {
-            // join the instructor to the course created previously
-            sqlLogic.joinCourseForInstructor(userInfo.id, instructorList.get(0));
+            logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
             // EntityAlreadyExistsException should not be thrown as updated entities should not have
@@ -133,13 +127,10 @@ public class CreateAccountAction extends Action {
     /**
      * Imports demo course for the new instructor.
      *
-     * @return the ID of demo course, which does not previously exist in the database for another course.
-     * @throws EntityAlreadyExistsException if the generated demo course ID already exists in the database.
-     *         However, this should never occur and hence should be handled as a programmatic error.
+     * @return the ID of demo course
      */
-    private String importAndPersistDemoData(String instructorEmail, String instructorName,
-            String instructorInstitute, String timezone)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
+            throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();
@@ -171,25 +162,24 @@ public class CreateAccountAction extends Action {
                 "demo.date2", dateString2,
                 "demo.date3", dateString3,
                 "demo.date4", dateString4,
-                "demo.date5", dateString5
-                );
+                "demo.date5", dateString5);
 
         if (!Const.DEFAULT_TIME_ZONE.equals(timezone)) {
             dataBundleString = replaceAdjustedTimeAndTimezone(dataBundleString, timezone);
         }
 
-        SqlDataBundle sqlDataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
+        DataBundle data = JsonUtils.fromJson(dataBundleString, DataBundle.class);
 
-        sqlLogic.persistDataBundle(sqlDataBundle);
+        logic.persistDataBundle(data);
 
-        List<Student> students = sqlLogic.getStudentsForCourse(courseId);
-        List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        for (Student student : students) {
-            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse().getId(), student.getEmail());
+        for (StudentAttributes student : students) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
         }
 
-        for (Instructor instructor : instructors) {
+        for (InstructorAttributes instructor : instructors) {
             taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
         }
 
@@ -217,16 +207,14 @@ public class CreateAccountAction extends Action {
     //    before "@" of the initial input email, by continuously removing its last character
 
     /**
-     * Generate a brand new previously unused course ID for demo course.
-     * Works by generating a course id until it finds one that is not being used by another course in the database.
+     * Generate a course ID for demo course, and if the generated id already exists, try another one.
      *
      * @param instructorEmail is the instructor email.
-     * @return generated course id that is new and not used previously.
+     * @return generated course id
      */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-
-        while (sqlLogic.getCourse(proposedCourseId) != null) {
+        while (logic.getCourse(proposedCourseId) != null) {
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;

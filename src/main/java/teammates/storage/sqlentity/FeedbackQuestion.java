@@ -252,6 +252,10 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         return feedbackSession;
     }
 
+    public String getFeedbackSessionName() {
+        return feedbackSession.getName();
+    }
+
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;
     }
@@ -339,6 +343,10 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Course getCourse() {
+        return this.feedbackSession.getCourse();
     }
 
     public String getCourseId() {
