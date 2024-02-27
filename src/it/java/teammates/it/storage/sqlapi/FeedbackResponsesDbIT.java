@@ -7,6 +7,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
@@ -16,6 +18,8 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
@@ -195,6 +199,34 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in HasResponsesForCourse, courseId param");
         String courseId = "'; DELETE FROM feedback_responses;--";
         frDb.hasResponsesForCourse(courseId);
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInCreateFeedbackResponse() throws Exception {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        Section s = typicalDataBundle.sections.get("section1InCourse1");
+        String dummyUUID = "00000000-0000-4000-8000-000000000001";
+        FeedbackResponseDetails frd = new FeedbackTextResponseDetails();
+
+        String sqli = "', " + dummyUUID + ", " + dummyUUID + "); DELETE FROM feedback_responses;--";
+
+        FeedbackResponse newFr = new FeedbackTextResponse(fq, "", s, sqli, s, frd);
+        frDb.createFeedbackResponse(newFr);
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInCpdateFeedbackResponse() throws Exception {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        String sqli = "''); DELETE FROM feedback_response_comments;--";
+        fr.setGiver(sqli);
+        frDb.updateFeedbackResponse(fr);
 
         checkSqliFailed(fr);
     }
