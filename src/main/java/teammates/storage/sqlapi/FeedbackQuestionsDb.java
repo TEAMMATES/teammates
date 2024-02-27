@@ -1,9 +1,13 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -115,4 +119,23 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
                         cb.equal(root.get("giverType"), giverType)));
         return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
     }
+
+    /**
+     * Updates a feedback question.
+     */
+    public FeedbackQuestion updateFeedbackQuestion(FeedbackQuestion feedbackQuestion)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackQuestion != null;
+
+        if (!feedbackQuestion.isValid()) {
+            throw new InvalidParametersException(feedbackQuestion.getInvalidityInfo());
+        }
+
+        if (feedbackQuestion.getId() == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + FeedbackQuestion.class);
+        }
+
+        return merge(feedbackQuestion);
+    }
+
 }

@@ -157,22 +157,25 @@ public final class UsersLogic {
             newDisplayName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
-        instructor.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
-        instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
-        instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
-        instructor.setPrivileges(new InstructorPrivileges(instructorRequest.getRoleName()));
-        instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
-        instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
+        Instructor instructorCopy = instructor.getCopy();
+        instructorCopy.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
+        instructorCopy.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
+        instructorCopy.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
+        instructorCopy.setPrivileges(new InstructorPrivileges(instructorRequest.getRoleName()));
+        instructorCopy.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
+        instructorCopy.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 
-        String newEmail = instructor.getEmail();
+        String newEmail = instructorCopy.getEmail();
 
         if (!originalEmail.equals(newEmail)) {
             needsCascade = true;
         }
 
-        if (!instructor.isValid()) {
-            throw new InvalidParametersException(instructor.getInvalidityInfo());
+        if (!instructorCopy.isValid()) {
+            throw new InvalidParametersException(instructorCopy.getInvalidityInfo());
         }
+
+        usersDb.updateUser(instructorCopy);
 
         if (needsCascade) {
             // cascade responses
@@ -199,7 +202,7 @@ public final class UsersLogic {
             feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
         }
 
-        return instructor;
+        return instructorCopy;
     }
 
     /**

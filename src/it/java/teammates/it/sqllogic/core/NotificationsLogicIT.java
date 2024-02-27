@@ -59,4 +59,35 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 newStartTime, newEndTime, newStyle, newTargetUser, newTitle, newMessage));
     }
 
+    @Test
+    public void testUpdateNotification_invalidParameters_originalUnchanged() throws Exception {
+
+        Notification notif = new Notification(
+                Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"),
+                NotificationStyle.DANGER,
+                NotificationTargetUser.GENERAL,
+                "A deprecation note",
+                "<p>Deprecation happens in three minutes</p>");
+        notificationsLogic.createNotification(notif);
+
+        String invalidLongTitle = "1234567890".repeat(10);
+
+        assertThrows(
+                InvalidParametersException.class,
+                () -> notificationsLogic.updateNotification(
+                        notif.getId(),
+                        Instant.parse("2011-01-01T00:00:00Z"),
+                        Instant.parse("2099-01-01T00:00:00Z"),
+                        NotificationStyle.DANGER,
+                        NotificationTargetUser.GENERAL,
+                        invalidLongTitle,
+                        "<p>Deprecation happens in three minutes</p>"
+                )
+        );
+
+        Notification actual = notificationsLogic.getNotification(notif.getId());
+        assert actual.getTitle().equals(notif.getTitle()) : actual.getTitle();
+    }
+
 }

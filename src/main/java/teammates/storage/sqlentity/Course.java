@@ -59,6 +59,21 @@ public class Course extends BaseEntity {
         this.setInstitute(institute);
     }
 
+    /**
+     * Gets a copy of the Course.
+     */
+    public Course getCopy() {
+        Course copy = new Course(id, name, timeZone, institute);
+
+        copy.setFeedbackSessions(feedbackSessions);
+        copy.setSections(sections);
+        copy.setCreatedAt(getCreatedAt());
+        copy.setUpdatedAt(updatedAt);
+        copy.setDeletedAt(deletedAt);
+
+        return copy;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();

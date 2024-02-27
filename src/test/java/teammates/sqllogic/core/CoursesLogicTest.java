@@ -244,8 +244,14 @@ public class CoursesLogicTest extends BaseTestCase {
             throws InvalidParametersException, EntityDoesNotExistException {
         Course course = getTypicalCourse();
         String courseId = course.getId();
+        String originalName = course.getName();
+
+        Course courseWithEmptyName = getTypicalCourse();
+        courseWithEmptyName.setName("");
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
+        when(coursesDb.updateCourse(course)).thenThrow(
+                new InvalidParametersException(courseWithEmptyName.getInvalidityInfo()));
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.updateCourse(courseId, "", "Asia/Singapore"));
@@ -255,6 +261,7 @@ public class CoursesLogicTest extends BaseTestCase {
                 + " It should not be empty.";
 
         assertEquals(expectedMessage, ex.getMessage());
+        assertEquals(originalName, course.getName());
     }
 
     @Test

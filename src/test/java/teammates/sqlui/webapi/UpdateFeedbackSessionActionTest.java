@@ -138,6 +138,35 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         verify(mockLogic).createDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(nearestHour)));
     }
 
+    @Test
+    void testExecute_invalidParameters_originalUnchanged()
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        loginAsInstructor(instructor.getGoogleId());
+        FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
+
+        String[] param = new String[] {
+                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSession.getName(),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+        };
+
+        String originalInstructions = originalFeedbackSession.getInstructions();
+
+        when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
+
+        FeedbackSession invalidFeedbackSession = generateSession1InCourse(course, instructor);
+        invalidFeedbackSession.setInstructions(null);
+
+        when(mockLogic.updateFeedbackSession(originalFeedbackSession))
+                .thenThrow(new InvalidParametersException(invalidFeedbackSession.getInvalidityInfo()));
+
+        FeedbackSessionUpdateRequest updateRequest =
+                getTypicalFeedbackSessionUpdateRequest(invalidFeedbackSession);
+
+        verifyHttpRequestBodyFailure(updateRequest, param);
+        assertEquals(originalInstructions, originalFeedbackSession.getInstructions());
+    }
+
     private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest(FeedbackSession feedbackSession) {
         FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
         updateRequest.setInstructions("instructions");

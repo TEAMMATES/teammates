@@ -74,6 +74,22 @@ public class Notification extends BaseEntity {
         // required by Hibernate
     }
 
+    /**
+     * Gets the copy of the notification.
+     */
+    public Notification getCopy() {
+        Notification copy = new Notification(startTime, endTime, style, targetUser, title, message);
+
+        copy.setId(this.id);
+        copy.setCreatedAt(this.getCreatedAt());
+        copy.setUpdatedAt(this.updatedAt);
+        if (this.isShown()) {
+            copy.setShown();
+        }
+
+        return copy;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();

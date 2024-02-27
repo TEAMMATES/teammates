@@ -104,7 +104,7 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
-     * Updates or creates (if does not exist) the AccountRequest in the database.
+     * Updates the AccountRequest in the database.
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -115,8 +115,7 @@ public final class AccountRequestsDb extends EntitiesDb {
         }
 
         if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) == null) {
-            throw new EntityDoesNotExistException(
-                String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + AccountRequest.class);
         }
 
         merge(accountRequest);

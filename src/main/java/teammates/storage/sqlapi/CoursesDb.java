@@ -76,7 +76,7 @@ public final class CoursesDb extends EntitiesDb {
         }
 
         if (getCourse(course.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
         }
 
         return merge(course);

@@ -60,6 +60,21 @@ public class AccountRequest extends BaseEntity {
         this.setRegisteredAt(null);
     }
 
+    /**
+     * Gets a copy of the AccountRequest.
+     */
+    public AccountRequest getCopy() {
+        AccountRequest copy = new AccountRequest(email, name, institute);
+
+        copy.setId(this.getId());
+        copy.setRegistrationKey(this.getRegistrationKey());
+        copy.setRegisteredAt(this.getRegisteredAt());
+        copy.setCreatedAt(this.getCreatedAt());
+        copy.setUpdatedAt(this.getUpdatedAt());
+
+        return copy;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();

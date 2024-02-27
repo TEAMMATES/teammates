@@ -108,6 +108,19 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     }
 
     /**
+     * Gets a copy of the FeedbackQuestion.
+     */
+    public FeedbackQuestion getCopy() {
+        FeedbackQuestion copy = makeDeepCopy(this.getFeedbackSession());
+
+        copy.setId(this.getId());
+        copy.setCreatedAt(this.getCreatedAt());
+        copy.setUpdatedAt(this.getUpdatedAt());
+
+        return copy;
+    }
+
+    /**
      * Gets a copy of the question details of the feedback question.
      */
     public abstract FeedbackQuestionDetails getQuestionDetailsCopy();

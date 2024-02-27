@@ -102,7 +102,7 @@ public final class AccountRequestsLogic {
         }
         accountRequest.setRegisteredAt(null);
 
-        return accountRequestDb.updateAccountRequest(accountRequest);
+        return accountRequest;
     }
 
     /**

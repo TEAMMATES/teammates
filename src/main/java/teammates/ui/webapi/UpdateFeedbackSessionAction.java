@@ -147,6 +147,7 @@ public class UpdateFeedbackSessionAction extends Action {
                     .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                             entry.getValue(), timeZone, true)));
 
+            feedbackSession = feedbackSession.getCopy(); // prevent auto persistence
             feedbackSession.setInstructions(updateRequest.getInstructions());
             feedbackSession.setStartTime(startTime);
             feedbackSession.setEndTime(endTime);

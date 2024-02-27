@@ -105,7 +105,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
         }
 
         if (getDeadlineExtension(deadlineExtension.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + DeadlineExtension.class);
         }
 
         return merge(deadlineExtension);

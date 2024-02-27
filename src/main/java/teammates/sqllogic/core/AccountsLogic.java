@@ -208,7 +208,6 @@ public final class AccountsLogic {
         Student student = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
             student.setAccount(account);
-            usersLogic.updateStudentCascade(student);
         }
 
         return instructor;

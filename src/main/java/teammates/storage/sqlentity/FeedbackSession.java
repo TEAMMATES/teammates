@@ -144,13 +144,17 @@ public class FeedbackSession extends BaseEntity {
         return copy;
     }
 
-    private FeedbackSession getCopy() {
+    /**
+     * Gets a copy of the FeedbackSession.
+     */
+    public FeedbackSession getCopy() {
         FeedbackSession fs = new FeedbackSession(
                 name, course, creatorEmail, instructions, startTime,
                 endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 gracePeriod, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
         );
 
+        fs.setId(getId());
         fs.setCreatedAt(getCreatedAt());
         fs.setUpdatedAt(getUpdatedAt());
         fs.setDeletedAt(getDeletedAt());

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
@@ -98,4 +99,23 @@ public final class NotificationsDb extends EntitiesDb {
         TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();
     }
+
+    /**
+     * Updates a notification.
+     *
+     * <p>Preconditions:</p>
+     * * Notification id exists in the database.
+     */
+    public Notification updateNotification(Notification notification)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert notification != null;
+
+        if (!notification.isValid()) {
+            throw new InvalidParametersException(notification.getInvalidityInfo());
+        }
+
+        merge(notification);
+        return notification;
+    }
+
 }

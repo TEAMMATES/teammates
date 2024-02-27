@@ -17,6 +17,7 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 
@@ -105,6 +106,33 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         assertTrue(typicalQuestion.getShowGiverNameTo().isEmpty());
         assertTrue(response.getShowRecipientNameTo().isEmpty());
         assertTrue(typicalQuestion.getShowRecipientNameTo().isEmpty());
+    }
+
+    @Test
+    protected void testExecute_invalidDetails_originalUnchanged() {
+        Instructor instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+
+        FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        String originalDescription = fq1.getDescription();
+
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setQuestionDescription("new question description");
+        assertNotEquals(originalDescription, updateRequest.getQuestionDescription());
+
+        String[] param = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq1.getId().toString(),
+        };
+
+        // set invalid question detail
+        FeedbackTextQuestionDetails ftqd = (FeedbackTextQuestionDetails) updateRequest.getQuestionDetails();
+        ftqd.setRecommendedLength(0);
+        updateRequest.setQuestionDetails(ftqd);
+
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, param);
+
+        assertEquals("[Recommended length must be 1 or greater]", ihrbe.getMessage());
+        assertEquals(originalDescription, logic.getFeedbackQuestion(fq1.getId()).getDescription());
     }
 
     @Override

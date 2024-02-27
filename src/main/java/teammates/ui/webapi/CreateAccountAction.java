@@ -117,12 +117,13 @@ public class CreateAccountAction extends Action {
     private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest,
             String instructorEmail, String instructorInstitution)
             throws InvalidParametersException, EntityDoesNotExistException {
-        accountRequest.setEmail(instructorEmail);
-        accountRequest.setInstitute(instructorInstitution);
-        accountRequest.setRegisteredAt(Instant.now());
+        AccountRequest accountRequestCopy = accountRequest.getCopy(); // prevent auto persistence
+        accountRequestCopy.setEmail(instructorEmail);
+        accountRequestCopy.setInstitute(instructorInstitution);
+        accountRequestCopy.setRegisteredAt(Instant.now());
 
-        sqlLogic.updateAccountRequest(accountRequest);
-        return accountRequest;
+        sqlLogic.updateAccountRequest(accountRequestCopy);
+        return accountRequestCopy;
     }
 
     private static String getDateString(Instant instant) {

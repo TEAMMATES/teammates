@@ -190,29 +190,32 @@ public final class FeedbackQuestionsLogic {
             previousQuestionsInSession = getFeedbackQuestionsForSession(question.getFeedbackSession());
         }
 
-        // update question
-        question.setQuestionNumber(updateRequest.getQuestionNumber());
-        question.setDescription(updateRequest.getQuestionDescription());
-        question.setQuestionDetails(updateRequest.getQuestionDetails());
-        question.setGiverType(updateRequest.getGiverType());
-        question.setRecipientType(updateRequest.getRecipientType());
-        question.setNumOfEntitiesToGiveFeedbackTo(updateRequest.getNumberOfEntitiesToGiveFeedbackTo());
-        question.setShowResponsesTo(updateRequest.getShowResponsesTo());
-        question.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
-        question.setShowRecipientNameTo(updateRequest.getShowRecipientNameTo());
+        FeedbackQuestion questionCopy = question.getCopy(); // prevent auto persistence
+        questionCopy.setQuestionNumber(updateRequest.getQuestionNumber());
+        questionCopy.setDescription(updateRequest.getQuestionDescription());
+        questionCopy.setQuestionDetails(updateRequest.getQuestionDetails());
+        questionCopy.setGiverType(updateRequest.getGiverType());
+        questionCopy.setRecipientType(updateRequest.getRecipientType());
+        questionCopy.setNumOfEntitiesToGiveFeedbackTo(updateRequest.getNumberOfEntitiesToGiveFeedbackTo());
+        questionCopy.setShowResponsesTo(updateRequest.getShowResponsesTo());
+        questionCopy.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
+        questionCopy.setShowRecipientNameTo(updateRequest.getShowRecipientNameTo());
 
         // validate questions (giver & recipient)
-        String err = question.getQuestionDetailsCopy().validateGiverRecipientVisibility(question);
+        String err = questionCopy.getQuestionDetailsCopy().validateGiverRecipientVisibility(questionCopy);
         if (!err.isEmpty()) {
             throw new InvalidParametersException(err);
         }
         // validate questions (question details)
-        FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
+        FeedbackQuestionDetails questionDetails = questionCopy.getQuestionDetailsCopy();
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
 
         if (!questionDetailsErrors.isEmpty()) {
             throw new InvalidParametersException(questionDetailsErrors.toString());
         }
+
+        // update question
+        fqDb.updateFeedbackQuestion(questionCopy);
 
         if (oldQuestionNumber != newQuestionNumber) {
             // shift other feedback questions (generate an empty "slot")
@@ -220,12 +223,12 @@ public final class FeedbackQuestionsLogic {
         }
 
         // adjust responses
-        if (question.areResponseDeletionsRequiredForChanges(updateRequest.getGiverType(),
+        if (questionCopy.areResponseDeletionsRequiredForChanges(updateRequest.getGiverType(),
                 updateRequest.getRecipientType(), updateRequest.getQuestionDetails())) {
-            frLogic.deleteFeedbackResponsesForQuestionCascade(question.getId());
+            frLogic.deleteFeedbackResponsesForQuestionCascade(questionCopy.getId());
         }
 
-        return question;
+        return questionCopy;
     }
 
     /**

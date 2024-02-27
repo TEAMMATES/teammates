@@ -1,8 +1,11 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -15,6 +18,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
@@ -25,13 +29,14 @@ import teammates.test.BaseTestCase;
  */
 public class NotificationsDbTest extends BaseTestCase {
 
-    private NotificationsDb notificationsDb = NotificationsDb.inst();
+    private NotificationsDb notificationsDb;
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
     public void setUpMethod() {
         mockHibernateUtil = mockStatic(HibernateUtil.class);
+        notificationsDb = spy(NotificationsDb.class);
     }
 
     @AfterMethod
@@ -115,6 +120,28 @@ public class NotificationsDbTest extends BaseTestCase {
     public void testDeleteNotification_entityDoesNotExists_success() {
         notificationsDb.deleteNotification(null);
         mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
+    }
+
+    @Test
+    public void testUpdateNotification_entityExists_success()
+            throws EntityDoesNotExistException, InvalidParametersException {
+        Notification notification = getTypicalNotificationWithId();
+        doReturn(notification).when(notificationsDb).getNotification(notification.getId());
+
+        notificationsDb.updateNotification(notification);
+
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(notification), times(1));
+    }
+
+    @Test
+    public void testUpdateNotification_invalidParameters_throwsInvalidParametersException()
+            throws EntityDoesNotExistException, InvalidParametersException {
+        Notification notification = getTypicalNotificationWithId();
+        notification.setTitle("");
+
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(notification));
+
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(notification), never());
     }
 
 }
