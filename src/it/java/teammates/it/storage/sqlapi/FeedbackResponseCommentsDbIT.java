@@ -134,9 +134,9 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         ______TS("Section 1A match");
         List<FeedbackResponseComment> expected = List.of(
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS1"),
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2"),
-                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1ToS2")
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1aToS1a"),
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1aToS2a"),
+                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1aToS2a")
         );
         List<FeedbackResponseComment> results = frcDb.getFeedbackResponseCommentsForSessionInSection(
                 course.getId(), session.getName(), section1.getName());
@@ -144,9 +144,9 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         ______TS("Section 2A match");
         expected = List.of(
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2"),
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS2ToS2"),
-                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1ToS2")
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1aToS2a"),
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS2aToS2a"),
+                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1aToS2a")
         );
         results = frcDb.getFeedbackResponseCommentsForSessionInSection(
                 course.getId(), session.getName(), section2.getName());
@@ -191,8 +191,8 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         ______TS("Section 1A Question 1 match");
         List<FeedbackResponseComment> expected = List.of(
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS1"),
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2")
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1aToS1a"),
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1aToS2a")
         );
         List<FeedbackResponseComment> results = frcDb.getFeedbackResponseCommentsForQuestionInSection(
                 question1.getId(), section1.getName());
@@ -200,8 +200,8 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         ______TS("Section 2A Question 1 match");
         expected = List.of(
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2"),
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS2ToS2")
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1aToS2a"),
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS2aToS2a")
         );
         results = frcDb.getFeedbackResponseCommentsForQuestionInSection(
                 question1.getId(), section2.getName());
@@ -209,7 +209,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         ______TS("Section 1 Question 2 match");
         expected = List.of(
-                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1ToS2")
+                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1aToS2a")
         );
         results = frcDb.getFeedbackResponseCommentsForQuestionInSection(
                 question2.getId(), section1.getName());
@@ -301,14 +301,14 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         bundle.feedbackSessions.put("session1InCourse1", session);
         bundle.sections.put("section1aInCourse1", section1a);
         bundle.sections.put("section2aInCourse1", section2a);
-        bundle.feedbackResponses.put("responseForQ1FromS1ToS1", frG1R1Q1);
-        bundle.feedbackResponses.put("responseForQ1FromS1ToS2", frG1R2Q1);
-        bundle.feedbackResponses.put("responseForQ2FromS1ToS2", frG1R2Q2);
-        bundle.feedbackResponses.put("responseForQ1FromS2ToS2", frG2R2Q1);
-        bundle.feedbackResponseComments.put("commentForQ1FromS1ToS1", frcG1R1Q1);
-        bundle.feedbackResponseComments.put("commentForQ1FromS1ToS2", frcG1R2Q1);
-        bundle.feedbackResponseComments.put("commentForQ2FromS1ToS2", frcG1R2Q2);
-        bundle.feedbackResponseComments.put("commentForQ1FromS2ToS2", frcG2R2Q1);
+        bundle.feedbackResponses.put("responseForQ1FromS1aToS1a", frG1R1Q1);
+        bundle.feedbackResponses.put("responseForQ1FromS1aToS2a", frG1R2Q1);
+        bundle.feedbackResponses.put("responseForQ2FromS1aToS2a", frG1R2Q2);
+        bundle.feedbackResponses.put("responseForQ1FromS2aToS2a", frG2R2Q1);
+        bundle.feedbackResponseComments.put("commentForQ1FromS1aToS1a", frcG1R1Q1);
+        bundle.feedbackResponseComments.put("commentForQ1FromS1aToS2a", frcG1R2Q1);
+        bundle.feedbackResponseComments.put("commentForQ2FromS1aToS2a", frcG1R2Q2);
+        bundle.feedbackResponseComments.put("commentForQ1FromS2aToS2a", frcG2R2Q1);
 
         return bundle;
     }
