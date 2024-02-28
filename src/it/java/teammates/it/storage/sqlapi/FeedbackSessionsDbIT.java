@@ -456,16 +456,14 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     //         throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {}
 
     private Course createTypicalCourse() {
-        Course course = new Course("course-id", "course-name", "UTC", "NUS");
-        return course;
+        return new Course("course-id", "course-name", "UTC", "NUS");
     }
 
     private FeedbackSession createTypicalFeedbackSession(Course course) {
         Instant instantNow = Instant.now();
-        FeedbackSession fs = new FeedbackSession("fs-name", course, "instructor@example.com", "instructions",
+        return new FeedbackSession("fs-name", course, "instructor@example.com", "instructions",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true, true);
-        return fs;
     }
 }
