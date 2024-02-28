@@ -157,7 +157,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testCreateNotification_sqlInjectionAttemptIntoTitle_shouldNotRunSqlInjectionQuery()
-    throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException, InvalidParametersException {
         Notification notification = generateTypicalNotification();
         // insert into notifications (created_at, end_time, message, shown, start_time, style, target_user, title,
         // updated_at, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -172,7 +172,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testCreateNotification_sqlInjectionAttemptIntoMessage_shouldNotRunSqlInjectionQuery()
-    throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException, InvalidParametersException {
         Notification notification = generateTypicalNotification();
         // insert into notifications (created_at, end_time, message, shown, start_time, style, target_user, title,
         // updated_at, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
