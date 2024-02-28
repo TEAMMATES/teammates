@@ -125,4 +125,18 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         verifyEquals(fs1, restoredFs);
     }
+
+    private Course createTypicalCourse() {
+        Course course = new Course("course-id", "course-name", "UTC", "NUS");
+        return course;
+    }
+
+    private FeedbackSession createTypicalFeedbackSession(Course course) {
+        Instant instantNow = Instant.now();
+        FeedbackSession fs = new FeedbackSession("fs-name", course, "instructor@example.com", "instructions",
+                instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
+                instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
+                true, true, true);
+        return fs;
+    }
 }
