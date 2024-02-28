@@ -321,6 +321,51 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(0, nonExistentSessions.size());
     }
 
+    // It is not possible to use quotation marks in a FeedbackSession name. It is not known if it is possible to do SQL
+    // injection here. We keep this here to show it was not missed out.
+    // @Test
+    // public void testUpdateFeedbackSession_sqlInjectionAttemptIntoName_notKnownToBePossible()
+    //         throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {}
+
+    @Test
+    public void testUpdateFeedbackSession_sqlInjectionAttemptIntoCreatorEmail_shouldNotThrowException()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        fs.setId(createdFs.getId());
+        // It is not possible to use a semicolon in an email address. Instead, we simply check if it throws an error for
+        // invalid SQL syntax.
+        String sqlInjectionCreatorEmail = "instructor'@gmail.com"; // Unbalanced single quotation mark.
+        fs.setCreatorEmail(sqlInjectionCreatorEmail);
+        fsDb.updateFeedbackSession(fs);
+        FeedbackSession updatedFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertEquals(sqlInjectionCreatorEmail, updatedFs.getCreatorEmail());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_sqlInjectionAttemptIntoInstructions_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        fs.setId(createdFs.getId());
+        // update feedback_sessions set course_id=?, creator_email=?, deleted_at=?, end_time=?, grace_period=?,
+        // instructions=?, is_closed_email_sent=?, is_closing_email_enabled=?, is_closing_soon_email_sent=?,
+        // is_open_email_sent=?, is_opening_email_enabled=?, is_opening_soon_email_sent=?, is_published_email_enabled=?,
+        // is_published_email_sent=?, name=?, results_visible_from_time=?, session_visible_from_time=?, start_time=?,
+        // updated_at=? where id=?
+        String sqlInjectionInstructions = "new-instructions'; DROP TABLE feedback_sessions;--";
+        fs.setInstructions(sqlInjectionInstructions);
+        fsDb.updateFeedbackSession(fs);
+        FeedbackSession updatedFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertEquals(SanitizationHelper.sanitizeForRichText(sqlInjectionInstructions), updatedFs.getInstructions());
+    }
+
     @Test
     public void testRestoreDeletedFeedbackSession_sqlInjectionAttemptIntoName_shouldNotRunSqlInjectionQuery()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
