@@ -291,7 +291,7 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
         // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
         // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
-        String sqlInjectionName = "fs-name' OR 1 = 1 OR '' = '";
+        String sqlInjectionName = "fs-name'; DROP TABLE feedback_sessions;--";
         assertThrows(EntityDoesNotExistException.class,
                 () -> fsDb.restoreDeletedFeedbackSession(sqlInjectionName, "course-id"));
         FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
@@ -312,7 +312,7 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
         // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
         // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
-        String sqlInjectionCourseId = "course-id' OR 1 = 1 OR '' = '";
+        String sqlInjectionCourseId = "course-id'; DROP TABLE feedback_sessions;--";
         assertThrows(EntityDoesNotExistException.class,
                 () -> fsDb.restoreDeletedFeedbackSession("fs-name", sqlInjectionCourseId));
         FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
