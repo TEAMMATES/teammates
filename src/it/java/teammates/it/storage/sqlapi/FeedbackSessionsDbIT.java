@@ -160,12 +160,11 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         // is_opening_email_enabled, is_opening_soon_email_sent, is_published_email_enabled, is_published_email_sent,
         // name, results_visible_from_time, session_visible_from_time,
         // start_time, updated_at, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        String sqlInjectionInstructions =
-                "instructions', FALSE, TRUE, FALSE, FALSE, " +
-                "TRUE, FALSE, TRUE, TRUE, " +
-                "'fs-name', '2024-03-05 12:00:00'::timestamp, '2024-02-20 12:00:00'::timestamp, " +
-                "'2024-02-27 12:00:00'::timestamp, '2024-02-27 12:00:00'::timestamp, uuid_generate_v4()); " +
-                "DROP TABLE feedback_sessions;--";
+        String sqlInjectionInstructions = "instructions', FALSE, TRUE, FALSE, FALSE, "
+                + "TRUE, FALSE, TRUE, TRUE, "
+                + "'fs-name', '2024-03-05 12:00:00'::timestamp, '2024-02-20 12:00:00'::timestamp, "
+                + "'2024-02-27 12:00:00'::timestamp, '2024-02-27 12:00:00'::timestamp, uuid_generate_v4()); "
+                + "DROP TABLE feedback_sessions;--";
         fs.setInstructions(sqlInjectionInstructions);
         fsDb.createFeedbackSession(fs);
         FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
