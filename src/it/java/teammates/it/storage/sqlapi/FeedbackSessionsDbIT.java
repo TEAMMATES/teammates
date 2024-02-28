@@ -255,6 +255,28 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(nonExistentFs);
     }
 
+    @Test
+    public void testGetSoftDeletedFeedbackSessionsForCourse_sqlInjectionAttempt_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        fsDb.softDeleteFeedbackSession("fs-name", "course-id");
+        List<FeedbackSession> sessions = fsDb.getSoftDeletedFeedbackSessionsForCourse("course-id");
+        assertEquals(1, sessions.size());
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.deleted_at is not null and
+        // f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id' OR 1 = 1 OR '' = '";
+        List<FeedbackSession> nonExistentSessions = fsDb.getSoftDeletedFeedbackSessionsForCourse(sqlInjectionCourseId);
+        assertEquals(0, nonExistentSessions.size());
+    }
+
     private Course createTypicalCourse() {
         Course course = new Course("course-id", "course-name", "UTC", "NUS");
         return course;
