@@ -448,6 +448,14 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(createdFs.getDeletedAt());
     }
 
+    // The SQL query is
+    // delete from feedback_sessions where id=?
+    // It may not be possible to do injection with an ID that was not obtained from user input. We keep this here to
+    // show it was not missed out.
+    // @Test
+    // public void testDeleteFeedbackSession_sqlInjectionAttempt_notKnownToBePossible()
+    //         throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {}
+
     private Course createTypicalCourse() {
         Course course = new Course("course-id", "course-name", "UTC", "NUS");
         return course;
