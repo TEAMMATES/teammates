@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.SanitizationHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
@@ -124,6 +125,52 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession restoredFs = fsDb.getFeedbackSession(fs1.getName(), course1.getId());
 
         verifyEquals(fs1, restoredFs);
+    }
+
+    // It is not possible to use quotation marks in a FeedbackSession name. It is not known if it is possible to do SQL
+    // injection here. We keep this here to show it was not missed out.
+    // @Test
+    // public void testCreateFeedbackSession_sqlInjectionAttemptIntoName_notKnownToBePossible()
+    //         throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {}
+
+    @Test
+    public void testCreateFeedbackSession_sqlInjectionAttemptIntoCreatorEmail_shouldNotThrowException()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        // It is not possible to use a semicolon in an email address. Instead, we simply check if it throws an error for
+        // invalid SQL syntax.
+        String sqlInjectionCreatorEmail = "instructor'@gmail.com"; // Unbalanced single quotation mark.
+        fs.setCreatorEmail(sqlInjectionCreatorEmail);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        assertEquals(sqlInjectionCreatorEmail, createdFs.getCreatorEmail());
+    }
+
+    @Test
+    public void testCreateFeedbackSession_sqlInjectionAttemptIntoInstructions_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        // insert into feedback_sessions (course_id, created_at, creator_email, deleted_at, end_time, grace_period,
+        // instructions, is_closed_email_sent, is_closing_email_enabled, is_closing_soon_email_sent, is_open_email_sent,
+        // is_opening_email_enabled, is_opening_soon_email_sent, is_published_email_enabled, is_published_email_sent,
+        // name, results_visible_from_time, session_visible_from_time,
+        // start_time, updated_at, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        String sqlInjectionInstructions =
+                "instructions', FALSE, TRUE, FALSE, FALSE, " +
+                "TRUE, FALSE, TRUE, TRUE, " +
+                "'fs-name', '2024-03-05 12:00:00'::timestamp, '2024-02-20 12:00:00'::timestamp, " +
+                "'2024-02-27 12:00:00'::timestamp, '2024-02-27 12:00:00'::timestamp, uuid_generate_v4()); " +
+                "DROP TABLE feedback_sessions;--";
+        fs.setInstructions(sqlInjectionInstructions);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        assertEquals(SanitizationHelper.sanitizeForRichText(sqlInjectionInstructions), createdFs.getInstructions());
     }
 
     private Course createTypicalCourse() {
