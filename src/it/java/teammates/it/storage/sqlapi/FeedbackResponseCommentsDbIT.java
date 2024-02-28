@@ -127,27 +127,22 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
     public void testGetFeedbackResponseCommentsForSessionInSection_matchFound_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
         SqlDataBundle additionalTestData = getAdditionalTestData();
-        Section section1 = additionalTestData.sections.get("section1InCourse1");
-        Section section2 = additionalTestData.sections.get("section2InCourse1");
+        Section section1 = additionalTestData.sections.get("section1aInCourse1");
+        Section section2 = additionalTestData.sections.get("section2aInCourse1");
         Course course = additionalTestData.courses.get("course1");
         FeedbackSession session = additionalTestData.feedbackSessions.get("session1InCourse1");
 
-        ______TS("Section 1 match");
+        ______TS("Section 1A match");
         List<FeedbackResponseComment> expected = List.of(
                 additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS1"),
                 additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2"),
-                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1ToS2"),
-                typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1"),
-                typicalDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1"),
-                typicalDataBundle.feedbackResponseComments.get("comment2ToResponse2ForQ1"),
-                typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ2s"),
-                typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ3")
+                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1ToS2")
         );
         List<FeedbackResponseComment> results = frcDb.getFeedbackResponseCommentsForSessionInSection(
                 course.getId(), session.getName(), section1.getName());
         assertListCommentsEqual(expected, results);
 
-        ______TS("Section 2 match");
+        ______TS("Section 2A match");
         expected = List.of(
                 additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2"),
                 additionalTestData.feedbackResponseComments.get("commentForQ1FromS2ToS2"),
@@ -189,24 +184,21 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
     @Test
     public void testGetFeedbackResponseCommentsForQuestionInSection_matchFound_success() {
         SqlDataBundle additionalTestData = getAdditionalTestData();
-        Section section1 = additionalTestData.sections.get("section1InCourse1");
-        Section section2 = additionalTestData.sections.get("section2InCourse1");
+        Section section1 = additionalTestData.sections.get("section1aInCourse1");
+        Section section2 = additionalTestData.sections.get("section2aInCourse1");
         FeedbackQuestion question1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackQuestion question2 = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
 
-        ______TS("Section 1 Question 1 match");
+        ______TS("Section 1A Question 1 match");
         List<FeedbackResponseComment> expected = List.of(
                 additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS1"),
-                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2"),
-                typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1"),
-                typicalDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1"),
-                typicalDataBundle.feedbackResponseComments.get("comment2ToResponse2ForQ1")
+                additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2")
         );
         List<FeedbackResponseComment> results = frcDb.getFeedbackResponseCommentsForQuestionInSection(
                 question1.getId(), section1.getName());
         assertListCommentsEqual(expected, results);
 
-        ______TS("Section 2 Question 1 match");
+        ______TS("Section 2A Question 1 match");
         expected = List.of(
                 additionalTestData.feedbackResponseComments.get("commentForQ1FromS1ToS2"),
                 additionalTestData.feedbackResponseComments.get("commentForQ1FromS2ToS2")
@@ -217,8 +209,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         ______TS("Section 1 Question 2 match");
         expected = List.of(
-                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1ToS2"),
-                typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ2s")
+                additionalTestData.feedbackResponseComments.get("commentForQ2FromS1ToS2")
         );
         results = frcDb.getFeedbackResponseCommentsForQuestionInSection(
                 question2.getId(), section1.getName());
@@ -248,7 +239,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
     private void assertListCommentsEqual(List<FeedbackResponseComment> expected, List<FeedbackResponseComment> actual) {
         assertTrue(
-                String.format("List contents are not equal.\nExpected: %s,\nActual: %s",
+                String.format("List contents are not equal.%nExpected: %s,%nActual: %s",
                         expected.toString(), actual.toString()),
                 new HashSet<>(expected).equals(new HashSet<>(actual)));
         assertEquals("List size not equal.", expected.size(), actual.size());
@@ -264,39 +255,39 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         FeedbackQuestion question1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackQuestion question2 = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         FeedbackSession session = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        Section section1 = new Section(course, "Section 1");
-        Section section2 = new Section(course, "Section 2");
-        FeedbackResponse frG1R1Q1 = new FeedbackTextResponse(question1, "", section1, "", section1,
+        Section section1a = new Section(course, "Section 1A");
+        Section section2a = new Section(course, "Section 2A");
+        FeedbackResponse frG1R1Q1 = new FeedbackTextResponse(question1, "", section1a, "", section1a,
                 new FeedbackTextResponseDetails("Response Q1 S1 to S1"));
-        FeedbackResponse frG1R2Q1 = new FeedbackTextResponse(question1, "", section1, "", section2,
+        FeedbackResponse frG1R2Q1 = new FeedbackTextResponse(question1, "", section1a, "", section2a,
                 new FeedbackTextResponseDetails("Response Q1 S1 to S2"));
-        FeedbackResponse frG1R2Q2 = new FeedbackTextResponse(question2, "", section1, "", section2,
+        FeedbackResponse frG1R2Q2 = new FeedbackTextResponse(question2, "", section1a, "", section2a,
                         new FeedbackTextResponseDetails("Response Q2 S1 to S2"));
-        FeedbackResponse frG2R2Q1 = new FeedbackTextResponse(question1, "", section2, "", section2,
+        FeedbackResponse frG2R2Q1 = new FeedbackTextResponse(question1, "", section2a, "", section2a,
                 new FeedbackTextResponseDetails("Response Q1 S2 to S2"));
         FeedbackResponseComment frcG1R1Q1 = new FeedbackResponseComment(
-                frG1R1Q1, "", FeedbackParticipantType.STUDENTS, section1, section1,
+                frG1R1Q1, "", FeedbackParticipantType.STUDENTS, section1a, section1a,
                 "Comment Q1 S1 to S1", true, true, new ArrayList<>(), new ArrayList<>(), ""
         );
         FeedbackResponseComment frcG1R2Q1 = new FeedbackResponseComment(
-                frG1R2Q1, "", FeedbackParticipantType.STUDENTS, section1, section2,
+                frG1R2Q1, "", FeedbackParticipantType.STUDENTS, section1a, section2a,
                 "Comment Q1 S1 to S2", true, true, new ArrayList<>(), new ArrayList<>(), ""
         );
         FeedbackResponseComment frcG1R2Q2 = new FeedbackResponseComment(
-                frG1R2Q2, "", FeedbackParticipantType.STUDENTS, section1, section2,
+                frG1R2Q2, "", FeedbackParticipantType.STUDENTS, section1a, section2a,
                 "Comment Q2 S1 to S2", true, true, new ArrayList<>(), new ArrayList<>(), ""
         );
         FeedbackResponseComment frcG2R2Q1 = new FeedbackResponseComment(
-                frG2R2Q1, "", FeedbackParticipantType.STUDENTS, section2, section2,
+                frG2R2Q1, "", FeedbackParticipantType.STUDENTS, section2a, section2a,
                 "Comment Q1 S2 to S2", true, true, new ArrayList<>(), new ArrayList<>(), ""
         );
 
-        HibernateUtil.persist(section1);
-        HibernateUtil.persist(section2);
-        course.addSection(section1);
-        course.addSection(section2);
-        HibernateUtil.persist(session);
-        HibernateUtil.persist(course);
+        HibernateUtil.persist(section1a);
+        HibernateUtil.persist(section2a);
+        course.addSection(section1a);
+        course.addSection(section2a);
+        HibernateUtil.merge(session);
+        HibernateUtil.merge(course);
         HibernateUtil.persist(frG1R1Q1);
         HibernateUtil.persist(frG1R2Q2);
         HibernateUtil.persist(frG1R2Q1);
@@ -308,8 +299,8 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
         bundle.courses.put("course1", course);
         bundle.feedbackSessions.put("session1InCourse1", session);
-        bundle.sections.put("section1InCourse1", section1);
-        bundle.sections.put("section2InCourse1", section2);
+        bundle.sections.put("section1aInCourse1", section1a);
+        bundle.sections.put("section2aInCourse1", section2a);
         bundle.feedbackResponses.put("responseForQ1FromS1ToS1", frG1R1Q1);
         bundle.feedbackResponses.put("responseForQ1FromS1ToS2", frG1R2Q1);
         bundle.feedbackResponses.put("responseForQ2FromS1ToS2", frG1R2Q2);
