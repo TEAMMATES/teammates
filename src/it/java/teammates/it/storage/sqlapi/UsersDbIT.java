@@ -396,16 +396,16 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testSqlInjectionInGetStudentByRegKey() throws Exception {
         ______TS("SQL Injection test in getStudentByRegKey");
-
+        String regKey = "test' OR 1 = 1; --";
         Student student = getTypicalStudent();
         student.setEmail("studentregkey.usersdbit@gmail.com");
+        student.setRegKey(regKey);
 
-        usersDb.createInstructor(instructor);
+        usersDb.createStudent(student);
 
         // The system should treat the input as a plain text string
-        String regKey = "test' OR 1 = 1; --";
         Student actualStudent = usersDb.getStudentByRegKey(regKey);
-        assertNull(actualStudent);
+        assertEquals(actualStudent.getRegKey(), regKey);
     }
 
     @Test
@@ -577,10 +577,63 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testSqlInjectionInGetTeam() throws Exception {
         String injection = "test' OR 1 = 1; --";
-        ______TS("SQL Injection test in getTeam courseId field");
-        assertNull(usersDb.getSection(injection, team.getName()));
-
         ______TS("SQL Injection test in getTeam teamName field");
-        assertNull(usersDb.getSection(course.getId(), injection));
+        assertNull(usersDb.getTeam(section, injection));
+    }
+
+    @Test
+    public void testSqlInjectionInGetSectionOrCreate() throws Exception {
+        ______TS("SQL Injection test in getSection sectionName field");
+        // Attempt to use SQL commands in teamName field
+        String injection = "test'; DROP TABLE users; --";
+        Section actualSection = usersDb.getSectionOrCreate(course.getId(), injection);
+
+        // The system should treat teamName as a plain text string
+        assertEquals(actualSection.getName(), injection);
+    }
+
+    @Test
+    public void testSqlInjectionInGetTeamOrCreate() throws Exception {
+        ______TS("SQL Injection test in getTeamOrCreate teamName field");
+        // Attempt to use SQL commands in teamName field
+        String injection = "test'; DROP TABLE users; --";
+        Team actualTeam = usersDb.getTeamOrCreate(section, injection);
+
+        // The system should treat teamName as a plain text string
+        assertEquals(actualTeam.getName(), injection);
+    }
+
+    @Test
+    public void testSqlInjectionInUpdateStudent() throws Exception {
+        ______TS("SQL Injection test in updateStudent email field");
+
+        String email = "test';/**/DROP/**/TABLE/**/users;/**/--@gmail.com";
+        Student studentEmail = getTypicalStudent();
+        studentEmail.setEmail(email);
+
+        // The regex check should fail and throw an exception
+        assertThrows(InvalidParametersException.class,
+                () -> usersDb.updateStudent(studentEmail));
+
+        ______TS("SQL Injection test in updateStudent name field");
+        String injection = "newName'; DROP TABLE name; --";
+        student.setName(injection);
+        usersDb.updateStudent(student);
+
+        HibernateUtil.flushSession();
+
+        // The system should treat the input as a plain text string
+        Student actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getGoogleId());
+        assertEquals(actualStudent.getName(), injection);
+
+        ______TS("SQL Injection test in updateStudent comments field");
+        student.setComments(injection);
+        usersDb.updateStudent(student);
+
+        HibernateUtil.flushSession();
+
+        // The system should treat the input as a plain text string
+        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getGoogleId());
+        assertEquals(actualStudent.getComments(), injection);
     }
 }
