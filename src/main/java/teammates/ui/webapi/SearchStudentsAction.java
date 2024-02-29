@@ -82,9 +82,6 @@ public class SearchStudentsAction extends Action {
         }
         // Add students from datastore
         for (StudentAttributes s : studentsDatastore) {
-            if (s == null) {
-                continue;
-            }
             StudentData studentData = new StudentData(s);
 
             if (isCourseMigrated(studentData.getCourseId())) {
