@@ -1,5 +1,6 @@
 package teammates.it.storage.sqlapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -47,6 +48,10 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("failure: null course assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.createCourse(null));
+
+        ______TS("failure: invalid course details");
+        Course invalidCourse = new Course("course-id", "!@#!@#", "Asia/Singapore", "institute");
+        assertThrows(InvalidParametersException.class, () -> coursesDb.createCourse(invalidCourse));
 
         ______TS("failure: create course that already exist, execption thrown");
         Course identicalCourse = getTypicalCourse();
@@ -183,16 +188,21 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testDeleteSectionsByCourseId() throws Exception {
         Course course = getTypicalCourse();
-        Section section = getTypicalSection();
         coursesDb.createCourse(course);
-        coursesDb.createSection(section);
-
-        assertNotNull(coursesDb.getSectionByName(course.getId(), section.getName()));
+        List<Section> expectedSections = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Section newSection = new Section(course, "section-name" + i);
+            expectedSections.add(newSection);
+            course.addSection(newSection);
+            assertNotNull(coursesDb.getSectionByName(course.getId(), newSection.getName()));
+        }
 
         ______TS("success: delete sections by course id");
         coursesDb.deleteSectionsByCourseId(course.getId());
-        Section actualSection = coursesDb.getSectionByName(course.getId(), section.getName());
-        assertNull(actualSection);
+        for (Section section : expectedSections) {
+            Section actualSection = coursesDb.getSectionByName(course.getId(), section.getName());
+            assertNull(actualSection);
+        }
     }
 
     @Test
@@ -244,6 +254,10 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Team actualTeam = coursesDb.getTeamByName(section.getId(), team.getName());
         verifyEquals(team, actualTeam);
 
+        ______TS("failure: invalid team details");
+        Team invalidTeam = new Team(section, null);
+        assertThrows(InvalidParametersException.class, () -> coursesDb.createTeam(invalidTeam));
+
         ______TS("failure: create team that already exist, execption thrown");
         assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createTeam(team));
     }
@@ -257,6 +271,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         coursesDb.createSection(section);
         coursesDb.createTeam(team);
 
+        ______TS("success: get team that already exists");
         Team actualTeam = coursesDb.getTeamByName(section.getId(), team.getName());
         verifyEquals(team, actualTeam);
 
