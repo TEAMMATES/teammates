@@ -21,7 +21,6 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * Represents the admin home page of the website.
@@ -180,14 +179,18 @@ public class AdminSearchPage extends AppPage {
     }
 
     public WebElement getStudentRow(Student student) {
+        String details = String.format("%s [%s] (%s)", student.getCourse().getId(),
+                student.getSection() == null
+                ? Const.DEFAULT_SECTION
+                : student.getSection().getName(), student.getTeam().getName());
         WebElement table = browser.driver.findElement(By.id("search-table-student"));
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.size() >= 3 && (removeSpanFromText(columns.get(2)
-                    .getAttribute("innerHTML")).contains(student.getGoogleId())
-                    || removeSpanFromText(columns.get(1)
-                    .getAttribute("innerHTML")).contains(student.getName()))) {
+            if (!columns.isEmpty() && removeSpanFromText(columns.get(STUDENT_COL_DETAILS - 1)
+                    .getAttribute("innerHTML")).contains(details)
+                    && removeSpanFromText(columns.get(STUDENT_COL_NAME - 1)
+                    .getAttribute("innerHTML")).contains(student.getName())) {
                 return row;
             }
         }
@@ -364,20 +367,6 @@ public class AdminSearchPage extends AppPage {
         waitForElementStaleness(link);
     }
 
-    public WebElement getAccountRequestRow(AccountRequest accountRequest) {
-        String email = accountRequest.getEmail();
-        WebElement table = browser.driver.findElement(By.id("search-table-account-request"));
-        List<WebElement> rows = table.findElements(By.tagName("tr"));
-        for (WebElement row : rows) {
-            List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.size() >= 2 && removeSpanFromText(columns.get(1)
-                    .getAttribute("innerHTML")).contains(email)) {
-                return row;
-            }
-        }
-        return null;
-    }
-
     public WebElement getAccountRequestRow(AccountRequestAttributes accountRequest) {
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
@@ -434,14 +423,6 @@ public class AdminSearchPage extends AppPage {
         return getExpandedRowInputValue(accountRequestRow, EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK);
     }
 
-    public void clickDeleteAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
-        deleteButton.click();
-        waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-    }
-
     public void clickDeleteAccountRequestButton(AccountRequestAttributes accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
@@ -453,14 +434,6 @@ public class AdminSearchPage extends AppPage {
     public void clickDeleteAccountRequestButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
-        deleteButton.click();
-        waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-    }
-
-    public void clickResetAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
         deleteButton.click();
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
@@ -690,25 +663,6 @@ public class AdminSearchPage extends AppPage {
         assertNotEquals("", actualJoinLink);
     }
 
-    public void verifyAccountRequestRowContent(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        String actualName = getAccountRequestName(accountRequestRow);
-        String actualEmail = getAccountRequestEmail(accountRequestRow);
-        String actualInstitute = getAccountRequestInstitute(accountRequestRow);
-        String actualCreatedAt = getAccountRequestCreatedAt(accountRequestRow);
-        String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
-
-        assertEquals(accountRequest.getName(), actualName);
-        assertEquals(accountRequest.getEmail(), actualEmail);
-        assertEquals(accountRequest.getInstitute(), actualInstitute);
-        assertFalse(actualCreatedAt.isBlank());
-        if (accountRequest.getRegisteredAt() == null) {
-            assertEquals("Not Registered Yet", actualRegisteredAt);
-        } else {
-            assertFalse(actualRegisteredAt.isBlank());
-        }
-    }
-
     public void verifyAccountRequestRowContent(AccountRequestAttributes accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         String actualName = getAccountRequestName(accountRequestRow);
@@ -745,14 +699,6 @@ public class AdminSearchPage extends AppPage {
         } else {
             assertFalse(actualRegisteredAt.isBlank());
         }
-    }
-
-    public void verifyAccountRequestExpandedLinks(AccountRequest accountRequest) {
-        clickExpandAccountRequestLinks();
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        String actualRegistrationLink = getAccountRequestRegistrationLink(accountRequestRow);
-
-        assertFalse(actualRegistrationLink.isBlank());
     }
 
     public void verifyAccountRequestExpandedLinks(AccountRequestAttributes accountRequest) {

@@ -231,17 +231,6 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @Override
-    protected boolean doPutDocumentsSql(SqlDataBundle dataBundle) {
-        try {
-            sqlLogic.putDocuments(dataBundle);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
     protected boolean doPutDocuments(SqlDataBundle dataBundle) {
         try {
             sqlLogic.putDocuments(dataBundle);

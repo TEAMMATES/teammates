@@ -41,7 +41,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         Course course = testData.courses.get("typicalCourse1");
         Student student = testData.students.get("student1InCourse1");
         Instructor instructor = testData.instructors.get("instructor1OfCourse1");
-        AccountRequest accountRequest = testData.accountRequests.get("unregisteredInstructor1");
+        AccountRequest accountRequest = testData.accountRequests.get("instructor1OfCourse1");
 
         ______TS("Typical case: Search student email");
         String searchContent = student.getEmail();
@@ -110,7 +110,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
 
         ______TS("Typical case: Reset account request successful");
-        searchContent = "unregisteredinstructor1";
+        searchContent = "ASearch.instructor1@gmail.tmt";
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
