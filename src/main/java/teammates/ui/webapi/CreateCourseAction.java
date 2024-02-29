@@ -1,12 +1,14 @@
 package teammates.ui.webapi;
 
+import java.util.List;
+import java.util.Objects;
+
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -29,8 +31,13 @@ public class CreateCourseAction extends Action {
 
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
-        boolean canCreateCourse = sqlLogic.canInstructorCreateCourse(userInfo.getId(), institute);
-
+        List<InstructorAttributes> existingInstructors = logic.getInstructorsForGoogleId(userInfo.getId());
+        boolean canCreateCourse = existingInstructors
+                .stream()
+                .filter(InstructorAttributes::hasCoownerPrivileges)
+                .map(instructor -> logic.getCourse(instructor.getCourseId()))
+                .filter(Objects::nonNull)
+                .anyMatch(course -> institute.equals(course.getInstitute()));
         if (!canCreateCourse) {
             throw new UnauthorizedAccessException("You are not allowed to create a course under this institute. "
                     + "If you wish to do so, please request for an account under the institute.", true);
@@ -53,24 +60,27 @@ public class CreateCourseAction extends Action {
         String newCourseName = courseCreateRequest.getCourseName();
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
-        Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
+        CourseAttributes courseAttributes =
+                CourseAttributes.builder(newCourseId)
+                        .withName(newCourseName)
+                        .withTimezone(newCourseTimeZone)
+                        .withInstitute(institute)
+                        .build();
 
         try {
-            course = sqlLogic.createCourse(course);
+            logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
 
-            Instructor instructorCreatedForCourse = sqlLogic.getInstructorByGoogleId(newCourseId, userInfo.getId());
+            InstructorAttributes instructorCreatedForCourse = logic.getInstructorForGoogleId(newCourseId, userInfo.getId());
             taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
                     instructorCreatedForCourse.getEmail());
         } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException("The course ID " + course.getId()
+            throw new InvalidOperationException("The course ID " + courseAttributes.getId()
                     + " has been used by another course, possibly by some other user."
                     + " Please try again with a different course ID.", e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
 
-        HibernateUtil.flushSession();
-        CourseData courseData = new CourseData(course);
-        return new JsonResult(courseData);
+        return new JsonResult(new CourseData(logic.getCourse(newCourseId)));
     }
 }
