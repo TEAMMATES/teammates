@@ -1,0 +1,56 @@
+name: E2E Sql Tests
+
+on:
+  push:
+    branches:
+      - master
+      - release
+  pull_request:
+    branches:
+      - master
+      - release
+  schedule:
+    - cron: "0 0 * * *" #end of every day
+jobs:
+  E2E-sql-testing:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false #ensure both tests run even if one fails
+      matrix:
+        browser: [firefox]
+        tests: [stable, unstable]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('.gradle/*.gradle*', 'build.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Update Property File
+        run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
+      - name: Run Solr search service + local Datastore emulator
+        run: docker-compose up -d
+      - name: Create Config Files
+        run: ./gradlew createConfigs testClasses generateTypes
+      - name: Install Frontend Dependencies
+        run: npm ci
+      - name: Build Frontend Bundle
+        run: npm run build
+      - name: Start Server
+        run: |
+          ./gradlew serverRun &
+          ./wait-for-server.sh
+      - name: Start Tests
+        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTestsSql

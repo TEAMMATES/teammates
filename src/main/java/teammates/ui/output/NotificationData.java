@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import org.threeten.bp.Instant;
+
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
@@ -36,7 +38,8 @@ public class NotificationData extends ApiOutput {
         this.notificationId = notification.getId().toString();
         this.startTimestamp = notification.getStartTime().toEpochMilli();
         this.endTimestamp = notification.getEndTime().toEpochMilli();
-        this.createdAt = notification.getCreatedAt().toEpochMilli();
+        this.createdAt = notification.getCreatedAt() == null
+                ? Instant.now().toEpochMilli() : notification.getCreatedAt().toEpochMilli();
         this.style = notification.getStyle();
         this.targetUser = notification.getTargetUser();
         this.title = notification.getTitle();
