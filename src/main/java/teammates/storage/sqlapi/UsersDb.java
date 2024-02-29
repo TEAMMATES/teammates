@@ -650,6 +650,16 @@ public final class UsersDb extends EntitiesDb {
      */
     public Student updateStudent(Student student)
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        checkBeforeUpdateStudent(student);
+
+        return merge(student);
+    }
+
+    /**
+     * Performs checks on student without updating.
+     */
+    public void checkBeforeUpdateStudent(Student student)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         assert student != null;
 
         if (!student.isValid()) {
@@ -659,8 +669,6 @@ public final class UsersDb extends EntitiesDb {
         if (getStudent(student.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
-
-        return merge(student);
     }
 
 }

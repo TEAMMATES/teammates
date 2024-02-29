@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.storage.sqlentity.Notification;
 
 /**
  * Page Object Model for the admin notifications page.
@@ -66,12 +66,12 @@ public class AdminNotificationsPage extends AppPage {
         return getPageSource().contains("Notifications");
     }
 
-    public void verifyNotificationsTableRow(NotificationAttributes notification) {
-        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+    public void verifyNotificationsTableRow(Notification notification) {
+        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getId().toString()));
         verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
     }
 
-    public void addNotification(NotificationAttributes notification) {
+    public void addNotification(Notification notification) {
         clickAddNotificationButton();
         waitForElementPresence(By.id("btn-create-notification"));
 
@@ -81,8 +81,8 @@ public class AdminNotificationsPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void editNotification(NotificationAttributes notification) {
-        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+    public void editNotification(Notification notification) {
+        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getId().toString()));
         WebElement editButton = notificationRow.findElement(By.className("btn-light"));
         editButton.click();
         waitForElementPresence(By.id("btn-edit-notification"));
@@ -93,8 +93,8 @@ public class AdminNotificationsPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void deleteNotification(NotificationAttributes notification) {
-        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+    public void deleteNotification(Notification notification) {
+        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getId().toString()));
         WebElement deleteButton = notificationRow.findElement(By.className("btn-danger"));
 
         deleteButton.click();
@@ -102,7 +102,7 @@ public class AdminNotificationsPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void fillNotificationForm(NotificationAttributes notification) {
+    public void fillNotificationForm(Notification notification) {
         selectDropdownOptionByText(notificationTargetUserDropdown, getTargetUserText(notification.getTargetUser()));
         selectDropdownOptionByText(notificationStyleDropdown, getNotificationStyle(notification.getStyle()));
         fillTextBox(notificationTitleTextBox, notification.getTitle());
@@ -153,14 +153,13 @@ public class AdminNotificationsPage extends AppPage {
         selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getInputTimeString(startInstant));
     }
 
-    private String[] getNotificationTableDisplayDetails(NotificationAttributes notification) {
+    private String[] getNotificationTableDisplayDetails(Notification notification) {
         return new String[] {
             notification.getTitle(),
             getTableDisplayDateString(notification.getStartTime()),
             getTableDisplayDateString(notification.getEndTime()),
             notification.getTargetUser().toString(),
             getNotificationStyle(notification.getStyle()),
-            getTableDisplayDateString(notification.getCreatedAt()),
         };
     }
 

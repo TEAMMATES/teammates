@@ -123,7 +123,7 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for instructors in whole system; instructors created without searchability unsearchable");
         usersDb.createInstructor(insUniqueDisplayName);
         results = usersDb.searchInstructorsInWholeSystem("\"Instructor of\"");
-        verifySearchResults(results, insInArchivedCourse, insInUnregCourse);
+        verifySearchResults(results, insInArchivedCourse, insInUnregCourse, insUniqueDisplayName);
 
         ______TS("success: search for instructors in whole system; deleting instructor without deleting document:"
                 + "document deleted during search, instructor unsearchable");

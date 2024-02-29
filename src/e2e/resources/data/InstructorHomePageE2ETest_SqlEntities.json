@@ -1,0 +1,22 @@
+{
+  "accounts": {
+    "IHome.instr": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.IHome.instructor.tmms",
+      "name": "Teammates Test",
+      "email": "IHome.instructor.tmms@gmail.tmt"
+    }
+  },
+  "notifications": {
+    "notification1": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    }
+  }
+}
