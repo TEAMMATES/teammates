@@ -7,6 +7,7 @@
         </packages>
         <classes>
             <class name="teammates.e2e.cases.sql.StudentHomePageE2ETest" />
+            <class name="teammates.e2e.cases.sql.AdminSearchPageE2ETest" />
         </classes>
     </test>
 </suite>
