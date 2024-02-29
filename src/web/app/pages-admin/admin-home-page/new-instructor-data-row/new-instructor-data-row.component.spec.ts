@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row.component';
-import { InstructorData } from '../instructor-data';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
+import { InstructorData } from '../instructor-data';
 
 describe('NewInstructorDataRowComponent', () => {
   let component: NewInstructorDataRowComponent;
@@ -92,7 +92,7 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should emit addInstructorEvent when adding', () => {
     let hasEmitted: boolean = false;
-    testEventEmission(component.addInstructorEvent, () => hasEmitted = true);
+    testEventEmission(component.addInstructorEvent, () => { hasEmitted = true; });
 
     addButtonDe.triggerEventHandler('click', null);
     expect(hasEmitted).toBeTruthy();
@@ -100,7 +100,7 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should emit removeInstructorEvent when removing', () => {
     let hasEmitted = false;
-    testEventEmission(component.removeInstructorEvent, () => hasEmitted = true);
+    testEventEmission(component.removeInstructorEvent, () => { hasEmitted = true; });
 
     fixture.debugElement
       .query(By.css(`#remove-instructor-${expectedIndex}`))
@@ -118,7 +118,7 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should emit false via toggleEditModeEvent when confirming the edit', () => {
     let isInEditMode: boolean | undefined;
-    testEventEmission(component.toggleEditModeEvent, (emittedValue) => isInEditMode = emittedValue, false);
+    testEventEmission(component.toggleEditModeEvent, (emittedValue) => { isInEditMode = emittedValue; }, false);
 
     editButtonDe.triggerEventHandler('click', null);
     fixture.detectChanges();
@@ -131,7 +131,7 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should emit false via toggleEditModeEvent when cancelling the edit', () => {
     let isInEditMode: boolean | undefined;
-    testEventEmission(component.toggleEditModeEvent, (emittedValue) => isInEditMode = emittedValue, false);
+    testEventEmission(component.toggleEditModeEvent, (emittedValue) => { isInEditMode = emittedValue; }, false);
 
     editButtonDe.triggerEventHandler('click', null);
     fixture.detectChanges();
@@ -154,7 +154,7 @@ describe('NewInstructorDataRowComponent', () => {
     fixture.detectChanges();
 
     let hasEmitted = false;
-    testEventEmission(component.showRegisteredInstructorModalEvent, () => hasEmitted = true);
+    testEventEmission(component.showRegisteredInstructorModalEvent, () => { hasEmitted = true; });
     fixture.debugElement
       .query(By.css(`#instructor-${expectedIndex}-registered-info-button`))
       .triggerEventHandler('click', null);
