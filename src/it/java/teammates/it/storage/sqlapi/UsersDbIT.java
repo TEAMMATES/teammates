@@ -49,7 +49,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         section = new Section(course, "test-section");
         course.addSection(section);
-        team = new Team(section, "test-section");
+        team = new Team(section, "test-team");
         section.addTeam(team);
         coursesDb.updateCourse(course);
 
