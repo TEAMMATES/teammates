@@ -313,4 +313,16 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     protected abstract boolean doPutDocuments(DataBundle testData);
 
     protected abstract boolean doPutDocuments(SqlDataBundle testData);
+    
+    protected void putSqlDocuments(SqlDataBundle testData) {
+        int retryLimit = OPERATION_RETRY_COUNT;
+        boolean isOperationSuccess = doPutDocuments(testData);
+        while (!isOperationSuccess && retryLimit > 0) {
+            retryLimit--;
+            print("Re-trying putSqlDocuments");
+            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
+            isOperationSuccess = doPutDocuments(testData);
+        }
+        assertTrue(isOperationSuccess);
+    }
 }

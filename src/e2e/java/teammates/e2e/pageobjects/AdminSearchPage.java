@@ -21,6 +21,7 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * Represents the admin home page of the website.
@@ -393,6 +394,22 @@ public class AdminSearchPage extends AppPage {
         return null;
     }
 
+    public WebElement getAccountRequestRow(AccountRequest accountRequest) {
+        String email = accountRequest.getEmail();
+        String institute = accountRequest.getInstitute();
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-account-request tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
+                    .getAttribute("innerHTML")).contains(email)
+                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
+                    .getAttribute("innerHTML")).contains(institute)) {
+                return row;
+            }
+        }
+        return null;
+    }
+
     public String getAccountRequestName(WebElement accountRequestRow) {
         return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_NAME);
     }
@@ -433,6 +450,14 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void clickDeleteAccountRequestButton(AccountRequest accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
+        deleteButton.click();
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad();
+    }
+
     public void clickResetAccountRequestButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
@@ -442,6 +467,14 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void clickResetAccountRequestButton(AccountRequestAttributes accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
+        deleteButton.click();
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad();
+    }
+
+    public void clickResetAccountRequestButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
         deleteButton.click();
@@ -695,6 +728,25 @@ public class AdminSearchPage extends AppPage {
         }
     }
 
+    public void verifyAccountRequestRowContent(AccountRequest accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        String actualName = getAccountRequestName(accountRequestRow);
+        String actualEmail = getAccountRequestEmail(accountRequestRow);
+        String actualInstitute = getAccountRequestInstitute(accountRequestRow);
+        String actualCreatedAt = getAccountRequestCreatedAt(accountRequestRow);
+        String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
+
+        assertEquals(accountRequest.getName(), actualName);
+        assertEquals(accountRequest.getEmail(), actualEmail);
+        assertEquals(accountRequest.getInstitute(), actualInstitute);
+        assertFalse(actualCreatedAt.isBlank());
+        if (accountRequest.getRegisteredAt() == null) {
+            assertEquals("Not Registered Yet", actualRegisteredAt);
+        } else {
+            assertFalse(actualRegisteredAt.isBlank());
+        }
+    }
+
     public void verifyAccountRequestExpandedLinks(AccountRequest accountRequest) {
         clickExpandAccountRequestLinks();
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
@@ -704,6 +756,14 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void verifyAccountRequestExpandedLinks(AccountRequestAttributes accountRequest) {
+        clickExpandAccountRequestLinks();
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        String actualRegistrationLink = getAccountRequestRegistrationLink(accountRequestRow);
+
+        assertFalse(actualRegistrationLink.isBlank());
+    }
+
+    public void verifyAccountRequestExpandedLinks(AccountRequest accountRequest) {
         clickExpandAccountRequestLinks();
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         String actualRegistrationLink = getAccountRequestRegistrationLink(accountRequestRow);
@@ -750,6 +810,43 @@ public class AdminSearchPage extends AppPage {
 
     public void verifyLinkExpansionButtons(StudentAttributes student,
             InstructorAttributes instructor, AccountRequestAttributes accountRequest) {
+        WebElement studentRow = getStudentRow(student);
+        WebElement instructorRow = getInstructorRow(instructor);
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+
+        clickExpandStudentLinks();
+        clickExpandInstructorLinks();
+        clickExpandAccountRequestLinks();
+        int numExpandedStudentRows = getNumExpandedRows(studentRow);
+        int numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+        int numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
+        assertNotEquals(numExpandedStudentRows, 0);
+        assertNotEquals(numExpandedInstructorRows, 0);
+        assertNotEquals(numExpandedAccountRequestRows, 0);
+
+        clickCollapseInstructorLinks();
+        numExpandedStudentRows = getNumExpandedRows(studentRow);
+        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+        numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
+        assertNotEquals(numExpandedStudentRows, 0);
+        assertEquals(numExpandedInstructorRows, 0);
+        assertNotEquals(numExpandedAccountRequestRows, 0);
+
+        clickExpandInstructorLinks();
+        clickCollapseStudentLinks();
+        clickCollapseAccountRequestLinks();
+        waitUntilAnimationFinish();
+
+        numExpandedStudentRows = getNumExpandedRows(studentRow);
+        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+        numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
+        assertEquals(numExpandedStudentRows, 0);
+        assertNotEquals(numExpandedInstructorRows, 0);
+        assertEquals(numExpandedAccountRequestRows, 0);
+    }
+
+    public void verifyLinkExpansionButtons(StudentAttributes student,
+            InstructorAttributes instructor, AccountRequest accountRequest) {
         WebElement studentRow = getStudentRow(student);
         WebElement instructorRow = getInstructorRow(instructor);
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);

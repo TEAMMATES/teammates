@@ -15,7 +15,6 @@ import teammates.ui.output.AccountRequestsData;
  */
 public class SearchAccountRequestsAction extends AdminOnlyAction {
 
-    @SuppressWarnings("PMD.AvoidCatchingNPE") // NPE caught to identify unregistered search manager
     @Override
     public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
@@ -25,8 +24,6 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
             accountRequests = sqlLogic.searchAccountRequestsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            accountRequests = new ArrayList<>();
         }
 
         List<AccountRequestAttributes> requestsDatastore;
@@ -34,8 +31,6 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
             requestsDatastore = logic.searchAccountRequestsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            requestsDatastore = new ArrayList<>();
         }
 
         List<AccountRequestData> accountRequestDataList = new ArrayList<>();
@@ -45,11 +40,10 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
         }
 
         for (AccountRequestAttributes request : requestsDatastore) {
-            if (request == null) {
-                continue;
+            if (accountRequestDataList.stream().noneMatch(data -> data.getEmail().equals(request.getEmail()))) {
+                AccountRequestData accountRequestData = new AccountRequestData(request);
+                accountRequestDataList.add(accountRequestData);
             }
-            AccountRequestData accountRequestData = new AccountRequestData(request);
-            accountRequestDataList.add(accountRequestData);
         }
 
         AccountRequestsData accountRequestsData = new AccountRequestsData();

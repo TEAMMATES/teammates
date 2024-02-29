@@ -1,0 +1,10 @@
+{
+  "accounts": {
+    "ICSDet.instr": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ICSDet.instr",
+      "name": "Teammates Test",
+      "email": "ICSDet.instr@gmail.tmt"
+    }
+  }
+}

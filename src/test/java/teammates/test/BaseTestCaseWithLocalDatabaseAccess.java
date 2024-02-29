@@ -78,6 +78,13 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         SearchManagerFactory.registerStudentSearchManager(
                 new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
 
+        teammates.storage.sqlsearch.SearchManagerFactory.registerAccountRequestSearchManager(
+            new teammates.storage.sqlsearch.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.sqlsearch.SearchManagerFactory.registerInstructorSearchManager(
+            new teammates.storage.sqlsearch.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.sqlsearch.SearchManagerFactory.registerStudentSearchManager(
+            new teammates.storage.sqlsearch.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+
         LogicStarter.initializeDependencies();
     }
 
@@ -216,6 +223,17 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     protected boolean doPutDocuments(DataBundle dataBundle) {
         try {
             logic.putDocuments(dataBundle);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    protected boolean doPutDocumentsSql(SqlDataBundle dataBundle) {
+        try {
+            sqlLogic.putDocuments(dataBundle);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

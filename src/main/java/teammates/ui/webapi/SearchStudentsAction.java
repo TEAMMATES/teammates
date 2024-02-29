@@ -30,7 +30,6 @@ public class SearchStudentsAction extends Action {
         }
     }
 
-    @SuppressWarnings("PMD.AvoidCatchingNPE") // see this [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
     @Override
     public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
@@ -49,9 +48,6 @@ public class SearchStudentsAction extends Action {
             }
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            // Solr search service is not active
-            students = new ArrayList<>();
         }
 
         // Search in datastore. For more information on dual db support, see this [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
@@ -67,9 +63,6 @@ public class SearchStudentsAction extends Action {
             }
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
-        } catch (NullPointerException e) {
-            // Solr search service is not active
-            studentsDatastore = new ArrayList<>();
         }
 
         List<StudentData> studentDataList = new ArrayList<>();
@@ -94,16 +87,16 @@ public class SearchStudentsAction extends Action {
             }
             StudentData studentData = new StudentData(s);
 
+            if (isCourseMigrated(studentData.getCourseId())) {
+                continue;
+            }
+
             if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getKey(),
                         logic.getCourseInstitute(s.getCourse()),
                         s.getGoogleId()
                 );
-            }
-            // If the course has been migrated, then the student would have been added already
-            if (isCourseMigrated(studentData.getCourseId())) {
-                continue;
             }
 
             studentDataList.add(studentData);
