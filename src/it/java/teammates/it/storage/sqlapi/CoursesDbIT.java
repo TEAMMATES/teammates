@@ -217,7 +217,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Section section = new Section(course, sectionName);
 
         coursesDb.createSection(section);
-        Section actual = coursesDb.getSectionByName("course-id", "section'; DROP TABLE courses; --");
+        Section actual = coursesDb.getSectionByName("course-id", "section-name'; DROP TABLE courses; --");
         assertEquals(null, actual);
         Section actualSection = coursesDb.getSectionByName("course-id", sectionName);
         assertEquals(sectionName, actualSection.getName());
@@ -235,7 +235,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         coursesDb.createCourse(course);
 
         // The system should treat the input as a plain text string
-        String teamNameInjection = "team'; DROP TABLE courses; --";
+        String teamNameInjection = "team-name'; DROP TABLE courses; --";
         Section actual = coursesDb.getSectionByCourseIdAndTeam("course-id", teamNameInjection);
         assertEquals(null, actual);
         Section actualSection = coursesDb.getSectionByCourseIdAndTeam("course-id", "team-name");
@@ -321,7 +321,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         section.addTeam(team);
         coursesDb.createCourse(course);
 
-        String teamName = "team'; DROP TABLE courses; --";
+        String teamName = "team-name'; DROP TABLE courses; --";
         Team actual = coursesDb.getTeamByName(section.getId(), teamName);
         assertEquals(null, actual);
         Team actualTeam = coursesDb.getTeamByName(section.getId(), "team-name");
