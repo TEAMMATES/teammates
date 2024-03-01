@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
@@ -21,7 +20,6 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
@@ -190,51 +188,51 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetFeedbackResponsesForSessionInSection_matchFound_success() {
-        SqlDataBundle additionalTestData = getAdditionalTestData();
-        FeedbackSession session = additionalTestData.feedbackSessions.get("session1InCourse1");
-        Course course = additionalTestData.courses.get("course1");
-        Section section1a = additionalTestData.sections.get("section1aInCourse1");
-        Section section2a = additionalTestData.sections.get("section2aInCourse1");
+        Course course = typicalDataBundle.courses.get("course1");
+        FeedbackSession session1 = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        Section section1 = typicalDataBundle.sections.get("section1InCourse1");
+        Section section2 = typicalDataBundle.sections.get("section2InCourse1");
 
-        ______TS("Match giver section 1a");
+        ______TS("Match giver section 1 in session 1");
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
         List<FeedbackResponse> expected = List.of(
-                additionalTestData.feedbackResponses.get("responseForQ1FromS1aToS1a"),
-                additionalTestData.feedbackResponses.get("responseForQ2FromS1aToS1a"),
-                additionalTestData.feedbackResponses.get("responseForQ1FromS1aToS2a"),
-                additionalTestData.feedbackResponses.get("responseForQ2FromS1aToS2a")
+                typicalDataBundle.feedbackResponses.get("response1ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response2ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response1ForQ2"),
+                typicalDataBundle.feedbackResponses.get("response2ForQ2"),
+                typicalDataBundle.feedbackResponses.get("response1ForQ3"),
+                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response3ForQ2")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForSessionInSection(
-                session, course.getId(), section1a.getName(), fetchType);
+                session1, course.getId(), section1.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
 
-        ______TS("Match recipient section 2a");
+        ______TS("Match recipient section 2 in session 1");
         fetchType = FeedbackResultFetchType.RECEIVER;
         expected = List.of(
-                additionalTestData.feedbackResponses.get("responseForQ1FromS2aToS2a"),
-                additionalTestData.feedbackResponses.get("responseForQ2FromS2aToS2a"),
-                additionalTestData.feedbackResponses.get("responseForQ1FromS1aToS2a"),
-                additionalTestData.feedbackResponses.get("responseForQ2FromS1aToS2a")
+                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response3ForQ2"),
+                typicalDataBundle.feedbackResponses.get("response4ForQ1")
         );
-        actual = frDb.getFeedbackResponsesForSessionInSection(session, course.getId(),
-                section2a.getName(), fetchType);
+        actual = frDb.getFeedbackResponsesForSessionInSection(session1, course.getId(),
+                section2.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
 
-        ______TS("Match both giver and recipient section 2a");
+        ______TS("Match both giver and recipient section 2 in session 1");
         fetchType = FeedbackResultFetchType.BOTH;
         expected = List.of(
-                additionalTestData.feedbackResponses.get("responseForQ1FromS2aToS2a"),
-                additionalTestData.feedbackResponses.get("responseForQ2FromS2aToS2a")
+                typicalDataBundle.feedbackResponses.get("response4ForQ1")
         );
-        actual = frDb.getFeedbackResponsesForSessionInSection(session, course.getId(),
-                section2a.getName(), fetchType);
+        actual = frDb.getFeedbackResponsesForSessionInSection(session1, course.getId(),
+                section2.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
     }
 
     @Test
     public void testGetFeedbackResponsesForQuestionInSection_matchNotFound_shouldReturnEmptyList() {
         String section1 = typicalDataBundle.sections.get("section1InCourse1").getName();
-        String section2 = typicalDataBundle.sections.get("section2InCourse1").getName();
+        String section3 = typicalDataBundle.sections.get("section3InCourse1").getName();
 
         ______TS("Question not found");
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
@@ -246,53 +244,52 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("No matching responses exist for giver section");
         UUID questionId = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId();
         fetchType = FeedbackResultFetchType.GIVER;
-        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section2, fetchType);
+        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section3, fetchType);
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist for recipient section");
         fetchType = FeedbackResultFetchType.RECEIVER;
-        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section2, fetchType);
+        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section3, fetchType);
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist for both giver and recipient section");
         fetchType = FeedbackResultFetchType.BOTH;
-        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section2, fetchType);
+        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section3, fetchType);
         assertEquals(0, results.size());
     }
 
     @Test
     public void testGetFeedbackResponsesForQuestionInSection_matchFound_success() {
-        SqlDataBundle additionalTestData = getAdditionalTestData();
-        Section section1a = additionalTestData.sections.get("section1aInCourse1");
-        Section section2a = additionalTestData.sections.get("section2aInCourse1");
+        Section section1 = typicalDataBundle.sections.get("section1InCourse1");
+        Section section2 = typicalDataBundle.sections.get("section2InCourse1");
         FeedbackQuestion question1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        FeedbackQuestion question2 = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
 
-        ______TS("Match giver section 1a for Q1");
+        ______TS("Match giver section 1 for Q1");
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
         List<FeedbackResponse> expected = List.of(
-                additionalTestData.feedbackResponses.get("responseForQ1FromS1aToS1a"),
-                additionalTestData.feedbackResponses.get("responseForQ1FromS1aToS2a")
+                typicalDataBundle.feedbackResponses.get("response1ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response2ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response3ForQ1")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(),
-                section1a.getName(), fetchType);
+                section1.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
 
-        ______TS("Match recipient section 2a for Q1");
+        ______TS("Match recipient section 2 for Q1");
         fetchType = FeedbackResultFetchType.RECEIVER;
         expected = List.of(
-                additionalTestData.feedbackResponses.get("responseForQ1FromS2aToS2a"),
-                additionalTestData.feedbackResponses.get("responseForQ1FromS1aToS2a")
+                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response4ForQ1")
         );
-        actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2a.getName(), fetchType);
+        actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
 
-        ______TS("Match both giver and recipient section 1a for Q2");
+        ______TS("Match both giver and recipient section 2 for Q1");
         fetchType = FeedbackResultFetchType.BOTH;
         expected = List.of(
-                additionalTestData.feedbackResponses.get("responseForQ2FromS1aToS1a")
+                typicalDataBundle.feedbackResponses.get("response4ForQ1")
         );
-        actual = frDb.getFeedbackResponsesForQuestionInSection(question2.getId(), section1a.getName(), fetchType);
+        actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
     }
 
@@ -305,7 +302,10 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 typicalDataBundle.feedbackResponses.get("response2ForQ1"),
                 typicalDataBundle.feedbackResponses.get("response1ForQ2"),
                 typicalDataBundle.feedbackResponses.get("response2ForQ2"),
-                typicalDataBundle.feedbackResponses.get("response1ForQ3")
+                typicalDataBundle.feedbackResponses.get("response1ForQ3"),
+                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response3ForQ2"),
+                typicalDataBundle.feedbackResponses.get("response4ForQ1")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForSession(sessionWithResponses,
                 sessionWithResponses.getCourse().getId());
@@ -319,61 +319,10 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     private void assertListResponsesEqual(List<FeedbackResponse> expected, List<FeedbackResponse> actual) {
+        assertEquals("List size not equal.", expected.size(), actual.size());
         assertTrue(
                 String.format("List contents are not equal.%nExpected: %s,%nActual: %s",
                         expected.toString(), actual.toString()),
                 new HashSet<>(expected).equals(new HashSet<>(actual)));
-        assertEquals("List size not equal.", expected.size(), actual.size());
-    }
-
-    /**
-     * Generate extra test responses not included in typical bundle.
-     */
-    private SqlDataBundle getAdditionalTestData() {
-        SqlDataBundle bundle = new SqlDataBundle();
-
-        Course course = typicalDataBundle.courses.get("course1");
-        FeedbackQuestion question1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        FeedbackQuestion question2 = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        FeedbackSession session = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        Section section1a = new Section(course, "Section 1A");
-        Section section2a = new Section(course, "Section 2A");
-        FeedbackResponse frG1R1Q1 = new FeedbackTextResponse(question1, "", section1a, "", section1a,
-                new FeedbackTextResponseDetails("Response Q1 S1 to S1"));
-        FeedbackResponse frG1R2Q1 = new FeedbackTextResponse(question1, "", section1a, "", section2a,
-                new FeedbackTextResponseDetails("Response Q1 S1 to S2"));
-        FeedbackResponse frG2R2Q1 = new FeedbackTextResponse(question1, "", section2a, "", section2a,
-                new FeedbackTextResponseDetails("Response Q1 S2 to S2"));
-        FeedbackResponse frG1R1Q2 = new FeedbackTextResponse(question2, "", section1a, "", section1a,
-                new FeedbackTextResponseDetails("Response Q2 S1 to S1"));
-        FeedbackResponse frG1R2Q2 = new FeedbackTextResponse(question2, "", section1a, "", section2a,
-                new FeedbackTextResponseDetails("Response Q2 S1 to S2"));
-        FeedbackResponse frG2R2Q2 = new FeedbackTextResponse(question2, "", section2a, "", section2a,
-                new FeedbackTextResponseDetails("Response Q2 S2 to S2"));
-
-        HibernateUtil.persist(section1a);
-        HibernateUtil.persist(section2a);
-        course.addSection(section1a);
-        course.addSection(section2a);
-        HibernateUtil.merge(course);
-        HibernateUtil.persist(frG1R1Q1);
-        HibernateUtil.persist(frG1R2Q1);
-        HibernateUtil.persist(frG2R2Q1);
-        HibernateUtil.persist(frG1R1Q2);
-        HibernateUtil.persist(frG1R2Q2);
-        HibernateUtil.persist(frG2R2Q2);
-
-        bundle.courses.put("course1", course);
-        bundle.feedbackSessions.put("session1InCourse1", session);
-        bundle.sections.put("section1aInCourse1", section1a);
-        bundle.sections.put("section2aInCourse1", section2a);
-        bundle.feedbackResponses.put("responseForQ1FromS1aToS1a", frG1R1Q1);
-        bundle.feedbackResponses.put("responseForQ1FromS1aToS2a", frG1R2Q1);
-        bundle.feedbackResponses.put("responseForQ1FromS2aToS2a", frG2R2Q1);
-        bundle.feedbackResponses.put("responseForQ2FromS1aToS1a", frG1R1Q2);
-        bundle.feedbackResponses.put("responseForQ2FromS1aToS2a", frG1R2Q2);
-        bundle.feedbackResponses.put("responseForQ2FromS2aToS2a", frG2R2Q2);
-
-        return bundle;
     }
 }

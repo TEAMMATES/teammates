@@ -214,7 +214,14 @@
           "id": "course-3"
         },
         "name": "Section 1"
-      }
+    },
+    "section3InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000205",
+      "course": {
+        "id": "course-1"
+      },
+      "name": "Section 4"
+    }
   },
   "teams": {
     "team1InCourse1": {
@@ -1212,6 +1219,84 @@
         "answer": "Great",
         "otherFieldContent": "",
         "questionType": "MCQ"
+      }
+    },
+    "response3ForQ1": {
+      "id": "00000000-0000-4000-8000-000000000906",
+      "feedbackQuestion": {
+        "id": "00000000-0000-4000-8000-000000000801",
+        "questionDetails": {
+          "questionType": "TEXT",
+          "questionText": "What is the best selling point of your product?"
+        }
+      },
+      "giver": "student1@teammates.tmt",
+      "recipient": "student4@teammates.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "answer": {
+        "questionType": "TEXT",
+        "answer": "Student 1 feedback for student 4."
+      }
+    },
+    "response3ForQ2": {
+      "id": "00000000-0000-4000-8000-000000000907",
+      "feedbackQuestion": {
+        "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionDetails": {
+          "recommendedLength": 0,
+          "questionType": "TEXT",
+          "questionText": "Rate 1 other student's product"
+        },
+        "description": "This is a text question.",
+        "questionNumber": 2,
+        "giverType": "STUDENTS",
+        "recipientType": "STUDENTS_EXCLUDING_SELF",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      },
+      "giver": "student1@teammates.tmt",
+      "recipient": "student4@teammates.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "answer": {
+        "questionType": "TEXT",
+        "answer": "Student 1's rating of Student 4's project."
+      }
+    },
+    "response4ForQ1": {
+      "id": "00000000-0000-4000-8000-000000000908",
+      "feedbackQuestion": {
+        "id": "00000000-0000-4000-8000-000000000801",
+        "questionDetails": {
+          "questionType": "TEXT",
+          "questionText": "What is the best selling point of your product?"
+        }
+      },
+      "giver": "student4@teammates.tmt",
+      "recipient": "student4@teammates.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "answer": {
+        "questionType": "TEXT",
+        "answer": "Student 4 self feedback."
       }
     }
   },
