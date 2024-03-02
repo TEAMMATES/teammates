@@ -15,6 +15,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Section;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -205,6 +206,110 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         }
 
         return merge(feedbackResponseComment);
+    }
+
+    /**
+     * Gets all comments in a feedback session of a course.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForSession(
+            String courseId, String feedbackSessionName) {
+        assert courseId != null;
+        assert feedbackSessionName != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
+
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(cJoin.get("id"), courseId),
+                        cb.equal(fsJoin.get("name"), feedbackSessionName)
+                        ));
+
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets all comments of a feedback question of a course.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForQuestion(UUID questionId) {
+        assert questionId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
+
+        cq.select(root)
+                .where(cb.and(
+                    cb.equal(fqJoin.get("id"), questionId)));
+
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets all comments in the given session where the giver or recipient is in the given section.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForSessionInSection(
+            String courseId, String feedbackSessionName, String sectionName) {
+        assert courseId != null;
+        assert feedbackSessionName != null;
+        assert sectionName != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
+
+        Join<FeedbackResponseComment, Section> giverJoin = root.join("giverSection");
+        Join<FeedbackResponseComment, Section> recipientJoin = root.join("recipientSection");
+
+        cq.select(root)
+                .where(cb.and(
+                    cb.equal(cJoin.get("id"), courseId),
+                    cb.equal(fsJoin.get("name"), feedbackSessionName),
+                    cb.or(
+                        cb.equal(giverJoin.get("name"), sectionName),
+                        cb.equal(recipientJoin.get("name"), sectionName))
+                    ));
+
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets all comments for a question where the giver or recipient is in the given section.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForQuestionInSection(
+            UUID questionId, String sectionName) {
+        assert questionId != null;
+        assert sectionName != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
+
+        Join<FeedbackResponseComment, Section> giverJoin = root.join("giverSection");
+        Join<FeedbackResponseComment, Section> recipientJoin = root.join("recipientSection");
+
+        cq.select(root)
+                .where(cb.and(
+                    cb.equal(fqJoin.get("id"), questionId),
+                    cb.or(
+                        cb.equal(giverJoin.get("name"), sectionName),
+                        cb.equal(recipientJoin.get("name"), sectionName))
+                    ));
+
+        return HibernateUtil.createQuery(cq).getResultList();
     }
 
 }
