@@ -13,7 +13,7 @@ import teammates.common.util.EmailWrapper;
 /**
  * Cron job: compiles application logs and sends severe logs compilation to the support email.
  */
-class CompileLogsAction extends AdminOnlyAction {
+public class CompileLogsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
@@ -34,7 +34,7 @@ class CompileLogsAction extends AdminOnlyAction {
 
         // Do not send any emails if there are no severe logs; prevents spamming
         if (!errorLogs.isEmpty()) {
-            EmailWrapper message = emailGenerator.generateCompiledLogsEmail(errorLogs);
+            EmailWrapper message = sqlEmailGenerator.generateCompiledLogsEmail(errorLogs);
             emailSender.sendEmail(message);
         }
         return new JsonResult("Successful");
