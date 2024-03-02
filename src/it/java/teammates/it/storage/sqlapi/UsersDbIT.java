@@ -36,7 +36,6 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private Course course;
     private Instructor instructor;
     private Student student;
-    private Team team;
     private Section section;
 
     @BeforeMethod
@@ -49,7 +48,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         section = new Section(course, "test-section");
         course.addSection(section);
-        team = new Team(section, "test-team");
+        Team team = new Team(section, "test-team");
         section.addTeam(team);
         coursesDb.updateCourse(course);
 
