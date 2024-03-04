@@ -1,12 +1,4 @@
 {
-  "accounts": {
-    "SCDet.instr": {
-      "googleId": "tm.e2e.SCDet.instr",
-      "name": "Instructor",
-      "email": "tmms.test@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "SCDet.CS2104": {
       "id": "tm.e2e.SCDet.CS2104",

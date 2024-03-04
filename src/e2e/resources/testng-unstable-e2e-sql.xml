@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="e2e-unstable-tests-sql" parallel="tests" thread-count="2">
+    <test name="e2e-unstable-tests-sql" parallel="classes">
+        <packages>
+            <package name="teammates.e2e.util" />
+        </packages>
+        <classes>
+        </classes>
+    </test>
+</suite>
