@@ -76,7 +76,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         FeedbackResponseComment frc = prepareSqlInjectionTest();
 
         String sqli = "'; DELETE FROM feedback_response_comments;--";
-        frcDb.updateLastEditorEmailOfFeedbackResponseComments(sqli,  "", "");
+        frcDb.updateLastEditorEmailOfFeedbackResponseComments(sqli, "", "");
 
         checkSqlInjectionFailed(frc);
     }
@@ -91,7 +91,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         String sqli = "'');/**/DELETE/**/FROM/**/feedback_response_comments;--@gmail.com";
         FeedbackResponseComment newFrc = new FeedbackResponseComment(
                 fr, "", FeedbackParticipantType.INSTRUCTORS, s, s, "",
-                false, false, 
+                false, false,
                 new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(), sqli);
 
         frcDb.createFeedbackResponseComment(newFrc);
