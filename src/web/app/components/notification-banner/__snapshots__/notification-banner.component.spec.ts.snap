@@ -11,6 +11,7 @@ exports[`NotificationBannerComponent should snap with 1 unread notification 1`] 
 >
   <div
     class="banner ng-trigger ng-trigger-collapseAnim alert alert-success ng-animating"
+    data-testid="notification1"
     id="notification-banner"
   >
     <button
@@ -53,6 +54,7 @@ exports[`NotificationBannerComponent should snap with multiple unread notificati
 >
   <div
     class="banner ng-trigger ng-trigger-collapseAnim alert alert-success ng-animating"
+    data-testid="notification1"
     id="notification-banner"
   >
     <button

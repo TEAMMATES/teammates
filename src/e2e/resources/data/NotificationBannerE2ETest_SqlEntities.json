@@ -1,0 +1,44 @@
+{
+    "accounts": {
+        "NotifBanner.instructor": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "googleId": "tm.e2e.NotifBanner.instructor",
+          "name": "Teammates Test Instructor",
+          "email": "NotifBanner.instructor@gmail.tmt",
+          "readNotifications": {}
+        },
+        "NotifBanner.student": {
+          "id": "00000000-0000-4000-8000-000000000002",
+          "googleId": "tm.e2e.NotifBanner.student",
+          "name": "Teammates Test Student",
+          "email": "NotifBanner.student@gmail.tmt",
+          "readNotifications": {}
+        }
+      },
+      "notifications": {
+        "notification1": {
+          "id": "00000000-0000-4000-8000-000000001101",
+          "startTime": "2011-01-01T00:00:00Z",
+          "endTime": "2099-01-01T00:00:00Z",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "updatedAt": "2011-01-01T00:00:00Z",
+          "style": "DANGER",
+          "targetUser": "GENERAL",
+          "title": "A deprecation note",
+          "message": "<p>Deprecation happens in three minutes</p>",
+          "shown": false
+        },
+        "notification2": {
+          "id": "00000000-0000-4000-8000-000000001101",
+          "startTime": "2011-01-01T00:00:00Z",
+          "endTime": "2099-01-01T00:00:00Z",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "updatedAt": "2011-01-01T00:00:00Z",
+          "style": "INFO",
+          "targetUser": "STUDENT",
+          "title": "New Update",
+          "message": "<p>Information on new update</p>",
+          "shown": false
+        }
+      }
+}

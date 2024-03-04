@@ -1,14 +1,21 @@
 package teammates.sqllogic.core;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
@@ -141,4 +148,196 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
+    /**
+     * Gets all feedback response comments for session in a section.
+     *
+     * @param courseId the course ID of the feedback session
+     * @param feedbackSessionName the feedback session name
+     * @param sectionName if null, will retrieve all comments in the session
+     * @return a list of feedback response comments
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentForSessionInSection(
+            String courseId, String feedbackSessionName, @Nullable String sectionName) {
+        if (sectionName == null) {
+            return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
+        }
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, sectionName);
+    }
+
+    /**
+     * Gets all feedback response comments for a question in a section.
+     *
+     * @param questionId the ID of the question
+     * @param sectionName if null, will retrieve all comments for the question
+     * @return a list of feedback response comments
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentForQuestionInSection(
+            UUID questionId, @Nullable String sectionName) {
+        if (sectionName == null) {
+            return frcDb.getFeedbackResponseCommentsForQuestion(questionId);
+        }
+        return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, sectionName);
+    }
+
+    /**
+     * Verifies whether the comment is visible to certain user.
+     * @return true/false
+     */
+    public boolean checkIsResponseCommentVisibleForUser(String userEmail, boolean isInstructor,
+            Student student, Set<String> studentsEmailInTeam, FeedbackResponse response,
+            FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment) {
+
+        if (response == null || relatedQuestion == null) {
+            return false;
+        }
+
+        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
+                                 || relatedComment.checkIsVisibleTo(FeedbackParticipantType.GIVER);
+
+        boolean isVisibleToUser = checkIsVisibleToUser(userEmail, response, relatedQuestion, relatedComment,
+                isVisibleToGiver, isInstructor, !isInstructor);
+
+        boolean isVisibleToUserTeam = checkIsVisibleToUserTeam(student, studentsEmailInTeam, response,
+                relatedQuestion, relatedComment, !isInstructor);
+
+        return isVisibleToUser || isVisibleToUserTeam;
+    }
+
+    private boolean checkIsVisibleToUserTeam(Student student, Set<String> studentsEmailInTeam,
+            FeedbackResponse response, FeedbackQuestion relatedQuestion,
+            FeedbackResponseComment relatedComment, boolean isUserStudent) {
+
+        boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients =
+                isUserStudent
+                && relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
+                && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                              FeedbackParticipantType.RECEIVER)
+                && response.getRecipient().equals(student.getTeamName());
+
+        boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
+                (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
+                || checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                              FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                && (studentsEmailInTeam.contains(response.getGiver())
+                        || isUserStudent && student.getTeamName().equals(response.getGiver()));
+
+        boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
+                checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                           FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && studentsEmailInTeam.contains(response.getRecipient());
+
+        return isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients
+                || isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers
+                || isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers;
+    }
+
+    private boolean checkIsVisibleToUser(String userEmail, FeedbackResponse response,
+            FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment,
+            boolean isVisibleToGiver, boolean isUserInstructor, boolean isUserStudent) {
+
+        boolean isUserInstructorAndRelatedResponseCommentVisibleToInstructors =
+                isUserInstructor && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                                               FeedbackParticipantType.INSTRUCTORS);
+
+        boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
+                response.getRecipient().equals(userEmail) && checkIsResponseCommentVisibleTo(relatedQuestion,
+                        relatedComment, FeedbackParticipantType.RECEIVER);
+
+        boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
+                response.getGiver().equals(userEmail) && isVisibleToGiver;
+
+        boolean isUserRelatedResponseCommentGiver = relatedComment.getGiver().equals(userEmail);
+
+        boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
+                isUserStudent && checkIsResponseCommentVisibleTo(relatedQuestion,
+                        relatedComment, FeedbackParticipantType.STUDENTS);
+
+        return isUserInstructorAndRelatedResponseCommentVisibleToInstructors
+                || isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients
+                || isUserResponseGiverAndRelatedResponseCommentVisibleToGivers
+                || isUserRelatedResponseCommentGiver
+                || isUserStudentAndRelatedResponseCommentVisibleToStudents;
+    }
+
+    private boolean checkIsResponseCommentVisibleTo(FeedbackQuestion relatedQuestion,
+                                               FeedbackResponseComment relatedComment,
+                                               FeedbackParticipantType viewerType) {
+        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
+        return isVisibilityFollowingFeedbackQuestion
+                ? relatedQuestion.isResponseVisibleTo(viewerType)
+                : relatedComment.checkIsVisibleTo(viewerType);
+    }
+
+    /**
+     * Returns true if the comment's giver name is visible to certain user.
+     */
+    public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
+                                   String userEmail, SqlCourseRoster roster) {
+        List<FeedbackParticipantType> showNameTo = comment.getShowGiverNameTo();
+        //in the old ver, name is always visible
+        if (showNameTo == null || comment.getIsVisibilityFollowingFeedbackQuestion()) {
+            return true;
+        }
+
+        //comment giver can always see
+        if (userEmail.equals(comment.getGiver())) {
+            return true;
+        }
+
+        return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
+    }
+
+    private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,
+            String userEmail, SqlCourseRoster roster, List<FeedbackParticipantType> showNameTo) {
+        String responseGiverTeam = "giverTeam";
+        if (roster.getStudentForEmail(response.getGiver()) != null) {
+            responseGiverTeam = roster.getStudentForEmail(response.getGiver()).getTeamName();
+        }
+        String responseRecipientTeam = "recipientTeam";
+        if (roster.getStudentForEmail(response.getRecipient()) != null) {
+            responseRecipientTeam = roster.getStudentForEmail(response.getRecipient()).getTeamName();
+        }
+        String currentUserTeam = "currentUserTeam";
+        if (roster.getStudentForEmail(userEmail) != null) {
+            currentUserTeam = roster.getStudentForEmail(userEmail).getTeamName();
+        }
+        for (FeedbackParticipantType type : showNameTo) {
+            switch (type) {
+            case INSTRUCTORS:
+                if (roster.getInstructorForEmail(userEmail) != null) {
+                    return true;
+                }
+                break;
+            case OWN_TEAM_MEMBERS:
+                if (responseGiverTeam.equals(currentUserTeam)) {
+                    return true;
+                }
+                break;
+            case RECEIVER:
+                if (userEmail.equals(response.getRecipient())) {
+                    return true;
+                }
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                if (responseRecipientTeam.equals(currentUserTeam)) {
+                    return true;
+                }
+                break;
+            case STUDENTS:
+                if (roster.getStudentForEmail(userEmail) != null) {
+                    return true;
+                }
+                break;
+            case GIVER:
+                if (userEmail.equals(response.getGiver())) {
+                    return true;
+                }
+                break;
+            default:
+                break;
+            }
+        }
+        return false;
+    }
 }

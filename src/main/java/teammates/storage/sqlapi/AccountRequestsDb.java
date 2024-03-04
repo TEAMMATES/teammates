@@ -5,7 +5,9 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -129,6 +131,19 @@ public final class AccountRequestsDb extends EntitiesDb {
     public void deleteAccountRequest(AccountRequest accountRequest) {
         if (accountRequest != null) {
             delete(accountRequest);
+            deleteDocumentByAccountRequestId(accountRequest.getId());
+        }
+    }
+
+    /**
+     * Removes search document for the given account request.
+     */
+    public void deleteDocumentByAccountRequestId(UUID accountRequestId) {
+        if (getSearchManager() != null) {
+            // Solr saves the id with the prefix "java.util.UUID:", so we need to add it here to
+            // identify and delete the document from the index
+            getSearchManager().deleteDocuments(
+                    Collections.singletonList("java.util.UUID:" + accountRequestId.toString()));
         }
     }
 

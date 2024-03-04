@@ -619,6 +619,43 @@ task e2eTests {
     e2eTests.dependsOn "e2eTestTry${id}"
 }
 
+task e2eTestsSql {
+    description "Runs the E2E SQL test suite and retries failed test up to ${numOfTestRetries} times."
+    group "Test"
+}
+
+(1..numOfTestRetries + 1).each { id ->
+    def isFirstTry = id == 1
+    def isLastRetry = id == numOfTestRetries + 1
+    def runUnstableTests = project.hasProperty('unstable')
+    def outputFileName = runUnstableTests ? "e2e-sql-unstable-test-try-" : "e2e-sql-test-try-"
+
+    task "e2eSqlTestTry${id}"(type: Test) {
+        useTestNG()
+        options.suites isFirstTry
+                ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e-sql.xml" : "src/e2e/resources/testng-e2e-sql.xml")
+                : file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml")
+        options.outputDirectory = file("${buildDir}/reports/${outputFileName}${id}")
+        options.useDefaultListeners = true
+        ignoreFailures = !isLastRetry
+        maxHeapSize = "1g"
+        reports.html.required = false
+        reports.junitXml.required = false
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+        testLogging {
+            events "passed"
+        }
+        afterTest afterTestClosure
+        if (isFirstTry) {
+            afterSuite checkTestNgFailureClosure
+        }
+        onlyIf {
+            isFirstTry || file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml").exists()
+        }
+    }
+    e2eTestsSql.dependsOn "e2eSqlTestTry${id}"
+}
+
 task axeTests {
     description "Runs the full accessibility test suite and retries failed tests once."
     group "Test"

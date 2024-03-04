@@ -204,6 +204,10 @@ public abstract class FeedbackResponse extends BaseEntity {
         return giverSection;
     }
 
+    public String getGiverSectionName() {
+        return giverSection.getName();
+    }
+
     public void setGiverSection(Section giverSection) {
         this.giverSection = giverSection;
     }
@@ -218,6 +222,10 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     public Section getRecipientSection() {
         return recipientSection;
+    }
+
+    public String getRecipientSectionName() {
+        return recipientSection.getName();
     }
 
     public void setRecipientSection(Section recipientSection) {

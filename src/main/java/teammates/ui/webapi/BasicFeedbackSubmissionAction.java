@@ -186,6 +186,25 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     }
 
     /**
+     * Checks the access control for student feedback result.
+     */
+    void checkAccessControlForStudentFeedbackResult(
+            Student student, FeedbackSession feedbackSession) throws UnauthorizedAccessException {
+        if (student == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
+        }
+
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyAccessible(student, feedbackSession);
+            verifyMatchingGoogleId(student.getGoogleId());
+        } else {
+            checkAccessControlForPreview(feedbackSession, false);
+        }
+    }
+
+    /**
      * Gets the instructor involved in the submission process.
      */
     InstructorAttributes getInstructorOfCourseFromRequest(String courseId) {
@@ -298,6 +317,26 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
+    /**
+     * Checks the access control for instructor feedback result.
+     */
+    void checkAccessControlForInstructorFeedbackResult(
+            Instructor instructor, FeedbackSession feedbackSession) throws UnauthorizedAccessException {
+        if (instructor == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
+        }
+
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyAccessible(instructor, feedbackSession,
+                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            verifyMatchingGoogleId(instructor.getGoogleId());
+        } else {
+            checkAccessControlForPreview(feedbackSession, true);
+        }
+    }
+
     private void verifyMatchingGoogleId(String googleId) throws UnauthorizedAccessException {
         if (!StringHelper.isEmpty(googleId)) {
             if (userInfo == null) {
@@ -321,6 +360,20 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         } else {
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        }
+    }
+
+    private void checkAccessControlForPreview(FeedbackSession feedbackSession, boolean isInstructor)
+            throws UnauthorizedAccessException {
+        gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+        if (isInstructor) {
+            gateKeeper.verifyAccessible(
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()), feedbackSession,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        } else {
+            gateKeeper.verifyAccessible(
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         }
     }

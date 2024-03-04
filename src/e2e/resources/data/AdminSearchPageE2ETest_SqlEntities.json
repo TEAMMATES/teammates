@@ -1,0 +1,44 @@
+{
+  "accounts": {
+    "instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ASearch.instr1",
+      "name": "Instructor1 of Course1",
+      "email": "ASearch.instructor1@gmail.tmt"
+    },
+    "instructor2OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.ASearch.instr2",
+      "name": "Instructor2 of Course1",
+      "email": "ASearch.instructor2@gmail.tmt"
+    },
+    "student1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.ASearch.student1",
+      "name": "Student1 in course1",
+      "email": "ASearch.student1@gmail.tmt"
+    }
+  },
+  "accountRequests": {
+    "instructor1OfCourse1": {
+      "name": "Instructor1 of Course1",
+      "email": "ASearch.instructor1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse1": {
+      "name": "Instructor2 of Course1",
+      "email": "ASearch.instructor2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "unregisteredInstructor1": {
+      "name": "Typical Instructor Name",
+      "email": "ASearch.unregisteredinstructor1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z"
+    }
+  }
+}

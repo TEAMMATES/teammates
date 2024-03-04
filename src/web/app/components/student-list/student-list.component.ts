@@ -254,11 +254,4 @@ export class StudentListComponent implements OnInit {
   sortStudentListEventHandler(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
     this.sortStudentListEvent.emit(event);
   }
-
-  getAriaSort(by: SortBy): string {
-    if (by !== this.tableSortBy) {
-      return 'none';
-    }
-    return this.tableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
-  }
 }

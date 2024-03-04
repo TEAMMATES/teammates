@@ -2,9 +2,9 @@ package teammates.e2e.cases;
 
 import java.time.Instant;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -13,6 +13,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminSearchPage;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -28,6 +29,9 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/AdminSearchPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
+        sqlTestData = loadSqlDataBundle("/AdminSearchPageE2ETest_SqlEntities.json");
+        removeAndRestoreSqlDataBundle(sqlTestData);
+        doPutDocumentsSql(sqlTestData);
     }
 
     @Test
@@ -43,7 +47,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         CourseAttributes course = testData.courses.get("typicalCourse1");
         StudentAttributes student = testData.students.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        AccountRequestAttributes accountRequest = testData.accountRequests.get("instructor1OfCourse1");
+        AccountRequest accountRequest = sqlTestData.accountRequests.get("instructor1OfCourse1");
 
         ______TS("Typical case: Search student email");
         String searchContent = student.getEmail();
@@ -131,7 +135,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()).getRegisteredAt());
 
         ______TS("Typical case: Delete account request successful");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor1");
+        accountRequest = sqlTestData.accountRequests.get("unregisteredInstructor1");
         searchContent = accountRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
@@ -184,6 +188,13 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();
+    }
+
+    @AfterClass
+    public void classTeardown() {
+        for (AccountRequest request : sqlTestData.accountRequests.values()) {
+            BACKDOOR.deleteAccountRequest(request.getEmail(), request.getInstitute());
+        }
     }
 
 }

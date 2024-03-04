@@ -1,4 +1,4 @@
-name: E2E Tests
+name: E2E Sql Tests
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
-  E2E-testing:
+  E2E-sql-testing:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false #ensure both tests run even if one fails
@@ -53,5 +53,4 @@ jobs:
           ./gradlew serverRun &
           ./wait-for-server.sh
       - name: Start Tests
-        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTests
-        
+        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTestsSql

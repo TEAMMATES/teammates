@@ -49,4 +49,9 @@ public class StudentHomePage extends AppPage {
         waitUntilAnimationFinish();
     }
 
+    public String getNotificationId() {
+        WebElement notificationBanner = browser.driver.findElement(By.id("notification-banner"));
+        return notificationBanner.getAttribute("data-testid");
+    }
+
 }
