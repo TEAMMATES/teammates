@@ -16,6 +16,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -30,6 +31,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.HibernateUtil;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
+import teammates.sqllogic.api.Logic;
 import teammates.storage.api.OfyHelper;
 import teammates.storage.search.AccountRequestSearchManager;
 import teammates.storage.search.InstructorSearchManager;
@@ -52,6 +54,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             .setStoreOnDisk(false)
             .build();
     private final LogicExtension logic = new LogicExtension();
+    private Logic sqlLogic;
     private Closeable closeable;
 
     @BeforeSuite
@@ -59,6 +62,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         PGSQL.start();
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
         teammates.sqllogic.core.LogicStarter.initializeDependencies();
+        sqlLogic = Logic.inst();
 
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
@@ -73,6 +77,13 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
                 new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         SearchManagerFactory.registerStudentSearchManager(
                 new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+
+        teammates.storage.sqlsearch.SearchManagerFactory.registerAccountRequestSearchManager(
+            new teammates.storage.sqlsearch.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.sqlsearch.SearchManagerFactory.registerInstructorSearchManager(
+            new teammates.storage.sqlsearch.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.sqlsearch.SearchManagerFactory.registerStudentSearchManager(
+            new teammates.storage.sqlsearch.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
 
         LogicStarter.initializeDependencies();
     }
@@ -189,9 +200,31 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @Override
+    protected SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle dataBundle) {
+        try {
+            sqlLogic.removeDataBundle(dataBundle);
+            return sqlLogic.persistDataBundle(dataBundle);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     protected boolean doPutDocuments(DataBundle dataBundle) {
         try {
             logic.putDocuments(dataBundle);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    protected boolean doPutDocumentsSql(SqlDataBundle dataBundle) {
+        try {
+            sqlLogic.putDocuments(dataBundle);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

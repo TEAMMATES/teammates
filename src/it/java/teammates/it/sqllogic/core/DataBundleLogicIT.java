@@ -19,6 +19,7 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.DataBundleLogic;
@@ -238,7 +239,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testRemoveDataBundle_typicalValues_removedCorrectly()
-                throws InvalidParametersException, EntityAlreadyExistsException {
+                throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         SqlDataBundle dataBundle = loadSqlDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
 

@@ -227,6 +227,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             // deleteDocuments(Collections.singletonList(id));
             // continue;
             // }
+            if (attribute == null) {
+                continue;
+            }
             result.add(attribute);
         }
         sortResult(result);

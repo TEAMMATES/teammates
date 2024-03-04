@@ -1,0 +1,40 @@
+{
+  "accounts": {
+    "FRes.instr": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.FRes.instr",
+      "name": "Teammates Test",
+      "email": "FRes.instr@gmail.tmt"
+    },
+    "FRes.alice.b": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.FRes.alice.b",
+      "name": "Alice B.",
+      "email": "FRes.alice.b@gmail.tmt"
+    },
+    "FRes.benny.c": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.FRes.benny.c",
+      "name": "Benny C.",
+      "email": "FRes.benny.c@gmail.tmt"
+    },
+    "FRes.charlie.d": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "tm.e2e.FRes.charlie.d",
+      "name": "Charlie D.",
+      "email": "FRes.charlie.d@gmail.tmt"
+    },
+    "FRes.danny.e": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "googleId": "tm.e2e.FRes.danny.e",
+      "name": "Danny E.",
+      "email": "FRes.danny.e@gmail.tmt"
+    },
+    "FRes.emily.f": {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "googleId": "tm.e2e.FRes.emily.f",
+      "name": "Emily F.",
+      "email": "FRes.emily.f@gmail.tmt"
+    }
+  }
+}
