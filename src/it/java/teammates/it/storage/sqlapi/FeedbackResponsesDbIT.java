@@ -209,10 +209,10 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         Section s = typicalDataBundle.sections.get("section1InCourse1");
-        String dummyUUID = "00000000-0000-4000-8000-000000000001";
+        String dummyUuid = "00000000-0000-4000-8000-000000000001";
         FeedbackResponseDetails frd = new FeedbackTextResponseDetails();
 
-        String sqli = "', " + dummyUUID + ", " + dummyUUID + "); DELETE FROM feedback_responses;--";
+        String sqli = "', " + dummyUuid + ", " + dummyUuid + "); DELETE FROM feedback_responses;--";
 
         FeedbackResponse newFr = new FeedbackTextResponse(fq, "", s, sqli, s, frd);
         frDb.createFeedbackResponse(newFr);
