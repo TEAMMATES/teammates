@@ -1,0 +1,26 @@
+{
+  "notifications": {
+    "notification1": {
+      "id": "00000000-0000-4000-8000-000000001103",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    },
+    "notification2": {
+      "id": "00000000-0000-4000-8000-000000001103",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "STUDENT",
+      "title": "A note for update",
+      "message": "<p>Exciting features</p>",
+      "shown": false
+    }
+  }
+}
