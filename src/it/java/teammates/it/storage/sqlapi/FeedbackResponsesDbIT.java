@@ -51,9 +51,11 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetFeedbackResponsesFromGiverForQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
 
-        List<FeedbackResponse> expectedQuestions = List.of(fr);
+        List<FeedbackResponse> expectedQuestions = List.of(
+                typicalDataBundle.feedbackResponses.get("response1ForQ1"),
+                typicalDataBundle.feedbackResponses.get("response3ForQ1")
+        );
 
         List<FeedbackResponse> actualQuestions =
                 frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), "student1@teammates.tmt");
@@ -165,24 +167,24 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetFeedbackResponsesForSessionInSection_matchNotFound_shouldReturnEmptyList() {
-        String section2 = typicalDataBundle.sections.get("section2InCourse1").getName();
+        String section3 = typicalDataBundle.sections.get("section3InCourse1").getName();
         FeedbackSession session = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         String courseId = session.getCourse().getId();
 
         ______TS("No matching responses exist for giver section");
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
         List<FeedbackResponse> results = frDb.getFeedbackResponsesForSessionInSection(
-                session, courseId, section2, fetchType);
+                session, courseId, section3, fetchType);
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist for recipient section");
         fetchType = FeedbackResultFetchType.RECEIVER;
-        results = frDb.getFeedbackResponsesForSessionInSection(session, courseId, section2, fetchType);
+        results = frDb.getFeedbackResponsesForSessionInSection(session, courseId, section3, fetchType);
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist for both giver and recipient section");
         fetchType = FeedbackResultFetchType.BOTH;
-        results = frDb.getFeedbackResponsesForSessionInSection(session, courseId, section2, fetchType);
+        results = frDb.getFeedbackResponsesForSessionInSection(session, courseId, section3, fetchType);
         assertEquals(0, results.size());
     }
 
