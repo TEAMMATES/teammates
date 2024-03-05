@@ -52,19 +52,18 @@ public class RemoveNonCourseDataFromDataStore extends DatastoreClient {
         int appPort = appUrl.contains(":") ? Integer.parseInt(appUrl.split(":")[1]) : 443;
         System.out.println("Target Datastore for this operation: " + appDomain + ":" + appPort);
 
-        // Scanner does not work
-        // Scanner scanner = new Scanner(System.in);
-        // System.out.println("Do you want to delete all data in datastore (Y/N): ");
-        // String input = scanner.nextLine();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you want to delete all data in datastore (Y/N): ");
+        String input = scanner.nextLine();
 
-        // if ("Y".equalsIgnoreCase(input)) {
-        // System.out.println("Deleting all non course data...");
-        // scanner.close();
-        // } else {
-        // System.out.println("Operation cancelled.");
-        // scanner.close();
-        // return;
-        // }
+        if ("Y".equalsIgnoreCase(input)) {
+            System.out.println("Deleting all non course data...");
+            scanner.close();
+        } else {
+            System.out.println("Operation cancelled.");
+            scanner.close();
+            return;
+        }
         try {
             // ask if user is sure to proceed
 
