@@ -34,7 +34,7 @@ import teammates.storage.entity.Notification;
 
 public class SeedDb extends DatastoreClient {
     private final LogicExtension logic = new LogicExtension();
-    
+
     private Closeable closeable;
 
     public void setupDbLayer() throws Exception {
@@ -100,18 +100,18 @@ public class SeedDb extends DatastoreClient {
         for (int i = 0; i < ENTITY_SIZE; i++) {
 
             if (i % (ENTITY_SIZE / 5) == 0) {
-                System.out.println(String.format("Seeded the %s percent of new sets of entities", (100 * (i / ENTITY_SIZE))));
+                System.out.println(String.format("Seeded the %d percent of new sets of entities",
+                        (int) (100 * ((float) i / (float) ENTITY_SIZE))));
             }
 
             try {
                 String accountRequestName = String.format("Account Request %s", i);
                 String accountRequestEmail = String.format("Account Email %s", i);
                 String accountRequestInstitute = String.format("Account Institute %s", i);
-                AccountRequest accountRequest = AccountRequestAttributes.
-                        builder(accountRequestName, accountRequestEmail, accountRequestInstitute).
-                        withRegisteredAt(Instant.now()).
-                        build().toEntity();
-    
+                AccountRequest accountRequest = AccountRequestAttributes
+                        .builder(accountRequestName, accountRequestEmail, accountRequestInstitute)
+                        .withRegisteredAt(Instant.now()).build().toEntity();
+
                 String accountGoogleId = String.format("Account Google ID %s", i);
                 String accountName = String.format("Account name %s", i);
                 String accountEmail = String.format("Account email %s", i);
@@ -187,8 +187,8 @@ public class SeedDb extends DatastoreClient {
     @Override
     protected void doOperation() {
         try {
-        // LogicStarter.initializeDependencies();
-        this.persistData();
+            // LogicStarter.initializeDependencies();
+            this.persistData();
         } catch (Exception e) {
 
         }
