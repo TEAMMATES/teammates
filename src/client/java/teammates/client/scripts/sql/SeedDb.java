@@ -2,6 +2,7 @@ package teammates.client.scripts.sql;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -78,10 +79,24 @@ public class SeedDb extends DatastoreClient {
         int ENTITY_SIZE = 1000;
         // Each account will have this amount of read notifications
         int READ_NOTIFICATION_SIZE = 20;
+        int NOTIFICATION_SIZE = 100;
+        assert(NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE);
 
         String[] args = {};
 
         Set<String> readNotificationsUUIDSeen = new HashSet<String>();
+        ArrayList<String> notificationUUIDs = new ArrayList<>();
+        Random rand = new Random();
+
+        for (int j = 0; j < NOTIFICATION_SIZE; j++) {
+            UUID notificationUUID = UUID.randomUUID();
+            while (readNotificationsUUIDSeen.contains(notificationUUID)) {
+                notificationUUID = UUID.randomUUID();
+            }
+            notificationUUIDs.add(notificationUUID.toString());
+            readNotificationsUUIDSeen.add(notificationUUID.toString());
+        }
+
         for (int i = 0; i < ENTITY_SIZE; i++) {
 
             if (i % (ENTITY_SIZE / 5) == 0) {
@@ -101,30 +116,43 @@ public class SeedDb extends DatastoreClient {
                 String accountName = String.format("Account name %s", i);
                 String accountEmail = String.format("Account email %s", i);
                 Map<String, Instant> readNotificationsToCreate = new HashMap<>();
+                
                 for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
-                    UUID readNotificationUUID = UUID.randomUUID();
-                    while (readNotificationsUUIDSeen.contains(readNotificationUUID)) {
-                        readNotificationUUID = UUID.randomUUID();
-                    }
-                    readNotificationsToCreate.put(readNotificationUUID.toString(), getRandomInstant());
+                    int randIndex = rand.nextInt(NOTIFICATION_SIZE);
+                    UUID notificationUUID = UUID.fromString(notificationUUIDs.get(randIndex));
+                    readNotificationsToCreate.put(notificationUUID.toString(), getRandomInstant());
+
                 }
                 Account account = new Account(accountGoogleId, accountName,
                         accountEmail, readNotificationsToCreate, true);
-
-                Notification notification = new Notification(
-                        getRandomInstant(),
-                        getRandomInstant(),
-                        NotificationStyle.PRIMARY,
-                        NotificationTargetUser.INSTRUCTOR,
-                        String.valueOf(i),
-                        String.valueOf(i));
-
+                
                 ofy().save().entities(account).now();
-                ofy().save().entities(notification).now();
                 ofy().save().entities(accountRequest).now();
             } catch (Exception e) {
                 System.out.println(e);
             }
+        }
+
+        int readNotifIndex = 0; 
+        for (String readNotification : readNotificationsUUIDSeen) {
+            Notification notification = new Notification(
+                    readNotification,
+                    getRandomInstant(),
+                    getRandomInstant(),
+                    NotificationStyle.PRIMARY,
+                    NotificationTargetUser.INSTRUCTOR,
+                    String.valueOf(readNotifIndex),
+                    String.valueOf(readNotifIndex),
+                    false,
+                    getRandomInstant(),
+                    getRandomInstant()
+            );
+            try {
+                ofy().save().entities(notification).now();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            readNotifIndex += 1;
         }
         GenerateUsageStatisticsObjects.main(args);
 
