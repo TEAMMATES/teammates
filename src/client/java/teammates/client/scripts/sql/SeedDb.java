@@ -117,8 +117,6 @@ public class SeedDb extends DatastoreClient {
                 String accountEmail = String.format("Account email %s", i);
                 Map<String, Instant> readNotificationsToCreate = new HashMap<>();
                 
-                
-                
                 for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
                     int randIndex = rand.nextInt(NOTIFICATION_SIZE);
                     UUID notificationUUID = UUID.fromString(notificationUUIDs.get(randIndex));
@@ -127,7 +125,6 @@ public class SeedDb extends DatastoreClient {
                 }
                 Account account = new Account(accountGoogleId, accountName,
                         accountEmail, readNotificationsToCreate, true);
-
                 
                 ofy().save().entities(account).now();
                 ofy().save().entities(accountRequest).now();
