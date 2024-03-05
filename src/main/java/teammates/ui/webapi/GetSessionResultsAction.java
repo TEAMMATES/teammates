@@ -53,8 +53,6 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             gateKeeper.verifyAccessible(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
-            instructor = getPossiblyUnregisteredInstructor(courseId);
-            gateKeeper.verifyAccessible(instructor, feedbackSession);
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
@@ -62,11 +60,11 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case STUDENT_RESULT:
-            StudentAttributes student = getPossiblyUnregisteredStudent(courseId);
-            gateKeeper.verifyAccessible(student, feedbackSession);
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
+            StudentAttributes student = getStudentOfCourseFromRequest(courseId);
+            checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
         case STUDENT_SUBMISSION:
@@ -88,18 +86,17 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             gateKeeper.verifyAccessible(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
-            instructor = getPossiblyUnregisteredSqlInstructor(courseId);
-            gateKeeper.verifyAccessible(instructor, feedbackSession);
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
+            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case STUDENT_RESULT:
-            Student student = getPossiblyUnregisteredSqlStudent(courseId);
-            gateKeeper.verifyAccessible(student, feedbackSession);
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
+            Student student = getSqlStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
