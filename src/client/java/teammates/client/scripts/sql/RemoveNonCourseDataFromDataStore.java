@@ -1,6 +1,9 @@
 package teammates.client.scripts.sql;
 
+import java.util.Scanner;
+
 import teammates.client.connector.DatastoreClient;
+import teammates.client.util.ClientProperties;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Notification;
@@ -43,7 +46,28 @@ public class RemoveNonCourseDataFromDataStore extends DatastoreClient {
 
     @Override
     protected void doOperation() {
+        System.out.println("WARNING: This operation will delete all non course data from datastore.");
+        String appUrl = ClientProperties.TARGET_URL.replaceAll("^https?://", "");
+        String appDomain = appUrl.split(":")[0];
+        int appPort = appUrl.contains(":") ? Integer.parseInt(appUrl.split(":")[1]) : 443;
+        System.out.println("Target Datastore for this operation: " + appDomain + ":" + appPort);
+
+        // Scanner does not work
+        // Scanner scanner = new Scanner(System.in);
+        // System.out.println("Do you want to delete all data in datastore (Y/N): ");
+        // String input = scanner.nextLine();
+
+        // if ("Y".equalsIgnoreCase(input)) {
+        // System.out.println("Deleting all non course data...");
+        // scanner.close();
+        // } else {
+        // System.out.println("Operation cancelled.");
+        // scanner.close();
+        // return;
+        // }
         try {
+            // ask if user is sure to proceed
+
             System.out.println("--- Before remove operation ---");
             this.verifyCounts();
             System.out.println("--- Starting remove operation ---");
@@ -53,5 +77,6 @@ public class RemoveNonCourseDataFromDataStore extends DatastoreClient {
         } catch (Exception e) {
             System.out.println(e);
         }
+
     }
 }
