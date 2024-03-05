@@ -213,7 +213,6 @@ task generateTypes {
 }
 
 task execScript(type: JavaExec) {
-    standardInput = System.in
     description "Run user defined scripts specified by project variable - userScript"
 
     classpath = sourceSets.test.runtimeClasspath
