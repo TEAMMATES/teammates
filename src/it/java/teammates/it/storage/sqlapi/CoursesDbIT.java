@@ -235,8 +235,8 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(expectedTeams.size(), actualTeams.size());
         assertTrue(expectedTeams.containsAll(actualTeams));
     }
-  
-  @Test
+
+    @Test
     public void testCreateTeam() throws Exception {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
