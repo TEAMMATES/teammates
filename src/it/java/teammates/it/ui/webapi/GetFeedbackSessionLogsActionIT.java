@@ -181,22 +181,17 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         Course course = typicalBundle.courses.get("course1");
         String courseId = course.getId();
         Instructor helper = typicalBundle.instructors.get("instructor2OfCourse1");
-
-        ______TS("Only instructors of the same course can access");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
         ______TS("Only instructors with modify student, session and instructor privilege can access");
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
-
         verifyCannotAccess(submissionParams);
 
         loginAsInstructor(helper.getGoogleId());
         verifyCannotAccess(submissionParams);
 
+        ______TS("Only instructors of the same course can access");
         loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParams);
     }
