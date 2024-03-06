@@ -24,7 +24,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreSqlDataBundle(sqlTestData);
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudent.setGoogleId(testData.accounts.get("alice.tmms").getGoogleId());
+        newStudent.setGoogleId(sqlTestData.accounts.get("alice.tmms").getGoogleId());
     }
 
     @Test
