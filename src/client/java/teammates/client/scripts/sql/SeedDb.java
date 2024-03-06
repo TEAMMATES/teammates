@@ -78,9 +78,9 @@ public class SeedDb extends DatastoreClient {
     protected void persistAdditionalData() {
         int ENTITY_SIZE = 1000;
         // Each account will have this amount of read notifications
-        int READ_NOTIFICATION_SIZE = 20;
+        int READ_NOTIFICATION_SIZE = 5;
         int NOTIFICATION_SIZE = 100;
-        assert(NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE);
+        assert (NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE);
 
         String[] args = {};
 
@@ -116,7 +116,7 @@ public class SeedDb extends DatastoreClient {
                 String accountName = String.format("Account name %s", i);
                 String accountEmail = String.format("Account email %s", i);
                 Map<String, Instant> readNotificationsToCreate = new HashMap<>();
-                
+
                 for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
                     int randIndex = rand.nextInt(NOTIFICATION_SIZE);
                     UUID notificationUUID = UUID.fromString(notificationUUIDs.get(randIndex));
@@ -125,7 +125,7 @@ public class SeedDb extends DatastoreClient {
                 }
                 Account account = new Account(accountGoogleId, accountName,
                         accountEmail, readNotificationsToCreate, true);
-                
+
                 ofy().save().entities(account).now();
                 ofy().save().entities(accountRequest).now();
             } catch (Exception e) {
@@ -133,7 +133,7 @@ public class SeedDb extends DatastoreClient {
             }
         }
 
-        int readNotifIndex = 0; 
+        int readNotifIndex = 0;
         for (String readNotification : readNotificationsUUIDSeen) {
             Notification notification = new Notification(
                     readNotification,
@@ -145,8 +145,7 @@ public class SeedDb extends DatastoreClient {
                     String.valueOf(readNotifIndex),
                     false,
                     getRandomInstant(),
-                    getRandomInstant()
-            );
+                    getRandomInstant());
             try {
                 ofy().save().entities(notification).now();
             } catch (Exception e) {

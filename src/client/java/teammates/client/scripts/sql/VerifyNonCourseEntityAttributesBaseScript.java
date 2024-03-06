@@ -18,24 +18,23 @@ import teammates.storage.sqlentity.UsageStatistics;
 /**
  * Protected methods may be overriden
  */
-public abstract class VerifyNonCourseEntityAttributesBaseScript
-    <E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity> extends DatastoreClient {
+public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity>
+        extends DatastoreClient {
 
     protected Class<E> datastoreEntityClass;
     protected Class<T> sqlEntityClass;
 
-
     public VerifyNonCourseEntityAttributesBaseScript(
-        Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
-            this.datastoreEntityClass = datastoreEntityClass;
-            this.sqlEntityClass = sqlEntityClass;
+            Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
+        this.datastoreEntityClass = datastoreEntityClass;
+        this.sqlEntityClass = sqlEntityClass;
 
-            String connectionUrl = ClientProperties.SCRIPT_API_URL;
-            String username = ClientProperties.SCRIPT_API_NAME;
-            String password = ClientProperties.SCRIPT_API_PASSWORD;
+        String connectionUrl = ClientProperties.SCRIPT_API_URL;
+        String username = ClientProperties.SCRIPT_API_NAME;
+        String password = ClientProperties.SCRIPT_API_PASSWORD;
 
-            HibernateUtil.buildSessionFactory(connectionUrl, username, password);
-        }
+        HibernateUtil.buildSessionFactory(connectionUrl, username, password);
+    }
 
     /**
      * Generate the Datstore id of entity to compare with on Datastore side.
@@ -90,14 +89,14 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
     }
 
     // protected List<T> lookupSqlEntities() {
-    //     CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-    //     CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
-    //     Root<T> root = cr.from(sqlEntityClass);
-    //     cr.select(root);
+    // CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+    // CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
+    // Root<T> root = cr.from(sqlEntityClass);
+    // cr.select(root);
 
-    //     List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
+    // List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
 
-    //     return sqlEntities;
+    // return sqlEntities;
     // }
 
     /**
@@ -112,9 +111,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
 
         int numPages = getNumPages();
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
-            if (currPageNum % (numPages / 5) == 0) {
-                System.out.println(String.format("Verifed the %s percent of %s", (100 * (currPageNum / numPages)), sqlEntityClass.getName()));
-            }
+
+            System.out.println(String.format("Verifed the %d percent of %s",
+                    (100 * (int) ((float) currPageNum / (float) numPages)),
+                    sqlEntityClass.getName()));
 
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
@@ -128,7 +128,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
                 }
                 boolean isEqual = equals(sqlEntity, datastoreEntity);
                 if (!isEqual) {
-                    failures.add(new AbstractMap.SimpleEntry<T,E>(sqlEntity, datastoreEntity));
+                    failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, datastoreEntity));
                     continue;
                 }
             }
@@ -140,7 +140,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript
      * Main function to run to verify isEqual between sql and datastore DBs.
      */
     protected void runCheckAllEntities(Class<T> sqlEntityClass,
-        Class<E> datastoreEntityClass) {
+            Class<E> datastoreEntityClass) {
         HibernateUtil.beginTransaction();
         List<Map.Entry<T, E>> failedEntities = checkAllEntitiesForFailures();
 
