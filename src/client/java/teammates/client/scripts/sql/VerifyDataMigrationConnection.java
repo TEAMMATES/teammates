@@ -10,6 +10,7 @@ import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.storage.entity.UsageStatistics;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
 
@@ -35,8 +36,6 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
 
         // Write 1 dummy account request
         System.out.println("Writing 1 dummy account request to SQL");
-        // teammates.storage.sqlentity.AccountRequest newEntity = new
-        // teammates.storage.sqlentity.AccountRequest();
         teammates.storage.sqlentity.AccountRequest newEntity = new teammates.storage.sqlentity.AccountRequest(
                 "dummy-teammates-account-request-email@gmail.com",
                 "dummy-teammates-account-request",
@@ -51,15 +50,8 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
 
         // Delete dummy account request
         HibernateUtil.beginTransaction();
-        CriteriaDelete<teammates.storage.sqlentity.AccountRequest> cdAccountReq = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(
-                        teammates.storage.sqlentity.AccountRequest.class);
-        cdAccountReq.from(teammates.storage.sqlentity.AccountRequest.class);
-        HibernateUtil.executeDelete(cdAccountReq);
+        HibernateUtil.remove(newEntity);
         HibernateUtil.commitTransaction();
-
-        // logic.deleteAccountRequest("dummy-teammates-account-request-email@gmail.com",
-        // "dummy-teammates-institute");
 
         // Assert count of dummy request is 0
         testAccountRequestCount = countPostgresEntities(teammates.storage.sqlentity.AccountRequest.class);
