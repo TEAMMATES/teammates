@@ -152,7 +152,29 @@ describe('VisibilityPanelComponent', () => {
       visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_GIVER_NAME'},
     {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
       visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when visibility is initialized to true ' +
+  'and isAllowed, visibilityType, visibilityControl are true, RECIPIENT, $visibilityControlString',({visibilityType, visibilityControl}) => {
+    const emitSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
+    component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RESPONSE);
+    component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
+
+    expect(emitSpy).toHaveBeenCalledWith({
+      showResponsesTo: [visibilityType],
+      showGiverNameTo: [visibilityType],
+      showRecipientNameTo: [visibilityType],
+    });
+
+    component.modifyVisibilityControl(true, visibilityType, visibilityControl);
+
+    expect(emitSpy).toHaveBeenCalledWith({
+      showResponsesTo: [visibilityType],
+      showGiverNameTo: [visibilityType],
+      showRecipientNameTo: [visibilityType],
+    });
+  });
+
+  it.each([
     {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
       visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_RESPONSE'},
     {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
@@ -184,7 +206,6 @@ describe('VisibilityPanelComponent', () => {
   'and isAllowed, visibilityType, visibilityControl are true, $visibilityTypeString, $visibilityControlString',({visibilityType, visibilityControl}) => {
     const emitSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
-    component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RESPONSE);
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RECIPIENT_NAME);
 
