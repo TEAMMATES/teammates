@@ -106,9 +106,9 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         String sqli = "', 'FeedbackTextQuestion', 329c23fd-10de-4c47-8128-115df68ba758)); DELETE FROM feedback_questions;--";
 
         FeedbackQuestion fq = new FeedbackConstantSumQuestion(
-            fs, 1, "", FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS,
-            1, new ArrayList<FeedbackParticipantType>(),  new ArrayList<FeedbackParticipantType>(),
-            new ArrayList<FeedbackParticipantType>(), new FeedbackConstantSumQuestionDetails(sqli)
+                fs, 1, "", FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS,
+                1, new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
+                new ArrayList<FeedbackParticipantType>(), new FeedbackConstantSumQuestionDetails(sqli)
         );
 
         fqDb.createFeedbackQuestion(fq);
@@ -120,7 +120,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testSqlInjectionInHasFeedbackQuestionsForGiverType() throws Exception {
         FeedbackQuestion fq = prepareSqlInjectionTests();
-        
+
         String sessionName = "'; DELETE FROM feedback_questions;--";
         fqDb.hasFeedbackQuestionsForGiverType(sessionName, fq.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
 
