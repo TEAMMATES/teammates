@@ -8,7 +8,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -19,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.sqlentity.Account;
 import teammates.test.AssertHelper;
 
 /**
@@ -27,6 +27,7 @@ import teammates.test.AssertHelper;
 public class CoursesLogicTest extends BaseLogicTest {
 
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final teammates.sqllogic.core.AccountsLogic sqlAccountsLogic = teammates.sqllogic.core.AccountsLogic.inst();
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
     private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -234,10 +235,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        accountsLogic.createAccount(AccountAttributes.builder("instructor1")
-                .withName("Instructor 1")
-                .withEmail("instructor@email.tmt")
-                .build());
+        sqlAccountsLogic.createAccount(new Account("instructor1",
+                "Instructor 1", "instructor@email.tmt"));
         coursesLogic.createCourseAndInstructor("instructor1",
                 CourseAttributes.builder("course1")
                         .withName("course 1")
@@ -249,6 +248,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(0, teams.size());
 
         coursesLogic.deleteCourseCascade("course1");
+        sqlAccountsLogic.deleteAccountCascade("instructor1");
         accountsLogic.deleteAccountCascade("instructor1");
 
         ______TS("non-existent");
@@ -373,11 +373,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during course creation");
 
-        AccountAttributes a = AccountAttributes.builder(i.getGoogleId())
-                .withName(i.getName())
-                .withEmail(i.getEmail())
-                .build();
-        accountsLogic.createAccount(a);
+        Account a = new Account(i.getGoogleId(), i.getName(), i.getEmail());
+        sqlAccountsLogic.createAccount(a);
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")
