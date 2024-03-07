@@ -151,7 +151,7 @@ describe('VisibilityPanelComponent', () => {
       expect(emitSpy).toHaveBeenCalledWith(component.visibilityStateMachine);
     });
 
-    describe('isAllowed = true, visibility initalized to false', () => {
+    describe('isAllowed = true, visibility initialized to false', () => {
       describe('VisibilityControl.SHOW_RESPONSE', () => {
         it('should trigger model change correctly when visibilityType, visibilityControl are RECIPIENT, SHOW_RESPONSE', () => {
           const emitSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -239,7 +239,7 @@ describe('VisibilityPanelComponent', () => {
       });
     });
 
-    describe('isAllowed = false, visibility initalized to false', () => {
+    describe('isAllowed = false, visibility initialized to false', () => {
       it.each([
         {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RESPONSE,
           visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_RESPONSE'},
