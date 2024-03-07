@@ -145,6 +145,64 @@ describe('VisibilityPanelComponent', () => {
     expect(emitSpy).toHaveBeenCalledWith(component.visibilityStateMachine);
   });
 
+  it.each([
+    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_RESPONSE'},
+    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_GIVER_NAME'},
+    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+
+    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_RESPONSE'},
+    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_GIVER_NAME'},
+    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+
+    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_RESPONSE'},
+    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_GIVER_NAME'},
+    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+
+    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_RESPONSE'},
+    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_GIVER_NAME'},
+    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+
+    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_RESPONSE'},
+    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_GIVER_NAME'},
+    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when visibility is initialized to true ' +
+  'and isAllowed, visibilityType, visibilityControl are true, $visibilityTypeString, $visibilityControlString',({visibilityType, visibilityControl}) => {
+    const emitSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
+
+    component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RESPONSE);
+    component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
+    component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RECIPIENT_NAME);
+
+    expect(emitSpy).toHaveBeenCalledWith({
+      showResponsesTo: [visibilityType],
+      showGiverNameTo: [visibilityType],
+      showRecipientNameTo: [visibilityType],
+    });
+
+    component.modifyVisibilityControl(true, visibilityType, visibilityControl);
+
+    expect(emitSpy).toHaveBeenCalledWith({
+      showResponsesTo: [visibilityType],
+      showGiverNameTo: [visibilityType],
+      showRecipientNameTo: [visibilityType],
+    });
+  });
+
   it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
   'are true, RECIPIENT, SHOW_RESPONSE', () => {
     const emitSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
