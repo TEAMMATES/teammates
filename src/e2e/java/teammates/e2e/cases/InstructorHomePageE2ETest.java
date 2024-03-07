@@ -48,6 +48,10 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
 
+        sqlTestData =
+                removeAndRestoreSqlDataBundle(
+                        loadSqlDataBundle("/InstructorHomePageE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("IHome.instr.CS2104");
         course = testData.courses.get("IHome.CS2104");
         otherCourse = testData.courses.get("IHome.CS1101");

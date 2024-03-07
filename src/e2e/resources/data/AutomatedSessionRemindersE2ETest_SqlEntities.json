@@ -1,0 +1,10 @@
+{
+  "accounts": {
+    "instructorWithEvals": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.AutSesRem.instructor",
+      "name": "Test Ins for Aut Sessions Reminder",
+      "email": "AutSesRem.instructor@gmail.tmt"
+    }
+  }
+}
