@@ -663,7 +663,7 @@ describe('QuestionResponsePanelComponent', () => {
     expect(fsSpy).not.toHaveBeenCalled();
   });
 
-  it('should allow instructors to see responses when intent is INSTRUCTOR_RESULT', () => {
+  it('canUserSeeResponses: should allow instructors to see responses when intent is INSTRUCTOR_RESULT', () => {
     component.intent = Intent.INSTRUCTOR_RESULT;
     testFeedbackQuestionModel.feedbackQuestion.showResponsesTo = [FeedbackVisibilityType.INSTRUCTORS];
     const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
@@ -671,14 +671,14 @@ describe('QuestionResponsePanelComponent', () => {
     expect(canSee).toBe(true);
   });
 
-  it('should return false when intent does not allow seeing responses', () => {
+  it('canUserSeeResponses: should return false when intent does not allow seeing responses', () => {
     component.intent = Intent.FULL_DETAIL;
     const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
 
     expect(canSee).toBe(false);
   });
 
-  it('should not re-fetch data if question is already loaded', () => {
+  it('loadQuestionResults: should not re-fetch data if question is already loaded', () => {
     const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     const testQuestionModel: FeedbackQuestionModel = {
@@ -690,7 +690,7 @@ describe('QuestionResponsePanelComponent', () => {
     expect(fsSpy).not.toHaveBeenCalled();
   });
 
-  it('should handle no responses correctly and not show toast if errorMessage not set', () => {
+  it('loadQuestionResults: should handle no responses correctly and not show toast if errorMessage not set', () => {
     const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
     const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
@@ -706,7 +706,7 @@ describe('QuestionResponsePanelComponent', () => {
     expect(toastSpy).not.toHaveBeenCalled();
   });
 
-  it('should handle no responses correctly and show success toast if errorMessage is set', () => {
+  it('loadQuestionResults: should handle no responses correctly and show success toast if errorMessage is set', () => {
     const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
     const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
@@ -724,7 +724,7 @@ describe('QuestionResponsePanelComponent', () => {
       `Question ${testFeedbackQuestionModel.feedbackQuestion.questionNumber} has no responses.`);
   });
 
-  it('should handle errors correctly by setting errorMessage and showing a toast', () => {
+  it('loadQuestionResults: should handle errors correctly by setting errorMessage and showing a toast', () => {
     const errorMessage = 'An error occurred';
     testFeedbackQuestionModel.isLoaded = false;
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults').mockReturnValue(
