@@ -4,6 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.SqlSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -34,6 +35,19 @@ public abstract class FeedbackQuestionDetails {
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public String getQuestionResultStatisticsJson(
             FeedbackQuestionAttributes question, String studentEmail, SessionResultsBundle bundle) {
+        // Statistics are calculated in the front-end as it is dependent on the responses being filtered.
+        // The only exception is contribution question, where there is only one statistics for the entire question.
+        // It is also necessary to calculate contribution question statistics here
+        // to be displayed in student result page as students are not supposed to be able to see the exact responses.
+        return "";
+    }
+
+    /**
+    * Get question result statistics as JSON string.
+    */
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public String getQuestionResultStatisticsJson(
+            FeedbackQuestion question, String studentEmail, SqlSessionResultsBundle bundle) {
         // Statistics are calculated in the front-end as it is dependent on the responses being filtered.
         // The only exception is contribution question, where there is only one statistics for the entire question.
         // It is also necessary to calculate contribution question statistics here
@@ -96,14 +110,20 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /**
-     * Checks whether participant comments are allowed for the question.
+     * Checks whether missing responses should be generated.
      */
-    public abstract boolean isFeedbackParticipantCommentsOnResponsesAllowed();
+    public boolean shouldGenerateMissingResponses(FeedbackQuestionAttributes question) {
+        // generate combinations against all students/teams are meaningless
+        return question.getRecipientType() != FeedbackParticipantType.STUDENTS
+                && question.getRecipientType() != FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
+                && question.getRecipientType() != FeedbackParticipantType.TEAMS
+                && question.getRecipientType() != FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+    }
 
     /**
      * Checks whether missing responses should be generated.
      */
-    public boolean shouldGenerateMissingResponses(FeedbackQuestionAttributes question) {
+    public boolean shouldGenerateMissingResponses(FeedbackQuestion question) {
         // generate combinations against all students/teams are meaningless
         return question.getRecipientType() != FeedbackParticipantType.STUDENTS
                 && question.getRecipientType() != FeedbackParticipantType.STUDENTS_EXCLUDING_SELF

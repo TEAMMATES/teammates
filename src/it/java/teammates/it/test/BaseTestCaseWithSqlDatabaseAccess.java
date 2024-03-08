@@ -19,6 +19,7 @@ import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
@@ -84,6 +85,14 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
 
         // TODO: remove after migration, needed for dual db support
+
+        teammates.storage.search.SearchManagerFactory.registerAccountRequestSearchManager(
+            new teammates.storage.search.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.search.SearchManagerFactory.registerInstructorSearchManager(
+            new teammates.storage.search.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.search.SearchManagerFactory.registerStudentSearchManager(
+            new teammates.storage.search.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+
         teammates.logic.core.LogicStarter.initializeDependencies();
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
@@ -132,7 +141,7 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
      * Persist data bundle into the db.
      */
     protected void persistDataBundle(SqlDataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         logic.persistDataBundle(dataBundle);
     }
 

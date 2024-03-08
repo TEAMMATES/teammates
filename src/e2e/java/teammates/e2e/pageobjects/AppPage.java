@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.openqa.selenium.By;
@@ -639,6 +640,7 @@ public abstract class AppPage {
      */
     public void verifyStatusMessage(String expectedMessage) {
         verifyStatusMessageWithLinks(expectedMessage, new String[] {});
+        closeToast();
     }
 
     /**
@@ -665,6 +667,14 @@ public abstract class AppPage {
                 }
             }
         }
+    }
+
+    /**
+     * Closes toast message.
+     */
+    public void closeToast() {
+        WebElement toastCloseButton = waitForElementPresence(By.className("btn-close"));
+        click(toastCloseButton);
     }
 
     /**
@@ -730,7 +740,7 @@ public abstract class AppPage {
     String getDisplayedDateTime(Instant instant, String timeZone, String pattern) {
         ZonedDateTime zonedDateTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant, timeZone, false)
                 .atZone(ZoneId.of(timeZone));
-        return DateTimeFormatter.ofPattern(pattern).format(zonedDateTime);
+        return DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH).format(zonedDateTime);
     }
 
     private String getFullDateString(Instant instant, String timeZone) {

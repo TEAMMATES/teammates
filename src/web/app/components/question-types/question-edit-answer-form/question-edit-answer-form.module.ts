@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module';
 import { ConstsumOptionsQuestionEditAnswerFormComponent } from './constsum-options-question-edit-answer-form.component';
 import {
   ConstsumRecipientsQuestionEditAnswerFormComponent,
@@ -17,6 +14,9 @@ import { RankOptionsQuestionEditAnswerFormComponent } from './rank-options-quest
 import { RankRecipientsQuestionEditAnswerFormComponent } from './rank-recipients-question-edit-answer-form.component';
 import { RubricQuestionEditAnswerFormComponent } from './rubric-question-edit-answer-form.component';
 import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer-form.component';
+import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
+import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module';
 
 /**
  * Module for all different types of question edit answer forms.

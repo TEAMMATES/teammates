@@ -48,6 +48,10 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
 
+        sqlTestData =
+                removeAndRestoreSqlDataBundle(
+                        loadSqlDataBundle("/InstructorHomePageE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("IHome.instr.CS2104");
         course = testData.courses.get("IHome.CS2104");
         otherCourse = testData.courses.get("IHome.CS1101");
@@ -167,11 +171,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + course.getName() + "][Feedback Session: "
                 + feedbackSessionOpen.getFeedbackSessionName() + "]");
-
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);
 
@@ -209,8 +211,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.sortCoursesByCreationDate();
         courseIndex = 1;
         otherCourseIndex = 0;
-        FeedbackSessionAttributes[] otherCourseSessionsWithCopy2 = { copiedSession2, otherCourseSession };
-        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopy2);
+        FeedbackSessionAttributes[] otherCourseSessionsWithCopyTwo = { copiedSession2, otherCourseSession };
+        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
         assertNotNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
                 instructor.getGoogleId()));
 

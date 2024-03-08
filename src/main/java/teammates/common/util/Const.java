@@ -43,6 +43,8 @@ public final class Const {
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create an entity that exists: %s";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
 
+    public static final String MISSING_RESPONSE_TEXT = "No Response";
+
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
     public static final int INT_UNINITIALIZED = -9999;
@@ -130,6 +132,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
+        public static final String SINGLE_RECIPIENT_ID_FOR_SUBMISSION = "singlerecipientidforsubmission";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
 
@@ -319,6 +322,7 @@ public final class Const {
         private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
+        public static final String SQL_DATABUNDLE = URI_PREFIX + "/databundle/sql";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
         public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
         public static final String EXCEPTION = URI_PREFIX + "/exception";

@@ -3,6 +3,19 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
+import {
+  CourseTabModel,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
+import {
+  CopyInstructorsFromOtherCoursesModalComponent,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
+import {
+  InstructorOverallPermission,
+  InstructorSectionLevelPermission,
+  InstructorSessionLevelPermission,
+} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
+import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
+import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -50,19 +63,6 @@ import {
   CoursesSectionQuestions,
 } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
-import {
-  CourseTabModel,
-} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
-import {
-  CopyInstructorsFromOtherCoursesModalComponent,
-} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
-import {
-  InstructorOverallPermission,
-  InstructorSectionLevelPermission,
-  InstructorSessionLevelPermission,
-} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
-import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
@@ -499,8 +499,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
             newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
             this.instructorDetailPanels.push(newDetailPanels);
-            this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
-          An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
+            this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been added successfully. `
+            + `An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes.`);
 
             this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
@@ -779,8 +779,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(err.error.message);
       },
       complete: () => {
-        this.statusMessageService.showSuccessToast(`The selected instructor(s) have been added successfully.
-      An email containing how to 'join' this course will be sent to them in a few minutes.`);
+        this.statusMessageService.showSuccessToast('The selected instructor(s) have been added successfully. '
+        + 'An email containing how to \'join\' this course will be sent to them in a few minutes.');
       },
     });
   }
@@ -801,8 +801,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const emailSet: Set<string> = new Set();
         for (const instructor of allInstructorsAfterCopy) {
           if (emailSet.has(instructor.email)) {
-            this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} 
-            already exists in the course and/or you have selected more than one instructor with this email address.`);
+            this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} already `
+            + 'exists in the course and/or you have selected more than one instructor with this email address.');
             return false;
           }
           emailSet.add(instructor.email);

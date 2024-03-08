@@ -33,6 +33,7 @@ import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.test.ThreadHelper;
 
 /**
@@ -535,6 +536,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
+    private void inputQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
+        setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
+        setQuestionDescription(questionNum, feedbackQuestion.getDescription());
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
+        if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
+            setFeedbackPath(questionNum, feedbackQuestion);
+            setQuestionVisibility(questionNum, feedbackQuestion);
+        }
+    }
+
     public void duplicateQuestion(int questionNum) {
         clickAndWaitForNewQuestion(getQuestionForm(questionNum).findElement(By.id("btn-duplicate-question")));
     }
@@ -549,6 +560,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void addTextQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(2);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackTextQuestionDetails questionDetails =
+                (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
+        clickSaveNewQuestionButton();
+    }
+
+    public void addTextQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(2);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -741,8 +762,8 @@ public class InstructorFeedbackEditPage extends AppPage {
             for (int i = 0; i < numSubQn; i++) {
                 List<WebElement> rubricWeights = getRubricWeights(questionNum, i + 2);
                 for (int j = 0; j < numChoices; j++) {
-                    assertEquals(rubricWeights.get(j).getAttribute("value"),
-                            getDoubleString(weights.get(i).get(j)));
+                    assertEquals(getDoubleString(weights.get(i).get(j)),
+                            rubricWeights.get(j).getAttribute("value"));
                 }
             }
         } else {
@@ -1073,6 +1094,32 @@ public class InstructorFeedbackEditPage extends AppPage {
                 getDisplayRecipientName(newRecipient));
     }
 
+    private void setFeedbackPath(int questionNum, FeedbackQuestion feedbackQuestion) {
+        FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
+        String feedbackPath = getFeedbackPath(questionNum);
+        WebElement questionForm = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
+        if (!CUSTOM_FEEDBACK_PATH_OPTION.equals(feedbackPath)) {
+            selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
+        }
+        // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
+        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
+                getDisplayGiverName(FeedbackParticipantType.STUDENTS));
+        selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
+                getDisplayRecipientName(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF));
+        if (feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+            click(questionForm.findElement(By.id("unlimited-recipients")));
+        } else {
+            click(questionForm.findElement(By.id("custom-recipients")));
+            fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
+                    Integer.toString(feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo()));
+        }
+
+        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), getDisplayGiverName(newGiver));
+        selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
+                getDisplayRecipientName(newRecipient));
+    }
+
     private void selectFeedbackPathDropdownOption(int questionNum, String text) {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement feedbackPathPanel = questionForm.findElement(By.tagName("tm-feedback-path-panel"));
@@ -1098,6 +1145,22 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        if (!CUSTOM_VISIBILITY_OPTION.equals(visibility)) {
+            selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
+        }
+
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
+        WebElement customVisibilityTable = visibilityPanel.findElement(By.id("custom-visibility-table"));
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
+    }
+
+    private void setQuestionVisibility(int questionNum, FeedbackQuestion feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();

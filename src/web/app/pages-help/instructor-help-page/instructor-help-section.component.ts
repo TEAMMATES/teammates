@@ -4,10 +4,10 @@ import {
   SimpleChanges, ViewChildren,
 } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { NavigationService } from '../../../services/navigation.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 import { Sections } from './sections';
+import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 
 interface QuestionDetail {
   id: string;
@@ -22,7 +22,7 @@ interface QuestionDetail {
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
-  @Input() key: String;
+  @Input() key: string;
   @Output() matchFound: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren('question') questionHtml!: QueryList<InstructorHelpPanelComponent>;
 

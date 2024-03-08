@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
   DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
-import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
  * The Rank options question submission form for a recipient.
@@ -103,8 +103,8 @@ export class RankOptionsQuestionEditAnswerFormComponent
     return numberOfOptionsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
 
-  getAriaLabelForOption(option: String): String {
-    const baseAriaLabel: String = this.getAriaLabel();
+  getAriaLabelForOption(option: string): string {
+    const baseAriaLabel: string = this.getAriaLabel();
     return `${baseAriaLabel} for ${option} Option`;
   }
 }

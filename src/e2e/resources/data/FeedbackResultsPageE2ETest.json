@@ -1,42 +1,4 @@
 {
-  "accounts": {
-    "FRes.instr": {
-      "googleId": "tm.e2e.FRes.instr",
-      "name": "Teammates Test",
-      "email": "FRes.instr@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.alice.b": {
-      "googleId": "tm.e2e.FRes.alice.b",
-      "name": "Alice B.",
-      "email": "FRes.alice.b@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.benny.c": {
-      "googleId": "tm.e2e.FRes.benny.c",
-      "name": "Benny C.",
-      "email": "FRes.benny.c@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.charlie.d": {
-      "googleId": "tm.e2e.FRes.charlie.d",
-      "name": "Charlie D.",
-      "email": "FRes.charlie.d@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.danny.e": {
-      "googleId": "tm.e2e.FRes.danny.e",
-      "name": "Danny E.",
-      "email": "FRes.danny.e@gmail.tmt",
-      "readNotifications": {}
-    },
-    "FRes.emily.f": {
-      "googleId": "tm.e2e.FRes.emily.f",
-      "name": "Emily F.",
-      "email": "FRes.emily.f@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "FRes.CS2104": {
       "id": "tm.e2e.FRes.CS2104",
@@ -301,15 +263,12 @@
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "INSTRUCTORS"
+        "OWN_TEAM_MEMBERS"
       ],
       "showGiverNameTo": [
-        "INSTRUCTORS",
         "OWN_TEAM_MEMBERS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS"
       ]
     },
     "qn6": {
@@ -345,8 +304,7 @@
       "showRecipientNameTo": [
         "RECEIVER",
         "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
+        "STUDENTS"
       ]
     },
     "qn7": {
@@ -425,7 +383,6 @@
         "STUDENTS"
       ],
       "showGiverNameTo": [
-        "INSTRUCTORS",
         "STUDENTS"
       ],
       "showRecipientNameTo": [
@@ -1158,10 +1115,12 @@
       "receiverSection": "None",
       "feedbackResponseId": "2%Unregistered@gmail.tmt%FRes.alice.b@gmail.tmt",
       "showCommentTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -1178,10 +1137,12 @@
       "receiverSection": "None",
       "feedbackResponseId": "2%Unregistered@gmail.tmt%FRes.alice.b@gmail.tmt",
       "showCommentTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -1215,8 +1176,12 @@
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "3%FRes.alice.b@gmail.tmt%FRes.benny.c@gmail.tmt",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
+      "showCommentTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
       "commentGiverType": "STUDENTS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
@@ -1231,8 +1196,12 @@
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "4%FRes.danny.e@gmail.tmt%%GENERAL%",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
+      "showCommentTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
       "commentGiverType": "STUDENTS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,

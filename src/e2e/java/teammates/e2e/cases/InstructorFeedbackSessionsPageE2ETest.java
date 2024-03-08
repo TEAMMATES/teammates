@@ -45,6 +45,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
+        removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorFeedbackSessionsPageE2ETest_SqlEntities.json"));
+
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         copiedCourse = testData.courses.get("course2");
@@ -88,7 +90,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded data");
         FeedbackSessionAttributes[] loadedSessions = { openSession, closedSession };
-        feedbackSessionsPage.sortByCourseId();
         feedbackSessionsPage.verifySessionsTable(loadedSessions);
 
         ______TS("verify response rate");
@@ -218,7 +219,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         FeedbackSessionAttributes[] sessionsForRestore = { openSession, newSession, closedSession, copiedSession2,
                 copiedSession };
         feedbackSessionsPage.restoreSession(closedSession);
-
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been restored.");
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForRestore);
@@ -229,6 +229,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         ______TS("permanently delete session");
         FeedbackSessionAttributes[] sessionsForDelete = { copiedSession, copiedSession2, closedSession,
                 openSession };
+
+        feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.moveToRecycleBin(newSession);
         feedbackSessionsPage.deleteSession(newSession);
 
@@ -239,8 +241,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatabase(newSession);
 
         ______TS("restore all session");
-        FeedbackSessionAttributes[] sessionsForRestoreAll = { openSession, closedSession, copiedSession2,
-                copiedSession };
+        FeedbackSessionAttributes[] sessionsForRestoreAll = { copiedSession, copiedSession2, closedSession, openSession };
         feedbackSessionsPage.moveToRecycleBin(copiedSession);
         feedbackSessionsPage.moveToRecycleBin(copiedSession2);
         feedbackSessionsPage.restoreAllSessions();

@@ -1,0 +1,10 @@
+{
+    "accounts": {
+      "instructorWithSessions": {
+        "googleId": "tm.e2e.IFSess.instructor",
+        "name": "Teammates Test",
+        "email": "tmms.test@gmail.tmt",
+        "id": "00000000-0000-4000-8000-000000000001"
+      }
+    }
+}

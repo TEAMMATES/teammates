@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserNotificationsListModule } from '../../components/user-notifications-list/user-notifications-list.module';
 import { StudentNotificationsPageComponent } from './student-notifications-page.component';
+import { UserNotificationsListModule } from '../../components/user-notifications-list/user-notifications-list.module';
 
 const routes: Routes = [
   {

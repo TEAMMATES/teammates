@@ -343,9 +343,21 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_e2e_e2eShouldNotTouchProductionCodeExceptCommon() {
         noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
+                .should().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
+                                && !input.getPackageName().startsWith(STORAGE_SQL_ENTITY_PACKAGE);
+                    }
+                })
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(UI_PACKAGE)
+                                && !input.getPackageName().startsWith(UI_OUTPUT_PACKAGE);
+                    }
+                })
                 .check(forClasses(E2E_PACKAGE));
 
         noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))

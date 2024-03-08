@@ -22,6 +22,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/InstructorCourseEditPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCourseEditPageE2ETest_SqlEntities.json"));
+
         course = testData.courses.get("ICEdit.CS2104");
         instructors[0] = testData.instructors.get("ICEdit.helper.CS2104");
         instructors[1] = testData.instructors.get("ICEdit.manager.CS2104");
@@ -68,9 +70,9 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .build();
 
         editPage.addInstructor(newInstructor);
-        editPage.verifyStatusMessage("\"The instructor " + newInstructor.getName() + " has been added successfully. "
+        editPage.verifyStatusMessage("The instructor " + newInstructor.getName() + " has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to " + newInstructor.getEmail()
-                + " in a few minutes.\"");
+                + " in a few minutes.");
         editPage.verifyInstructorDetails(newInstructor);
         verifyPresentInDatabase(newInstructor);
 

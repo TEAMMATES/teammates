@@ -9,8 +9,13 @@
   <div class="row">
     <div class="col-12">
       <div class="form-group">
-        <label><b>Name for copied session</b></label>
-        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH">
+        <label><b>Name for copied session*</b></label>
+        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
+               required #newSessionName="ngModel">
+        <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field "Name for copied session" should not be empty.
+        </div>
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       <div class="form-check" *ngFor="let course of courseCandidates">

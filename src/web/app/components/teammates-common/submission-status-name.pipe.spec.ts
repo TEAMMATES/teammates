@@ -1,5 +1,5 @@
-import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
+import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 
 describe('SubmissionStatusNamePipe', () => {
   let pipe: SubmissionStatusNamePipe;

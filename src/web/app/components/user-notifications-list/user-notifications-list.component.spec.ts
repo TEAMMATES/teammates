@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import moment from 'moment-timezone';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { NotificationTab, UserNotificationsListComponent } from './user-notifications-list.component';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
@@ -14,7 +15,6 @@ import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import { NotificationTab, UserNotificationsListComponent } from './user-notifications-list.component';
 
 describe('UserNotificationsListComponent', () => {
   let component: UserNotificationsListComponent;

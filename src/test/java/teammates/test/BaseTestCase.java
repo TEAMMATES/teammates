@@ -2,6 +2,7 @@ package teammates.test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,14 +20,18 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.TimeHelperExtension;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -160,8 +165,20 @@ public class BaseTestCase {
     }
 
     protected FeedbackSession getTypicalFeedbackSessionForCourse(Course course) {
-        return new FeedbackSession("test-feedbacksession", course, "testemail", "test-instructions", null,
-                    null, null, null, null, false, false, false);
+        Instant startTime = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
+        Instant endTime = TimeHelperExtension.getInstantDaysOffsetFromNow(7);
+        return new FeedbackSession("test-feedbacksession",
+                course,
+                "test@teammates.tmt",
+                "test-instructions",
+                startTime,
+                endTime,
+                startTime,
+                endTime,
+                Duration.ofMinutes(5),
+                false,
+                false,
+                false);
     }
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
@@ -169,6 +186,15 @@ public class BaseTestCase {
                 FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(),
                 new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
                 new FeedbackTextQuestionDetails("test question text"));
+    }
+
+    protected FeedbackResponse getTypicalFeedbackResponseForQuestion(FeedbackQuestion question) {
+        return FeedbackResponse.makeResponse(question, "test-giver", getTypicalSection(), "test-recipient",
+                getTypicalSection(), getTypicalFeedbackResponseDetails());
+    }
+
+    protected FeedbackResponseDetails getTypicalFeedbackResponseDetails() {
+        return new FeedbackTextResponseDetails();
     }
 
     protected FeedbackResponseComment getTypicalResponseComment(Long id) {

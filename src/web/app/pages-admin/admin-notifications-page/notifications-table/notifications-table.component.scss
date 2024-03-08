@@ -6,7 +6,7 @@
   cursor: pointer;
 
   i {
-    margin-left: .3em;
+    margin-left: 0.3em;
   }
 
   .fa-stack {
@@ -35,4 +35,8 @@
 
 .padding-left-7px {
   padding-left: 7px;
+}
+
+#notifications-table {
+  min-width: 650px;
 }
