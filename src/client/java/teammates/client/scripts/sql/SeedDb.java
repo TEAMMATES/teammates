@@ -144,7 +144,6 @@ public class SeedDb extends DatastoreClient {
                     int randIndex = rand.nextInt(NOTIFICATION_SIZE);
                     String notificationUUID = notificationUUIDs.get(randIndex);
                     assert(notificationEndTimes.get(notificationUUID) != null);
-                    // System.out.println(notificationEndTimes.get(notificationUUID));
                     readNotificationsToCreate.put(notificationUUID, notificationEndTimes.get(notificationUUID));
 
                 }
