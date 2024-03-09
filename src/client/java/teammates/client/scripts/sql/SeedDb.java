@@ -23,7 +23,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
@@ -77,10 +76,10 @@ public class SeedDb extends DatastoreClient {
     }
 
     protected void persistAdditionalData() {
-        int ENTITY_SIZE = 1000;
+        int ENTITY_SIZE = 10000;
         // Each account will have this amount of read notifications
         int READ_NOTIFICATION_SIZE = 5;
-        int NOTIFICATION_SIZE = 100;
+        int NOTIFICATION_SIZE = 1000;
         assert (NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE);
 
         String[] args = {};
@@ -93,7 +92,7 @@ public class SeedDb extends DatastoreClient {
 
         for (int j = 0; j < NOTIFICATION_SIZE; j++) {
             UUID notificationUUID = UUID.randomUUID();
-            while (notificationsUUIDSeen.contains(notificationUUID)) {
+            while (notificationsUUIDSeen.contains(notificationUUID.toString())) {
                 notificationUUID = UUID.randomUUID();
             }
             notificationUUIDs.add(notificationUUID.toString());
@@ -117,14 +116,14 @@ public class SeedDb extends DatastoreClient {
                 ofy().save().entities(notification).now();
                 notificationEndTimes.put(notificationUUID.toString(), notification.getEndTime());
             } catch (Exception e) {
-                System.out.println(e);
+                log(e.toString());
             }
         }
 
         for (int i = 0; i < ENTITY_SIZE; i++) {
 
             if (i % (ENTITY_SIZE / 5) == 0) {
-                System.out.println(String.format("Seeded the %d percent of new sets of entities",
+                log(String.format("Seeded the %d %% of new sets of entities",
                         (int) (100 * ((float) i / (float) ENTITY_SIZE))));
             }
 
@@ -154,12 +153,15 @@ public class SeedDb extends DatastoreClient {
                 ofy().save().entities(account).now();
                 ofy().save().entities(accountRequest).now();
             } catch (Exception e) {
-                System.out.println(e);
+                log(e.toString());
             }
         }
 
         GenerateUsageStatisticsObjects.main(args);
+    }
 
+    private void log(String logLine) {
+        System.out.println(String.format("Seeding database: %s", logLine));
     }
 
     protected void persistData() {
@@ -171,14 +173,6 @@ public class SeedDb extends DatastoreClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    protected void verify() {
-        for (StudentAttributes student : logic.getAllStudentsForEmail("student1InCourse1@gmail.tmt")) {
-            System.out.println(String.format("Verify student: %s", student));
-        }
-        System.out.println(String.format("Verify account: %s", logic.getAccountsForEmail("instr1@course1.tmt")));
-        System.out.println(String.format("Verify account: %s", logic.getAccountsForEmail("instr2@course1.tmt")));
     }
 
     public static void main(String[] args) throws Exception {

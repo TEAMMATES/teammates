@@ -291,11 +291,15 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
         FileHelper.deleteFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
     }
 
+    protected String getLogPrefix() {
+        return String.format("%s Migrating:", this.getClass().getSimpleName());
+    }
+
     /**
      * Logs a line and persists it to the disk.
      */
     protected void log(String logLine) {
-        System.out.println(logLine);
+        System.out.println(String.format("%s: logLine", getLogPrefix(), logLine));
 
         Path logPath = Paths.get(BASE_LOG_URI + this.getClass().getSimpleName() + ".log");
         try (OutputStream logFile = Files.newOutputStream(logPath,

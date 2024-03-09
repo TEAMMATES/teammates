@@ -263,6 +263,10 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         FileHelper.deleteFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
     }
 
+    protected String getLogPrefix() {
+        return String.format("Account and Read Notifications Migrating:");        
+    }
+
     protected void log(String logLine) {
         System.out.println(logLine);
 

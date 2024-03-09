@@ -55,6 +55,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         return (pageNum - 1) * SQL_FETCH_BATCH_SIZE;
     }
 
+    private String getLogPrefix() {
+        return String.format("%s verifying fields:", sqlEntityClass.getName());
+    }
+
     /**
      * Get number of pages in database table.
      */
@@ -63,7 +67,8 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         countQuery.select(cb.count(countQuery.from(sqlEntityClass)));
         long countResults = HibernateUtil.createQuery(countQuery).getSingleResult().longValue();
-        int numPages = (int) (Math.ceil(countResults / SQL_FETCH_BATCH_SIZE));
+        int numPages = (int) (Math.ceil((double) countResults / (double) SQL_FETCH_BATCH_SIZE));
+        System.out.println(String.format("%s has %d entities with %d pages", getLogPrefix(), countResults, numPages));
 
         return numPages;
     }
@@ -87,16 +92,18 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         return query.getResultList();
     }
 
-    // protected List<T> lookupSqlEntities() {
-    // CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-    // CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
-    // Root<T> root = cr.from(sqlEntityClass);
-    // cr.select(root);
+    protected int deleteAllSqlEntities(List<T> sqlEntities) {
+        HibernateUtil.beginTransaction();
+        for (T sqlEntity : sqlEntities) {
+            HibernateUtil.remove(sqlEntity);
+        }
 
-    // List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+        HibernateUtil.commitTransaction();
 
-    // return sqlEntities;
-    // }
+        return sqlEntities.size();
+    }
 
     /**
      * Idea: lookup sql side, have all the sql entities for
@@ -109,11 +116,12 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         List<Map.Entry<T, E>> failures = new LinkedList<>();
 
         int numPages = getNumPages();
-        for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
+        if (numPages == 0) {
+            System.out.println(String.format("%s No entities available for verification", getLogPrefix()));
+            return failures;
+        }
 
-            System.out.println(String.format("Verifed the %d percent of %s",
-                    (100 * (int) ((float) currPageNum / (float) numPages)),
-                    sqlEntityClass.getName()));
+        for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
 
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
@@ -135,6 +143,29 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         return failures;
     }
 
+    protected void deleteAllEntities() {
+        int numPages = getNumPages();
+        if (numPages == 0) {
+            System.out.println(String.format("%s No entities available for deletion", getLogPrefix()));
+            return;
+        }
+
+        double numEntitiesDeleted = 0;
+        for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
+            System.out.println(String.format("%s Deletion Progress %d %% of %s",
+                    getLogPrefix(),
+                    (100 * (int) ((float) currPageNum / (float) numPages)),
+                    sqlEntityClass.getName()));
+
+            List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
+            numEntitiesDeleted += deleteAllSqlEntities(sqlEntities);
+        }
+        System.out.println(String.format("%s Deleted %d entities",
+            getLogPrefix(),
+            numEntitiesDeleted
+        ));
+    }
+
     /**
      * Main function to run to verify isEqual between sql and datastore DBs.
      */
@@ -142,15 +173,16 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
             Class<E> datastoreEntityClass) {
         HibernateUtil.beginTransaction();
         List<Map.Entry<T, E>> failedEntities = checkAllEntitiesForFailures();
+        deleteAllEntities();
 
         System.out.println("========================================");
         if (!failedEntities.isEmpty()) {
-            System.err.println("Errors detected for entity: " + sqlEntityClass.getName());
+            System.err.println(String.format("%s Errors detected", getLogPrefix()));
             for (Map.Entry<T, E> failure : failedEntities) {
                 System.err.println("Sql entity: " + failure.getKey() + " datastore entity: " + failure.getValue());
             }
         } else {
-            System.out.println("No errors detected for entity: " + sqlEntityClass.getName());
+            System.out.println(String.format("%s No errors detected", getLogPrefix()));
         }
         HibernateUtil.commitTransaction();
     }
