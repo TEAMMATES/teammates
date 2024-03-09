@@ -148,7 +148,7 @@ describe('VisibilityPanelComponent', () => {
     .toBe(`${visibilityTypeAriaLabel} can see ${visibilityControlAriaLabel}`);
   });
 
-  it('applyCommonVisibilitySettings: should trigger model change with isUsingOtherVisibilitySetting as false '
+  it('applyCommonVisibilitySettings: should trigger model change with isUsingOtherVisibilitySetting as false'
   + 'and CommonVisibilitySetting', () => {
     const testSettings: CommonVisibilitySetting = {
       name: 'testSettings name',
@@ -207,8 +207,8 @@ describe('VisibilityPanelComponent', () => {
     { visibilityControl: VisibilityControl.SHOW_RESPONSE, visibilityControlString: 'SHOW_RESPONSE' },
     { visibilityControl: VisibilityControl.SHOW_GIVER_NAME, visibilityControlString: 'SHOW_GIVER_NAME' },
     { visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME, visibilityControlString: 'SHOW_RECIPIENT_NAME' },
-  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when '
-  + 'visibility is initialized to true and isAllowed, visibilityType, visibilityControl are '
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when'
+  + 'visibility is initialized to true and isAllowed, visibilityType, visibilityControl are'
   + 'true, RECIPIENT, $visibilityControlString',
   ({ visibilityControl }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -307,8 +307,8 @@ describe('VisibilityPanelComponent', () => {
       visibilityTypeString: 'INSTRUCTORS',
       visibilityControlString: 'SHOW_RECIPIENT_NAME',
     },
-  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when '
-  + 'visibility is initialized to true and isAllowed, visibilityType, visibilityControl are '
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when'
+  + 'visibility is initialized to true and isAllowed, visibilityType, visibilityControl are'
   + 'true, $visibilityTypeString, $visibilityControlString',
   ({ visibilityType, visibilityControl }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -331,7 +331,7 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are true, RECIPIENT, SHOW_RESPONSE', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
@@ -349,7 +349,7 @@ describe('VisibilityPanelComponent', () => {
     { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
     { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
     { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are true, $visibilityTypeString, SHOW_RESPONSE',
   ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -369,7 +369,7 @@ describe('VisibilityPanelComponent', () => {
     { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
     { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
     { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are true, $visibilityTypeString, SHOW_GIVER_NAME',
   ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -384,7 +384,7 @@ describe('VisibilityPanelComponent', () => {
   });
 
   // recipients' show recipient name cannot be edited
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are true, RECIPIENT, SHOW_RECIPIENT_NAME', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
@@ -402,7 +402,7 @@ describe('VisibilityPanelComponent', () => {
     { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
     { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
     { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are true, $visibilityTypeString, SHOW_RECIPIENT_NAME',
   ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -511,8 +511,8 @@ describe('VisibilityPanelComponent', () => {
       visibilityTypeString: 'INSTRUCTORS',
       visibilityControlString: 'SHOW_RECIPIENT_NAME',
     },
-  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when '
-  + 'visibility is initialized to false and isAllowed, visibilityType, visibilityControl are '
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when'
+  + 'visibility is initialized to false and isAllowed, visibilityType, visibilityControl are'
   + 'false, $visibilityTypeString, $visibilityControlString',
   ({ visibilityType, visibilityControl }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -526,7 +526,7 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are false, RECIPIENT, SHOW_RESPONSE', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
@@ -553,7 +553,7 @@ describe('VisibilityPanelComponent', () => {
     { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
     { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
     { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are false, $visibilityTypeString, SHOW_RESPONSE',
   ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -576,7 +576,7 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are false, RECIPIENT, SHOW_GIVER_NAME', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
@@ -603,7 +603,7 @@ describe('VisibilityPanelComponent', () => {
     { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
     { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
     { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are false, $visibilityTypeString, SHOW_GIVER_NAME',
   ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -626,7 +626,7 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are false, RECIPIENT, SHOW_RECIPIENT_NAME', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
@@ -653,7 +653,7 @@ describe('VisibilityPanelComponent', () => {
     { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
     { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
     { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl'
   + 'are false, $visibilityTypeString, SHOW_RECIPIENT_NAME',
   ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
