@@ -129,7 +129,7 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it('modifyVisibilityControl: should trigger model change correctly when'
-  + 'isAllowed is true, visibilityType is NOT RECIPIENT and visibilityControl is SHOW_RESPONSE', () => {
+  + ' isAllowed is true, visibilityType is NOT RECIPIENT and visibilityControl is SHOW_RESPONSE', () => {
     const visibilityType = FeedbackVisibilityType.GIVER_TEAM_MEMBERS;
 
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -144,7 +144,7 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it('modifyVisibilityControl: should trigger model change correctly when'
-  + 'isAllowed is true, visibilityType is ANY and visibilityControl is SHOW_GIVER_NAME', () => {
+  + ' isAllowed is true, visibilityType is ANY and visibilityControl is SHOW_GIVER_NAME', () => {
     const visibilityType = FeedbackVisibilityType.RECIPIENT;
 
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -213,7 +213,7 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it('modifyVisibilityControl: should trigger model change correctly when'
-  + 'isAllowed = false, visibilityType is ANY and visibilityControl is SHOW_GIVER_NAME', () => {
+  + ' isAllowed is false, visibilityType is ANY and visibilityControl is SHOW_GIVER_NAME', () => {
     const visibilityType = FeedbackVisibilityType.RECIPIENT;
 
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
@@ -239,7 +239,7 @@ describe('VisibilityPanelComponent', () => {
 
   // recipients' show recipient is visible by setting SHOW_RESPONSE to true and cannot be edited afterwards
   it('modifyVisibilityControl: should trigger model change correctly when'
-  + 'isAllowed = false, visibilityType is RECIPIENT and visibilityControl is SHOW_RECIPIENT_NAME', () => {
+  + ' isAllowed is false, visibilityType is RECIPIENT and visibilityControl is SHOW_RECIPIENT_NAME', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RESPONSE);
@@ -262,7 +262,7 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it('modifyVisibilityControl: should trigger model change correctly when'
-  + 'isAllowed = false, visibilityType is NOT RECIPIENT and visibilityControl is SHOW_RECIPIENT_NAME', () => {
+  + ' isAllowed is false, visibilityType is NOT RECIPIENT and visibilityControl is SHOW_RECIPIENT_NAME', () => {
     const visibilityType = FeedbackVisibilityType.GIVER_TEAM_MEMBERS;
 
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
