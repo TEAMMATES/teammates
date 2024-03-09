@@ -94,19 +94,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         return query.getResultList();
     }
 
-    protected int deleteAllSqlEntities(List<T> sqlEntities) {
-        HibernateUtil.beginTransaction();
-        for (T sqlEntity : sqlEntities) {
-            HibernateUtil.remove(sqlEntity);
-        }
-
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
-        HibernateUtil.commitTransaction();
-
-        return sqlEntities.size();
-    }
-
     /**
      * Idea: lookup sql side, have all the sql entities for
      * each sql entity, lookup datastore entity
