@@ -244,7 +244,6 @@ describe('VisibilityPanelComponent', () => {
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RESPONSE);
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_GIVER_NAME);
-    component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RECIPIENT_NAME);
 
     expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
       showResponsesTo: [FeedbackVisibilityType.RECIPIENT],
@@ -267,7 +266,6 @@ describe('VisibilityPanelComponent', () => {
 
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
-    component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RESPONSE);
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RECIPIENT_NAME);
 
