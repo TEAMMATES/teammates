@@ -2,6 +2,7 @@ package teammates.client.scripts.sql;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -97,17 +98,20 @@ public class SeedDb extends DatastoreClient {
             }
             notificationUUIDs.add(notificationUUID.toString());
             notificationsUUIDSeen.add(notificationUUID.toString());
+            // Since we are not using logic class, referencing MarkNotificationAsReadAction.class and CreateNotificationAction.class
+            // endTime is to nearest milli not nanosecond
+            Instant endTime = getRandomInstant().truncatedTo(ChronoUnit.MILLIS);
             Notification notification = new Notification(
                     notificationUUID.toString(),
                     getRandomInstant(),
-                    getRandomInstant(),
+                    endTime,
                     NotificationStyle.PRIMARY,
                     NotificationTargetUser.INSTRUCTOR,
                     notificationUUID.toString(),
                     notificationUUID.toString(),
                     false,
                     getRandomInstant(),
-                    getRandomInstant());            
+                    getRandomInstant());
             try {
                 ofy().save().entities(notification).now();
                 notificationEndTimes.put(notificationUUID.toString(), notification.getEndTime());
@@ -140,6 +144,7 @@ public class SeedDb extends DatastoreClient {
                     int randIndex = rand.nextInt(NOTIFICATION_SIZE);
                     String notificationUUID = notificationUUIDs.get(randIndex);
                     assert(notificationEndTimes.get(notificationUUID) != null);
+                    // System.out.println(notificationEndTimes.get(notificationUUID));
                     readNotificationsToCreate.put(notificationUUID, notificationEndTimes.get(notificationUUID));
 
                 }
@@ -161,7 +166,7 @@ public class SeedDb extends DatastoreClient {
         // Persisting basic data bundle
         DataBundle dataBundle = getTypicalDataBundle();
         try {
-            logic.persistDataBundle(dataBundle);
+            // logic.persistDataBundle(dataBundle);
             persistAdditionalData();
         } catch (Exception e) {
             e.printStackTrace();
