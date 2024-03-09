@@ -101,7 +101,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         //                     feedbackSessions.addAll(sessions);
         //                 } else {
-        //                     List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
+        //     List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
 
         //                     feedbackSessionAttributes.addAll(sessions);
         //                 }
@@ -180,7 +180,7 @@ public class GetFeedbackSessionsAction extends Action {
         //     }
         //     return new JsonResult(responseData);
         // } else {
-            return executeOldFeedbackSession(courseId, entityType);
+        return executeOldFeedbackSession(courseId, entityType);
         // }
     }
 
