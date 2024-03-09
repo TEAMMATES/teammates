@@ -114,7 +114,6 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it('modifyVisibilityControl: should only call allowToSee and emit the updated visibilityStateMachine', () => {
-    const isAllowed = true;
     const visibilityType = FeedbackVisibilityType.RECIPIENT;
     const visibilityControl = VisibilityControl.SHOW_RESPONSE;
 
@@ -122,7 +121,7 @@ describe('VisibilityPanelComponent', () => {
     const disallowToSeeSpy = jest.spyOn(component.visibilityStateMachine, 'disallowToSee');
     const emitSpy = jest.spyOn(component.visibilityStateMachineChange, 'emit');
 
-    component.modifyVisibilityControl(isAllowed, visibilityType, visibilityControl);
+    component.modifyVisibilityControl(true, visibilityType, visibilityControl);
 
     expect(allowToSeeSpy).toHaveBeenCalledWith(visibilityType, visibilityControl);
     expect(disallowToSeeSpy).not.toHaveBeenCalledWith();
@@ -130,7 +129,6 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it('modifyVisibilityControl: should only call disallowToSee and emit the updated visibilityStateMachine', () => {
-    const isAllowed = false;
     const visibilityType = FeedbackVisibilityType.RECIPIENT;
     const visibilityControl = VisibilityControl.SHOW_RESPONSE;
 
@@ -138,7 +136,7 @@ describe('VisibilityPanelComponent', () => {
     const disallowToSeeSpy = jest.spyOn(component.visibilityStateMachine, 'disallowToSee');
     const emitSpy = jest.spyOn(component.visibilityStateMachineChange, 'emit');
 
-    component.modifyVisibilityControl(isAllowed, visibilityType, visibilityControl);
+    component.modifyVisibilityControl(false, visibilityType, visibilityControl);
 
     expect(allowToSeeSpy).not.toHaveBeenCalledWith();
     expect(disallowToSeeSpy).toHaveBeenCalledWith(visibilityType, visibilityControl);
