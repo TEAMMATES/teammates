@@ -123,7 +123,7 @@ public class SeedDb extends DatastoreClient {
         for (int i = 0; i < ENTITY_SIZE; i++) {
 
             if (i % (ENTITY_SIZE / 5) == 0) {
-                log(String.format("Seeded the %d %% of new sets of entities",
+                log(String.format("Seeded %d %% of new sets of entities",
                         (int) (100 * ((float) i / (float) ENTITY_SIZE))));
             }
 

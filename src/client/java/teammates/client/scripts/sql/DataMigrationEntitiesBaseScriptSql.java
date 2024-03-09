@@ -299,7 +299,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
      * Logs a line and persists it to the disk.
      */
     protected void log(String logLine) {
-        System.out.println(String.format("%s: logLine", getLogPrefix(), logLine));
+        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
 
         Path logPath = Paths.get(BASE_LOG_URI + this.getClass().getSimpleName() + ".log");
         try (OutputStream logFile = Files.newOutputStream(logPath,

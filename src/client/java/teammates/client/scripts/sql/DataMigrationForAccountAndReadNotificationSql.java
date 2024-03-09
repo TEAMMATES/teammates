@@ -268,7 +268,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     protected void log(String logLine) {
-        System.out.println(logLine);
+        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
 
         Path logPath = Paths.get(BASE_LOG_URI + this.getClass().getSimpleName() + ".log");
         try (OutputStream logFile = Files.newOutputStream(logPath,

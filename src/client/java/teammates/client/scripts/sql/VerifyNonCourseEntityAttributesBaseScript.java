@@ -1,9 +1,11 @@
 package teammates.client.scripts.sql;
 
 import java.util.AbstractMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -68,7 +70,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         countQuery.select(cb.count(countQuery.from(sqlEntityClass)));
         long countResults = HibernateUtil.createQuery(countQuery).getSingleResult().longValue();
         int numPages = (int) (Math.ceil((double) countResults / (double) SQL_FETCH_BATCH_SIZE));
-        System.out.println(String.format("%s has %d entities with %d pages", getLogPrefix(), countResults, numPages));
+        log(String.format("Has %d entities with %d pages", countResults, numPages));
 
         return numPages;
     }
@@ -117,11 +119,14 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
         int numPages = getNumPages();
         if (numPages == 0) {
-            System.out.println(String.format("%s No entities available for verification", getLogPrefix()));
+            log("No entities available for verification");
             return failures;
         }
-
+        
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
+            log(String.format("Verification Progress %d %%",
+                    (100 * (int) ((float) currPageNum / (float) numPages))
+                ));
 
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
@@ -133,6 +138,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
                     failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
                     continue;
                 }
+
                 boolean isEqual = equals(sqlEntity, datastoreEntity);
                 if (!isEqual) {
                     failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, datastoreEntity));
@@ -140,30 +146,8 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
                 }
             }
         }
+
         return failures;
-    }
-
-    protected void deleteAllEntities() {
-        int numPages = getNumPages();
-        if (numPages == 0) {
-            System.out.println(String.format("%s No entities available for deletion", getLogPrefix()));
-            return;
-        }
-
-        double numEntitiesDeleted = 0;
-        for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
-            System.out.println(String.format("%s Deletion Progress %d %% of %s",
-                    getLogPrefix(),
-                    (100 * (int) ((float) currPageNum / (float) numPages)),
-                    sqlEntityClass.getName()));
-
-            List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
-            numEntitiesDeleted += deleteAllSqlEntities(sqlEntities);
-        }
-        System.out.println(String.format("%s Deleted %d entities",
-            getLogPrefix(),
-            numEntitiesDeleted
-        ));
     }
 
     /**
@@ -173,19 +157,23 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
             Class<E> datastoreEntityClass) {
         HibernateUtil.beginTransaction();
         List<Map.Entry<T, E>> failedEntities = checkAllEntitiesForFailures();
-        deleteAllEntities();
 
         System.out.println("========================================");
         if (!failedEntities.isEmpty()) {
-            System.err.println(String.format("%s Errors detected", getLogPrefix()));
+            log("Errors detected");
             for (Map.Entry<T, E> failure : failedEntities) {
-                System.err.println("Sql entity: " + failure.getKey() + " datastore entity: " + failure.getValue());
+                log("Sql entity: " + failure.getKey() + " datastore entity: " + failure.getValue());
             }
         } else {
-            System.out.println(String.format("%s No errors detected", getLogPrefix()));
+            log("No errors detected");
         }
         HibernateUtil.commitTransaction();
     }
+
+    protected void log(String logLine) {
+        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
+    }
+
 
     protected void doOperation() {
         runCheckAllEntities(this.sqlEntityClass, this.datastoreEntityClass);
