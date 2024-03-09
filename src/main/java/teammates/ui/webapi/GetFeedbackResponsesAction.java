@@ -10,8 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -154,14 +152,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             }
 
             List<FeedbackResponseData> responsesData = new LinkedList<>();
-            FeedbackQuestionAttributes questionAttributesCopy = questionAttributes.getCopy();
             responses.forEach(response -> {
                 FeedbackResponseData data = new FeedbackResponseData(response);
-                if (questionAttributesCopy.getCopy().getQuestionType() != FeedbackQuestionType.MCQ
-                        && questionAttributesCopy.getCopy().getQuestionType() != FeedbackQuestionType.MSQ) {
-                    responsesData.add(data);
-                    return;
-                }
                 // Only MCQ and MSQ questions can have participant comment
                 FeedbackResponseCommentAttributes comment =
                         logic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
@@ -193,19 +185,14 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         }
 
         List<FeedbackResponseData> responsesData = new LinkedList<>();
-        FeedbackQuestionDetails feedbackQuestionDetails = sqlFeedbackQuestion.getQuestionDetailsCopy();
         responses.forEach(response -> {
             FeedbackResponseData data = new FeedbackResponseData(response);
-            if (feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MCQ
-                    || feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MSQ
-            ) {
                 // Only MCQ and MSQ questions can have participant comment
                 FeedbackResponseComment comment =
                         sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
                 if (comment != null) {
                     data.setGiverComment(new FeedbackResponseCommentData(comment));
                 }
-            }
             responsesData.add(data);
         });
         FeedbackResponsesData result = new FeedbackResponsesData();
