@@ -75,7 +75,6 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
         E entity = convertToEntityForSaving(entityToAdd);
 
         ofy().save().entity(entity).now();
-        // log.info("Entity created: " + JsonUtils.toJson(entityToAdd));
 
         return makeAttributes(entity);
     }
@@ -130,10 +129,6 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
             entities.add(entity);
         }
 
-/*         for (A attributes : entitiesToAdd) {
-            log.info("Entity created: " + JsonUtils.toJson(attributes));
-        }
- */
         ofy().save().entities(entities).now();
 
         return makeAttributes(entities);
@@ -152,8 +147,6 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     void saveEntity(E entityToSave) {
         assert entityToSave != null;
 
-        // log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
-
         ofy().save().entity(entityToSave).now();
     }
 
@@ -161,10 +154,6 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * Saves a collection of entities.
      */
     void saveEntities(Collection<E> entitiesToSave) {
-/*         for (E entityToSave : entitiesToSave) {
-            log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
-        }
- */
         ofy().save().entities(entitiesToSave).now();
     }
 
@@ -183,11 +172,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
         assert keys != null;
         assert !keys.contains(null);
 
-/*         for (Key<E> key : keys) {
-            log.info(String.format("Delete entity %s of key (id: %d, name: %s)",
-                    key.getKind(), key.getRaw().getId(), key.getName()));
-        }
- */        ofy().delete().keys(keys).now();
+        ofy().delete().keys(keys).now();
     }
 
     abstract LoadType<E> load();

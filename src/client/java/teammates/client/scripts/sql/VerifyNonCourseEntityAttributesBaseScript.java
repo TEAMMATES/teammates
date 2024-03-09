@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.UsageStatistics;
 
 /**
  * Protected methods may be overriden

@@ -4,18 +4,14 @@ import teammates.common.util.HibernateUtil;
 import teammates.sqllogic.api.Logic;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.storage.entity.UsageStatistics;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
 
 public class VerifyDataMigrationConnection extends DatastoreClient {
-    private final Logic logic = Logic.inst();
 
     private VerifyDataMigrationConnection() {
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
@@ -60,10 +56,6 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
     }
 
     protected void verifyCountsInDatastore() {
-        // System.out.println(String.format("Num of accounts in Datastore: %d",
-        // ofy().load().type(Account.class).count()));
-        // System.out.println(String.format("Num of account requests in Datastore: %d",
-        // ofy().load().type(AccountRequest.class).count()));
         System.out.println(
                 String.format("Num of notifications in Datastore: %d", ofy().load().type(Notification.class).count()));
         System.out.println(String.format("Num of usage statistics in Datastore: %d", ofy().load()

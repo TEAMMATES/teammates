@@ -232,7 +232,6 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
     /**
      * Stores the entity to save in a buffer and saves it later.
      */
-    // TODO: modify this method because we need to use transaction
     protected void saveEntityDeferred(T entity) {
         if (shouldUseTransaction()) {
             throw new RuntimeException("Batch saving is not supported for transaction!");

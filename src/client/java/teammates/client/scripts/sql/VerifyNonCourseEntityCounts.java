@@ -44,8 +44,7 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
         Root<? extends teammates.storage.sqlentity.BaseEntity> root = cr.from(entity);
 
         cr.select(cb.count(root));
-        
-        
+
         Long count = HibernateUtil.createQuery(cr).getSingleResult();
         HibernateUtil.commitTransaction();
         return count;
@@ -60,15 +59,14 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
         while (iterator.hasNext()) {
             Account acc = iterator.next();
             datastoreReadNotifications += acc.getReadNotifications().size();
-        } 
+        }
 
         Long postgresReadNotifications = countPostgresEntities(
-            teammates.storage.sqlentity.ReadNotification.class);
+                teammates.storage.sqlentity.ReadNotification.class);
 
         printEntityVerification(teammates.storage.sqlentity.ReadNotification.class.getSimpleName(),
-            datastoreReadNotifications, postgresReadNotifications);
+                datastoreReadNotifications, postgresReadNotifications);
     }
-
 
     @Override
     protected void doOperation() {

@@ -4,8 +4,8 @@ public class MigrateAndVerifyNonCourseEntities {
 
     public static void main(String[] args) {
         try {
-            SeedDb.main(args);
-            SeedUsageStatistics.main(args);
+            // SeedDb.main(args);
+            // SeedUsageStatistics.main(args);
 
             DataMigrationForNotificationSql.main(args);
             DataMigrationForUsageStatisticsSql.main(args);

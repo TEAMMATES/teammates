@@ -98,7 +98,8 @@ public class SeedDb extends DatastoreClient {
             }
             notificationUUIDs.add(notificationUUID.toString());
             notificationsUUIDSeen.add(notificationUUID.toString());
-            // Since we are not using logic class, referencing MarkNotificationAsReadAction.class and CreateNotificationAction.class
+            // Since we are not using logic class, referencing
+            // MarkNotificationAsReadAction.class and CreateNotificationAction.class
             // endTime is to nearest milli not nanosecond
             Instant endTime = getRandomInstant().truncatedTo(ChronoUnit.MILLIS);
             Notification notification = new Notification(
@@ -143,7 +144,7 @@ public class SeedDb extends DatastoreClient {
                 for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
                     int randIndex = rand.nextInt(NOTIFICATION_SIZE);
                     String notificationUUID = notificationUUIDs.get(randIndex);
-                    assert(notificationEndTimes.get(notificationUUID) != null);
+                    assert (notificationEndTimes.get(notificationUUID) != null);
                     readNotificationsToCreate.put(notificationUUID, notificationEndTimes.get(notificationUUID));
 
                 }
