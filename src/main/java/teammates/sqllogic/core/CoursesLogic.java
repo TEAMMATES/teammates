@@ -177,14 +177,13 @@ public final class CoursesLogic {
         if (course == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
         }
-        course.setName(name);
-        course.setTimeZone(timezone);
+        Course courseCopy = course.getCopy(); // prevent auto persistence
+        courseCopy.setName(name);
+        courseCopy.setTimeZone(timezone);
 
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
+        coursesDb.updateCourse(courseCopy);
 
-        return course;
+        return courseCopy;
     }
 
     /**

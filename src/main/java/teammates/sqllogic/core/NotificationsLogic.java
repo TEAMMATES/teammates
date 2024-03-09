@@ -78,18 +78,17 @@ public final class NotificationsLogic {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
         }
 
-        notification.setStartTime(startTime);
-        notification.setEndTime(endTime);
-        notification.setStyle(style);
-        notification.setTargetUser(targetUser);
-        notification.setTitle(title);
-        notification.setMessage(message);
+        Notification notificationCopy = notification.getCopy(); // prevent auto persistence
+        notificationCopy.setStartTime(startTime);
+        notificationCopy.setEndTime(endTime);
+        notificationCopy.setStyle(style);
+        notificationCopy.setTargetUser(targetUser);
+        notificationCopy.setTitle(title);
+        notificationCopy.setMessage(message);
 
-        if (!notification.isValid()) {
-            throw new InvalidParametersException(notification.getInvalidityInfo());
-        }
+        notificationsDb.updateNotification(notificationCopy);
 
-        return notification;
+        return notificationCopy;
     }
 
     /**

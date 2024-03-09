@@ -52,6 +52,23 @@ public class Instructor extends User {
         this.setPrivileges(privileges);
     }
 
+    /**
+     * Gets a copy of the instructor.
+     */
+    public Instructor getCopy() {
+        Instructor copy = new Instructor(getCourse(), getName(), getEmail(),
+                isDisplayedToStudents, displayName, role, privileges);
+
+        copy.setId(getId());
+        copy.setAccount(getAccount());
+        copy.setTeam(getTeam());
+        copy.setRegKey(getRegKey());
+        copy.setCreatedAt(getCreatedAt());
+        copy.setUpdatedAt(getUpdatedAt());
+
+        return copy;
+    }
+
     public boolean isDisplayedToStudents() {
         return isDisplayedToStudents;
     }
