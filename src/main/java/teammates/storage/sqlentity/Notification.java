@@ -6,18 +6,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -55,6 +58,10 @@ public class Notification extends BaseEntity {
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+    @OneToMany(mappedBy = "notification", cascade = CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<ReadNotification> readNotifications = new ArrayList<>();
 
     /**
      * Instantiates a new notification.
@@ -165,11 +172,20 @@ public class Notification extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    public List<ReadNotification> getReadNotifications() {
+        return readNotifications;
+    }
+
+    public void setReadNotifications(List<ReadNotification> readNotifications) {
+        this.readNotifications = readNotifications;
+    }
+
     @Override
     public String toString() {
         return "Notification [notificationId=" + id + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", style=" + style + ", targetUser=" + targetUser + ", title=" + title + ", message=" + message
-                + ", shown=" + shown + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+                + ", shown=" + shown + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt
+                + ", readNotifications=" + readNotifications + "]";
     }
 
     @Override
