@@ -165,7 +165,7 @@ public class SeedDb extends DatastoreClient {
         // Persisting basic data bundle
         DataBundle dataBundle = getTypicalDataBundle();
         try {
-            // logic.persistDataBundle(dataBundle);
+            logic.persistDataBundle(dataBundle);
             persistAdditionalData();
         } catch (Exception e) {
             e.printStackTrace();
