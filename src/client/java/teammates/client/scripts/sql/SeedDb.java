@@ -2,6 +2,7 @@ package teammates.client.scripts.sql;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -84,17 +85,39 @@ public class SeedDb extends DatastoreClient {
 
         String[] args = {};
 
-        Set<String> readNotificationsUUIDSeen = new HashSet<String>();
+        Set<String> notificationsUUIDSeen = new HashSet<String>();
         ArrayList<String> notificationUUIDs = new ArrayList<>();
+        HashMap<String, Instant> notificationEndTimes = new HashMap<>();
+
         Random rand = new Random();
 
         for (int j = 0; j < NOTIFICATION_SIZE; j++) {
             UUID notificationUUID = UUID.randomUUID();
-            while (readNotificationsUUIDSeen.contains(notificationUUID)) {
+            while (notificationsUUIDSeen.contains(notificationUUID)) {
                 notificationUUID = UUID.randomUUID();
             }
             notificationUUIDs.add(notificationUUID.toString());
-            readNotificationsUUIDSeen.add(notificationUUID.toString());
+            notificationsUUIDSeen.add(notificationUUID.toString());
+            // Since we are not using logic class, referencing MarkNotificationAsReadAction.class and CreateNotificationAction.class
+            // endTime is to nearest milli not nanosecond
+            Instant endTime = getRandomInstant().truncatedTo(ChronoUnit.MILLIS);
+            Notification notification = new Notification(
+                    notificationUUID.toString(),
+                    getRandomInstant(),
+                    endTime,
+                    NotificationStyle.PRIMARY,
+                    NotificationTargetUser.INSTRUCTOR,
+                    notificationUUID.toString(),
+                    notificationUUID.toString(),
+                    false,
+                    getRandomInstant(),
+                    getRandomInstant());
+            try {
+                ofy().save().entities(notification).now();
+                notificationEndTimes.put(notificationUUID.toString(), notification.getEndTime());
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
 
         for (int i = 0; i < ENTITY_SIZE; i++) {
@@ -119,8 +142,9 @@ public class SeedDb extends DatastoreClient {
 
                 for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
                     int randIndex = rand.nextInt(NOTIFICATION_SIZE);
-                    UUID notificationUUID = UUID.fromString(notificationUUIDs.get(randIndex));
-                    readNotificationsToCreate.put(notificationUUID.toString(), getRandomInstant());
+                    String notificationUUID = notificationUUIDs.get(randIndex);
+                    assert(notificationEndTimes.get(notificationUUID) != null);
+                    readNotificationsToCreate.put(notificationUUID, notificationEndTimes.get(notificationUUID));
 
                 }
                 Account account = new Account(accountGoogleId, accountName,
@@ -133,26 +157,6 @@ public class SeedDb extends DatastoreClient {
             }
         }
 
-        int readNotifIndex = 0;
-        for (String readNotification : readNotificationsUUIDSeen) {
-            Notification notification = new Notification(
-                    readNotification,
-                    getRandomInstant(),
-                    getRandomInstant(),
-                    NotificationStyle.PRIMARY,
-                    NotificationTargetUser.INSTRUCTOR,
-                    String.valueOf(readNotifIndex),
-                    String.valueOf(readNotifIndex),
-                    false,
-                    getRandomInstant(),
-                    getRandomInstant());
-            try {
-                ofy().save().entities(notification).now();
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            readNotifIndex += 1;
-        }
         GenerateUsageStatisticsObjects.main(args);
 
     }
