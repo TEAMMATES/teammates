@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { VisibilityPanelComponent } from './visibility-panel.component';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
 import { CommonVisibilitySetting } from '../../../services/feedback-questions.service';
 import { FeedbackVisibilityType } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
+import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
 
 describe('VisibilityPanelComponent', () => {
   let component: VisibilityPanelComponent;
@@ -48,48 +48,108 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeAriaLabel: 'Recipient(s)', visibilityControlAriaLabel: 'Answer'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeAriaLabel: 'Recipient(s)', visibilityControlAriaLabel: 'Giver\'s Name'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeAriaLabel: 'Recipient(s)', visibilityControlAriaLabel: 'Recipient\'s Name'},
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeAriaLabel: 'Recipient(s)',
+      visibilityControlAriaLabel: 'Answer',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeAriaLabel: 'Recipient(s)',
+      visibilityControlAriaLabel: 'Giver\'s Name',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeAriaLabel: 'Recipient(s)',
+      visibilityControlAriaLabel: 'Recipient\'s Name',
+    },
 
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeAriaLabel: 'Giver\'s Team Members', visibilityControlAriaLabel: 'Answer'},
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeAriaLabel: 'Giver\'s Team Members', visibilityControlAriaLabel: 'Giver\'s Name'},
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeAriaLabel: 'Giver\'s Team Members', visibilityControlAriaLabel: 'Recipient\'s Name'},
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeAriaLabel: 'Giver\'s Team Members',
+      visibilityControlAriaLabel: 'Answer',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeAriaLabel: 'Giver\'s Team Members',
+      visibilityControlAriaLabel: 'Giver\'s Name',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeAriaLabel: 'Giver\'s Team Members',
+      visibilityControlAriaLabel: 'Recipient\'s Name',
+    },
 
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeAriaLabel: 'Recipient\'s Team Members', visibilityControlAriaLabel: 'Answer'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeAriaLabel: 'Recipient\'s Team Members', visibilityControlAriaLabel: 'Giver\'s Name'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeAriaLabel: 'Recipient\'s Team Members', visibilityControlAriaLabel: 'Recipient\'s Name'},
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeAriaLabel: 'Recipient\'s Team Members',
+      visibilityControlAriaLabel: 'Answer',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeAriaLabel: 'Recipient\'s Team Members',
+      visibilityControlAriaLabel: 'Giver\'s Name',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeAriaLabel: 'Recipient\'s Team Members',
+      visibilityControlAriaLabel: 'Recipient\'s Name',
+    },
 
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeAriaLabel: 'Other Students', visibilityControlAriaLabel: 'Answer'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeAriaLabel: 'Other Students', visibilityControlAriaLabel: 'Giver\'s Name'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeAriaLabel: 'Other Students', visibilityControlAriaLabel: 'Recipient\'s Name'},
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeAriaLabel: 'Other Students',
+      visibilityControlAriaLabel: 'Answer',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeAriaLabel: 'Other Students',
+      visibilityControlAriaLabel: 'Giver\'s Name',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeAriaLabel: 'Other Students',
+      visibilityControlAriaLabel: 'Recipient\'s Name',
+    },
 
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeAriaLabel: 'Instructors', visibilityControlAriaLabel: 'Answer'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeAriaLabel: 'Instructors', visibilityControlAriaLabel: 'Giver\'s Name'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeAriaLabel: 'Instructors', visibilityControlAriaLabel: 'Recipient\'s Name'},
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeAriaLabel: 'Instructors',
+      visibilityControlAriaLabel: 'Answer',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeAriaLabel: 'Instructors',
+      visibilityControlAriaLabel: 'Giver\'s Name',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeAriaLabel: 'Instructors',
+      visibilityControlAriaLabel: 'Recipient\'s Name',
+    },
   ])('getCheckboxAriaLabel: should return the string \'$visibilityTypeAriaLabel can see $visibilityControlAriaLabel\'',
-  ({visibilityType, visibilityControl, visibilityTypeAriaLabel, visibilityControlAriaLabel}) => {
+  ({ visibilityType, visibilityControl, visibilityTypeAriaLabel, visibilityControlAriaLabel }) => {
     expect(component.getCheckboxAriaLabel(visibilityType, visibilityControl))
     .toBe(`${visibilityTypeAriaLabel} can see ${visibilityControlAriaLabel}`);
   });
 
-  it('applyCommonVisibilitySettings: should trigger model change with isUsingOtherVisibilitySetting as false ' +
-  'and CommonVisibilitySetting', () => {
+  it('applyCommonVisibilitySettings: should trigger model change with isUsingOtherVisibilitySetting as false '
+  + 'and CommonVisibilitySetting', () => {
     const testSettings: CommonVisibilitySetting = {
       name: 'testSettings name',
 
@@ -144,11 +204,13 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityControl: VisibilityControl.SHOW_RESPONSE, visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityControl: VisibilityControl.SHOW_GIVER_NAME, visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME, visibilityControlString: 'SHOW_RECIPIENT_NAME'},
-  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when visibility is initialized to true ' +
-  'and isAllowed, visibilityType, visibilityControl are true, RECIPIENT, $visibilityControlString',({visibilityControl}) => {
+    { visibilityControl: VisibilityControl.SHOW_RESPONSE, visibilityControlString: 'SHOW_RESPONSE' },
+    { visibilityControl: VisibilityControl.SHOW_GIVER_NAME, visibilityControlString: 'SHOW_GIVER_NAME' },
+    { visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME, visibilityControlString: 'SHOW_RECIPIENT_NAME' },
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when '
+  + 'visibility is initialized to true and isAllowed, visibilityType, visibilityControl are '
+  + 'true, RECIPIENT, $visibilityControlString',
+  ({ visibilityControl }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RESPONSE);
@@ -170,35 +232,85 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
 
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
 
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'STUDENTS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'STUDENTS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'STUDENTS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
 
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
-  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when visibility is initialized to true ' +
-  'and isAllowed, visibilityType, visibilityControl are true, $visibilityTypeString, $visibilityControlString',({visibilityType, visibilityControl}) => {
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'INSTRUCTORS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'INSTRUCTORS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'INSTRUCTORS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when '
+  + 'visibility is initialized to true and isAllowed, visibilityType, visibilityControl are '
+  + 'true, $visibilityTypeString, $visibilityControlString',
+  ({ visibilityType, visibilityControl }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
@@ -219,8 +331,8 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are true, RECIPIENT, SHOW_RESPONSE', () => {
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are true, RECIPIENT, SHOW_RESPONSE', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RESPONSE);
@@ -233,13 +345,13 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS'},
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are true, $visibilityTypeString, SHOW_RESPONSE',
-  ({visibilityType}) => {
+    { visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
+    { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are true, $visibilityTypeString, SHOW_RESPONSE',
+  ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RESPONSE);
@@ -252,14 +364,14 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityTypeString: 'RECIPIENT'},
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS'},
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are true, $visibilityTypeString, SHOW_GIVER_NAME',
-  ({visibilityType}) => {
+    { visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityTypeString: 'RECIPIENT' },
+    { visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
+    { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are true, $visibilityTypeString, SHOW_GIVER_NAME',
+  ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
@@ -272,8 +384,8 @@ describe('VisibilityPanelComponent', () => {
   });
 
   // recipients' show recipient name cannot be edited
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are true, RECIPIENT, SHOW_RECIPIENT_NAME', () => {
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are true, RECIPIENT, SHOW_RECIPIENT_NAME', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RECIPIENT_NAME);
@@ -286,13 +398,13 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS'},
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are true, $visibilityTypeString, SHOW_RECIPIENT_NAME',
-  ({visibilityType}) => {
+    { visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
+    { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are true, $visibilityTypeString, SHOW_RECIPIENT_NAME',
+  ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_RECIPIENT_NAME);
@@ -305,42 +417,104 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'RECIPIENT', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'RECIPIENT',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'RECIPIENT',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'RECIPIENT',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
 
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'GIVER_TEAM_MEMBERS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'GIVER_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
 
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
 
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'STUDENTS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'STUDENTS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'STUDENTS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.STUDENTS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'STUDENTS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
 
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RESPONSE,
-      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_RESPONSE'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
-      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_GIVER_NAME'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
-      visibilityTypeString: 'INSTRUCTORS', visibilityControlString: 'SHOW_RECIPIENT_NAME'},
-  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when visibility is initialized to false ' +
-  'and isAllowed, visibilityType, visibilityControl are false, $visibilityTypeString, $visibilityControlString',({visibilityType, visibilityControl}) => {
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_RESPONSE,
+      visibilityTypeString: 'INSTRUCTORS',
+      visibilityControlString: 'SHOW_RESPONSE',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_GIVER_NAME,
+      visibilityTypeString: 'INSTRUCTORS',
+      visibilityControlString: 'SHOW_GIVER_NAME',
+    },
+    {
+      visibilityType: FeedbackVisibilityType.INSTRUCTORS,
+      visibilityControl: VisibilityControl.SHOW_RECIPIENT_NAME,
+      visibilityTypeString: 'INSTRUCTORS',
+      visibilityControlString: 'SHOW_RECIPIENT_NAME',
+    },
+  ])('modifyVisibilityControl: should trigger model change with unchanged arrays when '
+  + 'visibility is initialized to false and isAllowed, visibilityType, visibilityControl are '
+  + 'false, $visibilityTypeString, $visibilityControlString',
+  ({ visibilityType, visibilityControl }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(false, visibilityType, visibilityControl);
@@ -352,8 +526,8 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are false, RECIPIENT, SHOW_RESPONSE', () => {
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are false, RECIPIENT, SHOW_RESPONSE', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RESPONSE);
@@ -375,13 +549,13 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS'},
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are false, $visibilityTypeString, SHOW_RESPONSE',
-  ({visibilityType}) => {
+    { visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
+    { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are false, $visibilityTypeString, SHOW_RESPONSE',
+  ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
@@ -402,8 +576,8 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are false, RECIPIENT, SHOW_GIVER_NAME', () => {
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are false, RECIPIENT, SHOW_GIVER_NAME', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RESPONSE);
@@ -425,13 +599,13 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS'},
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are false, $visibilityTypeString, SHOW_GIVER_NAME',
-  ({visibilityType}) => {
+    { visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
+    { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are false, $visibilityTypeString, SHOW_GIVER_NAME',
+  ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
@@ -452,8 +626,8 @@ describe('VisibilityPanelComponent', () => {
     });
   });
 
-  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are false, RECIPIENT, SHOW_RECIPIENT_NAME', () => {
+  it('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are false, RECIPIENT, SHOW_RECIPIENT_NAME', () => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, FeedbackVisibilityType.RECIPIENT, VisibilityControl.SHOW_RESPONSE);
@@ -475,13 +649,13 @@ describe('VisibilityPanelComponent', () => {
   });
 
   it.each([
-    {visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS'},
-    {visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS'},
-    {visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS'},
-  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl ' +
-  'are false, $visibilityTypeString, SHOW_RECIPIENT_NAME',
-  ({visibilityType}) => {
+    { visibilityType: FeedbackVisibilityType.GIVER_TEAM_MEMBERS, visibilityTypeString: 'GIVER_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, visibilityTypeString: 'RECIPIENT_TEAM_MEMBERS' },
+    { visibilityType: FeedbackVisibilityType.STUDENTS, visibilityTypeString: 'STUDENTS' },
+    { visibilityType: FeedbackVisibilityType.INSTRUCTORS, visibilityTypeString: 'INSTRUCTORS' },
+  ])('modifyVisibilityControl: should trigger model change correctly when isAllowed, visibilityType, visibilityControl '
+  + 'are false, $visibilityTypeString, SHOW_RECIPIENT_NAME',
+  ({ visibilityType }) => {
     const triggerModelChangeBatchSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
 
     component.modifyVisibilityControl(true, visibilityType, VisibilityControl.SHOW_GIVER_NAME);
