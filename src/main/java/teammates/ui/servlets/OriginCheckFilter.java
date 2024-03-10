@@ -3,14 +3,13 @@ package teammates.ui.servlets;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
@@ -48,11 +47,6 @@ public class OriginCheckFilter implements Filter {
             Const.HeaderNames.WEB_VERSION,
             "ngsw-bypass"
     ));
-
-    @Override
-    public void init(FilterConfig filterConfig) {
-        // nothing to do
-    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -179,11 +173,6 @@ public class OriginCheckFilter implements Filter {
         result.send(response);
 
         log.request(request, statusCode, message);
-    }
-
-    @Override
-    public void destroy() {
-        // nothing to do
     }
 
 }

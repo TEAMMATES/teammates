@@ -167,7 +167,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
     /**
      * A builder for {@link AccountRequestAttributes}.
      */
-    public static class Builder extends BasicBuilder<AccountRequestAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<AccountRequestAttributes, Builder> {
         private final AccountRequestAttributes accountRequestAttributes;
 
         private Builder(String email, String institute, String name) {
@@ -188,7 +188,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
     /**
      * Helper class to specify the fields to update in {@link AccountRequestAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String email;
         private String institute;
 
@@ -222,7 +222,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
             private Builder(String email, String institute) {
                 super(new UpdateOptions(email, institute));
                 thisBuilder = this;

@@ -178,7 +178,7 @@ liquibase {
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     jsonLibrary = "jackson2"
     optionalAnnotations = [
-        "javax.annotation.Nullable"
+        "jakarta.annotation.Nullable"
     ]
     outputFileType = "implementationFile"
     outputKind = "module"

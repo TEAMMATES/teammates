@@ -3,14 +3,13 @@ package teammates.ui.servlets;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
@@ -26,11 +25,6 @@ import teammates.ui.webapi.JsonResult;
 public class RequestTraceFilter implements Filter {
 
     private static final Logger log = Logger.getLogger();
-
-    @Override
-    public void init(FilterConfig filterConfig) {
-        // nothing to do
-    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -91,11 +85,6 @@ public class RequestTraceFilter implements Filter {
         }
 
         chain.doFilter(req, resp);
-    }
-
-    @Override
-    public void destroy() {
-        // nothing to do
     }
 
     private void throwError(HttpServletRequest req, HttpServletResponse resp, int statusCode, String message)

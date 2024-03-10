@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.Student;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+
+import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Handles CRUD operations for feedback session logs.
