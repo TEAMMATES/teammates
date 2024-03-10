@@ -634,6 +634,8 @@ task e2eTests {
         afterTest afterTestClosure
         if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
+        } else {
+            mustRunAfter "e2eTestTry${id - 1}"
         }
         onlyIf {
             isFirstTry || file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml").exists()
@@ -671,6 +673,8 @@ task e2eTestsSql {
         afterTest afterTestClosure
         if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
+        } else {
+            mustRunAfter "e2eSqlTestTry${id - 1}"
         }
         onlyIf {
             isFirstTry || file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml").exists()
@@ -703,6 +707,8 @@ task axeTests {
         afterTest afterTestClosure
         if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
+        } else {
+            mustRunAfter "axeTestTry${id - 1}"
         }
         onlyIf {
             isFirstTry || file("${buildDir}/reports/axe-test-try-${id - 1}/testng-failed.xml").exists()
