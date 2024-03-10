@@ -28,24 +28,23 @@ public class VerifyAccountRequestAttributes
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.AccountRequest sqlEntity, AccountRequest datastoreEntity) {
-        if (datastoreEntity != null && datastoreEntity instanceof teammates.storage.entity.AccountRequest) {
-            teammates.storage.entity.AccountRequest accReq = (teammates.storage.entity.AccountRequest) datastoreEntity;
+        if (datastoreEntity != null) {
             // UUID for account is not checked, as datastore ID is email%institute
-            if (!sqlEntity.getName().equals(accReq.getName())) {
+            if (!sqlEntity.getName().equals(datastoreEntity.getName())) {
                 return false;
             }
-            if (!sqlEntity.getEmail().equals(accReq.getEmail())) {
+            if (!sqlEntity.getEmail().equals(datastoreEntity.getEmail())) {
                 return false;
             }
-            if (!sqlEntity.getInstitute().equals(accReq.getInstitute())) {
+            if (!sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())) {
                 return false;
             }
             // only need to check getRegisteredAt() as the other fields must not be null.
             if (sqlEntity.getRegisteredAt() == null) {
-                if (accReq.getRegisteredAt() != null) {
+                if (datastoreEntity.getRegisteredAt() != null) {
                     return false;
                 }
-            } else if (!sqlEntity.getRegisteredAt().equals(accReq.getRegisteredAt())) {
+            } else if (!sqlEntity.getRegisteredAt().equals(datastoreEntity.getRegisteredAt())) {
                 return false;
             }
             return true;

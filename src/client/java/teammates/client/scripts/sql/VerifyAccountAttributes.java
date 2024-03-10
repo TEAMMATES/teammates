@@ -35,19 +35,15 @@ public class VerifyAccountAttributes
      * Verify account fields.
      */
     public boolean verifyAccountFields(teammates.storage.sqlentity.Account sqlEntity, Account datastoreEntity) {
-        if (datastoreEntity instanceof teammates.storage.entity.Account) {
-            teammates.storage.entity.Account acc = (teammates.storage.entity.Account) datastoreEntity;
-            try {
-                // UUID for account is not checked, as datastore ID is google ID
-                return sqlEntity.getName().equals(acc.getName())
-                        && sqlEntity.getGoogleId().equals(acc.getGoogleId())
-                        && sqlEntity.getEmail().equals(acc.getEmail());
-            } catch (IllegalArgumentException iae) {
-                return false;
-            }
-        } else {
+        try {
+            // UUID for account is not checked, as datastore ID is google ID
+            return sqlEntity.getName().equals(datastoreEntity.getName())
+                    && sqlEntity.getGoogleId().equals(datastoreEntity.getGoogleId())
+                    && sqlEntity.getEmail().equals(datastoreEntity.getEmail());
+        } catch (IllegalArgumentException iae) {
             return false;
         }
+
     }
 
     // Used for sql data migration

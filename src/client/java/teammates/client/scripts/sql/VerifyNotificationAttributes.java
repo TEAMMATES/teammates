@@ -11,8 +11,6 @@ import teammates.storage.entity.Notification;
 public class VerifyNotificationAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Notification, teammates.storage.sqlentity.Notification> {
 
-    static String dataStoreIdFieldName = "notificationId";
-
     public VerifyNotificationAttributes() {
         super(Notification.class,
                 teammates.storage.sqlentity.Notification.class);

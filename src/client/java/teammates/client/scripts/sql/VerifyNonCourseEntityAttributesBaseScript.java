@@ -19,7 +19,6 @@ import teammates.common.util.HibernateUtil;
 
 /**
  * Protected methods may be overriden.
- * 
  * @param <E> Datastore entity
  * @param <T> SQL entity
  */
@@ -173,7 +172,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
     /**
      * Log a line.
-     * 
      * @param logLine the line to log
      */
     protected void log(String logLine) {
