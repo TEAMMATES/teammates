@@ -147,7 +147,7 @@ public class PatchDataMigrationForAccountAndReadNotificationSql extends Datastor
 
             // Error if the notification does not exist in the new database
             if (newNotification == null) {
-                logError("Notification not found: " + notificationId);
+                log("Notification not found: " + notificationId);
                 continue;
             }
 

@@ -149,7 +149,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
 
             // Error if the notification does not exist in the new database
             if (newNotification == null) {
-                logError("Notification not found: " + notificationId);
+                log("Notification not found: " + notificationId);
                 continue;
             }
 
@@ -169,6 +169,12 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         } else {
             log("Start from cursor position: " + cursor.toUrlSafe());
         }
+
+        // Set isMigrated to be false for the first migration
+        ofy().load().type(teammates.storage.entity.Account.class).forEach(account -> {
+            account.setMigrated(false);
+            ofy().save().entity(account).now();
+        });
 
         // Clean account and read notification in SQL before migration
         cleanAccountAndReadNotificationInSql();
