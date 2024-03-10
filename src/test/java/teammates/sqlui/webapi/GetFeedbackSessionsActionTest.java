@@ -58,7 +58,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 instructor1.getAccount().getGoogleId(), course1.getId())).thenReturn(instructor1);
     }
 
-    @Test
+    @Test(enabled = false) // enable once we are migrating course data to sql
     protected void textExecute() {
         loginAsStudent(student1.getAccount().getGoogleId());
 
