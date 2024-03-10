@@ -20,8 +20,6 @@ import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
-import jakarta.persistence.criteria.CriteriaDelete;
-
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
@@ -35,7 +33,7 @@ import teammates.test.FileHelper;
  * Data migration class for account and read notifications.
  */
 @SuppressWarnings("PMD")
-public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClient {
+public class PatchDataMigrationForAccountAndReadNotificationSql extends DatastoreClient {
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
@@ -61,7 +59,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
 
     private List<ReadNotification> entitiesReadNotificationSavingBuffer;
 
-    private DataMigrationForAccountAndReadNotificationSql() {
+    private PatchDataMigrationForAccountAndReadNotificationSql() {
         numberOfScannedKey = new AtomicLong();
         numberOfAffectedEntities = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
@@ -78,7 +76,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     public static void main(String[] args) {
-        new DataMigrationForAccountAndReadNotificationSql().doOperationRemotely();
+        new PatchDataMigrationForAccountAndReadNotificationSql().doOperationRemotely();
     }
 
     /**
@@ -96,7 +94,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
      * Returns whether the account has been migrated.
      */
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
-        return true;
+        return !entity.isMigrated();
     }
 
     /**
@@ -170,8 +168,6 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             log("Start from cursor position: " + cursor.toUrlSafe());
         }
 
-        // Clean account and read notification in SQL before migration
-        cleanAccountAndReadNotificationInSql();
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
@@ -207,23 +203,6 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         log("Total number of entities: " + numberOfScannedKey.get());
         log("Number of affected entities: " + numberOfAffectedEntities.get());
         log("Number of updated entities: " + numberOfUpdatedEntities.get());
-    }
-
-    private void cleanAccountAndReadNotificationInSql() {
-        HibernateUtil.beginTransaction();
-
-        CriteriaDelete<ReadNotification> cdReadNotification = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(ReadNotification.class);
-        cdReadNotification.from(ReadNotification.class);
-        HibernateUtil.executeDelete(cdReadNotification);
-
-        CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(
-                        teammates.storage.sqlentity.Account.class);
-        cdAccount.from(teammates.storage.sqlentity.Account.class);
-        HibernateUtil.executeDelete(cdAccount);
-
-        HibernateUtil.commitTransaction();
     }
 
     /**
