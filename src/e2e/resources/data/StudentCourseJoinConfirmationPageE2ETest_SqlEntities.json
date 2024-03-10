@@ -1,0 +1,16 @@
+{
+    "accounts": {
+      "SCJoinConf.instr": {
+        "googleId": "tm.e2e.SCJoinConf.instr",
+        "name": "Teammates Test",
+        "email": "SCJoinConf.instr@gmail.tmt",
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "alice.tmms": {
+        "googleId": "tm.e2e.SCJoinConf.alice",
+        "name": "Alice B",
+        "email": "SCJoinConf.alice@gmail.tmt",
+        "id": "00000000-0000-4000-8000-000000000002"
+      }
+    }
+}

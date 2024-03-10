@@ -9,9 +9,11 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.SqlSessionResultsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -297,14 +299,14 @@ public class Logic {
      * Updates a student by {@link Student}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses
-     * the student gives/receives as well as any deadline extensions given to the student.
+     * and comments the student gives/receives.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
      * <p>If section changed, cascade update all responses the student gives/receives.
      *
      * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
+     * * Student parameter is non-null.
      *
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
@@ -1227,6 +1229,39 @@ public class Logic {
         assert feedbackSession != null;
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructorEmail);
+    }
+
+    /**
+     * Gets the session result for a feedback session.
+     *
+     * @see FeedbackResponsesLogic#getSessionResultsForCourse(
+     * FeedbackSession, String, String, String, Section, FeedbackResultFetchType)
+     */
+    public SqlSessionResultsBundle getSessionResultsForCourse(
+            FeedbackSession feedbackSession, String courseId, String userEmail,
+            @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
+        assert feedbackSession != null;
+        assert courseId != null;
+        assert userEmail != null;
+
+        return feedbackResponsesLogic.getSessionResultsForCourse(
+                feedbackSession, courseId, userEmail, questionId, sectionName, fetchType);
+    }
+
+    /**
+     * Gets the session result for a feedback session for the given user.
+     *
+     * @see FeedbackResponsesLogic#getSessionResultsForUser(FeedbackSession, String, String, boolean, String)
+     */
+    public SqlSessionResultsBundle getSessionResultsForUser(
+            FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
+            @Nullable UUID questionId, boolean isPreviewResults) {
+        assert feedbackSession != null;
+        assert courseId != null;
+        assert userEmail != null;
+
+        return feedbackResponsesLogic.getSessionResultsForUser(
+                feedbackSession, courseId, userEmail, isInstructor, questionId, isPreviewResults);
     }
 
     /**
