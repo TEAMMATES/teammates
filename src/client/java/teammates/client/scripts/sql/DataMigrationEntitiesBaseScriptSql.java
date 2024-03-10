@@ -54,6 +54,10 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
     // https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
     private static final int BATCH_SIZE = 100;
 
+    protected String getLogPrefix() {
+        return String.format("%s Migrating:", this.getClass().getSimpleName());
+    }
+
     // Creates the folder that will contain the stored log.
     static {
         new File(BASE_LOG_URI).mkdir();
@@ -289,10 +293,6 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
      */
     private void deleteCursorPositionFile() {
         FileHelper.deleteFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
-    }
-
-    protected String getLogPrefix() {
-        return String.format("%s Migrating:", this.getClass().getSimpleName());
     }
 
     /**

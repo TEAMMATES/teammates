@@ -1,7 +1,6 @@
 package teammates.client.scripts.sql;
 
 import teammates.common.util.HibernateUtil;
-import teammates.sqllogic.api.Logic;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

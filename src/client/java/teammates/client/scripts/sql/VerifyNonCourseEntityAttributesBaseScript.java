@@ -1,11 +1,9 @@
 package teammates.client.scripts.sql;
 
 import java.util.AbstractMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -24,6 +22,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
     protected Class<E> datastoreEntityClass;
     protected Class<T> sqlEntityClass;
+
+    private String getLogPrefix() {
+        return String.format("%s verifying fields:", sqlEntityClass.getName());
+    }
 
     public VerifyNonCourseEntityAttributesBaseScript(
             Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
@@ -55,10 +57,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
     private int calculateOffset(int pageNum) {
         return (pageNum - 1) * SQL_FETCH_BATCH_SIZE;
-    }
-
-    private String getLogPrefix() {
-        return String.format("%s verifying fields:", sqlEntityClass.getName());
     }
 
     /**
@@ -160,7 +158,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
     protected void log(String logLine) {
         System.out.println(String.format("%s %s", getLogPrefix(), logLine));
     }
-
 
     protected void doOperation() {
         runCheckAllEntities(this.sqlEntityClass, this.datastoreEntityClass);

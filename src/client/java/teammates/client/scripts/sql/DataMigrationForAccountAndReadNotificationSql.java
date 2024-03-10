@@ -58,6 +58,10 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         new DataMigrationForAccountAndReadNotificationSql().doOperationRemotely();
     }
 
+    protected String getLogPrefix() {
+        return String.format("Account and Read Notifications Migrating:");        
+    }
+
     private DataMigrationForAccountAndReadNotificationSql() {
         numberOfScannedKey = new AtomicLong();
         numberOfAffectedEntities = new AtomicLong();
@@ -261,10 +265,6 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
      */
     private void deleteCursorPositionFile() {
         FileHelper.deleteFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
-    }
-
-    protected String getLogPrefix() {
-        return String.format("Account and Read Notifications Migrating:");        
     }
 
     protected void log(String logLine) {
