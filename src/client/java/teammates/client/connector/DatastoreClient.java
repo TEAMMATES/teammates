@@ -40,7 +40,6 @@ public abstract class DatastoreClient {
         if (ClientProperties.isTargetUrlDevServer()) {
             builder.setHost(ClientProperties.TARGET_URL);
         }
-
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
 
