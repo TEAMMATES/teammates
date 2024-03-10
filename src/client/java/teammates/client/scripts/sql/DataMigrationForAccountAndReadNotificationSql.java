@@ -96,14 +96,14 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
      * Returns whether the account has been migrated.
      */
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
-        return !entity.isMigrated();
+        return true;
     }
 
     /**
      * Returns the filter query.
      */
     protected Query<teammates.storage.entity.Account> getFilterQuery() {
-        return ofy().load().type(teammates.storage.entity.Account.class);
+        return ofy().load().type(teammates.storage.entity.Account.class).filter("isMigrated =", false);
     }
 
     private void doMigration(teammates.storage.entity.Account entity) {
@@ -147,9 +147,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             Notification newNotification = HibernateUtil.get(Notification.class, notificationId);
             HibernateUtil.commitTransaction();
 
-            // Error if the notification does not exist in the new database
+            // If the notification does not exist in the new database
             if (newNotification == null) {
-                logError("Notification not found: " + notificationId);
                 continue;
             }
 
@@ -169,6 +168,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         } else {
             log("Start from cursor position: " + cursor.toUrlSafe());
         }
+
+        // // Clean account and read notification in SQL before migration
         // cleanAccountAndReadNotificationInSql();
         boolean shouldContinue = true;
         while (shouldContinue) {
@@ -207,24 +208,21 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         log("Number of updated entities: " + numberOfUpdatedEntities.get());
     }
 
-    // This method was used to clean the account and read notification in the SQL
     // private void cleanAccountAndReadNotificationInSql() {
-    // HibernateUtil.beginTransaction();
+    //     HibernateUtil.beginTransaction();
 
-    // CriteriaDelete<ReadNotification> cdReadNotification =
-    // HibernateUtil.getCriteriaBuilder()
-    // .createCriteriaDelete(ReadNotification.class);
-    // cdReadNotification.from(ReadNotification.class);
-    // HibernateUtil.executeDelete(cdReadNotification);
+    //     CriteriaDelete<ReadNotification> cdReadNotification = HibernateUtil.getCriteriaBuilder()
+    //             .createCriteriaDelete(ReadNotification.class);
+    //     cdReadNotification.from(ReadNotification.class);
+    //     HibernateUtil.executeDelete(cdReadNotification);
 
-    // CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount =
-    // HibernateUtil.getCriteriaBuilder()
-    // .createCriteriaDelete(
-    // teammates.storage.sqlentity.Account.class);
-    // cdAccount.from(teammates.storage.sqlentity.Account.class);
-    // HibernateUtil.executeDelete(cdAccount);
+    //     CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount = HibernateUtil.getCriteriaBuilder()
+    //             .createCriteriaDelete(
+    //                     teammates.storage.sqlentity.Account.class);
+    //     cdAccount.from(teammates.storage.sqlentity.Account.class);
+    //     HibernateUtil.executeDelete(cdAccount);
 
-    // HibernateUtil.commitTransaction();
+    //     HibernateUtil.commitTransaction();
     // }
 
     /**
