@@ -8,7 +8,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Notification;
 
 /**
- * Data migration class for notification entity
+ * Data migration class for notification entity.
  */
 public class DataMigrationForNotificationSql extends
         DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Notification, teammates.storage.sqlentity.Notification> {

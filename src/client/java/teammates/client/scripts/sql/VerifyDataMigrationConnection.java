@@ -11,7 +11,7 @@ import teammates.storage.entity.UsageStatistics;
 import teammates.storage.sqlentity.Notification;
 
 /**
- * Verification of the data migration connection
+ * Verification of the data migration connection.
  */
 public class VerifyDataMigrationConnection extends DatastoreClient {
 
@@ -28,7 +28,7 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
     }
 
     /**
-     * Verifies the SQL connection
+     * Verifies the SQL connection.
      */
     protected void verifySqlConnection() {
         // Assert count of dummy request is 0
@@ -61,7 +61,7 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
     }
 
     /**
-     * Verifies the number of notifications
+     * Verifies the number of notifications.
      */
     protected void verifyCountsInDatastore() {
         System.out.println(

@@ -33,7 +33,7 @@ import teammates.storage.entity.Notification;
 import teammates.test.FileHelper;
 
 /**
- * SeedDB class
+ * SeedDB class.
  */
 public class SeedDb extends DatastoreClient {
     private final LogicExtension logic = new LogicExtension();
@@ -41,14 +41,14 @@ public class SeedDb extends DatastoreClient {
     private Closeable closeable;
 
     /**
-     * Sets up the dependencies needed for the DB layer
+     * Sets up the dependencies needed for the DB layer.
      */
     public void setupDbLayer() throws Exception {
         LogicStarter.initializeDependencies();
     }
 
     /**
-     * Sets up objectify service
+     * Sets up objectify service.
      */
     public void setupObjectify() {
         DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
@@ -59,7 +59,7 @@ public class SeedDb extends DatastoreClient {
     }
 
     /**
-     * Closes objectify service
+     * Closes objectify service.
      */
     public void tearDownObjectify() {
         closeable.close();
@@ -70,7 +70,7 @@ public class SeedDb extends DatastoreClient {
     }
 
     /**
-     * Loads the data bundle from JSON file
+     * Loads the data bundle from JSON file.
      */
     protected DataBundle loadDataBundle(String jsonFileName) {
         try {
@@ -83,21 +83,21 @@ public class SeedDb extends DatastoreClient {
     }
 
     /**
-     * Gets the typical data bundle
+     * Gets the typical data bundle.
      */
     protected DataBundle getTypicalDataBundle() {
         return loadDataBundle("typicalDataBundle.json");
     }
 
     /**
-     * Gets a random instant
+     * Gets a random instant.
      */
     protected Instant getRandomInstant() {
         return Instant.now();
     }
 
     /**
-     * Persists additional data
+     * Persists additional data.
      */
     protected void persistAdditionalData() {
         int constEntitySize = 10000;
@@ -110,7 +110,7 @@ public class SeedDb extends DatastoreClient {
 
         Set<String> notificationsUuidSeen = new HashSet<String>();
         ArrayList<String> notificationUuids = new ArrayList<>();
-        HashMap<String, Instant> notificationEndTimes = new HashMap<>();
+        Map<String, Instant> notificationEndTimes = new HashMap<>();
 
         Random rand = new Random();
 
@@ -189,7 +189,7 @@ public class SeedDb extends DatastoreClient {
     }
 
     /**
-     * Persists the data to database
+     * Persists the data to database.
      */
     protected void persistData() {
         // Persisting basic data bundle

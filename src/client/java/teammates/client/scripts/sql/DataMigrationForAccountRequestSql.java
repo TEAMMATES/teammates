@@ -4,6 +4,9 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.sqlentity.AccountRequest;
 
+/*
+ * Data migration class for account request entity.
+ */
 public class DataMigrationForAccountRequestSql
         extends DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.AccountRequest, AccountRequest> {
 

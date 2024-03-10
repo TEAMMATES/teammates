@@ -17,7 +17,7 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 
 /**
- * Verify the counts of non-course entities are correct
+ * Verify the counts of non-course entities are correct.
  */
 public class VerifyNonCourseEntityCounts extends DatastoreClient {
     private VerifyNonCourseEntityCounts() {
@@ -73,9 +73,7 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
 
     @Override
     protected void doOperation() {
-        HashMap<
-                Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entities =
-                    new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
+        Map<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entities = new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
 
         entities.put(teammates.storage.entity.Account.class, teammates.storage.sqlentity.Account.class);
         entities.put(teammates.storage.entity.AccountRequest.class, teammates.storage.sqlentity.AccountRequest.class);
@@ -83,8 +81,8 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
         entities.put(teammates.storage.entity.Notification.class, teammates.storage.sqlentity.Notification.class);
 
         // Compare datastore "table" to postgres table for each entity
-        for (Map.Entry<Class<? extends BaseEntity>, 
-                Class<? extends teammates.storage.sqlentity.BaseEntity>> entry : entities.entrySet()) {
+        for (Map.Entry<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entry : entities
+                .entrySet()) {
             Class<? extends BaseEntity> objectifyClass = entry.getKey();
             Class<? extends teammates.storage.sqlentity.BaseEntity> sqlClass = entry.getValue();
 
@@ -94,7 +92,8 @@ public class VerifyNonCourseEntityCounts extends DatastoreClient {
             printEntityVerification(objectifyClass.getSimpleName(), objectifyEntityCount, postgresEntityCount);
         }
 
-        // Read notification did not have its own entity in datastore, therefore has to be counted differently
+        // Read notification did not have its own entity in datastore, therefore has to
+        // be counted differently
         verifyReadNotification();
     }
 }

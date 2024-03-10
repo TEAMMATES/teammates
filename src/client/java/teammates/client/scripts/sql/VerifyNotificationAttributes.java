@@ -5,7 +5,7 @@ import java.util.UUID;
 import teammates.storage.entity.Notification;
 
 /**
- * Class for verifying notification attributes
+ * Class for verifying notification attributes.
  */
 public class VerifyNotificationAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Notification, teammates.storage.sqlentity.Notification> {

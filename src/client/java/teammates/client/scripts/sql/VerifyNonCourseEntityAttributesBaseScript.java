@@ -1,8 +1,8 @@
 package teammates.client.scripts.sql;
 
 import java.util.AbstractMap;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.TypedQuery;
@@ -10,22 +10,26 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
+
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
 
 /**
- * Protected methods may be overriden
+ * Protected methods may be overriden.
+ * @param <E> Datastore entity
+ * @param <T> SQL entity
  */
-public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity>
+public abstract class VerifyNonCourseEntityAttributesBaseScript<
+            E extends teammates.storage.entity.BaseEntity,
+            T extends teammates.storage.sqlentity.BaseEntity>
         extends DatastoreClient {
 
+    /** Datastore entity class */
     protected Class<E> datastoreEntityClass;
-    protected Class<T> sqlEntityClass;
 
-    private String getLogPrefix() {
-        return String.format("%s verifying fields:", sqlEntityClass.getName());
-    }
+    /** SQL entity class */
+    protected Class<T> sqlEntityClass;
 
     public VerifyNonCourseEntityAttributesBaseScript(
             Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
@@ -39,13 +43,17 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         HibernateUtil.buildSessionFactory(connectionUrl, username, password);
     }
 
+    private String getLogPrefix() {
+        return String.format("%s verifying fields:", sqlEntityClass.getName());
+    }
+
     /**
      * Generate the Datstore id of entity to compare with on Datastore side.
      */
     protected abstract String generateID(T sqlEntity);
 
     /**
-     * Compares the sqlEntity with the datastoreEntity
+     * Compares the sqlEntity with the datastoreEntity.
      */
     protected abstract boolean equals(T sqlEntity, E datastoreEntity);
 
@@ -107,11 +115,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
             log("No entities available for verification");
             return failures;
         }
-        
+
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
             log(String.format("Verification Progress %d %%",
-                    (100 * (int) ((float) currPageNum / (float) numPages))
-                ));
+                    (100 * (int) ((float) currPageNum / (float) numPages))));
 
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
@@ -155,10 +162,17 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         HibernateUtil.commitTransaction();
     }
 
+    /**
+     * Log a line.
+     * @param logLine the line to log
+     */
     protected void log(String logLine) {
         System.out.println(String.format("%s %s", getLogPrefix(), logLine));
     }
 
+    /**
+     * Run the operation.
+     */
     protected void doOperation() {
         runCheckAllEntities(this.sqlEntityClass, this.datastoreEntityClass);
     }

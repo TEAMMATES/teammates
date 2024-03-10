@@ -26,11 +26,11 @@ import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
-import teammates.test.FileHelper;
 import teammates.storage.sqlentity.ReadNotification;
+import teammates.test.FileHelper;
 
 /**
- * Data migration class for account and read notifications
+ * Data migration class for account and read notifications.
  */
 public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClient {
     // the folder where the cursor position and console output is saved as a file
@@ -76,7 +76,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     /**
-     * Returns the log prefix
+     * Returns the log prefix.
      */
     protected String getLogPrefix() {
         return String.format("Account and Read Notifications Migrating:");
@@ -87,14 +87,14 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     /**
-     * Returns whether migration is needed for the entity
+     * Returns whether migration is needed for the entity.
      */
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
         return true;
     }
 
     /**
-     * Returns the filter query
+     * Returns the filter query.
      */
     protected Query<teammates.storage.entity.Account> getFilterQuery() {
         return ofy().load().type(teammates.storage.entity.Account.class);
@@ -117,7 +117,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     /**
-     * Migrates the entity
+     * Migrates the entity.
      */
     protected void migrateEntity(teammates.storage.entity.Account oldAccount) {
         teammates.storage.sqlentity.Account newAccount = new teammates.storage.sqlentity.Account(
@@ -282,7 +282,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     /**
-     * Logs a comment
+     * Logs a comment.
      */
     protected void log(String logLine) {
         System.out.println(String.format("%s %s", getLogPrefix(), logLine));

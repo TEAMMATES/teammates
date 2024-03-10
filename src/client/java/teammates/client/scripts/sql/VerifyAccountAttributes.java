@@ -10,7 +10,7 @@ import teammates.storage.entity.Account;
 import teammates.storage.sqlentity.ReadNotification;
 
 /**
- * Class for verifying account attributes
+ * Class for verifying account attributes.
  */
 public class VerifyAccountAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Account, teammates.storage.sqlentity.Account> {
@@ -31,7 +31,7 @@ public class VerifyAccountAttributes
     }
 
     /**
-     * Verify account fields
+     * Verify account fields.
      */
     public boolean verifyAccountFields(teammates.storage.sqlentity.Account sqlEntity, Account datastoreEntity) {
         if (datastoreEntity instanceof teammates.storage.entity.Account) {

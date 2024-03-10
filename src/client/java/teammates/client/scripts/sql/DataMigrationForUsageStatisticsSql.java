@@ -7,7 +7,7 @@ import com.googlecode.objectify.cmd.Query;
 import teammates.storage.sqlentity.UsageStatistics;
 
 /**
- * Data migration class for usage statistics
+ * Data migration class for usage statistics.
  */
 public class DataMigrationForUsageStatisticsSql extends
         DataMigrationEntitiesBaseScriptSql<
