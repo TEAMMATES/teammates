@@ -20,7 +20,7 @@ import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
-import jakarta.persistence.criteria.CriteriaDelete;
+// import jakarta.persistence.criteria.CriteriaDelete;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
@@ -93,10 +93,10 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     /**
-     * Returns whether migration is needed for the entity.
+     * Returns whether the account has been migrated.
      */
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
-        return true;
+        return !entity.isMigrated();
     }
 
     /**
@@ -131,9 +131,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
                 oldAccount.getName(),
                 oldAccount.getEmail());
 
-        oldAccount.setMigrated(true);
-
         entitiesAccountSavingBuffer.add(newAccount);
+
         oldAccount.setMigrated(true);
         entitiesOldAccountSavingBuffer.add(oldAccount);
         migrateReadNotification(oldAccount, newAccount);
@@ -170,8 +169,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         } else {
             log("Start from cursor position: " + cursor.toUrlSafe());
         }
-        // Drop the account and read notification
-        cleanAccountAndReadNotificationInSql();
+        // cleanAccountAndReadNotificationInSql();
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
@@ -209,22 +207,25 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         log("Number of updated entities: " + numberOfUpdatedEntities.get());
     }
 
-    private void cleanAccountAndReadNotificationInSql() {
-        HibernateUtil.beginTransaction();
+    // This method was used to clean the account and read notification in the SQL
+    // private void cleanAccountAndReadNotificationInSql() {
+    // HibernateUtil.beginTransaction();
 
-        CriteriaDelete<ReadNotification> cdReadNotification = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(ReadNotification.class);
-        cdReadNotification.from(ReadNotification.class);
-        HibernateUtil.executeDelete(cdReadNotification);
+    // CriteriaDelete<ReadNotification> cdReadNotification =
+    // HibernateUtil.getCriteriaBuilder()
+    // .createCriteriaDelete(ReadNotification.class);
+    // cdReadNotification.from(ReadNotification.class);
+    // HibernateUtil.executeDelete(cdReadNotification);
 
-        CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(
-                        teammates.storage.sqlentity.Account.class);
-        cdAccount.from(teammates.storage.sqlentity.Account.class);
-        HibernateUtil.executeDelete(cdAccount);
+    // CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount =
+    // HibernateUtil.getCriteriaBuilder()
+    // .createCriteriaDelete(
+    // teammates.storage.sqlentity.Account.class);
+    // cdAccount.from(teammates.storage.sqlentity.Account.class);
+    // HibernateUtil.executeDelete(cdAccount);
 
-        HibernateUtil.commitTransaction();
-    }
+    // HibernateUtil.commitTransaction();
+    // }
 
     /**
      * Flushes the saving buffer by issuing Cloud SQL save request.
