@@ -48,10 +48,10 @@ public class Notification extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private NotificationTargetUser targetUser;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String message;
 
     @Column(nullable = false)
