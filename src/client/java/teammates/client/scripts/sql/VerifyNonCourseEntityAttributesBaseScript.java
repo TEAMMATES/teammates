@@ -23,6 +23,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
     protected Class<E> datastoreEntityClass;
     protected Class<T> sqlEntityClass;
 
+    private String getLogPrefix() {
+        return String.format("%s verifying fields:", sqlEntityClass.getName());
+    }
+
     public VerifyNonCourseEntityAttributesBaseScript(
             Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
         this.datastoreEntityClass = datastoreEntityClass;
@@ -63,7 +67,8 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         countQuery.select(cb.count(countQuery.from(sqlEntityClass)));
         long countResults = HibernateUtil.createQuery(countQuery).getSingleResult().longValue();
-        int numPages = (int) (Math.ceil(countResults / SQL_FETCH_BATCH_SIZE));
+        int numPages = (int) (Math.ceil((double) countResults / (double) SQL_FETCH_BATCH_SIZE));
+        log(String.format("Has %d entities with %d pages", countResults, numPages));
 
         return numPages;
     }
@@ -87,17 +92,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         return query.getResultList();
     }
 
-    // protected List<T> lookupSqlEntities() {
-    // CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-    // CriteriaQuery<T> cr = cb.createQuery(sqlEntityClass);
-    // Root<T> root = cr.from(sqlEntityClass);
-    // cr.select(root);
-
-    // List<T> sqlEntities = HibernateUtil.createQuery(cr).getResultList();
-
-    // return sqlEntities;
-    // }
-
     /**
      * Idea: lookup sql side, have all the sql entities for
      * each sql entity, lookup datastore entity
@@ -109,11 +103,15 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         List<Map.Entry<T, E>> failures = new LinkedList<>();
 
         int numPages = getNumPages();
+        if (numPages == 0) {
+            log("No entities available for verification");
+            return failures;
+        }
+        
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
-
-            System.out.println(String.format("Verifed the %d percent of %s",
-                    (100 * (int) ((float) currPageNum / (float) numPages)),
-                    sqlEntityClass.getName()));
+            log(String.format("Verification Progress %d %%",
+                    (100 * (int) ((float) currPageNum / (float) numPages))
+                ));
 
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
@@ -125,6 +123,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
                     failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
                     continue;
                 }
+
                 boolean isEqual = equals(sqlEntity, datastoreEntity);
                 if (!isEqual) {
                     failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, datastoreEntity));
@@ -132,6 +131,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
                 }
             }
         }
+
         return failures;
     }
 
@@ -145,14 +145,18 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
         System.out.println("========================================");
         if (!failedEntities.isEmpty()) {
-            System.err.println("Errors detected for entity: " + sqlEntityClass.getName());
+            log("Errors detected");
             for (Map.Entry<T, E> failure : failedEntities) {
-                System.err.println("Sql entity: " + failure.getKey() + " datastore entity: " + failure.getValue());
+                log("Sql entity: " + failure.getKey() + " datastore entity: " + failure.getValue());
             }
         } else {
-            System.out.println("No errors detected for entity: " + sqlEntityClass.getName());
+            log("No errors detected");
         }
         HibernateUtil.commitTransaction();
+    }
+
+    protected void log(String logLine) {
+        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
     }
 
     protected void doOperation() {
