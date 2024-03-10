@@ -4,10 +4,8 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.sqlentity.AccountRequest;
 
-public class DataMigrationForAccountRequestSql extends DataMigrationEntitiesBaseScriptSql<
-    teammates.storage.entity.AccountRequest,
-    AccountRequest
-> {
+public class DataMigrationForAccountRequestSql
+        extends DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.AccountRequest, AccountRequest> {
 
     public static void main(String[] args) {
         new DataMigrationForAccountRequestSql().doOperationRemotely();
@@ -28,7 +26,8 @@ public class DataMigrationForAccountRequestSql extends DataMigrationEntitiesBase
     }
 
     /**
-     * Always returns true, as the migration is needed for all entities from Datastore to CloudSQL.
+     * Always returns true, as the migration is needed for all entities from
+     * Datastore to CloudSQL.
      */
     @Override
     protected boolean isMigrationNeeded(teammates.storage.entity.AccountRequest accountRequest) {
@@ -38,10 +37,9 @@ public class DataMigrationForAccountRequestSql extends DataMigrationEntitiesBase
     @Override
     protected void migrateEntity(teammates.storage.entity.AccountRequest oldEntity) throws Exception {
         AccountRequest newEntity = new AccountRequest(
-            oldEntity.getEmail(),
-            oldEntity.getName(),
-            oldEntity.getInstitute()
-        );
+                oldEntity.getEmail(),
+                oldEntity.getName(),
+                oldEntity.getInstitute());
 
         // set registration key to the old value if exists
         if (oldEntity.getRegistrationKey() != null) {
@@ -53,14 +51,14 @@ public class DataMigrationForAccountRequestSql extends DataMigrationEntitiesBase
             newEntity.setRegisteredAt(oldEntity.getRegisteredAt());
         }
 
-        // for the createdAt, the Hibernate annotation will auto generate the value always
-        // even if we set it.
+        // for the createdAt, the Hibernate annotation will auto generate the value
+        // always even if we set it.
 
-        // for the updatedAt, we will let the db auto generate since this is the latest update time
-        // is during the migration
+        // for the updatedAt, we will let the db auto generate since this is the latest
+        // update time is during the migration
 
-        // for the id, we need to use the new UUID, since the old id is email + institute
-        // with % as delimiter
+        // for the id, we need to use the new UUID, since the old id is email +
+        // institute with % as delimiter
 
         saveEntityDeferred(newEntity);
     }

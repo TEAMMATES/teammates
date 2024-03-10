@@ -15,8 +15,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
-import teammates.common.util.HibernateUtil;
-
 import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
@@ -26,10 +24,14 @@ import jakarta.persistence.criteria.CriteriaDelete;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 import teammates.test.FileHelper;
 import teammates.storage.sqlentity.ReadNotification;
 
+/**
+ * Data migration class for account and read notifications
+ */
 public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClient {
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
@@ -54,14 +56,6 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     private List<teammates.storage.sqlentity.Account> entitiesAccountSavingBuffer;
     private List<ReadNotification> entitiesReadNotificationSavingBuffer;
 
-    public static void main(String[] args) {
-        new DataMigrationForAccountAndReadNotificationSql().doOperationRemotely();
-    }
-
-    protected String getLogPrefix() {
-        return String.format("Account and Read Notifications Migrating:");        
-    }
-
     private DataMigrationForAccountAndReadNotificationSql() {
         numberOfScannedKey = new AtomicLong();
         numberOfAffectedEntities = new AtomicLong();
@@ -77,14 +71,31 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         HibernateUtil.buildSessionFactory(connectionUrl, username, password);
     }
 
+    public static void main(String[] args) {
+        new DataMigrationForAccountAndReadNotificationSql().doOperationRemotely();
+    }
+
+    /**
+     * Returns the log prefix
+     */
+    protected String getLogPrefix() {
+        return String.format("Account and Read Notifications Migrating:");
+    }
+
     private boolean isPreview() {
         return false;
     }
 
+    /**
+     * Returns whether migration is needed for the entity
+     */
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
         return true;
     }
 
+    /**
+     * Returns the filter query
+     */
     protected Query<teammates.storage.entity.Account> getFilterQuery() {
         return ofy().load().type(teammates.storage.entity.Account.class);
     }
@@ -105,6 +116,9 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         }
     }
 
+    /**
+     * Migrates the entity
+     */
     protected void migrateEntity(teammates.storage.entity.Account oldAccount) {
         teammates.storage.sqlentity.Account newAccount = new teammates.storage.sqlentity.Account(
                 oldAccount.getGoogleId(),
@@ -267,6 +281,9 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         FileHelper.deleteFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
     }
 
+    /**
+     * Logs a comment
+     */
     protected void log(String logLine) {
         System.out.println(String.format("%s %s", getLogPrefix(), logLine));
 

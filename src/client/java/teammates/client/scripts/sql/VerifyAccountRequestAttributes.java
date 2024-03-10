@@ -2,6 +2,9 @@ package teammates.client.scripts.sql;
 
 import teammates.storage.entity.AccountRequest;
 
+/**
+ * Class for verifying account request attributes
+ */
 public class VerifyAccountRequestAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<AccountRequest, teammates.storage.sqlentity.AccountRequest> {
 
@@ -24,7 +27,7 @@ public class VerifyAccountRequestAttributes
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.AccountRequest sqlEntity, AccountRequest datastoreEntity) {
-        if (datastoreEntity != null && (datastoreEntity instanceof teammates.storage.entity.AccountRequest)) {
+        if (datastoreEntity != null && datastoreEntity instanceof teammates.storage.entity.AccountRequest) {
             teammates.storage.entity.AccountRequest accReq = (teammates.storage.entity.AccountRequest) datastoreEntity;
             // UUID for account is not checked, as datastore ID is email%institute
             if (!sqlEntity.getName().equals(accReq.getName())) {

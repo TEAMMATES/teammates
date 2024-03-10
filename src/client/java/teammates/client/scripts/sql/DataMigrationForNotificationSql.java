@@ -2,11 +2,14 @@ package teammates.client.scripts.sql;
 
 import java.util.UUID;
 
-import teammates.common.util.HibernateUtil;
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Notification;
 
+/**
+ * Data migration class for notification entity
+ */
 public class DataMigrationForNotificationSql extends
         DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Notification, teammates.storage.sqlentity.Notification> {
 

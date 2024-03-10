@@ -16,14 +16,13 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
-import teammates.common.util.Config;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.scripts.GenerateUsageStatisticsObjects;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.test.FileHelper;
+import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
@@ -31,16 +30,26 @@ import teammates.storage.api.OfyHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Notification;
+import teammates.test.FileHelper;
 
+/**
+ * SeedDB class
+ */
 public class SeedDb extends DatastoreClient {
     private final LogicExtension logic = new LogicExtension();
 
     private Closeable closeable;
 
+    /**
+     * Sets up the dependencies needed for the DB layer
+     */
     public void setupDbLayer() throws Exception {
         LogicStarter.initializeDependencies();
     }
 
+    /**
+     * Sets up objectify service
+     */
     public void setupObjectify() {
         DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
@@ -49,6 +58,9 @@ public class SeedDb extends DatastoreClient {
         closeable = ObjectifyService.begin();
     }
 
+    /**
+     * Closes objectify service
+     */
     public void tearDownObjectify() {
         closeable.close();
     }
@@ -57,6 +69,9 @@ public class SeedDb extends DatastoreClient {
         return "src/client/java/teammates/client/scripts/sql/";
     }
 
+    /**
+     * Loads the data bundle from JSON file
+     */
     protected DataBundle loadDataBundle(String jsonFileName) {
         try {
             String pathToJsonFile = getSrcFolder() + jsonFileName;
@@ -67,64 +82,73 @@ public class SeedDb extends DatastoreClient {
         }
     }
 
+    /**
+     * Gets the typical data bundle
+     */
     protected DataBundle getTypicalDataBundle() {
         return loadDataBundle("typicalDataBundle.json");
     }
 
+    /**
+     * Gets a random instant
+     */
     protected Instant getRandomInstant() {
         return Instant.now();
     }
 
+    /**
+     * Persists additional data
+     */
     protected void persistAdditionalData() {
-        int ENTITY_SIZE = 10000;
+        int constEntitySize = 10000;
         // Each account will have this amount of read notifications
-        int READ_NOTIFICATION_SIZE = 5;
-        int NOTIFICATION_SIZE = 1000;
-        assert (NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE);
+        int constReadNotificationSize = 5;
+        int constNotificationSize = 1000;
+        assert constNotificationSize >= constReadNotificationSize;
 
         String[] args = {};
 
-        Set<String> notificationsUUIDSeen = new HashSet<String>();
-        ArrayList<String> notificationUUIDs = new ArrayList<>();
+        Set<String> notificationsUuidSeen = new HashSet<String>();
+        ArrayList<String> notificationUuids = new ArrayList<>();
         HashMap<String, Instant> notificationEndTimes = new HashMap<>();
 
         Random rand = new Random();
 
-        for (int j = 0; j < NOTIFICATION_SIZE; j++) {
-            UUID notificationUUID = UUID.randomUUID();
-            while (notificationsUUIDSeen.contains(notificationUUID.toString())) {
-                notificationUUID = UUID.randomUUID();
+        for (int j = 0; j < constNotificationSize; j++) {
+            UUID notificationUuid = UUID.randomUUID();
+            while (notificationsUuidSeen.contains(notificationUuid.toString())) {
+                notificationUuid = UUID.randomUUID();
             }
-            notificationUUIDs.add(notificationUUID.toString());
-            notificationsUUIDSeen.add(notificationUUID.toString());
+            notificationUuids.add(notificationUuid.toString());
+            notificationsUuidSeen.add(notificationUuid.toString());
             // Since we are not using logic class, referencing
             // MarkNotificationAsReadAction.class and CreateNotificationAction.class
             // endTime is to nearest milli not nanosecond
             Instant endTime = getRandomInstant().truncatedTo(ChronoUnit.MILLIS);
             Notification notification = new Notification(
-                    notificationUUID.toString(),
+                    notificationUuid.toString(),
                     getRandomInstant(),
                     endTime,
                     NotificationStyle.PRIMARY,
                     NotificationTargetUser.INSTRUCTOR,
-                    notificationUUID.toString(),
-                    notificationUUID.toString(),
+                    notificationUuid.toString(),
+                    notificationUuid.toString(),
                     false,
                     getRandomInstant(),
                     getRandomInstant());
             try {
                 ofy().save().entities(notification).now();
-                notificationEndTimes.put(notificationUUID.toString(), notification.getEndTime());
+                notificationEndTimes.put(notificationUuid.toString(), notification.getEndTime());
             } catch (Exception e) {
                 log(e.toString());
             }
         }
 
-        for (int i = 0; i < ENTITY_SIZE; i++) {
+        for (int i = 0; i < constEntitySize; i++) {
 
-            if (i % (ENTITY_SIZE / 5) == 0) {
+            if (i % (constEntitySize / 5) == 0) {
                 log(String.format("Seeded %d %% of new sets of entities",
-                        (int) (100 * ((float) i / (float) ENTITY_SIZE))));
+                        (int) (100 * ((float) i / (float) constEntitySize))));
             }
 
             try {
@@ -140,13 +164,13 @@ public class SeedDb extends DatastoreClient {
                 String accountEmail = String.format("Account email %s", i);
                 Map<String, Instant> readNotificationsToCreate = new HashMap<>();
 
-                for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
-                    int randIndex = rand.nextInt(NOTIFICATION_SIZE);
-                    String notificationUUID = notificationUUIDs.get(randIndex);
-                    assert (notificationEndTimes.get(notificationUUID) != null);
-                    readNotificationsToCreate.put(notificationUUID, notificationEndTimes.get(notificationUUID));
-
+                for (int j = 0; j < constReadNotificationSize; j++) {
+                    int randIndex = rand.nextInt(constNotificationSize);
+                    String notificationUuid = notificationUuids.get(randIndex);
+                    assert notificationEndTimes.get(notificationUuid) != null;
+                    readNotificationsToCreate.put(notificationUuid, notificationEndTimes.get(notificationUuid));
                 }
+
                 Account account = new Account(accountGoogleId, accountName,
                         accountEmail, readNotificationsToCreate, true);
 
@@ -164,6 +188,9 @@ public class SeedDb extends DatastoreClient {
         System.out.println(String.format("Seeding database: %s", logLine));
     }
 
+    /**
+     * Persists the data to database
+     */
     protected void persistData() {
         // Persisting basic data bundle
         DataBundle dataBundle = getTypicalDataBundle();
@@ -185,7 +212,7 @@ public class SeedDb extends DatastoreClient {
             // LogicStarter.initializeDependencies();
             this.persistData();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }

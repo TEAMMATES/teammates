@@ -6,10 +6,13 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.sqlentity.UsageStatistics;
 
+/**
+ * Data migration class for usage statistics
+ */
 public class DataMigrationForUsageStatisticsSql extends
-    DataMigrationEntitiesBaseScriptSql<
-        teammates.storage.entity.UsageStatistics,
-        UsageStatistics> {
+        DataMigrationEntitiesBaseScriptSql<
+            teammates.storage.entity.UsageStatistics,
+            UsageStatistics> {
 
     public static void main(String[] args) {
         new DataMigrationForUsageStatisticsSql().doOperationRemotely();
@@ -40,15 +43,15 @@ public class DataMigrationForUsageStatisticsSql extends
     @Override
     protected void migrateEntity(teammates.storage.entity.UsageStatistics oldEntity) throws Exception {
         UsageStatistics newEntity = new UsageStatistics(
-            oldEntity.getStartTime(),
-            oldEntity.getTimePeriod(),
-            oldEntity.getNumResponses(),
-            oldEntity.getNumCourses(),
-            oldEntity.getNumStudents(),
-            oldEntity.getNumInstructors(),
-            oldEntity.getNumAccountRequests(),
-            oldEntity.getNumEmails(),
-            oldEntity.getNumSubmissions()
+                oldEntity.getStartTime(),
+                oldEntity.getTimePeriod(),
+                oldEntity.getNumResponses(),
+                oldEntity.getNumCourses(),
+                oldEntity.getNumStudents(),
+                oldEntity.getNumInstructors(),
+                oldEntity.getNumAccountRequests(),
+                oldEntity.getNumEmails(),
+                oldEntity.getNumSubmissions()
         );
 
         try {

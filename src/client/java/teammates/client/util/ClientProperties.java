@@ -23,10 +23,13 @@ public final class ClientProperties {
     /** The value of "client.csrf.key" in client.properties file. */
     public static final String CSRF_KEY;
 
+    /** The value of "client.script.api.url" in client.properties file. */
     public static final String SCRIPT_API_URL;
 
+    /** The value of "client.script.api.name" in client.properties file. */
     public static final String SCRIPT_API_NAME;
 
+    /** The value of "client.script.api.password" in client.properties file. */
     public static final String SCRIPT_API_PASSWORD;
 
     static {

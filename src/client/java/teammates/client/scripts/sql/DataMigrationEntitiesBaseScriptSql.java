@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import teammates.common.util.HibernateUtil;
-
 import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.Key;
@@ -23,7 +21,7 @@ import com.googlecode.objectify.cmd.Query;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.BaseEntity;
+import teammates.common.util.HibernateUtil;
 import teammates.test.FileHelper;
 
 /**
@@ -41,7 +39,8 @@ import teammates.test.FileHelper;
  * @param <E> The datastore entity type to be migrated by the script.
  * @param <T> The SQL entity type to be migrated by the script.
  */
-public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity>
+public abstract class DataMigrationEntitiesBaseScriptSql<
+        E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity>
         extends DatastoreClient {
 
     // the folder where the cursor position and console output is saved as a file
@@ -54,25 +53,21 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
     // https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
     private static final int BATCH_SIZE = 100;
 
-    protected String getLogPrefix() {
-        return String.format("%s Migrating:", this.getClass().getSimpleName());
-    }
-
     // Creates the folder that will contain the stored log.
     static {
         new File(BASE_LOG_URI).mkdir();
     }
 
-    AtomicLong numberOfScannedKey;
     AtomicLong numberOfAffectedEntities;
+    AtomicLong numberOfScannedKey;
     AtomicLong numberOfUpdatedEntities;
 
     // buffer of entities to save
     private List<T> entitiesSavingBuffer;
 
     public DataMigrationEntitiesBaseScriptSql() {
-        numberOfScannedKey = new AtomicLong();
         numberOfAffectedEntities = new AtomicLong();
+        numberOfScannedKey = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
 
         entitiesSavingBuffer = new ArrayList<>();
@@ -97,8 +92,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
     /**
      * Checks whether data migration is needed.
      *
-     * <p>
-     * Causation: this method might be called in multiple threads if using
+     * <p>Causation: this method might be called in multiple threads if using
      * transaction.
      * </p>
      */
@@ -107,8 +101,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
     /**
      * Migrates the entity.
      *
-     * <p>
-     * Causation: this method might be called in multiple threads if using
+     * <p>Causation: this method might be called in multiple threads if using
      * transaction.
      * </p>
      */
@@ -117,8 +110,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
     /**
      * Determines whether the migration should be done in a transaction.
      *
-     * <p>
-     * Transaction is useful for data consistency. However, there are some
+     * <p>Transaction is useful for data consistency. However, there are some
      * limitations on operations
      * inside a transaction. In addition, the performance of the script will also be
      * affected.
@@ -129,6 +121,13 @@ public abstract class DataMigrationEntitiesBaseScriptSql<E extends teammates.sto
      */
     protected boolean shouldUseTransaction() {
         return false;
+    }
+
+    /**
+     * Returns the prefix for the log line.
+     */
+    protected String getLogPrefix() {
+        return String.format("%s Migrating:", this.getClass().getSimpleName());
     }
 
     /**

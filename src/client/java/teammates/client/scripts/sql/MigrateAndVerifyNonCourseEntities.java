@@ -1,5 +1,8 @@
 package teammates.client.scripts.sql;
 
+/**
+ * Migrate and verify non course entities
+ */
 public class MigrateAndVerifyNonCourseEntities {
 
     public static void main(String[] args) {

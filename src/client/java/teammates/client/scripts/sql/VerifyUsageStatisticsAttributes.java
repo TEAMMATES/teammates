@@ -2,6 +2,9 @@ package teammates.client.scripts.sql;
 
 import teammates.storage.entity.UsageStatistics;
 
+/**
+ * Class for verifying usage statistics
+ */
 public class VerifyUsageStatisticsAttributes extends
         VerifyNonCourseEntityAttributesBaseScript<UsageStatistics, teammates.storage.sqlentity.UsageStatistics> {
 

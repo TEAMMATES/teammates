@@ -11,6 +11,9 @@ import teammates.common.util.Config;
 import teammates.storage.api.OfyHelper;
 import teammates.storage.entity.UsageStatistics;
 
+/**
+ * Seeds the usage statistics table with dummy data.
+ */
 public class SeedUsageStatistics extends DatastoreClient {
 
     public static void main(String[] args) {
@@ -18,7 +21,7 @@ public class SeedUsageStatistics extends DatastoreClient {
         new SeedUsageStatistics().doOperationRemotely();
     }
 
-    static private void setupObjectify() {
+    private static void setupObjectify() {
         DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();

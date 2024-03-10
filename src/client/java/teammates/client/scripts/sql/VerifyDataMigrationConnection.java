@@ -1,15 +1,18 @@
 package teammates.client.scripts.sql;
 
-import teammates.common.util.HibernateUtil;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.sqlentity.Notification;
 
+/**
+ * Verification of the data migration connection
+ */
 public class VerifyDataMigrationConnection extends DatastoreClient {
 
     private VerifyDataMigrationConnection() {
@@ -24,6 +27,9 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
         new VerifyDataMigrationConnection().doOperationRemotely();
     }
 
+    /**
+     * Verifies the SQL connection
+     */
     protected void verifySqlConnection() {
         // Assert count of dummy request is 0
         Long testAccountRequestCount = countPostgresEntities(teammates.storage.sqlentity.AccountRequest.class);
@@ -54,6 +60,9 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
 
     }
 
+    /**
+     * Verifies the number of notifications
+     */
     protected void verifyCountsInDatastore() {
         System.out.println(
                 String.format("Num of notifications in Datastore: %d", ofy().load().type(Notification.class).count()));
