@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
@@ -43,16 +43,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public String encodeRedirectURL(String url) {
-        return null;
-    }
-
-    @Override
-    public String encodeUrl(String url) {
-        return null;
-    }
-
-    @Override
-    public String encodeRedirectUrl(String url) {
         return null;
     }
 
@@ -107,11 +97,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void setStatus(int sc) {
-        this.statusCode = sc;
-    }
-
-    @Override
-    public void setStatus(int sc, String sm) {
         this.statusCode = sc;
     }
 

@@ -418,6 +418,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the section of a recipient.
      */
+    @SuppressWarnings("PMD.ImplicitSwitchFallThrough") // false positive
     Section getRecipientSection(
             String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             String recipientIdentifier) {
@@ -465,6 +466,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the section of a recipient.
      */
+    @SuppressWarnings("PMD.ImplicitSwitchFallThrough") // false positive
     String getDatastoreRecipientSection(
             String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             String recipientIdentifier) {

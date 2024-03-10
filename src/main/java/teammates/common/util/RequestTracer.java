@@ -78,7 +78,7 @@ public final class RequestTracer {
         THREAD_LOCAL.set(new RequestTrace(traceId, spanId, timeoutInSeconds));
     }
 
-    private static class RequestTrace {
+    private static final class RequestTrace {
         private final String traceId;
         private final String spanId;
         private final long initTimestamp;

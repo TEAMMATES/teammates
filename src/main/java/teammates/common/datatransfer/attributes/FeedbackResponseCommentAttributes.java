@@ -350,7 +350,7 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
     /**
      * A builder for {@link FeedbackResponseCommentAttributes}.
      */
-    public static class Builder extends BasicBuilder<FeedbackResponseCommentAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<FeedbackResponseCommentAttributes, Builder> {
         private final FeedbackResponseCommentAttributes frca;
 
         private Builder() {
@@ -416,7 +416,7 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
     /**
      * Helper class to specific the fields to update in {@link FeedbackResponseCommentAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private long feedbackResponseCommentId;
 
         private UpdateOption<String> feedbackResponseIdOption = UpdateOption.empty();
@@ -452,7 +452,7 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(Long feedbackResponseCommentId) {
                 super(new UpdateOptions(feedbackResponseCommentId));

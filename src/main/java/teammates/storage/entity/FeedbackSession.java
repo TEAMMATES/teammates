@@ -10,6 +10,8 @@ import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Represents an instructor-created Feedback Session.
  */
@@ -25,6 +27,7 @@ public class FeedbackSession extends BaseEntity {
      * @see #generateId(String, String)
      */
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+    @SuppressFBWarnings("URF_UNREAD_FIELD")
     @Id
     private transient String feedbackSessionId;
 

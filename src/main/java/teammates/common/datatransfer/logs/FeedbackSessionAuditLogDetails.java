@@ -1,6 +1,6 @@
 package teammates.common.datatransfer.logs;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Contains specific structure and processing logic for feedback session audit log.

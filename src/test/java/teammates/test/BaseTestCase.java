@@ -43,6 +43,7 @@ import teammates.storage.sqlentity.Team;
 /**
  * Base class for all test cases.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class BaseTestCase {
 
     /**
@@ -183,8 +184,8 @@ public class BaseTestCase {
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
         return FeedbackQuestion.makeQuestion(session, 1, "test-description",
-                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(),
-                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
+                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
                 new FeedbackTextQuestionDetails("test question text"));
     }
 

@@ -33,8 +33,8 @@ public class InstructorFeedbackEditPageAxeTest extends BaseAxeTestCase {
                 testData.instructors.get("instructor").getGoogleId());
 
         // landmark-unique might be caused by tinymce
-        // aria-allowed-attr is caused by https://github.com/tinymce/tinymce/issues/7346
-        Results results = getAxeBuilder("aria-allowed-attr", "landmark-unique")
+        // aria-prohibited-attr is caused by https://github.com/tinymce/tinymce/issues/7346
+        Results results = getAxeBuilder("aria-prohibited-attr", "landmark-unique")
                 .analyze(feedbackEditPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());
     }

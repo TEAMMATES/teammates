@@ -24,7 +24,6 @@ import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
-import org.apache.jorphan.collections.ListedHashTree;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -69,7 +68,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Returns the JMeter test plan for the L&P test case.
      * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
      */
-    protected abstract ListedHashTree getLnpTestPlan();
+    protected abstract HashTree getLnpTestPlan();
 
     /**
      * Sets up the specification for this L&P test case.

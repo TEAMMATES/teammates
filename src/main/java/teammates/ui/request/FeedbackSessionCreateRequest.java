@@ -1,6 +1,6 @@
 package teammates.ui.request;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * The request body format for creation of feedback session.

@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.testng.annotations.Test;
 

@@ -30,11 +30,11 @@ public class GetHasResponsesAction extends Action {
 
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
-        if (!(entityType.equals(Const.EntityType.STUDENT) || entityType.equals(Const.EntityType.INSTRUCTOR))) {
+        if (!(Const.EntityType.STUDENT.equals(entityType) || Const.EntityType.INSTRUCTOR.equals(entityType))) {
             throw new UnauthorizedAccessException("entity type not supported.");
         }
 
-        if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             //An instructor of the feedback session can check responses for questions within it.
             String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
             if (questionId != null) {
@@ -117,7 +117,7 @@ public class GetHasResponsesAction extends Action {
     public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
-        if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             return handleInstructorReq();
         }
 
