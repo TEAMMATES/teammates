@@ -10,6 +10,7 @@ import teammates.storage.entity.Notification;
 /**
  * Data migration class for notification entity.
  */
+@SuppressWarnings("PMD")
 public class DataMigrationForNotificationSql extends
         DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Notification, teammates.storage.sqlentity.Notification> {
 

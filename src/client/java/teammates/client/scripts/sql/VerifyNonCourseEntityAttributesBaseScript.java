@@ -1,5 +1,6 @@
 package teammates.client.scripts.sql;
 
+// CHECKSTYLE.OFF:ImportOrder
 import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,21 +15,25 @@ import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
+// CHECKSTYLE.ON:ImportOrder
 
 /**
  * Protected methods may be overriden.
+ * 
  * @param <E> Datastore entity
  * @param <T> SQL entity
  */
-public abstract class VerifyNonCourseEntityAttributesBaseScript<
-            E extends teammates.storage.entity.BaseEntity,
-            T extends teammates.storage.sqlentity.BaseEntity>
+@SuppressWarnings("PMD")
+public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teammates.storage.entity.BaseEntity,
+        T extends teammates.storage.sqlentity.BaseEntity>
         extends DatastoreClient {
 
-    /** Datastore entity class */
+    private static int constSqlFetchBaseSize = 500;
+
+    /** Datastore entity class. */
     protected Class<E> datastoreEntityClass;
 
-    /** SQL entity class */
+    /** SQL entity class. */
     protected Class<T> sqlEntityClass;
 
     public VerifyNonCourseEntityAttributesBaseScript(
@@ -57,14 +62,18 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<
      */
     protected abstract boolean equals(T sqlEntity, E datastoreEntity);
 
+    /**
+     * Lookup data store entity.
+     */
     protected E lookupDataStoreEntity(String datastoreEntityId) {
         return ofy().load().type(datastoreEntityClass).id(datastoreEntityId).now();
     }
 
-    private static int SQL_FETCH_BATCH_SIZE = 500;
-
+    /**
+     * Calculate offset.
+     */
     private int calculateOffset(int pageNum) {
-        return (pageNum - 1) * SQL_FETCH_BATCH_SIZE;
+        return (pageNum - 1) * constSqlFetchBaseSize;
     }
 
     /**
@@ -75,7 +84,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         countQuery.select(cb.count(countQuery.from(sqlEntityClass)));
         long countResults = HibernateUtil.createQuery(countQuery).getSingleResult().longValue();
-        int numPages = (int) (Math.ceil((double) countResults / (double) SQL_FETCH_BATCH_SIZE));
+        int numPages = (int) (Math.ceil((double) countResults / (double) constSqlFetchBaseSize));
         log(String.format("Has %d entities with %d pages", countResults, numPages));
 
         return numPages;
@@ -95,15 +104,15 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<
         // perform query with pagination
         TypedQuery<T> query = HibernateUtil.createQuery(pageQuery);
         query.setFirstResult(calculateOffset(pageNum));
-        query.setMaxResults(SQL_FETCH_BATCH_SIZE);
+        query.setMaxResults(constSqlFetchBaseSize);
 
         return query.getResultList();
     }
 
     /**
-     * Idea: lookup sql side, have all the sql entities for
-     * each sql entity, lookup datastore entity
-     * if does not match, return failure
+     * Lookup sql side, have all the sql entities for each sql entity, lookup
+     * datastore entity.
+     * If does not match, return failure.
      */
     protected List<Map.Entry<T, E>> checkAllEntitiesForFailures() {
         // WARNING: failures list might lead to OoM if too many entities,
@@ -118,7 +127,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<
 
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
             log(String.format("Verification Progress %d %%",
-                    (100 * (int) ((float) currPageNum / (float) numPages))));
+                    100 * (int) ((float) currPageNum / (float) numPages)));
 
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
@@ -164,6 +173,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<
 
     /**
      * Log a line.
+     * 
      * @param logLine the line to log
      */
     protected void log(String logLine) {

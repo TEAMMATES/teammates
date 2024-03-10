@@ -4,7 +4,7 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.sqlentity.AccountRequest;
 
-/*
+/**
  * Data migration class for account request entity.
  */
 public class DataMigrationForAccountRequestSql

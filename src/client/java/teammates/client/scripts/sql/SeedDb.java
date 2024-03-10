@@ -35,6 +35,7 @@ import teammates.test.FileHelper;
 /**
  * SeedDB class.
  */
+@SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
     private final LogicExtension logic = new LogicExtension();
 

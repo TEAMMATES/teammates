@@ -1,5 +1,6 @@
 package teammates.client.scripts.sql;
 
+// CHECKSTYLE.OFF:ImportOrder
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,10 +16,12 @@ import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
+// CHECKSTYLE.ON:ImportOrder
 
 /**
  * Verify the counts of non-course entities are correct.
  */
+@SuppressWarnings("PMD")
 public class VerifyNonCourseEntityCounts extends DatastoreClient {
     private VerifyNonCourseEntityCounts() {
         String connectionUrl = ClientProperties.SCRIPT_API_URL;

@@ -1,5 +1,6 @@
 package teammates.client.scripts.sql;
 
+// CHECKSTYLE.OFF:ImportOrder
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -9,10 +10,12 @@ import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.sqlentity.Notification;
+// CHECKSTYLE.ON:ImportOrder
 
 /**
  * Verification of the data migration connection.
  */
+@SuppressWarnings("PMD")
 public class VerifyDataMigrationConnection extends DatastoreClient {
 
     private VerifyDataMigrationConnection() {

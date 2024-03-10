@@ -7,6 +7,7 @@ import teammates.storage.entity.Notification;
 /**
  * Class for verifying notification attributes.
  */
+@SuppressWarnings("PMD")
 public class VerifyNotificationAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Notification, teammates.storage.sqlentity.Notification> {
 
@@ -25,22 +26,17 @@ public class VerifyNotificationAttributes
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.Notification sqlEntity, Notification datastoreEntity) {
-        if (datastoreEntity instanceof teammates.storage.entity.Notification) {
-            teammates.storage.entity.Notification notif = (teammates.storage.entity.Notification) datastoreEntity;
-            try {
-                UUID otherUuid = UUID.fromString(notif.getNotificationId());
-                return sqlEntity.getId().equals(otherUuid)
-                        && sqlEntity.getStartTime().equals(notif.getStartTime())
-                        && sqlEntity.getEndTime().equals(notif.getEndTime())
-                        && sqlEntity.getStyle().equals(notif.getStyle())
-                        && sqlEntity.getTargetUser().equals(notif.getTargetUser())
-                        && sqlEntity.getTitle().equals(notif.getTitle())
-                        && sqlEntity.getMessage().equals(notif.getMessage())
-                        && sqlEntity.isShown() == notif.isShown();
-            } catch (IllegalArgumentException iae) {
-                return false;
-            }
-        } else {
+        try {
+            UUID otherUuid = UUID.fromString(datastoreEntity.getNotificationId());
+            return sqlEntity.getId().equals(otherUuid)
+                    && sqlEntity.getStartTime().equals(datastoreEntity.getStartTime())
+                    && sqlEntity.getEndTime().equals(datastoreEntity.getEndTime())
+                    && sqlEntity.getStyle().equals(datastoreEntity.getStyle())
+                    && sqlEntity.getTargetUser().equals(datastoreEntity.getTargetUser())
+                    && sqlEntity.getTitle().equals(datastoreEntity.getTitle())
+                    && sqlEntity.getMessage().equals(datastoreEntity.getMessage())
+                    && sqlEntity.isShown() == datastoreEntity.isShown();
+        } catch (IllegalArgumentException iae) {
             return false;
         }
     }

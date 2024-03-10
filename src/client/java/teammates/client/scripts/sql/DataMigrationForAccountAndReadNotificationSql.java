@@ -1,5 +1,6 @@
 package teammates.client.scripts.sql;
 
+// CHECKSTYLE.OFF:ImportOrder
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,9 +30,11 @@ import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
 import teammates.test.FileHelper;
 
+// CHECKSTYLE.ON:ImportOrder
 /**
  * Data migration class for account and read notifications.
  */
+@SuppressWarnings("PMD")
 public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClient {
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";

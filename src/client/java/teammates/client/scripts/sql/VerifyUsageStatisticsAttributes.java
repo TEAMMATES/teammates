@@ -3,8 +3,9 @@ package teammates.client.scripts.sql;
 import teammates.storage.entity.UsageStatistics;
 
 /**
- * Class for verifying usage statistics
+ * Class for verifying usage statistics.
  */
+@SuppressWarnings("PMD")
 public class VerifyUsageStatisticsAttributes extends
         VerifyNonCourseEntityAttributesBaseScript<UsageStatistics, teammates.storage.sqlentity.UsageStatistics> {
 

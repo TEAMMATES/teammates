@@ -3,6 +3,7 @@ package teammates.client.scripts.sql;
 /**
  * Migrate and verify non course entities.
  */
+@SuppressWarnings("PMD")
 public class MigrateAndVerifyNonCourseEntities {
 
     public static void main(String[] args) {
