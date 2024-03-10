@@ -57,6 +57,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
 
     // buffer of entities to save
     private List<teammates.storage.sqlentity.Account> entitiesAccountSavingBuffer;
+    private List<teammates.storage.entity.Account> entitiesOldAccountSavingBuffer;
+
     private List<ReadNotification> entitiesReadNotificationSavingBuffer;
 
     private DataMigrationForAccountAndReadNotificationSql() {
@@ -65,6 +67,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         numberOfUpdatedEntities = new AtomicLong();
 
         entitiesAccountSavingBuffer = new ArrayList<>();
+        entitiesOldAccountSavingBuffer = new ArrayList<>();
         entitiesReadNotificationSavingBuffer = new ArrayList<>();
 
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
@@ -128,7 +131,11 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
                 oldAccount.getName(),
                 oldAccount.getEmail());
 
+        oldAccount.setMigrated(true);
+
         entitiesAccountSavingBuffer.add(newAccount);
+        oldAccount.setMigrated(true);
+        entitiesOldAccountSavingBuffer.add(oldAccount);
         migrateReadNotification(oldAccount, newAccount);
 
     }
@@ -234,8 +241,11 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             HibernateUtil.flushSession();
             HibernateUtil.clearSession();
             HibernateUtil.commitTransaction();
+
+            ofy().save().entities(entitiesOldAccountSavingBuffer).now();
         }
         entitiesAccountSavingBuffer.clear();
+        entitiesOldAccountSavingBuffer.clear();
 
         if (!entitiesReadNotificationSavingBuffer.isEmpty() && !isPreview()) {
             log("Saving notification in batch..." + entitiesReadNotificationSavingBuffer.size());

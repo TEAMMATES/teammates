@@ -11,8 +11,8 @@ public class MigrateAndVerifyNonCourseEntities {
             // SeedDb.main(args);
 
             DataMigrationForNotificationSql.main(args);
-            DataMigrationForUsageStatisticsSql.main(args);
-            DataMigrationForAccountRequestSql.main(args);
+            // DataMigrationForUsageStatisticsSql.main(args);
+            // DataMigrationForAccountRequestSql.main(args);
             DataMigrationForAccountAndReadNotificationSql.main(args);
 
             VerifyNonCourseEntityCounts.main(args);
