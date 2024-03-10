@@ -1,10 +1,10 @@
 package teammates.client.scripts.sql;
 
 /**
- * Migrate non course entities (for first time use).
+ * Migrate and verify non course entities.
  */
 @SuppressWarnings("PMD")
-public class MigrateNonCourseEntities {
+public class MigrateAndVerifyNonCourseEntities {
 
     public static void main(String[] args) {
         try {
@@ -13,11 +13,14 @@ public class MigrateNonCourseEntities {
             DataMigrationForNotificationSql.main(args);
             // DataMigrationForUsageStatisticsSql.main(args);
             // DataMigrationForAccountRequestSql.main(args);
-
-            // If the script is terminated during this call,
-            // please run PatchDataMigrationForAccountAndReadNotificationSql
-            // instead of rerunning this.
             DataMigrationForAccountAndReadNotificationSql.main(args);
+
+            VerifyNonCourseEntityCounts.main(args);
+
+            VerifyAccountRequestAttributes.main(args);
+            VerifyUsageStatisticsAttributes.main(args);
+            VerifyAccountAttributes.main(args);
+            VerifyNotificationAttributes.main(args);
         } catch (Exception e) {
             System.out.println(e);
         }

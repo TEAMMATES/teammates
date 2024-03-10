@@ -20,7 +20,7 @@ import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
-import jakarta.persistence.criteria.CriteriaDelete;
+// import jakarta.persistence.criteria.CriteriaDelete;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
@@ -103,7 +103,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
      * Returns the filter query.
      */
     protected Query<teammates.storage.entity.Account> getFilterQuery() {
-        return ofy().load().type(teammates.storage.entity.Account.class);
+        return ofy().load().type(teammates.storage.entity.Account.class).filter("isMigrated =", false);
     }
 
     private void doMigration(teammates.storage.entity.Account entity) {
@@ -147,9 +147,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             Notification newNotification = HibernateUtil.get(Notification.class, notificationId);
             HibernateUtil.commitTransaction();
 
-            // Error if the notification does not exist in the new database
+            // If the notification does not exist in the new database
             if (newNotification == null) {
-                log("Notification not found: " + notificationId);
                 continue;
             }
 
@@ -170,14 +169,8 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             log("Start from cursor position: " + cursor.toUrlSafe());
         }
 
-        // Set isMigrated to be false for the first migration
-        ofy().load().type(teammates.storage.entity.Account.class).forEach(account -> {
-            account.setMigrated(false);
-            ofy().save().entity(account).now();
-        });
-
-        // Clean account and read notification in SQL before migration
-        cleanAccountAndReadNotificationInSql();
+        // // Clean account and read notification in SQL before migration
+        // cleanAccountAndReadNotificationInSql();
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
@@ -215,22 +208,22 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         log("Number of updated entities: " + numberOfUpdatedEntities.get());
     }
 
-    private void cleanAccountAndReadNotificationInSql() {
-        HibernateUtil.beginTransaction();
+    // private void cleanAccountAndReadNotificationInSql() {
+    //     HibernateUtil.beginTransaction();
 
-        CriteriaDelete<ReadNotification> cdReadNotification = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(ReadNotification.class);
-        cdReadNotification.from(ReadNotification.class);
-        HibernateUtil.executeDelete(cdReadNotification);
+    //     CriteriaDelete<ReadNotification> cdReadNotification = HibernateUtil.getCriteriaBuilder()
+    //             .createCriteriaDelete(ReadNotification.class);
+    //     cdReadNotification.from(ReadNotification.class);
+    //     HibernateUtil.executeDelete(cdReadNotification);
 
-        CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(
-                        teammates.storage.sqlentity.Account.class);
-        cdAccount.from(teammates.storage.sqlentity.Account.class);
-        HibernateUtil.executeDelete(cdAccount);
+    //     CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount = HibernateUtil.getCriteriaBuilder()
+    //             .createCriteriaDelete(
+    //                     teammates.storage.sqlentity.Account.class);
+    //     cdAccount.from(teammates.storage.sqlentity.Account.class);
+    //     HibernateUtil.executeDelete(cdAccount);
 
-        HibernateUtil.commitTransaction();
-    }
+    //     HibernateUtil.commitTransaction();
+    // }
 
     /**
      * Flushes the saving buffer by issuing Cloud SQL save request.
