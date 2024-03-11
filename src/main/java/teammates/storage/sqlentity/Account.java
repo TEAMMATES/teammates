@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
@@ -38,6 +40,7 @@ public class Account extends BaseEntity {
     private String email;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<ReadNotification> readNotifications = new ArrayList<>();
 
     @UpdateTimestamp

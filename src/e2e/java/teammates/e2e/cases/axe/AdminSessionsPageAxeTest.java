@@ -51,6 +51,8 @@ public class AdminSessionsPageAxeTest extends BaseAxeTestCase {
         futureFeedbackSession.setResultsVisibleFromTime(instant24DaysLater);
 
         removeAndRestoreDataBundle(testData);
+
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/AdminSessionsPageE2ETest_SqlEntities.json"));
     }
 
     @Test
