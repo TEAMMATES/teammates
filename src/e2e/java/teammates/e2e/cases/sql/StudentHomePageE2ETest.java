@@ -35,14 +35,14 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         for (int i = 0; i < courseIds.size(); i++) {
             String courseId = courseIds.get(i);
 
-            homePage.verifyVisibleCourseToStudents(courseId, i);
+            int panelIndex = homePage.getStudentHomeCoursePanelIndex(courseId);
 
             String feedbackSessionName = testData.feedbackSessions.entrySet().stream()
                     .filter(feedbackSession -> courseId.equals(feedbackSession.getValue().getCourse().getId()))
                     .map(x -> x.getValue().getName())
                     .collect(Collectors.joining());
 
-            homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i);
+            homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, panelIndex);
         }
 
         ______TS("notification banner is visible");
