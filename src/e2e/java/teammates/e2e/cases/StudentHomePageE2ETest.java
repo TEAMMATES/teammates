@@ -34,9 +34,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         ______TS("courses visible to student are shown");
         List<String> courseIds = getAllVisibleCourseIds();
 
-        for (int i = 0; i < courseIds.size(); i++) {
-            String courseId = courseIds.get(i);
-
+        courseIds.forEach(courseId -> {
             int panelIndex = homePage.getStudentHomeCoursePanelIndex(courseId);
 
             String feedbackSessionName = testData.feedbackSessions.entrySet().stream()
@@ -45,7 +43,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
                     .collect(Collectors.joining());
 
             homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, panelIndex);
-        }
+        });
 
         ______TS("notification banner is visible");
         assertTrue(homePage.isBannerVisible());
