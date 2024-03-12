@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - account-request-form
 
 jobs:
   lint:
