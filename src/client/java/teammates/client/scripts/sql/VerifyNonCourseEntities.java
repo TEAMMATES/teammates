@@ -1,20 +1,13 @@
 package teammates.client.scripts.sql;
 
 /**
- * Migrate and verify non course entities.
+ * Verify non course entities.
  */
 @SuppressWarnings("PMD")
-public class MigrateAndVerifyNonCourseEntities {
+public class VerifyNonCourseEntities {
 
     public static void main(String[] args) {
         try {
-            // SeedDb.main(args);
-
-            DataMigrationForNotificationSql.main(args);
-            // DataMigrationForUsageStatisticsSql.main(args);
-            // DataMigrationForAccountRequestSql.main(args);
-            DataMigrationForAccountAndReadNotificationSql.main(args);
-
             VerifyNonCourseEntityCounts.main(args);
 
             VerifyAccountRequestAttributes.main(args);

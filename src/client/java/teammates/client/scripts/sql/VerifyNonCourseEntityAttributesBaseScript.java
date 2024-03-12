@@ -126,7 +126,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
             log(String.format("Verification Progress %d %%",
-                    100 * (int) ((float) currPageNum / (float) numPages)));
+                     (int) ((float) currPageNum / (float) numPages * 100)));
 
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
 
