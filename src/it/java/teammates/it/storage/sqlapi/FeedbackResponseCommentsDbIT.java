@@ -45,6 +45,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         super.setUp();
         persistDataBundle(testDataBundle);
         HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
     }
 
     @Test
