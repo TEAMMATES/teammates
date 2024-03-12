@@ -37,6 +37,7 @@ import teammates.storage.search.AccountRequestSearchManager;
 import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
+import teammates.storage.sqlentity.Account;
 
 /**
  * Base class for all tests which require access to a locally run database.
@@ -53,8 +54,11 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             .setPort(TestProperties.TEST_LOCALDATASTORE_PORT)
             .setStoreOnDisk(false)
             .build();
+    /**
+     * sqlLogic for use in test cases.
+     */
+    protected Logic sqlLogic;
     private final LogicExtension logic = new LogicExtension();
-    private Logic sqlLogic;
     private Closeable closeable;
 
     @BeforeSuite
@@ -239,6 +243,10 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             e.printStackTrace();
             return false;
         }
+    }
+
+    protected Account getAccountFromDatabase(String googleId) {
+        return sqlLogic.getAccountForGoogleId(googleId);
     }
 
     protected void clearObjectifyCache() {
