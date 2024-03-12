@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.Course;
@@ -84,7 +85,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
     @Test
     public void testCreateFeedbackQuestion_questionNumbersAreConsistent_canCreateFeedbackQuestion()
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
         FeedbackQuestion newQuestion = getTypicalFeedbackQuestionForSession(fs);
@@ -102,7 +103,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
     @Test
     public void testCreateFeedbackQuestion_questionNumbersAreInconsistent_canCreateFeedbackQuestion()
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
         FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
@@ -127,7 +128,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
     @Test(enabled = false)
     public void testCreateFeedbackQuestion_oldQuestionNumberLargerThanNewQuestionNumber_adjustQuestionNumberCorrectly()
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
         FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
@@ -156,7 +157,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
     @Test(enabled = false)
     public void testCreateFeedbackQuestion_oldQuestionNumberSmallerThanNewQuestionNumber_adjustQuestionNumberCorrectly()
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
         FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);

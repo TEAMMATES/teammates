@@ -317,6 +317,26 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
+    /**
+     * Checks the access control for instructor feedback result.
+     */
+    void checkAccessControlForInstructorFeedbackResult(
+            Instructor instructor, FeedbackSession feedbackSession) throws UnauthorizedAccessException {
+        if (instructor == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
+        }
+
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyAccessible(instructor, feedbackSession,
+                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            verifyMatchingGoogleId(instructor.getGoogleId());
+        } else {
+            checkAccessControlForPreview(feedbackSession, true);
+        }
+    }
+
     private void verifyMatchingGoogleId(String googleId) throws UnauthorizedAccessException {
         if (!StringHelper.isEmpty(googleId)) {
             if (userInfo == null) {

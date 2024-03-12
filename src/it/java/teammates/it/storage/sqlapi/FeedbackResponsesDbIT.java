@@ -7,6 +7,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
@@ -16,6 +18,8 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
@@ -129,5 +133,101 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 frDb.hasResponsesForCourse(course.getId());
 
         assertTrue(actual);
+    }
+
+    private FeedbackResponse prepareSqlInjectionTest() {
+        FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
+        assertNotNull(frDb.getFeedbackResponse(fr.getId()));
+
+        return fr;
+    }
+
+    private void checkSqliFailed(FeedbackResponse fr) {
+        // If SQLi is successful, feedback responses would have been deleted from db.
+        // So get will return null.
+        assertNotNull(frDb.getFeedbackResponse(fr.getId()));
+    }
+
+    @Test
+    public void testSqlInjectionInGetFeedbackResponsesFromGiverForCourse() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in GetFeedbackResponsesFromGiverForCourse, courseId param");
+        String courseId = "'; DELETE FROM feedback_responses;--";
+        frDb.getFeedbackResponsesFromGiverForCourse(courseId, "");
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInGetFeedbackResponsesForRecipientForCourse() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in GetFeedbackResponsesForRecipientForCourse, courseId param");
+        String courseId = "'; DELETE FROM feedback_responses;--";
+        frDb.getFeedbackResponsesForRecipientForCourse(courseId, "");
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInGetFeedbackResponsesFromGiverForQuestion() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in GetFeedbackResponsesFromGiverForQuestion, giverEmail param");
+        String giverEmail = "';/**/DELETE/**/FROM/**/feedback_responses;--@gmail.com";
+        frDb.getFeedbackResponsesFromGiverForQuestion(fr.getId(), giverEmail);
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInHasResponsesFromGiverInSession() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in HasResponsesFromGiverInSession, giver param");
+        String giver = "'; DELETE FROM feedback_responses;--";
+        frDb.hasResponsesFromGiverInSession(giver, "", "");
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInHasResponsesForCourse() {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        ______TS("SQL Injection test in HasResponsesForCourse, courseId param");
+        String courseId = "'; DELETE FROM feedback_responses;--";
+        frDb.hasResponsesForCourse(courseId);
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInCreateFeedbackResponse() throws Exception {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        Section s = typicalDataBundle.sections.get("section1InCourse1");
+        String dummyUuid = "00000000-0000-4000-8000-000000000001";
+        FeedbackResponseDetails frd = new FeedbackTextResponseDetails();
+
+        String sqli = "', " + dummyUuid + ", " + dummyUuid + "); DELETE FROM feedback_responses;--";
+
+        FeedbackResponse newFr = new FeedbackTextResponse(fq, "", s, sqli, s, frd);
+        frDb.createFeedbackResponse(newFr);
+
+        checkSqliFailed(fr);
+    }
+
+    @Test
+    public void testSqlInjectionInCpdateFeedbackResponse() throws Exception {
+        FeedbackResponse fr = prepareSqlInjectionTest();
+
+        String sqli = "''); DELETE FROM feedback_response_comments;--";
+        fr.setGiver(sqli);
+        frDb.updateFeedbackResponse(fr);
+
+        checkSqliFailed(fr);
     }
 }
