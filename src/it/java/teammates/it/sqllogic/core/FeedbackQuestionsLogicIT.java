@@ -13,6 +13,7 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -49,7 +50,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
     }
 
     @Test
-    public void testCreateFeedbackQuestion() throws InvalidParametersException {
+    public void testCreateFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
         List<FeedbackParticipantType> showTos = new ArrayList<>();

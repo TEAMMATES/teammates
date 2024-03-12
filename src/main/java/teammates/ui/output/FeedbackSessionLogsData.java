@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
  * The API output format for logs on all feedback sessions in a course.
@@ -15,11 +13,12 @@ public class FeedbackSessionLogsData extends ApiOutput {
 
     private final List<FeedbackSessionLogData> feedbackSessionLogs;
 
-    public FeedbackSessionLogsData(Map<String, List<FeedbackSessionLogEntry>> groupedEntries,
-            Map<String, StudentAttributes> studentsMap, Map<String, FeedbackSessionAttributes> sessionsMap) {
+    // Remove generic types after migration is done (i.e. can just use FeedbackSession and Student)
+    public <S, T> FeedbackSessionLogsData(Map<String, List<FeedbackSessionLogEntry>> groupedEntries,
+            Map<String, S> studentsMap, Map<String, T> sessionsMap) {
         this.feedbackSessionLogs = groupedEntries.entrySet().stream()
                 .map(entry -> {
-                    FeedbackSessionAttributes feedbackSession = sessionsMap.get(entry.getKey());
+                    T feedbackSession = sessionsMap.get(entry.getKey());
                     List<FeedbackSessionLogEntry> logEntries = entry.getValue();
                     return new FeedbackSessionLogData(feedbackSession, logEntries, studentsMap);
                 })

@@ -601,6 +601,11 @@
     },
     {
       "multiple": true,
+      "name": "Yeo Di Sheng",
+      "username": "dishenggg"
+    },
+    {
+      "multiple": true,
       "name": "Divya Pandilla",
       "username": "pandilladivya"
     },
@@ -1333,6 +1338,11 @@
       "username": "marloncalvo"
     },
     {
+      "multiple": true,
+      "name": "Tye Jia Jun, Marques",
+      "username": "marquestye"
+    },
+    {
       "name": "Martin Larsson",
       "username": "leddy231"
     },
@@ -1401,6 +1411,10 @@
     {
       "name": "Miguel Araújo",
       "username": "miguelarauj1o"
+    },
+    {
+      "name": "Ching Ming Yuan",
+      "username": "mingyuanc"
     },
     {
       "name": "Minsung Joh",
@@ -2342,6 +2356,10 @@
       "username": "a0129998"
     },
     {
+      "name": "Xenos Fiorenzo Anong",
+      "username": "xenosf"
+    },
+    {
       "multiple": true,
       "name": "Xia Lu"
     },
@@ -2471,6 +2489,7 @@
       "username": "yilun-zhu"
     },
     {
+      "multiple": true,
       "name": "Zhu Yuanxi",
       "username": "yuanxi1"
     },

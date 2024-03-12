@@ -375,7 +375,6 @@ There are several files used to configure various aspects of the system.
 
 * `component.yml`: Configuration for component tests.
 * `e2e.yml`: Configuration for E2E tests.
-* `e2e-cross.yml`: Configuration for cross-browser E2E tests.
 * `lnp.yml`: Configuration for load & performance tests.
 * `dev-docs.yml`: Configuration for developer documentation site.
 

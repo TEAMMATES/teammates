@@ -19,6 +19,8 @@ public class StudentNotificationsPageAxeTest extends BaseAxeTestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentNotificationsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/StudentNotificationsPageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -26,7 +28,7 @@ public class StudentNotificationsPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl notificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);
         StudentNotificationsPage notificationsPage = loginToPage(notificationsPageUrl, StudentNotificationsPage.class,
-                testData.accounts.get("SNotifs.student").getGoogleId());
+                sqlTestData.accounts.get("SNotifs.student").getGoogleId());
 
         Results results = getAxeBuilder().analyze(notificationsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

@@ -25,6 +25,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.sqlentity.Account;
 import teammates.test.EmailChecker;
 
 /**
@@ -484,10 +485,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .build();
         instructor.setKey(regkey);
 
-        AccountAttributes inviter = AccountAttributes.builder("otherGoogleId")
-                .withEmail("instructor-joe@gmail.com")
-                .withName("Joe Wilson")
-                .build();
+        Account inviter = new Account("otherGoogleId", "Joe Wilson", "instructor-joe@gmail.com");
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(regkey)
@@ -583,8 +581,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor course join email: sanitization required");
 
         AccountAttributes inviter = dataBundle.accounts.get("instructor1OfTestingSanitizationCourse");
+        Account sqlInviter = new Account(inviter.getGoogleId(), inviter.getName(), inviter.getEmail());
         CourseAttributes course = coursesLogic.getCourse("idOfTestingSanitizationCourse");
-        email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor1, course);
+        email = emailGenerator.generateInstructorCourseJoinEmail(sqlInviter, instructor1, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, instructor1.getEmail(), subject, "/instructorCourseJoinEmailTestingSanitization.html");

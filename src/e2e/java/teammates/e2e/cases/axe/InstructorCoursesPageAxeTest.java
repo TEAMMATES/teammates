@@ -17,6 +17,7 @@ public class InstructorCoursesPageAxeTest extends BaseAxeTestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCoursesPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCoursesPageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -24,7 +25,7 @@ public class InstructorCoursesPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
         InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class,
-                testData.accounts.get("instructor").getGoogleId());
+                sqlTestData.accounts.get("instructor").getGoogleId());
 
         Results results = getAxeBuilder().analyze(coursesPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

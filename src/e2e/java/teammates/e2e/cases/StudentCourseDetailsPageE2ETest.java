@@ -2,7 +2,6 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
@@ -19,7 +18,7 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/StudentCourseDetailsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
-        SqlDataBundle sqlTestData = loadSqlDataBundle("/StudentCourseDetailsPageE2ETest_SqlEntities.json");
+        sqlTestData = loadSqlDataBundle("/StudentCourseDetailsPageE2ETest_SqlEntities.json");
         removeAndRestoreSqlDataBundle(sqlTestData);
     }
 

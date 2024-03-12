@@ -17,6 +17,8 @@ public class InstructorCourseDetailsPageAxeTest extends BaseAxeTestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorCourseDetailsPageE2ETest_SqlEntities.json"));
     }
 
     @Test

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -19,6 +18,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.sqlentity.Account;
 
 /**
  * Handles operations related to courses.
@@ -100,7 +100,8 @@ public final class CoursesLogic {
     public void createCourseAndInstructor(String instructorGoogleId, CourseAttributes courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
+        // All accounts are migrated to sql, so we need to get it from sql
+        Account courseCreator = accountsLogic.getSqlAccount(instructorGoogleId);
         assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
 
         CourseAttributes createdCourse = createCourse(courseToCreate);

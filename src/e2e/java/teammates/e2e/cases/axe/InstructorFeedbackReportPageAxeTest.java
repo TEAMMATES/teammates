@@ -17,6 +17,9 @@ public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackReportPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorFeedbackReportPageE2ETest_SqlEntities.json"));
     }
 
     @Test

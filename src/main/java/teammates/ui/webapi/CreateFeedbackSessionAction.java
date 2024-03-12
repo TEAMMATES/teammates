@@ -201,7 +201,7 @@ public class CreateFeedbackSessionAction extends Action {
             FeedbackQuestion feedbackQuestion = question.makeDeepCopy(newFeedbackSession);
             try {
                 sqlLogic.createFeedbackQuestion(feedbackQuestion);
-            } catch (InvalidParametersException e) {
+            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 log.severe("Error when copying feedback question: " + e.getMessage());
             }
         });

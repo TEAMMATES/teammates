@@ -17,6 +17,8 @@ public class AdminHomePageAxeTest extends BaseAxeTestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/AdminHomePageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/AdminHomePageE2ETest_SqlEntities.json"));
     }
 
     @Test

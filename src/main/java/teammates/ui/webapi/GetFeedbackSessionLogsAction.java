@@ -15,6 +15,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackSessionLogsData;
 
 /**
@@ -33,33 +37,64 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        CourseAttributes courseAttributes = logic.getCourse(courseId);
 
-        if (courseAttributes == null) {
-            throw new EntityNotFoundException("Course is not found");
+        if (isCourseMigrated(courseId)) {
+            Course course = sqlLogic.getCourse(courseId);
+
+            if (course == null) {
+                throw new EntityNotFoundException("Course is not found");
+            }
+
+            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        } else {
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
+
+            if (courseAttributes == null) {
+                throw new EntityNotFoundException("Course is not found");
+            }
+
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+            gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
         }
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
-        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (logic.getCourse(courseId) == null) {
-            throw new EntityNotFoundException("Course not found");
-        }
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        if (email != null && logic.getStudentForEmail(courseId, email) == null) {
-            throw new EntityNotFoundException("Student not found");
-        }
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-            throw new EntityNotFoundException("Feedback session not found");
+        if (isCourseMigrated(courseId)) {
+            if (sqlLogic.getCourse(courseId) == null) {
+                throw new EntityNotFoundException("Course not found");
+            }
+
+            if (email != null && sqlLogic.getStudentForEmail(courseId, email) == null) {
+                throw new EntityNotFoundException("Student not found");
+            }
+
+            if (feedbackSessionName != null && sqlLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+                throw new EntityNotFoundException("Feedback session not found");
+            }
+        } else {
+            if (logic.getCourse(courseId) == null) {
+                throw new EntityNotFoundException("Course not found");
+            }
+
+            if (email != null && logic.getStudentForEmail(courseId, email) == null) {
+                throw new EntityNotFoundException("Student not found");
+            }
+
+            if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+                throw new EntityNotFoundException("Feedback session not found");
+            }
         }
+
         String fslTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
         if (fslTypes != null) {
@@ -101,38 +136,74 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         List<FeedbackSessionLogEntry> fsLogEntries =
                 logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
-        Map<String, StudentAttributes> studentsMap = new HashMap<>();
-        Map<String, FeedbackSessionAttributes> sessionsMap = new HashMap<>();
-        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-        feedbackSessions.forEach(fs -> sessionsMap.put(fs.getFeedbackSessionName(), fs));
 
-        fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
-            String logType = logEntry.getFeedbackSessionLogType();
-            FeedbackSessionLogType convertedLogType = FeedbackSessionLogType.valueOfLabel(logType);
-            if (convertedLogType == null || fslTypes != null && !convertedFslTypes.contains(convertedLogType)) {
-                // If the feedback session log type retrieved from the log is invalid
-                // or not the type being queried, ignore the log
-                return false;
-            }
+        if (isCourseMigrated(courseId)) {
+            Map<String, Student> studentsMap = new HashMap<>();
+            Map<String, FeedbackSession> sessionsMap = new HashMap<>();
+            List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
+            feedbackSessions.forEach(fs -> sessionsMap.put(fs.getName(), fs));
 
-            if (!studentsMap.containsKey(logEntry.getStudentEmail())) {
-                StudentAttributes student = logic.getStudentForEmail(courseId, logEntry.getStudentEmail());
-                if (student == null) {
-                    // If the student email retrieved from the log is invalid, ignore the log
+            fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
+                String logType = logEntry.getFeedbackSessionLogType();
+                FeedbackSessionLogType convertedLogType = FeedbackSessionLogType.valueOfLabel(logType);
+                if (convertedLogType == null || fslTypes != null && !convertedFslTypes.contains(convertedLogType)) {
+                    // If the feedback session log type retrieved from the log is invalid
+                    // or not the type being queried, ignore the log
                     return false;
                 }
-                studentsMap.put(logEntry.getStudentEmail(), student);
-            }
-            // If the feedback session retrieved from the log is invalid, ignore the log
-            return sessionsMap.containsKey(logEntry.getFeedbackSessionName());
-        }).collect(Collectors.toList());
 
-        Map<String, List<FeedbackSessionLogEntry>> groupedEntries =
-                groupFeedbackSessionLogEntries(fsLogEntries);
-        feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getFeedbackSessionName(), new ArrayList<>()));
+                if (!studentsMap.containsKey(logEntry.getStudentEmail())) {
+                    Student student = sqlLogic.getStudentForEmail(courseId, logEntry.getStudentEmail());
+                    if (student == null) {
+                        // If the student email retrieved from the log is invalid, ignore the log
+                        return false;
+                    }
+                    studentsMap.put(logEntry.getStudentEmail(), student);
+                }
+                // If the feedback session retrieved from the log is invalid, ignore the log
+                return sessionsMap.containsKey(logEntry.getFeedbackSessionName());
+            }).collect(Collectors.toList());
 
-        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
-        return new JsonResult(fslData);
+            Map<String, List<FeedbackSessionLogEntry>> groupedEntries =
+                    groupFeedbackSessionLogEntries(fsLogEntries);
+            feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getName(), new ArrayList<>()));
+
+            FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
+            return new JsonResult(fslData);
+        } else {
+            Map<String, StudentAttributes> studentsMap = new HashMap<>();
+            Map<String, FeedbackSessionAttributes> sessionsMap = new HashMap<>();
+            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+            feedbackSessions.forEach(fs -> sessionsMap.put(fs.getFeedbackSessionName(), fs));
+
+            fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
+                String logType = logEntry.getFeedbackSessionLogType();
+                FeedbackSessionLogType convertedLogType = FeedbackSessionLogType.valueOfLabel(logType);
+                if (convertedLogType == null || fslTypes != null && !convertedFslTypes.contains(convertedLogType)) {
+                    // If the feedback session log type retrieved from the log is invalid
+                    // or not the type being queried, ignore the log
+                    return false;
+                }
+
+                if (!studentsMap.containsKey(logEntry.getStudentEmail())) {
+                    StudentAttributes student = logic.getStudentForEmail(courseId, logEntry.getStudentEmail());
+                    if (student == null) {
+                        // If the student email retrieved from the log is invalid, ignore the log
+                        return false;
+                    }
+                    studentsMap.put(logEntry.getStudentEmail(), student);
+                }
+                // If the feedback session retrieved from the log is invalid, ignore the log
+                return sessionsMap.containsKey(logEntry.getFeedbackSessionName());
+            }).collect(Collectors.toList());
+
+            Map<String, List<FeedbackSessionLogEntry>> groupedEntries =
+                    groupFeedbackSessionLogEntries(fsLogEntries);
+            feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getFeedbackSessionName(), new ArrayList<>()));
+
+            FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
+            return new JsonResult(fslData);
+        }
     }
 
     private Map<String, List<FeedbackSessionLogEntry>> groupFeedbackSessionLogEntries(
