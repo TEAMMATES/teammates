@@ -541,8 +541,10 @@ public class Logic {
      *
      * @return the created question
      * @throws InvalidParametersException if the question is invalid
+     * @throws EntityAlreadyExistsException if the question already exists
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
+    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
     }
 
