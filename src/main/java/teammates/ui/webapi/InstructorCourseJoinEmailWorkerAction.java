@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const.ParamsNames;
@@ -43,7 +42,8 @@ public class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
                 email = emailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course);
             } else {
                 String inviterId = getNonNullRequestParamValue(ParamsNames.INVITER_ID);
-                AccountAttributes inviter = logic.getAccount(inviterId);
+                // we get account from sql, as all accounts are migrated to sql
+                Account inviter = sqlLogic.getAccountForGoogleId(inviterId);
                 if (inviter == null) {
                     throw new EntityNotFoundException("Inviter account does not exist.");
                 }
