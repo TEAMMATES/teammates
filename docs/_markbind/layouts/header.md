@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="{{ baseUrl }}/stylesheets/main.css">
 </head-bottom>
 
-<header fixed>
+<header sticky>
   <navbar placement="top" type="inverse">
     <a slot="brand" href="{{ baseUrl }}/index.html" title="Home" class="navbar-brand">
       <pic src="{{ baseUrl }}/images/teammateslogo.png" width="150" alt="Logo" caption=""/>
