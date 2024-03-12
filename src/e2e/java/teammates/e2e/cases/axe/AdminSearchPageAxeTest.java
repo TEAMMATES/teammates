@@ -23,6 +23,9 @@ public class AdminSearchPageAxeTest extends BaseAxeTestCase {
         testData = loadDataBundle("/AdminSearchPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
+        sqlTestData = loadSqlDataBundle("/AdminSearchPageE2ETest_SqlEntities.json");
+        removeAndRestoreSqlDataBundle(sqlTestData);
+        doPutDocumentsSql(sqlTestData);
     }
 
     @Test

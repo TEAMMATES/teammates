@@ -20,8 +20,11 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/StudentCourseJoinConfirmationPageE2ETest_SqlEntities.json"));
+
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudent.setGoogleId(testData.accounts.get("alice.tmms").getGoogleId());
+        newStudent.setGoogleId(sqlTestData.accounts.get("alice.tmms").getGoogleId());
     }
 
     @Test
