@@ -16,13 +16,13 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "FeedbackSessionLogs")
-public class FeedbackSessionLog extends BaseEntity{
+public class FeedbackSessionLog extends BaseEntity {
     @Id
     private UUID id;
-    
+
     @Column(nullable = false)
     private String studentEmail;
-    
+
     @Column(nullable = false)
     private String feedbackSessionName;
 
