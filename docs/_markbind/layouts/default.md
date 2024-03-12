@@ -39,6 +39,7 @@
     </div>
   </nav>
   <div id="content-wrapper" class="fixed-header-padding">
+    <breadcrumb/>
     {{ content }}
   </div>
   <nav id="page-nav" class="fixed-header-padding">
