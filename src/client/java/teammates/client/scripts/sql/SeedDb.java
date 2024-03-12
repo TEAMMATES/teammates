@@ -173,7 +173,7 @@ public class SeedDb extends DatastoreClient {
                 }
 
                 Account account = new Account(accountGoogleId, accountName,
-                        accountEmail, readNotificationsToCreate, true);
+                        accountEmail, readNotificationsToCreate, false);
 
                 ofy().save().entities(account).now();
                 ofy().save().entities(accountRequest).now();
