@@ -32,20 +32,20 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
     private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 
-    private SqlDataBundle typicalDataBundle;
+    private SqlDataBundle testDataBundle;
 
     @Override
     @BeforeClass
     public void setupClass() {
         super.setupClass();
-        typicalDataBundle = getTypicalSqlDataBundle();
+        testDataBundle = loadSqlDataBundle("/FeedbackResponsesITBundle.json");
     }
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalDataBundle);
+        persistDataBundle(testDataBundle);
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
     }
@@ -53,11 +53,11 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testGetFeedbackResponsesFromGiverForQuestion() {
         ______TS("success: typical case");
-        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackQuestion fq = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
         List<FeedbackResponse> expectedQuestions = List.of(
-                typicalDataBundle.feedbackResponses.get("response1ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response3ForQ1")
+                testDataBundle.feedbackResponses.get("response1ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ1")
         );
 
         List<FeedbackResponse> actualQuestions =
@@ -70,10 +70,10 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testDeleteFeedbackResponsesForQuestionCascade() {
         ______TS("success: typical case");
-        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
-        FeedbackResponse fr2 = typicalDataBundle.feedbackResponses.get("response2ForQ1");
-        FeedbackResponseComment frc1 = typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        FeedbackQuestion fq = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackResponse fr1 = testDataBundle.feedbackResponses.get("response1ForQ1");
+        FeedbackResponse fr2 = testDataBundle.feedbackResponses.get("response2ForQ1");
+        FeedbackResponseComment frc1 = testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
 
         frDb.deleteFeedbackResponsesForQuestionCascade(fq.getId());
 
@@ -85,7 +85,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testDeleteFeedback() {
         ______TS("success: typical case");
-        FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
+        FeedbackResponse fr1 = testDataBundle.feedbackResponses.get("response1ForQ1");
 
         frDb.deleteFeedbackResponse(fr1);
 
@@ -95,8 +95,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testHasResponsesFromGiverInSession() {
         ______TS("success: typical case");
-        Course course = typicalDataBundle.courses.get("course1");
-        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        Course course = testDataBundle.courses.get("course1");
+        FeedbackSession fs = testDataBundle.feedbackSessions.get("session1InCourse1");
 
         boolean actualHasReponses1 =
                 frDb.hasResponsesFromGiverInSession("student1@teammates.tmt", fs.getName(), course.getId());
@@ -113,7 +113,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testAreThereResponsesForQuestion() {
         ______TS("success: typical case");
-        FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackQuestion fq1 = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
         boolean actualResponse1 =
                 frDb.areThereResponsesForQuestion(fq1.getId());
@@ -121,7 +121,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertTrue(actualResponse1);
 
         ______TS("feedback question with no responses");
-        FeedbackQuestion fq2 = typicalDataBundle.feedbackQuestions.get("qn6InSession1InCourse1NoResponses");
+        FeedbackQuestion fq2 = testDataBundle.feedbackQuestions.get("qn6InSession1InCourse1NoResponses");
 
         boolean actualResponse2 =
                 frDb.areThereResponsesForQuestion(fq2.getId());
@@ -132,7 +132,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testHasResponsesForCourse() {
         ______TS("success: typical case");
-        Course course = typicalDataBundle.courses.get("course1");
+        Course course = testDataBundle.courses.get("course1");
 
         boolean actual =
                 frDb.hasResponsesForCourse(course.getId());
@@ -141,7 +141,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     private FeedbackResponse prepareSqlInjectionTest() {
-        FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
+        FeedbackResponse fr = testDataBundle.feedbackResponses.get("response1ForQ1");
         assertNotNull(frDb.getFeedbackResponse(fr.getId()));
 
         return fr;
@@ -212,8 +212,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testSqlInjectionInCreateFeedbackResponse() throws Exception {
         FeedbackResponse fr = prepareSqlInjectionTest();
 
-        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        Section s = typicalDataBundle.sections.get("section1InCourse1");
+        FeedbackQuestion fq = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        Section s = testDataBundle.sections.get("section1InCourse1");
         String dummyUuid = "00000000-0000-4000-8000-000000000001";
         FeedbackResponseDetails frd = new FeedbackTextResponseDetails();
 
@@ -245,7 +245,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist");
-        FeedbackQuestion questionWithNoResponses = typicalDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
+        FeedbackQuestion questionWithNoResponses = testDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient);
         assertEquals(0, results.size());
 
@@ -255,9 +255,9 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetFeedbackResponsesForRecipientForQuestion_matchFound_success() {
         ______TS("Matching responses exist");
         String recipient = "student2@teammates.tmt";
-        FeedbackQuestion question = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackQuestion question = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         List<FeedbackResponse> expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response2ForQ1")
+                testDataBundle.feedbackResponses.get("response2ForQ1")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForRecipientForQuestion(question.getId(), recipient);
         assertListResponsesEqual(expected, actual);
@@ -266,8 +266,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetFeedbackResponsesForSessionInSection_matchNotFound_shouldReturnEmptyList() {
-        String section3 = typicalDataBundle.sections.get("section3InCourse1").getName();
-        FeedbackSession session = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        String section3 = testDataBundle.sections.get("section3InCourse1").getName();
+        FeedbackSession session = testDataBundle.feedbackSessions.get("session1InCourse1");
         String courseId = session.getCourse().getId();
 
         ______TS("No matching responses exist for giver section");
@@ -289,21 +289,21 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetFeedbackResponsesForSessionInSection_matchFound_success() {
-        Course course = typicalDataBundle.courses.get("course1");
-        FeedbackSession session1 = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        Section section1 = typicalDataBundle.sections.get("section1InCourse1");
-        Section section2 = typicalDataBundle.sections.get("section2InCourse1");
+        Course course = testDataBundle.courses.get("course1");
+        FeedbackSession session1 = testDataBundle.feedbackSessions.get("session1InCourse1");
+        Section section1 = testDataBundle.sections.get("section1InCourse1");
+        Section section2 = testDataBundle.sections.get("section2InCourse1");
 
         ______TS("Match giver section 1 in session 1");
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
         List<FeedbackResponse> expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response1ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response2ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response1ForQ2"),
-                typicalDataBundle.feedbackResponses.get("response2ForQ2"),
-                typicalDataBundle.feedbackResponses.get("response1ForQ3"),
-                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response3ForQ2")
+                testDataBundle.feedbackResponses.get("response1ForQ1"),
+                testDataBundle.feedbackResponses.get("response2ForQ1"),
+                testDataBundle.feedbackResponses.get("response1ForQ2"),
+                testDataBundle.feedbackResponses.get("response2ForQ2"),
+                testDataBundle.feedbackResponses.get("response1ForQ3"),
+                testDataBundle.feedbackResponses.get("response3ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ2")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForSessionInSection(
                 session1, course.getId(), section1.getName(), fetchType);
@@ -312,9 +312,9 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Match recipient section 2 in session 1");
         fetchType = FeedbackResultFetchType.RECEIVER;
         expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response3ForQ2"),
-                typicalDataBundle.feedbackResponses.get("response4ForQ1")
+                testDataBundle.feedbackResponses.get("response3ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ2"),
+                testDataBundle.feedbackResponses.get("response4ForQ1")
         );
         actual = frDb.getFeedbackResponsesForSessionInSection(session1, course.getId(),
                 section2.getName(), fetchType);
@@ -323,7 +323,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Match both giver and recipient section 2 in session 1");
         fetchType = FeedbackResultFetchType.BOTH;
         expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response4ForQ1")
+                testDataBundle.feedbackResponses.get("response4ForQ1")
         );
         actual = frDb.getFeedbackResponsesForSessionInSection(session1, course.getId(),
                 section2.getName(), fetchType);
@@ -332,8 +332,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetFeedbackResponsesForQuestionInSection_matchNotFound_shouldReturnEmptyList() {
-        String section1 = typicalDataBundle.sections.get("section1InCourse1").getName();
-        String section3 = typicalDataBundle.sections.get("section3InCourse1").getName();
+        String section1 = testDataBundle.sections.get("section1InCourse1").getName();
+        String section3 = testDataBundle.sections.get("section3InCourse1").getName();
 
         ______TS("Question not found");
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
@@ -343,7 +343,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist for giver section");
-        UUID questionId = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId();
+        UUID questionId = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId();
         fetchType = FeedbackResultFetchType.GIVER;
         results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section3, fetchType);
         assertEquals(0, results.size());
@@ -361,16 +361,16 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetFeedbackResponsesForQuestionInSection_matchFound_success() {
-        Section section1 = typicalDataBundle.sections.get("section1InCourse1");
-        Section section2 = typicalDataBundle.sections.get("section2InCourse1");
-        FeedbackQuestion question1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        Section section1 = testDataBundle.sections.get("section1InCourse1");
+        Section section2 = testDataBundle.sections.get("section2InCourse1");
+        FeedbackQuestion question1 = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
         ______TS("Match giver section 1 for Q1");
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
         List<FeedbackResponse> expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response1ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response2ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response3ForQ1")
+                testDataBundle.feedbackResponses.get("response1ForQ1"),
+                testDataBundle.feedbackResponses.get("response2ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ1")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(),
                 section1.getName(), fetchType);
@@ -379,8 +379,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Match recipient section 2 for Q1");
         fetchType = FeedbackResultFetchType.RECEIVER;
         expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response4ForQ1")
+                testDataBundle.feedbackResponses.get("response3ForQ1"),
+                testDataBundle.feedbackResponses.get("response4ForQ1")
         );
         actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
@@ -388,7 +388,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Match both giver and recipient section 2 for Q1");
         fetchType = FeedbackResultFetchType.BOTH;
         expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response4ForQ1")
+                testDataBundle.feedbackResponses.get("response4ForQ1")
         );
         actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
@@ -397,23 +397,23 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testGetFeedbackResponsesForSession() {
         ______TS("Session has responses");
-        FeedbackSession sessionWithResponses = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession sessionWithResponses = testDataBundle.feedbackSessions.get("session1InCourse1");
         List<FeedbackResponse> expected = List.of(
-                typicalDataBundle.feedbackResponses.get("response1ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response2ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response1ForQ2"),
-                typicalDataBundle.feedbackResponses.get("response2ForQ2"),
-                typicalDataBundle.feedbackResponses.get("response1ForQ3"),
-                typicalDataBundle.feedbackResponses.get("response3ForQ1"),
-                typicalDataBundle.feedbackResponses.get("response3ForQ2"),
-                typicalDataBundle.feedbackResponses.get("response4ForQ1")
+                testDataBundle.feedbackResponses.get("response1ForQ1"),
+                testDataBundle.feedbackResponses.get("response2ForQ1"),
+                testDataBundle.feedbackResponses.get("response1ForQ2"),
+                testDataBundle.feedbackResponses.get("response2ForQ2"),
+                testDataBundle.feedbackResponses.get("response1ForQ3"),
+                testDataBundle.feedbackResponses.get("response3ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ2"),
+                testDataBundle.feedbackResponses.get("response4ForQ1")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForSession(sessionWithResponses,
                 sessionWithResponses.getCourse().getId());
         assertListResponsesEqual(expected, actual);
 
         ______TS("Session has no responses");
-        FeedbackSession sessionWithoutResponses = typicalDataBundle.feedbackSessions.get(
+        FeedbackSession sessionWithoutResponses = testDataBundle.feedbackSessions.get(
                 "unpublishedSession1InTypicalCourse");
         actual = frDb.getFeedbackResponsesForSession(sessionWithoutResponses, sessionWithResponses.getCourse().getId());
         assertEquals(0, actual.size());
