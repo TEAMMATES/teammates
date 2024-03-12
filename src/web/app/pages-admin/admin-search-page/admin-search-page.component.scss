@@ -22,3 +22,34 @@
 ::ng-deep .highlighted-text {
   background-color: yellow;
 }
+
+#search-table-account-request {
+  border-collapse: collapse;
+}
+
+
+#search-table-account-request th:last-child, 
+#search-table-account-request td:last-child {
+  position: sticky;
+  position: -webkit-sticky;
+  right: 0;
+  z-index: 1;
+  background-color: #F8F9FA;
+}
+
+#search-table-account-request th:last-child::after,
+#search-table-account-request td:last-child::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #c8c7c7;
+  z-index: 1;
+}
+
+#search-table-account-request th,
+#search-table-account-request td {
+  z-index: 0;
+}
