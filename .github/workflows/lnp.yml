@@ -5,6 +5,7 @@ on:
     branches:
       - master 
       - release
+      - account-request-form
   schedule:
     - cron: "0 0 * * *" # end of every day
 jobs:
