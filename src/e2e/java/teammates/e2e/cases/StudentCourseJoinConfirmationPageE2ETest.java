@@ -2,6 +2,7 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -19,8 +20,11 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        SqlDataBundle sqlTestData = loadSqlDataBundle("/StudentCourseJoinConfirmationPageE2ETest_SqlEntities.json");
+        removeAndRestoreSqlDataBundle(sqlTestData);
+
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudent.setGoogleId(testData.accounts.get("alice.tmms").getGoogleId());
+        newStudent.setGoogleId(sqlTestData.accounts.get("alice.tmms").getGoogleId());
     }
 
     @Test
