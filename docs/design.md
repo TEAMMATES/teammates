@@ -6,7 +6,7 @@
 
 ## Architecture
 
-<puml src="diagrams/highlevelArchitecture.puml"></puml>
+<puml src="diagrams/highlevelArchitecture.puml"/>
 
 TEAMMATES is a Web application that runs on Google App Engine (GAE). Given above is an overview of the main components.
 
