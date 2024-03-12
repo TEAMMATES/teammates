@@ -3,12 +3,33 @@ package teammates.test;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.UsageStatistics;
+import teammates.ui.output.AccountData;
 import teammates.ui.output.ApiOutput;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.NotificationData;
+import teammates.ui.output.StudentData;
+import teammates.ui.output.UsageStatisticsData;
 
 /**
  * Base class for all test cases which are allowed to access the database.
@@ -47,20 +68,121 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackQuestionDetails expectedQuestionDetails = expectedQuestion.getQuestionDetailsCopy();
             FeedbackQuestionData actualQuestion = (FeedbackQuestionData) actual;
             assertEquals(expectedQuestion.getQuestionNumber(), (Integer) actualQuestion.getQuestionNumber());
-            assertEquals(expectedQuestionDetails.getQuestionText(), actualQuestion.getQuestionBrief());
             assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
-            assertEquals(expectedQuestionDetails.getQuestionType(), actualQuestion.getQuestionType());
             assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
             assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
-            // TODO: compare the rest of the attributes D:
+            assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
+                    actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            assertEquals(expectedQuestionDetails.getQuestionText(), actualQuestion.getQuestionBrief());
+            assertEquals(expectedQuestionDetails.getQuestionType(), actualQuestion.getQuestionType());
+            // TODO: compare the rest of the attributes
         } else if (expected instanceof FeedbackResponse) {
-            FeedbackResponse expectedResponse = (FeedbackResponse) expected;
-            FeedbackResponseDetails expectedResponseDetails = expectedResponse.getFeedbackResponseDetailsCopy();
+            FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
+            FeedbackResponseDetails expectedResponseDetails =
+                    expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
             FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
-            assertEquals(expectedResponse.getGiver(), actualResponse.getGiverIdentifier());
-            assertEquals(expectedResponse.getRecipient(), actualResponse.getRecipientIdentifier());
-            assertEquals(expectedResponseDetails.getAnswerString(), actualResponse.getResponseDetails().getAnswerString());
-            // TODO: compare the rest of the attributes D:
+            assertEquals(expectedFeedbackResponse.getGiver(), actualResponse.getGiverIdentifier());
+            assertEquals(expectedFeedbackResponse.getRecipient(), actualResponse.getRecipientIdentifier());
+            assertEquals(expectedResponseDetails.getAnswerString(),
+                    actualResponse.getResponseDetails().getAnswerString());
+            assertEquals(expectedResponseDetails.getQuestionType(),
+                    actualResponse.getResponseDetails().getQuestionType());
+            // TODO: compare the rest of the attributes
+        } else if (expected instanceof Account) {
+            Account expectedAccount = (Account) expected;
+            AccountData actualAccount = (AccountData) actual;
+            assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
+            assertEquals(expectedAccount.getName(), actualAccount.getName());
+            assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
+        } else if (expected instanceof Course) {
+            Course expectedCourse = (Course) expected;
+            CourseData actualCourse = (CourseData) actual;
+            assertEquals(expectedCourse.getName(), actualCourse.getCourseName());
+            assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
+            assertEquals(expectedCourse.getInstitute(), actualCourse.getInstitute());
+        } else if (expected instanceof DeadlineExtension) {
+            DeadlineExtension expectedDeadlineExtension = (DeadlineExtension) expected;
+            DeadlineExtensionData actualDeadlineExtension = (DeadlineExtensionData) actual;
+            assertEquals(expectedDeadlineExtension.getEndTime(), actualDeadlineExtension.getEndTime());
+            assertEquals(expectedDeadlineExtension.isClosingSoonEmailSent(),
+                    actualDeadlineExtension.getSentClosingEmail());
+        } else if (expected instanceof FeedbackResponseComment) {
+            FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
+            FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
+            assertEquals(expectedFeedbackResponseComment.getGiver(), actualComment.getCommentGiver());
+            assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
+            assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
+                    actualComment.isVisibilityFollowingFeedbackQuestion());
+            assertEquals(expectedFeedbackResponseComment.getLastEditorEmail(), actualComment.getLastEditorEmail());
+        } else if (expected instanceof FeedbackSession) {
+            FeedbackSession expectedFeedbackSession = (FeedbackSession) expected;
+            FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;
+            assertEquals(expectedFeedbackSession.getName(), actualFeedbackSession.getFeedbackSessionName());
+            assertEquals(expectedFeedbackSession.getInstructions(), actualFeedbackSession.getInstructions());
+            assertEquals(expectedFeedbackSession.getStartTime(), actualFeedbackSession.getSubmissionStartTimestamp());
+            assertEquals(expectedFeedbackSession.getEndTime(), actualFeedbackSession.getSubmissionEndTimestamp());
+            assertEquals(expectedFeedbackSession.getSessionVisibleFromTime(),
+                    actualFeedbackSession.getSessionVisibleFromTimestamp());
+            assertEquals(expectedFeedbackSession.getResultsVisibleFromTime(),
+                    actualFeedbackSession.getResultVisibleFromTimestamp());
+            assertEquals(expectedFeedbackSession.getGracePeriod(), actualFeedbackSession.getGracePeriod());
+            assertEquals(expectedFeedbackSession.isClosingEmailEnabled(),
+                    actualFeedbackSession.getIsClosingEmailEnabled());
+            assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
+                    actualFeedbackSession.getIsPublishedEmailEnabled());
+            // TODO: compare the rest of the attributes
+        } else if (expected instanceof Instructor) {
+            Instructor expectedInstructor = (Instructor) expected;
+            InstructorData actualInstructor = (InstructorData) actual;
+            assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
+            assertEquals(expectedInstructor.getName(), actualInstructor.getName());
+            assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
+            assertEquals(expectedInstructor.getRegKey(), actualInstructor.getKey());
+            assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
+            assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
+            assertEquals(expectedInstructor.getRole(), actualInstructor.getRole());
+        } else if (expected instanceof Notification) {
+            Notification expectedNotification = (Notification) expected;
+            NotificationData actualNotification = (NotificationData) actual;
+            assertEquals(expectedNotification.getStartTime(), actualNotification.getStartTimestamp());
+            assertEquals(expectedNotification.getEndTime(), actualNotification.getEndTimestamp());
+            assertEquals(expectedNotification.getStyle(), actualNotification.getStyle());
+            assertEquals(expectedNotification.getTargetUser(), actualNotification.getTargetUser());
+            assertEquals(expectedNotification.getTitle(), actualNotification.getTitle());
+            assertEquals(expectedNotification.getMessage(), actualNotification.getMessage());
+            assertEquals(expectedNotification.isShown(), actualNotification.isShown());
+        } else if (expected instanceof ReadNotification) {
+            ReadNotification expectedReadNotification = (ReadNotification) expected;
+            // TODO: ReadNotificationData actualReadNotification = (ReadNotificationData) actual;
+        } else if (expected instanceof Section) {
+            Section expectedSection = (Section) expected;
+            // TODO: SectionData actualSection = (SectionData) actual;
+        } else if (expected instanceof Student) {
+            Student expectedStudent = (Student) expected;
+            StudentData actualStudent = (StudentData) actual;
+            assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
+            assertEquals(expectedStudent.getName(), actualStudent.getName());
+            assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
+            assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
+            assertEquals(expectedStudent.getComments(), actualStudent.getComments());
+            assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
+            assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
+        } else if (expected instanceof Team) {
+            Team expectedTeam = (Team) expected;
+            // TODO: TeamData actualTeam = (TeamData) actual;
+        } else if (expected instanceof UsageStatistics) {
+            UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
+            UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
+            assertEquals(expectedUsageStatistics.getStartTime(), actualUsageStatistics.getStartTime());
+            assertEquals(expectedUsageStatistics.getTimePeriod(), actualUsageStatistics.getTimePeriod());
+            assertEquals(expectedUsageStatistics.getNumResponses(), actualUsageStatistics.getNumResponses());
+            assertEquals(expectedUsageStatistics.getNumCourses(), actualUsageStatistics.getNumCourses());
+            assertEquals(expectedUsageStatistics.getNumStudents(), actualUsageStatistics.getNumStudents());
+            assertEquals(expectedUsageStatistics.getNumInstructors(), actualUsageStatistics.getNumInstructors());
+            assertEquals(expectedUsageStatistics.getNumAccountRequests(),
+                    actualUsageStatistics.getNumAccountRequests());
+            assertEquals(expectedUsageStatistics.getNumEmails(), actualUsageStatistics.getNumEmails());
+            assertEquals(expectedUsageStatistics.getNumSubmissions(), actualUsageStatistics.getNumSubmissions());
         } else {
             fail("Unknown entity");
         }
