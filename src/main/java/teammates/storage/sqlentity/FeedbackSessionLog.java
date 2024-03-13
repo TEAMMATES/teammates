@@ -106,8 +106,8 @@ public class FeedbackSessionLog extends BaseEntity {
         } else if (this == other) {
             return true;
         } else if (this.getClass() == other.getClass()) {
-            FeedbackSessionLog otherUsageStatistics = (FeedbackSessionLog) other;
-            return Objects.equals(this.getId(), otherUsageStatistics.getId());
+            FeedbackSessionLog otherFeedbackSessionLog = (FeedbackSessionLog) other;
+            return Objects.equals(this.getId(), otherFeedbackSessionLog.getId());
         } else {
             return false;
         }
