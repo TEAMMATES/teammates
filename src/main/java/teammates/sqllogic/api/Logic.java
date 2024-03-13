@@ -41,6 +41,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
@@ -1594,5 +1595,13 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
         return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+    }
+
+    /**
+     * Create feedback session logs.
+     */
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs)
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        // TODO: implement logic layer
     }
 }
