@@ -110,6 +110,7 @@ public final class HibernateUtil {
 
         Configuration config = new Configuration()
                 .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
+                .setProperty("hibernate.jdbc.batch_size", "50")
                 .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)

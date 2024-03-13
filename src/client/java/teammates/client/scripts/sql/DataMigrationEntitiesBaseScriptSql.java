@@ -46,7 +46,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
-    private static final int BATCH_SIZE = 1000;
+    private static final int BATCH_SIZE = 100;
 
     // Creates the folder that will contain the stored log.
     static {

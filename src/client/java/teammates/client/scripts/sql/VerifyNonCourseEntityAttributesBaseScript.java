@@ -2,11 +2,9 @@ package teammates.client.scripts.sql;
 
 // CHECKSTYLE.OFF:ImportOrder
 import java.util.AbstractMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.TypedQuery;
@@ -133,7 +131,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
             log(String.format("Verification Progress %d %%",
                      (int) ((float) currPageNum / (float) numPages * 100)));
-            
+
             long startTimeForSql = System.currentTimeMillis();
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
             long endTimeForSql = System.currentTimeMillis();
