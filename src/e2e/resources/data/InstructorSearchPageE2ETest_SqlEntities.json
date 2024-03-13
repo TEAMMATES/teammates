@@ -1,7 +1,7 @@
 {
     "accounts": {
         "instructor1OfCourse1": {
-        "id": "00000000-0000-4000-8000-000000000001",    
+        "id": "00000000-0000-4000-8000-000000000001",
         "googleId": "tm.e2e.ISearch.instr1",
         "name": "Instructor 1 of Course 1",
         "email": "ISearch.instr1@gmail.tmt"
