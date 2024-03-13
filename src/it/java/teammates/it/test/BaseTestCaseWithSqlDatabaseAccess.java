@@ -249,6 +249,8 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             return logic.getCourse(((Course) entity).getId());
         } else if (entity instanceof FeedbackSession) {
             return logic.getFeedbackSession(((FeedbackSession) entity).getId());
+        } else if (entity instanceof FeedbackQuestion) {
+            return logic.getFeedbackQuestion(((FeedbackQuestion) entity).getId());
         } else if (entity instanceof Account) {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {

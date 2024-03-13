@@ -1,10 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails, FeedbackMcqQuestionDetails,
@@ -16,6 +17,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting, ResponseVisibleSetting,
   SessionResults, SessionVisibleSetting,
 } from '../../../types/api-output';
+import { Intent } from '../../../types/api-request';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
@@ -201,6 +204,7 @@ describe('QuestionResponsePanelComponent', () => {
   let component: QuestionResponsePanelComponent;
   let fixture: ComponentFixture<QuestionResponsePanelComponent>;
   let feedbackSessionsService: FeedbackSessionsService;
+  let statusMessageService: StatusMessageService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -224,6 +228,7 @@ describe('QuestionResponsePanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionResponsePanelComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
+    statusMessageService = TestBed.inject(StatusMessageService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -656,5 +661,80 @@ describe('QuestionResponsePanelComponent', () => {
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
 
     expect(fsSpy).not.toHaveBeenCalled();
+  });
+
+  it('canUserSeeResponses: should allow instructors to see responses when intent is INSTRUCTOR_RESULT', () => {
+    component.intent = Intent.INSTRUCTOR_RESULT;
+    testFeedbackQuestionModel.feedbackQuestion.showResponsesTo = [FeedbackVisibilityType.INSTRUCTORS];
+    const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
+
+    expect(canSee).toBe(true);
+  });
+
+  it('canUserSeeResponses: should return false when intent does not allow seeing responses', () => {
+    component.intent = Intent.FULL_DETAIL;
+    const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
+
+    expect(canSee).toBe(false);
+  });
+
+  it('loadQuestionResults: should not re-fetch data if question is already loaded', () => {
+    const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+
+    const testQuestionModel: FeedbackQuestionModel = {
+        ...testFeedbackQuestionModel,
+        isLoaded: true,
+    };
+    component.loadQuestionResults(testQuestionModel);
+
+    expect(fsSpy).not.toHaveBeenCalled();
+  });
+
+  it('loadQuestionResults: should handle no responses correctly and not show toast if errorMessage not set', () => {
+    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+
+    testFeedbackQuestionModel.isLoaded = false;
+
+    fsSpy.mockReturnValue(of({
+      questions: [],
+    } as SessionResults));
+
+    component.loadQuestionResults(testFeedbackQuestionModel);
+
+    expect(testFeedbackQuestionModel.hasResponse).toBe(false);
+    expect(toastSpy).not.toHaveBeenCalled();
+  });
+
+  it('loadQuestionResults: should handle no responses correctly and show success toast if errorMessage is set', () => {
+    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+
+    testFeedbackQuestionModel.isLoaded = false;
+    testFeedbackQuestionModel.errorMessage = 'Error occurred';
+
+    fsSpy.mockReturnValue(of({
+      questions: [],
+    } as SessionResults));
+
+    component.loadQuestionResults(testFeedbackQuestionModel);
+
+    expect(testFeedbackQuestionModel.hasResponse).toBe(false);
+    expect(toastSpy).toHaveBeenCalledWith(
+      `Question ${testFeedbackQuestionModel.feedbackQuestion.questionNumber} has no responses.`);
+  });
+
+  it('loadQuestionResults: should handle errors correctly by setting errorMessage and showing a toast', () => {
+    const errorMessage = 'An error occurred';
+    testFeedbackQuestionModel.isLoaded = false;
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults').mockReturnValue(
+      throwError(() => ({ error: { message: errorMessage }, status: 400 } as ErrorMessageOutput)),
+    );
+    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
+
+    component.loadQuestionResults(testFeedbackQuestionModel);
+
+    expect(testFeedbackQuestionModel.errorMessage).toBe(errorMessage);
+    expect(showErrorToastSpy).toHaveBeenCalledWith(errorMessage);
   });
 });
