@@ -135,7 +135,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
             long startTimeForSql = System.currentTimeMillis();
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
             long endTimeForSql = System.currentTimeMillis();
-            log("Querying for SQL page " + currPageNum + " took " + (endTimeForSql - startTimeForSql) + " milliseconds");        
+            log("Querying for SQL for page " + currPageNum + " took " + (endTimeForSql - startTimeForSql) + " milliseconds");        
          
             List<String> datastoreEntitiesIds = sqlEntities.stream()
                 .map((entity) -> generateID(entity)).collect(Collectors.toList());
@@ -143,7 +143,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
             long startTimeForDatastore = System.currentTimeMillis();
             Map<String, E> datastoreEntities = lookupDataStoreEntities(datastoreEntitiesIds);
             long endTimeForDatastore = System.currentTimeMillis();
-            log("Querying for Datastore page " + currPageNum + " took " + (endTimeForDatastore - startTimeForDatastore) + " milliseconds");        
+            log("Querying for Datastore for page " + currPageNum + " took " + (endTimeForDatastore - startTimeForDatastore) + " milliseconds");        
 
             long startTimeForEquals = System.currentTimeMillis();
             for (T sqlEntity : sqlEntities) {
@@ -160,8 +160,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
                 }
             }
             long endTimeForEquals = System.currentTimeMillis();
-            log("Verifying SQL and Datastore page " + currPageNum + " took " + (endTimeForEquals - startTimeForEquals) + " milliseconds");        
-
+            log("Verifying SQL and Datastore for page " + currPageNum + " took " + (endTimeForEquals - startTimeForEquals) + " milliseconds");
         }
         return failures;
     }
