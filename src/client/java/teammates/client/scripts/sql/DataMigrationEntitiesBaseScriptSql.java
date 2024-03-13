@@ -254,7 +254,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
             HibernateUtil.clearSession();
             HibernateUtil.commitTransaction();
             long endTime = System.currentTimeMillis();
-            log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");        
+            log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");
         }
         entitiesSavingBuffer.clear();
     }
