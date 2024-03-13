@@ -1,6 +1,7 @@
 package teammates.it.storage.sqlapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -8,6 +9,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
@@ -40,6 +43,47 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
+    public void testGetFeedbackQuestion() {
+        ______TS("success: typical case");
+        FeedbackQuestion expectedFq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+
+        FeedbackQuestion actualFq = fqDb.getFeedbackQuestion(expectedFq.getId());
+
+        assertEquals(expectedFq, actualFq);
+
+        ______TS("failure: does not exist, returns null");
+        actualFq = fqDb.getFeedbackQuestion(UUID.randomUUID());
+        assertNull(actualFq);
+
+        ______TS("failure: null parameter, assertion error");
+        assertThrows(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
+    }
+
+    @Test
+    public void testCreateFeedbackQuestion() throws EntityAlreadyExistsException, InvalidParametersException {
+        ______TS("success: typical case");
+        FeedbackQuestion expectedFq = getTypicalFeedbackQuestionForSession(
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()));
+
+        fqDb.createFeedbackQuestion(expectedFq);
+        verifyPresentInDatabase(expectedFq);
+
+        ______TS("failure: duplicate question, throws error");
+        assertThrows(EntityAlreadyExistsException.class, () -> fqDb.createFeedbackQuestion(expectedFq));
+
+        ______TS("failure: invalid question, throws error");
+        FeedbackQuestion invalidFq = getTypicalFeedbackQuestionForSession(
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()));
+        invalidFq.setGiverType(FeedbackParticipantType.RECEIVER);
+
+        assertThrows(InvalidParametersException.class, () -> fqDb.createFeedbackQuestion(invalidFq));
+        assertNull(fqDb.getFeedbackQuestion(invalidFq.getId()));
+
+        ______TS("failure: null parameter, assertion error");
+        assertThrows(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
+    }
+
+    @Test
     public void testGetFeedbackQuestionsForSession() {
         ______TS("success: typical case");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
@@ -56,6 +100,10 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
+
+        ______TS("failure: session does not exist, returns no questions");
+        actualQuestions = fqDb.getFeedbackQuestionsForSession(UUID.randomUUID());
+        assertEquals(0, actualQuestions.size());
     }
 
     @Test
@@ -71,6 +119,24 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
+
+        ______TS("failure: session does not exist, returns no questions");
+        fs = getTypicalFeedbackSessionForCourse(getTypicalCourse());
+        actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.STUDENTS);
+        assertEquals(0, actualQuestions.size());
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestion() {
+        ______TS("success: typical case");
+        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        verifyPresentInDatabase(fq);
+
+        fqDb.deleteFeedbackQuestion(fq.getId());
+        assertNull(fqDb.getFeedbackQuestion(fq.getId()));
+
+        ______TS("failure: null parameter, assertion error");
+        assertThrows(AssertionError.class, () -> fqDb.deleteFeedbackQuestion(null));
     }
 
     @Test
@@ -83,5 +149,9 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 fs.getName(), course.getId(), FeedbackParticipantType.STUDENTS);
 
         assertTrue(actual);
+
+        ______TS("failure: session/course does not exist, returns false");
+        actual = fqDb.hasFeedbackQuestionsForGiverType("session-name", "course-id", FeedbackParticipantType.STUDENTS);
+        assertFalse(actual);
     }
 }
