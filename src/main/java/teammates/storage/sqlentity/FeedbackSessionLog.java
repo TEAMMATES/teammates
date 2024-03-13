@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,7 +29,7 @@ public class FeedbackSessionLog extends BaseEntity {
     private String feedbackSessionName;
 
     @Column(nullable = false)
-    private String feedbackSessionLogType;
+    private FeedbackSessionLogType feedbackSessionLogType;
 
     @Column(nullable = false)
     private Instant timestamp;
@@ -36,7 +38,7 @@ public class FeedbackSessionLog extends BaseEntity {
         // required by Hibernate
     }
 
-    public FeedbackSessionLog(String email, String feedbackSessionName, String feedbackSessionLogType,
+    public FeedbackSessionLog(String email, String feedbackSessionName, FeedbackSessionLogType feedbackSessionLogType,
             Instant timestamp) {
         this.setId(UUID.randomUUID());
         this.studentEmail = email;
@@ -69,11 +71,11 @@ public class FeedbackSessionLog extends BaseEntity {
         this.feedbackSessionName = feedbackSessionName;
     }
 
-    public String getFeedbackSessionLogType() {
+    public FeedbackSessionLogType getFeedbackSessionLogType() {
         return feedbackSessionLogType;
     }
 
-    public void setFeedbackSessionLogType(String feedbackSessionLogType) {
+    public void setFeedbackSessionLogType(FeedbackSessionLogType feedbackSessionLogType) {
         this.feedbackSessionLogType = feedbackSessionLogType;
     }
 
@@ -87,8 +89,9 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackSessionLog [id=" + id + ", email=" + studentEmail + ", feedbackSessionName=" + feedbackSessionName
-                + ", feedbackSessionLogType=" + feedbackSessionLogType + ", timestamp=" + timestamp + "]";
+        return "FeedbackSessionLog [id=" + id + ", email=" + studentEmail + ", feedbackSessionName="
+                + feedbackSessionName
+                + ", feedbackSessionLogType=" + feedbackSessionLogType.getLabel() + ", timestamp=" + timestamp + "]";
     }
 
     @Override

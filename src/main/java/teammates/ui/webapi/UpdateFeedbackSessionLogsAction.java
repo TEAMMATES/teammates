@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
@@ -46,8 +47,8 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
 
             if (Math.abs(timestamp - lastSaved) > SPAM_FILTER) {
                 lastSavedByStudentAndType.get(email).put(type, timestamp);
-                FeedbackSessionLog fslEntity = new FeedbackSessionLog(email, fbSessionName, type,
-                        Instant.ofEpochMilli(timestamp));
+                FeedbackSessionLog fslEntity = new FeedbackSessionLog(email, fbSessionName,
+                        FeedbackSessionLogType.valueOfLabel(type), Instant.ofEpochMilli(timestamp));
                 filteredLogs.add(fslEntity);
             }
         }
