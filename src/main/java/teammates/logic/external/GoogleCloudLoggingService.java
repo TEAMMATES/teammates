@@ -131,6 +131,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .withLogEvent(LogEvent.FEEDBACK_SESSION_AUDIT.name())
                 .withSeverityLevel(LogSeverity.INFO)
                 .withExtraFilters(String.join("\n", filters))
+                .withOrder(ASCENDING_ORDER)
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
