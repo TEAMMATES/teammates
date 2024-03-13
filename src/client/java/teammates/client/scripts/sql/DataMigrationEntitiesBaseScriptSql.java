@@ -46,12 +46,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
-    // 100 is the optimal batch size as there won't be too much time interval
-    // between read and save (if transaction is not used)
-    // cannot set number greater than 300
-    // see
-    // https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
-    private static final int BATCH_SIZE = 100;
+    private static final int BATCH_SIZE = 1000;
 
     // Creates the folder that will contain the stored log.
     static {
@@ -249,6 +244,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
         if (!entitiesSavingBuffer.isEmpty() && !isPreview()) {
             log("Saving entities in batch..." + entitiesSavingBuffer.size());
 
+            long startTime = System.currentTimeMillis();
             HibernateUtil.beginTransaction();
             for (T entity : entitiesSavingBuffer) {
                 HibernateUtil.persist(entity);
@@ -257,6 +253,9 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
             HibernateUtil.flushSession();
             HibernateUtil.clearSession();
             HibernateUtil.commitTransaction();
+            long endTime = System.currentTimeMillis();
+            log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");        
+
         }
         entitiesSavingBuffer.clear();
     }

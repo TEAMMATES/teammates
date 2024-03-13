@@ -104,7 +104,7 @@ public class SeedDb extends DatastoreClient {
         int constEntitySize = 10000;
         // Each account will have this amount of read notifications
         int constReadNotificationSize = 5;
-        int constNotificationSize = 1000;
+        int constNotificationSize = 5;
         assert constNotificationSize >= constReadNotificationSize;
 
         String[] args = {};
@@ -115,7 +115,7 @@ public class SeedDb extends DatastoreClient {
 
         Random rand = new Random();
 
-        for (int j = 0; j < constNotificationSize; j++) {
+/*         for (int j = 0; j < constNotificationSize; j++) {
             UUID notificationUuid = UUID.randomUUID();
             while (notificationsUuidSeen.contains(notificationUuid.toString())) {
                 notificationUuid = UUID.randomUUID();
@@ -144,7 +144,7 @@ public class SeedDb extends DatastoreClient {
                 log(e.toString());
             }
         }
-
+ */
         for (int i = 0; i < constEntitySize; i++) {
 
             if (i % (constEntitySize / 5) == 0) {
@@ -160,7 +160,7 @@ public class SeedDb extends DatastoreClient {
                         .builder(accountRequestName, accountRequestEmail, accountRequestInstitute)
                         .withRegisteredAt(Instant.now()).build().toEntity();
 
-                String accountGoogleId = String.format("Account Google ID %s", i);
+/*                 String accountGoogleId = String.format("Account Google ID %s", i);
                 String accountName = String.format("Account name %s", i);
                 String accountEmail = String.format("Account email %s", i);
                 Map<String, Instant> readNotificationsToCreate = new HashMap<>();
@@ -176,13 +176,14 @@ public class SeedDb extends DatastoreClient {
                         accountEmail, readNotificationsToCreate, false);
 
                 ofy().save().entities(account).now();
+ */                
                 ofy().save().entities(accountRequest).now();
             } catch (Exception e) {
                 log(e.toString());
             }
         }
 
-        GenerateUsageStatisticsObjects.main(args);
+        // GenerateUsageStatisticsObjects.main(args);
     }
 
     private void log(String logLine) {
@@ -196,7 +197,7 @@ public class SeedDb extends DatastoreClient {
         // Persisting basic data bundle
         DataBundle dataBundle = getTypicalDataBundle();
         try {
-            logic.persistDataBundle(dataBundle);
+            // logic.persistDataBundle(dataBundle);
             persistAdditionalData();
         } catch (Exception e) {
             e.printStackTrace();

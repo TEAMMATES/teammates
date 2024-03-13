@@ -2,9 +2,12 @@ package teammates.client.scripts.sql;
 
 // CHECKSTYLE.OFF:ImportOrder
 import java.util.AbstractMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -27,7 +30,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         T extends teammates.storage.sqlentity.BaseEntity>
         extends DatastoreClient {
 
-    private static int constSqlFetchBaseSize = 500;
+    private static int constSqlFetchBaseSize = 1000;
 
     /** Datastore entity class. */
     protected Class<E> datastoreEntityClass;
@@ -68,6 +71,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         return ofy().load().type(datastoreEntityClass).id(datastoreEntityId).now();
     }
 
+    protected Map<String, E> lookupDataStoreEntities(List<String> datastoreEntitiesIds) {
+        return ofy().load().type(datastoreEntityClass).ids(datastoreEntitiesIds);
+    }
+
     /**
      * Calculate offset.
      */
@@ -97,7 +104,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         Root<T> root = pageQuery.from(sqlEntityClass);
         pageQuery.select(root);
         List<Order> orderList = new LinkedList<>();
-        orderList.add(cb.asc(root.get("createdAt")));
+        orderList.add(cb.asc(root.get("id")));
         pageQuery.orderBy(orderList);
 
         // perform query with pagination
@@ -117,7 +124,6 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         // WARNING: failures list might lead to OoM if too many entities,
         // but okay since will fail anyway.
         List<Map.Entry<T, E>> failures = new LinkedList<>();
-
         int numPages = getNumPages();
         if (numPages == 0) {
             log("No entities available for verification");
@@ -127,13 +133,23 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         for (int currPageNum = 1; currPageNum <= numPages; currPageNum++) {
             log(String.format("Verification Progress %d %%",
                      (int) ((float) currPageNum / (float) numPages * 100)));
-
+            
+            long startTimeForSql = System.currentTimeMillis();
             List<T> sqlEntities = lookupSqlEntitiesByPageNumber(currPageNum);
+            long endTimeForSql = System.currentTimeMillis();
+            log("Querying for SQL page " + currPageNum + " took " + (endTimeForSql - startTimeForSql) + " milliseconds");        
+         
+            List<String> datastoreEntitiesIds = sqlEntities.stream()
+                .map((entity) -> generateID(entity)).collect(Collectors.toList());
 
+            long startTimeForDatastore = System.currentTimeMillis();
+            Map<String, E> datastoreEntities = lookupDataStoreEntities(datastoreEntitiesIds);
+            long endTimeForDatastore = System.currentTimeMillis();
+            log("Querying for Datastore page " + currPageNum + " took " + (endTimeForDatastore - startTimeForDatastore) + " milliseconds");        
+
+            long startTimeForEquals = System.currentTimeMillis();
             for (T sqlEntity : sqlEntities) {
-                String entityId = generateID(sqlEntity);
-                E datastoreEntity = lookupDataStoreEntity(entityId);
-
+                E datastoreEntity = datastoreEntities.get(generateID(sqlEntity));
                 if (datastoreEntity == null) {
                     failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
                     continue;
@@ -145,8 +161,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
                     continue;
                 }
             }
-        }
+            long endTimeForEquals = System.currentTimeMillis();
+            log("Verifying SQL and Datastore page " + currPageNum + " took " + (endTimeForEquals - startTimeForEquals) + " milliseconds");        
 
+        }
         return failures;
     }
 
