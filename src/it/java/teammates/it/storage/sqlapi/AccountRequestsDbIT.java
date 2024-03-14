@@ -98,7 +98,8 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         // Attempt to use SQL commands in email field
         String email = "email'/**/OR/**/1=1/**/@gmail.com";
-        AccountRequest accountRequest = new AccountRequest(email, "name", "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest =
+                new AccountRequest(email, "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
@@ -195,8 +196,8 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         String emailInjection = "email'/**/OR/**/1=1/**/@gmail.com";
         String nameInjection = "name'; DROP TABLE account_requests; --";
         String instituteInjection = "institute'; DROP TABLE account_requests; --";
-        AccountRequest accountRequestInjection =
-                new AccountRequest(emailInjection, nameInjection, instituteInjection, AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequestInjection = new AccountRequest(emailInjection, nameInjection, instituteInjection,
+                AccountRequestStatus.PENDING, "comments");
         accountRequestDb.deleteAccountRequest(accountRequestInjection);
 
         AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
