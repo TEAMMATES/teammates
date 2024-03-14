@@ -47,6 +47,9 @@ public class AccountRequest extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AccountRequestStatus status;
 
+    @Column(columnDefinition = "TEXT")
+    private String comments;
+
     private Instant registeredAt;
 
     @UpdateTimestamp
@@ -144,6 +147,14 @@ public class AccountRequest extends BaseEntity {
         this.status = status;
     }
 
+    public String getComments() {
+        return this.comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
     public Instant getRegisteredAt() {
         return this.registeredAt;
     }
@@ -182,8 +193,8 @@ public class AccountRequest extends BaseEntity {
     @Override
     public String toString() {
         return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
-                + email + ", institute=" + institute + ", status=" + status + ", registeredAt=" + registeredAt
-                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+                + email + ", institute=" + institute + ", status=" + status + ", comments=" + comments
+                + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     public String getRegistrationUrl() {
