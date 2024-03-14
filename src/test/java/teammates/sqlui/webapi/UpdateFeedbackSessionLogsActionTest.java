@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -120,6 +121,11 @@ public class UpdateFeedbackSessionLogsActionTest
                 FeedbackSessionLogType.ACCESS.getLabel(), startTime.toEpochMilli());
         mockLogsProcessor.insertFeedbackSessionLog(student1, feedbackSession1,
                 FeedbackSessionLogType.ACCESS.getLabel(),
+                startTime.plusMillis(SPAM_FILTER - 2).toEpochMilli());
+
+        // Filters multiple logs within one spam window
+        mockLogsProcessor.insertFeedbackSessionLog(student1, feedbackSession1,
+                FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusMillis(SPAM_FILTER - 1).toEpochMilli());
 
         // Correctly adds new log after filtering
@@ -127,16 +133,21 @@ public class UpdateFeedbackSessionLogsActionTest
                 FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusMillis(SPAM_FILTER + 1).toEpochMilli());
 
+        // Filters out spam in the new window
+        mockLogsProcessor.insertFeedbackSessionLog(student1, feedbackSession1,
+                FeedbackSessionLogType.ACCESS.getLabel(),
+                startTime.plusMillis(SPAM_FILTER + 2).toEpochMilli());
+
         UpdateFeedbackSessionLogsAction action = getAction();
         action.execute();
 
-        // method returns all logs regardless of params
-        List<FeedbackSessionLogEntry> expected =
-                mockLogsProcessor.getFeedbackSessionLogs("", "", 0, 0, "");
+        List<FeedbackSessionLogEntry> expected = new ArrayList<>();
+        expected.add(new FeedbackSessionLogEntry(student1, feedbackSession1,
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime.toEpochMilli()));
+        expected.add(new FeedbackSessionLogEntry(student1, feedbackSession1,
+                FeedbackSessionLogType.ACCESS.getLabel(),
+                startTime.plusMillis(SPAM_FILTER + 1).toEpochMilli()));
 
-        System.out.println(expected.toString());
-        FeedbackSessionLogEntry removed = expected.remove(1);
-        assert removed.getTimestamp() == startTime.plusMillis(SPAM_FILTER - 1).toEpochMilli();
         verify(mockLogic).createFeedbackSessionLogs(
                 argThat(filteredLogs -> isEqualExceptId(expected, filteredLogs)));
     }
@@ -175,13 +186,14 @@ public class UpdateFeedbackSessionLogsActionTest
             FeedbackSessionLogEntry expectedEntry = expected.get(i);
             FeedbackSessionLog actualLog = actual.get(i);
 
-            if (expectedEntry.getStudentEmail().equals(actualLog.getStudentEmail())) {
+            if (!expectedEntry.getStudentEmail().equals(actualLog.getStudentEmail())) {
                 return false;
             }
-            if (expectedEntry.getFeedbackSessionName().equals(actualLog.getFeedbackSessionName())) {
+            if (!expectedEntry.getFeedbackSessionName()
+                    .equals(actualLog.getFeedbackSessionName())) {
                 return false;
             }
-            if (expectedEntry.getFeedbackSessionLogType()
+            if (!expectedEntry.getFeedbackSessionLogType()
                     .equals(actualLog.getFeedbackSessionLogType().getLabel())) {
                 return false;
             }
