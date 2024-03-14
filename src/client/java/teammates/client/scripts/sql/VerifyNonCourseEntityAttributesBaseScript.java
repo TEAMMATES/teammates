@@ -28,6 +28,11 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         T extends teammates.storage.sqlentity.BaseEntity>
         extends DatastoreClient {
 
+    /* NOTE
+     * Before running the verification, please enable hibernate.jdbc.fetch_size in HibernateUtil.java
+     * for optimized batch-fetching. 
+    */
+
     private static int constSqlFetchBaseSize = 1000;
 
     /** Datastore entity class. */

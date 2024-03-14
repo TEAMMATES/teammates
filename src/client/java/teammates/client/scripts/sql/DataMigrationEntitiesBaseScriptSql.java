@@ -46,7 +46,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     /* NOTE
      * Before running the migration, please enable hibernate.jdbc.batch_size, hibernate.order_updates,
      * hibernate.batch_versioned_data, hibernate.jdbc.fetch_size in HibernateUtil.java
-     * for optimized batch-insertion and batch-update. Also, verify that your schema
+     * for optimized batch-insertion, batch-update and batch-fetching. Also, verify that your schema
      * meets the conditions for them.
     */
 
