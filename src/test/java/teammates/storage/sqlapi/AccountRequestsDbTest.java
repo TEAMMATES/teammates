@@ -53,7 +53,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     public void testCreateAccountRequest_accountRequestDoesNotExist_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         accountRequestDb.createAccountRequest(accountRequest);
@@ -64,8 +64,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testCreateAccountRequest_accountRequestAlreadyExists_throwsEntityAlreadyExistsException() {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
-        doReturn(new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING))
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        doReturn(new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments"))
                 .when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
@@ -78,7 +78,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
         AccountRequest accountRequestWithInvalidEmail =
-                new AccountRequest("testgmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("testgmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         assertThrows(InvalidParametersException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequestWithInvalidEmail));
@@ -89,7 +89,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         assertThrows(EntityDoesNotExistException.class,
@@ -101,7 +101,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         doReturn(accountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         accountRequestDb.updateAccountRequest(accountRequest);
@@ -112,7 +112,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testDeleteAccountRequest_success() {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         accountRequestDb.deleteAccountRequest(accountRequest);
 

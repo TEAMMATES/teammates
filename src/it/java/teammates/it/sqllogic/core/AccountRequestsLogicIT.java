@@ -30,8 +30,9 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         String email = "email@gmail.com";
         String institute = "institute";
         AccountRequestStatus status = AccountRequestStatus.PENDING;
+        String comments = "comments";
 
-        AccountRequest toReset = accountRequestsLogic.createAccountRequest(name, email, institute, status);
+        AccountRequest toReset = accountRequestsLogic.createAccountRequest(name, email, institute, status, comments);
         AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
         toReset.setRegisteredAt(Instant.now());

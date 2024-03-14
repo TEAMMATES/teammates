@@ -16,6 +16,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -59,12 +60,13 @@ public class AccountRequest extends BaseEntity {
         // required by Hibernate
     }
 
-    public AccountRequest(String email, String name, String institute, AccountRequestStatus status) {
+    public AccountRequest(String email, String name, String institute, AccountRequestStatus status, String comments) {
         this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
         this.setInstitute(institute);
         this.setStatus(status);
+        this.setComments(comments);
         this.generateNewRegistrationKey();
         this.setCreatedAt(Instant.now());
         this.setRegisteredAt(null);

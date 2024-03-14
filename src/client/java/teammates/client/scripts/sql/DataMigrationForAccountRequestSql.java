@@ -44,7 +44,8 @@ public class DataMigrationForAccountRequestSql
                 oldEntity.getEmail(),
                 oldEntity.getName(),
                 oldEntity.getInstitute(),
-                AccountRequestStatus.APPROVED);
+                AccountRequestStatus.APPROVED,
+                null);
 
         // set registration key to the old value if exists
         if (oldEntity.getRegistrationKey() != null) {

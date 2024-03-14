@@ -23,7 +23,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Create account request, does not exists, succeeds");
 
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         ______TS("Read account request using the given email and institute");
@@ -56,7 +56,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Create acccount request, already exists, execption thrown");
 
         AccountRequest identicalAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         assertNotSame(accountRequest, identicalAccountRequest);
 
         assertThrows(EntityAlreadyExistsException.class,
@@ -76,7 +76,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Update account request, does not exists, exception thrown");
 
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequest));
@@ -98,7 +98,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         // Attempt to use SQL commands in email field
         String email = "email'/**/OR/**/1=1/**/@gmail.com";
-        AccountRequest accountRequest = new AccountRequest(email, "name", "institute", AccountRequestStatus.PENDING);
+        AccountRequest accountRequest = new AccountRequest(email, "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
@@ -113,7 +113,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         // Attempt to use SQL commands in name field
         String name = "name'; SELECT * FROM account_requests; --";
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", name, "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", name, "institute", AccountRequestStatus.PENDING, "comments");
 
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
@@ -128,7 +128,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         // Attempt to use SQL commands in institute field
         String institute = "institute'; DROP TABLE account_requests; --";
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", institute, AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", institute, AccountRequestStatus.PENDING, "comments");
 
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
@@ -141,7 +141,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in getAccountRequest");
 
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String instituteInjection = "institute'; DROP TABLE account_requests; --";
@@ -157,7 +157,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in getAccountRequestByRegistrationKey");
 
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String regKeyInjection = "regKey'; DROP TABLE account_requests; --";
@@ -173,7 +173,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in updateAccountRequest");
 
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String nameInjection = "newName'; DROP TABLE account_requests; --";
@@ -189,14 +189,14 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in deleteAccountRequest");
 
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String emailInjection = "email'/**/OR/**/1=1/**/@gmail.com";
         String nameInjection = "name'; DROP TABLE account_requests; --";
         String instituteInjection = "institute'; DROP TABLE account_requests; --";
         AccountRequest accountRequestInjection =
-                new AccountRequest(emailInjection, nameInjection, instituteInjection, AccountRequestStatus.PENDING);
+                new AccountRequest(emailInjection, nameInjection, instituteInjection, AccountRequestStatus.PENDING, "comments");
         accountRequestDb.deleteAccountRequest(accountRequestInjection);
 
         AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
@@ -208,7 +208,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
 
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";

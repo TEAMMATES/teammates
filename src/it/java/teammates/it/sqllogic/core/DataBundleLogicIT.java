@@ -63,7 +63,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         AccountRequest actualAccountRequest = dataBundle.accountRequests.get("instructor1");
         AccountRequest expectedAccountRequest = new AccountRequest("instr1@teammates.tmt", "Instructor 1",
-                "TEAMMATES Test Institute 1", AccountRequestStatus.REGISTERED);
+                "TEAMMATES Test Institute 1", AccountRequestStatus.REGISTERED, "These are some comments.");
         expectedAccountRequest.setId(actualAccountRequest.getId());
         expectedAccountRequest.setRegisteredAt(Instant.parse("2015-02-14T00:00:00Z"));
         expectedAccountRequest.setRegistrationKey(actualAccountRequest.getRegistrationKey());

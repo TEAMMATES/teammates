@@ -60,9 +60,9 @@ public final class AccountRequestsLogic {
     /**
      * Creates an account request.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        AccountRequest toCreate = new AccountRequest(email, name, institute, status);
+    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
+            String comments) throws InvalidParametersException, EntityAlreadyExistsException {
+        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
 
         return accountRequestDb.createAccountRequest(toCreate);
     }

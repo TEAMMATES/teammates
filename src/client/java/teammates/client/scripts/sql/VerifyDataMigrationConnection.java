@@ -45,7 +45,8 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
                 "dummy-teammates-account-request-email@gmail.com",
                 "dummy-teammates-account-request",
                 "dummy-teammates-institute",
-                AccountRequestStatus.PENDING);
+                AccountRequestStatus.PENDING,
+                "dummy-comments");
         HibernateUtil.beginTransaction();
         HibernateUtil.persist(newEntity);
         HibernateUtil.commitTransaction();
