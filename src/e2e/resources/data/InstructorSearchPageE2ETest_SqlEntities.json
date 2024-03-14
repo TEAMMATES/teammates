@@ -1,0 +1,34 @@
+{
+    "accounts": {
+        "instructor1OfCourse1": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "googleId": "tm.e2e.ISearch.instr1",
+        "name": "Instructor 1 of Course 1",
+        "email": "ISearch.instr1@gmail.tmt"
+        },
+        "student1InCourse1": {
+        "id": "00000000-0000-4000-8000-000000000002",
+        "googleId": "tm.e2e.ISearch.student1",
+        "name": "Student 1 in course 1",
+        "email": "ISearch.student1@gmail.tmt"
+        },
+        "student2InCourse1": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "googleId": "tm.e2e.ISearch.student2",
+        "name": "Student in two courses",
+        "email": "ISearch.student2@gmail.tmt"
+        },
+        "student2.2InCourse1": {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "googleId": "tm.e2e.ISearch.student2.2",
+        "name": "Student in two courses",
+        "email": "ISearch.student2@gmail.tmt"
+        },
+        "student3InCourse1": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "googleId": "tm.e2e.ISearch.student3",
+        "name": "Student 3 in course 1",
+        "email": "ISearch.student3@gmail.tmt"
+        }
+    }
+}
