@@ -30,7 +30,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
     /* NOTE
      * Before running the verification, please enable hibernate.jdbc.fetch_size in HibernateUtil.java
-     * for optimized batch-fetching. 
+     * for optimized batch-fetching.
     */
 
     private static int constSqlFetchBaseSize = 1000;
