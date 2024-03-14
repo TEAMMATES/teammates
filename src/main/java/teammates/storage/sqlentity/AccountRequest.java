@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -16,6 +17,8 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -40,6 +43,9 @@ public class AccountRequest extends BaseEntity {
     private String email;
 
     private String institute;
+
+    @Enumerated(EnumType.STRING)
+    private AccountRequestStatus status;
 
     private Instant registeredAt;
 
@@ -129,6 +135,14 @@ public class AccountRequest extends BaseEntity {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
+    public AccountRequestStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(AccountRequestStatus status) {
+        this.status = status;
+    }
+
     public Instant getRegisteredAt() {
         return this.registeredAt;
     }
@@ -167,8 +181,8 @@ public class AccountRequest extends BaseEntity {
     @Override
     public String toString() {
         return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
-                + email + ", institute=" + institute + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt()
-                + ", updatedAt=" + updatedAt + "]";
+                + email + ", institute=" + institute + ", status=" + status + ", registeredAt=" + registeredAt
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     public String getRegistrationUrl() {
