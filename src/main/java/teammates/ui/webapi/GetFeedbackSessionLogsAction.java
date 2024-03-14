@@ -135,7 +135,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         List<FeedbackSessionLogEntry> fsLogEntries =
-                logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
+                logsProcessor.getOrderedFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
 
         if (isCourseMigrated(courseId)) {
             Map<String, Student> studentsMap = new HashMap<>();

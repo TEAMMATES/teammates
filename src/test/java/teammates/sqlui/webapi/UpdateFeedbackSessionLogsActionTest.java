@@ -52,7 +52,7 @@ public class UpdateFeedbackSessionLogsActionTest
     void setUp() {
         endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
         startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
-        mockLogsProcessor.getFeedbackSessionLogs("", "", 0, 0, "").clear();
+        mockLogsProcessor.getOrderedFeedbackSessionLogs("", "", 0, 0, "").clear();
     }
 
     @Test
@@ -107,7 +107,7 @@ public class UpdateFeedbackSessionLogsActionTest
 
         // method returns all logs regardless of params
         List<FeedbackSessionLogEntry> expected =
-                mockLogsProcessor.getFeedbackSessionLogs("", "", 0, 0, "");
+                mockLogsProcessor.getOrderedFeedbackSessionLogs("", "", 0, 0, "");
 
         verify(mockLogic).createFeedbackSessionLogs(
                 argThat(filteredLogs -> isEqualExceptId(expected, filteredLogs)));

@@ -102,8 +102,9 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
+        feedbackSessionLogs.sort((x, y) -> x.compareTo(y));
         return feedbackSessionLogs;
     }
 

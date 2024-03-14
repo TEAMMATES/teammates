@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 /**
  * Represents a log entry of a feedback session.
  */
-public class FeedbackSessionLogEntry {
+public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEntry> {
     private final String studentEmail;
     private final String feedbackSessionName;
     private final String feedbackSessionLogType;
@@ -31,5 +31,10 @@ public class FeedbackSessionLogEntry {
 
     public long getTimestamp() {
         return this.timestamp;
+    }
+
+    @Override
+    public int compareTo(FeedbackSessionLogEntry o) {
+        return Long.compare(this.getTimestamp(), o.getTimestamp());
     }
 }

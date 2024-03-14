@@ -31,7 +31,7 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
         Instant endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
         Instant startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
-        List<FeedbackSessionLogEntry> logEntries = logsProcessor.getFeedbackSessionLogs(null, null,
+        List<FeedbackSessionLogEntry> logEntries = logsProcessor.getOrderedFeedbackSessionLogs(null, null,
                 startTime.toEpochMilli(), endTime.toEpochMilli(), null);
 
         Map<String, Map<String, Map<String, Long>>> lastSavedTimestamps = new HashMap<>();

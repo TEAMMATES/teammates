@@ -115,7 +115,7 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         List<String> filters = new ArrayList<>();
         if (courseId != null) {
