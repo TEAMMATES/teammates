@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
@@ -25,7 +26,7 @@ class CreateAccountRequestAction extends AdminOnlyAction {
         AccountRequest accountRequest;
 
         try {
-            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution);
+            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution, AccountRequestStatus.PENDING);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityAlreadyExistsException eaee) {

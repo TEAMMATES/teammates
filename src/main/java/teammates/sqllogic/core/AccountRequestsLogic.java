@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.util.List;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -59,9 +60,9 @@ public final class AccountRequestsLogic {
     /**
      * Creates an account request.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute)
+    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        AccountRequest toCreate = new AccountRequest(email, name, institute);
+        AccountRequest toCreate = new AccountRequest(email, name, institute, status);
 
         return accountRequestDb.createAccountRequest(toCreate);
     }

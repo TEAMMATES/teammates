@@ -2,6 +2,7 @@ package teammates.client.scripts.sql;
 
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.storage.sqlentity.AccountRequest;
 
 /**
@@ -42,7 +43,8 @@ public class DataMigrationForAccountRequestSql
         AccountRequest newEntity = new AccountRequest(
                 oldEntity.getEmail(),
                 oldEntity.getName(),
-                oldEntity.getInstitute());
+                oldEntity.getInstitute(),
+                AccountRequestStatus.APPROVED);
 
         // set registration key to the old value if exists
         if (oldEntity.getRegistrationKey() != null) {

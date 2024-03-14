@@ -16,6 +16,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -51,7 +52,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testCreateAccountRequest_accountRequestDoesNotExist_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         accountRequestDb.createAccountRequest(accountRequest);
@@ -61,8 +63,9 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateAccountRequest_accountRequestAlreadyExists_throwsEntityAlreadyExistsException() {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        doReturn(new AccountRequest("test@gmail.com", "name", "institute"))
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
+        doReturn(new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING))
                 .when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
@@ -74,7 +77,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
-        AccountRequest accountRequestWithInvalidEmail = new AccountRequest("testgmail.com", "name", "institute");
+        AccountRequest accountRequestWithInvalidEmail =
+                new AccountRequest("testgmail.com", "name", "institute", AccountRequestStatus.PENDING);
 
         assertThrows(InvalidParametersException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequestWithInvalidEmail));
@@ -84,7 +88,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         assertThrows(EntityDoesNotExistException.class,
@@ -95,7 +100,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
         doReturn(accountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         accountRequestDb.updateAccountRequest(accountRequest);
@@ -105,7 +111,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testDeleteAccountRequest_success() {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING);
 
         accountRequestDb.deleteAccountRequest(accountRequest);
 
