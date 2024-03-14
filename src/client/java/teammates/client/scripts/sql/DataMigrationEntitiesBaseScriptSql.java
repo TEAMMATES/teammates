@@ -43,10 +43,17 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
         E extends teammates.storage.entity.BaseEntity, T extends teammates.storage.sqlentity.BaseEntity>
         extends DatastoreClient {
 
+    /* NOTE
+     * Before running the migration, please enable hibernate.jdbc.batch_size, hibernate.order_updates,
+     * hibernate.batch_versioned_data, hibernate.jdbc.fetch_size in HibernateUtil.java
+     * for optimized batch-insertion and batch-update. Also, verify that your schema
+     * meets the conditions for them.
+    */
+
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
-    private static final int BATCH_SIZE = 100;
+    private static final int BATCH_SIZE = 1000;
 
     // Creates the folder that will contain the stored log.
     static {
