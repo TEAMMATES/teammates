@@ -45,8 +45,7 @@ public final class AccountRequestsDb extends EntitiesDb {
     /**
      * Creates an AccountRequest in the database.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
         assert accountRequest != null;
 
         if (!accountRequest.isValid()) {
