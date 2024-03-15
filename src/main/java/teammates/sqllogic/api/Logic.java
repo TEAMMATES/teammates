@@ -89,7 +89,7 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
     public AccountRequest createAccountRequest(String name, String email, String institute)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
 
         return accountRequestLogic.createAccountRequest(name, email, institute);
     }
