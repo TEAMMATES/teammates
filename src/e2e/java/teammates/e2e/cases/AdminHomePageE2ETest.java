@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminHomePage;
-import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_HOME_PAGE}.
