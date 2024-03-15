@@ -2,7 +2,6 @@ package teammates.e2e.cases.sql;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -116,13 +115,6 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         // feedbackSubmitPage = getFeedbackSubmitPage();
         // feedbackSubmitPage.verifyRankOptionResponse(1, receiver.getName(), response);
         // verifyPresentInDatabase(response);
-    }
-
-    private List<String> getGeneratedStudentOptions() {
-        return testData.students.values().stream()
-                .filter(s -> s.getCourse().equals(student.getCourse()))
-                .map(s -> s.getName() + " (" + s.getTeam() + ")")
-                .collect(Collectors.toList());
     }
 
     private FeedbackResponse getResponse(FeedbackQuestion question, Student receiver, List<Integer> answers) {
