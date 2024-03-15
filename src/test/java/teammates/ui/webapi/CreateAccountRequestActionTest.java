@@ -93,16 +93,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(email, emailSent.getRecipient());
         assertTrue(emailSent.getContent().contains(joinLink));
 
-        ______TS("Account request already exists: instructor registered, InvalidOperationException thrown");
-
-        accountRequestAttributes = typicalBundle.accountRequests.get("instructor1OfCourse1");
-
-        req = buildCreateRequest(accountRequestAttributes.getName(),
-                accountRequestAttributes.getInstitute(), accountRequestAttributes.getEmail());
-
-        InvalidOperationException ioe = verifyInvalidOperation(req);
-        assertEquals("Cannot create account request as instructor has already registered.", ioe.getMessage());
-
         ______TS("Error: invalid parameter");
 
         String invalidName = "James%20Bond99";

@@ -36,10 +36,6 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
 
         assert accountRequest != null;
 
-        if (accountRequest.getRegisteredAt() != null) {
-            throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
-        }
-
         String joinLink = accountRequest.getRegistrationUrl();
 
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
