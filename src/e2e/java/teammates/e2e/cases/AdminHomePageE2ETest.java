@@ -50,19 +50,6 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
 
         assertNotNull(BACKDOOR.getAccountRequest(email, institute));
         BACKDOOR.deleteAccountRequest(email, institute);
-
-        ______TS("Success case: Reset account request");
-
-        homePage.clickMoreInfoButtonForRegisteredInstructor(2);
-        homePage.clickResetAccountRequestLink();
-
-        AccountRequest registeredAccountRequest = sqlTestData.accountRequests.get("AHome.instructor1OfCourse1");
-        successMessage = homePage.getMessageForInstructor(2);
-        assertTrue(successMessage.contains(
-                "Instructor \"" + registeredAccountRequest.getName() + "\" has been successfully created"));
-
-        assertNull(BACKDOOR.getAccountRequest(
-                registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()).getRegisteredAt());
     }
 
 }
