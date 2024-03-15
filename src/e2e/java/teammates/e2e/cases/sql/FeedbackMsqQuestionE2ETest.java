@@ -100,7 +100,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("verify loaded question with generated options");
         FeedbackQuestion generatedQn = testData.feedbackQuestions.get("qn1ForSecondSession");
-        feedbackSubmitPage.verifyGeneratedMsqQuestion(2, "",
+        feedbackSubmitPage.verifyGeneratedMsqQuestion(3, "",
                 (FeedbackMsqQuestionDetails) generatedQn.getQuestionDetailsCopy(), getGeneratedTeams());
 
         ______TS("submit response");
