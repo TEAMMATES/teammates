@@ -263,7 +263,7 @@ public class FeedbackSubmitPage extends AppPage {
     public void verifyGeneratedMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestionDetails questionDetails,
                                            List<String> options) {
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
-        for (int i = 0; i < options.size(); i++) {
+                for (int i = 0; i < options.size(); i++) {
             assertEquals(options.get(i), optionTexts.get(i).getText());
         }
         verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
@@ -290,8 +290,52 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
+        for (int i = 0; i < optionTexts.size(); i++) {
+            if (answers.contains(optionTexts.get(i).getText())) {
+                markOptionAsSelected(checkboxes.get(i));
+            } else {
+                markOptionAsUnselected(checkboxes.get(i));
+            }
+        }
+        if (responseDetails.isOther()) {
+            markOptionAsSelected(getMsqOtherOptionCheckbox(qnNumber, recipient));
+            fillTextBox(getMsqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
+        }
+    }
+
     public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetailsCopy();
+        List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
+        for (int i = 0; i < optionTexts.size(); i++) {
+            if (answers.contains(optionTexts.get(i).getText())) {
+                assertTrue(checkboxes.get(i).isSelected());
+            } else if ("Other".equals(optionTexts.get(i).getText())) {
+                assertEquals(checkboxes.get(i).isSelected(), responseDetails.isOther());
+            } else {
+                assertFalse(checkboxes.get(i).isSelected());
+            }
+        }
+        if (responseDetails.isOther()) {
+            assertEquals(getMsqOtherOptionTextbox(qnNumber, recipient).getAttribute("value"),
+                    responseDetails.getOtherFieldContent());
+        }
+    }
+
+    public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<String> answers = responseDetails.getAnswers();
         if (answers.get(0).isEmpty()) {
             answers.add("None of the above");
