@@ -13,6 +13,7 @@ import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
+  AccountRequestStatus,
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -184,11 +185,13 @@ describe('SearchService', () => {
   };
 
   const mockAccountRequest: AccountRequest = {
+    id: 'test@example.com%Test Institute',
     registrationKey: 'regkey',
     createdAt: 1585487897502,
     name: 'Test Instructor',
     institute: 'Test Institute',
     email: 'test@example.com',
+    status: AccountRequestStatus.APPROVED,
   };
 
   beforeEach(() => {
@@ -294,7 +297,11 @@ describe('SearchService', () => {
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
     jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
-    const accountRequest: AccountRequest = { ...mockAccountRequest, registeredAt: 1685487897502 };
+    const accountRequest: AccountRequest = {
+      ...mockAccountRequest,
+      registeredAt: 1685487897502,
+      status: AccountRequestStatus.REGISTERED,
+    };
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
 
     expect(result.email).toBe('test@example.com');
