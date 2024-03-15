@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
@@ -37,10 +36,6 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         assert accountRequest != null;
 
         String joinLink = accountRequest.getRegistrationUrl();
-
-        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorEmail, instructorName, joinLink);
-        emailSender.sendEmail(email);
 
         JoinLinkData output = new JoinLinkData(joinLink);
         return new JsonResult(output);
