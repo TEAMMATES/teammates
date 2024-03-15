@@ -51,14 +51,17 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                         accountRequest.getCreatedAt().minusMillis(2000));
         assertEquals(0, actualAccReqCreatedAtOutside.size());
 
-        ______TS("Create acccount request, already exists, execption thrown");
+        ______TS("Create acccount request, already exists, creates successfully");
 
         AccountRequest identicalAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute");
         assertNotSame(accountRequest, identicalAccountRequest);
 
-        assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestDb.createAccountRequest(identicalAccountRequest));
+        try {
+            accountRequestDb.createAccountRequest(accountRequest);
+        } catch (EntityAlreadyExistsException eaee) {
+            fail("AccountRequest instances with the same email address and institute should be allowed.");
+        }
 
         ______TS("Delete account request that was created");
 

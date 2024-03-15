@@ -60,16 +60,17 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestAlreadyExists_throwsEntityAlreadyExistsException() {
+    public void testCreateAccountRequest_accountRequestAlreadyExists_createsSuccessfully()
+            throws InvalidParametersException {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(new AccountRequest("test@gmail.com", "name", "institute"))
                 .when(accountRequestDb).getAccountRequest(anyString(), anyString());
-
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestDb.createAccountRequest(accountRequest));
-
-        assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + accountRequest.toString());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest), never());
+        try {
+            accountRequestDb.createAccountRequest(accountRequest);
+        } catch (EntityAlreadyExistsException eaee) {
+            fail("AccountRequest instances with the same email address and institute should be allowed.");
+        }
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
     }
 
     @Test
