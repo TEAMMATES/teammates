@@ -130,7 +130,6 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
                     actualFeedbackSession.getIsClosingEmailEnabled());
             assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
                     actualFeedbackSession.getIsPublishedEmailEnabled());
-            // TODO: compare the rest of the attributes
         } else if (expected instanceof Instructor) {
             Instructor expectedInstructor = (Instructor) expected;
             InstructorData actualInstructor = (InstructorData) actual;
@@ -151,12 +150,6 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedNotification.getTitle(), actualNotification.getTitle());
             assertEquals(expectedNotification.getMessage(), actualNotification.getMessage());
             assertEquals(expectedNotification.isShown(), actualNotification.isShown());
-        } else if (expected instanceof ReadNotification) {
-            ReadNotification expectedReadNotification = (ReadNotification) expected;
-            // TODO: ReadNotificationData actualReadNotification = (ReadNotificationData) actual;
-        } else if (expected instanceof Section) {
-            Section expectedSection = (Section) expected;
-            // TODO: SectionData actualSection = (SectionData) actual;
         } else if (expected instanceof Student) {
             Student expectedStudent = (Student) expected;
             StudentData actualStudent = (StudentData) actual;
@@ -167,9 +160,6 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedStudent.getComments(), actualStudent.getComments());
             assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
             assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
-        } else if (expected instanceof Team) {
-            Team expectedTeam = (Team) expected;
-            // TODO: TeamData actualTeam = (TeamData) actual;
         } else if (expected instanceof UsageStatistics) {
             UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
             UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
