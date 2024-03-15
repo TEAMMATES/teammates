@@ -513,6 +513,20 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillRankOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackRankOptionsResponseDetails responseDetails =
+                (FeedbackRankOptionsResponseDetails) response.getFeedbackResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i), "");
+            } else {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i),
+                        Integer.toString(answers.get(i)));
+            }
+        }
+    }
+
     public void verifyRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackRankOptionsResponseDetails responseDetails =
                 (FeedbackRankOptionsResponseDetails) response.getResponseDetailsCopy();
