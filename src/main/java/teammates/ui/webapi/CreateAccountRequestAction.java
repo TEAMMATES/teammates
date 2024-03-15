@@ -20,9 +20,10 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
-        // TODO: This is a placeholder. It should be obtained from AccountCreateRequest, in a separate PR.
-        String comments = "PLACEHOLDER";
-
+        String comments = createRequest.getInstructorComments();
+        if (comments != null) {
+            comments = comments.trim();
+        }
         AccountRequest accountRequest;
 
         try {
