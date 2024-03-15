@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
