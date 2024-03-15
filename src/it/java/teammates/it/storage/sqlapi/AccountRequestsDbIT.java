@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
@@ -57,18 +56,17 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 new AccountRequest("test@gmail.com", "name", "institute");
         assertNotSame(accountRequest, identicalAccountRequest);
 
-        try {
-            accountRequestDb.createAccountRequest(accountRequest);
-        } catch (EntityAlreadyExistsException eaee) {
-            fail("AccountRequest instances with the same email address and institute should be allowed.");
-        }
+        accountRequestDb.createAccountRequest(identicalAccountRequest);
+        AccountRequest actualIdenticalAccountRequest =
+                accountRequestDb.getAccountRequestByRegistrationKey(identicalAccountRequest.getRegistrationKey());
+        verifyEquals(identicalAccountRequest, actualIdenticalAccountRequest);
 
         ______TS("Delete account request that was created");
 
         accountRequestDb.deleteAccountRequest(accountRequest);
 
         AccountRequest actualAccountRequest =
-                accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+                accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
         assertNull(actualAccountRequest);
     }
 

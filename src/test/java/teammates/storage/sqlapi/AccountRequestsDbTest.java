@@ -16,7 +16,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -49,8 +48,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateAccountRequest_accountRequestDoesNotExist_success() throws InvalidParametersException {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
@@ -65,11 +63,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(new AccountRequest("test@gmail.com", "name", "institute"))
                 .when(accountRequestDb).getAccountRequest(anyString(), anyString());
-        try {
-            accountRequestDb.createAccountRequest(accountRequest);
-        } catch (EntityAlreadyExistsException eaee) {
-            fail("AccountRequest instances with the same email address and institute should be allowed.");
-        }
+        accountRequestDb.createAccountRequest(accountRequest);
         mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
     }
 
