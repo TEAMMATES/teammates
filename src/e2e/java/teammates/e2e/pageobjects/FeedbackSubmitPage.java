@@ -263,7 +263,7 @@ public class FeedbackSubmitPage extends AppPage {
     public void verifyGeneratedMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestionDetails questionDetails,
                                            List<String> options) {
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
-                for (int i = 0; i < options.size(); i++) {
+        for (int i = 0; i < options.size(); i++) {
             assertEquals(options.get(i), optionTexts.get(i).getText());
         }
         verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
