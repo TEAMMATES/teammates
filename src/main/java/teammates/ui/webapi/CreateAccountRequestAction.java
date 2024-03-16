@@ -10,7 +10,17 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Creates a new account request.
  */
-public class CreateAccountRequestAction extends AdminOnlyAction {
+public class CreateAccountRequestAction extends Action {
+
+    @Override
+    AuthType getMinAuthLevel() {
+        return AuthType.PUBLIC;
+    }
+
+    @Override
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        // Nothing needs to be done here because anybody should be able to create an account request.
+    }
 
     @Override
     public JsonResult execute()

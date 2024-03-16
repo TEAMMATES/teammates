@@ -184,9 +184,9 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testAccessControl'");
+        verifyAccessibleWithoutLogin();
     }
 
 }
