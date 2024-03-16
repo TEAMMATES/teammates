@@ -13,10 +13,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
-import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.ApiOutput;
@@ -75,7 +72,6 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
                     actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
             assertEquals(expectedQuestionDetails.getQuestionText(), actualQuestion.getQuestionBrief());
             assertEquals(expectedQuestionDetails.getQuestionType(), actualQuestion.getQuestionType());
-            // TODO: compare the rest of the attributes
         } else if (expected instanceof FeedbackResponse) {
             FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
             FeedbackResponseDetails expectedResponseDetails =
@@ -87,7 +83,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
                     actualResponse.getResponseDetails().getAnswerString());
             assertEquals(expectedResponseDetails.getQuestionType(),
                     actualResponse.getResponseDetails().getQuestionType());
-            // TODO: compare the rest of the attributes
+            assertEquals(expectedResponseDetails.getJsonString(), actualResponse.getResponseDetails().getJsonString());
         } else if (expected instanceof Account) {
             Account expectedAccount = (Account) expected;
             AccountData actualAccount = (AccountData) actual;
