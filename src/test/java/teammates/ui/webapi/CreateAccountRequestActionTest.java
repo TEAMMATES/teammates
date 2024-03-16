@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.JoinLinkData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -62,9 +62,9 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(institute, accountRequestAttributes.getInstitute());
         assertNotNull(accountRequestAttributes.getRegistrationKey());
 
-        String joinLink = accountRequestAttributes.getRegistrationUrl();
-        JoinLinkData output = (JoinLinkData) r.getOutput();
-        assertEquals(joinLink, output.getJoinLink());
+        String registrationKey = accountRequestAttributes.getRegistrationKey();
+        AccountRequestData output = (AccountRequestData) r.getOutput();
+        assertEquals(registrationKey, output.getRegistrationKey());
 
         verifyNoEmailsSent();
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
@@ -73,8 +73,8 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         a = getAction(req);
         r = getJsonResult(a);
-        output = (JoinLinkData) r.getOutput();
-        assertEquals(joinLink, output.getJoinLink());
+        output = (AccountRequestData) r.getOutput();
+        assertEquals(registrationKey, output.getRegistrationKey());
 
         verifyNoEmailsSent();
         verifyNoTasksAdded(); // Account request not added to search indexing queue

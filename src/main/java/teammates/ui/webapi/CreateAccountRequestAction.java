@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.ui.output.JoinLinkData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -35,10 +35,7 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         }
 
         assert accountRequest != null;
-
-        String joinLink = accountRequest.getRegistrationUrl();
-
-        JoinLinkData output = new JoinLinkData(joinLink);
+        AccountRequestData output = new AccountRequestData(accountRequest);
         return new JsonResult(output);
     }
 
