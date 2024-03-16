@@ -33,15 +33,18 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
      * for optimized batch-fetching.
     */
 
-    protected static int constSqlFetchBaseSize = 1000;
-
-    private long entitiesVerified = 0;
+    /**
+     * Batch size to fetch per page.
+     */
+    protected static final int CONST_SQL_FETCH_BASE_SIZE = 1000;
 
     /** Datastore entity class. */
     protected Class<E> datastoreEntityClass;
 
     /** SQL entity class. */
     protected Class<T> sqlEntityClass;
+
+    private long entitiesVerified = 0;
 
     public VerifyNonCourseEntityAttributesBaseScript(
             Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
@@ -80,7 +83,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
      * Calculate offset.
      */
     protected int calculateOffset(int pageNum) {
-        return (pageNum - 1) * constSqlFetchBaseSize;
+        return (pageNum - 1) * CONST_SQL_FETCH_BASE_SIZE;
     }
 
     /**
@@ -91,12 +94,17 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         countQuery.select(cb.count(countQuery.from(sqlEntityClass)));
         long countResults = HibernateUtil.createQuery(countQuery).getSingleResult().longValue();
-        int numPages = (int) (Math.ceil((double) countResults / (double) constSqlFetchBaseSize));
+        int numPages = (int) (Math.ceil((double) countResults / (double) CONST_SQL_FETCH_BASE_SIZE));
         log(String.format("Has %d entities with %d pages", countResults, numPages));
 
         return numPages;
     }
 
+    /**
+     * Sort SQL entities by id in ascending order and return entities on page.
+     * @param pageNum page in a sorted entities tables
+     * @return list of SQL entities on page num
+     */
     protected List<T> lookupSqlEntitiesByPageNumber(int pageNum) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<T> pageQuery = cb.createQuery(sqlEntityClass);
@@ -111,7 +119,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         // perform query with pagination
         TypedQuery<T> query = HibernateUtil.createQuery(pageQuery);
         query.setFirstResult(calculateOffset(pageNum));
-        query.setMaxResults(constSqlFetchBaseSize);
+        query.setMaxResults(CONST_SQL_FETCH_BASE_SIZE);
 
         return query.getResultList();
     }
@@ -192,7 +200,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         } else {
             log("No errors detected");
         }
-        
+
         long checkEndTime = System.currentTimeMillis();
         log("Entity took " + (checkEndTime - checkStartTime) + " milliseconds to verify");
         log("Verified " + entitiesVerified + " SQL entities successfully");

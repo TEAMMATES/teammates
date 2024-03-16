@@ -1,5 +1,6 @@
 package teammates.client.scripts.sql;
 
+// CHECKSTYLE.OFF:ImportOrder
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
+
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.sqlentity.ReadNotification;
@@ -24,7 +26,7 @@ import teammates.storage.sqlentity.ReadNotification;
 public class VerifyAccountAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Account, teammates.storage.sqlentity.Account> {
 
-    private String READ_NOTIFICATION_FIELD = "readNotifications";
+    private static final String READ_NOTIFICATION_FIELD = "readNotifications";
 
     public VerifyAccountAttributes() {
         super(Account.class,
@@ -71,7 +73,7 @@ public class VerifyAccountAttributes
         // perform query with pagination
         TypedQuery<teammates.storage.sqlentity.Account> query = HibernateUtil.createQuery(pageQuery);
         query.setFirstResult(calculateOffset(pageNum));
-        query.setMaxResults(constSqlFetchBaseSize);
+        query.setMaxResults(CONST_SQL_FETCH_BASE_SIZE);
 
         // Fetch read notifications eagerly with one join
         root.fetch(READ_NOTIFICATION_FIELD, JoinType.LEFT);
