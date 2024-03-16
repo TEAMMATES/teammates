@@ -115,8 +115,10 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;
             assertEquals(expectedFeedbackSession.getName(), actualFeedbackSession.getFeedbackSessionName());
             assertEquals(expectedFeedbackSession.getInstructions(), actualFeedbackSession.getInstructions());
-            assertEquals(expectedFeedbackSession.getStartTime().toEpochMilli(), actualFeedbackSession.getSubmissionStartTimestamp());
-            assertEquals(expectedFeedbackSession.getEndTime().toEpochMilli(), actualFeedbackSession.getSubmissionEndTimestamp());
+            assertEquals(expectedFeedbackSession.getStartTime().toEpochMilli(),
+                    actualFeedbackSession.getSubmissionStartTimestamp());
+            assertEquals(expectedFeedbackSession.getEndTime().toEpochMilli(),
+                    actualFeedbackSession.getSubmissionEndTimestamp());
             assertEquals(expectedFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
                     actualFeedbackSession.getSessionVisibleFromTimestamp().longValue());
             assertEquals(expectedFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
