@@ -60,6 +60,46 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     }
 
     @Test
+    void testExecute_invalidEmail_throwsInvalidHttpRequestBodyException() {
+        AccountCreateRequest request = new AccountCreateRequest();
+        request.setInstructorEmail("invalid email address");
+        request.setInstructorName("Paul Atreides");
+        request.setInstructorInstitution("House Atreides");
+        InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
+        String expectedMessage = "\"invalid email address\" is not acceptable to TEAMMATES as a/an email because it is not "
+                + "in the correct format. An email address contains some text followed by one '@' sign followed by some "
+                + "more text, and should end with a top level domain address like .com. It cannot be longer than 254 "
+                + "characters, cannot be empty and cannot contain spaces.";
+        assertEquals(expectedMessage, ihrbException.getMessage());
+    }
+
+    @Test
+    void testExecute_invalidName_throwsInvalidHttpRequestBodyException() {
+        AccountCreateRequest request = new AccountCreateRequest();
+        request.setInstructorEmail("kwisatz.haderach@atreides.org");
+        request.setInstructorName("Pau| Atreides");
+        request.setInstructorInstitution("House Atreides");
+        InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
+        String expectedMessage = "\"Pau| Atreides\" is not acceptable to TEAMMATES as a/an person name because it contains "
+                + "invalid characters. A/An person name must start with an alphanumeric character, and cannot contain any "
+                + "vertical bar (|) or percent sign (%).";
+        assertEquals(expectedMessage, ihrbException.getMessage());
+    }
+
+    @Test
+    void testExecute_invalidInstitute_throwsInvalidHttpRequestBodyException() {
+        AccountCreateRequest request = new AccountCreateRequest();
+        request.setInstructorEmail("kwisatz.haderach@atreides.org");
+        request.setInstructorName("Paul Atreides");
+        request.setInstructorInstitution("House Atreide%");
+        InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
+        String expectedMessage = "\"House Atreide%\" is not acceptable to TEAMMATES as a/an institute name because it "
+                + "contains invalid characters. A/An institute name must start with an alphanumeric character, and cannot "
+                + "contain any vertical bar (|) or percent sign (%).";
+        assertEquals(expectedMessage, ihrbException.getMessage());
+    }
+
+    @Test
     void testExecute_typicalCase_createsSuccessfully() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
