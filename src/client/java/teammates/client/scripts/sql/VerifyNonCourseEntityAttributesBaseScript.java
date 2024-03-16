@@ -33,7 +33,9 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
      * for optimized batch-fetching.
     */
 
-    private static int constSqlFetchBaseSize = 1000;
+    protected static int constSqlFetchBaseSize = 1000;
+
+    private long entitiesVerified = 0;
 
     /** Datastore entity class. */
     protected Class<E> datastoreEntityClass;
@@ -77,7 +79,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
     /**
      * Calculate offset.
      */
-    private int calculateOffset(int pageNum) {
+    protected int calculateOffset(int pageNum) {
         return (pageNum - 1) * constSqlFetchBaseSize;
     }
 
@@ -95,7 +97,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         return numPages;
     }
 
-    private List<T> lookupSqlEntitiesByPageNumber(int pageNum) {
+    protected List<T> lookupSqlEntitiesByPageNumber(int pageNum) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<T> pageQuery = cb.createQuery(sqlEntityClass);
 
@@ -149,15 +151,18 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
                     + (endTimeForDatastore - startTimeForDatastore) + " milliseconds");
 
             long startTimeForEquals = System.currentTimeMillis();
+            entitiesVerified += sqlEntities.size();
             for (T sqlEntity : sqlEntities) {
                 E datastoreEntity = datastoreEntities.get(generateID(sqlEntity));
                 if (datastoreEntity == null) {
+                    entitiesVerified -= 1;
                     failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, null));
                     continue;
                 }
 
                 boolean isEqual = equals(sqlEntity, datastoreEntity);
                 if (!isEqual) {
+                    entitiesVerified -= 1;
                     failures.add(new AbstractMap.SimpleEntry<T, E>(sqlEntity, datastoreEntity));
                     continue;
                 }
@@ -175,6 +180,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
     protected void runCheckAllEntities(Class<T> sqlEntityClass,
             Class<E> datastoreEntityClass) {
         HibernateUtil.beginTransaction();
+        long checkStartTime = System.currentTimeMillis();
         List<Map.Entry<T, E>> failedEntities = checkAllEntitiesForFailures();
 
         System.out.println("========================================");
@@ -186,6 +192,10 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         } else {
             log("No errors detected");
         }
+        
+        long checkEndTime = System.currentTimeMillis();
+        log("Entity took " + (checkEndTime - checkStartTime) + " milliseconds to verify");
+        log("Verified " + entitiesVerified + " SQL entities successfully");
         HibernateUtil.commitTransaction();
     }
 

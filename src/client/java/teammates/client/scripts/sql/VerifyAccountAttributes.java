@@ -3,9 +3,17 @@ package teammates.client.scripts.sql;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Root;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.sqlentity.ReadNotification;
 
@@ -15,6 +23,8 @@ import teammates.storage.sqlentity.ReadNotification;
 @SuppressWarnings("PMD")
 public class VerifyAccountAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Account, teammates.storage.sqlentity.Account> {
+
+    private String READ_NOTIFICATION_FIELD = "readNotifications";
 
     public VerifyAccountAttributes() {
         super(Account.class,
@@ -44,6 +54,28 @@ public class VerifyAccountAttributes
             return false;
         }
 
+    }
+
+    @Override
+    protected List<teammates.storage.sqlentity.Account> lookupSqlEntitiesByPageNumber(int pageNum) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Account> pageQuery = cb.createQuery(sqlEntityClass);
+
+        // sort by createdAt to maintain stable order.
+        Root<teammates.storage.sqlentity.Account> root = pageQuery.from(sqlEntityClass);
+        pageQuery.select(root);
+        List<Order> orderList = new LinkedList<>();
+        orderList.add(cb.asc(root.get("id")));
+        pageQuery.orderBy(orderList);
+
+        // perform query with pagination
+        TypedQuery<teammates.storage.sqlentity.Account> query = HibernateUtil.createQuery(pageQuery);
+        query.setFirstResult(calculateOffset(pageNum));
+        query.setMaxResults(constSqlFetchBaseSize);
+
+        // Fetch read notifications eagerly with one join
+        root.fetch(READ_NOTIFICATION_FIELD, JoinType.LEFT);
+        return query.getResultList();
     }
 
     // Used for sql data migration
