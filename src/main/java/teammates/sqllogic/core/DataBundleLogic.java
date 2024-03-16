@@ -453,7 +453,7 @@ public final class DataBundleLogic {
         for (Account account : accounts) {
             accountsMap.put(account.getId(), account);
         }
-    
+
         for (Instructor instructor : instructors) {
             usersMap.put(instructor.getId(), instructor);
             Course course = coursesMap.get(instructor.getCourse().getId());
