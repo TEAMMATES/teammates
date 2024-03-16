@@ -99,7 +99,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         } else if (expected instanceof DeadlineExtension) {
             DeadlineExtension expectedDeadlineExtension = (DeadlineExtension) expected;
             DeadlineExtensionData actualDeadlineExtension = (DeadlineExtensionData) actual;
-            assertEquals(expectedDeadlineExtension.getEndTime(), actualDeadlineExtension.getEndTime());
+            assertEquals(expectedDeadlineExtension.getEndTime().toEpochMilli(), actualDeadlineExtension.getEndTime());
             assertEquals(expectedDeadlineExtension.isClosingSoonEmailSent(),
                     actualDeadlineExtension.getSentClosingEmail());
         } else if (expected instanceof FeedbackResponseComment) {
@@ -115,13 +115,14 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;
             assertEquals(expectedFeedbackSession.getName(), actualFeedbackSession.getFeedbackSessionName());
             assertEquals(expectedFeedbackSession.getInstructions(), actualFeedbackSession.getInstructions());
-            assertEquals(expectedFeedbackSession.getStartTime(), actualFeedbackSession.getSubmissionStartTimestamp());
-            assertEquals(expectedFeedbackSession.getEndTime(), actualFeedbackSession.getSubmissionEndTimestamp());
-            assertEquals(expectedFeedbackSession.getSessionVisibleFromTime(),
-                    actualFeedbackSession.getSessionVisibleFromTimestamp());
-            assertEquals(expectedFeedbackSession.getResultsVisibleFromTime(),
-                    actualFeedbackSession.getResultVisibleFromTimestamp());
-            assertEquals(expectedFeedbackSession.getGracePeriod(), actualFeedbackSession.getGracePeriod());
+            assertEquals(expectedFeedbackSession.getStartTime().toEpochMilli(), actualFeedbackSession.getSubmissionStartTimestamp());
+            assertEquals(expectedFeedbackSession.getEndTime().toEpochMilli(), actualFeedbackSession.getSubmissionEndTimestamp());
+            assertEquals(expectedFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
+                    actualFeedbackSession.getSessionVisibleFromTimestamp().longValue());
+            assertEquals(expectedFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
+                    actualFeedbackSession.getResultVisibleFromTimestamp().longValue());
+            assertEquals(expectedFeedbackSession.getGracePeriod().toMinutes(),
+                    actualFeedbackSession.getGracePeriod().longValue());
             assertEquals(expectedFeedbackSession.isClosingEmailEnabled(),
                     actualFeedbackSession.getIsClosingEmailEnabled());
             assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
@@ -139,8 +140,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         } else if (expected instanceof Notification) {
             Notification expectedNotification = (Notification) expected;
             NotificationData actualNotification = (NotificationData) actual;
-            assertEquals(expectedNotification.getStartTime(), actualNotification.getStartTimestamp());
-            assertEquals(expectedNotification.getEndTime(), actualNotification.getEndTimestamp());
+            assertEquals(expectedNotification.getStartTime().toEpochMilli(), actualNotification.getStartTimestamp());
+            assertEquals(expectedNotification.getEndTime().toEpochMilli(), actualNotification.getEndTimestamp());
             assertEquals(expectedNotification.getStyle(), actualNotification.getStyle());
             assertEquals(expectedNotification.getTargetUser(), actualNotification.getTargetUser());
             assertEquals(expectedNotification.getTitle(), actualNotification.getTitle());
@@ -159,7 +160,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         } else if (expected instanceof UsageStatistics) {
             UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
             UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
-            assertEquals(expectedUsageStatistics.getStartTime(), actualUsageStatistics.getStartTime());
+            assertEquals(expectedUsageStatistics.getStartTime().toEpochMilli(), actualUsageStatistics.getStartTime());
             assertEquals(expectedUsageStatistics.getTimePeriod(), actualUsageStatistics.getTimePeriod());
             assertEquals(expectedUsageStatistics.getNumResponses(), actualUsageStatistics.getNumResponses());
             assertEquals(expectedUsageStatistics.getNumCourses(), actualUsageStatistics.getNumCourses());
