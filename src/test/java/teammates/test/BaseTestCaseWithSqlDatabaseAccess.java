@@ -25,6 +25,7 @@ import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.InstructorData;
+import teammates.ui.output.JoinState;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.StudentData;
@@ -62,7 +63,17 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
      * Verifies that two entities are equal.
      */
     protected void verifyEquals(BaseEntity expected, ApiOutput actual) {
-        if (expected instanceof FeedbackQuestion) {
+        if (expected instanceof Student) {
+            Student expectedStudent = (Student) expected;
+            StudentData actualStudent = (StudentData) actual;
+            assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
+            assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
+            assertEquals(expectedStudent.getName(), actualStudent.getName());
+            assertEquals(expectedStudent.getComments(), actualStudent.getComments());
+            assertEquals(expectedStudent.isRegistered(), actualStudent.getJoinState() == JoinState.JOINED);
+            assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
+            assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
+        } else if (expected instanceof FeedbackQuestion) {
             FeedbackQuestion expectedQuestion = (FeedbackQuestion) expected;
             FeedbackQuestionDetails expectedQuestionDetails = expectedQuestion.getQuestionDetailsCopy();
             FeedbackQuestionData actualQuestion = (FeedbackQuestionData) actual;
@@ -204,7 +215,9 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private ApiOutput getEntity(BaseEntity entity) {
-        if (entity instanceof FeedbackQuestion) {
+        if (entity instanceof Student) {
+            return getStudent((Student) entity);
+        } else if (entity instanceof FeedbackQuestion) {
             return getFeedbackQuestion((FeedbackQuestion) entity);
         } else if (entity instanceof FeedbackResponse) {
             return getFeedbackResponse((FeedbackResponse) entity);
@@ -216,5 +229,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected abstract FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq);
 
     protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fq);
+
+    protected abstract StudentData getStudent(Student student);
 
 }
