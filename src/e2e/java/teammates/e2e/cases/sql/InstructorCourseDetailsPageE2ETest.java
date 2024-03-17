@@ -13,6 +13,7 @@ import teammates.e2e.pageobjects.InstructorCourseDetailsPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
+import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -22,10 +23,13 @@ import teammates.storage.sqlentity.Student;
  */
 public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     private Course course;
+    private Student student3;
 
     @Override
     protected void prepareTestData() {
         testData = loadSqlDataBundle("/InstructorCourseDetailsPageE2ESqlTest.json");
+        student3 = testData.students.get("charlie.tmms@ICDet.CS2104");
+        student3.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
     }
@@ -75,5 +79,12 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 detailsPage.clickViewAllRecords(studentToView.getEmail());
         studentRecordsPage.verifyIsCorrectPage(course.getId(), studentToView.getName());
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
+
+        ______TS("send invite");
+        detailsPage.sendInvite(student3.getEmail());
+        detailsPage.verifyStatusMessage("An email has been sent to " + student3.getEmail());
+        String expectedEmailSubject = "TEAMMATES: Invitation to join course ["
+                + course.getName() + "][Course ID: " + course.getId() + "]";
+        verifyEmailSent(student3.getEmail(), expectedEmailSubject);
     }
 }
