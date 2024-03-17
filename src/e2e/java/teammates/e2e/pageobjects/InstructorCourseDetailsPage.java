@@ -87,8 +87,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         assertEquals(expected, getNumStudents());
     }
 
-    public void sendInvite(StudentAttributes student) {
-        clickAndConfirm(getSendInviteButton(student));
+    public void sendInvite(String studentEmailAddress) {
+        clickAndConfirm(getSendInviteButton(studentEmailAddress));
     }
 
     public void remindAllToJoin() {
@@ -109,8 +109,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    public void deleteStudent(StudentAttributes student) {
-        clickAndConfirm(getDeleteButton(student));
+    public void deleteStudent(String studentEmailAddress) {
+        clickAndConfirm(getDeleteButton(studentEmailAddress));
     }
 
     public void deleteAllStudents() {
@@ -165,13 +165,13 @@ public class InstructorCourseDetailsPage extends AppPage {
         return expected;
     }
 
-    private WebElement getSendInviteButton(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    private WebElement getSendInviteButton(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         return studentRow.findElement(By.cssSelector("[id^='btn-send-invite-']"));
     }
 
-    private WebElement getDeleteButton(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    private WebElement getDeleteButton(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         return studentRow.findElement(By.cssSelector("[id^='btn-delete-']"));
     }
 
@@ -187,19 +187,19 @@ public class InstructorCourseDetailsPage extends AppPage {
         }
     }
 
-    private WebElement getStudentRow(StudentAttributes student) {
+    private WebElement getStudentRow(String studentEmailAddress) {
         List<WebElement> studentRows = getAllStudentRows();
         for (WebElement studentRow : studentRows) {
             List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
-            if (studentCells.get(4).getText().equals(student.getEmail())) {
+            if (studentCells.get(4).getText().equals(studentEmailAddress)) {
                 return studentRow;
             }
         }
         return null;
     }
 
-    public InstructorCourseStudentDetailsViewPage clickViewStudent(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    public InstructorCourseStudentDetailsViewPage clickViewStudent(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
@@ -207,8 +207,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
-    public InstructorCourseStudentDetailsEditPage clickEditStudent(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
@@ -216,8 +216,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
 
-    public InstructorStudentRecordsPage clickViewAllRecords(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    public InstructorStudentRecordsPage clickViewAllRecords(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
