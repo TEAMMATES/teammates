@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -32,6 +33,11 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         student3.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        BACKDOOR.removeSqlDataBundle(testData);
     }
 
     @Test
