@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -137,6 +138,11 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         for (StudentAttributes student : studentsAfterDelete) {
             verifyAbsentInDatabase(student);
         }
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        BACKDOOR.removeDataBundle(testData);
     }
 
     private void verifyCourseDetails(InstructorCourseDetailsPage detailsPage, CourseAttributes course,
