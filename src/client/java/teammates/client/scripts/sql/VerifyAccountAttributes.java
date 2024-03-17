@@ -63,7 +63,7 @@ public class VerifyAccountAttributes
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.Account> pageQuery = cb.createQuery(sqlEntityClass);
 
-        // sort by createdAt to maintain stable order.
+        // sort by id to maintain stable order.
         Root<teammates.storage.sqlentity.Account> root = pageQuery.from(sqlEntityClass);
         pageQuery.select(root);
         List<Order> orderList = new LinkedList<>();

@@ -109,7 +109,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<T> pageQuery = cb.createQuery(sqlEntityClass);
 
-        // sort by createdAt to maintain stable order.
+        // sort by id to maintain stable order.
         Root<T> root = pageQuery.from(sqlEntityClass);
         pageQuery.select(root);
         List<Order> orderList = new LinkedList<>();
