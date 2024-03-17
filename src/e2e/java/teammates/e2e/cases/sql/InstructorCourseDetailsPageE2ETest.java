@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -25,6 +26,7 @@ import teammates.storage.sqlentity.Student;
 public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     private Course course;
     private Student student3;
+    private String downloadedFileName;
 
     @Override
     protected void prepareTestData() {
@@ -33,10 +35,17 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         student3.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
+        downloadedFileName = "/" + course.getId() + "_studentList.csv";
+    }
+
+    @BeforeClass
+    public void classSetup() {
+        deleteDownloadsFile(downloadedFileName);
     }
 
     @AfterClass
     public void classTearDown() {
+        deleteDownloadsFile(downloadedFileName);
         BACKDOOR.removeSqlDataBundle(testData);
     }
 
@@ -97,5 +106,13 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         detailsPage.remindAllToJoin();
         detailsPage.verifyStatusMessage("Emails have been sent to unregistered students.");
         verifyEmailSent(student3.getEmail(), expectedEmailSubject);
+
+        ______TS("download student list");
+        detailsPage.downloadStudentList();
+        String status = "Yet to Join";
+        String[] studentInfo = { student3.getTeamName(), student3.getName(), status, student3.getEmail() };
+        List<String> expectedContent = Arrays.asList("Course ID," + course.getId(),
+                "Course Name," + course.getName(), String.join(",", studentInfo));
+        verifyDownloadedFile(downloadedFileName, expectedContent);
     }
 }
