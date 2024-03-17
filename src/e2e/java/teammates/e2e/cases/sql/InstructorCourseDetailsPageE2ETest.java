@@ -86,5 +86,10 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         String expectedEmailSubject = "TEAMMATES: Invitation to join course ["
                 + course.getName() + "][Course ID: " + course.getId() + "]";
         verifyEmailSent(student3.getEmail(), expectedEmailSubject);
+
+        ______TS("remind all students to join");
+        detailsPage.remindAllToJoin();
+        detailsPage.verifyStatusMessage("Emails have been sent to unregistered students.");
+        verifyEmailSent(student3.getEmail(), expectedEmailSubject);
     }
 }
