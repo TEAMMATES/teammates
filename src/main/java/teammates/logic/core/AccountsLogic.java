@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.sqlentity.Account;
 
 /**
  * Handles operations related to accounts.
@@ -27,6 +28,7 @@ public final class AccountsLogic {
     private static final AccountsLogic instance = new AccountsLogic();
 
     private final AccountsDb accountsDb = AccountsDb.inst();
+    private final teammates.storage.sqlapi.AccountsDb sqlAccountsDb = teammates.storage.sqlapi.AccountsDb.inst();
 
     private CoursesLogic coursesLogic;
     private InstructorsLogic instructorsLogic;
@@ -68,6 +70,13 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets a sql account.
+     */
+    public Account getSqlAccount(String googleId) {
+        return sqlAccountsDb.getAccountByGoogleId(googleId);
+    }
+
+    /**
      * Gets ids of read notifications in an account.
      */
     public List<String> getReadNotificationsId(String googleId) {
@@ -104,7 +113,7 @@ public final class AccountsLogic {
             assert false : "Student disappeared while trying to register";
         }
 
-        if (accountsDb.getAccount(googleId) == null) {
+        if (sqlAccountsDb.getAccountByGoogleId(googleId) == null) {
             createStudentAccount(student);
         }
 
@@ -132,14 +141,11 @@ public final class AccountsLogic {
             assert false;
         }
 
-        AccountAttributes account = accountsDb.getAccount(googleId);
+        Account account = sqlAccountsDb.getAccountByGoogleId(googleId);
 
         if (account == null) {
             try {
-                createAccount(AccountAttributes.builder(googleId)
-                        .withName(instructor.getName())
-                        .withEmail(instructor.getEmail())
-                        .build());
+                sqlAccountsDb.createAccount(new Account(googleId, instructor.getName(), instructor.getEmail()));
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";
             }
@@ -178,7 +184,7 @@ public final class AccountsLogic {
 
         if (instructorForKey.isRegistered()) {
             if (instructorForKey.getGoogleId().equals(googleId)) {
-                AccountAttributes existingAccount = accountsDb.getAccount(googleId);
+                Account existingAccount = sqlAccountsDb.getAccountByGoogleId(googleId);
                 if (existingAccount != null) {
                     throw new EntityAlreadyExistsException("Instructor has already joined course");
                 }
@@ -240,9 +246,12 @@ public final class AccountsLogic {
      * </ul>
      */
     public void deleteAccountCascade(String googleId) {
-        if (accountsDb.getAccount(googleId) == null) {
-            return;
-        }
+        // we skip this check for dual db, since all accounts are migrated, but there
+        // will still be datastore entities (Student, Course, Instructor)
+        // to be deleted by googleId
+        // if (accountsDb.getAccount(googleId) == null) {
+        // return;
+        // }
 
         // to prevent orphan course
         List<InstructorAttributes> instructorsToDelete =
@@ -265,12 +274,7 @@ public final class AccountsLogic {
     private void createStudentAccount(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        AccountAttributes account = AccountAttributes.builder(student.getGoogleId())
-                .withEmail(student.getEmail())
-                .withName(student.getName())
-                .build();
-
-        accountsDb.createEntity(account);
+        sqlAccountsDb.createAccount(new Account(student.getGoogleId(), student.getName(), student.getEmail()));
     }
 
     /**

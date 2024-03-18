@@ -1,24 +1,24 @@
-name: E2E Tests (cross-browser)
+name: E2E Sql Tests
 
 on:
   push:
     branches:
       - master
       - release
-      - v9-migration
+  pull_request:
+    branches:
+      - master
+      - release
   schedule:
-    - cron: "0 0 * * *" # end of every day
+    - cron: "0 0 * * *" #end of every day
 jobs:
-  E2E-testing:
-    runs-on: ${{ matrix.os }}
+  E2E-sql-testing:
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: false # ensure both tests run even if one fails
+      fail-fast: false #ensure both tests run even if one fails
       matrix:
-        include:
-          - os: ubuntu-latest
-            browser: chrome
-          - os: windows-latest
-            browser: edge
+        browser: [firefox]
+        tests: [stable, unstable]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -35,16 +35,12 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('.gradle/*.gradle*', 'build.gradle') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
-      - name: Remove Solr setting
-        if: matrix.os == 'windows-latest'
-        run: sed -i 's/app.search.service.host=http\\:\/\/localhost\\:8983\/solr/app.search.service.host=/g' src/main/resources/build.template.properties
       - name: Run Solr search service + local Datastore emulator
-        if: matrix.os == 'ubuntu-latest'
         run: docker-compose up -d
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes
@@ -53,16 +49,8 @@ jobs:
       - name: Build Frontend Bundle
         run: npm run build
       - name: Start Server
-        if: matrix.os == 'ubuntu-latest'
         run: |
           ./gradlew serverRun &
           ./wait-for-server.sh
       - name: Start Tests
-        if: matrix.os == 'ubuntu-latest'
-        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests
-      - name: Start Server and Tests
-        if: matrix.os == 'windows-latest'
-        run: |
-          ./gradlew runDatastoreEmulator
-          ./gradlew serverRun &
-          ./gradlew e2eTests
+        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTestsSql

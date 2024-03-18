@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -28,6 +27,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.sqlentity.Account;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -924,7 +924,7 @@ public final class EmailGenerator {
      * Generates the course join email for the given {@code instructor} in {@code course}.
      * Also specifies contact information of {@code inviter}.
      */
-    public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes inviter,
+    public EmailWrapper generateInstructorCourseJoinEmail(Account inviter,
             InstructorAttributes instructor, CourseAttributes course) {
 
         String emailBody = Templates.populateTemplate(
