@@ -17,7 +17,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -50,8 +49,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateAccountRequest_accountRequestDoesNotExist_success() throws InvalidParametersException {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
@@ -62,17 +60,14 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestAlreadyExists_throwsEntityAlreadyExistsException() {
+    public void testCreateAccountRequest_accountRequestAlreadyExists_createsSuccessfully()
+            throws InvalidParametersException {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         doReturn(new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments"))
                 .when(accountRequestDb).getAccountRequest(anyString(), anyString());
-
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestDb.createAccountRequest(accountRequest));
-
-        assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + accountRequest.toString());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest), never());
+        accountRequestDb.createAccountRequest(accountRequest);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
     }
 
     @Test

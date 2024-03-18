@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
@@ -9,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -46,20 +44,12 @@ public final class AccountRequestsDb extends EntitiesDb {
     /**
      * Creates an AccountRequest in the database.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
         assert accountRequest != null;
 
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
-
-        // don't need to check registrationKey for uniqueness since it is generated using email + institute
-        if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) != null) {
-            throw new EntityAlreadyExistsException(
-                String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
-        }
-
         persist(accountRequest);
         return accountRequest;
     }
