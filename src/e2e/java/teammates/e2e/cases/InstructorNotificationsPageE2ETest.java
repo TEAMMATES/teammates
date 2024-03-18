@@ -22,8 +22,6 @@ public class InstructorNotificationsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorNotificationsPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
         sqlTestData = removeAndRestoreSqlDataBundle(
                 loadSqlDataBundle("/InstructorNotificationsPageE2ETest_SqlEntities.json"));
     }
