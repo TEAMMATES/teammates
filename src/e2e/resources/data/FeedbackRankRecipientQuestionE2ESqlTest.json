@@ -58,14 +58,14 @@
     "section1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000201",
       "course": {
-        "id": "course-1"
+        "id": "tm.e2e.FRankRcptQn.CS2104"
       },
       "name": "Section 1"
     },
     "section1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000202",
       "course": {
-        "id": "course-2"
+        "id": "tm.e2e.FRankRcptQn.CS1101"
       },
       "name": "Section 2"
     }
