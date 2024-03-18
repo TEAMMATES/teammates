@@ -114,5 +114,20 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         List<String> expectedContent = Arrays.asList("Course ID," + course.getId(),
                 "Course Name," + course.getName(), String.join(",", studentInfo));
         verifyDownloadedFile(downloadedFileName, expectedContent);
+
+        ______TS("delete student");
+        detailsPage.sortByName();
+        detailsPage.sortByStatus();
+        List<Student> studentsAfterDelete = Arrays.asList(
+                testData.students.get("alice.tmms@ICDet.CS2104"),
+                testData.students.get("danny.tmms@ICDet.CS2104"),
+                testData.students.get("benny.tmms@ICDet.CS2104")
+        );
+        detailsPage.deleteStudent(student3.getEmail());
+        detailsPage.verifyStatusMessage("Student is successfully deleted from course \""
+                + course.getId() + "\"");
+        detailsPage.verifyNumStudents(studentsAfterDelete.size());
+        detailsPage.verifyStudentDetails(studentsAfterDelete);
+        verifyAbsentInDatabase(student3);
     }
 }
