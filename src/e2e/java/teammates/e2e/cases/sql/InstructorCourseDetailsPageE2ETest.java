@@ -68,7 +68,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         );
         Set<String> sectionNames = new HashSet<>();
         Set<String> teamNames = new HashSet<>();
-        students.forEach((student) -> {
+        students.forEach(student -> {
             sectionNames.add(student.getSectionName());
             teamNames.add(student.getTeamName());
         });
