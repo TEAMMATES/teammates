@@ -1,0 +1,103 @@
+{
+  "accounts": {
+    "INotifs.instr": {
+      "googleId": "tm.e2e.INotifs.instr",
+      "name": "Teammates Test",
+      "email": "INotifs.instr@gmail.tmt",
+      "readNotifications": {
+        "notification4": "2099-04-04T00:00:00Z"
+      }
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "id": "tm.e2e.INotifs.course1",
+      "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    }
+  },
+  "instructors": {
+    "INotifs.instr": {
+      "googleId": "tm.e2e.INotifs.instr",
+      "courseId": "tm.e2e.INotifs.course1",
+      "name": "Teammates Instr1",
+      "email": "INotifs.instr@gmail.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "notifications": {
+    "notification1": {
+      "notificationId": "notification1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "E2E notif for general users",
+      "message": "<p>This notification is shown to general users</p>",
+      "shown": false
+    },
+    "notification2": {
+      "notificationId": "notification2",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "STUDENT",
+      "title": "E2E notif for students",
+      "message": "<p>This notification is shown to students only</p>",
+      "shown": false
+    },
+    "notification3": {
+      "notificationId": "notification3",
+      "startTime": "2011-03-03T00:00:00Z",
+      "endTime": "2099-03-03T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "INSTRUCTOR",
+      "title": "E2E notif for instructors",
+      "message": "<p>This notification is shown to instructors only</p>",
+      "shown": false
+    },
+    "notification4": {
+      "notificationId": "notification4",
+      "startTime": "2011-04-04T00:00:00Z",
+      "endTime": "2099-04-04T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "WARNING",
+      "targetUser": "GENERAL",
+      "title": "E2E read notification",
+      "message": "<p>This notification has been read by the user</p>",
+      "shown": false
+    },
+    "expiredNotification1": {
+      "notificationId": "expiredNotification1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2011-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "E2E expired notification",
+      "message": "<p>This notification has expired</p>",
+      "shown": false
+    }
+  }
+}
