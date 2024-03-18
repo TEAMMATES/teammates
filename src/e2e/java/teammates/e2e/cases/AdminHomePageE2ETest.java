@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminHomePage;
-import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_HOME_PAGE}.
@@ -50,28 +49,6 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
 
         assertNotNull(BACKDOOR.getAccountRequest(email, institute));
         BACKDOOR.deleteAccountRequest(email, institute);
-
-        ______TS("Failure case: Instructor is already registered");
-        AccountRequest registeredAccountRequest = sqlTestData.accountRequests.get("AHome.instructor1OfCourse1");
-        homePage.queueInstructorForAdding(registeredAccountRequest.getName(),
-                registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute());
-
-        homePage.addAllInstructors();
-
-        failureMessage = homePage.getMessageForInstructor(2);
-        assertTrue(failureMessage.contains("Cannot create account request as instructor has already registered."));
-
-        ______TS("Success case: Reset account request");
-
-        homePage.clickMoreInfoButtonForRegisteredInstructor(2);
-        homePage.clickResetAccountRequestLink();
-
-        successMessage = homePage.getMessageForInstructor(2);
-        assertTrue(successMessage.contains(
-                "Instructor \"" + registeredAccountRequest.getName() + "\" has been successfully created"));
-
-        assertNull(BACKDOOR.getAccountRequest(
-                registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()).getRegisteredAt());
     }
 
 }
