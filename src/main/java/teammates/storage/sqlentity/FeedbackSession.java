@@ -48,7 +48,7 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private String creatorEmail;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String instructions;
 
     @Column(nullable = false)
