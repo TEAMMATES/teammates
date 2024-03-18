@@ -28,6 +28,14 @@ public class DataMigrationForAccountRequestSql
         return false;
     }
 
+    /*
+     * Sets the migration criteria used in isMigrationNeeded.
+     */
+    @Override
+    protected void setMigrationCriteria() {
+        // No migration criteria currently needed.
+    }
+
     /**
      * Always returns true, as the migration is needed for all entities from
      * Datastore to CloudSQL.
