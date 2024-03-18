@@ -1,35 +1,33 @@
 package teammates.client.scripts.sql;
 
+// CHECKSTYLE.OFF:ImportOrder
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.util.HibernateUtil;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import teammates.storage.sqlentity.UsageStatistics;
+// CHECKSTYLE.ON:ImportOrder
 
 /**
  * Data migration class for usage statistics.
  */
+@SuppressWarnings("PMD")
 public class DataMigrationForUsageStatisticsSql extends
         DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.UsageStatistics, UsageStatistics> {
 
-    // Set the default start time to resume the migration from.
-    // Set it to null if want to migrate all entities.
-    private static final String START_TIME_STRING = "2024-03-12 06:00:00.000 +0800";
+    // Runs the migration only for newly-created SQL entities since the initial migration.
+    private static final boolean IS_PATCHING_MIGRATION = true;
 
-    private static final Instant START_TIME = parseStartTime(START_TIME_STRING);
+    private Instant patchingStartTime;
 
     public static void main(String[] args) {
         new DataMigrationForUsageStatisticsSql().doOperationRemotely();
-    }
-
-    private static Instant parseStartTime(String startTimeString) {
-        if (startTimeString == null) {
-            return null;
-        }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS Z");
-        return Instant.from(formatter.parse(startTimeString));
     }
 
     @Override
@@ -47,16 +45,43 @@ public class DataMigrationForUsageStatisticsSql extends
     }
 
     /**
+     * Queries for the latest SQL entity created, so that patching will only migrate newly created Datastore entities.
+     */
+    @Override
+    protected void setMigrationCriteria() {
+        if (!IS_PATCHING_MIGRATION) {
+            return;
+        }
+
+        HibernateUtil.beginTransaction();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cq = cb.createQuery(Instant.class);
+        Root<UsageStatistics> root = cq.from(UsageStatistics.class);
+        cq.select(cb.greatest(root.<Instant>get("createdAt")));
+
+        // If no entity found, Hibernate will return null for Instant instead of throwing NoResultException.
+        patchingStartTime = HibernateUtil.createQuery(cq).getSingleResult();
+        HibernateUtil.commitTransaction();
+
+        if (patchingStartTime == null) {
+            System.out.println(this.getClass().getSimpleName() + " Patching enabled, but unable to find SQL entity");
+            System.exit(1);
+        }
+
+        System.out.println(this.getClass().getSimpleName() + " Patching migration, with time " + patchingStartTime);
+    }
+
+    /**
      * Always returns true, as the migration is needed for all entities from
-     * Datastore to CloudSQL .
+     * Datastore to CloudSQL.
      */
     @SuppressWarnings("unused")
     @Override
     protected boolean isMigrationNeeded(teammates.storage.entity.UsageStatistics entity) {
-        if (START_TIME == null) {
+        if (patchingStartTime == null) {
             return true;
         }
-        return entity.getStartTime().isAfter(START_TIME);
+        return entity.getStartTime().isAfter(patchingStartTime);
     }
 
     @Override
@@ -70,7 +95,8 @@ public class DataMigrationForUsageStatisticsSql extends
                 oldEntity.getNumInstructors(),
                 oldEntity.getNumAccountRequests(),
                 oldEntity.getNumEmails(),
-                oldEntity.getNumSubmissions());
+                oldEntity.getNumSubmissions()
+        );
 
         try {
             UUID oldUuid = UUID.fromString(oldEntity.getId());

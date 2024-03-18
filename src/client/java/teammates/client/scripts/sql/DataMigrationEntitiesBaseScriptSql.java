@@ -92,6 +92,12 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     protected abstract boolean isPreview();
 
     /**
+     * Sets the criterias used in {@link #isMigrationNeeded(E entity)} on whether migration is needed.
+     * Ran during initialization.
+     */
+    protected abstract void setMigrationCriteria();
+
+    /**
      * Checks whether data migration is needed.
      *
      * <p>Causation: this method might be called in multiple threads if using
@@ -181,6 +187,7 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
     protected void doOperation() {
         log("Running " + getClass().getSimpleName() + "...");
         log("Preview: " + isPreview());
+        setMigrationCriteria();
 
         Cursor cursor = readPositionOfCursorFromFile().orElse(null);
         if (cursor == null) {
