@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
@@ -20,11 +21,14 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        // TODO: This is a placeholder. It should be obtained from AccountCreateRequest, in a separate PR.
+        String comments = "PLACEHOLDER";
 
         AccountRequest accountRequest;
 
         try {
-            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution);
+            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
+                    AccountRequestStatus.PENDING, comments);
             taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);

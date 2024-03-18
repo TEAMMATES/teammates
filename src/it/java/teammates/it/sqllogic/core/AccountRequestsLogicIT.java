@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -28,8 +29,10 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         String name = "name lee";
         String email = "email@gmail.com";
         String institute = "institute";
+        AccountRequestStatus status = AccountRequestStatus.PENDING;
+        String comments = "comments";
 
-        AccountRequest toReset = accountRequestsLogic.createAccountRequest(name, email, institute);
+        AccountRequest toReset = accountRequestsLogic.createAccountRequest(name, email, institute, status, comments);
         AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
         toReset.setRegisteredAt(Instant.now());

@@ -9,13 +9,17 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -40,6 +44,12 @@ public class AccountRequest extends BaseEntity {
 
     private String institute;
 
+    @Enumerated(EnumType.STRING)
+    private AccountRequestStatus status;
+
+    @Column(columnDefinition = "TEXT")
+    private String comments;
+
     private Instant registeredAt;
 
     @UpdateTimestamp
@@ -49,11 +59,13 @@ public class AccountRequest extends BaseEntity {
         // required by Hibernate
     }
 
-    public AccountRequest(String email, String name, String institute) {
+    public AccountRequest(String email, String name, String institute, AccountRequestStatus status, String comments) {
         this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
         this.setInstitute(institute);
+        this.setStatus(status);
+        this.setComments(comments);
         this.generateNewRegistrationKey();
         this.setCreatedAt(Instant.now());
         this.setRegisteredAt(null);
@@ -128,6 +140,22 @@ public class AccountRequest extends BaseEntity {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
+    public AccountRequestStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(AccountRequestStatus status) {
+        this.status = status;
+    }
+
+    public String getComments() {
+        return this.comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
     public Instant getRegisteredAt() {
         return this.registeredAt;
     }
@@ -166,8 +194,8 @@ public class AccountRequest extends BaseEntity {
     @Override
     public String toString() {
         return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
-                + email + ", institute=" + institute + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt()
-                + ", updatedAt=" + updatedAt + "]";
+                + email + ", institute=" + institute + ", status=" + status + ", comments=" + comments
+                + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     public String getRegistrationUrl() {
