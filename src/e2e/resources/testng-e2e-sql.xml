@@ -8,6 +8,7 @@
         <classes>
             <class name="teammates.e2e.cases.sql.FeedbackTextQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.StudentHomePageE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackRankOptionQuestionE2ETest" />
         </classes>
     </test>
 </suite>
