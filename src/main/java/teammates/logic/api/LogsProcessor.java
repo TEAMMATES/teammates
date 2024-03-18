@@ -51,12 +51,12 @@ public class LogsProcessor {
     }
 
     /**
-     * Gets the feedback session logs as filtered by the given parameters.
+     * Gets the feedback session logs as filtered by the given parameters ordered by ascending timestamp.
      * @param email Can be null
      */
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
-        return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
+        return service.getOrderedFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 
     /**

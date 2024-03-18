@@ -209,7 +209,7 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         return FEEDBACK_SESSION_LOG_ENTRIES
                 .getOrDefault(courseId, new ArrayList<>())
@@ -218,6 +218,7 @@ public class LocalLoggingService implements LogService {
                 .filter(log -> fsName == null || log.getFeedbackSessionName().equals(fsName))
                 .filter(log -> log.getTimestamp() >= startTime)
                 .filter(log -> log.getTimestamp() <= endTime)
+                .sorted()
                 .collect(Collectors.toList());
     }
 

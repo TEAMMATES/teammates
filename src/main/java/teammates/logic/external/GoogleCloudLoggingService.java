@@ -115,7 +115,7 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         List<String> filters = new ArrayList<>();
         if (courseId != null) {
@@ -131,6 +131,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .withLogEvent(LogEvent.FEEDBACK_SESSION_AUDIT.name())
                 .withSeverityLevel(LogSeverity.INFO)
                 .withExtraFilters(String.join("\n", filters))
+                .withOrder(ASCENDING_ORDER)
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
