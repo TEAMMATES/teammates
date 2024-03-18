@@ -50,7 +50,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                         accountRequest.getCreatedAt().minusMillis(2000));
         assertEquals(0, actualAccReqCreatedAtOutside.size());
 
-        ______TS("Create acccount request, already exists, creates successfully");
+        ______TS("Create account request, same email address and institute already exist, creates successfully");
 
         AccountRequest identicalAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute");
