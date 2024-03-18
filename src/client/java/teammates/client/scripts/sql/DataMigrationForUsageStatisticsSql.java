@@ -24,7 +24,7 @@ public class DataMigrationForUsageStatisticsSql extends
     // Runs the migration only for newly-created SQL entities since the initial migration.
     private static final boolean IS_PATCHING_MIGRATION = true;
 
-    private static Instant patchingStartTime;
+    private Instant patchingStartTime;
 
     public static void main(String[] args) {
         new DataMigrationForUsageStatisticsSql().doOperationRemotely();
