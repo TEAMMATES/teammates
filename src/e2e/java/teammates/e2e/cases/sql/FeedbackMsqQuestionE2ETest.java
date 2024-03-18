@@ -45,7 +45,8 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
-        FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession");
+        FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession")
+                .makeDeepCopy(feedbackSession);
         FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) loadedQuestion
                 .getQuestionDetailsCopy();
         feedbackEditPage.verifyMsqQuestionDetails(1, questionDetails);
@@ -90,7 +91,6 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     @Override
     protected void testSubmitPage() {
         FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
-        testData = loadSqlDataBundle("/FeedbackMsqQuestionE2ETest_SqlEntities.json");
 
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
