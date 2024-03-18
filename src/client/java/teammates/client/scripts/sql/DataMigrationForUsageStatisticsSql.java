@@ -57,7 +57,7 @@ public class DataMigrationForUsageStatisticsSql extends
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instant> cq = cb.createQuery(Instant.class);
         Root<UsageStatistics> root = cq.from(UsageStatistics.class);
-        cq.select(cb.greatest(root.<Instant>get("createdAt")));
+        cq.select(cb.greatest(root.<Instant>get("startTime")));
 
         // If no entity found, Hibernate will return null for Instant instead of throwing NoResultException.
         patchingStartTime = HibernateUtil.createQuery(cq).getSingleResult();
