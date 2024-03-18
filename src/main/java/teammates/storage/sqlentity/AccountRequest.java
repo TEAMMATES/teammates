@@ -27,7 +27,6 @@ import jakarta.persistence.UniqueConstraint;
 @Table(name = "AccountRequests",
         uniqueConstraints = {
                 @UniqueConstraint(name = "Unique registration key", columnNames = "registrationKey"),
-                @UniqueConstraint(name = "Unique name and institute", columnNames = {"email", "institute"})
         })
 public class AccountRequest extends BaseEntity {
     @Id

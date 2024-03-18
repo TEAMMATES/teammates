@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
@@ -51,21 +50,23 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                         accountRequest.getCreatedAt().minusMillis(2000));
         assertEquals(0, actualAccReqCreatedAtOutside.size());
 
-        ______TS("Create acccount request, already exists, execption thrown");
+        ______TS("Create account request, same email address and institute already exist, creates successfully");
 
         AccountRequest identicalAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute");
         assertNotSame(accountRequest, identicalAccountRequest);
 
-        assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestDb.createAccountRequest(identicalAccountRequest));
+        accountRequestDb.createAccountRequest(identicalAccountRequest);
+        AccountRequest actualIdenticalAccountRequest =
+                accountRequestDb.getAccountRequestByRegistrationKey(identicalAccountRequest.getRegistrationKey());
+        verifyEquals(identicalAccountRequest, actualIdenticalAccountRequest);
 
         ______TS("Delete account request that was created");
 
         accountRequestDb.deleteAccountRequest(accountRequest);
 
         AccountRequest actualAccountRequest =
-                accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+                accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
         assertNull(actualAccountRequest);
     }
 
