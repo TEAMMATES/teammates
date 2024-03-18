@@ -129,5 +129,11 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         detailsPage.verifyNumStudents(studentsAfterDelete.size());
         detailsPage.verifyStudentDetails(studentsAfterDelete);
         verifyAbsentInDatabase(student3);
+
+        ______TS("delete all students");
+        detailsPage.deleteAllStudents();
+        detailsPage.verifyStatusMessage("All the students have been removed from the course");
+        detailsPage.verifyNumStudents(0);
+        studentsAfterDelete.forEach(this::verifyAbsentInDatabase);
     }
 }
