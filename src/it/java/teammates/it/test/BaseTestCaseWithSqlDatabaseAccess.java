@@ -85,6 +85,14 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
 
         // TODO: remove after migration, needed for dual db support
+
+        teammates.storage.search.SearchManagerFactory.registerAccountRequestSearchManager(
+            new teammates.storage.search.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.search.SearchManagerFactory.registerInstructorSearchManager(
+            new teammates.storage.search.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        teammates.storage.search.SearchManagerFactory.registerStudentSearchManager(
+            new teammates.storage.search.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+
         teammates.logic.core.LogicStarter.initializeDependencies();
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
@@ -241,6 +249,8 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             return logic.getCourse(((Course) entity).getId());
         } else if (entity instanceof FeedbackSession) {
             return logic.getFeedbackSession(((FeedbackSession) entity).getId());
+        } else if (entity instanceof FeedbackQuestion) {
+            return logic.getFeedbackQuestion(((FeedbackQuestion) entity).getId());
         } else if (entity instanceof Account) {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {

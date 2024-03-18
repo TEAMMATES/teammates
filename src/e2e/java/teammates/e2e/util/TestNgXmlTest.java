@@ -19,6 +19,7 @@ public class TestNgXmlTest extends BaseTestCase {
     @Test
     public void checkTestsInTestNg() throws IOException {
         String testNgXmlE2E = FileHelper.readFile("./src/e2e/resources/testng-e2e.xml");
+        String testNgXmlE2ESql = FileHelper.readFile("./src/e2e/resources/testng-e2e-sql.xml");
         String testNgXmlAxe = FileHelper.readFile("./src/e2e/resources/testng-axe.xml");
 
         // <class name, package name>
@@ -27,6 +28,8 @@ public class TestNgXmlTest extends BaseTestCase {
         testFiles.forEach((key, value) -> {
             if (Objects.equals(value, "teammates.e2e.cases.axe")) {
                 assertTrue(isTestFileIncluded(testNgXmlAxe, value, key));
+            } else if (Objects.equals(value, "teammates.e2e.cases.sql")) {
+                assertTrue(isTestFileIncluded(testNgXmlE2ESql, value, key));
             } else {
                 assertTrue(isTestFileIncluded(testNgXmlE2E, value, key));
             }
