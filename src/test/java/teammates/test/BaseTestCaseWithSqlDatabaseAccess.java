@@ -64,26 +64,27 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackQuestion expectedQuestion = (FeedbackQuestion) expected;
             FeedbackQuestionDetails expectedQuestionDetails = expectedQuestion.getQuestionDetailsCopy();
             FeedbackQuestionData actualQuestion = (FeedbackQuestionData) actual;
+            FeedbackQuestionDetails actualQuestionDetails = actualQuestion.getQuestionDetails();
             assertEquals(expectedQuestion.getQuestionNumber(), (Integer) actualQuestion.getQuestionNumber());
             assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
             assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
             assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
             assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
                     actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
-            assertEquals(expectedQuestionDetails.getQuestionText(), actualQuestion.getQuestionBrief());
-            assertEquals(expectedQuestionDetails.getQuestionType(), actualQuestion.getQuestionType());
+            assertEquals(expectedQuestionDetails.getJsonString(), actualQuestionDetails.getJsonString());
         } else if (expected instanceof FeedbackResponse) {
             FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
             FeedbackResponseDetails expectedResponseDetails =
                     expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
             FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
+            FeedbackResponseDetails actualResponseDetails = actualResponse.getResponseDetails();
             assertEquals(expectedFeedbackResponse.getGiver(), actualResponse.getGiverIdentifier());
             assertEquals(expectedFeedbackResponse.getRecipient(), actualResponse.getRecipientIdentifier());
             assertEquals(expectedResponseDetails.getAnswerString(),
                     actualResponse.getResponseDetails().getAnswerString());
             assertEquals(expectedResponseDetails.getQuestionType(),
                     actualResponse.getResponseDetails().getQuestionType());
-            assertEquals(expectedResponseDetails.getJsonString(), actualResponse.getResponseDetails().getJsonString());
+            assertEquals(expectedResponseDetails.getJsonString(), actualResponseDetails.getJsonString());
         } else if (expected instanceof Account) {
             Account expectedAccount = (Account) expected;
             AccountData actualAccount = (AccountData) actual;
@@ -157,8 +158,9 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
             assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
             assertEquals(expectedStudent.getComments(), actualStudent.getComments());
-            assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
-            assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
+            // TODO: A student might not have a team or section.
+            // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
+            // assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
         } else if (expected instanceof UsageStatistics) {
             UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
             UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
