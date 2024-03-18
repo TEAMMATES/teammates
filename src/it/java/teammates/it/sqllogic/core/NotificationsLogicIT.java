@@ -10,6 +10,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.storage.sqlentity.Notification;
@@ -49,6 +50,8 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(newTitle, expectedNotification.getTitle());
         assertEquals(newMessage, expectedNotification.getMessage());
 
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
         Notification actualNotification = notificationsLogic.getNotification(notificationId);
         verifyEquals(expectedNotification, actualNotification);
 
@@ -57,6 +60,42 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertThrows(EntityDoesNotExistException.class, () -> notificationsLogic.updateNotification(nonExistentId,
                 newStartTime, newEndTime, newStyle, newTargetUser, newTitle, newMessage));
+    }
+
+    @Test
+    public void testUpdateNotification_invalidParameters_originalUnchanged() throws Exception {
+
+        String originalTitle = "The original title";
+        String originalMessage = "<p>Deprecation happens in three minutes</p>";
+        Notification notif = new Notification(
+                Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"),
+                NotificationStyle.DANGER,
+                NotificationTargetUser.GENERAL,
+                originalTitle,
+                originalMessage);
+        notificationsLogic.createNotification(notif);
+
+        String invalidLongTitle = "1234567890".repeat(10);
+        String validNewMessage = "This should not be reflected.";
+        assertThrows(
+                InvalidParametersException.class,
+                () -> notificationsLogic.updateNotification(
+                        notif.getId(),
+                        Instant.parse("2011-01-01T00:00:00Z"),
+                        Instant.parse("2099-01-01T00:00:00Z"),
+                        NotificationStyle.DANGER,
+                        NotificationTargetUser.GENERAL,
+                        invalidLongTitle,
+                        validNewMessage
+                )
+        );
+
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+        Notification actual = notificationsLogic.getNotification(notif.getId());
+        assert actual.getTitle().equals(originalTitle) : actual.getTitle();
+        assert actual.getMessage().equals(originalMessage);
     }
 
 }
