@@ -40,11 +40,17 @@ public class DataMigrationForAccountRequestSql
 
     @Override
     protected void migrateEntity(teammates.storage.entity.AccountRequest oldEntity) throws Exception {
+        AccountRequestStatus status;
+        if (oldEntity.getRegisteredAt() == null) {
+            status = AccountRequestStatus.APPROVED;
+        } else {
+            status = AccountRequestStatus.REGISTERED;
+        }
         AccountRequest newEntity = new AccountRequest(
                 oldEntity.getEmail(),
                 oldEntity.getName(),
                 oldEntity.getInstitute(),
-                AccountRequestStatus.APPROVED,
+                status,
                 null);
 
         // set registration key to the old value if exists
