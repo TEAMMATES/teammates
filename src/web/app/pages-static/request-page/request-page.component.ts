@@ -13,11 +13,16 @@ import { environment } from '../../../environments/environment';
 export class RequestPageComponent {
 
   accountRequestFormUrl: SafeResourceUrl | null;
+  isDeclarationDone: boolean = false;
 
   constructor(private sanitizer: DomSanitizer) {
     this.accountRequestFormUrl = environment.accountRequestFormUrl
         ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.accountRequestFormUrl)
         : null;
+  }
+
+  onDeclarationButtonClicked() {
+    this.isDeclarationDone = true;
   }
 
 }
