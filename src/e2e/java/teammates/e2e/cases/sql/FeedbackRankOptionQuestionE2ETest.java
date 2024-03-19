@@ -69,7 +69,6 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackRankOptionsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         List<String> options = questionDetails.getOptions();
         options.remove(0);
         options.set(1, "Edited option.");
@@ -77,12 +76,12 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         questionDetails.setAreDuplicatesAllowed(true);
         questionDetails.setMaxOptionsToBeRanked(Const.POINTS_NO_VALUE);
         questionDetails.setMinOptionsToBeRanked(1);
-        loadedQuestion.setQuestionDetails(questionDetails);
-        feedbackEditPage.editRankQuestion(2, questionDetails);
+        copiedQuestion.setQuestionDetails(questionDetails);
+        feedbackEditPage.editRankQuestion(3, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 
-        feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
-        verifyPresentInDatabase(loadedQuestion);
+        feedbackEditPage.verifyRankQuestionDetails(3, questionDetails);
+        verifyPresentInDatabase(copiedQuestion);
     }
 
     @Override

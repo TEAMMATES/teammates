@@ -25,6 +25,7 @@ import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.NotificationData;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.UsageStatisticsData;
 
@@ -37,6 +38,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
+    private static final Integer UNLIMITED_FEEDBACK = -100;
 
     /**
      * Removes and restores the databundle, with retries.
@@ -69,8 +71,12 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
             assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
             assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
-            assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
-                    actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            if (actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting() == NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED) {
+                assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(), UNLIMITED_FEEDBACK);
+            } else {
+                assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
+                        actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            }
             assertEquals(expectedQuestionDetails.getJsonString(), actualQuestionDetails.getJsonString());
         } else if (expected instanceof FeedbackResponse) {
             FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
