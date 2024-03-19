@@ -23,7 +23,7 @@ public class AccountRequestData extends ApiOutput {
     private final long createdAt;
 
     public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
-        this.id = accountRequestInfo.toEntity().getId();
+        this.id = accountRequestInfo.getId();
         this.name = accountRequestInfo.getName();
         this.email = accountRequestInfo.getEmail();
         this.institute = accountRequestInfo.getInstitute();
