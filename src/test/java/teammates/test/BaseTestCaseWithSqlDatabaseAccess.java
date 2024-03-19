@@ -71,7 +71,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
             assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
             assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
-            if (actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting() == NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED) {
+            if (actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting()
+                    == NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED) {
                 assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(), UNLIMITED_FEEDBACK);
             } else {
                 assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
