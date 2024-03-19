@@ -9,9 +9,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 
@@ -22,7 +19,6 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
 
     static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
     static final long SPAM_FILTER = 2000L; // in ms
-    private static final Logger log = Logger.getLogger();
 
     @Override
     public JsonResult execute() {

@@ -42,7 +42,7 @@ public final class FeedbackSessionLogsLogic {
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp.
-     * 
+     *
      * @param studentEmail        Can be null
      * @param feedbackSessionName Can be null
      */

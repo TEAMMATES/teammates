@@ -32,7 +32,7 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp.
-     * 
+     *
      * @param studentEmail        Can be null
      * @param feedbackSessionName Can be null
      * @param startTime           Can be null
@@ -41,7 +41,7 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
     public List<FeedbackSessionLog> getFeedbackSessionLogs(String studentEmail, String feedbackSessionName,
             Instant startTime, Instant endTime) {
 
-        assert startTime !=null;
+        assert startTime != null;
         assert endTime != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -61,8 +61,8 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
         predicates.add(cb.greaterThanOrEqualTo(root.get("timestamp"), startTime));
         predicates.add(cb.lessThan(root.get("timestamp"), endTime));
 
-
-        cr.select(root).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(root.get("timestamp")), cb.asc(root.get("studentEmail")));
+        cr.select(root).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(root.get("timestamp")),
+                cb.asc(root.get("studentEmail")));
         return HibernateUtil.createQuery(cr).getResultList();
     }
 

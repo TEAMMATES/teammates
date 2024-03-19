@@ -43,7 +43,6 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
@@ -1610,7 +1609,7 @@ public class Logic {
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp.
-     * 
+     *
      * @param studentEmail        Can be null
      * @param feedbackSessionName Can be null
      */
