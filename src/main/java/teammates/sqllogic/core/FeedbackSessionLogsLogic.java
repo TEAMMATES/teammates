@@ -1,9 +1,8 @@
 package teammates.sqllogic.core;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
-import teammates.common.util.Logger;
+
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 
@@ -13,9 +12,7 @@ import teammates.storage.sqlentity.FeedbackSessionLog;
  * @see FeedbackSessionLog
  * @see FeedbackSessionLogsDb
  */
-public class FeedbackSessionLogsLogic {
-
-    private static final Logger log = Logger.getLogger();
+public final class FeedbackSessionLogsLogic {
 
     private static final FeedbackSessionLogsLogic instance = new FeedbackSessionLogsLogic();
 
@@ -34,22 +31,24 @@ public class FeedbackSessionLogsLogic {
     }
 
     /**
-     * Creates a feedback session.
-     *
+     * Creates feedback session logs.
      */
     public void createFeedbackSessionLogs(List<FeedbackSessionLog> logs) {
-        // fslDb.createFeedbackSessionLogs(logs);
+        for (FeedbackSessionLog log : logs) {
+            fslDb.createFeedbackSessionLog(log);
+        }
     }
 
     /**
-     * Gets feedback session logs.
-     *
-     * @return null if not found.
+     * Gets the feedback session logs as filtered by the given parameters ordered by
+     * ascending timestamp.
+     * 
+     * @param studentEmail        Can be null
+     * @param feedbackSessionName Can be null
      */
-    public List<FeedbackSessionLog> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String feedbackSessionName) {
-        return new ArrayList<>();
-        // return fslDb.getFeedbackSessionLogs(courseId, email, startTime, endTime,
-        // feedbackSessionName);
+    public List<FeedbackSessionLog> getFeedbackSessionLogs(String studentEmail, String feedbackSessionName,
+            Instant startTime, Instant endTime) {
+        return fslDb.getFeedbackSessionLogs(studentEmail, feedbackSessionName, endTime,
+                startTime);
     }
 }

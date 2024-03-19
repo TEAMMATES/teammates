@@ -29,6 +29,7 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
 import teammates.sqllogic.core.FeedbackResponsesLogic;
+import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
@@ -69,6 +70,7 @@ public class Logic {
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final FeedbackSessionLogsLogic feedbackSessionLogsLogic = FeedbackSessionLogsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
@@ -1600,8 +1602,19 @@ public class Logic {
     /**
      * Create feedback session logs.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs)
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        // TODO: implement logic layer
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
+        feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
+    }
+
+    /**
+     * Gets the feedback session logs as filtered by the given parameters ordered by
+     * ascending timestamp.
+     * 
+     * @param studentEmail        Can be null
+     * @param feedbackSessionName Can be null
+     */
+    public List<FeedbackSessionLog> getFeedbackSessionLogs(String studentEmail, String feedbackSessionName,
+            Instant startTime, Instant endTime) {
+        return feedbackSessionLogsLogic.getFeedbackSessionLogs(studentEmail, feedbackSessionName, startTime, endTime);
     }
 }

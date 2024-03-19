@@ -53,11 +53,7 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
             }
         }
 
-        try {
-            sqlLogic.createFeedbackSessionLogs(filteredLogs);
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            log.severe("Unexpected error", e);
-        }
+        sqlLogic.createFeedbackSessionLogs(filteredLogs);
 
         return new JsonResult("Successful");
     }
