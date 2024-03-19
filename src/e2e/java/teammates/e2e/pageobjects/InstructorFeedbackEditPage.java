@@ -640,6 +640,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
+    public void addMsqQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(4);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputMsqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void editMsqQuestion(int questionNum, FeedbackMsqQuestionDetails msqQuestionDetails) {
         clickEditQuestionButton(questionNum);
         inputMsqDetails(questionNum, msqQuestionDetails);

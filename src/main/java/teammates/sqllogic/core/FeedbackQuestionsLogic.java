@@ -157,7 +157,7 @@ public final class FeedbackQuestionsLogic {
 
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.STUDENTS));
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.SELF));
-
+        questions.sort(null);
         return questions;
     }
 
