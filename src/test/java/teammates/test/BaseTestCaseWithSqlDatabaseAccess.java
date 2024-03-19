@@ -3,6 +3,7 @@ package teammates.test;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
@@ -38,7 +39,6 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
-    private static final Integer UNLIMITED_FEEDBACK = -100;
 
     /**
      * Removes and restores the databundle, with retries.
@@ -71,10 +71,13 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
             assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
             assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
-            if (actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting()
-                    == NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED) {
-                assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(), UNLIMITED_FEEDBACK);
+            if (expectedQuestion.getNumOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                        NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+                assertNull(actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
             } else {
+                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                        NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
                 assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
                         actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
             }
