@@ -24,4 +24,23 @@ describe('ToastComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set autohide', () => {
+    component.toast = { message: 'Test message', autohide: false, classes: '' };
+    component.setAutohide(true);
+    expect(component.toast.autohide).toBe(true);
+  });
+
+  it('should remove toast', () => {
+    component.toast = { message: 'Test message', autohide: false, classes: '' };
+    jest.spyOn(component.toastChange, 'emit');
+    component.removeToast();
+    expect(component.toast).toBe(null);
+    expect(component.toastChange.emit).toHaveBeenCalledWith(null);
+  });
+
+  it('should return false if message is not a TemplateRef', () => {
+    component.toast = { message: 'Test message', autohide: false, classes: '' };
+    expect(component.isTemplate()).toBe(false);
+  });
 });
