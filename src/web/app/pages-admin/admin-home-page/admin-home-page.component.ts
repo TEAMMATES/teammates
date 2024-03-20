@@ -1,8 +1,9 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
+import { AccountRequestSearchResult } from 'src/web/services/search.service';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
@@ -20,7 +21,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './admin-home-page.component.html',
   styleUrls: ['./admin-home-page.component.scss'],
 })
-export class AdminHomePageComponent {
+export class AdminHomePageComponent implements OnInit {
 
   instructorDetails: string = '';
   instructorName: string = '';
@@ -28,6 +29,7 @@ export class AdminHomePageComponent {
   instructorInstitution: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
+  accountRequests: AccountRequestSearchResult[] = [];
   activeRequests: number = 0;
 
   isAddingInstructors: boolean = false;
@@ -46,6 +48,10 @@ export class AdminHomePageComponent {
     private linkService: LinkService,
     private ngbModal: NgbModal,
   ) {}
+
+  ngOnInit(): void {
+    this.fetchAccountRequests();
+  }
 
   /**
    * Validates and adds the instructor details filled with first form.
@@ -234,6 +240,17 @@ export class AdminHomePageComponent {
         };
       }),
     );
+  }
+
+  fetchAccountRequests(): void {
+    this.accountService.getPendingAccountRequests().subscribe({
+      next: (resp: AccountRequestSearchResult[]) => {
+        this.accountRequests = resp;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   resetAccountRequest(i: number): void {

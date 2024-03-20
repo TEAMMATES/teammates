@@ -23,8 +23,25 @@
   background-color: yellow;
 }
 
+// #table-div {
+//   overflow-x: auto;
+// }
+
+// @media (max-width: 1400px) { /* or your desired breakpoint */
+//   .table-responsive {
+//     overflow-x: auto;
+//   }
+// }
+
+// @media (min-width: 100px) { /* or your desired breakpoint */
+//   #search-table-account-request tr {
+//     overflow-x: auto;
+//   }
+// }
+
 #search-table-account-request {
   border-collapse: collapse;
+  // overflow-x: scroll;
 }
 
 
@@ -49,7 +66,50 @@
   z-index: 1;
 }
 
-#search-table-account-request th,
-#search-table-account-request td {
-  z-index: 0;
+#search-table-account-request td > div{
+  // white-space: nowrap;
+  // // line-height: 1.2em;      /* Adjust the line height to fit your design */
+  // max-height: 3.6em;       /* This is 3 times the line-height value */
+  // // overflow-y: hidden;      /* This will hide vertical overflow */
+  // overflow-x: scroll;        /* This will allow for horizontal scrolling */
+  // display: block;    /* This is the CSS3 method for creating the "line-clamp" effect */
+  // -webkit-line-clamp: 5;   /* Limits the content to 3 lines */
+  // -webkit-box-orient: vertical;
+  // display: block; /* or inline-block */
+  // max-height: 4.5em; /* for 3 lines, this is 3 times your line height */
+  // line-height: 1.5em; /* Adjust this value as needed */
+  // overflow-wrap: break-word;
+  // overflow-y: hidden; /* Prevent vertical expansion */
+  // overflow-x: auto; /* Enable horizontal scrolling */
+  // text-overflow: clip; /* Clip the overflow text */
+  // white-space: pre;
+  // max-height: 120px !important;
+  // overflow-x: auto;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // display: -webkit-box;
+  // -webkit-box-orient: vertical;
+  // -webkit-line-clamp: 3; /* number of lines to show */
+  // // line-height: 10px;        /* fallback */
+  // max-height: 60px;
+  min-width: 33vw;
+  // max-width: 1000px; /* or any value that suits your layout */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap; 
+
+}
+
+// #search-table-account-request tr {
+// //   // max-width: 100%;
+// //   // white-space: nowrap;//#solves 
+// //   max-height: 120px !important;
+// //   --max-lines: 3;
+//   display: flexbox;
+//   flex-wrap: wrap;
+//   flex-direction: row;
+// }
+
+.dropdown-item {
+  border: none;
 }

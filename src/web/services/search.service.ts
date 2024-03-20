@@ -466,11 +466,13 @@ export interface AdminSearchResult {
 export interface AccountRequestSearchResult {
   name: string;
   email: string;
+  status?: string;
   institute: string;
   createdAtText: string;
   registeredAtText: string | null;
   registrationLink: string;
   showLinks: boolean;
+  comments?: string;
 }
 
 /**
