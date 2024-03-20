@@ -39,7 +39,7 @@ public final class Config {
 
     /** The value of the "app.postgres.password" in build.properties file. */
     public static final String POSTGRES_PASSWORD;
-    
+
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
 
