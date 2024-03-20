@@ -1,1 +1,98 @@
-<p>instructor-request-form works!</p>
+<p aria-hidden="true">
+    <!-- aria-hidden as screen readers use the required attribute -->
+    Questions marked with an asterisk <span class="red-font">*</span> are required.
+</p>
+<form (ngSubmit)="onSubmit()" [formGroup]="arf" class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+    <div class="form-group {{isFieldRequired(name) ? 'required' : ''}}">
+        <label for="full-name-input" class="qn">
+            Full Name
+        </label>
+        <p class="help-block">
+            This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.)
+        </p>
+        <input class="form-control {{getFieldValidationClasses(name)}}" type="text"
+            autocomplete="name"
+            [formControl]="name"
+            [attr.required]="isFieldRequired(name)"
+            [attr.aria-invalid]="isFieldInvalid(name)"
+        >
+    </div>
+    <br>
+    <div class="form-group {{isFieldRequired(institution) ? 'required' : ''}}">
+        <label for="institution-input" class="qn">
+            University/school/institution
+        </label>
+        <p class="help-block">
+            Please give full name of the university/institution.
+        </p>
+        <input class="form-control {{getFieldValidationClasses(institution)}}"
+            type="text"
+            autocomplete="organization"
+            [formControl]="institution"
+            [attr.required]="isFieldRequired(institution)"
+            [attr.aria-invalid]="isFieldInvalid(institution)"
+        >
+    </div>
+    <br>
+    <div class="form-group {{isFieldRequired(country) ? 'required' : ''}}">
+        <label for="country-input" class="qn">
+            Country
+        </label>
+        <p class="help-block">
+            Which country is your university/institution based in?
+        </p>
+        <input class="form-control {{getFieldValidationClasses(country)}}"
+            type="text"
+            autocomplete="country-name"
+            [formControl]="country"
+            [attr.required]="isFieldRequired(country)"
+            [attr.aria-invalid]="isFieldInvalid(country)"
+        >
+    </div>
+    <br>
+    <div class="form-group {{isFieldRequired(email) ? 'required' : ''}}">
+        <label for="email-input" class="qn">
+            Official email address
+        </label>
+        <p class="help-block">
+            Please use the email address <b>given to you by your school/university</b>
+            (not your personal Gmail/Hotmail address).
+            Note that this email address will be visible to the students you enroll in TEAMMATES.
+        </p>
+        <input class="form-control {{getFieldValidationClasses(email)}}"
+            type="email"
+            autocomplete="email"
+            [formControl]="email"
+            [attr.required]="isFieldRequired(email)"
+            [attr.aria-invalid]="isFieldInvalid(email)"
+        >
+    </div>
+    <br>
+    <div class="form-group {{isFieldRequired(homePage) ? 'required' : ''}}">
+        <label for="url-input" class="qn">
+            URL of your home page (if any)
+        </label>
+        <input class="form-control {{getFieldValidationClasses(homePage)}}"
+            type="url"
+            autocomplete="url"
+            [formControl]="homePage"
+            [attr.required]="isFieldRequired(homePage)"
+            [attr.aria-invalid]="isFieldInvalid(homePage)"
+        >
+    </div>
+    <br>
+    <div class="form-group {{isFieldRequired(comments) ? 'required' : ''}}">
+        <label for="comments-input" class="qn">
+            Any other comments/queries
+        </label>
+        <textarea class="form-control {{getFieldValidationClasses(comments)}}"
+            [formControl]="comments"
+            [attr.required]="isFieldRequired(comments)"
+            [attr.aria-invalid]="isFieldInvalid(comments)"
+        ></textarea>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">
+        Submit
+    </button>
+  </form>
