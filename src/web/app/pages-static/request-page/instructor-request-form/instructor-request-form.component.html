@@ -4,22 +4,33 @@
 </p>
 <form (ngSubmit)="onSubmit()" [formGroup]="arf" class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
     <div class="form-group {{isFieldRequired(name) ? 'required' : ''}}">
-        <label for="full-name-input" class="qn">
+        <label for="name" id="name-label" class="qn">
             Full Name
         </label>
         <p class="help-block">
             This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.)
         </p>
-        <input class="form-control {{getFieldValidationClasses(name)}}" type="text"
+        <input class="form-control {{getFieldValidationClasses(name)}}"
+            type="text"
+            id="name"
             autocomplete="name"
             [formControl]="name"
             [attr.required]="isFieldRequired(name)"
             [attr.aria-invalid]="isFieldInvalid(name)"
         >
+        <div
+            *ngIf="isFieldInvalid(name)"
+            role="alert"
+            aria-describedby="name-label"
+            tabindex="0"
+            class="invalid-feedback"
+        >
+            Please enter your name.
+        </div>
     </div>
     <br>
     <div class="form-group {{isFieldRequired(institution) ? 'required' : ''}}">
-        <label for="institution-input" class="qn">
+        <label for="institution" id="institution-label" class="qn">
             University/school/institution
         </label>
         <p class="help-block">
@@ -27,15 +38,25 @@
         </p>
         <input class="form-control {{getFieldValidationClasses(institution)}}"
             type="text"
+            id="institution"
             autocomplete="organization"
             [formControl]="institution"
             [attr.required]="isFieldRequired(institution)"
             [attr.aria-invalid]="isFieldInvalid(institution)"
         >
+        <div
+            *ngIf="isFieldInvalid(institution)"
+            role="alert"
+            aria-describedby="institution-label"
+            tabindex="0"
+            class="invalid-feedback"
+        >
+            Please enter your institution.
+        </div>
     </div>
     <br>
     <div class="form-group {{isFieldRequired(country) ? 'required' : ''}}">
-        <label for="country-input" class="qn">
+        <label for="country" id="country-label" class="qn">
             Country
         </label>
         <p class="help-block">
@@ -43,15 +64,25 @@
         </p>
         <input class="form-control {{getFieldValidationClasses(country)}}"
             type="text"
+            id="country"
             autocomplete="country-name"
             [formControl]="country"
             [attr.required]="isFieldRequired(country)"
             [attr.aria-invalid]="isFieldInvalid(country)"
         >
+        <div
+            *ngIf="isFieldInvalid(country)"
+            role="alert"
+            aria-describedby="country-label"
+            tabindex="0"
+            class="invalid-feedback"
+        >
+            Please enter your institution's country.
+        </div>
     </div>
     <br>
     <div class="form-group {{isFieldRequired(email) ? 'required' : ''}}">
-        <label for="email-input" class="qn">
+        <label for="email" id="email-label" class="qn">
             Official email address
         </label>
         <p class="help-block">
@@ -61,28 +92,48 @@
         </p>
         <input class="form-control {{getFieldValidationClasses(email)}}"
             type="email"
+            id="email"
             autocomplete="email"
             [formControl]="email"
             [attr.required]="isFieldRequired(email)"
             [attr.aria-invalid]="isFieldInvalid(email)"
         >
+        <div
+            *ngIf="isFieldInvalid(email)"
+            role="alert"
+            aria-describedby="email-label"
+            tabindex="0"
+            class="invalid-feedback"
+        >
+            Please enter a valid email address.
+        </div>
     </div>
     <br>
     <div class="form-group {{isFieldRequired(homePage) ? 'required' : ''}}">
-        <label for="url-input" class="qn">
+        <label for="homePage" id="homePage-label" class="qn">
             URL of your home page (if any)
         </label>
         <input class="form-control {{getFieldValidationClasses(homePage)}}"
             type="url"
+            id="homePage"
             autocomplete="url"
             [formControl]="homePage"
             [attr.required]="isFieldRequired(homePage)"
             [attr.aria-invalid]="isFieldInvalid(homePage)"
         >
+        <div
+            *ngIf="isFieldInvalid(homePage)"
+            role="alert"
+            aria-describedby="homePage-label"
+            tabindex="0"
+            class="invalid-feedback"
+        >
+            Please enter a valid URL.
+        </div>
     </div>
     <br>
     <div class="form-group {{isFieldRequired(comments) ? 'required' : ''}}">
-        <label for="comments-input" class="qn">
+        <label for="comments" id="comments-label" class="qn">
             Any other comments/queries
         </label>
         <textarea class="form-control {{getFieldValidationClasses(comments)}}"
