@@ -15,7 +15,7 @@
             id="name"
             autocomplete="name"
             [formControl]="name"
-            [attr.required]="isFieldRequired(name)"
+            [required]="isFieldRequired(name)"
             [attr.aria-invalid]="isFieldInvalid(name)"
         >
         <div
@@ -41,7 +41,7 @@
             id="institution"
             autocomplete="organization"
             [formControl]="institution"
-            [attr.required]="isFieldRequired(institution)"
+            [required]="isFieldRequired(institution)"
             [attr.aria-invalid]="isFieldInvalid(institution)"
         >
         <div
@@ -67,7 +67,7 @@
             id="country"
             autocomplete="country-name"
             [formControl]="country"
-            [attr.required]="isFieldRequired(country)"
+            [required]="isFieldRequired(country)"
             [attr.aria-invalid]="isFieldInvalid(country)"
         >
         <div
@@ -95,7 +95,7 @@
             id="email"
             autocomplete="email"
             [formControl]="email"
-            [attr.required]="isFieldRequired(email)"
+            [required]="isFieldRequired(email)"
             [attr.aria-invalid]="isFieldInvalid(email)"
         >
         <div
@@ -118,7 +118,7 @@
             id="homePage"
             autocomplete="url"
             [formControl]="homePage"
-            [attr.required]="isFieldRequired(homePage)"
+            [required]="isFieldRequired(homePage)"
             [attr.aria-invalid]="isFieldInvalid(homePage)"
         >
         <div
@@ -138,7 +138,6 @@
         </label>
         <textarea class="form-control {{getFieldValidationClasses(comments)}}"
             [formControl]="comments"
-            [attr.required]="isFieldRequired(comments)"
             [attr.aria-invalid]="isFieldInvalid(comments)"
         ></textarea>
     </div>

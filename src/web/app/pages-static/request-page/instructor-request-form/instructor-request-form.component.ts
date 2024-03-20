@@ -34,7 +34,7 @@ export class InstructorRequestFormComponent {
   }
 
   isFieldInvalid(field: FormControl): boolean {
-    return field.touched && field.invalid;
+    return field.invalid;
   }
 
   getFieldValidationClasses(field: FormControl): string {
