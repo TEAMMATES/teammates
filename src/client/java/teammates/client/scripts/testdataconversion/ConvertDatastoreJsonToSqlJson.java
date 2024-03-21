@@ -27,19 +27,22 @@ import teammates.storage.sqlentity.Team;
 import teammates.test.FileHelper;
 
 public class ConvertDatastoreJsonToSqlJson {
-    DataStoreToSqlConverter entityConverter;
-    DataBundle dataStoreBundle;
+    private DataStoreToSqlConverter entityConverter;
+    private DataBundle dataStoreBundle;
 
-    protected ConvertDatastoreJsonToSqlJson() throws IOException {
+    private String[] entitiesReferencedForeignKeys = new String[]{"course", 
+        "feedbackSession",
+        "section",
+        "account",
+        "giverSection",
+        "recipientSection",
+        "notification"};
+
+
+    protected ConvertDatastoreJsonToSqlJson(String inputFilePath) throws IOException {
         this.entityConverter = new DataStoreToSqlConverter();
-        File file = new File("./src/client/java/teammates/client/scripts/typicalDataBundle.json");
+        File file = new File(inputFilePath);
         this.dataStoreBundle = loadDataBundle(file.getCanonicalPath());
-    }
-
-    private void migrate() throws IOException, InvalidParametersException{
-        String outputFileName = "output.json";
-        File outputFile = new File("./src/client/java/teammates/client/scripts/" + outputFileName);
-        createSqlJson(outputFile);
     }
 
     private String removeWhitespace(String string) {
@@ -56,10 +59,12 @@ public class ConvertDatastoreJsonToSqlJson {
         System.out.println(filePath + " created!");
     }
 
-    String[] entitiesAsForeignKeys = new String[]{"course", "feedbackSession", "section", "account", "giverSection", "recipientSection", "notification"};
 
+    /**
+     * Amends foreign key references to only have ID field
+     */
     private void removeForeignKeyData(JsonObject obj) {
-        for (String entityName : entitiesAsForeignKeys) {
+        for (String entityName : entitiesReferencedForeignKeys) {
             if (obj.get(entityName) != null) {
                 JsonObject entity = obj.get(entityName).getAsJsonObject();
                 for (String field : entity.deepCopy().keySet()) {
@@ -71,6 +76,9 @@ public class ConvertDatastoreJsonToSqlJson {
         };
     }
 
+    /**
+     * Read datstore json file and creates a SQL equivalent
+     */
     private void createSqlJson(File outputFile) throws IOException, InvalidParametersException {
         SqlDataBundle sqlDataBundle = new SqlDataBundle();
 
@@ -206,7 +214,13 @@ public class ConvertDatastoreJsonToSqlJson {
 
 
     public static void main(String[] args) throws IOException, InvalidParametersException {
-        ConvertDatastoreJsonToSqlJson script = new ConvertDatastoreJsonToSqlJson();
-        script.migrate();
+        if (args.length > 0) {
+            ConvertDatastoreJsonToSqlJson script = new ConvertDatastoreJsonToSqlJson(args[0]);
+            String outputFileName = "output.json";
+            File outputFile = new File("./src/client/java/teammates/client/scripts/" + outputFileName);
+            script.createSqlJson(outputFile);
+        } else {
+            throw new InvalidParametersException("Required the path of the script to convert");
+        }
     }
 }
