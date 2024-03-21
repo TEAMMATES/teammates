@@ -1,9 +1,9 @@
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
-import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
+import { catchError, finalize, map, mergeMap, take } from 'rxjs/operators';
 import { AccountRequestSearchResult } from 'src/web/services/search.service';
+import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
@@ -29,8 +29,11 @@ export class AdminHomePageComponent implements OnInit {
   instructorInstitution: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
-  accountRequests: AccountRequestSearchResult[] = [];
+  accountReqs: AccountRequestSearchResult[] = [];
   activeRequests: number = 0;
+  currentPage = 1;
+  pageSize = 20;
+  items$: Observable<any> = of([]);
 
   isAddingInstructors: boolean = false;
 
@@ -243,13 +246,28 @@ export class AdminHomePageComponent implements OnInit {
   }
 
   fetchAccountRequests(): void {
-    this.accountService.getPendingAccountRequests().subscribe({
+    this.accountService.getPendingAccountRequests(this.currentPage, this.pageSize).subscribe({
       next: (resp: AccountRequestSearchResult[]) => {
-        this.accountRequests = resp;
+        this.accountReqs = resp;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
+    });
+
+    document.addEventListener('scroll', () => {
+      if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+        this.currentPage += 1;
+        forkJoin([this.items$.pipe(take(1)),
+          this.accountService.getPendingAccountRequests(this.currentPage, this.pageSize)]).subscribe({
+          next: (resp: [any, AccountRequestSearchResult[]]) => {
+            this.accountReqs = this.accountReqs.concat(resp[1]);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      }
     });
   }
 

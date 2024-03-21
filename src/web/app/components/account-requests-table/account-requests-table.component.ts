@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
+import {
+  RejectWithReasonModalComponent,
+} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import {
   AccountRequestSearchResult,
@@ -7,12 +11,9 @@ import {
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { RejectWithReasonModalComponent } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
-import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
-
 
 /**
  * Admin search page.
@@ -90,7 +91,7 @@ export class AccountRequestsTableComponent {
     modalRef.result.then(() => {
       this.accountService.editAccountRequest(
         modalRef.componentInstance.accountRequestName,
-        modalRef.componentInstance.accountRequestEmail, 
+        modalRef.componentInstance.accountRequestEmail,
         modalRef.componentInstance.accountRequestInstitution,
         modalRef.componentInstance.accountRequestComment)
       .subscribe({
@@ -130,7 +131,7 @@ export class AccountRequestsTableComponent {
   }
 
   viewAccountRequest(accountRequest: AccountRequestSearchResult): void {
-    const modalContent: string = `<strong>Comment:</strong> ${ accountRequest.comments || ''}`;
+    const modalContent: string = `<strong>Comment:</strong> ${accountRequest.comments || ''}`;
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
         `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
 
@@ -167,9 +168,9 @@ export class AccountRequestsTableComponent {
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
 
-
     modalRef.result.then(() => {
-      this.accountService.rejectAccountRequest(accountRequest.email, accountRequest.institute, modalRef.componentInstance.rejectionReasonTitle, modalRef.componentInstance.rejectionReasonBody)
+      this.accountService.rejectAccountRequest(accountRequest.email, accountRequest.institute,
+        modalRef.componentInstance.rejectionReasonTitle, modalRef.componentInstance.rejectionReasonBody)
       .subscribe({
         next: (resp: MessageOutput) => {
           this.statusMessageService.showSuccessToast(resp.message);

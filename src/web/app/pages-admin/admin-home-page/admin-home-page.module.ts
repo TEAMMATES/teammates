@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
+import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 
 const routes: Routes = [
   {

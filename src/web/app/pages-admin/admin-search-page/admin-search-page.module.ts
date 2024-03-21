@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 import { AdminSearchPageComponent } from './admin-search-page.component';
+import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 import { Pipes } from '../../pipes/pipes.module';
 
 const routes: Routes = [

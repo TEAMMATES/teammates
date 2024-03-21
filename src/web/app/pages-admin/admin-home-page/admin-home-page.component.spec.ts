@@ -14,6 +14,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
@@ -35,6 +36,7 @@ describe('AdminHomePageComponent', () => {
         LoadingSpinnerModule,
         AjaxLoadingModule,
         RouterTestingModule,
+        AccountRequestsTableModule,
       ],
       providers: [
         AccountService,

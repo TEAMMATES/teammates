@@ -9,9 +9,9 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
-  searchQuery=""
+  searchQuery={[Function String]}
   searchService={[Function SearchService]}
-  searchString=""
+  searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -46,7 +46,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
         </button>
       </div>
       <span>
-        100 characters left
+        91 characters left
       </span>
     </div>
   </div><div
@@ -145,7 +145,11 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               </a>
             </td>
             <td>
-              institute
+              <span
+                class="highlighted-text"
+              >
+                institute
+              </span>
             </td>
             <td>
               <a
@@ -283,7 +287,11 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               </a>
             </td>
             <td>
-              institute
+              <span
+                class="highlighted-text"
+              >
+                institute
+              </span>
             </td>
             <td>
               comments
@@ -342,7 +350,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
   loadingBarService={[Function LoadingBarService]}
   searchQuery={[Function String]}
   searchService={[Function SearchService]}
-  searchString=""
+  searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -393,9 +401,9 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
-  searchQuery=""
+  searchQuery={[Function String]}
   searchService={[Function SearchService]}
-  searchString=""
+  searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -430,122 +438,232 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
         </button>
       </div>
       <span>
-        100 characters left
+        91 characters left
       </span>
     </div>
-  </div><div
-    class="card bg-light top-padded"
-  >
+  </div><tm-account-requests-table>
     <div
-      class="card-header bg-primary text-white"
+      class="card bg-light top-padded"
     >
-      <strong>
-        Account Requests Found
-      </strong>
       <div
-        class="card-header-btn-toolbar"
+        class="card-header bg-primary text-white"
       >
-        <button
-          class="btn btn-light btn-sm"
-          id="show-account-request-links"
-          style="margin-right: 10px;"
-          type="button"
+        <div>
+          <strong>
+            Account Requests Found
+          </strong>
+        </div>
+        <div
+          class="card-header-btn-toolbar"
         >
-          Expand All
-        </button>
-        <button
-          class="btn btn-light btn-sm"
-          id="hide-account-request-links"
-          type="button"
+          <button
+            class="btn btn-light btn-sm"
+            id="show-account-request-links"
+            style="margin-right: 10px;"
+            type="button"
+          >
+            Expand All
+          </button>
+          <button
+            class="btn btn-light btn-sm"
+            id="hide-account-request-links"
+            type="button"
+          >
+            Collapse All
+          </button>
+        </div>
+      </div>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-striped data-table"
+          id="search-table-account-request"
         >
-          Collapse All
-        </button>
+          <thead>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                Institute
+              </th>
+              <th>
+                Country
+              </th>
+              <th>
+                Created At
+              </th>
+              <th>
+                Registered At
+              </th>
+              <th>
+                Comments
+              </th>
+              <th>
+                Options
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                name
+              </td>
+              <td>
+                email
+              </td>
+              <td>
+              </td>
+              <td>
+                <span
+                  class="highlighted-text"
+                >
+                  institute
+                </span>
+              </td>
+              <td>
+              </td>
+              <td
+                id="timestamp-box"
+              >
+                Tue, 08 Feb 2022, 08:23 AM +00:00
+              </td>
+              <td
+                id="timestamp-box"
+              >
+                Not Registered Yet
+              </td>
+              <td>
+                <div
+                  id="comment-box"
+                >
+                </div>
+              </td>
+              <td
+                class="align-middle"
+              >
+                <div
+                  class="d-flex flex-row align-items-center gap-2"
+                >
+                  <div>
+                    <a
+                      href="javascript:;"
+                      id="edit-account-request-0"
+                    >
+                      <i
+                        class="fa-solid fa-pen"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="ngb-tooltip-class"
+                  >
+                    <a
+                      href="javascript:;"
+                      id="delete-account-request-0"
+                    >
+                      <i
+                        class="fa-solid fa-trash"
+                      />
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      href="javascript:;"
+                      id="view-account-request-0"
+                    >
+                      <i
+                        class="fa-solid fa-eye"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="ngb-tooltip-class"
+                  >
+                    <button
+                      class="btn btn-success"
+                      id="approve-account-request-0"
+                    >
+                      Approve
+                    </button>
+                  </div>
+                  <span
+                    class="dropdown"
+                    container="body"
+                    ngbdropdown=""
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="dropdown-toggle btn btn-warning"
+                      id="reject-account-request-0"
+                      ngbdropdowntoggle=""
+                      type="button"
+                    >
+                       Reject 
+                    </button>
+                    <div
+                      class="dropdown-menu"
+                      ngbdropdownmenu=""
+                    >
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                      >
+                         Reject 
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                      >
+                         Reject With Reason 
+                      </button>
+                    </div>
+                  </span>
+                  <div
+                    class="ngb-tooltip-class"
+                  >
+                    <button
+                      class="btn btn-primary"
+                      disabled=""
+                      id="reset-account-request-0"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td
+                colspan="100"
+              >
+                <ul
+                  class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
+                >
+                  <li
+                    class="list-group-item list-group-item-info"
+                  >
+                    <strong>
+                      Account Registration Link
+                    </strong>
+                    <input
+                      class="form-control"
+                      disabled=""
+                    />
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div
-      class="table-responsive"
-    >
-      <table
-        class="table table-striped data-table"
-        id="search-table-account-request"
-      >
-        <thead>
-          <tr>
-            <th>
-              Name
-            </th>
-            <th>
-              Email
-            </th>
-            <th>
-              Institute
-            </th>
-            <th>
-              Created At
-            </th>
-            <th>
-              Registered At
-            </th>
-            <th>
-              Options
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              name
-            </td>
-            <td>
-              email
-            </td>
-            <td>
-              institute
-            </td>
-            <td>
-              Tue, 08 Feb 2022, 08:23 AM +00:00
-            </td>
-            <td>
-              Not Registered Yet
-            </td>
-            <td>
-              <div
-                class="ngb-tooltip-class"
-              >
-                <button
-                  class="btn btn-danger"
-                  id="delete-account-request-0"
-                >
-                  Delete
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td
-              colspan="6"
-            >
-              <ul
-                class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
-              >
-                <li
-                  class="list-group-item list-group-item-info"
-                >
-                  <strong>
-                    Account Registration Link
-                  </strong>
-                  <input
-                    class="form-control"
-                    disabled=""
-                  />
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  </tm-account-requests-table>
 </tm-admin-search-page>
 `;
 
@@ -558,9 +676,9 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
-  searchQuery=""
+  searchQuery={[Function String]}
   searchService={[Function SearchService]}
-  searchString=""
+  searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -595,7 +713,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
         </button>
       </div>
       <span>
-        100 characters left
+        91 characters left
       </span>
     </div>
   </div><div
@@ -691,7 +809,11 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               </a>
             </td>
             <td>
-              institute
+              <span
+                class="highlighted-text"
+              >
+                institute
+              </span>
             </td>
             <td>
               <a
@@ -815,9 +937,9 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
-  searchQuery=""
+  searchQuery={[Function String]}
   searchService={[Function SearchService]}
-  searchString=""
+  searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -852,7 +974,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
         </button>
       </div>
       <span>
-        100 characters left
+        91 characters left
       </span>
     </div>
   </div><div
@@ -955,7 +1077,11 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               </a>
             </td>
             <td>
-              institute
+              <span
+                class="highlighted-text"
+              >
+                institute
+              </span>
             </td>
             <td>
               comments
@@ -1121,9 +1247,9 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
-  searchQuery=""
+  searchQuery={[Function String]}
   searchService={[Function SearchService]}
-  searchString=""
+  searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1158,7 +1284,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
         </button>
       </div>
       <span>
-        100 characters left
+        91 characters left
       </span>
     </div>
   </div>

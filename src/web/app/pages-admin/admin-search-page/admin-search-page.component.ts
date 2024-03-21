@@ -21,8 +21,6 @@ import { Email, RegenerateKey } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-// import { RejectWithReasonModalComponent } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
-// import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 
 /**
  * Admin search page.

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
-import { Account, Accounts, JoinLink, MessageOutput } from '../types/api-output';
-import { AccountCreateRequest } from '../types/api-request';
-import { AccountRequests } from '../types/api-output';
-import { TimezoneService } from './timezone.service';
 import { AccountRequestSearchResult } from './search.service';
-
+import { TimezoneService } from './timezone.service';
+import { ResourceEndpoints } from '../types/api-const';
+import { Account, Accounts, AccountRequests, JoinLink, MessageOutput } from '../types/api-output';
+import { AccountCreateRequest } from '../types/api-request';
 /**
  * Handles account related logic provision
  */
@@ -64,10 +62,10 @@ export class AccountService {
    * Approves an account request by calling API.
    */
   approveAccountRequest(email: string, institute: string): Observable<MessageOutput> {
-      return new Observable<MessageOutput>(observer => {
+      return new Observable<MessageOutput>((observer => {
         observer.next({ message: 'Account request approved successfully, details: ' + email + ', ' + institute });
         observer.complete();
-      })
+      }));
   }
 
   /**
@@ -75,10 +73,10 @@ export class AccountService {
    */
   rejectAccountRequest(email: string, institute: string, title?: string, reason?: string): Observable<MessageOutput> {
     // mock response for now
-    return new Observable<MessageOutput>(observer => {
+    return new Observable<MessageOutput>((observer => {
       observer.next({ message: 'Account request rejected successfully, details: ' + email + ', ' + institute  + ', ' + title + ', ' + reason});
       observer.complete();
-    });
+    }));
 
     // return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   }
@@ -88,10 +86,10 @@ export class AccountService {
    */
     editAccountRequest(name: string, email: string, institute: string, comment: string): Observable<MessageOutput> {
       // return a mock response for now
-      return new Observable<MessageOutput>(observer => {
+      return new Observable<MessageOutput>((observer => {
         observer.next({ message: 'Account request edited successfully, details: ' + name + ', ' + email + ', ' + institute + ', ' + comment });
         observer.complete();
-      })
+      }));
     }
 
   /**
@@ -147,8 +145,6 @@ export class AccountService {
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
   }
 
-
-
   private formatTimestampAsString(timestamp: number, timezone: string): string {
       const dateFormatWithZoneInfo: string = 'ddd, DD MMM YYYY, hh:mm A Z';
 
@@ -179,11 +175,45 @@ export class AccountService {
   /**
    * Gets account requests by calling API.
    */
-  getPendingAccountRequests(): Observable<AccountRequestSearchResult[]> {
+  getPendingAccountRequests(pageNumber : number = 1, pageSize: number = 20): Observable<AccountRequestSearchResult[]> {
     // mock a response with all pending for now
+
+    if (pageNumber > 3 && pageSize >= 20) {
+      return new Observable<AccountRequestSearchResult[]>((observer => {
+        observer.next([]);
+        observer.complete();
+      }));
+    }
 
     const requests: AccountRequests = {
       accountRequests: [
+        {
+          email: 'instructor1@gmail.com',
+          institute: 'University of Toronto',
+          name: 'John Doe',
+          status: 'PENDING',
+          registrationKey: '123456',
+          createdAt: 1234567890,
+          comments: 'This is a short comment',
+        },
+        {
+          email: 'instructor1@gmail.com',
+          institute: 'University of Toronto',
+          name: 'John Doe',
+          status: 'PENDING',
+          registrationKey: '123456',
+          createdAt: 1234567890,
+          comments: 'This is a short comment',
+        },
+        {
+          email: 'instructor1@gmail.com',
+          institute: 'University of Toronto',
+          name: 'John Doe',
+          status: 'PENDING',
+          registrationKey: '123456',
+          createdAt: 1234567890,
+          comments: 'This is a short comment',
+        },
         {
           email: 'instructor1@gmail.com',
           institute: 'University of Toronto',
@@ -200,17 +230,17 @@ export class AccountService {
           status: 'PENDING',
           registrationKey: '1234567',
           createdAt: 1234567890,
-          comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Habitant morbi tristique senectus et.',
+          comments: 'Loremipsumdolorsit amet, consectetur adipiscinelit sedoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua',
         },
-      ]
+      ],
     };
 
     const formattedRequests: AccountRequestSearchResult[] = this.formatAccountRequests(requests);
 
-    return new Observable<AccountRequestSearchResult[]>(observer => {
+    return new Observable<AccountRequestSearchResult[]>((observer => {
       observer.next(formattedRequests);
       observer.complete();
-    });
+    }));
 
   }
 }
