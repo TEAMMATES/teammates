@@ -43,10 +43,10 @@ public class ConvertDatastoreJsonToSqlJson {
             "recipientSection",
             "notification"};
 
-    protected ConvertDatastoreJsonToSqlJson(String inputFilePath) throws IOException {
+    protected ConvertDatastoreJsonToSqlJson(File inputFile) throws IOException {
         this.entityConverter = new DataStoreToSqlConverter();
-        File file = new File(inputFilePath);
-        this.dataStoreBundle = loadDataBundle(file.getCanonicalPath());
+
+        this.dataStoreBundle = loadDataBundle(inputFile.getCanonicalPath());
     }
 
     private String removeWhitespace(String string) {
@@ -203,9 +203,10 @@ public class ConvertDatastoreJsonToSqlJson {
 
     public static void main(String[] args) throws IOException, InvalidParametersException {
         if (args.length > 0) {
-            ConvertDatastoreJsonToSqlJson script = new ConvertDatastoreJsonToSqlJson(args[0]);
+            File inputFile = new File(args[0]);
+            ConvertDatastoreJsonToSqlJson script = new ConvertDatastoreJsonToSqlJson(inputFile);
             String outputFileName = "output.json";
-            File outputFile = new File("./src/client/java/teammates/client/scripts/" + outputFileName);
+            File outputFile = new File(inputFile.getParent() + "/" + outputFileName);
             script.createSqlJson(outputFile);
         } else {
             throw new InvalidParametersException("Required the path of the script to convert");
