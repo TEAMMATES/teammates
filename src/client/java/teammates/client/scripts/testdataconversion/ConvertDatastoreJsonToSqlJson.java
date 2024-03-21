@@ -26,18 +26,22 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.test.FileHelper;
 
+/**
+ * Class to create JSON test data in SQL format from a noSQL JSON file.
+ */
 public class ConvertDatastoreJsonToSqlJson {
     private DataStoreToSqlConverter entityConverter;
     private DataBundle dataStoreBundle;
+    private SqlDataBundle sqlDataBundle;
 
-    private String[] entitiesReferencedForeignKeys = new String[]{"course", 
-        "feedbackSession",
-        "section",
-        "account",
-        "giverSection",
-        "recipientSection",
-        "notification"};
-
+    private String[] entitiesReferencedForeignKeys = new String[] {
+            "course",
+            "feedbackSession",
+            "section",
+            "account",
+            "giverSection",
+            "recipientSection",
+            "notification"};
 
     protected ConvertDatastoreJsonToSqlJson(String inputFilePath) throws IOException {
         this.entityConverter = new DataStoreToSqlConverter();
@@ -59,35 +63,34 @@ public class ConvertDatastoreJsonToSqlJson {
         System.out.println(filePath + " created!");
     }
 
-
     /**
-     * Amends foreign key references to only have ID field
+     * Amends foreign key references to only have ID field.
      */
     private void removeForeignKeyData(JsonObject obj) {
         for (String entityName : entitiesReferencedForeignKeys) {
             if (obj.get(entityName) != null) {
                 JsonObject entity = obj.get(entityName).getAsJsonObject();
                 for (String field : entity.deepCopy().keySet()) {
-                    if (field != "id") {
+                    if (!"id".equals(field)) {
                         entity.remove(field);
                     }
                 }
             }
-        };
+        }
     }
 
     /**
-     * Read datstore json file and creates a SQL equivalent
+     * Read datstore json file and creates a SQL equivalent.
      */
     private void createSqlJson(File outputFile) throws IOException, InvalidParametersException {
-        SqlDataBundle sqlDataBundle = new SqlDataBundle();
+        sqlDataBundle = new SqlDataBundle();
 
-        migrateIndepedentEntities(sqlDataBundle);
-        migrateDependentEntities(sqlDataBundle);
-    
+        migrateIndepedentEntities();
+        migrateDependentEntities();
+
         // Iterates through all entities in JSON file and removes foreign entitity data except its ID
         JsonObject sqlJsonString = JsonUtils.toJsonObject(sqlDataBundle);
-        for (String entityCollectionName: sqlJsonString.keySet()) {
+        for (String entityCollectionName : sqlJsonString.keySet()) {
             JsonObject entityCollection = sqlJsonString.get(entityCollectionName).getAsJsonObject();
             for (String entityName : entityCollection.getAsJsonObject().keySet()) {
                 JsonObject entity = entityCollection.get(entityName).getAsJsonObject();
@@ -100,11 +103,10 @@ public class ConvertDatastoreJsonToSqlJson {
     }
 
     /**
-     * Migrate entities with no foreign key reference account requests, usage statistics
-     * courses, accouns, notifications
-     * @param sqlDataBundle
+     * Migrate entities with no foreign key reference.
+     * Entities are account requests, usage statistics, courses, accouns, notifications
      */
-    private void migrateIndepedentEntities(SqlDataBundle sqlDataBundle) {
+    private void migrateIndepedentEntities() {
         assert sqlDataBundle != null;
 
         dataStoreBundle.accounts.forEach((k, datastoreAccount) -> {
@@ -131,10 +133,9 @@ public class ConvertDatastoreJsonToSqlJson {
     /**
      * Migrate entities which have dependence on each other or on the independent entities.
      * feedback sessions, sections, teams, users, students, instructors, deadline extensions, feedback questions,
-     * read notifications, feedback responses and feedback response comments
-     * @param sqlDataBundle
+     * read notifications, feedback responses and feedback response comments.
      */
-    private void migrateDependentEntities(SqlDataBundle sqlDataBundle) {
+    private void migrateDependentEntities() {
 
         dataStoreBundle.feedbackSessions.forEach((k, feedbackSession) -> {
             FeedbackSession sqlFeedbackSession = entityConverter.convert(feedbackSession);
@@ -161,7 +162,7 @@ public class ConvertDatastoreJsonToSqlJson {
             }
         });
 
-        dataStoreBundle.instructors.forEach((k, instructor) -> {   
+        dataStoreBundle.instructors.forEach((k, instructor) -> {
             Instructor sqlInstructor = entityConverter.convert(instructor);
             sqlDataBundle.instructors.put(k, sqlInstructor);
         });
@@ -183,7 +184,7 @@ public class ConvertDatastoreJsonToSqlJson {
 
         dataStoreBundle.accounts.forEach((k, account) -> {
             List<ReadNotification> sqlReadNotifications = entityConverter.createReadNotifications(account);
-            sqlReadNotifications.forEach((notif) -> {
+            sqlReadNotifications.forEach(notif -> {
                 String jsonKey = removeWhitespace(notif.getNotification().getTitle() + "-" + account.getName());
                 sqlDataBundle.readNotifications.put(jsonKey, notif);
             });
@@ -198,10 +199,7 @@ public class ConvertDatastoreJsonToSqlJson {
             FeedbackResponseComment sqlFeedbackResponseComment = entityConverter.convert(feedbackReponseComment);
             sqlDataBundle.feedbackResponseComments.put(k, sqlFeedbackResponseComment);
         });
-
     }
-
-
 
     public static void main(String[] args) throws IOException, InvalidParametersException {
         if (args.length > 0) {

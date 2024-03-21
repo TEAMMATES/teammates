@@ -83,7 +83,7 @@ public final class JsonUtils {
     }
 
     /**
-     * This creates a Gson object that can be reformatted to modify JSON output
+     * This creates a Gson object that can be reformatted to modify JSON output.
      */
     public static JsonObject toJsonObject(Object src) {
         return (JsonObject) getGsonInstance(true).toJsonTree(src);
