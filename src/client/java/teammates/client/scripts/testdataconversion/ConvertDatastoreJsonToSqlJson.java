@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.InvalidParametersException;
@@ -25,11 +27,6 @@ import teammates.storage.sqlentity.Team;
 import teammates.test.FileHelper;
 
 public class ConvertDatastoreJsonToSqlJson {
-    // Get all entities in JSON file
-    // Convert entities into SQL entities
-    // Create corresponding links between entities
-    // Collate entities and write back to json
-
     DataStoreToSqlConverter entityConverter;
     DataBundle dataStoreBundle;
 
@@ -59,22 +56,46 @@ public class ConvertDatastoreJsonToSqlJson {
         System.out.println(filePath + " created!");
     }
 
+    String[] entitiesAsForeignKeys = new String[]{"course", "feedbackSession", "section", "account", "giverSection", "recipientSection", "notification"};
+
+    private void removeForeignKeyData(JsonObject obj) {
+        for (String entityName : entitiesAsForeignKeys) {
+            if (obj.get(entityName) != null) {
+                JsonObject entity = obj.get(entityName).getAsJsonObject();
+                for (String field : entity.deepCopy().keySet()) {
+                    if (field != "id") {
+                        entity.remove(field);
+                    }
+                }
+            }
+        };
+    }
+
     private void createSqlJson(File outputFile) throws IOException, InvalidParametersException {
         SqlDataBundle sqlDataBundle = new SqlDataBundle();
 
         migrateIndepedentEntities(sqlDataBundle);
-
-        // TODO how to remove course information except ID
-        // Feedback ses (course)
-        // section (course)
-        // team (section)
         migrateDependentEntities(sqlDataBundle);
     
+        // Iterates through all entities in JSON file and removes foreign entitity data except its ID
+        JsonObject sqlJsonString = JsonUtils.toJsonObject(sqlDataBundle);
+        for (String entityCollectionName: sqlJsonString.keySet()) {
+            JsonObject entityCollection = sqlJsonString.get(entityCollectionName).getAsJsonObject();
+            for (String entityName : entityCollection.getAsJsonObject().keySet()) {
+                JsonObject entity = entityCollection.get(entityName).getAsJsonObject();
+                removeForeignKeyData(entity);
+            }
+        }
 
-        String sqlJsonString = JsonUtils.toJson(sqlDataBundle);
-        saveFile(outputFile.getCanonicalPath(), sqlJsonString + System.lineSeparator());
+        String jsonString = JsonUtils.toJson(sqlJsonString);
+        saveFile(outputFile.getCanonicalPath(), jsonString + System.lineSeparator());
     }
 
+    /**
+     * Migrate entities with no foreign key reference account requests, usage statistics
+     * courses, accouns, notifications
+     * @param sqlDataBundle
+     */
     private void migrateIndepedentEntities(SqlDataBundle sqlDataBundle) {
         assert sqlDataBundle != null;
 
@@ -99,14 +120,13 @@ public class ConvertDatastoreJsonToSqlJson {
         });
     }
 
+    /**
+     * Migrate entities which have dependence on each other or on the independent entities.
+     * feedback sessions, sections, teams, users, students, instructors, deadline extensions, feedback questions,
+     * read notifications, feedback responses and feedback response comments
+     * @param sqlDataBundle
+     */
     private void migrateDependentEntities(SqlDataBundle sqlDataBundle) {
-        // ['feedback_response_comment', 
-        // 'feedback_response', 'readNotification', , 
-        // 'feednackxxxresponse', 'feedbackxxxquestion', 'feedback_question', 
-        // 'deadline_extension', 
-        
-        // 'instructor', 'student', 
-        // 'team', 'section', 'feedback_session ]
 
         dataStoreBundle.feedbackSessions.forEach((k, feedbackSession) -> {
             FeedbackSession sqlFeedbackSession = entityConverter.convert(feedbackSession);
@@ -181,70 +201,11 @@ public class ConvertDatastoreJsonToSqlJson {
             sqlDataBundle.feedbackResponseComments.put(k, sqlFeedbackResponseComment);
         });
 
-        // dataStoreBundle.accounts.forEach((k, account) -> {
-        //     List<ReadNotification> sqlReadNotifications = entityConverter.createReadNotifications(account);
-        // });
-
-        // dataStoreBundle.feedbackSessions.forEach((k, feedbackSession) -> {
-        //     FeedbackSession sqlFeedbackSession = entityConverter.convert(feedbackSession);
-        //     sqlDataBundle.feedbackSessions.put(k, sqlFeedbackSession);
-        // });
     }
 
 
 
     public static void main(String[] args) throws IOException, InvalidParametersException {
-        // Topo sort, last element created first
-        // ['feedback_response_comment', 
-        // 'feedback_response', 'readNotification', , 
-        // 'feednackxxxresponse', 'feedbackxxxquestion', 'feedback_question', 
-        // 'deadline_extension', 'instructor', 'student', 
-        // user', 'team', 'section', 'feedback_session ]
-
-
-        // Independent entities
-        // acc req
-        // usage stats
-        // course
-        // account
-        // notification
-
-        // Dependencies
-        // deadline extensions -> user
-        // deadline extension -> feedback-session
-        // feedback question -> feedback-session
-        // feedback response comments -> feedback responses
-        // feedback response comments -> sections responses
-        // feedback response -> sections
-        // feedback response -> feedback_questions
-        // feedback session -> courses
-        // instructors -> users
-        // sections -> courses
-        // students -> users
-        // teams -> sections
-        // users -> courses
-        // users -> teams
-        // users -> accounts
-        // readnotification -> account
-        // readNotification -> notification
-        
-        // Entities
-        // Course
-        // feedback session
-        // User
-        // Section
-        // Team
-        // Student
-        // Instructor
-        // Deadlineextension
-        // Feedback question / Feedbackxxxquestion
-        // Account
-        // ReadNotification
-        // Notification
-        // Feedbackresponse / Feednack xxx response
-        // feedbackResponseComment
-        // Account requests
-        // Usage statistics        
         ConvertDatastoreJsonToSqlJson script = new ConvertDatastoreJsonToSqlJson();
         script.migrate();
     }
