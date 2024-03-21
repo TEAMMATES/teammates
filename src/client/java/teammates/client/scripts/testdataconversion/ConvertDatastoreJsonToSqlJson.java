@@ -157,28 +157,18 @@ public class ConvertDatastoreJsonToSqlJson {
 
             if (!sqlDataBundle.teams.containsKey(jsonKey)) {
                 Team sqlTeam = entityConverter.createTeam(student);
-                sqlDataBundle.teams.put(jsonKey, sqlTeam);
+                sqlDataBundle.teams.put(k, sqlTeam);
             }
         });
 
-        dataStoreBundle.instructors.forEach((k, instructor) -> {
-            // Sets instructor key as "courseid-instructorName"
-            String jsonKey = removeWhitespace(instructor.getCourseId() + "-" + instructor.getName());
-            
-            if (!sqlDataBundle.instructors.containsKey(jsonKey)) {
-                Instructor sqlInstructor = entityConverter.convert(instructor);
-                sqlDataBundle.instructors.put(jsonKey, sqlInstructor);
-            }
+        dataStoreBundle.instructors.forEach((k, instructor) -> {   
+            Instructor sqlInstructor = entityConverter.convert(instructor);
+            sqlDataBundle.instructors.put(k, sqlInstructor);
         });
 
         dataStoreBundle.students.forEach((k, student) -> {
-            // Sets instructor key as "courseid-instructorName"
-            String jsonKey = removeWhitespace(student.getCourse() + "-" + student.getName());
-            
-            if (!sqlDataBundle.students.containsKey(jsonKey)) {
-                Student sqlStudent = entityConverter.convert(student);
-                sqlDataBundle.students.put(jsonKey, sqlStudent);
-            }
+            Student sqlStudent = entityConverter.convert(student);
+            sqlDataBundle.students.put(k, sqlStudent);
         });
 
         dataStoreBundle.deadlineExtensions.forEach((k, deadlineExtension) -> {
