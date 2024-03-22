@@ -131,6 +131,9 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
         </button>
       </div>
     </div>
+  </div><div
+    class="items"
+  >
   </div>
 </tm-admin-home-page>
 `;
@@ -430,6 +433,9 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
         </button>
       </div>
     </div>
+  </div><div
+    class="items"
+  >
   </div>
 </tm-admin-home-page>
 `;
@@ -875,6 +881,9 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
         </button>
       </div>
     </div>
+  </div><div
+    class="items"
+  >
   </div>
 </tm-admin-home-page>
 `;

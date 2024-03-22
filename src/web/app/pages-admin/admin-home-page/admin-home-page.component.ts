@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
+import { catchError, finalize, map, mergeMap, take } from 'rxjs/operators';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
@@ -33,6 +33,9 @@ export class AdminHomePageComponent implements OnInit {
   instructorsConsolidated: InstructorData[] = [];
   accountReqs: AccountRequestTableRowModel[] = [];
   activeRequests: number = 0;
+  currentPage: number = 1;
+  pageSize: number = 20;
+  items$: Observable<any> = of([]);
   currentPage: number = 1;
   pageSize: number = 20;
   items$: Observable<any> = of([]);

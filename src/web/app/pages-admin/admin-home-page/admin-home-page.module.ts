@@ -33,6 +33,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     AccountRequestTableModule,
     AjaxLoadingModule,
+    AccountRequestTableModule,
     LoadingSpinnerModule,
   ],
   providers: [

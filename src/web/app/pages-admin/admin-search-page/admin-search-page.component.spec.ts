@@ -409,7 +409,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display account request results', () => {
-    const accountRequestResults: AccountRequestSearchResult[] = [
+    const accountRequestResults: AccountRequestData[] = [
       {
         name: 'name1',
         email: 'email1',
