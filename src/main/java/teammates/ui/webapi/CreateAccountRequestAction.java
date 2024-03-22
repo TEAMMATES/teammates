@@ -11,7 +11,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Creates a new account request.
  */
-class CreateAccountRequestAction extends AdminOnlyAction {
+public class CreateAccountRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute()
@@ -29,6 +29,7 @@ class CreateAccountRequestAction extends AdminOnlyAction {
         try {
             accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
                     AccountRequestStatus.PENDING, comments);
+            taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }
