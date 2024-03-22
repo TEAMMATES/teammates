@@ -979,6 +979,7 @@ public final class SqlEmailGenerator {
      */
     public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
         return email;
     }
 

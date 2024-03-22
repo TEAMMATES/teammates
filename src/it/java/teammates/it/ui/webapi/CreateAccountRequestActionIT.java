@@ -50,6 +50,9 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
                 emailSent.getSubject());
         assertEquals("ring-bearer@fellowship.net", emailSent.getRecipient());
         assertTrue(emailSent.getContent().contains(output.getJoinLink()));
+        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(1);
+        // Check only the email type. The content of the email is not tested here, but in the email generator test(s).
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
     }
 
     @Override
