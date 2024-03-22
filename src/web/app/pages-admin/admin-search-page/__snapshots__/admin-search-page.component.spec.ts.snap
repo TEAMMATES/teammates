@@ -520,6 +520,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                 email
               </td>
               <td>
+                PENDING
               </td>
               <td>
                 <span

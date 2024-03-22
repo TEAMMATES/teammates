@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { AccountRequestSearchResult } from './search.service';
-import { TimezoneService } from './timezone.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Account, Accounts, AccountRequests, JoinLink, MessageOutput } from '../types/api-output';
-import { AccountCreateRequest } from '../types/api-request';
+import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
+
 /**
  * Handles account related logic provision
  */
@@ -15,7 +14,6 @@ import { AccountCreateRequest } from '../types/api-request';
 export class AccountService {
   constructor(
     private httpRequestService: HttpRequestService,
-    private timezoneService: TimezoneService,
     ) {
   }
 
@@ -59,38 +57,35 @@ export class AccountService {
   }
 
   /**
-   * Approves an account request by calling API.
+   * Rejects an account request by calling API.
    */
-  approveAccountRequest(email: string, institute: string): Observable<MessageOutput> {
-      return new Observable<MessageOutput>((observer => {
-        observer.next({ message: 'Account request approved successfully, details: ' + email + ', ' + institute });
-        observer.complete();
-      }));
+  rejectAccountRequest(name: string, email: string, institute: string,
+    title?: string, reason?: string): Observable<MessageOutput> {
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      status: 'REJECTED',
+      rejectionTitle: title,
+      rejectionReason: reason,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
   }
 
   /**
-   * Rejects an account request by calling API.
+   * Edits an account request by calling API.
    */
-  rejectAccountRequest(email: string, institute: string, title?: string, reason?: string): Observable<MessageOutput> {
-    // mock response for now
-    return new Observable<MessageOutput>((observer => {
-      observer.next({ message: 'Account request rejected successfully, details: ' + email + ', ' + institute  + ', ' + title + ', ' + reason});
-      observer.complete();
-    }));
+  editAccountRequest(name: string, email: string, institute: string, comments: string): Observable<MessageOutput> {
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      comments,
+    };
 
-    // return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
   }
-
-  /**
-   * Rejects an account request by calling API.
-   */
-    editAccountRequest(name: string, email: string, institute: string, comment: string): Observable<MessageOutput> {
-      // return a mock response for now
-      return new Observable<MessageOutput>((observer => {
-        observer.next({ message: 'Account request edited successfully, details: ' + name + ', ' + email + ', ' + institute + ', ' + comment });
-        observer.complete();
-      }));
-    }
 
   /**
    * Resets an account request by calling API.
@@ -145,102 +140,15 @@ export class AccountService {
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
   }
 
-  private formatTimestampAsString(timestamp: number, timezone: string): string {
-      const dateFormatWithZoneInfo: string = 'ddd, DD MMM YYYY, hh:mm A Z';
-
-      return this.timezoneService
-          .formatToString(timestamp, timezone, dateFormatWithZoneInfo);
-  }
-
-  private formatAccountRequests(requests: AccountRequests): AccountRequestSearchResult[] {
-    const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
-    return requests.accountRequests.map((request) => {
-      return {
-        email: request.email,
-        institute: request.institute,
-        name: request.name,
-        status: request.status,
-        registrationKey: request.registrationKey,
-        registeredAt: request.registeredAt,
-        registeredAtText: request.registeredAt ? this.formatTimestampAsString(request.registeredAt, timezone) : '',
-        createdAt: request.createdAt,
-        createdAtText: this.formatTimestampAsString(request.createdAt, timezone),
-        comments: request.comments,
-        registrationLink: '',
-        showLinks: false,
-      };
-    });
-  }
-
   /**
    * Gets account requests by calling API.
    */
-  getPendingAccountRequests(pageNumber : number = 1, pageSize: number = 20): Observable<AccountRequestSearchResult[]> {
-    // mock a response with all pending for now
-
-    if (pageNumber > 3 && pageSize >= 20) {
-      return new Observable<AccountRequestSearchResult[]>((observer => {
-        observer.next([]);
-        observer.complete();
-      }));
-    }
-
-    const requests: AccountRequests = {
-      accountRequests: [
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor2@gmail.com',
-          institute: 'University of Toronto',
-          name: 'Jane Doe',
-          status: 'PENDING',
-          registrationKey: '1234567',
-          createdAt: 1234567890,
-          comments: 'Loremipsumdolorsit amet, consectetur adipiscinelit sedoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua',
-        },
-      ],
+  getPendingAccountRequests(pageNumber : number = 1, pageSize: number = 20): Observable<AccountRequests> {
+    const paramMap = {
+      page: pageNumber.toString(),
+      size: pageSize.toString(),
     };
 
-    const formattedRequests: AccountRequestSearchResult[] = this.formatAccountRequests(requests);
-
-    return new Observable<AccountRequestSearchResult[]>((observer => {
-      observer.next(formattedRequests);
-      observer.complete();
-    }));
-
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   }
 }

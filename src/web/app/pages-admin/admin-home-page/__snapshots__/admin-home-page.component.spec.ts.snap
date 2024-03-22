@@ -2,7 +2,7 @@
 
 exports[`AdminHomePageComponent should snap with default view 1`] = `
 <tm-admin-home-page
-  accountRequests={[Function Array]}
+  accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
@@ -23,6 +23,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
 >
   <div
     class="card bg-light top-padded"
@@ -132,14 +133,13 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   </div><div
     class="items"
   >
-    <tm-account-requests-table />
   </div>
 </tm-admin-home-page>
 `;
 
 exports[`AdminHomePageComponent should snap with disabled adding instructor button if there are active requests 1`] = `
 <tm-admin-home-page
-  accountRequests={[Function Array]}
+  accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests={[Function Number]}
   courseService={[Function CourseService]}
@@ -160,6 +160,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
 >
   <div
     class="card bg-light top-padded"
@@ -433,14 +434,13 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   </div><div
     class="items"
   >
-    <tm-account-requests-table />
   </div>
 </tm-admin-home-page>
 `;
 
 exports[`AdminHomePageComponent should snap with some instructors details 1`] = `
 <tm-admin-home-page
-  accountRequests={[Function Array]}
+  accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
@@ -461,6 +461,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
 >
   <div
     class="card bg-light top-padded"
@@ -880,7 +881,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   </div><div
     class="items"
   >
-    <tm-account-requests-table />
   </div>
 </tm-admin-home-page>
 `;

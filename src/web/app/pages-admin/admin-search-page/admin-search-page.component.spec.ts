@@ -19,6 +19,7 @@ import {
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { AccountRequestData } from '../../components/account-requests-table/account-requests-table.component';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -72,10 +73,12 @@ const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
   name: 'name',
   email: 'email',
   institute: 'institute',
+  status: 'PENDING',
   registrationLink: 'registrationLink',
   createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
   registeredAtText: null,
   showLinks: false,
+  comments: '',
 };
 
 describe('AdminSearchPageComponent', () => {
@@ -239,10 +242,12 @@ describe('AdminSearchPageComponent', () => {
         name: 'name',
         email: 'email',
         institute: 'institute',
+        status: 'PENDING',
         registrationLink: 'registrationLink',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
         registeredAtText: null,
         showLinks: true,
+        comments: '',
       },
     ];
 
@@ -404,23 +409,29 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display account request results', () => {
-    const accountRequestResults: AccountRequestSearchResult[] = [
+    const accountRequestResults: AccountRequestData[] = [
       {
         name: 'name1',
         email: 'email1',
         institute: 'institute1',
+        country: '',
+        status: 'PENDING',
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: null,
-        showLinks: true,
+        registeredAtText: '',
+        showLinks: false,
+        comments: '',
       }, {
         name: 'name2',
         email: 'email2',
         institute: 'institute2',
+        country: '',
+        status: 'PENDING',
         registrationLink: 'registrationLink2',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
         registeredAtText: 'Wed, 09 Feb 2022, 10:23 AM +00:00',
-        showLinks: true,
+        showLinks: false,
+        comments: '',
       }];
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({

@@ -186,9 +186,11 @@ describe('SearchService', () => {
   const mockAccountRequest: AccountRequest = {
     registrationKey: 'regkey',
     createdAt: 1585487897502,
+    status: 'PENDING',
     name: 'Test Instructor',
     institute: 'Test Institute',
     email: 'test@example.com',
+    comments: 'This is a test account request',
   };
 
   beforeEach(() => {

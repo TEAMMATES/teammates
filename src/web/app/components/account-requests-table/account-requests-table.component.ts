@@ -5,15 +5,28 @@ import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
-import {
-  AccountRequestSearchResult,
-} from '../../../services/search.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+
+/**
+ * Contains details about a the account request to be displayed in the list.
+ */
+export interface AccountRequestData {
+  name: string;
+  email: string;
+  status: string;
+  institute: string;
+  country: string;
+  createdAtText: string;
+  registeredAtText: string;
+  comments: string;
+  registrationLink: string;
+  showLinks: boolean;
+}
 
 /**
  * Admin search page.
@@ -28,7 +41,7 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
 export class AccountRequestsTableComponent {
 
   @Input()
-  accountRequests: AccountRequestSearchResult[] = [];
+  accountRequests: AccountRequestData[] = [];
 
   @Input()
   searchString = '';
@@ -58,7 +71,7 @@ export class AccountRequestsTableComponent {
     }
   }
 
-  resetAccountRequest(accountRequest: AccountRequestSearchResult): void {
+  resetAccountRequest(accountRequest: AccountRequestData): void {
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
         <strong>${accountRequest.institute}</strong>?
@@ -81,7 +94,7 @@ export class AccountRequestsTableComponent {
     }, () => {});
   }
 
-  editAccountRequest(accountRequest: AccountRequestSearchResult): void {
+  editAccountRequest(accountRequest: AccountRequestData): void {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
@@ -109,7 +122,7 @@ export class AccountRequestsTableComponent {
     });
   }
 
-  deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
+  deleteAccountRequest(accountRequest: AccountRequestData): void {
     const modalContent: string = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
         <strong>${accountRequest.institute}</strong>?`;
@@ -121,7 +134,7 @@ export class AccountRequestsTableComponent {
       .subscribe({
         next: (resp: MessageOutput) => {
           this.statusMessageService.showSuccessToast(resp.message);
-          this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
+          this.accountRequests = this.accountRequests.filter((x: AccountRequestData) => x !== accountRequest);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -130,7 +143,7 @@ export class AccountRequestsTableComponent {
     }, () => {});
   }
 
-  viewAccountRequest(accountRequest: AccountRequestSearchResult): void {
+  viewAccountRequest(accountRequest: AccountRequestData): void {
     const modalContent: string = `<strong>Comment:</strong> ${accountRequest.comments || ''}`;
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
         `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
@@ -138,11 +151,14 @@ export class AccountRequestsTableComponent {
     modalRef.result.then(() => {}, () => {});
   }
 
-  approveAccountRequest(accountRequest: AccountRequestSearchResult): void {
-    this.accountService.approveAccountRequest(accountRequest.email, accountRequest.institute)
+  private getRegistrationKeyFromLink(link: string): string {
+    return link.split('key=')[1];
+  }
+
+  approveAccountRequest(accountRequest: AccountRequestData): void {
+    this.accountService.createAccount(this.getRegistrationKeyFromLink(accountRequest.registrationLink), '')
     .subscribe({
-      next: (resp: MessageOutput) => {
-        this.statusMessageService.showSuccessToast(resp.message);
+      next: () => {
         accountRequest.status = 'APPROVED';
       },
       error: (resp: ErrorMessageOutput) => {
@@ -151,11 +167,11 @@ export class AccountRequestsTableComponent {
     });
   }
 
-  rejectAccountRequest(accountRequest: AccountRequestSearchResult): void {
-    this.accountService.rejectAccountRequest(accountRequest.email, accountRequest.institute)
+  rejectAccountRequest(accountRequest: AccountRequestData): void {
+    this.accountService.rejectAccountRequest(accountRequest.name, accountRequest.email,
+      accountRequest.institute)
     .subscribe({
-      next: (resp: MessageOutput) => {
-        this.statusMessageService.showSuccessToast(resp.message);
+      next: () => {
         accountRequest.status = 'REJECTED';
       },
       error: (resp: ErrorMessageOutput) => {
@@ -164,7 +180,7 @@ export class AccountRequestsTableComponent {
     });
   }
 
-  rejectAccountRequestWithReason(accountRequest: AccountRequestSearchResult): void {
+  rejectAccountRequestWithReason(accountRequest: AccountRequestData): void {
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
 
@@ -172,8 +188,7 @@ export class AccountRequestsTableComponent {
       this.accountService.rejectAccountRequest(accountRequest.email, accountRequest.institute,
         modalRef.componentInstance.rejectionReasonTitle, modalRef.componentInstance.rejectionReasonBody)
       .subscribe({
-        next: (resp: MessageOutput) => {
-          this.statusMessageService.showSuccessToast(resp.message);
+        next: () => {
           accountRequest.status = 'REJECTED';
         },
         error: (resp: ErrorMessageOutput) => {
