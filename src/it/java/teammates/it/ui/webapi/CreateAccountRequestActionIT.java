@@ -123,7 +123,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
         verifyNoEmailsSent();
-        verifyNoTasksAdded();
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertNull(accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
         verifyNoEmailsSent();
-        verifyNoTasksAdded();
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -180,7 +180,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
         verifyNoEmailsSent();
-        verifyNoTasksAdded();
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Override
