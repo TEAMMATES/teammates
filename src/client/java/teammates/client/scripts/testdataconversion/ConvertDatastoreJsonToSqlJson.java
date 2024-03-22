@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.google.gson.JsonObject;
 
 import teammates.common.datatransfer.DataBundle;
@@ -28,6 +30,8 @@ import teammates.test.FileHelper;
 
 /**
  * Class to create JSON test data in SQL format from a noSQL JSON file.
+ * File can be run using the gradle execScript task and accepts a single argument which is the JSON path
+ * ./gradlew execScript -PuserScript="testdataconversion/ConvertDatastoreJsonToSqlJson" --args="JSON_FILE_PATH_HERE"
  */
 public class ConvertDatastoreJsonToSqlJson {
     private DataStoreToSqlConverter entityConverter;
@@ -132,8 +136,11 @@ public class ConvertDatastoreJsonToSqlJson {
 
     /**
      * Migrate entities which have dependence on each other or on the independent entities.
-     * feedback sessions, sections, teams, users, students, instructors, deadline extensions, feedback questions,
-     * read notifications, feedback responses and feedback response comments.
+     * The order which the entities were migrated was generated using a topological sort
+     * of its foreign key dependencies.
+     * Dependent entities: feedback sessions, sections, teams, users, students, instructors,
+     * deadline extensions, feedback questions, read notifications,
+     * feedback responses and feedback response comments.
      */
     private void migrateDependentEntities() {
 
@@ -204,9 +211,14 @@ public class ConvertDatastoreJsonToSqlJson {
     public static void main(String[] args) throws IOException, InvalidParametersException {
         if (args.length > 0) {
             File inputFile = new File(args[0]);
+            String fileExtension = FilenameUtils.getExtension(inputFile.getName());
+            if (!fileExtension.equals("json")) {
+                throw new InvalidParametersException("The file provided is not a JSON file");
+            }
+            
             ConvertDatastoreJsonToSqlJson script = new ConvertDatastoreJsonToSqlJson(inputFile);
-            String outputFileName = "output.json";
-            File outputFile = new File(inputFile.getParent() + "/" + outputFileName);
+            String outputFileName = FilenameUtils.getBaseName(inputFile.getName()) + "Sql.json";
+            File outputFile = new File(inputFile.getParent(), outputFileName);
             script.createSqlJson(outputFile);
         } else {
             throw new InvalidParametersException("Required the path of the script to convert");
