@@ -23,9 +23,10 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of feedback session logs.
      */
-    public void insertFeedbackSessionLog(String studentEmail, String feedbackSessionName,
+    public void insertFeedbackSessionLog(String courseId, String studentEmail, String feedbackSessionName,
             String fslType, long timestamp) {
-        feedbackSessionLogs.add(new FeedbackSessionLogEntry(studentEmail, feedbackSessionName, fslType, timestamp));
+        feedbackSessionLogs
+                .add(new FeedbackSessionLogEntry(courseId, studentEmail, feedbackSessionName, fslType, timestamp));
     }
 
     /**

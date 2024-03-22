@@ -35,8 +35,10 @@ public class FeedbackSessionLogsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateFeedbackSessionLog_success() {
-        FeedbackSessionLog logToAdd = new FeedbackSessionLog("test@email.com", "test-feedbacksession",
-                FeedbackSessionLogType.ACCESS, Instant.parse("2011-01-01T00:00:00Z"));
+
+        FeedbackSessionLog logToAdd = new FeedbackSessionLog(getTypicalStudent(),
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()), FeedbackSessionLogType.ACCESS,
+                Instant.parse("2011-01-01T00:00:00Z"));
         feedbackSessionLogsDb.createFeedbackSessionLog(logToAdd);
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(logToAdd));

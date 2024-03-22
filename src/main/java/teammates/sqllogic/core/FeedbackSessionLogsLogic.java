@@ -41,14 +41,16 @@ public final class FeedbackSessionLogsLogic {
 
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
-     * ascending timestamp.
+     * ascending timestamp. Logs with the same timestamp will be ordered by the
+     * student's email.
      *
+     * @param courseId            Can be null
      * @param studentEmail        Can be null
      * @param feedbackSessionName Can be null
      */
-    public List<FeedbackSessionLog> getFeedbackSessionLogs(String studentEmail, String feedbackSessionName,
-            Instant startTime, Instant endTime) {
-        return fslDb.getFeedbackSessionLogs(studentEmail, feedbackSessionName, endTime,
-                startTime);
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, String studentEmail,
+            String feedbackSessionName, Instant startTime, Instant endTime) {
+        return fslDb.getOrderedFeedbackSessionLogs(courseId, studentEmail, feedbackSessionName, startTime,
+                endTime);
     }
 }
