@@ -34,8 +34,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class AdminSearchPageComponent {
 
-  searchQuery: string = 'institute';
-  searchString: string = 'institute';
+  searchQuery: string = '';
+  searchString: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
