@@ -4,35 +4,32 @@
 
 .table-responsive {
   overflow: -moz-scrollbars-horizontal; 
-  // overflow-x: scroll;
 }
 
 .table-responsive > table > thead > tr > th {
   white-space: nowrap;
 }
 
+/* stylelint-disable property-no-vendor-prefix */
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 1px;
 }
 
+/* stylelint-disable property-no-vendor-prefix */
 ::-webkit-scrollbar-thumb {
-  border-radius: 0px;
-  background-color: rgba(0, 0, 0, .5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 50%);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 50%);
 }
-
 
 #search-table-account-request {
   border-collapse: collapse;
-  // overflow-x: scroll;
 }
-
 
 #search-table-account-request th:last-child, 
 #search-table-account-request td:last-child {
   position: sticky;
-  position: -webkit-sticky;
   right: 0;
   z-index: 1;
   background-color: #F8F9FA;
@@ -63,7 +60,7 @@
 }
 
 #comment-box {
-  width: 750px;
+  width: 30vw;
   max-width: max-content;
   word-break: break-word;
   word-wrap: break-all;
