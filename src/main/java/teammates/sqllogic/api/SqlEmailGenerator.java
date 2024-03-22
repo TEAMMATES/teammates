@@ -26,6 +26,7 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -970,6 +971,14 @@ public final class SqlEmailGenerator {
         email.setType(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
         email.setSubjectFromType(course.getName(), course.getId());
         email.setContent(emailBody);
+        return email;
+    }
+
+    /**
+     * Generates the email to alert the admin of the new {@code accountRequest}.
+     */
+    public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         return email;
     }
 
