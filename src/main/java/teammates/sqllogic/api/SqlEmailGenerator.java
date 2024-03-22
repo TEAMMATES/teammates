@@ -978,9 +978,26 @@ public final class SqlEmailGenerator {
      * Generates the email to alert the admin of the new {@code accountRequest}.
      */
     public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
+        String name = accountRequest.getName();
+        String institute = accountRequest.getInstitute();
+        String emailAddress = accountRequest.getEmail();
+        String comments = accountRequest.getComments();
+        if (comments == null) {
+            comments = "";
+        }
+        String adminAccountRequestsPageUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).toAbsoluteString();
+        String[] templateKeyValuePairs = new String[] {
+                "${name}", name,
+                "${institute}", institute,
+                "${emailAddress}", emailAddress,
+                "${comments}", comments,
+                "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
+        };
+        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
         email.setSubjectFromType();
+        email.setContent(content);
         return email;
     }
 
