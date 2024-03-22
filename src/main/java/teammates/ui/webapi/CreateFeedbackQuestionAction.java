@@ -5,6 +5,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -43,7 +44,7 @@ public class CreateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    public JsonResult execute() throws InvalidHttpRequestBodyException {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
@@ -82,6 +83,8 @@ public class CreateFeedbackQuestionAction extends Action {
             return new JsonResult(new FeedbackQuestionData(feedbackQuestion));
         } catch (InvalidParametersException ex) {
             throw new InvalidHttpRequestBodyException(ex);
+        } catch (EntityAlreadyExistsException e) {
+            throw new InvalidOperationException(e);
         }
     }
 

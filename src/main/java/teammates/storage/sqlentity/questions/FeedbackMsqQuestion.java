@@ -51,7 +51,7 @@ public class FeedbackMsqQuestion extends FeedbackQuestion {
                 newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
-                new FeedbackMsqQuestionDetails(this.questionDetails.getQuestionText())
+                this.questionDetails.getDeepCopy()
         );
     }
 

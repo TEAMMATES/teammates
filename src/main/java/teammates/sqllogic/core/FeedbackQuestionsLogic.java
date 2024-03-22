@@ -19,6 +19,7 @@ import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -73,17 +74,14 @@ public final class FeedbackQuestionsLogic {
      *
      * @return the created question
      * @throws InvalidParametersException if the question is invalid
+     * @throws EntityAlreadyExistsException if the question already exists
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
-        assert feedbackQuestion != null;
-
-        if (!feedbackQuestion.isValid()) {
-            throw new InvalidParametersException(feedbackQuestion.getInvalidityInfo());
-        }
+    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
 
         List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());
-
-        FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
+        questionsBefore.remove(createdQuestion);
 
         adjustQuestionNumbers(questionsBefore.size() + 1, createdQuestion.getQuestionNumber(), questionsBefore);
         return createdQuestion;
@@ -159,7 +157,7 @@ public final class FeedbackQuestionsLogic {
 
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.STUDENTS));
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.SELF));
-
+        questions.sort(null);
         return questions;
     }
 
