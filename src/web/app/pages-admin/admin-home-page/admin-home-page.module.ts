@@ -6,6 +6,7 @@ import { AdminHomePageComponent } from './admin-home-page.component';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     AjaxLoadingModule,
+    AccountRequestsTableModule,
     LoadingSpinnerModule,
   ],
 })

@@ -306,16 +306,21 @@ export class SearchService {
       registeredAtText: '',
       registrationLink: '',
       showLinks: false,
+      status: '',
+      comments: '',
     };
 
-    const { registrationKey, createdAt, registeredAt, name, institute, email }: AccountRequest = accountRequest;
+    const {
+      registrationKey, createdAt, registeredAt,
+      name, institute, email, status, comments,
+    }: AccountRequest = accountRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
     accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
-    accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink };
+    accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink, status, comments };
 
     return accountRequestResult;
   }
@@ -466,11 +471,13 @@ export interface AdminSearchResult {
 export interface AccountRequestSearchResult {
   name: string;
   email: string;
+  status: string;
   institute: string;
   createdAtText: string;
   registeredAtText: string | null;
   registrationLink: string;
   showLinks: boolean;
+  comments: string;
 }
 
 /**

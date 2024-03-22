@@ -145,3 +145,10 @@
     </div>
   </div>
 </ng-template>
+<div class="items">
+  <tm-account-requests-table
+    *ngIf="accountReqs.length"
+    [accountRequests]="accountReqs"
+    [searchString]=""
+  ></tm-account-requests-table>
+</div>

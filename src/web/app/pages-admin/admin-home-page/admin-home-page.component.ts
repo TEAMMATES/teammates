@@ -1,14 +1,16 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
+import { catchError, finalize, map, mergeMap, take } from 'rxjs/operators';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
+import { TimezoneService } from '../../../services/timezone.service';
+import { Account, Accounts, AccountRequests, Courses, JoinLink } from '../../../types/api-output';
+import { AccountRequestData } from '../../components/account-requests-table/account-requests-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -20,7 +22,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './admin-home-page.component.html',
   styleUrls: ['./admin-home-page.component.scss'],
 })
-export class AdminHomePageComponent {
+export class AdminHomePageComponent implements OnInit {
 
   instructorDetails: string = '';
   instructorName: string = '';
@@ -28,7 +30,11 @@ export class AdminHomePageComponent {
   instructorInstitution: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
+  accountReqs: AccountRequestData[] = [];
   activeRequests: number = 0;
+  currentPage: number = 1;
+  pageSize: number = 20;
+  items$: Observable<any> = of([]);
 
   isAddingInstructors: boolean = false;
 
@@ -43,9 +49,14 @@ export class AdminHomePageComponent {
     private courseService: CourseService,
     private simpleModalService: SimpleModalService,
     private statusMessageService: StatusMessageService,
+    private timezoneService: TimezoneService,
     private linkService: LinkService,
     private ngbModal: NgbModal,
   ) {}
+
+  ngOnInit(): void {
+    this.fetchAccountRequests();
+  }
 
   /**
    * Validates and adds the instructor details filled with first form.
@@ -234,6 +245,60 @@ export class AdminHomePageComponent {
         };
       }),
     );
+  }
+
+  private formatTimestampAsString(timestamp: number, timezone: string): string {
+      const dateFormatWithZoneInfo: string = 'ddd, DD MMM YYYY, hh:mm A Z';
+
+      return this.timezoneService
+          .formatToString(timestamp, timezone, dateFormatWithZoneInfo);
+  }
+
+  private formatAccountRequests(requests: AccountRequests): AccountRequestData[] {
+    const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
+    return requests.accountRequests.map((request) => {
+      const [institute, country] = request.institute.split(', ').length === 2
+      ? request.institute.split(', ') : [request.institute, ''];
+
+      return {
+        name: request.name,
+        email: request.email,
+        status: request.status,
+        institute,
+        country,
+        createdAtText: this.formatTimestampAsString(request.createdAt, timezone),
+        registeredAtText: request.registeredAt ? this.formatTimestampAsString(request.registeredAt, timezone) : '',
+        comments: request.comments,
+        registrationLink: '',
+        showLinks: false,
+      };
+    });
+  }
+
+  fetchAccountRequests(): void {
+    this.accountService.getPendingAccountRequests(this.currentPage, this.pageSize).subscribe({
+      next: (resp: AccountRequests) => {
+        this.accountReqs = this.formatAccountRequests(resp);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+
+    document.addEventListener('scroll', () => {
+      if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+        this.currentPage += 1;
+        forkJoin([this.items$.pipe(take(1)),
+          this.accountService.getPendingAccountRequests(this.currentPage, this.pageSize)]).subscribe({
+          next: (resp: [any, AccountRequests]) => {
+            this.accountReqs = this.accountReqs.concat(this.formatAccountRequests(resp[1]));
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      }
+    });
   }
 
   resetAccountRequest(i: number): void {
