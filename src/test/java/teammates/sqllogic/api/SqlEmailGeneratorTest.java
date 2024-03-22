@@ -21,14 +21,17 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 AccountRequestStatus.PENDING,
                 "I don't like sand. It's coarse and rough and irritating... and it gets everywhere.");
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
+        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
+                "TEAMMATES: New Account Request Received");
     }
 
-    private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType) {
+    private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
+            String expectedSubject) {
         assertEquals(expectedRecipientEmailAddress, email.getRecipient());
         assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
         assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         assertEquals(expectedEmailType, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
     }
 }
