@@ -43,11 +43,17 @@
         </tr>
         <tr>
           <th scope="row">Home Page URL</th>
-          <td>{{submittedFormData.homePage}}</td>
+          <td>
+            {{submittedFormData.homePage}}
+            <span class="empty-field-placeholder" *ngIf="!submittedFormData.homePage"></span>
+          </td>
         </tr>
         <tr>
           <th scope="row">Comments</th>
-          <td>{{submittedFormData.comments}}</td>
+          <td>
+            {{submittedFormData.comments}}
+            <span class="empty-field-placeholder" *ngIf="!submittedFormData.comments"></span>
+          </td>
         </tr>
       </tbody>
     </table>
