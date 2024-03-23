@@ -150,8 +150,8 @@ public class ConvertDatastoreJsonToSqlJson {
         });
 
         dataStoreBundle.students.forEach((k, student) -> {
-            // Assumes that section name is unique in JSON file
-            String jsonKey = removeWhitespace(student.getSection());
+            String jsonKey = removeWhitespace(String.format("%s-%s",
+                    student.getCourse(), student.getSection()));
 
             if (!sqlDataBundle.sections.containsKey(jsonKey)) {
                 Section sqlSection = entityConverter.createSection(student);
@@ -160,8 +160,8 @@ public class ConvertDatastoreJsonToSqlJson {
         });
 
         dataStoreBundle.students.forEach((k, student) -> {
-            // Assumes that team name is unique in JSON file
-            String jsonKey = removeWhitespace(student.getTeam());
+            String jsonKey = removeWhitespace(String.format("%s-%s-%s",
+                    student.getCourse(), student.getSection(), student.getTeam()));
 
             if (!sqlDataBundle.teams.containsKey(jsonKey)) {
                 Team sqlTeam = entityConverter.createTeam(student);
