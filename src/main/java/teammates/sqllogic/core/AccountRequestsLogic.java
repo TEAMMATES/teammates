@@ -89,6 +89,13 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Gets all pending account requests.
+     */
+    public List<AccountRequest> getAllPendingAccountRequests() {
+        return accountRequestDb.getAllPendingAccountRequests();
+    }
+
+    /**
      * Creates/resets the account request with the given email and institute such that it is not registered.
      */
     public AccountRequest resetAccountRequest(String email, String institute)

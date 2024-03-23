@@ -150,6 +150,13 @@ public class Logic {
     }
 
     /**
+     * Gets all pending account requests.
+     */
+    public List<AccountRequest> getAllPendingAccountRequests() {
+        return accountRequestLogic.getAllPendingAccountRequests();
+    }
+
+    /**
      * Gets an account.
      */
     public Account getAccount(UUID id) {
