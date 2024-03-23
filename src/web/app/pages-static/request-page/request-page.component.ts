@@ -14,7 +14,7 @@ import { InstructorRequestFormData } from './instructor-request-form/InstructorR
 export class RequestPageComponent {
 
   accountRequestFormUrl: SafeResourceUrl | null;
-  isDeclarationDone: boolean = true;
+  isDeclarationDone: boolean = false;
   submittedFormData: InstructorRequestFormData | null = null;
 
   constructor(private sanitizer: DomSanitizer) {
