@@ -4,17 +4,23 @@ package teammates.common.datatransfer;
  * Represents a log entry of a feedback session.
  */
 public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEntry> {
+    private final String courseId;
     private final String studentEmail;
     private final String feedbackSessionName;
     private final String feedbackSessionLogType;
     private final long timestamp;
 
-    public FeedbackSessionLogEntry(String studentEmail, String feedbackSessionName,
-            String feedbackSessionLogType, long timestamp) {
+    public FeedbackSessionLogEntry(String courseId, String studentEmail,
+            String feedbackSessionName, String feedbackSessionLogType, long timestamp) {
+        this.courseId = courseId;
         this.studentEmail = studentEmail;
         this.feedbackSessionName = feedbackSessionName;
         this.feedbackSessionLogType = feedbackSessionLogType;
         this.timestamp = timestamp;
+    }
+
+    public String getCourseId() {
+        return courseId;
     }
 
     public String getStudentEmail() {
