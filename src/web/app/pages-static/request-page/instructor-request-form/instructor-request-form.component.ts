@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { InstructorRequestFormData } from './InstructorRequestFormData';
 
 const URL_REGEX = '(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
 
 @Component({
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
-  styleUrls: ['./instructor-request-form.component.scss']
+  styleUrls: ['./instructor-request-form.component.scss'],
 })
 export class InstructorRequestFormComponent {
 
@@ -28,6 +29,8 @@ export class InstructorRequestFormComponent {
   comments = this.arf.controls.comments;
 
   hasSubmitAttempt = false;
+
+  @Output() requestSubmitted = new EventEmitter<InstructorRequestFormData>();
 
   isFieldRequired(field: FormControl): boolean {
     return field.hasValidator(Validators.required);
@@ -51,6 +54,38 @@ export class InstructorRequestFormComponent {
 
   onSubmit() {
     this.hasSubmitAttempt = true;
+
+    if (this.arf.invalid) {
+      // Do not submit form
+      return;
+    }
+
+    let name = this.name.value!.trim();
+    let email = this.email.value!.trim();
+    let country = this.country.value!.trim();
+    let institution = this.institution.value!.trim();
+    let combinedInstitution = country + " " + institution;
+    let homePage = this.homePage.value!;
+    let comments = this.comments.value!.trim();
+
+    let submittedData = {
+      name: name,
+      email: email,
+      institution: combinedInstitution,
+      homePage: homePage,
+      comments: comments
+    }
     // TODO: connect to API
+    console.log(submittedData);
+
+    // Pass form input to parent to display confirmation
+    this.requestSubmitted.emit({
+      name: name,
+      institution: institution,
+      country: country,
+      email: email,
+      homePage: homePage,
+      comments: comments
+    });
   }
 }
