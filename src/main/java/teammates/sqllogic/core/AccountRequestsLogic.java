@@ -91,8 +91,8 @@ public final class AccountRequestsLogic {
     /**
      * Gets all pending account requests.
      */
-    public List<AccountRequest> getAllPendingAccountRequests() {
-        return accountRequestDb.getAllPendingAccountRequests();
+    public List<AccountRequest> getPendingAccountRequests() {
+        return accountRequestDb.getPendingAccountRequests();
     }
 
     /**

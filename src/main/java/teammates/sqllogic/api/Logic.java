@@ -152,8 +152,8 @@ public class Logic {
     /**
      * Gets all pending account requests.
      */
-    public List<AccountRequest> getAllPendingAccountRequests() {
-        return accountRequestLogic.getAllPendingAccountRequests();
+    public List<AccountRequest> getPendingAccountRequests() {
+        return accountRequestLogic.getPendingAccountRequests();
     }
 
     /**

@@ -72,7 +72,7 @@ public final class AccountRequestsDb extends EntitiesDb {
     /**
      * Get all Account Requests with {@code status} of 'pending'.
      */
-    public List<AccountRequest> getAllPendingAccountRequests() {
+    public List<AccountRequest> getPendingAccountRequests() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
