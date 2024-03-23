@@ -100,7 +100,9 @@ dependencies {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
+    liquibaseRuntime("org.liquibase:liquibase-core:4.19.0")
     liquibaseRuntime("info.picocli:picocli:4.7.1")
+    liquibaseRuntime('org.liquibase.ext:liquibase-hibernate5:3.6')
     liquibaseRuntime(sourceSets.main.output)
 }
 
@@ -151,16 +153,6 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     jsonLibrary = "jackson2"
     optionalAnnotations = [
         "javax.annotation.Nullable"
-    ]
-    outputFileType = "implementationFile"
-    outputKind = "module"
-    indentString = "  "
-    jackson2Configuration = [
-        fieldVisibility: "ANY",
-        getterVisibility: "NONE",
-        isGetterVisibility: "NONE",
-        setterVisibility: "NONE",
-        creatorVisibility: "NONE",
     ]
     mapEnum = "asEnum"
     nonConstEnums = true
