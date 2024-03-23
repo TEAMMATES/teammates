@@ -49,12 +49,12 @@ public class GetPendingAccountRequestsActionIT extends BaseActionIT<GetPendingAc
         JsonResult result = getJsonResult(action);
         AccountRequestsData data = (AccountRequestsData) result.getOutput();
         List<AccountRequestData> arData = data.getAccountRequests();
-        
+
         assertEquals(0, arData.size());
 
         ______TS("Get 2 pending account requests, ignore 1 approved account request");
-        AccountRequest accountRequest1_approved = typicalBundle.accountRequests.get("instructor2");
-        accountRequest1_approved.setStatus(AccountRequestStatus.APPROVED);
+        AccountRequest approvedAccountRequest1 = typicalBundle.accountRequests.get("instructor2");
+        approvedAccountRequest1.setStatus(AccountRequestStatus.APPROVED);
 
         AccountRequest accountRequest1 = typicalBundle.accountRequests.get("instructor1");
         AccountRequest accountRequest2 = typicalBundle.accountRequests.get("instructor1OfCourse2");
@@ -68,7 +68,7 @@ public class GetPendingAccountRequestsActionIT extends BaseActionIT<GetPendingAc
 
         assertEquals(2, arData.size());
 
-        // account request 1 
+        // account request 1
         assertEquals(arData.get(0).getEmail(), accountRequest1.getEmail());
         assertEquals(arData.get(0).getInstitute(), accountRequest1.getInstitute());
         assertEquals(arData.get(0).getName(), accountRequest1.getName());
