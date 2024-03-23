@@ -192,7 +192,8 @@ public class ConvertDatastoreJsonToSqlJson {
         dataStoreBundle.accounts.forEach((k, account) -> {
             List<ReadNotification> sqlReadNotifications = entityConverter.createReadNotifications(account);
             sqlReadNotifications.forEach(notif -> {
-                String jsonKey = removeWhitespace(notif.getNotification().getTitle() + "-" + account.getName());
+                String jsonKey = removeWhitespace(String.format("%s-%s",
+                            notif.getNotification().getTitle(), account.getEmail()));
                 sqlDataBundle.readNotifications.put(jsonKey, notif);
             });
         });
