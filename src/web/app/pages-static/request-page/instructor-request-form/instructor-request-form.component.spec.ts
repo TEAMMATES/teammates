@@ -8,7 +8,7 @@ describe('InstructorRequestFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorRequestFormComponent]
+      declarations: [InstructorRequestFormComponent],
     });
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;

@@ -8,7 +8,7 @@ label.qn {
     margin-bottom: 0.5rem;
 }
 
-.form-group.required > label:after {
+.form-group.required > label::after {
     content:"*";
     color: red;
 }

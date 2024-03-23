@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 import { InstructorRequestFormData } from './instructor-request-form/InstructorRequestFormData';
+import { environment } from '../../../environments/environment';
 
 /**
  * Account request page.
@@ -23,11 +23,11 @@ export class RequestPageComponent {
         : null;
   }
 
-  onDeclarationButtonClicked() {
+  onDeclarationButtonClicked(): void {
     this.isDeclarationDone = true;
   }
 
-  onRequestSubmitted(data: InstructorRequestFormData) {
+  onRequestSubmitted(data: InstructorRequestFormData): void {
     this.submittedFormData = data;
   }
 }
