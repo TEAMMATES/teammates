@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
@@ -16,7 +17,7 @@ public class GetPendingAccountRequestsAction extends AdminOnlyAction {
         List<AccountRequestData> accountRequestDatas = accountRequests
                 .stream()
                 .map(ar -> new AccountRequestData(ar))
-                .toList();
+                .collect(Collectors.toList());
 
         AccountRequestsData output = new AccountRequestsData();
         output.setAccountRequests(accountRequestDatas);
