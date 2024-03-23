@@ -165,7 +165,7 @@ public class ConvertDatastoreJsonToSqlJson {
 
             if (!sqlDataBundle.teams.containsKey(jsonKey)) {
                 Team sqlTeam = entityConverter.createTeam(student);
-                sqlDataBundle.teams.put(k, sqlTeam);
+                sqlDataBundle.teams.put(jsonKey, sqlTeam);
             }
         });
 
