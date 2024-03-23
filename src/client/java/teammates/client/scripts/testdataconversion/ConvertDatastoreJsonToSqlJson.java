@@ -212,10 +212,10 @@ public class ConvertDatastoreJsonToSqlJson {
         if (args.length > 0) {
             File inputFile = new File(args[0]);
             String fileExtension = FilenameUtils.getExtension(inputFile.getName());
-            if (!fileExtension.equals("json")) {
+            if (!"json".equals(fileExtension)) {
                 throw new InvalidParametersException("The file provided is not a JSON file");
             }
-            
+
             ConvertDatastoreJsonToSqlJson script = new ConvertDatastoreJsonToSqlJson(inputFile);
             String outputFileName = FilenameUtils.getBaseName(inputFile.getName()) + "Sql.json";
             File outputFile = new File(inputFile.getParent(), outputFileName);
