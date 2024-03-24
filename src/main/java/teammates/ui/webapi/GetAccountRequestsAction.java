@@ -13,9 +13,9 @@ import teammates.ui.output.AccountRequestsData;
  */
 public class GetAccountRequestsAction extends AdminOnlyAction {
     @Override
-    public JsonResult execute() throws InvalidHttpParameterException {
+    public JsonResult execute() {
         String accountRequestStatus = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_STATUS);
-        if (!accountRequestStatus.equals("pending")) {
+        if (!"pending".equals(accountRequestStatus)) {
             throw new InvalidHttpParameterException("Only 'pending' is allowed for account request status.");
         }
 
