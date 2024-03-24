@@ -1,40 +1,31 @@
-// .bin-icon {
-//   padding-bottom: 2px;
-//   border-bottom: 1.1px dotted #808080;
-
-//   &:hover {
-//     border-bottom: 1.1px dotted #000;
-//   }
-// }
-
 ::ng-deep .highlighted-text {
   background-color: yellow;
 }
 
 .table-responsive {
   overflow: -moz-scrollbars-horizontal; 
-  overflow-x: scroll;
 }
 
 .table-responsive > table > thead > tr > th {
   white-space: nowrap;
 }
 
+/* stylelint-disable property-no-vendor-prefix */
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 1px;
 }
 
+/* stylelint-disable property-no-vendor-prefix */
 ::-webkit-scrollbar-thumb {
-  border-radius: 0px;
-  background-color: rgba(0, 0, 0, .5);
-  // box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 50%);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 50%);
 }
 
 
 #search-table-account-request {
   border-collapse: collapse;
-  // overflow-x: scroll;
 }
 
 
@@ -59,95 +50,12 @@
   z-index: 1;
 }
 
-#timestamp-box {
-
-}
-
-// #search-table-account-request td > div{
 #comment-box {
-  // display: flex;
-  // flex-direction: row;
-  // white-space: nowrap;
-  // // line-height: 1.2em;  
-  // max-height: 3.6em;      
-  // // overflow-y: hidden;  
-  // overflow-x: scroll;     
-  // display: block;   
-  // -webkit-line-clamp: 5;  
-  // -webkit-box-orient: vertical;
-  // display: block;
-  // max-height: 4.5em;
-  // line-height: 1.5em;
-  // overflow-wrap: break-word;
-  // overflow-y: hidden;
-  // overflow-x: auto;
-  // text-overflow: clip;
-  // white-space: pre;
-  // max-height: 120px !important;
-  // overflow-x: auto;
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  // display: -webkit-box;
-  // -webkit-box-orient: vertical;
-  // -webkit-line-clamp: 3; /* number of lines to show */
-  // // line-height: 10px;        /* fallback */
-  // max-height: 4.5em;
-  // display: flex;
-  // flex: 1;
-  // flex-direction: row;
-  // overflow-x: auto;
-  // min-width: 1000px;
-  // max-height: 4.5em;
-  // // max-width: 1000px; /* or any value that suits your layout */
-  // word-wrap: break-word;
-  // overflow-wrap: break-word;
-  // white-space: pre-wrap; 
-  // // max-height: 4.5em; /* Adjust the max-height to fit three lines, assuming line-height is 1.5em */
-  // // // overflow: hidden;
-  // // // max-height: 4.5em; /* For three lines of text, assuming 1.5em line height */
-  // white-space: nowrap; /* Allows text to wrap and preserves whitespace */
-  // word-wrap: break-word;
-  // max-width: 200px;
-
-  // display: inline-block; /* Align your div as inline block */
-  // vertical-align: top; /* Align the div to the top of the table cell */
-  // line-height: 1.2em; /* Adjust the line height to match your design */
-  // height: 3.6em; /* Three times the line height to fit three lines */
-  // // overflow-x: scroll; /* Ensures that content will scroll horizontally */
-  // // overflow-y: hidden; /* Hides vertical overflow */
-  // white-space: nowrap; /* P*/
-  // max-width: max-content;
-  // max-width: max-content;
-  // max-height: max-content;
-  // min-width: calc(max-content);
-  min-width: max(25vw, 300px);
-  // width: auto; /* Default to auto width */
-  max-width: max-content; /* Max width based on content */
+  width: 30vw;
+  max-width: max-content;
   word-break: break-word;
   word-wrap: break-all;
 
-}
-
-// @media (min-width: 992px) { /* Adjust 1000px as needed */
-//   #comment-box {
-//       min-width: 50vw;
-//   }
-// }
-
-// @media (max-width: 992px) { /* Adjust 1000px as needed */
-//   #comment-box {
-//       min-width: 33vw;
-//   }
-// }
-
-#search-table-account-request tr {
-//   // max-width: 100%;
-//   // white-space: nowrap;//#solves 
-  // max-height: 120px !important;
-//   --max-lines: 3;
-  // display: flexbox;
-  // flex-wrap: wrap;
-  // flex-direction: row;
 }
 
 .dropdown-item {

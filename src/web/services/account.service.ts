@@ -5,7 +5,6 @@ import { ResourceEndpoints } from '../types/api-const';
 import { Account, Accounts, AccountRequests, JoinLink, MessageOutput } from '../types/api-output';
 import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
 
-
 /**
  * Handles account related logic provision
  */
@@ -150,7 +149,7 @@ export class AccountService {
       page: pageNumber.toString(),
       size: pageSize.toString(),
     };
-    
+
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   }
 }
