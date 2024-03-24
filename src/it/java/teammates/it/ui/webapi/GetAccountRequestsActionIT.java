@@ -14,13 +14,13 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
-import teammates.ui.webapi.GetPendingAccountRequestsAction;
+import teammates.ui.webapi.GetAccountRequestsAction;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * SUT: {@link GetPendingAccountRequestsAction}.
+ * SUT: {@link GetAccountRequestsAction}.
  */
-public class GetPendingAccountRequestsActionIT extends BaseActionIT<GetPendingAccountRequestsAction> {
+public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsAction> {
 
     @Override
     @BeforeMethod
@@ -32,7 +32,7 @@ public class GetPendingAccountRequestsActionIT extends BaseActionIT<GetPendingAc
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNT_REQUESTS_PENDING;
+        return Const.ResourceURIs.ACCOUNT_REQUESTS;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GetPendingAccountRequestsActionIT extends BaseActionIT<GetPendingAc
     public void testExecute() {
         ______TS("No pending account requests initially");
 
-        GetPendingAccountRequestsAction action = getAction();
+        GetAccountRequestsAction action = getAction();
         JsonResult result = getJsonResult(action);
         AccountRequestsData data = (AccountRequestsData) result.getOutput();
         List<AccountRequestData> arData = data.getAccountRequests();

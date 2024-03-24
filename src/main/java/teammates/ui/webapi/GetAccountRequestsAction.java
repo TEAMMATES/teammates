@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import teammates.common.util.Const;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
@@ -10,9 +11,14 @@ import teammates.ui.output.AccountRequestsData;
 /**
  * Action: Gets pending account requests.
  */
-public class GetPendingAccountRequestsAction extends AdminOnlyAction {
+public class GetAccountRequestsAction extends AdminOnlyAction {
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpParameterException {
+        String accountRequestStatus = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_STATUS);
+        if (!accountRequestStatus.equals("pending")) {
+            throw new InvalidHttpParameterException("Only 'pending' is allowed for account request status.");
+        }
+
         List<AccountRequest> accountRequests = sqlLogic.getPendingAccountRequests();
         List<AccountRequestData> accountRequestDatas = accountRequests
                 .stream()
