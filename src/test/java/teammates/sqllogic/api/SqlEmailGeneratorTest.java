@@ -25,7 +25,8 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 "I don't like sand. It's coarse and rough and irritating... and it gets everywhere.");
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
-                "TEAMMATES: New Account Request Received", "/adminNewAccountRequestAlertEmailWithComments.html");
+                "TEAMMATES (Action Needed): New Account Request Received",
+                "/adminNewAccountRequestAlertEmailWithComments.html");
     }
 
     @Test
@@ -34,7 +35,8 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 AccountRequestStatus.PENDING, null);
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
-                "TEAMMATES: New Account Request Received", "/adminNewAccountRequestAlertEmailWithNoComments.html");
+                "TEAMMATES (Action Needed): New Account Request Received",
+                "/adminNewAccountRequestAlertEmailWithNoComments.html");
     }
 
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
