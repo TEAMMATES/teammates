@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal-model';
-
 
 /**
  * Modal to select reject account requests with reason.
@@ -12,7 +11,7 @@ import { EditRequestModalComponentResult } from './admin-edit-request-modal-mode
   styleUrls: ['./admin-edit-request-modal.component.scss'],
 })
 
-export class EditRequestModalComponent implements OnInit {
+export class EditRequestModalComponent {
 
   @Input()
   accountRequestName: string = '';
@@ -24,11 +23,6 @@ export class EditRequestModalComponent implements OnInit {
   accountRequestComment: string = '';
 
   constructor(public activeModal: NgbActiveModal) {}
-
-
-  ngOnInit(): void {}
-
-  ngOnChanges(): void {}
 
   /**
    * Fires the edit event.
@@ -46,4 +40,3 @@ export class EditRequestModalComponent implements OnInit {
       this.activeModal.close(result);
   }
 }
-
