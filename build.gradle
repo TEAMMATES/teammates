@@ -154,6 +154,16 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     optionalAnnotations = [
         "javax.annotation.Nullable"
     ]
+    outputFileType = "implementationFile"
+    outputKind = "module"
+    indentString = "  "
+    jackson2Configuration = [
+        fieldVisibility: "ANY",
+        getterVisibility: "NONE",
+        isGetterVisibility: "NONE",
+        setterVisibility: "NONE",
+        creatorVisibility: "NONE",
+    ]
     mapEnum = "asEnum"
     nonConstEnums = true
     noFileComment = true
