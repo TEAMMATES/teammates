@@ -122,7 +122,7 @@ public final class Const {
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
         public static final String IS_INSTRUCTOR = "isinstructor";
-        public static final String ACCOUNT_REQUEST_STATUS = "accountrequeststatus";
+        public static final String ACCOUNT_REQUEST_STATUS = "status";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
