@@ -114,7 +114,7 @@ public final class HibernateUtil {
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)
                 .setProperty("hibernate.connection.url", dbUrl)
-                .setProperty("hibernate.hbm2ddl.auto", "update")
+                .setProperty("hibernate.hbm2ddl.auto", "validate")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
                 // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
@@ -123,6 +123,10 @@ public final class HibernateUtil {
                 // .setProperty("hibernate.batch_versioned_data", "true")
                 // .setProperty("hibernate.jdbc.fetch_size", "50")
                 .addPackage("teammates.storage.sqlentity");
+
+        if (Config.IS_DEV_SERVER) {
+            config.setProperty("hibernate.hbm2ddl.auto", "update");
+        }
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {
             config = config.addAnnotatedClass(cls);
