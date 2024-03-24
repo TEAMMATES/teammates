@@ -21,6 +21,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetAccountRequestsAction}.
  */
 public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsAction> {
+    private final String[] validParams = {Const.ParamsNames.ACCOUNT_REQUEST_STATUS, "pending"};
 
     @Override
     @BeforeMethod
@@ -43,9 +44,14 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
     @Override
     @Test
     public void testExecute() {
+        ______TS("accountrequeststatus param is null");
+
+        verifyHttpParameterFailure();
+        verifyHttpParameterFailure(Const.ParamsNames.ACCOUNT_REQUEST_STATUS, "pendin");
+
         ______TS("No pending account requests initially");
 
-        GetAccountRequestsAction action = getAction();
+        GetAccountRequestsAction action = getAction(this.validParams);
         JsonResult result = getJsonResult(action);
         AccountRequestsData data = (AccountRequestsData) result.getOutput();
         List<AccountRequestData> arData = data.getAccountRequests();
@@ -61,7 +67,7 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
         accountRequest1.setStatus(AccountRequestStatus.PENDING);
         accountRequest2.setStatus(AccountRequestStatus.PENDING);
 
-        action = getAction();
+        action = getAction(this.validParams);
         result = getJsonResult(action);
         data = (AccountRequestsData) result.getOutput();
         arData = data.getAccountRequests();
