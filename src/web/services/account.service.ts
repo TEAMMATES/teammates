@@ -150,68 +150,7 @@ export class AccountService {
       page: pageNumber.toString(),
       size: pageSize.toString(),
     };
-
-    if (pageNumber > 3 && pageSize >= 20) {
-      return new Observable<AccountRequests>((observer => {
-        observer.next({ accountRequests: [] });
-        observer.complete();
-      }));
-    }
-
-    const requests: AccountRequests = {
-      accountRequests: [
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto, Canada',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor1@gmail.com',
-          institute: 'University of Toronto',
-          name: 'John Doe',
-          status: 'PENDING',
-          registrationKey: '123456',
-          createdAt: 1234567890,
-          comments: 'This is a short comment',
-        },
-        {
-          email: 'instructor2@gmail.com',
-          institute: 'University of Toronto',
-          name: 'Jane Doe',
-          status: 'PENDING',
-          registrationKey: '1234567',
-          createdAt: 1234567890,
-          comments: 'Loremipsumdolorsit amet, consectetur adipiscinelit sedoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua',
-        },
-      ],
-    };
-
-    return new Observable<AccountRequests>((observer => {
-      observer.next(requests);
-      observer.complete();
-    }));
+    
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   }
 }
