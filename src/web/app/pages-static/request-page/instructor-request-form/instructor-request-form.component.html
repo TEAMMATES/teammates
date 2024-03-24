@@ -2,7 +2,7 @@
     <!-- aria-hidden as screen readers use the required attribute -->
     Questions marked with an asterisk <span class="red-font">*</span> are required.
 </p>
-<form (ngSubmit)="onSubmit()" [formGroup]="arf" class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+<form (ngSubmit)="onSubmit()" [formGroup]="arf">
     <div class="form-group {{isFieldRequired(name) ? 'required' : ''}}">
         <label for="name" id="name-label" class="qn">
             Full Name
