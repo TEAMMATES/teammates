@@ -268,7 +268,7 @@ export class AdminHomePageComponent implements OnInit {
         country,
         createdAtText: this.formatTimestampAsString(request.createdAt, timezone),
         registeredAtText: request.registeredAt ? this.formatTimestampAsString(request.registeredAt, timezone) : '',
-        comments: request.comments,
+        comments: request.comments || '',
         registrationLink: '',
         showLinks: false,
       };

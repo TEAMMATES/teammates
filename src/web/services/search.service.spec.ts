@@ -188,7 +188,6 @@ describe('SearchService', () => {
     id: 'test@example.com%Test Institute',
     registrationKey: 'regkey',
     createdAt: 1585487897502,
-    status: 'PENDING',
     name: 'Test Instructor',
     institute: 'Test Institute',
     email: 'test@example.com',
