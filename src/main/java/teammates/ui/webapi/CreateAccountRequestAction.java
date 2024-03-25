@@ -45,7 +45,8 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                 instructorEmail, instructorName, joinLink);
         emailSender.sendEmail(email);
-
+        EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        emailSender.sendEmail(adminAlertEmail);
         JoinLinkData output = new JoinLinkData(joinLink);
         return new JsonResult(output);
     }

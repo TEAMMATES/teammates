@@ -43,13 +43,16 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("The Fellowship of the Ring", accountRequest.getInstitute());
         assertNull(accountRequest.getRegisteredAt());
         assertEquals(accountRequest.getRegistrationUrl(), output.getJoinLink());
-        verifyNumberOfEmailsSent(1);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+        verifyNumberOfEmailsSent(2);
         EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), "Frodo Baggins"),
                 emailSent.getSubject());
         assertEquals("ring-bearer@fellowship.net", emailSent.getRecipient());
         assertTrue(emailSent.getContent().contains(output.getJoinLink()));
+        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(1);
+        // Check only the email type. The content of the email is not tested here, but in the email generator test(s).
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
     }
 
     @Override
