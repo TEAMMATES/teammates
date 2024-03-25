@@ -117,21 +117,4 @@ export class AccountRequestsTableComponent {
 
     modalRef.result.then(() => {}, () => {});
   }
-
-  private getRegistrationKeyFromLink(link: string): string {
-    return link.split('key=')[1];
-  }
-
-  approveAccountRequest(accountRequest: AccountRequestData): void {
-    this.accountService.createAccount(this.getRegistrationKeyFromLink(accountRequest.registrationLink), '')
-    .subscribe({
-      next: () => {
-        accountRequest.status = 'APPROVED';
-       },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
-  }
-
 }
