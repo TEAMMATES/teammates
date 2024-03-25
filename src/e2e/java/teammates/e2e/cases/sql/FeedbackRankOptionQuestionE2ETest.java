@@ -44,7 +44,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
-        FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession");
+        FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").makeDeepCopy(feedbackSession);
         FeedbackRankOptionsQuestionDetails questionDetails =
                 (FeedbackRankOptionsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyRankQuestionDetails(1, questionDetails);
@@ -76,12 +76,12 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         questionDetails.setAreDuplicatesAllowed(true);
         questionDetails.setMaxOptionsToBeRanked(Const.POINTS_NO_VALUE);
         questionDetails.setMinOptionsToBeRanked(1);
-        copiedQuestion.setQuestionDetails(questionDetails);
-        feedbackEditPage.editRankQuestion(3, questionDetails);
+        loadedQuestion.setQuestionDetails(questionDetails);
+        feedbackEditPage.editRankQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 
-        feedbackEditPage.verifyRankQuestionDetails(3, questionDetails);
-        verifyPresentInDatabase(copiedQuestion);
+        feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
