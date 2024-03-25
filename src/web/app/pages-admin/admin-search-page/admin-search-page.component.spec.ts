@@ -19,7 +19,6 @@ import {
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { AccountRequestData } from '../../components/account-requests-table/account-requests-table.component';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -409,12 +408,11 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display account request results', () => {
-    const accountRequestResults: AccountRequestData[] = [
+    const accountRequestResults: AccountRequestSearchResult[] = [
       {
         name: 'name1',
         email: 'email1',
         institute: 'institute1',
-        country: '',
         status: 'PENDING',
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
@@ -425,7 +423,6 @@ describe('AdminSearchPageComponent', () => {
         name: 'name2',
         email: 'email2',
         institute: 'institute2',
-        country: '',
         status: 'PENDING',
         registrationLink: 'registrationLink2',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
