@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
@@ -45,6 +46,8 @@ public class CreateAccountRequestAction extends Action {
         }
 
         assert accountRequest != null;
+        EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        emailSender.sendEmail(adminAlertEmail);
         AccountRequestData output = new AccountRequestData(accountRequest);
         return new JsonResult(output);
     }

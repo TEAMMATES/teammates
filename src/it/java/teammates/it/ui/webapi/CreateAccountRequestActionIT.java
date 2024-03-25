@@ -5,6 +5,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
@@ -122,8 +124,10 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
-        verifyNoEmailsSent();
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+        verifyNumberOfEmailsSent(1);
+        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
     }
 
     @Test
@@ -148,8 +152,10 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertNull(accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
-        verifyNoEmailsSent();
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+        verifyNumberOfEmailsSent(1);
+        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
     }
 
     @Test
@@ -179,8 +185,10 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
-        verifyNoEmailsSent();
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+        verifyNumberOfEmailsSent(1);
+        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
     }
 
     @Override
