@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
 import jakarta.persistence.Column;
@@ -28,10 +31,12 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "studentId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "sessionId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private FeedbackSession feedbackSession;
 
     @Column(nullable = false)
