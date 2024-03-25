@@ -12,8 +12,8 @@ import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 import { AccountRequestStatus } from '../../../types/api-output';
+import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 
