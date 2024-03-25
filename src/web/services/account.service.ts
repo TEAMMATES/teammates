@@ -65,37 +65,6 @@ export class AccountService {
   }
 
   /**
-   * Rejects an account request by calling API.
-   */
-  rejectAccountRequest(name: string, email: string, institute: string,
-    title?: string, reason?: string): Observable<MessageOutput> {
-    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
-      name,
-      email,
-      institute,
-      status: 'REJECTED',
-      rejectionTitle: title,
-      rejectionReason: reason,
-    };
-
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
-  }
-
-  /**
-   * Edits an account request by calling API.
-   */
-  editAccountRequest(name: string, email: string, institute: string, comments: string): Observable<MessageOutput> {
-    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
-      name,
-      email,
-      institute,
-      comments,
-    };
-
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
-  }
-
-  /**
    * Resets an account request by calling API.
    */
   resetAccountRequest(email: string, institute: string): Observable<JoinLink> {

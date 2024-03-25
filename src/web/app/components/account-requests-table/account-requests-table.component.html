@@ -53,12 +53,7 @@
                 </div>
             </td>
             <td class="align-middle">
-              <div class="d-flex flex-row align-items-center gap-2">
-              <div>
-                <a id="edit-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); editAccountRequest(accountRequest);">
-                  <i class="fa-solid fa-pen"></i>
-                </a>
-              </div>
+              <div class="d-flex flex-row align-items-center justify-content-center gap-2">
               <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
                 <a id="delete-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)">
                   <i class="fa-solid fa-trash"></i>
@@ -69,18 +64,6 @@
                     <i class="fa-solid fa-eye"></i>
                 </a>
               </div>
-              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
-                <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="accountRequest.registeredAtText" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)">Approve</button>
-              </div>
-              <span ngbDropdown container="body">
-                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" ngbDropdownToggle> Reject </button>
-                <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                  <ng-container>
-                    <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest)"> Reject </button>
-                  </ng-container>
-                  <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest)"> Reject With Reason </button>
-                </div>
-              </span>
               <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
                 <button id="reset-account-request-{{i}}" class="btn btn-primary" [disabled]="!accountRequest.registeredAtText" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);">Reset</button>
               </div>
