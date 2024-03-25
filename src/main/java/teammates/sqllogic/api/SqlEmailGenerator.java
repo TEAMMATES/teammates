@@ -26,6 +26,7 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -970,6 +971,33 @@ public final class SqlEmailGenerator {
         email.setType(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
         email.setSubjectFromType(course.getName(), course.getId());
         email.setContent(emailBody);
+        return email;
+    }
+
+    /**
+     * Generates the email to alert the admin of the new {@code accountRequest}.
+     */
+    public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
+        String name = accountRequest.getName();
+        String institute = accountRequest.getInstitute();
+        String emailAddress = accountRequest.getEmail();
+        String comments = accountRequest.getComments();
+        if (comments == null) {
+            comments = "";
+        }
+        String adminAccountRequestsPageUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).toAbsoluteString();
+        String[] templateKeyValuePairs = new String[] {
+                "${name}", name,
+                "${institute}", institute,
+                "${emailAddress}", emailAddress,
+                "${comments}", comments,
+                "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
+        };
+        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT, templateKeyValuePairs);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
+        email.setSubjectFromType();
+        email.setContent(content);
         return email;
     }
 
