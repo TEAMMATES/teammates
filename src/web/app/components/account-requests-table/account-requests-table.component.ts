@@ -1,9 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
-import {
-  RejectWithReasonModalComponent,
-} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -50,7 +46,6 @@ export class AccountRequestsTableComponent {
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
     private accountService: AccountService,
-    private ngbModal: NgbModal,
   ) {}
 
   /**
@@ -94,34 +89,6 @@ export class AccountRequestsTableComponent {
     }, () => {});
   }
 
-  editAccountRequest(accountRequest: AccountRequestData): void {
-    const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
-    modalRef.componentInstance.accountRequestName = accountRequest.name;
-    modalRef.componentInstance.accountRequestEmail = accountRequest.email;
-    modalRef.componentInstance.accountRequestInstitution = accountRequest.institute;
-    modalRef.componentInstance.accountRequestComment = accountRequest.comments;
-
-    modalRef.result.then(() => {
-      this.accountService.editAccountRequest(
-        modalRef.componentInstance.accountRequestName,
-        modalRef.componentInstance.accountRequestEmail,
-        modalRef.componentInstance.accountRequestInstitution,
-        modalRef.componentInstance.accountRequestComment)
-      .subscribe({
-        next: (resp: MessageOutput) => {
-          this.statusMessageService.showSuccessToast(resp.message);
-          accountRequest.comments = modalRef.componentInstance.accountRequestComment;
-          accountRequest.name = modalRef.componentInstance.accountRequestName;
-          accountRequest.email = modalRef.componentInstance.accountRequestEmail;
-          accountRequest.institute = modalRef.componentInstance.accountRequestInstitution;
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    });
-  }
-
   deleteAccountRequest(accountRequest: AccountRequestData): void {
     const modalContent: string = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
@@ -160,43 +127,11 @@ export class AccountRequestsTableComponent {
     .subscribe({
       next: () => {
         accountRequest.status = 'APPROVED';
-      },
+       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
-  }
-
-  rejectAccountRequest(accountRequest: AccountRequestData): void {
-    this.accountService.rejectAccountRequest(accountRequest.name, accountRequest.email,
-      accountRequest.institute)
-    .subscribe({
-      next: () => {
-        accountRequest.status = 'REJECTED';
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
-  }
-
-  rejectAccountRequestWithReason(accountRequest: AccountRequestData): void {
-    const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
-    modalRef.componentInstance.accountRequestName = accountRequest.name;
-
-    modalRef.result.then(() => {
-      this.accountService.rejectAccountRequest(accountRequest.email,
-        accountRequest.institute, modalRef.componentInstance.rejectionReasonTitle,
-        modalRef.componentInstance.rejectionReasonBody)
-      .subscribe({
-        next: () => {
-          accountRequest.status = 'REJECTED';
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }, () => {});
   }
 
 }

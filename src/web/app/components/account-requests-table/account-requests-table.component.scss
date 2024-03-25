@@ -31,6 +31,7 @@
 
 #search-table-account-request th:last-child, 
 #search-table-account-request td:last-child {
+  min-width: 10vw;
   position: sticky;
   position: -webkit-sticky;
   right: 0;
@@ -51,7 +52,7 @@
 }
 
 #comment-box {
-  width: 30vw;
+  width: 600px;
   max-width: max-content;
   word-break: break-word;
   word-wrap: break-all;

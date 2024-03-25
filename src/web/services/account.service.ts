@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Account, Accounts, AccountRequests, JoinLink, MessageOutput } from '../types/api-output';
-import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
+import { AccountCreateRequest } from '../types/api-request';
 
 /**
  * Handles account related logic provision
@@ -54,37 +54,6 @@ export class AccountService {
       instructorinstitution: institute,
     };
     return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
-  }
-
-  /**
-   * Rejects an account request by calling API.
-   */
-  rejectAccountRequest(name: string, email: string, institute: string,
-    title?: string, reason?: string): Observable<MessageOutput> {
-    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
-      name,
-      email,
-      institute,
-      status: 'REJECTED',
-      rejectionTitle: title,
-      rejectionReason: reason,
-    };
-
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
-  }
-
-  /**
-   * Edits an account request by calling API.
-   */
-  editAccountRequest(name: string, email: string, institute: string, comments: string): Observable<MessageOutput> {
-    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
-      name,
-      email,
-      institute,
-      comments,
-    };
-
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
   }
 
   /**
@@ -145,11 +114,12 @@ export class AccountService {
    */
   getPendingAccountRequests(pageNumber : number = 1, pageSize: number = 20): Observable<AccountRequests> {
     const paramMap = {
-      accountrequeststatus: 'pending',
-      page: pageNumber.toString(),
-      size: pageSize.toString(),
+      status: 'pending',
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
     };
 
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   }
+
 }
