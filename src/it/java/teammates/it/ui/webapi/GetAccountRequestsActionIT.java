@@ -21,7 +21,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetAccountRequestsAction}.
  */
 public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsAction> {
-    private final String[] validParams = {Const.ParamsNames.ACCOUNT_REQUEST_STATUS, "pending"};
+    private final String[] validParams = { Const.ParamsNames.ACCOUNT_REQUEST_STATUS, "pending" };
 
     @Override
     @BeforeMethod
@@ -58,11 +58,24 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
 
         assertEquals(0, arData.size());
 
+        ______TS("1 pending account request, case insensitive match for status request param");
+
+        AccountRequest accountRequest1 = typicalBundle.accountRequests.get("instructor1");
+        accountRequest1.setStatus(AccountRequestStatus.PENDING);
+
+        String[] params = { Const.ParamsNames.ACCOUNT_REQUEST_STATUS, "PendinG" };
+        action = getAction(params);
+        result = getJsonResult(action);
+        data = (AccountRequestsData) result.getOutput();
+        arData = data.getAccountRequests();
+
+        assertEquals(1, arData.size());
+
         ______TS("Get 2 pending account requests, ignore 1 approved account request");
         AccountRequest approvedAccountRequest1 = typicalBundle.accountRequests.get("instructor2");
         approvedAccountRequest1.setStatus(AccountRequestStatus.APPROVED);
 
-        AccountRequest accountRequest1 = typicalBundle.accountRequests.get("instructor1");
+        accountRequest1 = typicalBundle.accountRequests.get("instructor1");
         AccountRequest accountRequest2 = typicalBundle.accountRequests.get("instructor1OfCourse2");
         accountRequest1.setStatus(AccountRequestStatus.PENDING);
         accountRequest2.setStatus(AccountRequestStatus.PENDING);

@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
@@ -15,7 +16,8 @@ public class GetAccountRequestsAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         String accountRequestStatus = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_STATUS);
-        if (!"pending".equals(accountRequestStatus)) {
+        String pending = AccountRequestStatus.PENDING.name(); // 'PENDING'
+        if (!pending.equalsIgnoreCase(accountRequestStatus)) {
             throw new InvalidHttpParameterException("Only 'pending' is allowed for account request status.");
         }
 
