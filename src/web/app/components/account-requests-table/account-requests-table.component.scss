@@ -52,7 +52,8 @@
 }
 
 #comment-box {
-  width: 600px;
+  min-height: 5vh;
+  width: max(800px, 35vw);
   max-width: max-content;
   word-break: break-word;
   word-wrap: break-all;
