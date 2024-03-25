@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, map, mergeMap, take } from 'rxjs/operators';
+import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
@@ -276,28 +276,13 @@ export class AdminHomePageComponent implements OnInit {
   }
 
   fetchAccountRequests(): void {
-    this.accountService.getPendingAccountRequests(this.currentPage, this.pageSize).subscribe({
+    this.accountService.getPendingAccountRequests().subscribe({
       next: (resp: AccountRequests) => {
         this.accountReqs = this.formatAccountRequests(resp);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
-    });
-
-    document.addEventListener('scroll', () => {
-      if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
-        this.currentPage += 1;
-        forkJoin([this.items$.pipe(take(1)),
-          this.accountService.getPendingAccountRequests(this.currentPage, this.pageSize)]).subscribe({
-          next: (resp: [any, AccountRequests]) => {
-            this.accountReqs = this.accountReqs.concat(this.formatAccountRequests(resp[1]));
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-      }
     });
   }
 
