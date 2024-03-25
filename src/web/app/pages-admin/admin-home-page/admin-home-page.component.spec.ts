@@ -13,6 +13,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
+import { AccountRequestStatus } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 
@@ -188,15 +189,24 @@ describe('AdminHomePageComponent', () => {
       },
     ];
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
-      joinLink: 'http://localhost:4200/web/join',
+      id: 'some.person@example.com%NUS',
+      email: 'some.person@example.com',
+      name: 'Some Person',
+      institute: 'NUS',
+      status: AccountRequestStatus.APPROVED,
+      registrationKey: 'registrationKey',
+      createdAt: 528,
     }));
+    jest.spyOn(linkService, 'generateAccountRegistrationLink')
+        .mockReturnValue('http://localhost:4200/web/join?iscreatingaccount=true&key=registrationKey');
     fixture.detectChanges();
 
     const index: number = 0;
     component.addInstructor(index);
 
     expect(component.instructorsConsolidated[index].status).toEqual('SUCCESS');
-    expect(component.instructorsConsolidated[index].joinLink).toEqual('http://localhost:4200/web/join');
+    expect(component.instructorsConsolidated[index].joinLink)
+        .toEqual('http://localhost:4200/web/join?iscreatingaccount=true&key=registrationKey');
     expect(component.activeRequests).toEqual(0);
   });
 

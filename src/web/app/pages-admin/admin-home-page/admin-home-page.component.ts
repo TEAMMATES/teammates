@@ -9,7 +9,7 @@ import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Account, Accounts, AccountRequests, Courses, JoinLink } from '../../../types/api-output';
+import { Account, AccountRequest, Accounts, AccountRequests, Courses, JoinLink } from '../../../types/api-output';
 import { AccountRequestData } from '../../components/account-requests-table/account-requests-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -128,10 +128,10 @@ export class AdminHomePageComponent implements OnInit {
           this.isAddingInstructors = false;
         }))
         .subscribe({
-          next: (resp: JoinLink) => {
+          next: (resp: AccountRequest) => {
             instructor.status = 'SUCCESS';
             instructor.statusCode = 200;
-            instructor.joinLink = resp.joinLink;
+            instructor.joinLink = this.linkService.generateAccountRegistrationLink(resp.registrationKey);
             this.activeRequests -= 1;
           },
           error: (resp: ErrorMessageOutput) => {

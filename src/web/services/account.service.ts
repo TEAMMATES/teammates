@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, Accounts, AccountRequests, JoinLink, MessageOutput } from '../types/api-output';
+import { Account, AccountRequest, Accounts, AccountRequests, JoinLink, MessageOutput } from '../types/api-output';
 import { AccountCreateRequest } from '../types/api-request';
 
 /**
@@ -31,7 +31,7 @@ export class AccountService {
   /**
    * Creates an account request by calling API.
    */
-  createAccountRequest(request: AccountCreateRequest): Observable<JoinLink> {
+  createAccountRequest(request: AccountCreateRequest): Observable<AccountRequest> {
     return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, {}, request);
   }
 
