@@ -62,7 +62,7 @@ public abstract class EntityAttributes<E extends BaseEntity> {
      *
      * @param <T> type of object being updated
      */
-    protected static class UpdateOption<T> {
+    protected static final class UpdateOption<T> {
 
         private static final UpdateOption<?> EMPTY = new UpdateOption<>();
 

@@ -100,7 +100,7 @@ public final class QueryLogsParams {
     /**
      * Builder for {@link QueryLogsParams}.
      */
-    public static class Builder {
+    public static final class Builder {
         private QueryLogsParams queryLogsParams;
 
         private Builder(long startTime, long endTime) {

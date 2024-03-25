@@ -9,6 +9,7 @@ import java.util.Properties;
 /**
  * Settings for integration tests.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public final class TestProperties {
 
     /** The directory where JSON files used to create data bundles are stored. */

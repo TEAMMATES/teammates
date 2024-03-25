@@ -6,6 +6,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import jakarta.persistence.OneToMany;
+
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -47,8 +49,6 @@ import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
-
-import jakarta.persistence.OneToMany;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -146,7 +146,7 @@ public final class JsonUtils {
         return JsonParser.parseString(json);
     }
 
-    private static class HibernateExclusionStrategy implements ExclusionStrategy {
+    private static final class HibernateExclusionStrategy implements ExclusionStrategy {
 
         @Override
         public boolean shouldSkipField(FieldAttributes f) {
@@ -160,7 +160,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class UserAdapter implements JsonSerializer<User>, JsonDeserializer<User> {
+    private static final class UserAdapter implements JsonSerializer<User>, JsonDeserializer<User> {
 
         @Override
         public JsonElement serialize(User user, Type type, JsonSerializationContext context) {
@@ -189,7 +189,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+    private static final class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext context) {
@@ -206,7 +206,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class ZoneIdAdapter implements JsonSerializer<ZoneId>, JsonDeserializer<ZoneId> {
+    private static final class ZoneIdAdapter implements JsonSerializer<ZoneId>, JsonDeserializer<ZoneId> {
 
         @Override
         public JsonElement serialize(ZoneId zoneId, Type type, JsonSerializationContext context) {
@@ -223,7 +223,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class DurationMinutesAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
+    private static final class DurationMinutesAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
 
         @Override
         public JsonElement serialize(Duration duration, Type type, JsonSerializationContext context) {
@@ -240,7 +240,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class FeedbackResponseAdapter implements JsonSerializer<FeedbackResponse>,
+    private static final class FeedbackResponseAdapter implements JsonSerializer<FeedbackResponse>,
             JsonDeserializer<FeedbackResponse> {
 
         @Override
@@ -299,7 +299,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class FeedbackResponseDetailsAdapter implements JsonSerializer<FeedbackResponseDetails>,
+    private static final class FeedbackResponseDetailsAdapter implements JsonSerializer<FeedbackResponseDetails>,
             JsonDeserializer<FeedbackResponseDetails> {
 
         @Override
@@ -316,7 +316,7 @@ public final class JsonUtils {
 
     }
 
-    private static class FeedbackQuestionAdapter implements JsonSerializer<FeedbackQuestion>,
+    private static final class FeedbackQuestionAdapter implements JsonSerializer<FeedbackQuestion>,
             JsonDeserializer<FeedbackQuestion> {
 
         @Override
@@ -375,7 +375,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class FeedbackQuestionDetailsAdapter implements JsonSerializer<FeedbackQuestionDetails>,
+    private static final class FeedbackQuestionDetailsAdapter implements JsonSerializer<FeedbackQuestionDetails>,
             JsonDeserializer<FeedbackQuestionDetails> {
 
         @Override
@@ -391,7 +391,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class LogDetailsAdapter implements JsonSerializer<LogDetails>, JsonDeserializer<LogDetails> {
+    private static final class LogDetailsAdapter implements JsonSerializer<LogDetails>, JsonDeserializer<LogDetails> {
 
         @Override
         public JsonElement serialize(LogDetails src, Type typeOfSrc, JsonSerializationContext context) {

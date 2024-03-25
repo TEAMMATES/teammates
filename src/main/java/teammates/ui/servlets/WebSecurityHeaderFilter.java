@@ -3,13 +3,12 @@ package teammates.ui.servlets;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Config;
 
@@ -37,11 +36,6 @@ public class WebSecurityHeaderFilter implements Filter {
     ));
 
     @Override
-    public void init(FilterConfig filterConfig) {
-        // nothing to do
-    }
-
-    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletResponse resp = (HttpServletResponse) response;
@@ -52,11 +46,6 @@ public class WebSecurityHeaderFilter implements Filter {
         resp.setHeader("Strict-Transport-Security", "max-age=31536000");
 
         chain.doFilter(request, resp);
-    }
-
-    @Override
-    public void destroy() {
-        // nothing to do
     }
 
 }

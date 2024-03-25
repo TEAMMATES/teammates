@@ -145,7 +145,7 @@
         <module name="CommentsIndentation"/>
         <module name="ImportOrder">
             <property name="option" value="top"/>
-            <property name="groups" value="java,javax,org,com,teammates"/>
+            <property name="groups" value="java,jakarta,javax,org,com,teammates"/>
             <property name="separated" value="true"/>
             <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>

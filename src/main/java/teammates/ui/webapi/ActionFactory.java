@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;

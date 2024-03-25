@@ -540,7 +540,7 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("MockHttpServletResponse")
                 .and().doNotHaveSimpleName("MockPart")
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .should().accessClassesThat().haveFullyQualifiedName("javax.servlet..")
+                .should().accessClassesThat().haveFullyQualifiedName("jakarta.servlet..")
                 .check(ALL_CLASSES);
     }
 

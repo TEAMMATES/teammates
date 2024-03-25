@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Represents the result of executing an {@link Action}.

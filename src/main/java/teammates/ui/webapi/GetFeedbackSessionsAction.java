@@ -38,13 +38,13 @@ public class GetFeedbackSessionsAction extends Action {
 
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
-        if (!(entityType.equals(Const.EntityType.STUDENT) || entityType.equals(Const.EntityType.INSTRUCTOR))) {
+        if (!(Const.EntityType.STUDENT.equals(entityType) || Const.EntityType.INSTRUCTOR.equals(entityType))) {
             throw new UnauthorizedAccessException("entity type not supported.");
         }
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        if (entityType.equals(Const.EntityType.STUDENT)) {
+        if (Const.EntityType.STUDENT.equals(entityType)) {
             if (!userInfo.isStudent) {
                 throw new UnauthorizedAccessException("User " + userInfo.getId()
                         + " does not have student privileges");
@@ -90,7 +90,7 @@ public class GetFeedbackSessionsAction extends Action {
         List<String> studentEmails = new ArrayList<>();
 
         if (courseId == null) {
-            if (entityType.equals(Const.EntityType.STUDENT)) {
+            if (Const.EntityType.STUDENT.equals(entityType)) {
                 List<Student> students = sqlLogic.getStudentsByGoogleId(userInfo.getId());
                 for (Student student : students) {
                     String studentCourseId = student.getCourse().getId();
@@ -113,7 +113,7 @@ public class GetFeedbackSessionsAction extends Action {
 
                     feedbackSessionAttributes.addAll(sessions);
                 }
-            } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+            } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
                 instructors = sqlLogic.getInstructorsForGoogleId(userInfo.getId());
@@ -135,33 +135,33 @@ public class GetFeedbackSessionsAction extends Action {
         } else {
             if (isCourseMigrated(courseId)) {
                 feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
-                if (entityType.equals(Const.EntityType.STUDENT) && !feedbackSessions.isEmpty()) {
+                if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
                     Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
                     assert student != null;
                     String emailAddress = student.getEmail();
 
                     studentEmails.add(emailAddress);
-                } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+                } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                     instructors = Collections.singletonList(
                             sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()));
                 }
             } else {
                 feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
-                if (entityType.equals(Const.EntityType.STUDENT) && !feedbackSessionAttributes.isEmpty()) {
+                if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessionAttributes.isEmpty()) {
                     StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
                     assert student != null;
                     String emailAddress = student.getEmail();
                     feedbackSessionAttributes = feedbackSessionAttributes.stream()
                             .map(instructorSession -> instructorSession.getCopyForStudent(emailAddress))
                             .collect(Collectors.toList());
-                } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+                } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                     dataStoreInstructors =
                             Collections.singletonList(logic.getInstructorForGoogleId(courseId, userInfo.getId()));
                 }
             }
         }
 
-        if (entityType.equals(Const.EntityType.STUDENT)) {
+        if (Const.EntityType.STUDENT.equals(entityType)) {
             // hide session not visible to student
             feedbackSessions = feedbackSessions.stream()
                     .filter(FeedbackSession::isVisible).collect(Collectors.toList());
@@ -182,9 +182,9 @@ public class GetFeedbackSessionsAction extends Action {
             responseData.hideInformationForStudent(studentEmail);
         }
 
-        if (entityType.equals(Const.EntityType.STUDENT)) {
+        if (Const.EntityType.STUDENT.equals(entityType)) {
             responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformationForStudent);
-        } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+        } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             responseData.getFeedbackSessions().forEach(session -> {
                 Instructor instructor = courseIdToInstructor.get(session.getCourseId());
                 InstructorAttributes dataStoreInstructor = dataStoreCourseIdToInstructor.get(session.getCourseId());

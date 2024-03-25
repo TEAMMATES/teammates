@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -20,7 +21,7 @@ public class JsonUtilsTest extends BaseTestCase {
     public void testFeedbackQuestionDetailsAdaptor_withComposedQuestionDetails_shouldSerializeToConcreteClass() {
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
 
-        ArrayList<FeedbackParticipantType> participants = new ArrayList<>();
+        List<FeedbackParticipantType> participants = new ArrayList<>();
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
 

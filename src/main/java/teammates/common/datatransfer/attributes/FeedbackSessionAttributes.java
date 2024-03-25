@@ -659,7 +659,7 @@ public final class FeedbackSessionAttributes extends EntityAttributes<FeedbackSe
     /**
      * A builder for {@link FeedbackSessionAttributes}.
      */
-    public static class Builder extends BasicBuilder<FeedbackSessionAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<FeedbackSessionAttributes, Builder> {
         private final FeedbackSessionAttributes feedbackSessionAttributes;
 
         private Builder(String feedbackSessionName, String courseId) {
@@ -688,7 +688,7 @@ public final class FeedbackSessionAttributes extends EntityAttributes<FeedbackSe
     /**
      * Helper class to specific the fields to update in {@link FeedbackSessionAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String courseId;
         private String feedbackSessionName;
 
@@ -752,7 +752,7 @@ public final class FeedbackSessionAttributes extends EntityAttributes<FeedbackSe
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(UpdateOptions updateOptions) {
                 super(updateOptions);

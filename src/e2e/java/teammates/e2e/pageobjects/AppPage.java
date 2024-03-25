@@ -542,7 +542,7 @@ public abstract class AppPage {
      * Returns True if there is a corresponding element for the given locator.
      */
     public boolean isElementPresent(By by) {
-        return browser.driver.findElements(by).size() != 0;
+        return !browser.driver.findElements(by).isEmpty();
     }
 
     /**
