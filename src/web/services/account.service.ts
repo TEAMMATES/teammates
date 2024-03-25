@@ -125,7 +125,7 @@ export class AccountService {
       status: AccountRequestStatus.PENDING,
     };
 
-    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
   }
 
 }
