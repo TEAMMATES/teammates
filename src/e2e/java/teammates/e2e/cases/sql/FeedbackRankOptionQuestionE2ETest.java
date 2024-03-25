@@ -16,8 +16,9 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Student;
 
 /**
- * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
- *      specifically for RankOption questions.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
+ * {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
+ * specifically for RankOption questions.
  */
 public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
@@ -44,9 +45,10 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
-        FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").makeDeepCopy(feedbackSession);
-        FeedbackRankOptionsQuestionDetails questionDetails =
-                (FeedbackRankOptionsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
+        FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession")
+                .makeDeepCopy(feedbackSession);
+        FeedbackRankOptionsQuestionDetails questionDetails = (FeedbackRankOptionsQuestionDetails) loadedQuestion
+                .getQuestionDetailsCopy();
         feedbackEditPage.verifyRankQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -69,6 +71,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
+        questionDetails = (FeedbackRankOptionsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         List<String> options = questionDetails.getOptions();
         options.remove(0);
         options.set(1, "Edited option.");
@@ -107,7 +110,8 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         // feedbackSubmitPage.verifyRankOptionResponse(1, receiver.getName(), response);
 
         // ______TS("edit response");
-        // response = getResponse(questionId, receiver, Arrays.asList(Const.POINTS_NOT_SUBMITTED, 1, 3, 2));
+        // response = getResponse(questionId, receiver,
+        // Arrays.asList(Const.POINTS_NOT_SUBMITTED, 1, 3, 2));
         // feedbackSubmitPage.fillRankOptionResponse(1, receiver.getName(), response);
         // feedbackSubmitPage.clickSubmitQuestionButton(1);
 
