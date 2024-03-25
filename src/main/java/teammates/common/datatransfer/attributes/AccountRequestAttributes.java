@@ -15,7 +15,7 @@ import teammates.storage.entity.AccountRequest;
  * The data transfer object for {@link AccountRequest} entities.
  */
 public final class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
-
+    private String id;
     private String email;
     private String name;
     private String institute;
@@ -38,7 +38,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
         AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getEmail(),
                 accountRequest.getInstitute(), accountRequest.getName());
-
+        accountRequestAttributes.id = accountRequest.getId();
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
         accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
         accountRequestAttributes.createdAt = accountRequest.getCreatedAt();
@@ -51,6 +51,10 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
      */
     public static Builder builder(String email, String institute, String name) {
         return new Builder(email, institute, name);
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getRegistrationKey() {
