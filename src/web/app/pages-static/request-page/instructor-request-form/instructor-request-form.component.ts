@@ -42,6 +42,10 @@ export class InstructorRequestFormComponent {
     return field.invalid;
   }
 
+  checkCanSubmit(): boolean {
+    return true; // TODO: API integration
+  }
+
   getFieldValidationClasses(field: FormControl): string {
     let str = '';
     if (this.hasSubmitAttempt) {

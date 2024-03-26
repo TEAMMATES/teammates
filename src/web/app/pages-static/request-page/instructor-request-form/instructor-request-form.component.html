@@ -86,7 +86,7 @@
       [attr.aria-invalid]="checkIsFieldInvalid(comments)"></textarea>
   </div>
   <br>
-  <button type="submit" class="btn btn-primary" id="submit-button" [disabled]="canSubmit()">
+  <button type="submit" class="btn btn-primary" id="submit-button" [disabled]="!checkCanSubmit()">
     Submit
   </button>
 </form>
