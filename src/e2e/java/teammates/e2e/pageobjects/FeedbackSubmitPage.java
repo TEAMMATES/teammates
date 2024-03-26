@@ -215,6 +215,22 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillMcqResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        if (responseDetails.isOther()) {
+            markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
+            fillTextBox(getMcqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
+        } else {
+            List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
+            for (int i = 0; i < optionTexts.size(); i++) {
+                if (optionTexts.get(i).getText().equals(responseDetails.getAnswer())) {
+                    markOptionAsSelected(getMcqRadioBtns(qnNumber, recipient).get(i));
+                    break;
+                }
+            }
+        }
+    }
+
     public void verifyMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetailsCopy();
         if (responseDetails.isOther()) {
