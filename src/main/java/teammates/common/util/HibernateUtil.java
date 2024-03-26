@@ -272,4 +272,9 @@ public final class HibernateUtil {
         HibernateUtil.getCurrentSession().createMutationQuery(cd).executeUpdate();
     }
 
+    public static <T> void flushAndEvict(T entity) {
+        HibernateUtil.getCurrentSession().flush();
+        HibernateUtil.getCurrentSession().evict(entity);
+    }
+
 }

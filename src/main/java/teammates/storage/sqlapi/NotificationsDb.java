@@ -1,11 +1,14 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
@@ -53,7 +56,10 @@ public final class NotificationsDb extends EntitiesDb {
     public Notification getNotification(UUID notificationId) {
         assert notificationId != null;
 
-        return HibernateUtil.get(Notification.class, notificationId);
+        Notification notif = HibernateUtil.get(Notification.class, notificationId);
+        // HibernateUtil.flushSession();
+        // HibernateUtil.evict(notif);
+        return notif;
     }
 
     /**
@@ -98,4 +104,22 @@ public final class NotificationsDb extends EntitiesDb {
         TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();
     }
+
+    /**
+     * Updates a notification.
+     *
+     * <p>Preconditions:</p>
+     * * Notification fields are valid.
+     */
+    public Notification updateNotification(Notification notification)
+            throws EntityDoesNotExistException {
+        assert notification != null;
+
+        if (getNotification(notification.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
+        }
+
+        return merge(notification);
+    }
+
 }
