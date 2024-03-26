@@ -4,14 +4,24 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.ui.output.JoinLinkData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new account request.
  */
-public class CreateAccountRequestAction extends AdminOnlyAction {
+public class CreateAccountRequestAction extends Action {
+
+    @Override
+    AuthType getMinAuthLevel() {
+        return AuthType.PUBLIC;
+    }
+
+    @Override
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        // Nothing needs to be done here because anybody should be able to create an account request.
+    }
 
     @Override
     public JsonResult execute()
@@ -21,9 +31,10 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
-        // TODO: This is a placeholder. It should be obtained from AccountCreateRequest, in a separate PR.
-        String comments = "PLACEHOLDER";
-
+        String comments = createRequest.getInstructorComments();
+        if (comments != null) {
+            comments = comments.trim();
+        }
         AccountRequest accountRequest;
 
         try {
@@ -35,18 +46,9 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         }
 
         assert accountRequest != null;
-
-        if (accountRequest.getRegisteredAt() != null) {
-            throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
-        }
-
-        String joinLink = accountRequest.getRegistrationUrl();
-
-        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorEmail, instructorName, joinLink);
-        emailSender.sendEmail(email);
-
-        JoinLinkData output = new JoinLinkData(joinLink);
+        EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        emailSender.sendEmail(adminAlertEmail);
+        AccountRequestData output = new AccountRequestData(accountRequest);
         return new JsonResult(output);
     }
 

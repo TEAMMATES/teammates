@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -66,6 +67,19 @@ public final class AccountRequestsDb extends EntitiesDb {
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Get all Account Requests with {@code status} of 'pending'.
+     */
+    public List<AccountRequest> getPendingAccountRequests() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root).where(cb.equal(root.get("status"), AccountRequestStatus.PENDING));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultList();
     }
 
     /**
