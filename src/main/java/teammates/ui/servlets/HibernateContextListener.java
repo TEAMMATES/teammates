@@ -14,8 +14,7 @@ public class HibernateContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // Invoked by Jetty at application startup.
-        HibernateUtil.buildSessionFactory(Config.getDbConnectionUrl(), Config.APP_LOCALPOSTGRES_USERNAME,
-                Config.APP_LOCALPOSTGRES_PASSWORD);
+        HibernateUtil.buildSessionFactory(Config.getDbConnectionUrl(), Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
     }
 
     @Override
