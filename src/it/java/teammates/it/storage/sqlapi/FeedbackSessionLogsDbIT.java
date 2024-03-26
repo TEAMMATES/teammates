@@ -63,147 +63,97 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void test_getOrderedFeedbackSessionLogs_success() {
-        Instant startTime = Instant.parse("2011-01-01T00:00:00Z");
-        Instant endTime = Instant.parse("2011-01-01T01:00:00Z");
-
-        Course course1 = typicalDataBundle.courses.get("course1");
-
-        FeedbackSession session1 = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSession session2 = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
-        FeedbackSession sessionInAnotherCourse = typicalDataBundle.feedbackSessions.get("ongoingSession1InCourse3");
-
+        Instant startTime = Instant.parse("2012-01-01T12:00:00Z");
+        Instant endTime = Instant.parse("2012-01-01T23:59:59Z");
+        Course course = typicalDataBundle.courses.get("course1");
         Student student1 = typicalDataBundle.students.get("student1InCourse1");
-        Student student2 = typicalDataBundle.students.get("student2InCourse1");
+        FeedbackSession fs1 = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
-        FeedbackSessionLog student1Session1Log1 = new FeedbackSessionLog(student1, session1,
-                FeedbackSessionLogType.ACCESS, startTime);
-        FeedbackSessionLog student1Session1Log2 = new FeedbackSessionLog(student1, session1,
-                FeedbackSessionLogType.SUBMISSION, startTime.plusSeconds(1));
-        FeedbackSessionLog student1Session1Log3 = new FeedbackSessionLog(student1, session1,
-                FeedbackSessionLogType.VIEW_RESULT, startTime.plusSeconds(2));
-        FeedbackSessionLog student1Session2Log1 = new FeedbackSessionLog(student1, session2,
-                FeedbackSessionLogType.ACCESS, startTime.plusSeconds(3));
-
-        FeedbackSessionLog student2Session1Log1 = new FeedbackSessionLog(student2, session1,
-                FeedbackSessionLogType.ACCESS, startTime.plusSeconds(4));
-        FeedbackSessionLog student2Session2Log1 = new FeedbackSessionLog(student2, session2,
-                FeedbackSessionLogType.ACCESS, startTime.plusSeconds(5));
-
-        FeedbackSessionLog student1AnotherCourseLog1 = new FeedbackSessionLog(student1, sessionInAnotherCourse,
-                FeedbackSessionLogType.ACCESS, startTime.plusSeconds(6));
-
-        FeedbackSessionLog outOfRangeLog1 = new FeedbackSessionLog(student1, session1, FeedbackSessionLogType.ACCESS,
-                startTime.minusSeconds(1));
-        FeedbackSessionLog outOfRangeLog2 = new FeedbackSessionLog(student1, session1, FeedbackSessionLogType.ACCESS,
-                endTime);
-
-        List<FeedbackSessionLog> newLogs = new ArrayList<>();
-        newLogs.add(student1Session1Log1);
-        newLogs.add(student1Session1Log2);
-        newLogs.add(student1Session1Log3);
-        newLogs.add(student1Session2Log1);
-
-        newLogs.add(student2Session1Log1);
-        newLogs.add(student2Session2Log1);
-
-        newLogs.add(student1AnotherCourseLog1);
-
-        newLogs.add(outOfRangeLog1);
-        newLogs.add(outOfRangeLog2);
-
-        for (FeedbackSessionLog log : newLogs) {
-            fslDb.createFeedbackSessionLog(log);
-        }
+        FeedbackSessionLog student1Session1Log1 = typicalDataBundle.feedbackSessionLogs.get("student1Session1Log1");
+        FeedbackSessionLog student1Session2Log1 = typicalDataBundle.feedbackSessionLogs.get("student1Session2Log1");
+        FeedbackSessionLog student1Session2Log2 = typicalDataBundle.feedbackSessionLogs.get("student1Session2Log2");
+        FeedbackSessionLog student2Session1Log1 = typicalDataBundle.feedbackSessionLogs.get("student2Session1Log1");
+        FeedbackSessionLog student2Session1Log2 = typicalDataBundle.feedbackSessionLogs.get("student2Session1Log2");
+        FeedbackSessionLog student1InAnotherCourse = typicalDataBundle.feedbackSessionLogs
+                .get("student1InAnotherCourse");
 
         ______TS("Return all logs in time range");
-        List<FeedbackSessionLog> expectedLogs = new ArrayList<>();
-        expectedLogs.add(student1Session1Log1);
-        expectedLogs.add(student1Session1Log2);
-        expectedLogs.add(student1Session1Log3);
-        expectedLogs.add(student1Session2Log1);
-
-        expectedLogs.add(student2Session1Log1);
-        expectedLogs.add(student2Session2Log1);
-
-        expectedLogs.add(student1AnotherCourseLog1);
+        List<FeedbackSessionLog> expectedLogs = List.of(
+                student1Session1Log1,
+                student1Session2Log1,
+                student1Session2Log2,
+                student2Session1Log1,
+                student2Session1Log2,
+                student1InAnotherCourse);
 
         List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(null, null, null, startTime, endTime);
+
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a course in time range");
-        expectedLogs = new ArrayList<>();
-        expectedLogs.add(student1Session1Log1);
-        expectedLogs.add(student1Session1Log2);
-        expectedLogs.add(student1Session1Log3);
-        expectedLogs.add(student1Session2Log1);
+        expectedLogs = List.of(
+                student1Session1Log1,
+                student1Session2Log1,
+                student1Session2Log2,
+                student2Session1Log1,
+                student2Session1Log2);
 
-        expectedLogs.add(student2Session1Log1);
-        expectedLogs.add(student2Session2Log1);
-
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), null, null, startTime, endTime);
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, null, startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in time range");
-        expectedLogs = new ArrayList<>();
-        expectedLogs.add(student1Session1Log1);
-        expectedLogs.add(student1Session1Log2);
-        expectedLogs.add(student1Session1Log3);
-        expectedLogs.add(student1Session2Log1);
-
-        expectedLogs.add(student1AnotherCourseLog1);
+        expectedLogs = List.of(
+                student1Session1Log1,
+                student1Session2Log1,
+                student1Session2Log2,
+                student1InAnotherCourse);
 
         actualLogs = fslDb.getOrderedFeedbackSessionLogs(null, student1.getEmail(), null, startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to all feedback sessions with the specified name in time range");
-        expectedLogs = new ArrayList<>();
-        expectedLogs.add(student1Session1Log1);
-        expectedLogs.add(student1Session1Log2);
-        expectedLogs.add(student1Session1Log3);
+        expectedLogs = List.of(
+                student1Session1Log1,
+                student2Session1Log1,
+                student2Session1Log2);
 
-        expectedLogs.add(student2Session1Log1);
-
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(null, null, session1.getName(), startTime, endTime);
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(null, null, fs1.getName(), startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in feedback sessions with the specified name in time range");
-        expectedLogs = new ArrayList<>();
-        expectedLogs.add(student1Session1Log1);
-        expectedLogs.add(student1Session1Log2);
-        expectedLogs.add(student1Session1Log3);
+        expectedLogs = List.of(student1Session1Log1);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(null, student1.getEmail(), session1.getName(), startTime, endTime);
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(null, student1.getEmail(), fs1.getName(), startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in a course in time range");
-        expectedLogs = new ArrayList<>();
-        expectedLogs.add(student1Session1Log1);
-        expectedLogs.add(student1Session1Log2);
-        expectedLogs.add(student1Session1Log3);
-        expectedLogs.add(student1Session2Log1);
+        expectedLogs = List.of(
+                student1Session1Log1,
+                student1Session2Log1,
+                student1Session2Log2);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), student1.getEmail(), null, startTime, endTime);
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student1.getEmail(), null, startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a feedback session in time range");
-        expectedLogs = new ArrayList<>();
-        expectedLogs.add(student1Session2Log1);
-        expectedLogs.add(student2Session2Log1);
+        expectedLogs = List.of(
+                student1Session1Log1,
+                student2Session1Log1,
+                student2Session1Log2);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), null, session2.getName(), startTime, endTime);
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, fs1.getName(), startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in a feedback session in time range");
-        expectedLogs = new ArrayList<>();
-        expectedLogs.add(student2Session2Log1);
+        expectedLogs = List.of(student1Session1Log1);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), student2.getEmail(), session2.getName(), startTime,
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student1.getEmail(), fs1.getName(), startTime,
                 endTime);
 
         assertEquals(expectedLogs, actualLogs);
