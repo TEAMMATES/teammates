@@ -115,7 +115,6 @@ export class InstructorRequestFormComponent {
         error: (resp: ErrorMessageOutput) => {
           // TODO: improve server error display
           alert(resp.error.message);
-          this.isLoading = false;
         },
       });
 
