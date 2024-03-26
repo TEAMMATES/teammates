@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
+import { AccountService } from 'src/web/services/account.service';
+import { finalize } from 'rxjs';
+import { ErrorMessageOutput } from 'src/web/app/error-message-output';
+import { AccountCreateRequest } from 'src/web/types/api-request';
 
 // Use regex to validate URL field as Angular does not have a built-in URL validator
 // eslint-disable-next-line
@@ -12,6 +16,8 @@ const URL_REGEX = /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4
   styleUrls: ['./instructor-request-form.component.scss'],
 })
 export class InstructorRequestFormComponent {
+
+  constructor(private accountService: AccountService) {}
 
   arf = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -31,7 +37,7 @@ export class InstructorRequestFormComponent {
   comments = this.arf.controls.comments;
 
   hasSubmitAttempt = false;
-
+  isLoading = false;
   @Output() requestSubmissionEvent = new EventEmitter<InstructorRequestFormModel>();
 
   checkIsFieldRequired(field: FormControl): boolean {
@@ -43,7 +49,7 @@ export class InstructorRequestFormComponent {
   }
 
   checkCanSubmit(): boolean {
-    return true; // TODO: API integration
+    return !this.isLoading;
   }
 
   getFieldValidationClasses(field: FormControl): string {
@@ -60,39 +66,58 @@ export class InstructorRequestFormComponent {
 
   onSubmit(): void {
     this.hasSubmitAttempt = true;
+    this.isLoading = true;
 
     if (this.arf.invalid) {
+      this.isLoading = false;
       // Do not submit form
       return;
     }
 
     const name = this.name.value!.trim();
     const email = this.email.value!.trim();
+
+    // Combine country and institution
     const country = this.country.value!.trim();
     const institution = this.institution.value!.trim();
     const combinedInstitution = `${institution}, ${country}`;
+
+    // Combine home page URL and comments
     const homePage = this.homePage.value!;
     const comments = this.comments.value!.trim();
+    const combinedComments = `${homePage} ${comments}`.trim();
+  
+    const requestData: AccountCreateRequest = {
+      instructorEmail: email,
+      instructorName: name,
+      instructorInstitution: combinedInstitution,
+    }
+    if (combinedComments) {
+      requestData.instructorComments = combinedComments;
+    }
 
-    const submittedData = {
-      name,
-      email,
-      institution: combinedInstitution,
-      homePage,
-      comments,
-    };
-    // TODO: connect to API
-    // eslint-disable-next-line
-    submittedData; // PLACEHOLDER
+    this.accountService.createAccountRequest(requestData)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe({
+        next: () => {
+          // Pass form input to parent to display confirmation
+          this.requestSubmissionEvent.emit({
+            name,
+            institution,
+            country,
+            email,
+            homePage,
+            comments,
+          });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          // TODO: improve server error display
+          alert(resp.error.message);
+          this.isLoading = false;
+        },
+      });
 
-    // Pass form input to parent to display confirmation
-    this.requestSubmissionEvent.emit({
-      name,
-      institution,
-      country,
-      email,
-      homePage,
-      comments,
-    });
   }
 }
