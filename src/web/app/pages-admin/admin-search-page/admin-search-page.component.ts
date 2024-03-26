@@ -18,6 +18,9 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { ApiConst } from '../../../types/api-const';
 import { Email, MessageOutput, RegenerateKey } from '../../../types/api-output';
+import {
+  AccountRequestData,
+} from '../../components/account-requests-table/account-requests-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -76,10 +79,9 @@ export class AdminSearchPageComponent {
 
         this.instructors = resp.instructors;
         this.students = resp.students;
-        this.accountRequests = resp.accountRequests;
+        this.accountRequests = this.formatAccountRequests(resp.accountRequests);
         this.hideAllInstructorsLinks();
         this.hideAllStudentsLinks();
-        this.hideAllAccountRequestsLinks();
 
         // prompt user to use more specific terms if search results limit reached
         const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
@@ -106,6 +108,25 @@ export class AdminSearchPageComponent {
         this.students = [];
         this.statusMessageService.showErrorToast(resp.error.message);
       },
+    });
+  }
+
+  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestData[] {
+    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestData => {
+      const [institute, country] = accountRequest.institute.split(', ').length === 2
+      ? accountRequest.institute.split(', ') : [accountRequest.institute, ''];
+      return {
+        name: accountRequest.name,
+        email: accountRequest.email,
+        status: accountRequest.status,
+        institute,
+        country,
+        createdAtText: accountRequest.createdAtText,
+        registeredAtText: accountRequest.registeredAtText || '',
+        comments: accountRequest.comments,
+        registrationLink: accountRequest.registrationLink,
+        showLinks: accountRequest.showLinks,
+      };
     });
   }
 
@@ -142,24 +163,6 @@ export class AdminSearchPageComponent {
   hideAllStudentsLinks(): void {
     for (const student of this.students) {
       student.showLinks = false;
-    }
-  }
-
-  /**
-   * Shows all account requests' links in the page.
-   */
-  showAllAccountRequestsLinks(): void {
-    for (const accountRequest of this.accountRequests) {
-      accountRequest.showLinks = true;
-    }
-  }
-
-  /**
-   * Hides all account requests' links in the page.
-   */
-  hideAllAccountRequestsLinks(): void {
-    for (const accountRequest of this.accountRequests) {
-      accountRequest.showLinks = false;
     }
   }
 
@@ -263,29 +266,6 @@ export class AdminSearchPageComponent {
               this.statusMessageService.showErrorToast(response.error.message);
             },
           });
-    }, () => {});
-  }
-
-  resetAccountRequest(accountRequest: AccountRequestSearchResult): void {
-    const modalContent = `Are you sure you want to reset the account request for
-        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.institute}</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
-
-    modalRef.result.then(() => {
-      this.accountService.resetAccountRequest(accountRequest.email, accountRequest.institute)
-        .subscribe({
-          next: () => {
-            this.statusMessageService
-                .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
-            accountRequest.registeredAtText = '';
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
     }, () => {});
   }
 
