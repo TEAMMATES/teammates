@@ -46,6 +46,10 @@ describe('InstructorRequestFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should render correctly', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should emit requestSubmissionEvent once when submit button is clicked', () => {
     jest.spyOn(component.requestSubmissionEvent, 'emit');
 
