@@ -825,6 +825,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
+    public void addRankOptionsQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(10);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRankOptionsQuestionDetails questionDetails =
+                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputRankDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void addRankRecipientsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         addNewQuestion(11);
         int questionNum = getNumQuestions();
