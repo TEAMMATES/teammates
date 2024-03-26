@@ -34,11 +34,11 @@ export class InstructorRequestFormComponent {
 
   @Output() requestSubmissionEvent = new EventEmitter<InstructorRequestFormModel>();
 
-  isFieldRequired(field: FormControl): boolean {
+  checkIsFieldRequired(field: FormControl): boolean {
     return field.hasValidator(Validators.required);
   }
 
-  isFieldInvalid(field: FormControl): boolean {
+  checkIsFieldInvalid(field: FormControl): boolean {
     return field.invalid;
   }
 
