@@ -6,7 +6,7 @@ import { AccountRequestsTableComponent } from './account-requests-table.componen
 import { Pipes } from '../../pipes/pipes.module';
 
 /**
- * Module for admin search page.
+ * Module for account requests table.
  */
 @NgModule({
   declarations: [

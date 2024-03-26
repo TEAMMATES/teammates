@@ -25,7 +25,7 @@ export interface AccountRequestData {
 }
 
 /**
- * Admin search page.
+ * Account requests table component.
  */
 @Component({
   selector: 'tm-account-requests-table',
