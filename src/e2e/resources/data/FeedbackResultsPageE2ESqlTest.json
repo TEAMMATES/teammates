@@ -107,7 +107,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
+        "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Alice Betsy",
       "email": "FRes.alice.b@gmail.tmt",
@@ -121,7 +121,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
+        "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Benny Charles",
       "email": "FRes.benny.c@gmail.tmt",
@@ -135,7 +135,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
+        "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Charlie Davis",
       "email": "FRes.charlie.d@gmail.tmt",
@@ -149,7 +149,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
+        "id": "00000000-0000-4000-8000-000000000302"
       },
       "name": "Unregistered",
       "email": "Unregistered@gmail.tmt",
@@ -163,7 +163,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
+        "id": "00000000-0000-4000-8000-000000000302"
       },
       "name": "Danny Engrid",
       "email": "FRes.danny.e@gmail.tmt",
@@ -177,7 +177,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
+        "id": "00000000-0000-4000-8000-000000000303"
       },
       "name": "Emily",
       "email": "FRes.emily.f@gmail.tmt",
@@ -525,6 +525,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000801",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -548,6 +551,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000801",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -571,6 +577,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -594,6 +603,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -617,6 +629,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -640,6 +655,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -663,6 +681,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -686,6 +707,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "shouldAllowRichText": true,
           "questionType": "TEXT",
@@ -711,6 +735,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000803",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": false,
           "mcqWeights": [],
@@ -742,6 +769,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000803",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": false,
           "mcqWeights": [],
@@ -773,6 +803,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000803",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": false,
           "mcqWeights": [],
@@ -804,6 +837,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000803",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": false,
           "mcqWeights": [],
@@ -835,6 +871,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000804",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "msqChoices": [],
           "otherEnabled": false,
@@ -867,6 +906,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000804",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "msqChoices": [],
           "otherEnabled": false,
@@ -897,6 +939,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minScale": 1,
           "maxScale": 5,
@@ -922,6 +967,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minScale": 1,
           "maxScale": 5,
@@ -947,6 +995,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minScale": 1,
           "maxScale": 5,
@@ -972,6 +1023,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minScale": 1,
           "maxScale": 5,
@@ -997,6 +1051,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minScale": 1,
           "maxScale": 5,
@@ -1022,6 +1079,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minScale": 1,
           "maxScale": 5,
@@ -1047,6 +1107,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minScale": 1,
           "maxScale": 5,
@@ -1072,6 +1135,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000806",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "constSumOptions": ["Grades", "Fun"],
           "distributeToRecipients": false,
@@ -1100,6 +1166,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000806",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "constSumOptions": ["Grades", "Fun"],
           "distributeToRecipients": false,
@@ -1128,6 +1197,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000807",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "constSumOptions": [],
           "distributeToRecipients": true,
@@ -1156,6 +1228,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000807",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "constSumOptions": [],
           "distributeToRecipients": true,
@@ -1184,6 +1259,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000807",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "constSumOptions": [],
           "distributeToRecipients": true,
@@ -1212,6 +1290,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000807",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "constSumOptions": [],
           "distributeToRecipients": true,
@@ -1240,6 +1321,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000807",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "constSumOptions": [],
           "distributeToRecipients": true,
@@ -1268,6 +1352,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000808",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "options": [
             "Teamwork",
@@ -1299,6 +1386,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000808",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "options": [
             "Teamwork",
@@ -1330,6 +1420,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000808",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "options": [
             "Teamwork",
@@ -1361,6 +1454,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000809",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minOptionsToBeRanked": 1,
           "maxOptionsToBeRanked": -2147483648,
@@ -1386,6 +1482,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000809",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minOptionsToBeRanked": 1,
           "maxOptionsToBeRanked": -2147483648,
@@ -1411,6 +1510,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000809",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minOptionsToBeRanked": 1,
           "maxOptionsToBeRanked": -2147483648,
@@ -1436,6 +1538,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000809",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "minOptionsToBeRanked": 1,
           "maxOptionsToBeRanked": -2147483648,
@@ -1461,6 +1566,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
@@ -1512,6 +1620,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
@@ -1563,6 +1674,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
@@ -1614,6 +1728,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
@@ -1665,6 +1782,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
@@ -1716,6 +1836,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
@@ -1767,6 +1890,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
@@ -1818,6 +1944,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -1842,6 +1971,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -1866,6 +1998,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -1890,6 +2025,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -1914,6 +2052,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -1938,6 +2079,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -1962,6 +2106,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -1986,6 +2133,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -2010,6 +2160,9 @@
       },
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
         "questionDetails": {
           "isZeroSum": true,
           "isNotSureAllowed": false,
@@ -2051,7 +2204,8 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
-      "createdAt": "2026-02-02T23:59:00Z"
+      "createdAt": "2026-02-02T23:59:00Z",
+      "lastEditorEmail": "FRes.instr@gmail.tmt"
     },
     "qn2Comment2": {
       "id": 1,
@@ -2102,7 +2256,8 @@
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "createdAt": "2026-03-02T23:59:00Z"
+      "createdAt": "2026-03-02T23:59:00Z",
+      "lastEditorEmail": "FRes.benny.c@gmail.tmt"
     },
     "qn3Comment2": {
       "id": 3,
@@ -2128,7 +2283,8 @@
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "createdAt": "2026-03-02T23:59:00Z"
+      "createdAt": "2026-03-02T23:59:00Z",
+      "lastEditorEmail": "FRes.alice.b@gmail.tmt"
     },
     "qn4Comment1": {
       "id": 4,
@@ -2154,7 +2310,8 @@
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "createdAt": "2026-03-02T23:59:00Z"
+      "createdAt": "2026-03-02T23:59:00Z",
+      "lastEditorEmail": "FRes.danny.e@gmail.tmt"
     }
   },
   "notifications": {},
