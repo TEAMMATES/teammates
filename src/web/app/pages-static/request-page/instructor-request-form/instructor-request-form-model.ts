@@ -1,4 +1,4 @@
-export type InstructorRequestFormData = {
+export type InstructorRequestFormModel = {
     name: string,
     institution: string,
     country: string,

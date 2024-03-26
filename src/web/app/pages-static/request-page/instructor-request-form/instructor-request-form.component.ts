@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { InstructorRequestFormData } from './InstructorRequestFormData';
+import { InstructorRequestFormModel } from './instructor-request-form-model';
 
 // eslint-disable-next-line
 const URL_REGEX = /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -31,7 +31,7 @@ export class InstructorRequestFormComponent {
 
   hasSubmitAttempt = false;
 
-  @Output() requestSubmitted = new EventEmitter<InstructorRequestFormData>();
+  @Output() requestSubmissionEvent = new EventEmitter<InstructorRequestFormModel>();
 
   isFieldRequired(field: FormControl): boolean {
     return field.hasValidator(Validators.required);
@@ -81,7 +81,7 @@ export class InstructorRequestFormComponent {
     submittedData; // PLACEHOLDER
 
     // Pass form input to parent to display confirmation
-    this.requestSubmitted.emit({
+    this.requestSubmissionEvent.emit({
       name,
       institution,
       country,

@@ -15,7 +15,7 @@
       <button type="button" class="btn btn-primary ms-3" (click)="onDeclarationButtonClicked()">I am an instructor</button>
     </div>
     <div *ngIf="isDeclarationDone">
-      <tm-instructor-request-form *ngIf="!submittedFormData" (requestSubmitted)="onRequestSubmitted($event)"></tm-instructor-request-form>
+      <tm-instructor-request-form *ngIf="!submittedFormData" (requestSubmissionEvent)="onRequestSubmitted($event)"></tm-instructor-request-form>
     </div>
     <hr>
   </div>
