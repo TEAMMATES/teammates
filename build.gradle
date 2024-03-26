@@ -137,6 +137,10 @@ sourceSets {
     }
 }
 
+if (!project.hasProperty("runList")) {
+    project.ext.set("runList", "main")
+}
+
 liquibase {
     activities {
         main {
@@ -162,7 +166,7 @@ liquibase {
             url "offline:postgresql?snapshot=liquibase-snapshot.json"
         }
     }
-    runList = "main"
+    runList = project.ext.runList
 }
 
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
