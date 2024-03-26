@@ -65,7 +65,7 @@ export class InstructorRequestFormComponent {
     const email = this.email.value!.trim();
     const country = this.country.value!.trim();
     const institution = this.institution.value!.trim();
-    const combinedInstitution = `${country} ${institution}`;
+    const combinedInstitution = `${institution}, ${country}`;
     const homePage = this.homePage.value!;
     const comments = this.comments.value!.trim();
 
