@@ -33,7 +33,7 @@ describe('InstructorRequestFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should raise requestSubmissionEvent when submit button is clicked', () => {
+  it('should emit requestSubmissionEvent once when submit button is clicked', () => {
     jest.spyOn(component.requestSubmissionEvent, 'emit');
 
     fillFormWith(typicalModel);
@@ -43,7 +43,7 @@ describe('InstructorRequestFormComponent', () => {
     expect(component.requestSubmissionEvent.emit).toHaveBeenCalledTimes(1);
   });
 
-  it('should raise requestSubmissionEvent with the correct data when form is submitted', () => {
+  it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
     let actualModel: InstructorRequestFormModel | null = null;
     // Listen for event
     component.requestSubmissionEvent.pipe(first())
