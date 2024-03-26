@@ -36,11 +36,10 @@ describe('InstructorRequestFormComponent', () => {
   it('should raise requestSubmissionEvent when submit button is clicked', () => {
     jest.spyOn(component.requestSubmissionEvent, 'emit');
 
-    // Simulate form being submitted
     fillFormWith(typicalModel);
-    let submitButton = fixture.debugElement.query(By.css('.btn.btn-primary'));
-    submitButton.triggerEventHandler('click');
+    let submitButton = fixture.debugElement.query(By.css('#submit-button'));
     submitButton.nativeElement.click();
+
     expect(component.requestSubmissionEvent.emit).toHaveBeenCalledTimes(1);
   });
 
@@ -50,7 +49,6 @@ describe('InstructorRequestFormComponent', () => {
     component.requestSubmissionEvent.pipe(first())
         .subscribe((data: InstructorRequestFormModel) => (actualModel = data));
 
-    // Simulate form being submitted
     fillFormWith(typicalModel);
     component.onSubmit();
 
