@@ -162,7 +162,7 @@ liquibase {
             url "offline:postgresql?snapshot=liquibase-snapshot.json"
         }
     }
-    runList = project.ext.runList
+    runList = "main"
 }
 
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
