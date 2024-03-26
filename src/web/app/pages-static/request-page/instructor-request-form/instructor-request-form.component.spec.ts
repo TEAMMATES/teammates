@@ -16,7 +16,7 @@ describe('InstructorRequestFormComponent', () => {
     email: "jd@example.edu",
     homePage: "xyz.example.edu/john",
     comments: "",
-  }; 
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +31,10 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render correctly', () => {
+    expect(fixture).toMatchSnapshot();
   });
 
   it('should emit requestSubmissionEvent once when submit button is clicked', () => {
