@@ -39,6 +39,27 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 "/adminNewAccountRequestAlertEmailWithNoComments.html");
     }
 
+    @Test
+    void testGenerateNewAccountRequestAcknowledgementEmail_withComments_generatesSuccessfully() throws IOException {
+        AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader", "Sith Order",
+                AccountRequestStatus.PENDING,
+                "I Am Your Father");
+        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
+                "TEAMMATES: Acknowledgement of Instructor Account Request",
+                "/instructorNewAccountRequestAcknowledgementEmailWithComments.html");
+    }
+
+    @Test
+    void testGenerateNewAccountRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
+        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+                AccountRequestStatus.PENDING, null);
+        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
+                "TEAMMATES: Acknowledgement of Instructor Account Request",
+                "/instructorNewAccountRequestAcknowledgementEmailWithNoComments.html");
+    }
+
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
             String expectedSubject, String expectedEmailContentFilePathname) throws IOException {
         assertEquals(expectedRecipientEmailAddress, email.getRecipient());
