@@ -5,8 +5,7 @@ export interface AccountRequestTableRowModel {
     name: string;
     email: string;
     status: string;
-    institute: string;
-    country: string;
+    instituteAndCountry: string;
     createdAtText: string;
     registeredAtText: string;
     comments: string;

@@ -18,8 +18,7 @@
           <th>Name</th>
           <th>Email</th>
           <th>Status</th>
-          <th>Institute</th>
-          <th>Country</th>
+          <th>Institute, Country</th>
           <th>Created At</th>
           <th *ngIf="searchString">Registered At</th>
           <th>Comments</th>
@@ -42,8 +41,7 @@
             </td>
             <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
             <td>{{ accountRequest.status }}</td>
-            <td [innerHtml]="accountRequest.institute | highlighter:searchString:true">{{ accountRequest.institute }}</td>
-            <td>{{ accountRequest.country }}</td>
+            <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true">{{ accountRequest.instituteAndCountry }}</td>
             <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
             <td *ngIf="searchString" id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
             <td>
@@ -70,7 +68,7 @@
             </td>
           </tr>
           <tr *ngIf="accountRequest.showLinks && searchString">
-            <td colspan="100">
+            <td colspan="8">
               <ul class="list-group" *ngIf="accountRequest.showLinks" @collapseAnim>
                 <li class="list-group-item list-group-item-info">
                   <strong>Account Registration Link</strong>

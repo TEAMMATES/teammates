@@ -21,6 +21,7 @@ import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequestStatus } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
+import { AccountRequestStatus } from '../../../types/api-output';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -75,10 +76,12 @@ const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
   email: 'email',
   institute: 'institute',
   status: AccountRequestStatus.PENDING,
+  status: AccountRequestStatus.PENDING,
   registrationLink: 'registrationLink',
   createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
   registeredAtText: null,
   showLinks: false,
+  comments: '',
   comments: '',
 };
 
@@ -417,6 +420,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute1',
         country: '',
         status: AccountRequestStatus.PENDING,
+        status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
         registeredAtText: '',
@@ -427,6 +431,7 @@ describe('AdminSearchPageComponent', () => {
         email: 'email2',
         institute: 'institute2',
         country: '',
+        status: AccountRequestStatus.PENDING,
         status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink2',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
