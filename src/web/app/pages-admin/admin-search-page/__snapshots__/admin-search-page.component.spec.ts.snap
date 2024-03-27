@@ -433,7 +433,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
         100 characters left
       </span>
     </div>
-  </div><tm-account-requests-table>
+  </div><tm-account-request-table>
     <div
       class="card bg-light top-padded"
     >
@@ -541,7 +541,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
         </table>
       </div>
     </div>
-  </tm-account-requests-table>
+  </tm-account-request-table>
 </tm-admin-search-page>
 `;
 
