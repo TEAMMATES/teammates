@@ -83,6 +83,13 @@ public final class JsonUtils {
     }
 
     /**
+     * This creates a Gson object that can be reformatted to modify JSON output.
+     */
+    public static JsonObject toJsonObject(Object src) {
+        return (JsonObject) getGsonInstance(true).toJsonTree(src);
+    }
+
+    /**
      * Serializes and pretty-prints the specified object into its equivalent JSON string.
      *
      * @see Gson#toJson(Object, Type)
