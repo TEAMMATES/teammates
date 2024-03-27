@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - multiple-course-structures
 
 jobs:
   lint:

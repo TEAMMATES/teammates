@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - release
+      - multiple-course-structures
   pull_request:
     branches:
       - master
       - release
+      - multiple-course-structures
 jobs:
   axe-testing:
     runs-on: ubuntu-latest
