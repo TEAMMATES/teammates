@@ -18,9 +18,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { ApiConst } from '../../../types/api-const';
 import { Email, MessageOutput, RegenerateKey } from '../../../types/api-output';
-import {
-  AccountRequestData,
-} from '../../components/account-requests-table/account-requests-table.component';
+import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -111,8 +109,8 @@ export class AdminSearchPageComponent {
     });
   }
 
-  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestData[] {
-    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestData => {
+  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestTableRowModel[] {
+    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestTableRowModel => {
       const [institute, country] = accountRequest.institute.split(', ').length === 2
       ? accountRequest.institute.split(', ') : [accountRequest.institute, ''];
       return {

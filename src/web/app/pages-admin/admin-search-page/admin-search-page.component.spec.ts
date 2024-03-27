@@ -20,7 +20,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequestStatus } from '../../../types/api-output';
-import { AccountRequestData } from '../../components/account-requests-table/account-requests-table.component';
+import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -410,7 +410,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display account request results', () => {
-    const accountRequestResults: AccountRequestData[] = [
+    const accountRequestResults: AccountRequestTableRowModel[] = [
       {
         name: 'name1',
         email: 'email1',
