@@ -6,6 +6,7 @@ on:
       - reopened
     branches:
       - master
+      - multiple-course-structures
 
 jobs:
   check-pr:
