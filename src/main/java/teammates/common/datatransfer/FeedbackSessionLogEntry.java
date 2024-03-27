@@ -5,7 +5,9 @@ package teammates.common.datatransfer;
  */
 public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEntry> {
     private final String courseId;
+    private final String studentId;
     private final String studentEmail;
+    private final String feedbackSessionId;
     private final String feedbackSessionName;
     private final String feedbackSessionLogType;
     private final long timestamp;
@@ -13,7 +15,20 @@ public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEnt
     public FeedbackSessionLogEntry(String courseId, String studentEmail,
             String feedbackSessionName, String feedbackSessionLogType, long timestamp) {
         this.courseId = courseId;
+        this.studentId = null;
         this.studentEmail = studentEmail;
+        this.feedbackSessionId = null;
+        this.feedbackSessionName = feedbackSessionName;
+        this.feedbackSessionLogType = feedbackSessionLogType;
+        this.timestamp = timestamp;
+    }
+
+    public FeedbackSessionLogEntry(String courseId, String studentId, String studentEmail, String feedbackSessionId,
+            String feedbackSessionName, String feedbackSessionLogType, long timestamp) {
+        this.courseId = courseId;
+        this.studentId = studentId;
+        this.studentEmail = studentEmail;
+        this.feedbackSessionId = feedbackSessionId;
         this.feedbackSessionName = feedbackSessionName;
         this.feedbackSessionLogType = feedbackSessionLogType;
         this.timestamp = timestamp;
@@ -23,8 +38,16 @@ public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEnt
         return courseId;
     }
 
+    public String getStudentId() {
+        return studentId;
+    }
+
     public String getStudentEmail() {
         return studentEmail;
+    }
+
+    public String getFeedbackSessionId() {
+        return feedbackSessionId;
     }
 
     public String getFeedbackSessionName() {

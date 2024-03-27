@@ -1611,12 +1611,12 @@ public class Logic {
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.
      *
-     * @param studentEmail        Can be null
-     * @param feedbackSessionName Can be null
+     * @param studentId        Can be null
+     * @param feedbackSessionId Can be null
      */
-    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, String studentEmail,
-            String feedbackSessionName, Instant startTime, Instant endTime) {
-        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentEmail, feedbackSessionName, startTime,
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+            UUID feedbackSessionId, Instant startTime, Instant endTime) {
+        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
                 endTime);
     }
 }

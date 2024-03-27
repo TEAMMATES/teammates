@@ -3,6 +3,7 @@ package teammates.storage.sqlapi;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -37,11 +38,11 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.
      *
-     * @param studentEmail        Can be null
-     * @param feedbackSessionName Can be null
+     * @param studentId        Can be null
+     * @param feedbackSessionId Can be null
      */
-    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, String studentEmail,
-            String feedbackSessionName, Instant startTime, Instant endTime) {
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+            UUID feedbackSessionId, Instant startTime, Instant endTime) {
 
         assert courseId != null;
         assert startTime != null;
@@ -55,14 +56,14 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (studentEmail != null) {
-            predicates.add(cb.equal(studentJoin.get("email"), studentEmail));
+        if (studentId != null) {
+            predicates.add(cb.equal(studentJoin.get("id"), studentId));
         }
 
-        if (feedbackSessionName != null) {
-            predicates.add(cb.equal(feedbackSessionJoin.get("name"), feedbackSessionName));
+        if (feedbackSessionId != null) {
+            predicates.add(cb.equal(feedbackSessionJoin.get("id"), feedbackSessionId));
         }
-        
+
         predicates.add(cb.equal(feedbackSessionJoin.get("course").get("id"), courseId));
         predicates.add(cb.greaterThanOrEqualTo(root.get("timestamp"), startTime));
         predicates.add(cb.lessThan(root.get("timestamp"), endTime));

@@ -54,8 +54,8 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         fslDb.createFeedbackSessionLog(expected);
 
-        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student.getEmail(),
-                feedbackSession.getName(), logTimestamp, logTimestamp.plusSeconds(1));
+        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student.getId(),
+                feedbackSession.getId(), logTimestamp, logTimestamp.plusSeconds(1));
 
         assertEquals(actualLogs.size(), 1);
         assertEquals(expected, actualLogs.get(0));
@@ -125,7 +125,8 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         expectedLogs.add(student2Session1Log1);
         expectedLogs.add(student2Session2Log1);
 
-        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), null, null, startTime, endTime);
+        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), null, null,
+                startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
@@ -136,7 +137,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         expectedLogs.add(student1Session1Log3);
         expectedLogs.add(student1Session2Log1);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), student1.getEmail(), null, startTime, endTime);
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), student1.getId(), null, startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
@@ -145,7 +146,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         expectedLogs.add(student1Session2Log1);
         expectedLogs.add(student2Session2Log1);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), null, session2.getName(), startTime, endTime);
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), null, session2.getId(), startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
@@ -153,7 +154,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         expectedLogs = new ArrayList<>();
         expectedLogs.add(student2Session2Log1);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), student2.getEmail(), session2.getName(), startTime,
+        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course1.getId(), student2.getId(), session2.getId(), startTime,
                 endTime);
 
         assertEquals(expectedLogs, actualLogs);

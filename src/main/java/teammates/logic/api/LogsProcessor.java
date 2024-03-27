@@ -51,6 +51,14 @@ public class LogsProcessor {
     }
 
     /**
+     * Creates a feedback session log.
+     */
+    public void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+            String fslType) {
+        service.createFeedbackSessionLog(courseId, studentId, email, fsId, fsName, fslType);
+    }
+
+    /**
      * Gets the feedback session logs as filtered by the given parameters ordered by ascending timestamp.
      * @param email Can be null
      */

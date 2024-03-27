@@ -30,6 +30,15 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     /**
+     * Simulates insertion of feedback session logs.
+     */
+    public void insertFeedbackSessionLog(String courseId, String studentId, String studentEmail,
+            String feedbackSessionId, String feedbackSessionName, String fslType, long timestamp) {
+        feedbackSessionLogs.add(new FeedbackSessionLogEntry(courseId, studentId, studentEmail, feedbackSessionId,
+                feedbackSessionName, fslType, timestamp));
+    }
+
+    /**
      * Simulates insertion of general INFO logs.
      */
     public void insertInfoLog(String trace, String insertId, SourceLocation sourceLocation,
@@ -98,7 +107,8 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
+    public void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+            String fslType) {
         // No-op
     }
 

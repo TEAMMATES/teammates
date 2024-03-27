@@ -209,6 +209,14 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
+    public void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+            String fslType) {
+        FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(courseId, studentId, email, fsId, fsName,
+                fslType, Instant.now().toEpochMilli());
+        FEEDBACK_SESSION_LOG_ENTRIES.computeIfAbsent(courseId, k -> new ArrayList<>()).add(logEntry);
+    }
+
+    @Override
     public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         return FEEDBACK_SESSION_LOG_ENTRIES

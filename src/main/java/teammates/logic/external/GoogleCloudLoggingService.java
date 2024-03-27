@@ -115,6 +115,14 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
+    public void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+            String fslType) {
+        // This method is not necessary for production usage because a feedback session log
+        // is already separately created through the standardized logging infrastructure.
+        // However, this method is not removed as it is necessary to assist in local testing.
+    }
+
+    @Override
     public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         List<String> filters = new ArrayList<>();
@@ -155,7 +163,8 @@ public class GoogleCloudLoggingService implements LogService {
             }
 
             FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getCourseId(),
-                    details.getStudentEmail(), details.getFeedbackSessionName(), details.getAccessType(), timestamp);
+                    details.getStudentId(), details.getStudentEmail(), details.getFeedbackSessionId(),
+                    details.getFeedbackSessionName(), details.getAccessType(), timestamp);
             fsLogEntries.add(fslEntry);
         }
 

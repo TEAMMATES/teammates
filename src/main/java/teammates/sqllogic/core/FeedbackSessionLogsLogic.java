@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -44,12 +45,12 @@ public final class FeedbackSessionLogsLogic {
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.
      *
-     * @param studentEmail        Can be null
-     * @param feedbackSessionName Can be null
+     * @param studentId        Can be null
+     * @param feedbackSessionId Can be null
      */
-    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, String studentEmail,
-            String feedbackSessionName, Instant startTime, Instant endTime) {
-        return fslDb.getOrderedFeedbackSessionLogs(courseId, studentEmail, feedbackSessionName, startTime,
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+            UUID feedbackSessionId, Instant startTime, Instant endTime) {
+        return fslDb.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
                 endTime);
     }
 }

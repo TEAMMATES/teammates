@@ -22,6 +22,12 @@ public interface LogService {
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType);
 
     /**
+     * Creates a feedback session log.
+     */
+    void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+            String fslType);
+
+    /**
      * Gets the feedback session logs as filtered by the given parameters ordered by ascending timestamp.
      */
     List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,

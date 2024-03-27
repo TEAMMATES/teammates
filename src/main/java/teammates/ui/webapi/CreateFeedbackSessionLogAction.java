@@ -4,6 +4,8 @@ import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.
@@ -35,14 +37,33 @@ class CreateFeedbackSessionLogAction extends Action {
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light
 
-        // Necessary to assist local testing. For production usage, this will be a no-op.
-        logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
-
         FeedbackSessionAuditLogDetails details = new FeedbackSessionAuditLogDetails();
         details.setCourseId(courseId);
         details.setFeedbackSessionName(fsName);
         details.setStudentEmail(studentEmail);
         details.setAccessType(fslType);
+
+        if (isCourseMigrated(courseId)) {
+            Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
+            FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsName, courseId);
+            String studentId = null;
+            String fsId = null;
+
+            if (student != null) {
+                studentId = student.getId().toString();
+                details.setStudentId(studentId);
+            }
+
+            if (feedbackSession != null) {
+                fsId = feedbackSession.getId().toString();
+                details.setFeedbackSessionId(fsId);
+            }
+            // Necessary to assist local testing. For production usage, this will be a no-op.
+            logsProcessor.createFeedbackSessionLog(courseId, studentId, studentEmail, fsId, fsName, fslType);
+        } else {
+            // Necessary to assist local testing. For production usage, this will be a no-op.
+            logsProcessor.createFeedbackSessionLog(courseId, null, studentEmail, null, fsName, fslType);
+        }
 
         log.event("Feedback session audit event: " + fslType, details);
 
