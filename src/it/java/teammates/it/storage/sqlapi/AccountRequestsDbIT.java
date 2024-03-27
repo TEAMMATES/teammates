@@ -1,11 +1,13 @@
 package teammates.it.storage.sqlapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
@@ -70,6 +72,23 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         AccountRequest actualAccountRequest =
                 accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
         assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
+        UUID id = UUID.randomUUID();
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+        AccountRequest expectedAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        UUID id = expectedAccountRequest.getId();
+        accountRequestDb.createAccountRequest(expectedAccountRequest);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 
     @Test

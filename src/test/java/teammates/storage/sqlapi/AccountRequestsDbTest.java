@@ -10,6 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
@@ -68,6 +69,26 @@ public class AccountRequestsDbTest extends BaseTestCase {
                 .when(accountRequestDb).getAccountRequest(anyString(), anyString());
         accountRequestDb.createAccountRequest(accountRequest);
         mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
+    }
+
+    @Test
+    public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
+        UUID id = UUID.randomUUID();
+        mockHibernateUtil.when(() -> HibernateUtil.get(AccountRequest.class, id)).thenReturn(null);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(AccountRequest.class, id));
+        assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
+        AccountRequest expectedAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        UUID id = expectedAccountRequest.getId();
+        mockHibernateUtil.when(() -> HibernateUtil.get(AccountRequest.class, id)).thenReturn(expectedAccountRequest);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(AccountRequest.class, id));
+        assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 
     @Test

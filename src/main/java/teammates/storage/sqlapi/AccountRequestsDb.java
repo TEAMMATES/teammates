@@ -56,6 +56,14 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
+     * Get AccountRequest by {@code id} from the database.
+     */
+    public AccountRequest getAccountRequest(UUID id) {
+        assert id != null;
+        return HibernateUtil.get(AccountRequest.class, id);
+    }
+
+    /**
      * Get AccountRequest by {@code email} and {@code institute} from database.
      */
     public AccountRequest getAccountRequest(String email, String institute) {
