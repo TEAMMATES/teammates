@@ -12,7 +12,6 @@ import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
 import {
-  AccountRequestSearchResult,
   FeedbackSessionsGroup, InstructorAccountSearchResult,
   SearchService, StudentAccountSearchResult,
 } from '../../../services/search.service';
@@ -20,6 +19,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequestStatus } from '../../../types/api-output';
+import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -69,14 +69,14 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
 };
 
-const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
+const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestTableRowModel = {
   name: 'name',
   email: 'email',
-  institute: 'institute',
+  instituteAndCountry: 'institute',
   status: AccountRequestStatus.PENDING,
   registrationLink: 'registrationLink',
   createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-  registeredAtText: null,
+  registeredAtText: '',
   showLinks: false,
   comments: '',
 };
@@ -241,11 +241,11 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name',
         email: 'email',
-        institute: 'institute',
+        instituteAndCountry: 'institute',
         status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: null,
+        registeredAtText: '',
         showLinks: true,
         comments: '',
       },
@@ -409,11 +409,11 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display account request results', () => {
-    const accountRequestResults: AccountRequestSearchResult[] = [
+    const accountRequestResults: AccountRequestTableRowModel[] = [
       {
         name: 'name1',
         email: 'email1',
-        institute: 'institute1',
+        instituteAndCountry: 'institute1',
         status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
@@ -423,7 +423,7 @@ describe('AdminSearchPageComponent', () => {
       }, {
         name: 'name2',
         email: 'email2',
-        institute: 'institute2',
+        instituteAndCountry: 'institute2',
         status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink2',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
@@ -435,10 +435,12 @@ describe('AdminSearchPageComponent', () => {
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
       instructors: [],
-      accountRequests: accountRequestResults,
+      accountRequests: accountRequestResults.map((result) => ({
+        ...result,
+        institute: result.instituteAndCountry,
+      })),
     }));
 
-    component.searchQuery = 'name';
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
 
@@ -487,8 +489,9 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show account request links when expand all button clicked', () => {
-    const accountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT;
+    const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT;
     component.accountRequests = [accountRequestResult];
+    component.searchQuery = 'test'; // To show the account request table
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#show-account-request-links');
@@ -954,6 +957,7 @@ describe('AdminSearchPageComponent', () => {
   it('should show error message when resetting account request is unsuccessful', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
     component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
+    component.searchQuery = 'test';
     fixture.detectChanges();
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
@@ -980,6 +984,7 @@ describe('AdminSearchPageComponent', () => {
   it('should show success message when resetting account request is successful', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
     component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
+    component.searchQuery = 'test';
     fixture.detectChanges();
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
