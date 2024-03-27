@@ -113,8 +113,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "name": "Teammates Test",
-      "email": "FRes.instr@gmail.tmt",
-      "regKey": "A3D4BAF0979B66B81E29471BD5B48ED02D4C326296CAAE88CEB7E6490A4B041D4F8A7762D1D1466B0480A716AFE83877D4023D940BE29094F14BB68E4F965BFF"
+      "email": "FRes.instr@gmail.tmt"
     },
     "FRes.instr2": {
       "isDisplayedToStudents": true,
@@ -143,8 +142,7 @@
         "id": "tm.e2e.FRes.CS2104"
       },
       "name": "Teammates Test 2",
-      "email": "FRes.instr2@gmail.tmt",
-      "regKey": "F34E1B5B7C26E036028CF389930E0A76AD090A32A2CA4A391A43DF74D05D1D13E9EBD4032767B5FF7CA1106A2189EE7F2439CAF26AD900CBCD0B307693E299F0"
+      "email": "FRes.instr2@gmail.tmt"
     }
   },
   "students": {
@@ -162,8 +160,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Alice Betsy",
-      "email": "FRes.alice.b@gmail.tmt",
-      "regKey": "263B6BE0065E8D2CE547990B968C55269BBF979EDD08808B815CB748176E61CBCA3220E040493E0A8397E00D938CF636BD10817365480862557433E0BD956F51"
+      "email": "FRes.alice.b@gmail.tmt"
     },
     "Benny": {
       "comments": "This student's name is Benny Charles",
@@ -179,8 +176,7 @@
         "id": "00000000-0000-4000-8000-000000000004"
       },
       "name": "Benny Charles",
-      "email": "FRes.benny.c@gmail.tmt",
-      "regKey": "33ED0C180072D20339B30B65985472B19BBF979EDD08808B815CB748176E61CB597BA2A314408B048AA8266F277AA01E2C1ABC958323D6E2655AEB74821563B3"
+      "email": "FRes.benny.c@gmail.tmt"
     },
     "Charlie": {
       "comments": "This student's name is Charlie Davis",
@@ -196,8 +192,7 @@
         "id": "00000000-0000-4000-8000-000000000005"
       },
       "name": "Charlie Davis",
-      "email": "FRes.charlie.d@gmail.tmt",
-      "regKey": "6D0E18DE239346D409D63C583FA5B0A80ABF0C2979BEB3B83B66B26A1F3681529D1509BD5E6E242AFCF33BF6CEAF0445404CAD429B868FD6AC5ED154EFDFD969"
+      "email": "FRes.charlie.d@gmail.tmt"
     },
     "Unregistered": {
       "comments": "This student has not registered",
@@ -210,8 +205,7 @@
         "id": "00000000-0000-4000-8000-000000000302"
       },
       "name": "Unregistered",
-      "email": "Unregistered@gmail.tmt",
-      "regKey": "535B22743B00F85C26D16E7BE479CBC89BBF979EDD08808B815CB748176E61CB8215653A4161D79600C436027F7BFF7D50D9B3D0960F5BD7A9DF8727898302F0"
+      "email": "Unregistered@gmail.tmt"
     },
     "Danny": {
       "comments": "This student's name is Danny Engrid",
@@ -227,8 +221,7 @@
         "id": "00000000-0000-4000-8000-000000000006"
       },
       "name": "Danny Engrid",
-      "email": "FRes.danny.e@gmail.tmt",
-      "regKey": "546B277496A8657B220BBF562C5E08B59BBF979EDD08808B815CB748176E61CB13243E0FE3652B1D3DCDC3BEB10F51E01810A783CB370F682D3EFDCE5D4F094B"
+      "email": "FRes.danny.e@gmail.tmt"
     },
     "Emily": {
       "comments": "This student's name is Emily",
@@ -244,8 +237,7 @@
         "id": "00000000-0000-4000-8000-000000000007"
       },
       "name": "Emily",
-      "email": "FRes.emily.f@gmail.tmt",
-      "regKey": "FCF08E3746C4AF4751621D6DEA2ECA9B9BBF979EDD08808B815CB748176E61CBE1D43435EE6B2278BB632889AB6D7A31A334041AA2CB17523921AFBB3A5E7250"
+      "email": "FRes.emily.f@gmail.tmt"
     }
   },
   "feedbackSessions": {
