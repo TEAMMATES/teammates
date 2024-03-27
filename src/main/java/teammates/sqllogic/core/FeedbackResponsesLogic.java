@@ -344,7 +344,7 @@ public final class FeedbackResponsesLogic {
      */
     private void makeRankRecipientQuestionResponsesConsistent(
             FeedbackQuestion question, SqlCourseRoster roster) {
-        assert !question.getQuestionDetailsCopy().getQuestionType()
+        assert question.getQuestionDetailsCopy().getQuestionType()
                 .equals(FeedbackQuestionType.RANK_RECIPIENTS);
 
         FeedbackParticipantType giverType = question.getGiverType();
