@@ -1611,7 +1611,6 @@ public class Logic {
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.
      *
-     * @param courseId            Can be null
      * @param studentEmail        Can be null
      * @param feedbackSessionName Can be null
      */

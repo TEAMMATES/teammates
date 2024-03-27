@@ -37,13 +37,13 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.
      *
-     * @param courseId            Can be null
      * @param studentEmail        Can be null
      * @param feedbackSessionName Can be null
      */
     public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, String studentEmail,
             String feedbackSessionName, Instant startTime, Instant endTime) {
 
+        assert courseId != null;
         assert startTime != null;
         assert endTime != null;
 
@@ -55,10 +55,6 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (courseId != null) {
-            predicates.add(cb.equal(feedbackSessionJoin.get("course").get("id"), courseId));
-        }
-
         if (studentEmail != null) {
             predicates.add(cb.equal(studentJoin.get("email"), studentEmail));
         }
@@ -66,7 +62,8 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
         if (feedbackSessionName != null) {
             predicates.add(cb.equal(feedbackSessionJoin.get("name"), feedbackSessionName));
         }
-
+        
+        predicates.add(cb.equal(feedbackSessionJoin.get("course").get("id"), courseId));
         predicates.add(cb.greaterThanOrEqualTo(root.get("timestamp"), startTime));
         predicates.add(cb.lessThan(root.get("timestamp"), endTime));
 
