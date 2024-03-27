@@ -54,13 +54,13 @@ export class AccountRequestTableComponent {
   resetAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.institute}</strong>?
+        <strong>${accountRequest.instituteAndCountry}</strong>?
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
-      this.accountService.resetAccountRequest(accountRequest.email, accountRequest.institute)
+      this.accountService.resetAccountRequest(accountRequest.email, accountRequest.instituteAndCountry)
         .subscribe({
           next: () => {
             this.statusMessageService
@@ -77,12 +77,12 @@ export class AccountRequestTableComponent {
   deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalContent: string = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.institute}</strong>?`;
+        <strong>${accountRequest.instituteAndCountry}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Delete account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
-      this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
+      this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.instituteAndCountry)
       .subscribe({
         next: (resp: MessageOutput) => {
           this.statusMessageService.showSuccessToast(resp.message);

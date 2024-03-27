@@ -252,17 +252,11 @@ export class AdminHomePageComponent implements OnInit {
   private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return requests.accountRequests.map((request) => {
-      const lastCommaIndex = request.institute.lastIndexOf(', ');
-      const [institute, country] = lastCommaIndex === -1
-        ? [request.institute, '']
-        : [request.institute.slice(0, lastCommaIndex), request.institute.slice(lastCommaIndex + 2)];
-
       return {
         name: request.name,
         email: request.email,
         status: request.status,
-        institute,
-        country,
+        instituteAndCountry: request.institute,
         createdAtText: this.formatDateDetailPipe.transform(request.createdAt, timezone),
         registeredAtText: request.registeredAt
         ? this.formatDateDetailPipe.transform(request.registeredAt, timezone) : '',
