@@ -36,9 +36,6 @@ export class AdminHomePageComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 20;
   items$: Observable<any> = of([]);
-  currentPage: number = 1;
-  pageSize: number = 20;
-  items$: Observable<any> = of([]);
 
   isAddingInstructors: boolean = false;
 
