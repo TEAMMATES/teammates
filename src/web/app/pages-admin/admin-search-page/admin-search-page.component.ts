@@ -17,10 +17,10 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { ApiConst } from '../../../types/api-const';
-import { Email, MessageOutput, RegenerateKey } from '../../../types/api-output';
+import { Email, RegenerateKey } from '../../../types/api-output';
 import {
-  AccountRequestData,
-} from '../../components/account-requests-table/account-requests-table.component';
+  AccountRequestTableRowModel,
+} from '../../components/account-requests-table/account-request-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -40,7 +40,7 @@ export class AdminSearchPageComponent {
   searchString: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
-  accountRequests: AccountRequestSearchResult[] = [];
+  accountRequests: AccountRequestTableRowModel[] = [];
   characterLimit = 100;
 
   constructor(
@@ -111,16 +111,13 @@ export class AdminSearchPageComponent {
     });
   }
 
-  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestData[] {
-    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestData => {
-      const [institute, country] = accountRequest.institute.split(', ').length === 2
-      ? accountRequest.institute.split(', ') : [accountRequest.institute, ''];
+  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestTableRowModel[] {
+    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestTableRowModel => {
       return {
         name: accountRequest.name,
         email: accountRequest.email,
         status: accountRequest.status,
-        institute,
-        country,
+        instituteAndCountry: accountRequest.institute,
         createdAtText: accountRequest.createdAtText,
         registeredAtText: accountRequest.registeredAtText || '',
         comments: accountRequest.comments,
@@ -266,27 +263,6 @@ export class AdminSearchPageComponent {
               this.statusMessageService.showErrorToast(response.error.message);
             },
           });
-    }, () => {});
-  }
-
-  deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
-    const modalContent: string = `Are you sure you want to delete the account request for
-        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.institute}</strong>?`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
-
-    modalRef.result.then(() => {
-      this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
-      .subscribe({
-        next: (resp: MessageOutput) => {
-          this.statusMessageService.showSuccessToast(resp.message);
-          this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
     }, () => {});
   }
 
