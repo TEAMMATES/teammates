@@ -252,8 +252,10 @@ export class AdminHomePageComponent implements OnInit {
   private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return requests.accountRequests.map((request) => {
-      const [institute, country] = request.institute.split(', ').length === 2
-      ? request.institute.split(', ') : [request.institute, ''];
+      const lastCommaIndex = request.institute.lastIndexOf(', ');
+      const [institute, country] = lastCommaIndex === -1
+        ? [request.institute, '']
+        : [request.institute.slice(0, lastCommaIndex), request.institute.slice(lastCommaIndex + 2)];
 
       return {
         name: request.name,
