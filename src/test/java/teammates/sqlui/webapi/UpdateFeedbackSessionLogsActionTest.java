@@ -91,12 +91,12 @@ public class UpdateFeedbackSessionLogsActionTest
 
         reset(mockLogic);
 
-        when(mockLogic.getStudent(student1.getId())).thenReturn(student1);
-        when(mockLogic.getStudent(student2.getId())).thenReturn(student2);
+        when(mockLogic.getStudentReference(student1.getId())).thenReturn(student1);
+        when(mockLogic.getStudentReference(student2.getId())).thenReturn(student2);
 
-        when(mockLogic.getFeedbackSession(session1InCourse1.getId())).thenReturn(session1InCourse1);
-        when(mockLogic.getFeedbackSession(session2InCourse1.getId())).thenReturn(session2InCourse1);
-        when(mockLogic.getFeedbackSession(session1InCourse2.getId())).thenReturn(session1InCourse2);
+        when(mockLogic.getFeedbackSessionReference(session1InCourse1.getId())).thenReturn(session1InCourse1);
+        when(mockLogic.getFeedbackSessionReference(session2InCourse1.getId())).thenReturn(session2InCourse1);
+        when(mockLogic.getFeedbackSessionReference(session1InCourse2.getId())).thenReturn(session1InCourse2);
 
         mockLogsProcessor.getOrderedFeedbackSessionLogs("", "", 0, 0, "").clear();
     }

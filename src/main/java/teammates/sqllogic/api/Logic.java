@@ -446,6 +446,15 @@ public class Logic {
     }
 
     /**
+     * Gets a feedback session reference.
+     *
+     * @return Returns a proxy for the feedback session.
+     */
+    public FeedbackSession getFeedbackSessionReference(UUID id) {
+        return feedbackSessionsLogic.getFeedbackSessionReference(id);
+    }
+
+    /**
      * Gets a feedback session from the recycle bin.
      *
      * <br/>Preconditions: <br/>
@@ -924,6 +933,16 @@ public class Logic {
      */
     public Student getStudent(UUID id) {
         return usersLogic.getStudent(id);
+    }
+
+    /**
+     * Gets student reference associated with {@code id}.
+     *
+     * @param id    Id of Student.
+     * @return      Returns a proxy for the Student.
+     */
+    public Student getStudentReference(UUID id) {
+        return usersLogic.getStudentReference(id);
     }
 
     /**

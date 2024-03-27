@@ -35,8 +35,6 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
                 startTime.toEpochMilli(), endTime.toEpochMilli(), null);
 
         Map<UUID, Map<String, Map<UUID, Map<String, Long>>>> lastSavedTimestamps = new HashMap<>();
-        Map<String, Map<UUID, Student>> studentsMap = new HashMap<>();
-        Map<String, Map<UUID, FeedbackSession>> sessionsMap = new HashMap<>();
         for (FeedbackSessionLogEntry logEntry : logEntries) {
 
             if (!isCourseMigrated(logEntry.getCourseId())) {
@@ -49,9 +47,6 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
             String type = logEntry.getFeedbackSessionLogType();
             Long timestamp = logEntry.getTimestamp();
 
-            studentsMap.computeIfAbsent(courseId, k -> new HashMap<>());
-            sessionsMap.computeIfAbsent(courseId, k -> new HashMap<>());
-
             lastSavedTimestamps.computeIfAbsent(studentId, k -> new HashMap<>());
             lastSavedTimestamps.get(studentId).computeIfAbsent(courseId, k -> new HashMap<>());
             lastSavedTimestamps.get(studentId).get(courseId).computeIfAbsent(fbSessionId, k -> new HashMap<>());
@@ -59,10 +54,8 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
 
             if (Math.abs(timestamp - lastSaved) > SPAM_FILTER) {
                 lastSavedTimestamps.get(studentId).get(courseId).get(fbSessionId).put(type, timestamp);
-                Student student = studentsMap.get(courseId).computeIfAbsent(studentId,
-                        k -> sqlLogic.getStudent(studentId));
-                FeedbackSession feedbackSession = sessionsMap.get(courseId).computeIfAbsent(fbSessionId,
-                        k -> sqlLogic.getFeedbackSession(fbSessionId));
+                Student student = sqlLogic.getStudentReference(studentId);
+                FeedbackSession feedbackSession = sqlLogic.getFeedbackSessionReference(fbSessionId);
                 FeedbackSessionLog fslEntity = new FeedbackSessionLog(student, feedbackSession,
                         FeedbackSessionLogType.valueOfLabel(type), Instant.ofEpochMilli(timestamp));
                 filteredLogs.add(fslEntity);
