@@ -7,6 +7,7 @@ import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-ins
 import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
 const routes: Routes = [
   {
@@ -33,6 +34,9 @@ const routes: Routes = [
     AccountRequestTableModule,
     AjaxLoadingModule,
     LoadingSpinnerModule,
+  ],
+  providers: [
+    FormatDateDetailPipe,
   ],
 })
 export class AdminHomePageModule { }
