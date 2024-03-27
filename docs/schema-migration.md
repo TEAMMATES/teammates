@@ -9,6 +9,9 @@ Teammates uses _[Liquibase]_(https://docs.liquibase.com/start/home.html), a data
 ## Liquibase in Teammates
 _Liquibase_ is made available using the [gradle plugin](https://github.com/liquibase/liquibase-gradle-plugin), providing _liquibase_ functions as tasks. Try `gradle tasks | grep "liquibase"` to see all the tasks available. In teammates, change logs (more in the next section) are written in _XML_.
 
+### Liquibase connection
+Amend the `liquibaseDbUrl`, `liquibaseUsername` and `liquibasePassword` in `gradle.properties` to allow the _Liquibase_ plugin to connect your database.
+
 ## Change logs, change sets and change types
 A _change log_ is a file that contains a series of _change sets_ (analagous to a transaction) which applies _change types_ (actions). You can refer to this page on liquibase on the types of [change types](https://docs.liquibase.com/change-types/home.html) that can be used.
 
