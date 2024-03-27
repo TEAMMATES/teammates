@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - release
+      - multiple-course-structures
   pull_request:
     branches:
       - master
       - release
+      - multiple-course-structures
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
