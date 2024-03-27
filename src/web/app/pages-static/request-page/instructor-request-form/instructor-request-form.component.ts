@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
-import { AccountService } from 'src/web/services/account.service';
+import { AccountService } from '../../../../services/account.service';
 import { finalize } from 'rxjs';
-import { ErrorMessageOutput } from 'src/web/app/error-message-output';
-import { AccountCreateRequest } from 'src/web/types/api-request';
-import { FormValidator } from 'src/web/types/form-validator';
+import { ErrorMessageOutput } from '../../../../app/error-message-output';
+import { AccountCreateRequest } from '../../../../types/api-request';
+import { FormValidator } from '../../../../types/form-validator';
 
 @Component({
   selector: 'tm-instructor-request-form',
