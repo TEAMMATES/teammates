@@ -38,7 +38,7 @@ export class AdminSearchPageComponent {
   searchString: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
-  accountRequests: AccountRequestSearchResult[] = [];
+  accountRequests: AccountRequestTableRowModel[] = [];
   characterLimit = 100;
 
   constructor(
@@ -111,14 +111,11 @@ export class AdminSearchPageComponent {
 
   private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestTableRowModel[] {
     return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestTableRowModel => {
-      const [institute, country] = accountRequest.institute.split(', ').length === 2
-      ? accountRequest.institute.split(', ') : [accountRequest.institute, ''];
       return {
         name: accountRequest.name,
         email: accountRequest.email,
         status: accountRequest.status,
-        institute,
-        country,
+        instituteAndCountry: accountRequest.institute,
         createdAtText: accountRequest.createdAtText,
         registeredAtText: accountRequest.registeredAtText || '',
         comments: accountRequest.comments,
@@ -279,7 +276,9 @@ export class AdminSearchPageComponent {
       .subscribe({
         next: (resp: MessageOutput) => {
           this.statusMessageService.showSuccessToast(resp.message);
-          this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
+          const formattedRequest = this.formatAccountRequests([accountRequest])[0];
+          this.accountRequests = this.accountRequests.filter(
+            (x: AccountRequestTableRowModel) => x !== formattedRequest);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
