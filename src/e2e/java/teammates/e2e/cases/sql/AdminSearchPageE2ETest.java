@@ -2,6 +2,7 @@ package teammates.e2e.cases.sql;
 
 import java.time.Instant;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -173,5 +174,12 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();
+    }
+
+    @AfterClass
+    public void classTeardown() {
+        for (AccountRequest request : testData.accountRequests.values()) {
+            BACKDOOR.deleteAccountRequest(request.getEmail(), request.getInstitute());
+        }
     }
 }
