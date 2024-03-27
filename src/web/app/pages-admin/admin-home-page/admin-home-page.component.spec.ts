@@ -15,6 +15,7 @@ import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref'
 import { AccountRequestStatus } from '../../../types/api-output';
 import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
