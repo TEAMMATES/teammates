@@ -298,8 +298,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract boolean doPutDocuments(DataBundle testData);
 
-    protected abstract boolean doPutDocumentsSql(SqlDataBundle testData);
-
     protected void putSqlDocuments(SqlDataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         boolean isOperationSuccess = doPutDocumentsSql(testData);
@@ -311,4 +309,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         }
         assertTrue(isOperationSuccess);
     }
+
+    protected abstract boolean doPutDocumentsSql(SqlDataBundle testData);
 }
