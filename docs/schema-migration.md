@@ -17,9 +17,9 @@ A _change log_ is a file that contains a series of _change sets_ (analagous to a
 2. Add changelog file to be included in the `db.changelog-root` as the last entry
 
 ## Generating liquibase change logs
-1. Delete `postgres-data` to clear any old database schemas
+1. Delete the `postgres-data` folder to clear any old database schemas
 2. Run `git checkout master` and 
-3. run the server using `./gradlew serverRun` to generate tables found on master
+3. Run the server using `./gradlew serverRun` to generate tables found on master
 4. Generate snapshot of database by running `./gradlew liquibaseSnapshot -PrunList=snapshot`, the snapshot will be output to `liquibase-snapshot.json`
 4. Checkout your branch and repeat steps 1 and 3 to generate the tables found on your branch
 5. Run `./gradlew liquibaseDiffChangeLog -PrunList=diffMain` to generate changeLog to resolve database schema differences
