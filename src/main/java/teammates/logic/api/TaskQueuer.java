@@ -228,8 +228,10 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, email);
         paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
-        addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
-                paramMap, null);
+        // TODO: change the action CreateAccountRequestAction to call scheduleAccountRequestForSearchIndexing
+        // after AccountRequest is inserted in the DB
+        addDeferredTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
+                paramMap, null, 60);
     }
 
     /**
