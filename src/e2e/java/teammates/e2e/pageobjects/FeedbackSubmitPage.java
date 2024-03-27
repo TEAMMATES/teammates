@@ -392,9 +392,22 @@ public class FeedbackSubmitPage extends AppPage {
         fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(responseDetails.getAnswer()));
     }
 
+    public void fillNumScaleResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackNumericalScaleResponseDetails responseDetails =
+                (FeedbackNumericalScaleResponseDetails) response.getFeedbackResponseDetailsCopy();
+        fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(responseDetails.getAnswer()));
+    }
+
     public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackNumericalScaleResponseDetails responseDetails =
                 (FeedbackNumericalScaleResponseDetails) response.getResponseDetailsCopy();
+        assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"),
+                getDoubleString(responseDetails.getAnswer()));
+    }
+
+    public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackNumericalScaleResponseDetails responseDetails =
+                (FeedbackNumericalScaleResponseDetails) response.getFeedbackResponseDetailsCopy();
         assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"),
                 getDoubleString(responseDetails.getAnswer()));
     }
