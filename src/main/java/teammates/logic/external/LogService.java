@@ -1,6 +1,7 @@
 package teammates.logic.external;
 
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
@@ -24,7 +25,7 @@ public interface LogService {
     /**
      * Creates a feedback session log.
      */
-    void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+    void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
             String fslType);
 
     /**

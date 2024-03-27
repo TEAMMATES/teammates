@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
@@ -32,8 +33,8 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of feedback session logs.
      */
-    public void insertFeedbackSessionLog(String courseId, String studentId, String studentEmail,
-            String feedbackSessionId, String feedbackSessionName, String fslType, long timestamp) {
+    public void insertFeedbackSessionLog(String courseId, UUID studentId, String studentEmail,
+            UUID feedbackSessionId, String feedbackSessionName, String fslType, long timestamp) {
         feedbackSessionLogs.add(new FeedbackSessionLogEntry(courseId, studentId, studentEmail, feedbackSessionId,
                 feedbackSessionName, fslType, timestamp));
     }
@@ -107,7 +108,7 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+    public void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
             String fslType) {
         // No-op
     }

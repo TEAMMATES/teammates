@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
@@ -46,17 +48,17 @@ class CreateFeedbackSessionLogAction extends Action {
         if (isCourseMigrated(courseId)) {
             Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
             FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsName, courseId);
-            String studentId = null;
-            String fsId = null;
+            UUID studentId = null;
+            UUID fsId = null;
 
             if (student != null) {
-                studentId = student.getId().toString();
-                details.setStudentId(studentId);
+                studentId = student.getId();
+                details.setStudentId(studentId.toString());
             }
 
             if (feedbackSession != null) {
-                fsId = feedbackSession.getId().toString();
-                details.setFeedbackSessionId(fsId);
+                fsId = feedbackSession.getId();
+                details.setFeedbackSessionId(fsId.toString());
             }
             // Necessary to assist local testing. For production usage, this will be a no-op.
             logsProcessor.createFeedbackSessionLog(courseId, studentId, studentEmail, fsId, fsName, fslType);

@@ -1,13 +1,15 @@
 package teammates.common.datatransfer;
 
+import java.util.UUID;
+
 /**
  * Represents a log entry of a feedback session.
  */
 public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEntry> {
     private final String courseId;
-    private final String studentId;
+    private final UUID studentId;
     private final String studentEmail;
-    private final String feedbackSessionId;
+    private final UUID feedbackSessionId;
     private final String feedbackSessionName;
     private final String feedbackSessionLogType;
     private final long timestamp;
@@ -23,7 +25,7 @@ public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEnt
         this.timestamp = timestamp;
     }
 
-    public FeedbackSessionLogEntry(String courseId, String studentId, String studentEmail, String feedbackSessionId,
+    public FeedbackSessionLogEntry(String courseId, UUID studentId, String studentEmail, UUID feedbackSessionId,
             String feedbackSessionName, String feedbackSessionLogType, long timestamp) {
         this.courseId = courseId;
         this.studentId = studentId;
@@ -38,7 +40,7 @@ public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEnt
         return courseId;
     }
 
-    public String getStudentId() {
+    public UUID getStudentId() {
         return studentId;
     }
 
@@ -46,7 +48,7 @@ public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEnt
         return studentEmail;
     }
 
-    public String getFeedbackSessionId() {
+    public UUID getFeedbackSessionId() {
         return feedbackSessionId;
     }
 

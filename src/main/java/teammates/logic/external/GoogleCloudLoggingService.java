@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
@@ -115,7 +116,7 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+    public void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
             String fslType) {
         // This method is not necessary for production usage because a feedback session log
         // is already separately created through the standardized logging infrastructure.
@@ -163,8 +164,9 @@ public class GoogleCloudLoggingService implements LogService {
             }
 
             FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getCourseId(),
-                    details.getStudentId(), details.getStudentEmail(), details.getFeedbackSessionId(),
-                    details.getFeedbackSessionName(), details.getAccessType(), timestamp);
+                    UUID.fromString(details.getStudentId()), details.getStudentEmail(),
+                    UUID.fromString(details.getFeedbackSessionId()), details.getFeedbackSessionName(),
+                    details.getAccessType(), timestamp);
             fsLogEntries.add(fslEntry);
         }
 

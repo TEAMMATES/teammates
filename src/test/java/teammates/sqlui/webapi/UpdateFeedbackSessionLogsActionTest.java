@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -70,28 +71,32 @@ public class UpdateFeedbackSessionLogsActionTest
 
         student1 = getTypicalStudent();
         student1.setEmail("student1@teammates.tmt");
+        student1.setId(UUID.randomUUID());
 
         student2 = getTypicalStudent();
         student2.setEmail("student2@teammates.tmt");
+        student2.setId(UUID.randomUUID());
 
         session1InCourse1 = getTypicalFeedbackSessionForCourse(course1);
         session1InCourse1.setName("session1");
+        session1InCourse1.setId(UUID.randomUUID());
 
         session2InCourse1 = getTypicalFeedbackSessionForCourse(course1);
         session2InCourse1.setName("session2");
+        session2InCourse1.setId(UUID.randomUUID());
 
         session1InCourse2 = getTypicalFeedbackSessionForCourse(course2);
         session1InCourse2.setName("session1");
+        session1InCourse2.setId(UUID.randomUUID());
 
         reset(mockLogic);
 
-        when(mockLogic.getStudentForEmail(course1.getId(), student1.getEmail())).thenReturn(student1);
-        when(mockLogic.getStudentForEmail(course2.getId(), student1.getEmail())).thenReturn(student1);
-        when(mockLogic.getStudentForEmail(course1.getId(), student2.getEmail())).thenReturn(student2);
+        when(mockLogic.getStudent(student1.getId())).thenReturn(student1);
+        when(mockLogic.getStudent(student2.getId())).thenReturn(student2);
 
-        when(mockLogic.getFeedbackSession(session1InCourse1.getName(), course1.getId())).thenReturn(session1InCourse1);
-        when(mockLogic.getFeedbackSession(session2InCourse1.getName(), course1.getId())).thenReturn(session2InCourse1);
-        when(mockLogic.getFeedbackSession(session1InCourse2.getName(), course2.getId())).thenReturn(session1InCourse2);
+        when(mockLogic.getFeedbackSession(session1InCourse1.getId())).thenReturn(session1InCourse1);
+        when(mockLogic.getFeedbackSession(session2InCourse1.getId())).thenReturn(session2InCourse1);
+        when(mockLogic.getFeedbackSession(session1InCourse2.getId())).thenReturn(session1InCourse2);
 
         mockLogsProcessor.getOrderedFeedbackSessionLogs("", "", 0, 0, "").clear();
     }
@@ -102,103 +107,102 @@ public class UpdateFeedbackSessionLogsActionTest
         UpdateFeedbackSessionLogsAction action = getAction();
         action.execute();
 
-        verify(mockLogic)
-                .createFeedbackSessionLogs(argThat(filteredLogs -> filteredLogs.size() == 0));
+        verify(mockLogic).createFeedbackSessionLogs(argThat(filteredLogs -> filteredLogs.size() == 0));
     }
 
     @Test
     public void testExecute_recentLogsNoSpam_allLogsCreated()
             throws EntityAlreadyExistsException, InvalidParametersException {
         // Different Types
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusSeconds(300).toEpochMilli());
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.SUBMISSION.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.SUBMISSION.getLabel(),
                 startTime.plusSeconds(300).toEpochMilli());
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.VIEW_RESULT.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.VIEW_RESULT.getLabel(),
                 startTime.plusSeconds(300).toEpochMilli());
 
         // Different feedback sessions
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusSeconds(600).toEpochMilli());
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session2InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session2InCourse1.getId(), session2InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusSeconds(600).toEpochMilli());
 
         // Different Student
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusSeconds(900).toEpochMilli());
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student2.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student2.getId(), student2.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusSeconds(900).toEpochMilli());
 
         // Different course
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusSeconds(1200).toEpochMilli());
-        mockLogsProcessor.insertFeedbackSessionLog(course2.getId(), student1.getEmail(), session1InCourse2.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course2.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse2.getId(), session1InCourse2.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusSeconds(1200).toEpochMilli());
 
         // Gap is larger than spam filter
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime.toEpochMilli());
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
+                startTime.toEpochMilli());
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusMillis(SPAM_FILTER + 1).toEpochMilli());
 
         UpdateFeedbackSessionLogsAction action = getAction();
         action.execute();
 
         // method returns all logs regardless of params
-        List<FeedbackSessionLogEntry> expected =
-                mockLogsProcessor.getOrderedFeedbackSessionLogs("", "", 0, 0, "");
+        List<FeedbackSessionLogEntry> expected = mockLogsProcessor.getOrderedFeedbackSessionLogs("", "", 0, 0, "");
 
-        verify(mockLogic).createFeedbackSessionLogs(
-                argThat(filteredLogs -> isEqualExceptId(expected, filteredLogs)));
+        verify(mockLogic).createFeedbackSessionLogs(argThat(filteredLogs -> isEqual(expected, filteredLogs)));
     }
 
     @Test
     public void testExecute_recentLogsWithSpam_someLogsCreated()
             throws EntityAlreadyExistsException, InvalidParametersException {
         // Gap is smaller than spam filter
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime.toEpochMilli());
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
+                startTime.toEpochMilli());
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusMillis(SPAM_FILTER - 2).toEpochMilli());
 
         // Filters multiple logs within one spam window
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusMillis(SPAM_FILTER - 1).toEpochMilli());
 
         // Correctly adds new log after filtering
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusMillis(SPAM_FILTER + 1).toEpochMilli());
 
         // Filters out spam in the new window
-        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getEmail(), session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(),
+        mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
                 startTime.plusMillis(SPAM_FILTER + 2).toEpochMilli());
 
         UpdateFeedbackSessionLogsAction action = getAction();
         action.execute();
 
         List<FeedbackSessionLogEntry> expected = new ArrayList<>();
-        expected.add(new FeedbackSessionLogEntry(course1.getId(), student1.getEmail(),
-                session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(), startTime.toEpochMilli()));
-        expected.add(new FeedbackSessionLogEntry(course1.getId(), student1.getEmail(),
-                session1InCourse1.getName(),
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusMillis(SPAM_FILTER + 1).toEpochMilli()));
+        expected.add(new FeedbackSessionLogEntry(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
+                startTime.toEpochMilli()));
+        expected.add(new FeedbackSessionLogEntry(course1.getId(), student1.getId(), student1.getEmail(),
+                session1InCourse1.getId(), session1InCourse1.getName(), FeedbackSessionLogType.ACCESS.getLabel(),
+                startTime.plusMillis(SPAM_FILTER + 1).toEpochMilli()));
 
-        verify(mockLogic).createFeedbackSessionLogs(
-                argThat(filteredLogs -> isEqualExceptId(expected, filteredLogs)));
+        verify(mockLogic).createFeedbackSessionLogs(argThat(filteredLogs -> isEqual(expected, filteredLogs)));
     }
 
     @Test
@@ -225,7 +229,7 @@ public class UpdateFeedbackSessionLogsActionTest
         verifyCannotAccess();
     }
 
-    private Boolean isEqualExceptId(List<FeedbackSessionLogEntry> expected,
+    private Boolean isEqual(List<FeedbackSessionLogEntry> expected,
             List<FeedbackSessionLog> actual) {
 
         assertEquals(expected.size(), actual.size());
@@ -234,9 +238,9 @@ public class UpdateFeedbackSessionLogsActionTest
             FeedbackSessionLogEntry expectedEntry = expected.get(i);
             FeedbackSessionLog actualLog = actual.get(i);
 
-            assertEquals(expectedEntry.getStudentEmail(), actualLog.getStudent().getEmail());
+            assertEquals(expectedEntry.getStudentId(), actualLog.getStudent().getId());
 
-            assertEquals(expectedEntry.getFeedbackSessionName(), actualLog.getFeedbackSession().getName());
+            assertEquals(expectedEntry.getFeedbackSessionId(), actualLog.getFeedbackSession().getId());
 
             assertEquals(expectedEntry.getFeedbackSessionLogType(), actualLog.getFeedbackSessionLogType().getLabel());
 

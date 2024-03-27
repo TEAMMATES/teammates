@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -209,7 +210,7 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, String studentId, String email, String fsId, String fsName,
+    public void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
             String fslType) {
         FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(courseId, studentId, email, fsId, fsName,
                 fslType, Instant.now().toEpochMilli());

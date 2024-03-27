@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
@@ -33,9 +34,9 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
         List<FeedbackSessionLogEntry> logEntries = logsProcessor.getOrderedFeedbackSessionLogs(null, null,
                 startTime.toEpochMilli(), endTime.toEpochMilli(), null);
 
-        Map<String, Map<String, Map<String, Map<String, Long>>>> lastSavedTimestamps = new HashMap<>();
-        Map<String, Map<String, Student>> studentsMap = new HashMap<>();
-        Map<String, Map<String, FeedbackSession>> sessionsMap = new HashMap<>();
+        Map<UUID, Map<String, Map<UUID, Map<String, Long>>>> lastSavedTimestamps = new HashMap<>();
+        Map<String, Map<UUID, Student>> studentsMap = new HashMap<>();
+        Map<String, Map<UUID, FeedbackSession>> sessionsMap = new HashMap<>();
         for (FeedbackSessionLogEntry logEntry : logEntries) {
 
             if (!isCourseMigrated(logEntry.getCourseId())) {
@@ -43,25 +44,25 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
             }
 
             String courseId = logEntry.getCourseId();
-            String email = logEntry.getStudentEmail();
-            String fbSessionName = logEntry.getFeedbackSessionName();
+            UUID studentId = logEntry.getStudentId();
+            UUID fbSessionId = logEntry.getFeedbackSessionId();
             String type = logEntry.getFeedbackSessionLogType();
             Long timestamp = logEntry.getTimestamp();
 
             studentsMap.computeIfAbsent(courseId, k -> new HashMap<>());
             sessionsMap.computeIfAbsent(courseId, k -> new HashMap<>());
 
-            lastSavedTimestamps.computeIfAbsent(email, k -> new HashMap<>());
-            lastSavedTimestamps.get(email).computeIfAbsent(courseId, k -> new HashMap<>());
-            lastSavedTimestamps.get(email).get(courseId).computeIfAbsent(fbSessionName, k -> new HashMap<>());
-            Long lastSaved = lastSavedTimestamps.get(email).get(courseId).get(fbSessionName).getOrDefault(type, 0L);
+            lastSavedTimestamps.computeIfAbsent(studentId, k -> new HashMap<>());
+            lastSavedTimestamps.get(studentId).computeIfAbsent(courseId, k -> new HashMap<>());
+            lastSavedTimestamps.get(studentId).get(courseId).computeIfAbsent(fbSessionId, k -> new HashMap<>());
+            Long lastSaved = lastSavedTimestamps.get(studentId).get(courseId).get(fbSessionId).getOrDefault(type, 0L);
 
             if (Math.abs(timestamp - lastSaved) > SPAM_FILTER) {
-                lastSavedTimestamps.get(email).get(courseId).get(fbSessionName).put(type, timestamp);
-                Student student = studentsMap.get(courseId).computeIfAbsent(email,
-                        k -> sqlLogic.getStudentForEmail(courseId, email));
-                FeedbackSession feedbackSession = sessionsMap.get(courseId).computeIfAbsent(fbSessionName,
-                        k -> sqlLogic.getFeedbackSession(fbSessionName, courseId));
+                lastSavedTimestamps.get(studentId).get(courseId).get(fbSessionId).put(type, timestamp);
+                Student student = studentsMap.get(courseId).computeIfAbsent(studentId,
+                        k -> sqlLogic.getStudent(studentId));
+                FeedbackSession feedbackSession = sessionsMap.get(courseId).computeIfAbsent(fbSessionId,
+                        k -> sqlLogic.getFeedbackSession(fbSessionId));
                 FeedbackSessionLog fslEntity = new FeedbackSessionLog(student, feedbackSession,
                         FeedbackSessionLogType.valueOfLabel(type), Instant.ofEpochMilli(timestamp));
                 filteredLogs.add(fslEntity);
