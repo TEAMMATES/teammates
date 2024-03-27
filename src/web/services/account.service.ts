@@ -20,9 +20,7 @@ import { AccountCreateRequest } from '../types/api-request';
   providedIn: 'root',
 })
 export class AccountService {
-  constructor(
-    private httpRequestService: HttpRequestService,
-    ) {
+  constructor(private httpRequestService: HttpRequestService) {
   }
 
   /**

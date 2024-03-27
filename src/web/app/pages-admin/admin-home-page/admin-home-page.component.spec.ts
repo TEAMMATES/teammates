@@ -13,9 +13,10 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequestStatus } from '../../../types/api-output';
-import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
+import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
@@ -35,13 +36,14 @@ describe('AdminHomePageComponent', () => {
         FormsModule,
         HttpClientTestingModule,
         LoadingSpinnerModule,
-        AccountRequestsTableModule,
+        AccountRequestTableModule,
         AjaxLoadingModule,
         RouterTestingModule,
       ],
       providers: [
         AccountService,
         CourseService,
+        FormatDateDetailPipe,
         SimpleModalService,
         StatusMessageService,
         LinkService,

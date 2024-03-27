@@ -10,8 +10,9 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { Account, AccountRequest, Accounts, AccountRequests, Courses, JoinLink } from '../../../types/api-output';
-import { AccountRequestData } from '../../components/account-requests-table/account-requests-table.component';
+import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -30,7 +31,7 @@ export class AdminHomePageComponent implements OnInit {
   instructorInstitution: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
-  accountReqs: AccountRequestData[] = [];
+  accountReqs: AccountRequestTableRowModel[] = [];
   activeRequests: number = 0;
   currentPage: number = 1;
   pageSize: number = 20;
@@ -52,6 +53,7 @@ export class AdminHomePageComponent implements OnInit {
     private timezoneService: TimezoneService,
     private linkService: LinkService,
     private ngbModal: NgbModal,
+    private formatDateDetailPipe: FormatDateDetailPipe,
   ) {}
 
   ngOnInit(): void {
@@ -247,18 +249,13 @@ export class AdminHomePageComponent implements OnInit {
     );
   }
 
-  private formatTimestampAsString(timestamp: number, timezone: string): string {
-      const dateFormatWithZoneInfo: string = 'ddd, DD MMM YYYY, hh:mm A Z';
-
-      return this.timezoneService
-          .formatToString(timestamp, timezone, dateFormatWithZoneInfo);
-  }
-
-  private formatAccountRequests(requests: AccountRequests): AccountRequestData[] {
+  private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return requests.accountRequests.map((request) => {
-      const [institute, country] = request.institute.split(', ').length === 2
-      ? request.institute.split(', ') : [request.institute, ''];
+      const lastCommaIndex = request.institute.lastIndexOf(', ');
+      const [institute, country] = lastCommaIndex === -1
+        ? [request.institute, '']
+        : [request.institute.slice(0, lastCommaIndex), request.institute.slice(lastCommaIndex + 2)];
 
       return {
         name: request.name,
@@ -266,8 +263,9 @@ export class AdminHomePageComponent implements OnInit {
         status: request.status,
         institute,
         country,
-        createdAtText: this.formatTimestampAsString(request.createdAt, timezone),
-        registeredAtText: request.registeredAt ? this.formatTimestampAsString(request.registeredAt, timezone) : '',
+        createdAtText: this.formatDateDetailPipe.transform(request.createdAt, timezone),
+        registeredAtText: request.registeredAt
+        ? this.formatDateDetailPipe.transform(request.registeredAt, timezone) : '',
         comments: request.comments || '',
         registrationLink: '',
         showLinks: false,

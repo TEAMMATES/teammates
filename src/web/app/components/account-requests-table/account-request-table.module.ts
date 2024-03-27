@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { AccountRequestsTableComponent } from './account-requests-table.component';
+import { AccountRequestTableComponent } from './account-request-table.component';
 import { Pipes } from '../../pipes/pipes.module';
 
 /**
@@ -10,10 +10,10 @@ import { Pipes } from '../../pipes/pipes.module';
  */
 @NgModule({
   declarations: [
-    AccountRequestsTableComponent,
+    AccountRequestTableComponent,
   ],
   exports: [
-    AccountRequestsTableComponent,
+    AccountRequestTableComponent,
   ],
   imports: [
     CommonModule,
@@ -23,4 +23,4 @@ import { Pipes } from '../../pipes/pipes.module';
     Pipes,
   ],
 })
-export class AccountRequestsTableModule { }
+export class AccountRequestTableModule { }
