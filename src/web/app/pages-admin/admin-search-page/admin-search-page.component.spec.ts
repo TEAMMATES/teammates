@@ -12,7 +12,6 @@ import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
 import {
-  AccountRequestSearchResult,
   FeedbackSessionsGroup, InstructorAccountSearchResult,
   SearchService, StudentAccountSearchResult,
 } from '../../../services/search.service';
@@ -70,14 +69,14 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
 };
 
-const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
+const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestTableRowModel = {
   name: 'name',
   email: 'email',
-  institute: 'institute',
+  instituteAndCountry: 'institute',
   status: AccountRequestStatus.PENDING,
   registrationLink: 'registrationLink',
   createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-  registeredAtText: null,
+  registeredAtText: '',
   showLinks: false,
   comments: '',
 };
@@ -242,11 +241,11 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name',
         email: 'email',
-        institute: 'institute',
+        instituteAndCountry: 'institute',
         status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: null,
+        registeredAtText: '',
         showLinks: true,
         comments: '',
       },
@@ -414,8 +413,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name1',
         email: 'email1',
-        institute: 'institute1',
-        country: '',
+        instituteAndCountry: 'institute1',
         status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
@@ -425,8 +423,7 @@ describe('AdminSearchPageComponent', () => {
       }, {
         name: 'name2',
         email: 'email2',
-        institute: 'institute2',
-        country: '',
+        instituteAndCountry: 'institute2',
         status: AccountRequestStatus.PENDING,
         registrationLink: 'registrationLink2',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
@@ -438,10 +435,12 @@ describe('AdminSearchPageComponent', () => {
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
       instructors: [],
-      accountRequests: accountRequestResults,
+      accountRequests: accountRequestResults.map((result) => ({
+        ...result,
+        institute: result.instituteAndCountry,
+      })),
     }));
 
-    component.searchQuery = 'name';
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
 
@@ -490,7 +489,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show account request links when expand all button clicked', () => {
-    const accountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT;
+    const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT;
     component.accountRequests = [accountRequestResult];
     component.searchQuery = 'test'; // To show the account request table
     fixture.detectChanges();
