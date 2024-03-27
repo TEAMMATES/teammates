@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
-import { AccountRequestsTableModule } from '../../components/account-requests-table/account-requests-table.module';
+import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 
@@ -30,7 +30,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
-    AccountRequestsTableModule,
+    AccountRequestTableModule,
     AjaxLoadingModule,
     LoadingSpinnerModule,
   ],
