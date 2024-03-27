@@ -2,18 +2,22 @@ package teammates.storage.sqlentity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -31,8 +35,15 @@ public class Team extends BaseEntity {
     @JoinColumn(name = "sectionId")
     private Section section;
 
-    @OneToMany(mappedBy = "team")
-    private List<User> users;
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "TeamToStudentMaps", 
+        joinColumns = { @JoinColumn(name = "teamId") }, 
+        inverseJoinColumns = { @JoinColumn(name = "studentId") })
+    Set<Student> students = new HashSet<>();
+
+    @OneToMany(mappedBy = "teamToStudentMap")
+    // TODO: See if we can get Students directly from this attribute.
+    private List<TeamToStudentMap> teamToStudentMaps;
 
     @Column(nullable = false)
     private String name;
@@ -48,7 +59,7 @@ public class Team extends BaseEntity {
         this.setId(UUID.randomUUID());
         this.setSection(section);
         this.setName(name);
-        this.setUsers(new ArrayList<>());
+        this.setTeamToStudentMaps(new ArrayList<>());
     }
 
     @Override
@@ -95,12 +106,12 @@ public class Team extends BaseEntity {
         this.section = section;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<TeamToStudentMap> getTeamToStudentMaps() {
+        return teamToStudentMaps;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setTeamToStudentMaps(List<TeamToStudentMap> teamToStudentMaps) {
+        this.teamToStudentMaps = teamToStudentMaps;
     }
 
     public String getName() {
@@ -121,7 +132,7 @@ public class Team extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Team [id=" + id + ", users=" + users + ", name=" + name
+        return "Team [id=" + id + ", teamToStudentMaps=" + teamToStudentMaps + ", name=" + name
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 

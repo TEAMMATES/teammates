@@ -32,6 +32,10 @@ public class Section extends BaseEntity {
     private UUID id;
 
     @ManyToOne
+    @JoinColumn(name = "structureId")
+    private CourseStructure courseStructure;
+
+    @ManyToOne
     @JoinColumn(name = "courseId")
     private Course course;
 

@@ -42,6 +42,10 @@ public class FeedbackSession extends BaseEntity {
     @JoinColumn(name = "courseId")
     private Course course;
 
+    @ManyToOne
+    @JoinColumn(name = "structureId")
+    private CourseStructure courseStructure;
+
     @Column(nullable = false)
     private String name;
 
