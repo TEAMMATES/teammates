@@ -1002,6 +1002,32 @@ public final class SqlEmailGenerator {
     }
 
     /**
+     * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
+     */
+    public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
+        String name = accountRequest.getName();
+        String institute = accountRequest.getInstitute();
+        String emailAddress = accountRequest.getEmail();
+        String comments = accountRequest.getComments();
+        if (comments == null) {
+            comments = "";
+        }
+        String[] templateKeyValuePairs = new String[] {
+                "${name}", name,
+                "${institute}", institute,
+                "${emailAddress}", emailAddress,
+                "${comments}", comments,
+        };
+        String content = Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
+        email.setSubjectFromType();
+        email.setContent(content);
+        return email;
+    }
+
+    /**
      * Generates the course registered email for the user with the given details in {@code course}.
      */
     public EmailWrapper generateUserCourseRegisteredEmail(
