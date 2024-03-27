@@ -209,12 +209,12 @@
       "name": "Section 3"
     },
     "section1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000204",
-        "course": {
-          "id": "course-3"
-        },
-        "name": "Section 1"
-      }
+      "id": "00000000-0000-4000-8000-000000000204",
+      "course": {
+        "id": "course-3"
+      },
+      "name": "Section 1"
+    }
   },
   "teams": {
     "team1InCourse1": {
@@ -613,16 +613,16 @@
       "comments": ""
     },
     "student1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000605",
-        "email": "student1@teammates.tmt",
-        "course": {
-            "id": "course-3"
-        },
-        "team": {
-            "id": "00000000-0000-4000-8000-000000000304"
-        },
-        "name": "student1 In Course3</td></div>'\"",
-        "comments": "comment for student1InCourse3</td></div>'\""
+      "id": "00000000-0000-4000-8000-000000000605",
+      "email": "student1@teammates.tmt",
+      "course": {
+        "id": "course-3"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000304"
+      },
+      "name": "student1 In Course3</td></div>'\"",
+      "comments": "comment for student1InCourse3</td></div>'\""
     },
     "unregisteredStudentInCourse1": {
       "id": "00000000-0000-4000-8000-000000000606",
@@ -896,9 +896,15 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -915,9 +921,17 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     },
     "qn3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000803",
@@ -1000,9 +1014,15 @@
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn6InSession1InCourse1NoResponses": {
       "id": "00000000-0000-4000-8000-000000000806",
@@ -1019,9 +1039,15 @@
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn1InSession2InCourse1": {
       "id": "00000000-0000-4000-8001-000000000800",
@@ -1032,7 +1058,10 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
-        "mcqChoices": ["Great", "Perfect"],
+        "mcqChoices": [
+          "Great",
+          "Perfect"
+        ],
         "otherEnabled": false,
         "questionDropdownEnabled": false,
         "generateOptionsFor": "NONE",
@@ -1044,9 +1073,15 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -1059,8 +1094,16 @@
           "questionText": "What is the best selling point of your product?"
         }
       },
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
+      "recipient": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -1081,8 +1124,16 @@
           "questionText": "What is the best selling point of your product?"
         }
       },
-      "giver": "student2@teammates.tmt",
-      "recipient": "student2@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000602",
+        "type": "student",
+        "email": "student2@teammates.tmt"
+      },
+      "recipient": {
+        "id": "00000000-0000-4000-8000-000000000602",
+        "type": "student",
+        "email": "student2@teammates.tmt"
+      },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -1111,12 +1162,28 @@
         "giverType": "STUDENTS",
         "recipientType": "STUDENTS_EXCLUDING_SELF",
         "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-        "showGiverNameTo": ["INSTRUCTORS"],
-        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+        "showResponsesTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ]
       },
-      "giver": "student2@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000602",
+        "type": "student",
+        "email": "student2@teammates.tmt"
+      },
+      "recipient": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -1145,12 +1212,28 @@
         "giverType": "STUDENTS",
         "recipientType": "STUDENTS_EXCLUDING_SELF",
         "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-        "showGiverNameTo": ["INSTRUCTORS"],
-        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+        "showResponsesTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ]
       },
-      "giver": "student3@teammates.tmt",
-      "recipient": "student2@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000603",
+        "type": "student",
+        "email": "student3@teammates.tmt"
+      },
+      "recipient": {
+        "id": "00000000-0000-4000-8000-000000000602",
+        "type": "student",
+        "email": "student2@teammates.tmt"
+      },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -1171,8 +1254,16 @@
           "questionText": "My comments on the class"
         }
       },
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
+      "recipient": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -1192,7 +1283,10 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "mcqChoices": ["Great", "Perfect"],
+          "mcqChoices": [
+            "Great",
+            "Perfect"
+          ],
           "otherEnabled": false,
           "questionDropdownEnabled": false,
           "generateOptionsFor": "NONE",
@@ -1200,8 +1294,16 @@
           "questionText": "How do you think you did?"
         }
       },
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
+      "recipient": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -1224,7 +1326,11 @@
           "answer": "Student 1 self feedback."
         }
       },
-      "giver": "instr1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000501",
+        "type": "instructor",
+        "email": "instr1@teammates.tmt"
+      },
       "giverType": "INSTRUCTORS",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -1237,7 +1343,11 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr1@teammates.tmt"
+      "lastEditor": {
+        "id": "00000000-0000-4000-8000-000000000501",
+        "type": "instructor",
+        "email": "instr1@teammates.tmt"
+      }
     },
     "comment2ToResponse1ForQ1": {
       "feedbackResponse": {
@@ -1247,7 +1357,11 @@
           "answer": "Student 1 self feedback."
         }
       },
-      "giver": "student1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      },
       "giverType": "STUDENTS",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -1260,7 +1374,11 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "student1@teammates.tmt"
+      "lastEditor": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student",
+        "email": "student1@teammates.tmt"
+      }
     },
     "comment2ToResponse2ForQ1": {
       "feedbackResponse": {
@@ -1270,7 +1388,11 @@
           "answer": "Student 2 self feedback."
         }
       },
-      "giver": "instr2@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000502",
+        "type": "instructor",
+        "email": "instr2@teammates.tmt"
+      },
       "giverType": "INSTRUCTORS",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -1283,7 +1405,11 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr2@teammates.tmt"
+      "lastEditor": {
+        "id": "00000000-0000-4000-8000-000000000502",
+        "type": "instructor",
+        "email": "instr2@teammates.tmt"
+      }
     },
     "comment1ToResponse1ForQ2s": {
       "feedbackResponse": {
@@ -1293,7 +1419,11 @@
           "answer": "Student 2 self feedback."
         }
       },
-      "giver": "instr2@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000502",
+        "type": "instructor",
+        "email": "instr2@teammates.tmt"
+      },
       "giverType": "INSTRUCTORS",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -1306,7 +1436,11 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr2@teammates.tmt"
+      "lastEditor": {
+        "id": "00000000-0000-4000-8000-000000000502",
+        "type": "instructor",
+        "email": "instr2@teammates.tmt"
+      }
     },
     "comment1ToResponse1ForQ3": {
       "feedbackResponse": {
@@ -1316,7 +1450,11 @@
           "answer": "The class is great."
         }
       },
-      "giver": "instr1@teammates.tmt",
+      "giver": {
+        "id": "00000000-0000-4000-8000-000000000501",
+        "type": "instructor",
+        "email": "instr1@teammates.tmt"
+      },
       "giverType": "INSTRUCTORS",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -1329,7 +1467,11 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr1@teammates.tmt"
+      "lastEditor": {
+        "id": "00000000-0000-4000-8000-000000000501",
+        "type": "instructor",
+        "email": "instr1@teammates.tmt"
+      }
     }
   },
   "notifications": {

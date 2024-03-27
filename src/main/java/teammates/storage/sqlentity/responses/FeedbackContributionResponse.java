@@ -5,7 +5,7 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Section;
-
+import teammates.storage.sqlentity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
@@ -26,8 +26,8 @@ public class FeedbackContributionResponse extends FeedbackResponse {
     }
 
     public FeedbackContributionResponse(
-            FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String recipient, Section recipientSection,
+            FeedbackQuestion feedbackQuestion, User giver,
+            Section giverSection, User recipient, Section recipientSection,
             FeedbackResponseDetails responseDetails
     ) {
         super(feedbackQuestion, giver, giverSection, recipient, recipientSection);

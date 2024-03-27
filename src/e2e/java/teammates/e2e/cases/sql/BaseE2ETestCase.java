@@ -252,6 +252,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
 
     @Override
     protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
-        return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
+        return getFeedbackResponse(
+                fr.getFeedbackQuestion().getId().toString(),
+                fr.getGiver().getEmail(),
+                fr.getRecipient().getEmail());
     }
 }
