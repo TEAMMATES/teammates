@@ -3,6 +3,7 @@ package teammates.test;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
@@ -25,6 +26,7 @@ import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.NotificationData;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.UsageStatisticsData;
 
@@ -69,8 +71,16 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
             assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
             assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
-            assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
-                    actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            if (expectedQuestion.getNumOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                        NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+                assertNull(actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            } else {
+                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                        NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+                assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
+                        actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            }
             assertEquals(expectedQuestionDetails.getJsonString(), actualQuestionDetails.getJsonString());
         } else if (expected instanceof FeedbackResponse) {
             FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
