@@ -38,12 +38,12 @@ describe('RequestPageComponent', () => {
 
   it('should render correctly after form is submitted', () => {
     component.submittedFormData = {
-      name: "Jane Smith",
-      institution: "University of Example",
-      country: "Example Republic",
-      email: "js@exampleu.edu",
-      homePage: "u.exampleu.edu/jsmith",
-      comments: "",
+      name: 'Jane Smith',
+      institution: 'University of Example',
+      country: 'Example Republic',
+      email: 'js@exampleu.edu',
+      homePage: 'u.exampleu.edu/jsmith',
+      comments: '',
     };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
