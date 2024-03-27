@@ -1,4 +1,4 @@
-import { ApiConst } from './api-const';
+import { ApiConst, ApiStringConst } from './api-const';
 
 /**
  * Represents the root FormValidator object of all form fields.
@@ -33,4 +33,9 @@ export enum FormValidator {
    * Max length for the 'E-mail Address` field.
    */
   EMAIL_MAX_LENGTH = ApiConst.EMAIL_MAX_LENGTH,
+
+  /**
+   * Regex used to verify URLs as Angular does not have a built-in URL validator.
+   */
+  URL_REGEX = ApiStringConst.URL_REGEX,
 }

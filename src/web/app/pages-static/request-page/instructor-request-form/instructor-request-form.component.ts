@@ -5,10 +5,7 @@ import { AccountService } from 'src/web/services/account.service';
 import { finalize } from 'rxjs';
 import { ErrorMessageOutput } from 'src/web/app/error-message-output';
 import { AccountCreateRequest } from 'src/web/types/api-request';
-
-// Use regex to validate URL field as Angular does not have a built-in URL validator
-// eslint-disable-next-line
-const URL_REGEX = /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+import { FormValidator } from 'src/web/types/form-validator';
 
 @Component({
   selector: 'tm-instructor-request-form',
@@ -24,7 +21,7 @@ export class InstructorRequestFormComponent {
     institution: new FormControl('', [Validators.required]),
     country: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    homePage: new FormControl('', [Validators.pattern(URL_REGEX)]),
+    homePage: new FormControl('', [Validators.pattern(FormValidator.URL_REGEX)]),
     comments: new FormControl(''),
   }, { updateOn: 'submit' });
 
