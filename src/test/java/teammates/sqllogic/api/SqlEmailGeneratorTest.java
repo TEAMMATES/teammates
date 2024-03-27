@@ -44,8 +44,8 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader", "Sith Order",
                 AccountRequestStatus.PENDING,
                 "I Am Your Father");
-        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
+        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
+        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
                 "/instructorNewAccountRequestAcknowledgementEmailWithComments.html");
     }
@@ -54,8 +54,8 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     void testGenerateNewAccountRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
                 AccountRequestStatus.PENDING, null);
-        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
+        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
+        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
                 "/instructorNewAccountRequestAcknowledgementEmailWithNoComments.html");
     }
