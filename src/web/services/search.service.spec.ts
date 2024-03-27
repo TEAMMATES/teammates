@@ -191,6 +191,7 @@ describe('SearchService', () => {
     name: 'Test Instructor',
     institute: 'Test Institute',
     email: 'test@example.com',
+    comments: 'This is a test account request',
     status: AccountRequestStatus.APPROVED,
   };
 

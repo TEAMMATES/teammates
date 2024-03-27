@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
@@ -8,8 +8,11 @@ import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Account, AccountRequest, Accounts, Courses, JoinLink } from '../../../types/api-output';
+import { TimezoneService } from '../../../services/timezone.service';
+import { Account, AccountRequest, Accounts, AccountRequests, Courses, JoinLink } from '../../../types/api-output';
+import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -20,7 +23,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './admin-home-page.component.html',
   styleUrls: ['./admin-home-page.component.scss'],
 })
-export class AdminHomePageComponent {
+export class AdminHomePageComponent implements OnInit {
 
   instructorDetails: string = '';
   instructorName: string = '';
@@ -28,7 +31,11 @@ export class AdminHomePageComponent {
   instructorInstitution: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
+  accountReqs: AccountRequestTableRowModel[] = [];
   activeRequests: number = 0;
+  currentPage: number = 1;
+  pageSize: number = 20;
+  items$: Observable<any> = of([]);
 
   isAddingInstructors: boolean = false;
 
@@ -43,9 +50,15 @@ export class AdminHomePageComponent {
     private courseService: CourseService,
     private simpleModalService: SimpleModalService,
     private statusMessageService: StatusMessageService,
+    private timezoneService: TimezoneService,
     private linkService: LinkService,
     private ngbModal: NgbModal,
+    private formatDateDetailPipe: FormatDateDetailPipe,
   ) {}
+
+  ngOnInit(): void {
+    this.fetchAccountRequests();
+  }
 
   /**
    * Validates and adds the instructor details filled with first form.
@@ -234,6 +247,35 @@ export class AdminHomePageComponent {
         };
       }),
     );
+  }
+
+  private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
+    const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
+    return requests.accountRequests.map((request) => {
+      return {
+        name: request.name,
+        email: request.email,
+        status: request.status,
+        instituteAndCountry: request.institute,
+        createdAtText: this.formatDateDetailPipe.transform(request.createdAt, timezone),
+        registeredAtText: request.registeredAt
+        ? this.formatDateDetailPipe.transform(request.registeredAt, timezone) : '',
+        comments: request.comments || '',
+        registrationLink: '',
+        showLinks: false,
+      };
+    });
+  }
+
+  fetchAccountRequests(): void {
+    this.accountService.getPendingAccountRequests().subscribe({
+      next: (resp: AccountRequests) => {
+        this.accountReqs = this.formatAccountRequests(resp);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   resetAccountRequest(i: number): void {

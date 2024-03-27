@@ -2,7 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, AccountRequest, Accounts, JoinLink, MessageOutput } from '../types/api-output';
+import {
+  Account,
+  AccountRequest,
+  Accounts,
+  AccountRequests,
+  JoinLink,
+  MessageOutput,
+  AccountRequestStatus,
+} from '../types/api-output';
 import { AccountCreateRequest } from '../types/api-request';
 
 /**
@@ -105,6 +113,17 @@ export class AccountService {
       useremail: email,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
+  }
+
+  /**
+   * Gets account requests by calling API.
+   */
+  getPendingAccountRequests(): Observable<AccountRequests> {
+    const paramMap = {
+      status: AccountRequestStatus.PENDING,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
   }
 
 }
