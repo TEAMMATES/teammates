@@ -370,11 +370,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Override
-    protected void removeSqlDataBundle(SqlDataBundle testData) {
-        BACKDOOR.removeSqlDataBundle(testData);
-    }
-
-    @Override
     protected boolean doPutDocuments(DataBundle testData) {
         try {
             BACKDOOR.putDocuments(testData);
@@ -386,7 +381,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Override
-    protected boolean doPutDocuments(SqlDataBundle testData) {
+    protected boolean doPutDocumentsSql(SqlDataBundle testData) {
         try {
             BACKDOOR.putSqlDocuments(testData);
             return true;

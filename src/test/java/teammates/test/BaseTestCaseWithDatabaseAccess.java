@@ -269,8 +269,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract boolean doRemoveAndRestoreDataBundle(DataBundle testData);
 
-    protected abstract void removeSqlDataBundle(SqlDataBundle dataBundle);
-
     protected SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         SqlDataBundle dataBundle = doRemoveAndRestoreSqlDataBundle(testData);
@@ -286,18 +284,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData);
 
-    protected void putDocumentsSql(SqlDataBundle testData) {
-        int retryLimit = OPERATION_RETRY_COUNT;
-        boolean isOperationSuccess = doPutDocuments(testData);
-        while (!isOperationSuccess && retryLimit > 0) {
-            retryLimit--;
-            print("Re-trying putDocumentsSQL");
-            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-            isOperationSuccess = doPutDocuments(testData);
-        }
-        assertTrue(isOperationSuccess);
-    }
-
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         boolean isOperationSuccess = doPutDocuments(testData);
@@ -312,16 +298,16 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract boolean doPutDocuments(DataBundle testData);
 
-    protected abstract boolean doPutDocuments(SqlDataBundle testData);
+    protected abstract boolean doPutDocumentsSql(SqlDataBundle testData);
 
     protected void putSqlDocuments(SqlDataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
-        boolean isOperationSuccess = doPutDocuments(testData);
+        boolean isOperationSuccess = doPutDocumentsSql(testData);
         while (!isOperationSuccess && retryLimit > 0) {
             retryLimit--;
             print("Re-trying putSqlDocuments");
             ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-            isOperationSuccess = doPutDocuments(testData);
+            isOperationSuccess = doPutDocumentsSql(testData);
         }
         assertTrue(isOperationSuccess);
     }
