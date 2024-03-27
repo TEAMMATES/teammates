@@ -39,8 +39,8 @@ public class AdminSearchPage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_NAME = 1;
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
-    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 6;
-    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 7;
+    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 5;
+    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 6;
 
     private static final String EXPANDED_ROWS_HEADER_EMAIL = "Email";
     private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
