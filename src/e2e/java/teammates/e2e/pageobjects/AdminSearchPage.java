@@ -18,6 +18,9 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Represents the admin home page of the website.
@@ -93,9 +96,41 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void regenerateStudentKey(Student student) {
+        WebElement studentRow = getStudentRow(student);
+        studentRow.findElement(By.xpath("//button[text()='Regenerate key']")).click();
+
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad(true);
+    }
+
     public void regenerateStudentKey(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
         studentRow.findElement(By.xpath("//button[text()='Regenerate key']")).click();
+
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad(true);
+    }
+
+    public void verifyRegenerateStudentKey(Student student, String originalJoinLink) {
+        verifyStatusMessage("Student's key for this course has been successfully regenerated,"
+                + " and the email has been sent.");
+
+        String regeneratedJoinLink = getStudentJoinLink(student);
+        assertNotEquals(regeneratedJoinLink, originalJoinLink);
+    }
+
+    public void verifyRegenerateStudentKey(StudentAttributes student, String originalJoinLink) {
+        verifyStatusMessage("Student's key for this course has been successfully regenerated,"
+                + " and the email has been sent.");
+
+        String regeneratedJoinLink = getStudentJoinLink(student);
+        assertNotEquals(regeneratedJoinLink, originalJoinLink);
+    }
+
+    public void regenerateInstructorKey(Instructor instructor) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        instructorRow.findElement(By.xpath("//button[text()='Regenerate key']")).click();
 
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
@@ -141,6 +176,25 @@ public class AdminSearchPage extends AppPage {
 
     public String removeSpanFromText(String text) {
         return text.replace("<span class=\"highlighted-text\">", "").replace("</span>", "");
+    }
+
+    public WebElement getStudentRow(Student student) {
+        String details = String.format("%s [%s] (%s)", student.getCourse().getId(),
+                student.getSection() == null
+                ? Const.DEFAULT_SECTION
+                : student.getSection().getName(), student.getTeam().getName());
+        WebElement table = browser.driver.findElement(By.id("search-table-student"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (!columns.isEmpty() && removeSpanFromText(columns.get(STUDENT_COL_DETAILS - 1)
+                    .getAttribute("innerHTML")).contains(details)
+                    && removeSpanFromText(columns.get(STUDENT_COL_NAME - 1)
+                    .getAttribute("innerHTML")).contains(student.getName())) {
+                return row;
+            }
+        }
+        return null;
     }
 
     public WebElement getStudentRow(StudentAttributes student) {
@@ -195,9 +249,23 @@ public class AdminSearchPage extends AppPage {
         return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
     }
 
+    public String getStudentJoinLink(Student student) {
+        WebElement studentRow = getStudentRow(student);
+        return getStudentJoinLink(studentRow);
+    }
+
     public String getStudentJoinLink(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
         return getStudentJoinLink(studentRow);
+    }
+
+    public void resetStudentGoogleId(Student student) {
+        WebElement studentRow = getStudentRow(student);
+        WebElement link = studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
+        link.click();
+
+        waitForConfirmationModalAndClickOk();
+        waitForElementStaleness(link);
     }
 
     public void resetStudentGoogleId(StudentAttributes student) {
@@ -207,6 +275,21 @@ public class AdminSearchPage extends AppPage {
 
         waitForConfirmationModalAndClickOk();
         waitForElementStaleness(link);
+    }
+
+    public WebElement getInstructorRow(Instructor instructor) {
+        WebElement table = browser.driver.findElement(By.id("search-table-instructor"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (columns.size() >= 3 && (removeSpanFromText(columns.get(2)
+                    .getAttribute("innerHTML")).contains(instructor.getGoogleId())
+                    || removeSpanFromText(columns.get(1)
+                    .getAttribute("innerHTML")).contains(instructor.getName()))) {
+                return row;
+            }
+        }
+        return null;
     }
 
     public WebElement getInstructorRow(InstructorAttributes instructor) {
@@ -256,9 +339,23 @@ public class AdminSearchPage extends AppPage {
         return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
     }
 
+    public String getInstructorJoinLink(Instructor instructor) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        return getInstructorJoinLink(instructorRow);
+    }
+
     public String getInstructorJoinLink(InstructorAttributes instructor) {
         WebElement instructorRow = getInstructorRow(instructor);
         return getInstructorJoinLink(instructorRow);
+    }
+
+    public void resetInstructorGoogleId(Instructor instructor) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        WebElement link = instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
+        link.click();
+
+        waitForConfirmationModalAndClickOk();
+        waitForElementStaleness(link);
     }
 
     public void resetInstructorGoogleId(InstructorAttributes instructor) {
@@ -386,6 +483,32 @@ public class AdminSearchPage extends AppPage {
         }
     }
 
+    public void verifyStudentRowContent(Student student, Course course,
+                                        String expectedDetails, String expectedManageAccountLink,
+                                        String expectedHomePageLink) {
+        WebElement studentRow = getStudentRow(student);
+        String actualDetails = getStudentDetails(studentRow);
+        String actualName = getStudentName(studentRow);
+        String actualGoogleId = getStudentGoogleId(studentRow);
+        String actualHomepageLink = getStudentHomeLink(studentRow);
+        String actualInstitute = getStudentInstitute(studentRow);
+        String actualComment = getStudentComments(studentRow);
+        String actualManageAccountLink = getStudentManageAccountLink(studentRow);
+
+        String expectedName = student.getName();
+        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.getGoogleId());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
+
+        assertEquals(expectedDetails, actualDetails);
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedGoogleId, actualGoogleId);
+        assertEquals(expectedInstitute, actualInstitute);
+        assertEquals(expectedComment, actualComment);
+        assertEquals(expectedManageAccountLink, actualManageAccountLink);
+        assertEquals(expectedHomePageLink, actualHomepageLink);
+    }
+
     public void verifyStudentRowContent(StudentAttributes student, CourseAttributes course,
                                         String expectedDetails, String expectedManageAccountLink,
                                         String expectedHomePageLink) {
@@ -412,6 +535,35 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedHomePageLink, actualHomepageLink);
     }
 
+    public void verifyStudentRowContentAfterReset(Student student, Course course) {
+        WebElement studentRow = getStudentRow(student);
+        String actualName = getStudentName(studentRow);
+        String actualInstitute = getStudentInstitute(studentRow);
+        String actualComment = getStudentComments(studentRow);
+
+        String expectedName = student.getName();
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
+
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedInstitute, actualInstitute);
+        assertEquals(expectedComment, actualComment);
+    }
+
+    public void verifyStudentExpandedLinks(Student student, int expectedNumExpandedRows) {
+        clickExpandStudentLinks();
+        WebElement studentRow = getStudentRow(student);
+        String actualEmail = getStudentEmail(studentRow);
+        String actualJoinLink = getStudentJoinLink(studentRow);
+        int actualNumExpandedRows = getNumExpandedRows(studentRow);
+
+        String expectedEmail = student.getEmail();
+
+        assertEquals(expectedEmail, actualEmail);
+        assertNotEquals("", actualJoinLink);
+        assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
+    }
+
     public void verifyStudentExpandedLinks(StudentAttributes student, int expectedNumExpandedRows) {
         clickExpandStudentLinks();
         WebElement studentRow = getStudentRow(student);
@@ -424,6 +576,29 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedEmail, actualEmail);
         assertNotEquals("", actualJoinLink);
         assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
+    }
+
+    public void verifyInstructorRowContent(Instructor instructor, Course course,
+                                           String expectedManageAccountLink, String expectedHomePageLink) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        String actualCourseId = getInstructorCourseId(instructorRow);
+        String actualName = getInstructorName(instructorRow);
+        String actualGoogleId = getInstructorGoogleId(instructorRow);
+        String actualHomePageLink = getInstructorHomePageLink(instructorRow);
+        String actualInstitute = getInstructorInstitute(instructorRow);
+        String actualManageAccountLink = getInstructorManageAccountLink(instructorRow);
+
+        String expectedCourseId = instructor.getCourseId();
+        String expectedName = instructor.getName();
+        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+
+        assertEquals(expectedCourseId, actualCourseId);
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedGoogleId, actualGoogleId);
+        assertEquals(expectedHomePageLink, actualHomePageLink);
+        assertEquals(expectedInstitute, actualInstitute);
+        assertEquals(expectedManageAccountLink, actualManageAccountLink);
     }
 
     public void verifyInstructorRowContent(InstructorAttributes instructor, CourseAttributes course,
@@ -447,6 +622,33 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedHomePageLink, actualHomePageLink);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
+    }
+
+    public void verifyInstructorRowContentAfterReset(Instructor instructor, Course course) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        String actualCourseId = getInstructorCourseId(instructorRow);
+        String actualName = getInstructorName(instructorRow);
+        String actualInstitute = getInstructorInstitute(instructorRow);
+
+        String expectedCourseId = instructor.getCourseId();
+        String expectedName = instructor.getName();
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+
+        assertEquals(expectedCourseId, actualCourseId);
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedInstitute, actualInstitute);
+    }
+
+    public void verifyInstructorExpandedLinks(Instructor instructor) {
+        clickExpandInstructorLinks();
+        WebElement instructorRow = getInstructorRow(instructor);
+        String actualEmail = getInstructorEmail(instructorRow);
+        String actualJoinLink = getInstructorJoinLink(instructorRow);
+
+        String expectedEmail = instructor.getEmail();
+
+        assertEquals(expectedEmail, actualEmail);
+        assertNotEquals("", actualJoinLink);
     }
 
     public void verifyInstructorExpandedLinks(InstructorAttributes instructor) {
@@ -513,6 +715,43 @@ public class AdminSearchPage extends AppPage {
         String actualRegistrationLink = getAccountRequestRegistrationLink(accountRequestRow);
 
         assertFalse(actualRegistrationLink.isBlank());
+    }
+
+    public void verifyLinkExpansionButtons(Student student,
+            Instructor instructor, AccountRequest accountRequest) {
+        WebElement studentRow = getStudentRow(student);
+        WebElement instructorRow = getInstructorRow(instructor);
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+
+        clickExpandStudentLinks();
+        clickExpandInstructorLinks();
+        clickExpandAccountRequestLinks();
+        int numExpandedStudentRows = getNumExpandedRows(studentRow);
+        int numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+        int numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
+        assertNotEquals(numExpandedStudentRows, 0);
+        assertNotEquals(numExpandedInstructorRows, 0);
+        assertNotEquals(numExpandedAccountRequestRows, 0);
+
+        clickCollapseInstructorLinks();
+        numExpandedStudentRows = getNumExpandedRows(studentRow);
+        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+        numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
+        assertNotEquals(numExpandedStudentRows, 0);
+        assertEquals(numExpandedInstructorRows, 0);
+        assertNotEquals(numExpandedAccountRequestRows, 0);
+
+        clickExpandInstructorLinks();
+        clickCollapseStudentLinks();
+        clickCollapseAccountRequestLinks();
+        waitUntilAnimationFinish();
+
+        numExpandedStudentRows = getNumExpandedRows(studentRow);
+        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+        numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
+        assertEquals(numExpandedStudentRows, 0);
+        assertNotEquals(numExpandedInstructorRows, 0);
+        assertEquals(numExpandedAccountRequestRows, 0);
     }
 
     public void verifyLinkExpansionButtons(StudentAttributes student,
@@ -589,11 +828,11 @@ public class AdminSearchPage extends AppPage {
         assertEquals(numExpandedAccountRequestRows, 0);
     }
 
-    public void verifyRegenerateStudentKey(StudentAttributes student, String originalJoinLink) {
-        verifyStatusMessage("Student's key for this course has been successfully regenerated,"
+    public void verifyRegenerateInstructorKey(Instructor instructor, String originalJoinLink) {
+        verifyStatusMessage("Instructor's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
 
-        String regeneratedJoinLink = getStudentJoinLink(student);
+        String regeneratedJoinLink = getInstructorJoinLink(instructor);
         assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 
@@ -604,5 +843,4 @@ public class AdminSearchPage extends AppPage {
         String regeneratedJoinLink = getInstructorJoinLink(instructor);
         assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
-
 }
