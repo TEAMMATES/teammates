@@ -11,7 +11,6 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.storage.sqlentity.Notification;
 
 /**
