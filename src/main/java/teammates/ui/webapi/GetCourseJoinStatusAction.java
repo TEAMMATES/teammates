@@ -4,12 +4,15 @@ import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.JoinStatus;
 
 /**
  * Get the join status of a course.
  */
-class GetCourseJoinStatusAction extends Action {
+public class GetCourseJoinStatusAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -38,29 +41,49 @@ class GetCourseJoinStatusAction extends Action {
     }
 
     private JsonResult getStudentJoinStatus(String regkey) {
-        StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
-        if (student == null) {
-            throw new EntityNotFoundException("No student with given registration key: " + regkey);
+        StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(regkey);
+
+        if (studentAttributes != null && !isCourseMigrated(studentAttributes.getCourse())) {
+            return getJoinStatusResult(studentAttributes.isRegistered());
+        } else {
+            Student student = sqlLogic.getStudentByRegistrationKey(regkey);
+
+            if (student == null) {
+                throw new EntityNotFoundException("No student with given registration key: " + regkey);
+            }
+            return getJoinStatusResult(student.isRegistered());
         }
-        return getJoinStatusResult(student.isRegistered());
     }
 
     private JsonResult getInstructorJoinStatus(String regkey, boolean isCreatingAccount) {
         if (isCreatingAccount) {
             AccountRequestAttributes accountRequest = logic.getAccountRequestForRegistrationKey(regkey);
-            if (accountRequest == null) {
+            AccountRequest sqlAccountRequest = sqlLogic.getAccountRequestByRegistrationKey(regkey);
+
+            if (accountRequest == null && sqlAccountRequest == null) {
                 throw new EntityNotFoundException("No account request with given registration key: " + regkey);
             }
-            return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
+
+            if (sqlAccountRequest != null) {
+                return getJoinStatusResult(sqlAccountRequest.getRegisteredAt() != null);
+            }
+            if (accountRequest != null) {
+                return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
+            }
         }
 
-        InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
+        InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(regkey);
 
-        if (instructor == null) {
-            throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
+        if (instructorAttributes != null && !isCourseMigrated(instructorAttributes.getCourseId())) {
+            return getJoinStatusResult(instructorAttributes.isRegistered());
+        } else {
+            Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regkey);
+
+            if (instructor == null) {
+                throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
+            }
+            return getJoinStatusResult(instructor.isRegistered());
         }
-
-        return getJoinStatusResult(instructor.isRegistered());
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {

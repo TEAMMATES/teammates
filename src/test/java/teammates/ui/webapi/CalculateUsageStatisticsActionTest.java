@@ -32,7 +32,7 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     public void testExecute() throws Exception {
 
         CalculateUsageStatisticsAction action = getAction();

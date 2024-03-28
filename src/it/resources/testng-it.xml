@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="component-tests">
+    <test name="component-tests">
+        <packages>
+            <package name="teammates.it" />
+            <package name="teammates.it.test" />
+            <package name="teammates.it.sqllogic.api" />
+            <package name="teammates.it.sqllogic.core" />
+            <package name="teammates.it.storage.sqlapi" />
+            <package name="teammates.it.storage.sqlsearch" />
+            <package name="teammates.it.ui.webapi" />
+        </packages>
+    </test>
+</suite>

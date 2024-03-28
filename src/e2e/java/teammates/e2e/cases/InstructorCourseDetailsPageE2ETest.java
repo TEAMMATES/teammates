@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,6 +36,10 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         student.setEmail(TestProperties.TEST_EMAIL);
 
         removeAndRestoreDataBundle(testData);
+
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorCourseDetailsPageE2ETest_SqlEntities.json"));
+
         course = testData.courses.get("ICDet.CS2104");
         fileName = "/" + course.getId() + "_studentList.csv";
     }
@@ -73,26 +78,26 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         StudentAttributes studentToView = testData.students.get("benny.tmms@ICDet.CS2104");
 
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
-                detailsPage.clickViewStudent(studentToView);
+                detailsPage.clickViewStudent(studentToView.getEmail());
         studentDetailsViewPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: edit student details page");
 
         InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
-                detailsPage.clickEditStudent(studentToView);
+                detailsPage.clickEditStudent(studentToView.getEmail());
         studentDetailsEditPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: view all records page");
 
         InstructorStudentRecordsPage studentRecordsPage =
-                detailsPage.clickViewAllRecords(studentToView);
+                detailsPage.clickViewAllRecords(studentToView.getEmail());
         studentRecordsPage.verifyIsCorrectPage(course.getId(), studentToView.getName());
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("send invite");
-        detailsPage.sendInvite(student);
+        detailsPage.sendInvite(student.getEmail());
 
         detailsPage.verifyStatusMessage("An email has been sent to " + student.getEmail());
         String expectedEmailSubject = "TEAMMATES: Invitation to join course ["
@@ -117,7 +122,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         detailsPage.sortByName();
         detailsPage.sortByStatus();
         StudentAttributes[] studentsAfterDelete = { students[0], students[3], students[1] };
-        detailsPage.deleteStudent(student);
+        detailsPage.deleteStudent(student.getEmail());
 
         detailsPage.verifyStatusMessage("Student is successfully deleted from course \""
                 + course.getId() + "\"");
@@ -133,6 +138,11 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         for (StudentAttributes student : studentsAfterDelete) {
             verifyAbsentInDatabase(student);
         }
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        BACKDOOR.removeDataBundle(testData);
     }
 
     private void verifyCourseDetails(InstructorCourseDetailsPage detailsPage, CourseAttributes course,

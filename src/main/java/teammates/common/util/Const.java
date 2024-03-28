@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 
+import teammates.storage.sqlentity.Section;
+
 /**
  * Stores constants that are widely used across classes.
  * this class contains several nested classes, each containing a specific
@@ -25,6 +27,7 @@ public final class Const {
     public static final int SECTION_SIZE_LIMIT = 100;
 
     public static final String DEFAULT_SECTION = "None";
+    public static final Section DEFAULT_SQL_SECTION = null;
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
@@ -36,6 +39,11 @@ public final class Const {
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
+
+    public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create an entity that exists: %s";
+    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
+
+    public static final String MISSING_RESPONSE_TEXT = "No Response";
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
@@ -314,6 +322,7 @@ public final class Const {
         private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
+        public static final String SQL_DATABUNDLE = URI_PREFIX + "/databundle/sql";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
         public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
         public static final String EXCEPTION = URI_PREFIX + "/exception";

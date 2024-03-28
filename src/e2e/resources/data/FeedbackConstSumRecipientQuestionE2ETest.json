@@ -1,12 +1,4 @@
 {
-  "accounts": {
-    "instructorWithSessions": {
-      "googleId": "tm.e2e.FCSumRcptQn.instructor",
-      "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "course": {
       "id": "tm.e2e.FCSumRcptQn.CS2104",

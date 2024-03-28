@@ -16,7 +16,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Create a new course for an instructor.
  */
-class CreateCourseAction extends Action {
+public class CreateCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

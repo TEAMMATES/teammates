@@ -32,16 +32,11 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final String ERROR_DELETE_DOCUMENT =
-            "Failed to delete document(s) %s in Solr. Root cause: %s ";
-    private static final String ERROR_SEARCH_DOCUMENT =
-            "Failed to search for document(s) %s from Solr. Root cause: %s ";
-    private static final String ERROR_SEARCH_NOT_IMPLEMENTED =
-            "Search service is not implemented";
-    private static final String ERROR_PUT_DOCUMENT =
-            "Failed to put document %s into Solr. Root cause: %s ";
-    private static final String ERROR_RESET_COLLECTION =
-            "Failed to reset collections. Root cause: %s ";
+    private static final String ERROR_DELETE_DOCUMENT = "Failed to delete document(s) %s in Solr. Root cause: %s ";
+    private static final String ERROR_SEARCH_DOCUMENT = "Failed to search for document(s) %s from Solr. Root cause: %s ";
+    private static final String ERROR_SEARCH_NOT_IMPLEMENTED = "Search service is not implemented";
+    private static final String ERROR_PUT_DOCUMENT = "Failed to put document %s into Solr. Root cause: %s ";
+    private static final String ERROR_RESET_COLLECTION = "Failed to reset collections. Root cause: %s ";
 
     private static final int START_INDEX = 0;
     private static final int NUM_OF_RESULTS = Const.SEARCH_QUERY_SIZE_LIMIT;
@@ -155,7 +150,8 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     }
 
     /**
-     * Resets the data for all collections if, and only if called during component tests.
+     * Resets the data for all collections if, and only if called during component
+     * tests.
      */
     public void resetCollections() {
         if (client == null || !isResetAllowed) {
@@ -222,11 +218,16 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
         for (SolrDocument document : documents) {
             T attribute = getAttributeFromDocument(document);
+            // Disabled for now
+            // Entity will be null if document corresponds to entity in datastore
+            // if (attribute == null) {
+            // // search engine out of sync as SearchManager may fail to delete documents
+            // // the chance is low and it is generally not a big problem
+            // String id = (String) document.getFirstValue("id");
+            // deleteDocuments(Collections.singletonList(id));
+            // continue;
+            // }
             if (attribute == null) {
-                // search engine out of sync as SearchManager may fail to delete documents
-                // the chance is low and it is generally not a big problem
-                String id = (String) document.getFirstValue("id");
-                deleteDocuments(Collections.singletonList(id));
                 continue;
             }
             result.add(attribute);

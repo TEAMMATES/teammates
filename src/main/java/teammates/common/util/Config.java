@@ -25,6 +25,21 @@ public final class Config {
     /** The value of the "app.frontend.url" in build.properties file. */
     public static final String APP_FRONTEND_URL;
 
+    /** The value of the "app.postgres.host" in build.properties file. */
+    public static final String POSTGRES_HOST;
+
+    /** The value of the "app.postgres.port" in build.properties file. */
+    public static final String POSTGRES_PORT;
+
+    /** The value of the "app.postgres.databasename" in build.properties file. */
+    public static final String POSTGRES_DATABASENAME;
+
+    /** The value of the "app.postgres.username" in build.properties file. */
+    public static final String POSTGRES_USERNAME;
+
+    /** The value of the "app.postgres.password" in build.properties file. */
+    public static final String POSTGRES_PASSWORD;
+
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
 
@@ -146,6 +161,11 @@ public final class Config {
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
+        POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
+        POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
+        POSTGRES_DATABASENAME = getProperty(properties, devProperties, "app.postgres.databasename");
+        POSTGRES_USERNAME = getProperty(properties, devProperties, "app.postgres.username");
+        POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
@@ -280,6 +300,13 @@ public final class Config {
 
     public static boolean isUsingFirebase() {
         return "firebase".equalsIgnoreCase(AUTH_TYPE);
+    }
+
+    /**
+     * Returns db connection URL.
+     */
+    public static String getDbConnectionUrl() {
+        return String.format("jdbc:postgresql://%s:%s/%s", POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DATABASENAME);
     }
 
     public static boolean isUsingSendgrid() {

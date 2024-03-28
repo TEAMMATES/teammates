@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
@@ -29,8 +30,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -265,12 +270,39 @@ public abstract class AbstractBackDoor {
     }
 
     /**
+     * Removes and restores given data in the database. This method is to be called on test startup.
+     */
+    public SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
+        removeSqlDataBundle(dataBundle);
+        ResponseBodyAndCode putRequestOutput =
+                executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
+            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
+                    + putRequestOutput.responseBody);
+        }
+
+        JsonObject jsonObject = JsonParser.parseString(putRequestOutput.responseBody).getAsJsonObject();
+        // data bundle is nested under message key
+        String message = jsonObject.get("message").getAsString();
+        return JsonUtils.fromJson(message, SqlDataBundle.class);
+    }
+
+    /**
      * Removes given data from the database.
      *
      * <p>If given entities have already been deleted, it fails silently.
      */
     public void removeDataBundle(DataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    }
+
+    /**
+     * Removes given data from the database.
+     *
+     * <p>If given entities have already been deleted, it fails silently.
+     */
+    public void removeSqlDataBundle(SqlDataBundle dataBundle) {
+        executePutRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
     /**
@@ -285,12 +317,31 @@ public abstract class AbstractBackDoor {
         return output.getMessage();
     }
 
+    // TODO: remove params after migration
     /**
      * Puts searchable documents in data bundle into the database.
      */
     public String putDocuments(DataBundle dataBundle) throws HttpRequestFailedException {
+        Map<String, String> params = new HashMap<>();
+        params.put("databundletype", "datastore");
         ResponseBodyAndCode putRequestOutput =
-                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, null, JsonUtils.toJson(dataBundle));
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
+        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
+            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
+                    + putRequestOutput.responseBody);
+        }
+        return putRequestOutput.responseBody;
+    }
+
+    // TODO: remove method after migration
+    /**
+     * Puts searchable documents in data bundle into the SQL database.
+     */
+    public String putSqlDocuments(SqlDataBundle dataBundle) throws HttpRequestFailedException {
+        Map<String, String> params = new HashMap<>();
+        params.put("databundletype", "sql");
+        ResponseBodyAndCode putRequestOutput =
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
             throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
                     + putRequestOutput.responseBody);
@@ -299,9 +350,9 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets an account from the database.
+     * Gets account data from the database.
      */
-    public AccountAttributes getAccount(String googleId) {
+    public AccountData getAccountData(String googleId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.INSTRUCTOR_ID, googleId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT, params);
@@ -309,7 +360,14 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        AccountData accountData = JsonUtils.fromJson(response.responseBody, AccountData.class);
+        return JsonUtils.fromJson(response.responseBody, AccountData.class);
+    }
+
+    /**
+     * Gets an account from the database.
+     */
+    public AccountAttributes getAccount(String googleId) {
+        AccountData accountData = getAccountData(googleId);
         return AccountAttributes.builder(accountData.getGoogleId())
                 .withName(accountData.getName())
                 .withEmail(accountData.getEmail())
@@ -615,10 +673,10 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback question from database.
+     * Get feedback question data from database.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
-                                                                 int qnNumber) {
+    public FeedbackQuestionData getFeedbackQuestionData(String courseId, String feedbackSessionName,
+                                                                int qnNumber) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
         params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -629,11 +687,19 @@ public abstract class AbstractBackDoor {
         }
 
         FeedbackQuestionsData questionsData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
-        FeedbackQuestionData question = questionsData.getQuestions()
+        return questionsData.getQuestions()
                 .stream()
                 .filter(fq -> fq.getQuestionNumber() == qnNumber)
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Get feedback question from database.
+     */
+    public FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
+                                                                 int qnNumber) {
+        FeedbackQuestionData question = getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
 
         if (question == null) {
             return null;
@@ -688,10 +754,10 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response from database.
+     * Get feedback response data from database.
      */
-    public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
-                                                                 String recipient) {
+    public FeedbackResponseData getFeedbackResponseData(String feedbackQuestionId, String giver,
+                                                                String recipient) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -702,11 +768,19 @@ public abstract class AbstractBackDoor {
         }
 
         FeedbackResponsesData responsesData = JsonUtils.fromJson(response.responseBody, FeedbackResponsesData.class);
-        FeedbackResponseData fr = responsesData.getResponses()
+        return responsesData.getResponses()
                 .stream()
                 .filter(r -> r.getGiverIdentifier().equals(giver) && r.getRecipientIdentifier().equals(recipient))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Get feedback response from database.
+     */
+    public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
+                                                                 String recipient) {
+        FeedbackResponseData fr = getFeedbackResponseData(feedbackQuestionId, giver, recipient);
 
         if (fr == null) {
             return null;
@@ -840,6 +914,15 @@ public abstract class AbstractBackDoor {
     public void deleteNotification(String notificationId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
+        executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Deletes a notification from the database.
+     */
+    public void deleteNotification(UUID notificationId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
     }
 

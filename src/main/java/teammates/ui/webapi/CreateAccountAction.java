@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -23,12 +22,13 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.
  */
-class CreateAccountAction extends Action {
+public class CreateAccountAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
@@ -52,21 +52,20 @@ class CreateAccountAction extends Action {
             timezone = Const.DEFAULT_TIME_ZONE;
         }
 
-        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
+        AccountRequest accountRequest = sqlLogic.getAccountRequestByRegistrationKey(registrationKey);
 
-        if (accountRequestAttributes == null) {
+        if (accountRequest == null) {
             throw new EntityNotFoundException("Account request with registration key "
                     + registrationKey + " could not be found");
         }
 
-        if (accountRequestAttributes.getRegisteredAt() != null) {
+        if (accountRequest.getRegisteredAt() != null) {
             throw new InvalidOperationException("The registration key " + registrationKey + " has already been used.");
         }
 
-        String instructorEmail = accountRequestAttributes.getEmail();
-        String instructorName = accountRequestAttributes.getName();
-        String instructorInstitution = accountRequestAttributes.getInstitute();
-
+        String instructorEmail = accountRequest.getEmail();
+        String instructorName = accountRequest.getName();
+        String instructorInstitution = accountRequest.getInstitute();
         String courseId;
 
         try {
@@ -93,10 +92,7 @@ class CreateAccountAction extends Action {
         }
 
         try {
-            logic.updateAccountRequest(AccountRequestAttributes
-                    .updateOptionsBuilder(instructorEmail, instructorInstitution)
-                    .withRegisteredAt(Instant.now())
-                    .build());
+            setAccountRequestAsRegistered(accountRequest, instructorEmail, instructorInstitution);
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
@@ -105,6 +101,22 @@ class CreateAccountAction extends Action {
         }
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
+    }
+
+    /**
+     * Abstracts the logic of updating an account request to be registered.
+     *
+     * @return the updated account request
+     */
+    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest,
+            String instructorEmail, String instructorInstitution)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        accountRequest.setEmail(instructorEmail);
+        accountRequest.setInstitute(instructorInstitution);
+        accountRequest.setRegisteredAt(Instant.now());
+
+        sqlLogic.updateAccountRequest(accountRequest);
+        return accountRequest;
     }
 
     private static String getDateString(Instant instant) {
@@ -241,7 +253,7 @@ class CreateAccountAction extends Action {
      *         <li>012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)</li>
      *         </ul>
      */
-    String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
+    public String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId), maximumIdLength);

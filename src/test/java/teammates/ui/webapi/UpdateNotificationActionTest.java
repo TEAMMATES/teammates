@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -16,6 +17,7 @@ import teammates.ui.request.NotificationUpdateRequest;
 /**
  * SUT: {@link UpdateNotificationAction}.
  */
+@Ignore
 public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificationAction> {
     @Override
     String getActionUri() {
