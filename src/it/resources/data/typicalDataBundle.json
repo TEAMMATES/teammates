@@ -80,7 +80,9 @@
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "2015-02-14T00:00:00Z"
+      "registeredAt": "2015-02-14T00:00:00Z",
+      "comments": "Comments for account request from instructor3",
+      "status": "REGISTERED"
     },
     "instructor3": {
       "name": "Instructor 3 of CourseNoRegister",
