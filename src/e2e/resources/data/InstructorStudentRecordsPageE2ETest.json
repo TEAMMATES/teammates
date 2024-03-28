@@ -1,18 +1,4 @@
 {
-  "accounts": {
-    "teammates.test": {
-      "googleId": "tm.e2e.ISRecords.teammates.test",
-      "name": "Teammates Test",
-      "email": "teammates.test@gmail.tmt",
-      "readNotifications": {}
-    },
-    "benny.c.tmms@ISR.CS2104": {
-      "googleId": "tm.e2e.ISRecords.benny.c.tmms",
-      "name": "Benny Charlés",
-      "email": "benny.c.tmms@gmail.tmt",
-      "readNotifications": {}
-    }
-  },
   "courses": {
     "CS2104": {
       "id": "tm.e2e.ISRecords.CS2104",

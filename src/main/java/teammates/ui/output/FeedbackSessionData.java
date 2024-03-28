@@ -1,6 +1,7 @@
 package teammates.ui.output;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,10 @@ import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * The API output format of {@link FeedbackSessionAttributes}.
@@ -23,7 +28,7 @@ public class FeedbackSessionData extends ApiOutput {
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
     @Nullable
-    private final Long submissionEndWithExtensionTimestamp;
+    private Long submissionEndWithExtensionTimestamp;
     @Nullable
     private Long sessionVisibleFromTimestamp;
     @Nullable
@@ -137,6 +142,114 @@ public class FeedbackSessionData extends ApiOutput {
                 .collect(Collectors.toMap(Map.Entry::getKey, entry ->
                         TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
                                 .toEpochMilli()));
+    }
+
+    public FeedbackSessionData(FeedbackSession feedbackSession) {
+        assert feedbackSession != null;
+        assert feedbackSession.getCourse() != null;
+        String timeZone = feedbackSession.getCourse().getTimeZone();
+        this.courseId = feedbackSession.getCourse().getId();
+        this.timeZone = timeZone;
+        this.feedbackSessionName = feedbackSession.getName();
+        this.instructions = feedbackSession.getInstructions();
+        this.submissionStartTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSession.getStartTime(), timeZone, true).toEpochMilli();
+        this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
+        // If no deadline extension time is provided, then the end time with extension is assumed to be
+        // just the end time.
+        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+            feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
+        this.gracePeriod = feedbackSession.getGracePeriod().toMinutes();
+
+        Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
+        this.sessionVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                sessionVisibleTime, timeZone, true).toEpochMilli();
+        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            this.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
+        } else {
+            this.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
+            this.customSessionVisibleTimestamp = this.sessionVisibleFromTimestamp;
+        }
+
+        Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
+        this.resultVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                responseVisibleTime, timeZone, true).toEpochMilli();
+        if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            this.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
+        } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            this.responseVisibleSetting = ResponseVisibleSetting.LATER;
+        } else {
+            this.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
+            this.customResponseVisibleTimestamp = this.resultVisibleFromTimestamp;
+        }
+
+        if (!feedbackSession.isVisible()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+        } else if (feedbackSession.isVisible() && !feedbackSession.isOpened()
+                && !feedbackSession.isClosed()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+        } else if (feedbackSession.isInGracePeriod()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        } else if (feedbackSession.isOpened()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
+        } else if (feedbackSession.isClosed()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
+        }
+
+        if (feedbackSession.isPublished()) {
+            this.publishStatus = FeedbackSessionPublishStatus.PUBLISHED;
+        } else {
+            this.publishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
+        }
+
+        this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
+        this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
+
+        this.createdAtTimestamp = feedbackSession.getCreatedAt().toEpochMilli();
+        if (feedbackSession.getDeletedAt() == null) {
+            this.deletedAtTimestamp = null;
+        } else {
+            this.deletedAtTimestamp = feedbackSession.getDeletedAt().toEpochMilli();
+        }
+
+        this.studentDeadlines = new HashMap<>();
+        this.instructorDeadlines = new HashMap<>();
+
+        // place deadline extensions into appropriate student and instructor deadline maps
+        for (DeadlineExtension de : feedbackSession.getDeadlineExtensions()) {
+            if (de.getUser() instanceof Student) {
+                this.studentDeadlines.put(de.getUser().getEmail(),
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
+            }
+            if (de.getUser() instanceof Instructor) {
+                this.instructorDeadlines.put(de.getUser().getEmail(),
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
+            }
+        }
+    }
+
+    /**
+     * Constructs FeedbackSessionData for a given user deadline.
+     */
+    public FeedbackSessionData(FeedbackSession feedbackSession, Instant extendedDeadline) {
+        this(feedbackSession);
+
+        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+            extendedDeadline, timeZone, true).toEpochMilli();
+
+        if (!feedbackSession.isVisible()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+        } else if (feedbackSession.isVisible() && !feedbackSession.isOpenedGivenExtendedDeadline(extendedDeadline)
+                && !feedbackSession.isClosedGivenExtendedDeadline(extendedDeadline)) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+        } else if (feedbackSession.isInGracePeriodGivenExtendedDeadline(extendedDeadline)) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        } else if (feedbackSession.isOpenedGivenExtendedDeadline(extendedDeadline)) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
+        } else if (feedbackSession.isClosedGivenExtendedDeadline(extendedDeadline)) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
+        }
     }
 
     public String getCourseId() {
@@ -297,6 +410,16 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
+     * Hides some attributes to student.
+     */
+    public void hideInformationForStudent(String studentEmail) {
+        hideInformationForStudentAndInstructor();
+        hideSessionVisibilityTimestamps();
+        studentDeadlines.keySet().removeIf(email -> !(email.equals(studentEmail)));
+        instructorDeadlines.clear();
+    }
+
+    /**
      * Hides some attributes to instructor without appropriate privilege.
      */
     public void hideInformationForInstructor() {
@@ -305,10 +428,27 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
+     * Hides some attributes to instructor without appropriate privilege.
+     */
+    public void hideInformationForInstructor(String instructorEmail) {
+        hideInformationForStudentAndInstructor();
+        instructorDeadlines.keySet().removeIf(email -> !(email.equals(instructorEmail)));
+        studentDeadlines.clear();
+    }
+
+    /**
      * Hides some attributes for instructor who is submitting feedback session.
      */
     public void hideInformationForInstructorSubmission() {
         hideInformationForInstructor();
+        hideSessionVisibilityTimestamps();
+    }
+
+    /**
+     * Hides some attributes for instructor who is submitting feedback session.
+     */
+    public void hideInformationForInstructorSubmission(String userEmail) {
+        hideInformationForInstructor(userEmail);
         hideSessionVisibilityTimestamps();
     }
 

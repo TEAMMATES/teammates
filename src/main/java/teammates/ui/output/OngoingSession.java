@@ -3,11 +3,12 @@ package teammates.ui.output;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * A single ongoing session.
@@ -22,13 +23,35 @@ public class OngoingSession {
     private final String courseId;
     private final String feedbackSessionName;
 
-    public OngoingSession(FeedbackSessionAttributes fs, AccountAttributes account) {
+    public OngoingSession(FeedbackSession fs, String googleId) {
+        this.sessionStatus = getSessionStatusForShow(fs);
+        String instructorHomePageLink;
+        if (googleId == null) {
+            instructorHomePageLink = null;
+        } else {
+            instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
+                    .withUserId(googleId)
+                    .toString();
+        }
+        this.instructorHomePageLink = instructorHomePageLink;
+        Course course = fs.getCourse();
+        String timeZone = course.getTimeZone();
+        this.startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getStartTime(), timeZone, true)
+                .toEpochMilli();
+        this.endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getEndTime(), timeZone, true)
+                .toEpochMilli();
+        this.creatorEmail = fs.getCreatorEmail();
+        this.courseId = course.getId();
+        this.feedbackSessionName = fs.getName();
+    }
+
+    public OngoingSession(FeedbackSessionAttributes fs, String googleId) {
         this.sessionStatus = getSessionStatusForShow(fs);
 
         String instructorHomePageLink = "";
-        if (account != null) {
+        if (googleId != null) {
             instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withUserId(account.getGoogleId())
+                    .withUserId(googleId)
                     .toString();
         }
         this.instructorHomePageLink = instructorHomePageLink;
@@ -40,6 +63,29 @@ public class OngoingSession {
         this.creatorEmail = fs.getCreatorEmail();
         this.courseId = fs.getCourseId();
         this.feedbackSessionName = fs.getFeedbackSessionName();
+    }
+
+    /**
+     * Gets the status for a feedback session to be displayed to the user.
+     */
+    private String getSessionStatusForShow(FeedbackSession fs) {
+        List<String> status = new ArrayList<>();
+        if (fs.isClosed()) {
+            status.add("[Closed]");
+        }
+        if (fs.isOpened()) {
+            status.add("[Opened]");
+        }
+        if (fs.isWaitingToOpen()) {
+            status.add("[Waiting To Open]");
+        }
+        if (fs.isPublished()) {
+            status.add("[Published]");
+        }
+        if (fs.isInGracePeriod()) {
+            status.add("[Grace Period]");
+        }
+        return status.isEmpty() ? "No Status" : String.join(" ", status);
     }
 
     /**

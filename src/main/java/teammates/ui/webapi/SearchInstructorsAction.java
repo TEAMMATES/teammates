@@ -6,27 +6,56 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 
 /**
  * Searches for instructors.
  */
-class SearchInstructorsAction extends AdminOnlyAction {
+public class SearchInstructorsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
+        // Search for sql db
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        List<InstructorAttributes> instructors;
+        List<Instructor> instructors;
         try {
-            instructors = logic.searchInstructorsInWholeSystem(searchKey);
+            instructors = sqlLogic.searchInstructorsInWholeSystem(searchKey);
+        } catch (SearchServiceException e) {
+            return new JsonResult(e.getMessage(), e.getStatusCode());
+        }
+
+        // Search for datastore
+        List<InstructorAttributes> instructorsDatastore;
+        try {
+            instructorsDatastore = logic.searchInstructorsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
             return new JsonResult(e.getMessage(), e.getStatusCode());
         }
 
         List<InstructorData> instructorDataList = new ArrayList<>();
-        for (InstructorAttributes instructor : instructors) {
+
+        // Add instructors from sql db
+        for (Instructor instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
+            instructorData.addAdditionalInformationForAdminSearch(
+                    instructor.getRegKey(),
+                    sqlLogic.getCourse(instructor.getCourseId()).getInstitute(),
+                    instructor.getGoogleId());
+
+            instructorDataList.add(instructorData);
+        }
+
+        // Add instructors from datastore
+        for (InstructorAttributes instructor : instructorsDatastore) {
+
+            InstructorData instructorData = new InstructorData(instructor);
+
+            if (isCourseMigrated(instructorData.getCourseId())) {
+                continue;
+            }
+
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getKey(),
                     logic.getCourseInstitute(instructor.getCourseId()),

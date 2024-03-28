@@ -35,6 +35,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCoursesPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCoursesPageE2ETest_SqlEntities.json"));
 
         courses[0] = testData.courses.get("CS1101");
         courses[1] = testData.courses.get("CS2104");
@@ -103,7 +104,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        String instructorId = testData.accounts.get("instructor").getGoogleId();
+        String instructorId = sqlTestData.accounts.get("instructor").getGoogleId();
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
         InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
 

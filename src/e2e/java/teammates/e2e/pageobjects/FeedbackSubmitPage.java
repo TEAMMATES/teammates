@@ -37,6 +37,7 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
  * Represents the feedback submission page of the website.
@@ -155,8 +156,23 @@ public class FeedbackSubmitPage extends AppPage {
         writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
     }
 
+    public void fillTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackTextResponseDetails responseDetails =
+                (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
+        writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
+    }
+
     public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackTextResponseDetails responseDetails = (FeedbackTextResponseDetails) response.getResponseDetailsCopy();
+        int responseLength = responseDetails.getAnswer().split(" ").length;
+        assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
+        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
+                + " words");
+    }
+
+    public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackTextResponseDetails responseDetails =
+                (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
         int responseLength = responseDetails.getAnswer().split(" ").length;
         assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
         assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
@@ -185,6 +201,22 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void fillMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetailsCopy();
+        if (responseDetails.isOther()) {
+            markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
+            fillTextBox(getMcqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
+        } else {
+            List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
+            for (int i = 0; i < optionTexts.size(); i++) {
+                if (optionTexts.get(i).getText().equals(responseDetails.getAnswer())) {
+                    markOptionAsSelected(getMcqRadioBtns(qnNumber, recipient).get(i));
+                    break;
+                }
+            }
+        }
+    }
+
+    public void fillMcqResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
         if (responseDetails.isOther()) {
             markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
             fillTextBox(getMcqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
@@ -274,8 +306,52 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
+        for (int i = 0; i < optionTexts.size(); i++) {
+            if (answers.contains(optionTexts.get(i).getText())) {
+                markOptionAsSelected(checkboxes.get(i));
+            } else {
+                markOptionAsUnselected(checkboxes.get(i));
+            }
+        }
+        if (responseDetails.isOther()) {
+            markOptionAsSelected(getMsqOtherOptionCheckbox(qnNumber, recipient));
+            fillTextBox(getMsqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
+        }
+    }
+
     public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetailsCopy();
+        List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
+        for (int i = 0; i < optionTexts.size(); i++) {
+            if (answers.contains(optionTexts.get(i).getText())) {
+                assertTrue(checkboxes.get(i).isSelected());
+            } else if ("Other".equals(optionTexts.get(i).getText())) {
+                assertEquals(checkboxes.get(i).isSelected(), responseDetails.isOther());
+            } else {
+                assertFalse(checkboxes.get(i).isSelected());
+            }
+        }
+        if (responseDetails.isOther()) {
+            assertEquals(getMsqOtherOptionTextbox(qnNumber, recipient).getAttribute("value"),
+                    responseDetails.getOtherFieldContent());
+        }
+    }
+
+    public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<String> answers = responseDetails.getAnswers();
         if (answers.get(0).isEmpty()) {
             answers.add("None of the above");
@@ -486,6 +562,20 @@ public class FeedbackSubmitPage extends AppPage {
     public void fillRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackRankOptionsResponseDetails responseDetails =
                 (FeedbackRankOptionsResponseDetails) response.getResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i), "");
+            } else {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i),
+                        Integer.toString(answers.get(i)));
+            }
+        }
+    }
+
+    public void fillRankOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackRankOptionsResponseDetails responseDetails =
+                (FeedbackRankOptionsResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswers();
         for (int i = 0; i < answers.size(); i++) {
             if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {

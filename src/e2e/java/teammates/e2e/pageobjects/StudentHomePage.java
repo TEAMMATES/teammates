@@ -25,8 +25,16 @@ public class StudentHomePage extends AppPage {
         return browser.driver.findElements(By.cssSelector("div.card.bg-light"));
     }
 
-    public void verifyVisibleCourseToStudents(String courseName, int index) {
-        assertTrue(getStudentHomeCoursePanels().get(index).getText().contains(courseName));
+    public int getStudentHomeCoursePanelIndex(String courseName) {
+        List<WebElement> coursePanels = getStudentHomeCoursePanels();
+        int coursePanelIndex = -1;
+        for (int i = 0; i < coursePanels.size(); i++) {
+            if (coursePanels.get(i).getText().contains(courseName)) {
+                coursePanelIndex = i;
+            }
+        }
+        assertTrue(coursePanelIndex >= 0);
+        return coursePanelIndex;
     }
 
     public void verifyVisibleFeedbackSessionToStudents(String feedbackSessionName, int index) {
@@ -47,6 +55,11 @@ public class StudentHomePage extends AppPage {
         waitForElementToBeClickable(markNotifAsReadButton);
         click(markNotifAsReadButton);
         waitUntilAnimationFinish();
+    }
+
+    public String getNotificationId() {
+        WebElement notificationBanner = browser.driver.findElement(By.id("notification-banner"));
+        return notificationBanner.getAttribute("data-testid");
     }
 
 }

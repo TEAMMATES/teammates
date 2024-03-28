@@ -20,6 +20,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentHomePageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        sqlTestData =
+                removeAndRestoreSqlDataBundle(loadSqlDataBundle("/StudentHomePageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -32,18 +34,16 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         ______TS("courses visible to student are shown");
         List<String> courseIds = getAllVisibleCourseIds();
 
-        for (int i = 0; i < courseIds.size(); i++) {
-            String courseId = courseIds.get(i);
-
-            homePage.verifyVisibleCourseToStudents(courseId, i);
+        courseIds.forEach(courseId -> {
+            int panelIndex = homePage.getStudentHomeCoursePanelIndex(courseId);
 
             String feedbackSessionName = testData.feedbackSessions.entrySet().stream()
                     .filter(feedbackSession -> courseId.equals(feedbackSession.getValue().getCourseId()))
                     .map(x -> x.getValue().getFeedbackSessionName())
                     .collect(Collectors.joining());
 
-            homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i);
-        }
+            homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, panelIndex);
+        });
 
         ______TS("notification banner is visible");
         assertTrue(homePage.isBannerVisible());

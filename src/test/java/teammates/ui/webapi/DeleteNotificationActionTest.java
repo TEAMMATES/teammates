@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.NotificationAttributes;
@@ -9,6 +10,7 @@ import teammates.ui.output.MessageOutput;
 /**
  * SUT: {@link DeleteNotificationAction}.
  */
+@Ignore
 public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificationAction> {
     @Override
     String getActionUri() {

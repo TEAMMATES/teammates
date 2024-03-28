@@ -9,11 +9,14 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Task queue worker action: sends feedback session reminder email to a course.
  */
-class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
+public class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
@@ -23,22 +26,50 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String instructorId = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_ID);
 
+        if (!isCourseMigrated(courseId)) {
+            try {
+                FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+                List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
+                List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+
+                InstructorAttributes instructorToNotify = logic.getInstructorForGoogleId(courseId, instructorId);
+
+                List<StudentAttributes> studentsToRemindList = studentList.stream().filter(student ->
+                        !logic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam())
+                ).collect(Collectors.toList());
+
+                List<InstructorAttributes> instructorsToRemindList = instructorList.stream().filter(instructor ->
+                        !logic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())
+                ).collect(Collectors.toList());
+
+                List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
+                        session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
+                taskQueuer.scheduleEmailsForSending(emails);
+            } catch (Exception e) {
+                log.severe("Unexpected error while sending emails", e);
+            }
+            return new JsonResult("Successful");
+        }
+
         try {
-            FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-            List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-            List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+            FeedbackSession session = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
+            List<Student> studentList = sqlLogic.getStudentsForCourse(courseId);
+            List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
 
-            InstructorAttributes instructorToNotify = logic.getInstructorForGoogleId(courseId, instructorId);
+            Instructor instructorToNotify = sqlLogic.getInstructorByGoogleId(courseId, instructorId);
 
-            List<StudentAttributes> studentsToRemindList = studentList.stream().filter(student ->
-                    !logic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam())
-            ).collect(Collectors.toList());
+            List<Student> studentsToRemindList = studentList
+                    .stream()
+                    .filter(student -> !sqlLogic.isFeedbackSessionAttemptedByStudent(
+                            session, student.getEmail(), student.getTeamName()))
+                    .collect(Collectors.toList());
 
-            List<InstructorAttributes> instructorsToRemindList = instructorList.stream().filter(instructor ->
-                    !logic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())
-            ).collect(Collectors.toList());
+            List<Instructor> instructorsToRemindList = instructorList
+                    .stream()
+                    .filter(instructor -> !sqlLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail()))
+                    .collect(Collectors.toList());
 
-            List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
+            List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
@@ -46,5 +77,4 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
         }
         return new JsonResult("Successful");
     }
-
 }

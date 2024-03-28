@@ -7,6 +7,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -14,7 +15,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Edits an instructor in a course.
  */
-class UpdateInstructorAction extends Action {
+public class UpdateInstructorAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -29,16 +30,49 @@ class UpdateInstructorAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        if (isCourseMigrated(courseId)) {
+            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyAccessible(
+                    instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        } else {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(
+                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        }
     }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
+
+        if (!isCourseMigrated(courseId)) {
+            return executeWithDatastore(courseId, instructorRequest);
+        }
+
+        Instructor updatedInstructor;
+        try {
+            updatedInstructor = sqlLogic.updateInstructorCascade(courseId, instructorRequest);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
+        } catch (InstructorUpdateException e) {
+            throw new InvalidOperationException(e);
+        } catch (EntityDoesNotExistException ednee) {
+            throw new EntityNotFoundException(ednee);
+        }
+
+        sqlLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
+
+        InstructorData newInstructorData = new InstructorData(updatedInstructor);
+        newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
+
+        taskQueuer.scheduleInstructorForSearchIndexing(updatedInstructor.getCourseId(), updatedInstructor.getEmail());
+
+        return new JsonResult(newInstructorData);
+    }
+
+    private JsonResult executeWithDatastore(String courseId, InstructorCreateRequest instructorRequest)
+            throws InvalidHttpRequestBodyException, InvalidOperationException {
         InstructorAttributes instructorToEdit =
                 retrieveEditedInstructor(courseId, instructorRequest.getId(),
                         instructorRequest.getName(), instructorRequest.getEmail(),

@@ -6,6 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -13,7 +15,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Updates a course.
  */
-class UpdateCourseAction extends Action {
+public class UpdateCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -27,8 +29,17 @@ class UpdateCourseAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        CourseAttributes course = logic.getCourse(courseId);
+
+        if (!isCourseMigrated(courseId)) {
+            InstructorAttributes instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
+            gateKeeper.verifyAccessible(instructorAttributes, courseAttributes,
+                    Const.InstructorPermissions.CAN_MODIFY_COURSE);
+            return;
+        }
+
+        Course course = sqlLogic.getCourse(courseId);
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
@@ -44,20 +55,30 @@ class UpdateCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String courseName = courseUpdateRequest.getCourseName();
-        CourseAttributes updatedCourse;
 
         try {
-            updatedCourse = logic.updateCourseCascade(
-                    CourseAttributes.updateOptionsBuilder(courseId)
-                            .withName(courseName)
-                            .withTimezone(courseTimeZone)
-                            .build());
+            if (!isCourseMigrated(courseId)) {
+                return updateWithDatastore(courseId, courseName, courseTimeZone);
+            }
+
+            Course updatedCourse = sqlLogic.updateCourse(courseId, courseName, courseTimeZone);
+
+            return new JsonResult(new CourseData(updatedCourse));
+
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException edee) {
             throw new EntityNotFoundException(edee);
         }
+    }
 
-        return new JsonResult(new CourseData(updatedCourse));
+    private JsonResult updateWithDatastore(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes updatedCourseAttributes = logic.updateCourseCascade(
+                CourseAttributes.updateOptionsBuilder(courseId)
+                    .withName(courseName)
+                    .withTimezone(courseTimeZone)
+                    .build());
+        return new JsonResult(new CourseData(updatedCourseAttributes));
     }
 }

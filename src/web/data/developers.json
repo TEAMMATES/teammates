@@ -216,6 +216,10 @@
       "username": "andydaehn"
     },
     {
+      "name": "Andy",
+      "username": "Andy-W-Developer"
+    },
+    {
       "multiple": true,
       "name": "Ang Ji Kai",
       "username": "zikai88"
@@ -449,6 +453,11 @@
       "multiple": true,
       "name": "Chin Yong Wei",
       "username": "vertigogarden"
+    },
+    {
+      "multiple": true,
+      "name": "Ching Ming Yuan",
+      "username": "mingyuanc"
     },
     {
       "multiple": true,
@@ -1215,6 +1224,10 @@
       "username": "leonardomilv3"
     },
     {
+      "name": "Leyan Guan",
+      "username": "leyguan"
+    },
+    {
       "multiple": true,
       "name": "Lian Wenhui Florine"
     },
@@ -1360,6 +1373,7 @@
       "username": "mattlim1207"
     },
     {
+      "multiple": true,
       "name": "Maureen Chang",
       "username": "techMedMau"
     },
@@ -1433,6 +1447,10 @@
     {
       "name": "Mukesh Gupta",
       "username": "mukesh14149"
+    },
+    {
+      "name": "Nada Ayesh",
+      "username": "nadasuhailAyesh12"
     },
     {
       "name": "Naga Rani",
@@ -2241,6 +2259,11 @@
       "username": "hoangphuoc25"
     },
     {
+      "multiple": true,
+      "name": "Tye Jia Jun, Marques",
+      "username": "marquestye"
+    },
+    {
       "username": "u6867511"
     },
     {
@@ -2322,6 +2345,10 @@
       "name": "Wang Chao"
     },
     {
+      "name": "Wang JingTing",
+      "username": "jingting1412"
+    },
+    {
       "name": "Wang Yuqing",
       "username": "yuqingw"
     },
@@ -2340,6 +2367,11 @@
     {
       "name": "Wu Xiao Xiao",
       "username": "a0129998"
+    },
+    {
+      "multiple": true,
+      "name": "Xenos Fiorenzo Anong",
+      "username": "xenosf"
     },
     {
       "multiple": true,
@@ -2393,6 +2425,11 @@
     {
       "multiple": true,
       "name": "Yen Zi Shyun"
+    },
+    {
+      "multiple": true,
+      "name": "Yeo Di Sheng",
+      "username": "dishenggg"
     },
     {
       "name": "Yi Chen",
@@ -2471,6 +2508,7 @@
       "username": "yilun-zhu"
     },
     {
+      "multiple": true,
       "name": "Zhu Yuanxi",
       "username": "yuanxi1"
     },

@@ -9,14 +9,16 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
- * Update instructor privilege by instructors with instructor modify permission.
+ * Updates an instructor's privileges.
+ * Can only be accessed by instructors with the modify instructor permission.
  */
-class UpdateInstructorPrivilegeAction extends Action {
+public class UpdateInstructorPrivilegeAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
@@ -28,17 +30,46 @@ class UpdateInstructorPrivilegeAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        if (isCourseMigrated(courseId)) {
+            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyAccessible(
+                    instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        } else {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyAccessible(
+                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        }
     }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         String emailOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+
+        if (!isCourseMigrated(courseId)) {
+            return executeWithDatastore(courseId, emailOfInstructorToUpdate);
+        }
+
+        Instructor instructorToUpdate = sqlLogic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
+
+        if (instructorToUpdate == null) {
+            throw new EntityNotFoundException("Instructor does not exist.");
+        }
+
+        InstructorPrivilegeUpdateRequest request = getAndValidateRequestBody(InstructorPrivilegeUpdateRequest.class);
+        InstructorPrivileges newPrivileges = request.getPrivileges();
+        newPrivileges.validatePrivileges();
+
+        instructorToUpdate.setPrivileges(newPrivileges);
+        sqlLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+
+        InstructorPrivilegeData response = new InstructorPrivilegeData(instructorToUpdate.getPrivileges());
+        return new JsonResult(response);
+    }
+
+    private JsonResult executeWithDatastore(String courseId, String emailOfInstructorToUpdate)
+            throws InvalidHttpRequestBodyException {
         InstructorAttributes instructorToUpdate = logic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
 
         if (instructorToUpdate == null) {

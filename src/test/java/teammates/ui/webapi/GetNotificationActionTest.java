@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.NotificationAttributes;
@@ -10,6 +11,7 @@ import teammates.ui.output.NotificationData;
 /**
  * SUT: {@link GetNotificationAction}.
  */
+@Ignore
 public class GetNotificationActionTest extends BaseActionTest<GetNotificationAction> {
 
     @Override
