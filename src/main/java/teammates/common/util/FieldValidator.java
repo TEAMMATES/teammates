@@ -81,7 +81,7 @@ public final class FieldValidator {
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
-
+    
     /*
      * =======================================================================
      * Field: Course ID
