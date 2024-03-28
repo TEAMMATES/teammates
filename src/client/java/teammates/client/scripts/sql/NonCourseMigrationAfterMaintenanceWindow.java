@@ -1,7 +1,7 @@
 package teammates.client.scripts.sql;
 
 /**
- * Step 3 in the non course migration process.
+ * Step 8 in the non course migration process.
  */
 @SuppressWarnings("PMD")
 public class NonCourseMigrationStep8 {
