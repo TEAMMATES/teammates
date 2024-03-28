@@ -54,7 +54,7 @@ public class AdminNotificationsPage extends AppPage {
     @FindBy(id = "notification-end-time")
     private WebElement endTimeDropdown;
 
-    @FindBy(css = "tm-sortable-table")
+    @FindBy(id = "notifications-table")
     private WebElement notificationsTable;
 
     public AdminNotificationsPage(Browser browser) {
