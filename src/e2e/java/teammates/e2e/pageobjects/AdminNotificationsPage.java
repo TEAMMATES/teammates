@@ -54,7 +54,7 @@ public class AdminNotificationsPage extends AppPage {
     @FindBy(id = "notification-end-time")
     private WebElement endTimeDropdown;
 
-    @FindBy(id = "notifications-table")
+    @FindBy(css = "tm-sortable-table")
     private WebElement notificationsTable;
 
     public AdminNotificationsPage(Browser browser) {
@@ -130,17 +130,6 @@ public class AdminNotificationsPage extends AppPage {
         if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
             click(creationTimeHeader);
         }
-    }
-
-    private WebElement getNotificationRow(NotificationAttributes notification) {
-        List<WebElement> notificationRows = notificationsTable.findElements(By.cssSelector("tbody tr"));
-        for (WebElement notificationRow : notificationRows) {
-            List<WebElement> notificationCells = notificationRow.findElements(By.tagName("td"));
-            if (notificationCells.get(0).getText().equals(notification.getTitle())) {
-                return notificationRow;
-            }
-        }
-        return null;
     }
 
     private void clickAddNotificationButton() {

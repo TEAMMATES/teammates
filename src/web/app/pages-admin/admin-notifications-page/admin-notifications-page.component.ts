@@ -242,12 +242,11 @@ export class AdminNotificationsPageComponent implements OnInit {
     .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
     .subscribe({
       next: (notification: Notification) => {
-        // Assuming this.notificationsTableRowModels is the array you're updating
         this.notificationsTableRowModels = [{
           isHighlighted: true,
           notification,
         }, ...this.notificationsTableRowModels];
-        
+
         this.initNotificationEditFormModel();
         this.statusMessageService.showSuccessToast('Notification created successfully.');
       },
