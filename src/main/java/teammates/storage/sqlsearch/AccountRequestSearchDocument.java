@@ -33,7 +33,7 @@ class AccountRequestSearchDocument extends SearchDocument<AccountRequest> {
             searchableTexts.add(accountRequest.getStatus().toString());
         }
 
-        fields.put("id", accountRequest.getId());
+        fields.put("id", accountRequest.getId().toString());
         fields.put("_text_", String.join(" ", searchableTexts));
         fields.put("email", accountRequest.getEmail());
         fields.put("institute", accountRequest.getInstitute());
