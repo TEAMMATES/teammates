@@ -15,6 +15,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
 
 /**
@@ -62,7 +65,22 @@ public class InstructorCourseDetailsPage extends AppPage {
         assertEquals(getExpectedInstructorString(instructors), instructorsField.getText());
     }
 
+    public void verifyCourseDetails(Course course, List<Instructor> instructors, int numSections, int numTeams,
+            int numStudents) {
+        assertEquals(course.getId(), courseIdField.getText());
+        assertEquals(course.getName(), courseNameField.getText());
+        assertEquals(course.getInstitute(), courseInstituteField.getText());
+        assertEquals(Integer.toString(numSections), numSectionsField.getText());
+        assertEquals(Integer.toString(numTeams), numTeamsField.getText());
+        assertEquals(Integer.toString(numStudents), numStudentsField.getText());
+        assertEquals(getExpectedInstructorsString(instructors), instructorsField.getText());
+    }
+
     public void verifyStudentDetails(StudentAttributes[] students) {
+        verifyTableBodyValues(getStudentList(), getExpectedStudentValues(students));
+    }
+
+    public void verifyStudentDetails(List<Student> students) {
         verifyTableBodyValues(getStudentList(), getExpectedStudentValues(students));
     }
 
@@ -70,8 +88,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         assertEquals(expected, getNumStudents());
     }
 
-    public void sendInvite(StudentAttributes student) {
-        clickAndConfirm(getSendInviteButton(student));
+    public void sendInvite(String studentEmailAddress) {
+        clickAndConfirm(getSendInviteButton(studentEmailAddress));
     }
 
     public void remindAllToJoin() {
@@ -92,8 +110,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    public void deleteStudent(StudentAttributes student) {
-        clickAndConfirm(getDeleteButton(student));
+    public void deleteStudent(String studentEmailAddress) {
+        clickAndConfirm(getDeleteButton(studentEmailAddress));
     }
 
     public void deleteAllStudents() {
@@ -103,6 +121,13 @@ public class InstructorCourseDetailsPage extends AppPage {
     private String getExpectedInstructorString(InstructorAttributes[] instructors) {
         return Arrays.stream(instructors)
                 .map(instructor -> instructor.getRole() + ": " + instructor.getName() + " (" + instructor.getEmail() + ")")
+                .collect(Collectors.joining(TestProperties.LINE_SEPARATOR));
+    }
+
+    private String getExpectedInstructorsString(List<Instructor> instructors) {
+        return instructors.stream()
+                .map(instructor -> instructor.getRole().getRoleName() + ": "
+                        + instructor.getName() + " (" + instructor.getEmail() + ")")
                 .collect(Collectors.joining(TestProperties.LINE_SEPARATOR));
     }
 
@@ -123,13 +148,31 @@ public class InstructorCourseDetailsPage extends AppPage {
         return expected;
     }
 
-    private WebElement getSendInviteButton(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    private String[][] getExpectedStudentValues(List<Student> students) {
+        String[][] expected = new String[students.size()][5];
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            expected[i][0] = student.getSectionName();
+            expected[i][1] = student.getTeamName();
+            expected[i][2] = student.getName();
+            String googleId = student.getGoogleId();
+            if (googleId == null || googleId.isEmpty()) {
+                expected[i][3] = "Yet to Join";
+            } else {
+                expected[i][3] = "Joined";
+            }
+            expected[i][4] = student.getEmail();
+        }
+        return expected;
+    }
+
+    private WebElement getSendInviteButton(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         return studentRow.findElement(By.cssSelector("[id^='btn-send-invite-']"));
     }
 
-    private WebElement getDeleteButton(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    private WebElement getDeleteButton(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         return studentRow.findElement(By.cssSelector("[id^='btn-delete-']"));
     }
 
@@ -145,19 +188,19 @@ public class InstructorCourseDetailsPage extends AppPage {
         }
     }
 
-    private WebElement getStudentRow(StudentAttributes student) {
+    private WebElement getStudentRow(String studentEmailAddress) {
         List<WebElement> studentRows = getAllStudentRows();
         for (WebElement studentRow : studentRows) {
             List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
-            if (studentCells.get(4).getText().equals(student.getEmail())) {
+            if (studentCells.get(4).getText().equals(studentEmailAddress)) {
                 return studentRow;
             }
         }
         return null;
     }
 
-    public InstructorCourseStudentDetailsViewPage clickViewStudent(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    public InstructorCourseStudentDetailsViewPage clickViewStudent(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
@@ -165,8 +208,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
-    public InstructorCourseStudentDetailsEditPage clickEditStudent(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
@@ -174,8 +217,8 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
 
-    public InstructorStudentRecordsPage clickViewAllRecords(StudentAttributes student) {
-        WebElement studentRow = getStudentRow(student);
+    public InstructorStudentRecordsPage clickViewAllRecords(String studentEmailAddress) {
+        WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
