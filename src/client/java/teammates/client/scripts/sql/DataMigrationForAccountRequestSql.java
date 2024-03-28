@@ -1,8 +1,14 @@
 package teammates.client.scripts.sql;
 
+// CHECKSTYLE.OFF:ImportOrder
 import com.googlecode.objectify.cmd.Query;
 
+import jakarta.persistence.criteria.CriteriaDelete;
+
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
+
+// CHECKSTYLE.ON:ImportOrder
 
 /**
  * Data migration class for account request entity.
@@ -26,6 +32,15 @@ public class DataMigrationForAccountRequestSql
     @Override
     protected boolean isPreview() {
         return false;
+    }
+
+    /*
+     * Sets the migration criteria used in isMigrationNeeded.
+     */
+    @Override
+    protected void setMigrationCriteria() {
+        // Prepare clean db before migration
+        cleanAccountRequestInSql();
     }
 
     /**
@@ -64,5 +79,16 @@ public class DataMigrationForAccountRequestSql
         // institute with % as delimiter
 
         saveEntityDeferred(newEntity);
+    }
+
+    private void cleanAccountRequestInSql() {
+        HibernateUtil.beginTransaction();
+
+        CriteriaDelete<AccountRequest> cdAccountReq = HibernateUtil.getCriteriaBuilder()
+                .createCriteriaDelete(AccountRequest.class);
+        cdAccountReq.from(AccountRequest.class);
+        HibernateUtil.executeDelete(cdAccountReq);
+
+        HibernateUtil.commitTransaction();
     }
 }

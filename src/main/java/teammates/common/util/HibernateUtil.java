@@ -117,6 +117,11 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hbm2ddl.auto", "update")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
+                // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
+                // .setProperty("hibernate.jdbc.batch_size", "50")
+                // .setProperty("hibernate.order_updates", "true")
+                // .setProperty("hibernate.batch_versioned_data", "true")
+                // .setProperty("hibernate.jdbc.fetch_size", "50")
                 .addPackage("teammates.storage.sqlentity");
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {

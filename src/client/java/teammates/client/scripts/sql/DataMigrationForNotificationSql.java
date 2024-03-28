@@ -28,6 +28,14 @@ public class DataMigrationForNotificationSql extends
         return false;
     }
 
+    /*
+     * Sets the migration criteria used in isMigrationNeeded.
+    */
+    @Override
+    protected void setMigrationCriteria() {
+        // No migration criteria currently needed.
+    }
+
     @Override
     protected boolean isMigrationNeeded(Notification entity) {
         HibernateUtil.beginTransaction();

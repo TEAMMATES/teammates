@@ -39,7 +39,7 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 <panel header="#### Using Chrome" no-close>
 
 * You need to use chromedriver for testing with Chrome.
-  * Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+  * Download the latest stable chromedriver from [here](https://chromedriver.chromium.org/downloads).
     The site will also inform the versions of Chrome that can be used with the driver.
   * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
 

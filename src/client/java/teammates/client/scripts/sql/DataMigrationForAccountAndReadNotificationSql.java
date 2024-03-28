@@ -141,11 +141,11 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
 
     private void migrateReadNotification(teammates.storage.entity.Account oldAccount,
             teammates.storage.sqlentity.Account newAccount) {
+
+        HibernateUtil.beginTransaction();
         for (Map.Entry<String, Instant> entry : oldAccount.getReadNotifications().entrySet()) {
-            HibernateUtil.beginTransaction();
             UUID notificationId = UUID.fromString(entry.getKey());
             Notification newNotification = HibernateUtil.get(Notification.class, notificationId);
-            HibernateUtil.commitTransaction();
 
             // If the notification does not exist in the new database
             if (newNotification == null) {
@@ -155,6 +155,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             ReadNotification newReadNotification = new ReadNotification(newAccount, newNotification);
             entitiesReadNotificationSavingBuffer.add(newReadNotification);
         }
+        HibernateUtil.commitTransaction();
     }
 
     @Override

@@ -254,6 +254,8 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Null data bundle");
         }
 
+        linkEntities(dataBundle);
+
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
@@ -338,6 +340,7 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Data bundle is null");
         }
 
+        linkEntities(dataBundle);
         dataBundle.courses.values().forEach(course -> {
             coursesLogic.deleteCourseCascade(course.getId());
         });
@@ -372,4 +375,125 @@ public final class DataBundleLogic {
         }
     }
 
+    private static void linkEntities(SqlDataBundle dataBundle) {
+        Collection<Account> accounts = dataBundle.accounts.values();
+        Collection<Course> courses = dataBundle.courses.values();
+        Collection<Section> sections = dataBundle.sections.values();
+        Collection<Team> teams = dataBundle.teams.values();
+        Collection<Instructor> instructors = dataBundle.instructors.values();
+        Collection<Student> students = dataBundle.students.values();
+        Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
+        Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
+        Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
+        Collection<Notification> notifications = dataBundle.notifications.values();
+        Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
+
+        // Mapping of IDs or placeholder IDs to actual entity
+        Map<String, Course> coursesMap = new HashMap<>();
+        Map<UUID, Section> sectionsMap = new HashMap<>();
+        Map<UUID, Team> teamsMap = new HashMap<>();
+        Map<UUID, FeedbackSession> sessionsMap = new HashMap<>();
+        Map<UUID, FeedbackQuestion> questionMap = new HashMap<>();
+        Map<UUID, FeedbackResponse> responseMap = new HashMap<>();
+        Map<UUID, Account> accountsMap = new HashMap<>();
+        Map<UUID, User> usersMap = new HashMap<>();
+        Map<UUID, Notification> notificationsMap = new HashMap<>();
+
+        for (Course course : courses) {
+            coursesMap.put(course.getId(), course);
+        }
+
+        for (Section section : sections) {
+            sectionsMap.put(section.getId(), section);
+            Course course = coursesMap.get(section.getCourse().getId());
+            section.setCourse(course);
+        }
+
+        for (Team team : teams) {
+            teamsMap.put(team.getId(), team);
+            Section section = sectionsMap.get(team.getSection().getId());
+            team.setSection(section);
+        }
+
+        for (FeedbackSession session : sessions) {
+            sessionsMap.put(session.getId(), session);
+            Course course = coursesMap.get(session.getCourse().getId());
+            session.setCourse(course);
+        }
+
+        for (FeedbackQuestion question : questions) {
+            questionMap.put(question.getId(), question);
+            FeedbackSession fs = sessionsMap.get(question.getFeedbackSession().getId());
+            question.setFeedbackSession(fs);
+        }
+
+        for (FeedbackResponse response : responses) {
+            UUID placeholderId = response.getId();
+            responseMap.put(placeholderId, response);
+            FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
+            Section giverSection = sectionsMap.get(response.getGiverSection().getId());
+            Section recipientSection = response.getRecipientSection() != null
+                    ? sectionsMap.get(response.getRecipientSection().getId()) : null;
+            response.setFeedbackQuestion(fq);
+            response.setGiverSection(giverSection);
+            response.setRecipientSection(recipientSection);
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
+            FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
+            Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
+            Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
+            responseComment.setFeedbackResponse(fr);
+            responseComment.setGiverSection(giverSection);
+            responseComment.setRecipientSection(recipientSection);
+        }
+
+        for (Account account : accounts) {
+            accountsMap.put(account.getId(), account);
+        }
+
+        for (Instructor instructor : instructors) {
+            usersMap.put(instructor.getId(), instructor);
+            Course course = coursesMap.get(instructor.getCourse().getId());
+            instructor.setCourse(course);
+            if (instructor.getAccount() != null) {
+                Account account = accountsMap.get(instructor.getAccount().getId());
+                instructor.setAccount(account);
+            }
+            instructor.generateNewRegistrationKey();
+        }
+
+        for (Student student : students) {
+            usersMap.put(student.getId(), student);
+            Course course = coursesMap.get(student.getCourse().getId());
+            student.setCourse(course);
+            Team team = teamsMap.get(student.getTeam().getId());
+            student.setTeam(team);
+            if (student.getAccount() != null) {
+                Account account = accountsMap.get(student.getAccount().getId());
+                student.setAccount(account);
+            }
+            student.generateNewRegistrationKey();
+        }
+
+        for (Notification notification : notifications) {
+            notificationsMap.put(notification.getId(), notification);
+        }
+
+        for (ReadNotification readNotification : readNotifications) {
+            Account account = accountsMap.get(readNotification.getAccount().getId());
+            readNotification.setAccount(account);
+            Notification notification = notificationsMap.get(readNotification.getNotification().getId());
+            readNotification.setNotification(notification);
+        }
+
+        for (DeadlineExtension deadlineExtension : deadlineExtensions) {
+            FeedbackSession session = sessionsMap.get(deadlineExtension.getFeedbackSession().getId());
+            deadlineExtension.setFeedbackSession(session);
+            User user = usersMap.get(deadlineExtension.getUser().getId());
+            deadlineExtension.setUser(user);
+        }
+    }
 }

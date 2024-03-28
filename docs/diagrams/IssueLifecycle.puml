@@ -1,5 +1,5 @@
 @startuml
-!include diagrams/style.puml
+!include style.puml
 skinparam legendBackgroundColor #f2f2f2
 skinparam linetype ortho
 <style>

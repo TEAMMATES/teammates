@@ -1,0 +1,111 @@
+{
+    "accounts": {
+      "INotifs.instr": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "googleId": "tm.e2e.INotifs.instr",
+        "name": "Teammates Test",
+        "email": "INotifs.instr@gmail.tmt"
+      }
+    },
+    "courses": {
+        "typicalCourse1": {
+          "id": "tm.e2e.INotifs.course1",
+          "name": "Typical Course 1",
+          "institute": "TEAMMATES Test Institute 1",
+          "timeZone": "Africa/Johannesburg"
+        }
+    },
+    "instructors": {
+      "INotifs.instr": {
+        "id": "00000000-0000-4000-8000-000000100001",
+        "name": "Teammates Instr1",
+        "email": "INotifs.instr@gmail.tmt",
+        "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+        "isDisplayedToStudents": true,
+        "displayName": "Instructor",
+        "privileges": {
+          "courseLevel": {
+            "canModifyCourse": true,
+            "canModifyInstructor": true,
+            "canModifySession": true,
+            "canModifyStudent": true,
+            "canViewStudentInSections": true,
+            "canViewSessionInSections": true,
+            "canSubmitSessionInSections": true,
+            "canModifySessionCommentsInSections": true
+          },
+          "sectionLevel": {},
+          "sessionLevel": {}
+        },
+        "course": {
+            "id": "tm.e2e.INotifs.course1"
+          },
+          "account": {
+            "id": "00000000-0000-4000-8000-000000000001"
+          }
+      }
+    },
+    "notifications": {
+      "notification1": {
+        "id": "00000000-0000-4000-8000-000000001101",
+        "startTime": "2011-01-01T00:00:00Z",
+        "endTime": "2099-01-01T00:00:00Z",
+        "style": "DANGER",
+        "targetUser": "GENERAL",
+        "title": "INotifs.notification1",
+        "message": "<p>This notification is shown to general users</p>",
+        "shown": false
+      },
+      "notification2": {
+        "id": "00000000-0000-4000-8000-000000001102",
+        "startTime": "2011-02-02T00:00:00Z",
+        "endTime": "2099-02-02T00:00:00Z",
+        "style": "SUCCESS",
+        "targetUser": "STUDENT",
+        "title": "INotifs.notification2",
+        "message": "<p>This notification is shown to students only</p>",
+        "shown": false
+      },
+      "notification3": {
+        "id": "00000000-0000-4000-8000-000000001103",
+        "startTime": "2011-03-03T00:00:00Z",
+        "endTime": "2099-03-03T00:00:00Z",
+        "style": "SUCCESS",
+        "targetUser": "INSTRUCTOR",
+        "title": "INotifs.notification3",
+        "message": "<p>This notification is shown to instructors only</p>",
+        "shown": false
+      },
+      "notification4": {
+        "id": "00000000-0000-4000-8000-000000001104",
+        "startTime": "2011-04-04T00:00:00Z",
+        "endTime": "2099-04-04T00:00:00Z",
+        "style": "WARNING",
+        "targetUser": "GENERAL",
+        "title": "INotifs.notification4",
+        "message": "<p>This notification has been read by the user</p>",
+        "shown": false
+      },
+      "expiredNotification1": {
+        "id": "00000000-0000-4000-8000-000000001105",
+        "startTime": "2011-01-01T00:00:00Z",
+        "endTime": "2011-02-02T00:00:00Z",
+        "style": "DANGER",
+        "targetUser": "GENERAL",
+        "title": "INotifs.expiredNotification1",
+        "message": "<p>This notification has expired</p>",
+        "shown": false
+      }
+    },
+    "readNotifications": {
+      "notification4INotifs.instr": {
+        "id": "00000000-0000-4000-8000-000000002100",
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000001"
+        },
+        "notification": {
+          "id": "00000000-0000-4000-8000-000000001104"
+        }
+      }
+    }
+  }

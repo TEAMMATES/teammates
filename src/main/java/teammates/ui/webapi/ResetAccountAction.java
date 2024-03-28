@@ -35,12 +35,7 @@ public class ResetAccountAction extends AdminOnlyAction {
                 wrongGoogleId = existingStudent.getGoogleId();
 
                 try {
-                    if (isAccountMigrated(wrongGoogleId)) {
-                        sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
-                    } else {
-                        logic.resetStudentGoogleId(studentEmail, courseId);
-                    }
-
+                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
                     taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
                 } catch (EntityDoesNotExistException e) {
                     throw new EntityNotFoundException(e);
@@ -55,12 +50,7 @@ public class ResetAccountAction extends AdminOnlyAction {
                 wrongGoogleId = existingInstructor.getGoogleId();
 
                 try {
-                    if (isAccountMigrated(wrongGoogleId)) {
-                        sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
-                    } else {
-                        logic.resetInstructorGoogleId(instructorEmail, courseId);
-                    }
-
+                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
                     taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
                 } catch (EntityDoesNotExistException e) {
                     throw new EntityNotFoundException(e);
@@ -76,12 +66,7 @@ public class ResetAccountAction extends AdminOnlyAction {
                 wrongGoogleId = existingStudent.getGoogleId();
 
                 try {
-                    if (isAccountMigrated(wrongGoogleId)) {
-                        sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
-                    } else {
-                        logic.resetStudentGoogleId(studentEmail, courseId);
-                    }
-
+                    logic.resetStudentGoogleId(studentEmail, courseId);
                     taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
                 } catch (EntityDoesNotExistException e) {
                     throw new EntityNotFoundException(e);
@@ -95,12 +80,7 @@ public class ResetAccountAction extends AdminOnlyAction {
                 wrongGoogleId = existingInstructor.getGoogleId();
 
                 try {
-                    if (isAccountMigrated(wrongGoogleId)) {
-                        sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
-                    } else {
-                        logic.resetInstructorGoogleId(instructorEmail, courseId);
-                    }
-
+                    logic.resetInstructorGoogleId(instructorEmail, courseId);
                     taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
                 } catch (EntityDoesNotExistException e) {
                     throw new EntityNotFoundException(e);

@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.SanitizationHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
@@ -124,5 +125,345 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession restoredFs = fsDb.getFeedbackSession(fs1.getName(), course1.getId());
 
         verifyEquals(fs1, restoredFs);
+    }
+
+    // It is not possible to use quotation marks in a FeedbackSession name. It is not known if it is possible to do SQL
+    // injection here. We keep this here to show it was not missed out.
+    // @Test
+    // public void testCreateFeedbackSession_sqlInjectionAttemptIntoName_notKnownToBePossible()
+    //         throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {}
+
+    @Test
+    public void testCreateFeedbackSession_sqlInjectionAttemptIntoCreatorEmail_shouldNotThrowException()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        // It is not possible to use a semicolon in an email address. Instead, we simply check if it throws an error for
+        // invalid SQL syntax.
+        String sqlInjectionCreatorEmail = "instructor'@gmail.com"; // Unbalanced single quotation mark.
+        fs.setCreatorEmail(sqlInjectionCreatorEmail);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        assertEquals(sqlInjectionCreatorEmail, createdFs.getCreatorEmail());
+    }
+
+    @Test
+    public void testCreateFeedbackSession_sqlInjectionAttemptIntoInstructions_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        // insert into feedback_sessions (course_id, created_at, creator_email, deleted_at, end_time, grace_period,
+        // instructions, is_closed_email_sent, is_closing_email_enabled, is_closing_soon_email_sent, is_open_email_sent,
+        // is_opening_email_enabled, is_opening_soon_email_sent, is_published_email_enabled, is_published_email_sent,
+        // name, results_visible_from_time, session_visible_from_time,
+        // start_time, updated_at, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        String sqlInjectionInstructions = "instructions', FALSE, TRUE, FALSE, FALSE, "
+                + "TRUE, FALSE, TRUE, TRUE, "
+                + "'fs-name', '2024-03-05 12:00:00'::timestamp, '2024-02-20 12:00:00'::timestamp, "
+                + "'2024-02-27 12:00:00'::timestamp, '2024-02-27 12:00:00'::timestamp, uuid_generate_v4()); "
+                + "DROP TABLE feedback_sessions;--";
+        fs.setInstructions(sqlInjectionInstructions);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        assertEquals(SanitizationHelper.sanitizeForRichText(sqlInjectionInstructions), createdFs.getInstructions());
+    }
+
+    @Test
+    public void testGetFeedbackSession_sqlInjectionAttemptIntoName_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionName = "fs-name' OR 1 = 1;--";
+        FeedbackSession nonExistentFs = fsDb.getFeedbackSession(sqlInjectionName, "course-id");
+        assertNull(nonExistentFs);
+    }
+
+    @Test
+    public void testGetFeedbackSession_sqlInjectionAttemptIntoCourseId_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id' OR 1 = 1;--";
+        FeedbackSession nonExistentFs = fsDb.getFeedbackSession("fs-name", sqlInjectionCourseId);
+        assertNull(nonExistentFs);
+    }
+
+    @Test
+    public void testGetSoftDeletedFeedbackSession_sqlInjectionAttemptIntoName_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        fsDb.softDeleteFeedbackSession("fs-name", "course-id");
+        FeedbackSession createdFs = fsDb.getSoftDeletedFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionName = "fs-name' OR 1 = 1;--";
+        FeedbackSession nonExistentFs = fsDb.getSoftDeletedFeedbackSession(sqlInjectionName, "course-id");
+        assertNull(nonExistentFs);
+    }
+
+    @Test
+    public void testGetSoftDeletedFeedbackSession_sqlInjectionAttemptIntoCourseId_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        fsDb.softDeleteFeedbackSession("fs-name", "course-id");
+        FeedbackSession createdFs = fsDb.getSoftDeletedFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs);
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id' OR 1 = 1;--";
+        FeedbackSession nonExistentFs = fsDb.getSoftDeletedFeedbackSession("fs-name", sqlInjectionCourseId);
+        assertNull(nonExistentFs);
+    }
+
+    @Test
+    public void testGetSoftDeletedFeedbackSessionsForCourse_sqlInjectionAttempt_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        fsDb.softDeleteFeedbackSession("fs-name", "course-id");
+        List<FeedbackSession> sessions = fsDb.getSoftDeletedFeedbackSessionsForCourse("course-id");
+        assertEquals(1, sessions.size());
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.deleted_at is not null and
+        // f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id' OR 1 = 1;--";
+        List<FeedbackSession> nonExistentSessions = fsDb.getSoftDeletedFeedbackSessionsForCourse(sqlInjectionCourseId);
+        assertEquals(0, nonExistentSessions.size());
+    }
+
+    @Test
+    public void testGetFeedbackSessionEntitiesForCourse_sqlInjectionAttempt_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionEntitiesForCourse("course-id");
+        assertEquals(1, sessions.size());
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id' OR 1 = 1;--";
+        List<FeedbackSession> nonExistentSessions = fsDb.getFeedbackSessionEntitiesForCourse(sqlInjectionCourseId);
+        assertEquals(0, nonExistentSessions.size());
+    }
+
+    @Test
+    public void testGetFeedbackSessionEntitiesForCourseStartingAfter_sqlInjectionAttempt_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        Instant beforeStart = Instant.now().minus(Duration.ofDays(7L));
+        List<FeedbackSession> sessions =
+                fsDb.getFeedbackSessionEntitiesForCourseStartingAfter("course-id", beforeStart);
+        assertEquals(1, sessions.size());
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.start_time>=? and
+        // f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id' OR 1 = 1;--";
+        List<FeedbackSession> nonExistentSessions =
+                fsDb.getFeedbackSessionEntitiesForCourseStartingAfter(sqlInjectionCourseId, beforeStart);
+        assertEquals(0, nonExistentSessions.size());
+    }
+
+    // It is not possible to use quotation marks in a FeedbackSession name. It is not known if it is possible to do SQL
+    // injection here. We keep this here to show it was not missed out.
+    // @Test
+    // public void testUpdateFeedbackSession_sqlInjectionAttemptIntoName_notKnownToBePossible()
+    //         throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {}
+
+    @Test
+    public void testUpdateFeedbackSession_sqlInjectionAttemptIntoCreatorEmail_shouldNotThrowException()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        fs.setId(createdFs.getId());
+        // It is not possible to use a semicolon in an email address. Instead, we simply check if it throws an error for
+        // invalid SQL syntax.
+        String sqlInjectionCreatorEmail = "instructor'@gmail.com"; // Unbalanced single quotation mark.
+        fs.setCreatorEmail(sqlInjectionCreatorEmail);
+        fsDb.updateFeedbackSession(fs);
+        FeedbackSession updatedFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertEquals(sqlInjectionCreatorEmail, updatedFs.getCreatorEmail());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_sqlInjectionAttemptIntoInstructions_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        fs.setId(createdFs.getId());
+        // update feedback_sessions set course_id=?, creator_email=?, deleted_at=?, end_time=?, grace_period=?,
+        // instructions=?, is_closed_email_sent=?, is_closing_email_enabled=?, is_closing_soon_email_sent=?,
+        // is_open_email_sent=?, is_opening_email_enabled=?, is_opening_soon_email_sent=?, is_published_email_enabled=?,
+        // is_published_email_sent=?, name=?, results_visible_from_time=?, session_visible_from_time=?, start_time=?,
+        // updated_at=? where id=?
+        String sqlInjectionInstructions = "new-instructions'; DROP TABLE feedback_sessions;--";
+        fs.setInstructions(sqlInjectionInstructions);
+        fsDb.updateFeedbackSession(fs);
+        FeedbackSession updatedFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertEquals(SanitizationHelper.sanitizeForRichText(sqlInjectionInstructions), updatedFs.getInstructions());
+    }
+
+    @Test
+    public void testRestoreDeletedFeedbackSession_sqlInjectionAttemptIntoName_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        fsDb.softDeleteFeedbackSession("fs-name", "course-id");
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionName = "fs-name'; DROP TABLE feedback_sessions;--";
+        assertThrows(EntityDoesNotExistException.class,
+                () -> fsDb.restoreDeletedFeedbackSession(sqlInjectionName, "course-id"));
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs.getDeletedAt());
+    }
+
+    @Test
+    public void testRestoreDeletedFeedbackSession_sqlInjectionAttemptIntoCourseId_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        fsDb.softDeleteFeedbackSession("fs-name", "course-id");
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id'; DROP TABLE feedback_sessions;--";
+        assertThrows(EntityDoesNotExistException.class,
+                () -> fsDb.restoreDeletedFeedbackSession("fs-name", sqlInjectionCourseId));
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNotNull(createdFs.getDeletedAt());
+    }
+
+    @Test
+    public void testSoftDeleteFeedbackSession_sqlInjectionAttemptIntoName_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionName = "fs-name'; DROP TABLE feedback_sessions;--";
+        assertThrows(EntityDoesNotExistException.class,
+                () -> fsDb.softDeleteFeedbackSession(sqlInjectionName, "course-id"));
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNull(createdFs.getDeletedAt());
+    }
+
+    @Test
+    public void testSoftDeleteFeedbackSession_sqlInjectionAttemptIntoCourseId_shouldNotRunSqlInjectionQuery()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        Course course = createTypicalCourse();
+        coursesDb.createCourse(course);
+        FeedbackSession fs = createTypicalFeedbackSession(course);
+        fsDb.createFeedbackSession(fs);
+        // select f1_0.id,f1_0.course_id,f1_0.created_at,f1_0.creator_email,f1_0.deleted_at,f1_0.end_time,
+        // f1_0.grace_period,f1_0.instructions,f1_0.is_closed_email_sent,f1_0.is_closing_email_enabled,
+        // f1_0.is_closing_soon_email_sent,f1_0.is_open_email_sent,f1_0.is_opening_email_enabled,
+        // f1_0.is_opening_soon_email_sent,f1_0.is_published_email_enabled,f1_0.is_published_email_sent,f1_0.name,
+        // f1_0.results_visible_from_time,f1_0.session_visible_from_time,f1_0.start_time,f1_0.updated_at from
+        // feedback_sessions f1_0 join courses c1_0 on c1_0.id=f1_0.course_id where f1_0.name=? and f1_0.course_id=?
+        String sqlInjectionCourseId = "course-id'; DROP TABLE feedback_sessions;--";
+        assertThrows(EntityDoesNotExistException.class,
+                () -> fsDb.softDeleteFeedbackSession("fs-name", sqlInjectionCourseId));
+        FeedbackSession createdFs = fsDb.getFeedbackSession("fs-name", "course-id");
+        assertNull(createdFs.getDeletedAt());
+    }
+
+    // The SQL query is
+    // delete from feedback_sessions where id=?
+    // It may not be possible to do injection with an ID that was not obtained from user input. We keep this here to
+    // show it was not missed out.
+    // @Test
+    // public void testDeleteFeedbackSession_sqlInjectionAttempt_notKnownToBePossible()
+    //         throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {}
+
+    private Course createTypicalCourse() {
+        return new Course("course-id", "course-name", "UTC", "NUS");
+    }
+
+    private FeedbackSession createTypicalFeedbackSession(Course course) {
+        Instant instantNow = Instant.now();
+        return new FeedbackSession("fs-name", course, "instructor@example.com", "instructions",
+                instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
+                instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
+                true, true, true);
     }
 }

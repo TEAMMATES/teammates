@@ -25,6 +25,21 @@ public final class Config {
     /** The value of the "app.frontend.url" in build.properties file. */
     public static final String APP_FRONTEND_URL;
 
+    /** The value of the "app.postgres.host" in build.properties file. */
+    public static final String POSTGRES_HOST;
+
+    /** The value of the "app.postgres.port" in build.properties file. */
+    public static final String POSTGRES_PORT;
+
+    /** The value of the "app.postgres.databasename" in build.properties file. */
+    public static final String POSTGRES_DATABASENAME;
+
+    /** The value of the "app.postgres.username" in build.properties file. */
+    public static final String POSTGRES_USERNAME;
+
+    /** The value of the "app.postgres.password" in build.properties file. */
+    public static final String POSTGRES_PASSWORD;
+
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
 
@@ -100,18 +115,6 @@ public final class Config {
     /** The value of the "app.localdatastore.port" in build-dev.properties file. */
     public static final int APP_LOCALDATASTORE_PORT;
 
-    /** The value of the "app.localpostgres.port" in build-dev.properties file. */
-    public static final int APP_LOCALPOSTGRES_PORT;
-
-    /** The value of the "app.localpostgres.username" in build-dev.properties file. */
-    public static final String APP_LOCALPOSTGRES_USERNAME;
-
-    /** The value of the "app.localpostgres.password" in build-dev.properties file. */
-    public static final String APP_LOCALPOSTGRES_PASSWORD;
-
-    /** The value of the "app.localpostgres.db" in build-dev.properties file. */
-    public static final String APP_LOCALPOSTGRES_DB;
-
     /** The value of the "app.enable.devserver.login" in build-dev.properties file. */
     public static final boolean ENABLE_DEVSERVER_LOGIN;
 
@@ -158,6 +161,11 @@ public final class Config {
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
+        POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
+        POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
+        POSTGRES_DATABASENAME = getProperty(properties, devProperties, "app.postgres.databasename");
+        POSTGRES_USERNAME = getProperty(properties, devProperties, "app.postgres.username");
+        POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
@@ -186,10 +194,6 @@ public final class Config {
         // The following properties are not used in production server.
         // So they will only be read from build-dev.properties file.
         APP_LOCALDATASTORE_PORT = Integer.parseInt(devProperties.getProperty("app.localdatastore.port", "8484"));
-        APP_LOCALPOSTGRES_PORT = Integer.parseInt(devProperties.getProperty("app.localpostgres.port", "5432"));
-        APP_LOCALPOSTGRES_USERNAME = devProperties.getProperty("app.localpostgres.username", "teammates");
-        APP_LOCALPOSTGRES_PASSWORD = devProperties.getProperty("app.localpostgres.password", "teammates");
-        APP_LOCALPOSTGRES_DB = devProperties.getProperty("app.localpostgres.db", "teammates");
         ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(devProperties.getProperty("app.enable.devserver.login", "false"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(devProperties.getProperty("app.taskqueue.active", "true"));
     }
@@ -302,7 +306,7 @@ public final class Config {
      * Returns db connection URL.
      */
     public static String getDbConnectionUrl() {
-        return "jdbc:postgresql://localhost:" + APP_LOCALPOSTGRES_PORT + "/" + APP_LOCALPOSTGRES_DB;
+        return String.format("jdbc:postgresql://%s:%s/%s", POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DATABASENAME);
     }
 
     public static boolean isUsingSendgrid() {

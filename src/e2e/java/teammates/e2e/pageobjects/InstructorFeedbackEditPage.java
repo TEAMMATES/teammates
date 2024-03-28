@@ -605,6 +605,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
+    public void addMcqQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(3);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputMcqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void editMcqQuestion(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputMcqDetails(questionNum, questionDetails);
@@ -623,6 +632,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void addMsqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(4);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputMsqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addMsqQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(4);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -798,6 +816,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void addRankOptionsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(10);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRankOptionsQuestionDetails questionDetails =
+                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputRankDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addRankOptionsQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(10);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
