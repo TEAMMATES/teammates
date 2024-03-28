@@ -29,6 +29,7 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
 import teammates.sqllogic.core.FeedbackResponsesLogic;
+import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
@@ -69,6 +70,7 @@ public class Logic {
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final FeedbackSessionLogsLogic feedbackSessionLogsLogic = FeedbackSessionLogsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
@@ -441,6 +443,15 @@ public class Logic {
      */
     public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
         return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Gets a feedback session reference.
+     *
+     * @return Returns a proxy for the feedback session.
+     */
+    public FeedbackSession getFeedbackSessionReference(UUID id) {
+        return feedbackSessionsLogic.getFeedbackSessionReference(id);
     }
 
     /**
@@ -922,6 +933,16 @@ public class Logic {
      */
     public Student getStudent(UUID id) {
         return usersLogic.getStudent(id);
+    }
+
+    /**
+     * Gets student reference associated with {@code id}.
+     *
+     * @param id    Id of Student.
+     * @return      Returns a proxy for the Student.
+     */
+    public Student getStudentReference(UUID id) {
+        return usersLogic.getStudentReference(id);
     }
 
     /**
@@ -1600,8 +1621,21 @@ public class Logic {
     /**
      * Create feedback session logs.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs)
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        // TODO: implement logic layer
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
+        feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
+    }
+
+    /**
+     * Gets the feedback session logs as filtered by the given parameters ordered by
+     * ascending timestamp. Logs with the same timestamp will be ordered by the
+     * student's email.
+     *
+     * @param studentId        Can be null
+     * @param feedbackSessionId Can be null
+     */
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+            UUID feedbackSessionId, Instant startTime, Instant endTime) {
+        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
+                endTime);
     }
 }

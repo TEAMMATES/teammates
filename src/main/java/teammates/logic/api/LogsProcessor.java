@@ -2,6 +2,7 @@ package teammates.logic.api;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
@@ -48,6 +49,14 @@ public class LogsProcessor {
      */
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
         service.createFeedbackSessionLog(courseId, email, fsName, fslType);
+    }
+
+    /**
+     * Creates a feedback session log.
+     */
+    public void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
+            String fslType) {
+        service.createFeedbackSessionLog(courseId, studentId, email, fsId, fsName, fslType);
     }
 
     /**

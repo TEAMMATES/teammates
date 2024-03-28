@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
 import jakarta.persistence.Column;
@@ -13,6 +16,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -24,11 +29,15 @@ public class FeedbackSessionLog extends BaseEntity {
     @Id
     private UUID id;
 
-    @Column(nullable = false)
-    private String studentEmail;
+    @ManyToOne
+    @JoinColumn(name = "studentId")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Student student;
 
-    @Column(nullable = false)
-    private String feedbackSessionName;
+    @ManyToOne
+    @JoinColumn(name = "sessionId")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private FeedbackSession feedbackSession;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -41,11 +50,11 @@ public class FeedbackSessionLog extends BaseEntity {
         // required by Hibernate
     }
 
-    public FeedbackSessionLog(String email, String feedbackSessionName, FeedbackSessionLogType feedbackSessionLogType,
-            Instant timestamp) {
+    public FeedbackSessionLog(Student student, FeedbackSession feedbackSession,
+            FeedbackSessionLogType feedbackSessionLogType, Instant timestamp) {
         this.setId(UUID.randomUUID());
-        this.studentEmail = email;
-        this.feedbackSessionName = feedbackSessionName;
+        this.student = student;
+        this.feedbackSession = feedbackSession;
         this.feedbackSessionLogType = feedbackSessionLogType;
         this.timestamp = timestamp;
     }
@@ -58,20 +67,20 @@ public class FeedbackSessionLog extends BaseEntity {
         this.id = id;
     }
 
-    public String getStudentEmail() {
-        return studentEmail;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentEmail(String email) {
-        this.studentEmail = email;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public String getFeedbackSessionName() {
-        return feedbackSessionName;
+    public FeedbackSession getFeedbackSession() {
+        return feedbackSession;
     }
 
-    public void setFeedbackSessionName(String feedbackSessionName) {
-        this.feedbackSessionName = feedbackSessionName;
+    public void setFeedbackSession(FeedbackSession feedbackSession) {
+        this.feedbackSession = feedbackSession;
     }
 
     public FeedbackSessionLogType getFeedbackSessionLogType() {
@@ -92,8 +101,7 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackSessionLog [id=" + id + ", email=" + studentEmail + ", feedbackSessionName="
-                + feedbackSessionName
+        return "FeedbackSessionLog [id=" + id + ", student=" + student + ", feedbackSession=" + feedbackSession
                 + ", feedbackSessionLogType=" + feedbackSessionLogType.getLabel() + ", timestamp=" + timestamp + "]";
     }
 
