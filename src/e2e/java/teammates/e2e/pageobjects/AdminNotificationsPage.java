@@ -11,6 +11,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.storage.sqlentity.Notification;
 
 /**
@@ -67,8 +68,19 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public void verifyNotificationsTableRow(Notification notification) {
-        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getId().toString()));
+        WebElement notificationRow = getNotificationRow(notification);
         verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
+    }
+
+    private WebElement getNotificationRow(Notification notification) {
+        List<WebElement> notificationRows = notificationsTable.findElements(By.cssSelector("tbody tr"));
+        for (WebElement notificationRow : notificationRows) {
+            List<WebElement> notificationCells = notificationRow.findElements(By.tagName("td"));
+            if (notificationCells.get(0).getText().equals(notification.getTitle())) {
+                return notificationRow;
+            }
+        }
+        return null;
     }
 
     public void addNotification(Notification notification) {
