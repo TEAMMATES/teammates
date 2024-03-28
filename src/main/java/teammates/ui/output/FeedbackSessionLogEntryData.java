@@ -3,6 +3,7 @@ package teammates.ui.output;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
 
 /**
@@ -22,10 +23,10 @@ public class FeedbackSessionLogEntryData {
         this.timestamp = timestamp;
     }
 
-    public FeedbackSessionLogEntryData(FeedbackSessionLogEntry logEntry, Student student) {
+    public FeedbackSessionLogEntryData(FeedbackSessionLog logEntry, Student student) {
         StudentData studentData = new StudentData(student);
-        FeedbackSessionLogType logType = FeedbackSessionLogType.valueOfLabel(logEntry.getFeedbackSessionLogType());
-        long timestamp = logEntry.getTimestamp();
+        FeedbackSessionLogType logType = logEntry.getFeedbackSessionLogType();
+        long timestamp = logEntry.getTimestamp().toEpochMilli();
         this.studentData = studentData;
         this.feedbackSessionLogType = logType;
         this.timestamp = timestamp;
