@@ -1017,6 +1017,7 @@ public final class SqlEmailGenerator {
                 "${institute}", institute,
                 "${emailAddress}", emailAddress,
                 "${comments}", comments,
+                "${supportEmail}", Config.SUPPORT_EMAIL,
         };
         String content = Templates.populateTemplate(
                 EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
