@@ -70,6 +70,7 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
 };
 
 const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestTableRowModel = {
+  id: '132efa02-b208-4195-a262-a8eae25ceb95',
   name: 'name',
   email: 'email',
   instituteAndCountry: 'institute',
@@ -239,6 +240,7 @@ describe('AdminSearchPageComponent', () => {
   it('should snap with an expanded account requests table', () => {
     component.accountRequests = [
       {
+        id: '132efa02-b208-4195-a262-a8eae25ceb95',
         name: 'name',
         email: 'email',
         instituteAndCountry: 'institute',
@@ -411,6 +413,7 @@ describe('AdminSearchPageComponent', () => {
   it('should display account request results', () => {
     const accountRequestResults: AccountRequestTableRowModel[] = [
       {
+        id: '132efa02-b208-4195-a262-a8eae25ceb95',
         name: 'name1',
         email: 'email1',
         instituteAndCountry: 'institute1',
@@ -421,6 +424,7 @@ describe('AdminSearchPageComponent', () => {
         showLinks: false,
         comments: '',
       }, {
+        id: '132efa02-b208-4195-a262-a8eae25ceb95',
         name: 'name2',
         email: 'email2',
         instituteAndCountry: 'institute2',

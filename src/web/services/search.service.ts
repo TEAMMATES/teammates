@@ -299,6 +299,7 @@ export class SearchService {
 
   joinAdminAccountRequest(accountRequest: AccountRequest): AccountRequestSearchResult {
     let accountRequestResult: AccountRequestSearchResult = {
+      id: '',
       name: '',
       email: '',
       institute: '',
@@ -311,7 +312,7 @@ export class SearchService {
     };
 
     const {
-      registrationKey, createdAt, registeredAt,
+      id, registrationKey, createdAt, registeredAt,
       name, institute, email, status, comments,
     }: AccountRequest = accountRequest;
 
@@ -321,7 +322,7 @@ export class SearchService {
     accountRequestResult.comments = comments || '';
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
-    accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink, status };
+    accountRequestResult = { ...accountRequestResult, id, name, email, institute, registrationLink, status };
 
     return accountRequestResult;
   }
@@ -470,6 +471,7 @@ export interface AdminSearchResult {
  * Search results for account requests from the admin endpoint.
  */
 export interface AccountRequestSearchResult {
+  id: string;
   name: string;
   email: string;
   status: string;

@@ -114,6 +114,7 @@ export class AdminSearchPageComponent {
   private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestTableRowModel[] {
     return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestTableRowModel => {
       return {
+        id: accountRequest.id,
         name: accountRequest.name,
         email: accountRequest.email,
         status: accountRequest.status,
