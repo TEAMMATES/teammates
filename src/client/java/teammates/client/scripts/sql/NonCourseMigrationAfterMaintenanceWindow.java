@@ -4,7 +4,7 @@ package teammates.client.scripts.sql;
  * Step 8 in the non course migration process.
  */
 @SuppressWarnings("PMD")
-public class NonCourseMigrationStep8 {
+public class NonCourseMigrationAfterMaintenanceWindow {
 
     public static void main(String[] args) {
         try {
