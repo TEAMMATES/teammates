@@ -4,6 +4,11 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.ObjectNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 
@@ -15,7 +20,11 @@ import teammates.storage.sqlentity.FeedbackSessionLog;
  */
 public final class FeedbackSessionLogsLogic {
 
+    private static final Logger log = Logger.getLogger();
+
     private static final FeedbackSessionLogsLogic instance = new FeedbackSessionLogsLogic();
+
+    private static final String ERROR_FAILED_TO_CREATE_LOG = "Failed to create session activity log";
 
     private FeedbackSessionLogsDb fslDb;
 
@@ -34,9 +43,13 @@ public final class FeedbackSessionLogsLogic {
     /**
      * Creates feedback session logs.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> logs) {
-        for (FeedbackSessionLog log : logs) {
-            fslDb.createFeedbackSessionLog(log);
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> fsLogs) {
+        for (FeedbackSessionLog fsLog : fsLogs) {
+            try {
+                fslDb.createFeedbackSessionLog(fsLog);
+            } catch (ObjectNotFoundException e) {
+                log.severe(String.format(ERROR_FAILED_TO_CREATE_LOG), e);
+            }
         }
     }
 

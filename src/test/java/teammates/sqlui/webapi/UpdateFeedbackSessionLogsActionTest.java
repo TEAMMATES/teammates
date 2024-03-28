@@ -229,8 +229,7 @@ public class UpdateFeedbackSessionLogsActionTest
         verifyCannotAccess();
     }
 
-    private Boolean isEqual(List<FeedbackSessionLogEntry> expected,
-            List<FeedbackSessionLog> actual) {
+    private Boolean isEqual(List<FeedbackSessionLogEntry> expected, List<FeedbackSessionLog> actual) {
 
         assertEquals(expected.size(), actual.size());
 
