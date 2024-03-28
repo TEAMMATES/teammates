@@ -107,8 +107,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         accountRequest.setName("new account request name");
 
         accountRequestDb.updateAccountRequest(accountRequest);
-        AccountRequest actual = accountRequestDb.getAccountRequest(
-                accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         verifyEquals(accountRequest, actual);
     }
 

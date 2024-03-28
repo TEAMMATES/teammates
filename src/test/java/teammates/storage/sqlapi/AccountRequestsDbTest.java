@@ -106,7 +106,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        doReturn(null).when(accountRequestDb).getAccountRequest(accountRequest.getId());
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequest));
@@ -118,7 +118,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(accountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        doReturn(accountRequest).when(accountRequestDb).getAccountRequest(accountRequest.getId());
 
         accountRequestDb.updateAccountRequest(accountRequest);
 
