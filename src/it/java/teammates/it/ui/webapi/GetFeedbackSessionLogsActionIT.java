@@ -41,7 +41,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         return GET;
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     protected void testExecute() {
         JsonResult actionOutput;

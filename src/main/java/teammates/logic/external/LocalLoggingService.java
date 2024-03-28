@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -205,6 +206,14 @@ public class LocalLoggingService implements LogService {
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
         FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(courseId, email,
                 fsName, fslType, Instant.now().toEpochMilli());
+        FEEDBACK_SESSION_LOG_ENTRIES.computeIfAbsent(courseId, k -> new ArrayList<>()).add(logEntry);
+    }
+
+    @Override
+    public void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
+            String fslType) {
+        FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(courseId, studentId, email, fsId, fsName,
+                fslType, Instant.now().toEpochMilli());
         FEEDBACK_SESSION_LOG_ENTRIES.computeIfAbsent(courseId, k -> new ArrayList<>()).add(logEntry);
     }
 

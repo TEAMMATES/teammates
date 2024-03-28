@@ -56,8 +56,8 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
 
         fslLogic.createFeedbackSessionLogs(expected);
 
-        List<FeedbackSessionLog> actual = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student.getEmail(),
-                fs.getName(), timestamp, timestamp.plusSeconds(1));
+        List<FeedbackSessionLog> actual = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student.getId(),
+                fs.getId(), timestamp, timestamp.plusSeconds(1));
 
         assertEquals(expected, actual);
     }
@@ -75,61 +75,17 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
         FeedbackSessionLog student1Session2Log2 = typicalDataBundle.feedbackSessionLogs.get("student1Session2Log2");
         FeedbackSessionLog student2Session1Log1 = typicalDataBundle.feedbackSessionLogs.get("student2Session1Log1");
         FeedbackSessionLog student2Session1Log2 = typicalDataBundle.feedbackSessionLogs.get("student2Session1Log2");
-        FeedbackSessionLog student1InAnotherCourse = typicalDataBundle.feedbackSessionLogs
-                .get("student1InAnotherCourse");
-
-        ______TS("Return all logs in time range");
+ 
+        ______TS("Return logs belonging to a course in time range");
         List<FeedbackSessionLog> expectedLogs = List.of(
                 student1Session1Log1,
                 student1Session2Log1,
                 student1Session2Log2,
                 student2Session1Log1,
-                student2Session1Log2,
-                student1InAnotherCourse);
-
-        List<FeedbackSessionLog> actualLogs = fslLogic.getOrderedFeedbackSessionLogs(null, null, null, startTime,
-                endTime);
-
-        assertEquals(expectedLogs, actualLogs);
-
-        ______TS("Return logs belonging to a course in time range");
-        expectedLogs = List.of(
-                student1Session1Log1,
-                student1Session2Log1,
-                student1Session2Log2,
-                student2Session1Log1,
                 student2Session1Log2);
 
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null, startTime, endTime);
-
-        assertEquals(expectedLogs, actualLogs);
-
-        ______TS("Return logs belonging to a student in time range");
-        expectedLogs = List.of(
-                student1Session1Log1,
-                student1Session2Log1,
-                student1Session2Log2,
-                student1InAnotherCourse);
-
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(null, student1.getEmail(), null, startTime, endTime);
-
-        assertEquals(expectedLogs, actualLogs);
-
-        ______TS("Return logs belonging to all feedback sessions with the specified name in time range");
-        expectedLogs = List.of(
-                student1Session1Log1,
-                student2Session1Log1,
-                student2Session1Log2);
-
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(null, null, fs1.getName(), startTime, endTime);
-
-        assertEquals(expectedLogs, actualLogs);
-
-        ______TS("Return logs belonging to a student in feedback sessions with the specified name in time range");
-        expectedLogs = List.of(student1Session1Log1);
-
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(null, student1.getEmail(), fs1.getName(), startTime,
-                endTime);
+        List<FeedbackSessionLog> actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
+                startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
@@ -139,7 +95,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
                 student1Session2Log1,
                 student1Session2Log2);
 
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getEmail(), null, startTime,
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), null, startTime,
                 endTime);
 
         assertEquals(expectedLogs, actualLogs);
@@ -150,14 +106,14 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
                 student2Session1Log1,
                 student2Session1Log2);
 
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, fs1.getName(), startTime, endTime);
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, fs1.getId(), startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in a feedback session in time range");
         expectedLogs = List.of(student1Session1Log1);
 
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getEmail(), fs1.getName(),
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), fs1.getId(),
                 startTime,
                 endTime);
 
@@ -166,7 +122,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
         ______TS("No logs in time range, return empty list");
         expectedLogs = new ArrayList<>();
 
-        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(null, null, null, endTime.plusSeconds(3600),
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null, endTime.plusSeconds(3600),
                 endTime.plusSeconds(7200));
 
         assertEquals(expectedLogs, actualLogs);

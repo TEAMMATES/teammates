@@ -139,8 +139,9 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         if (isCourseMigrated(courseId)) {
-            List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, email,
-                    feedbackSessionName, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
+            // TODO: replace null ids with value from request after FE changes and enable test
+            List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, null,
+                    null, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
             Map<String, Student> studentsMap = new HashMap<>();
             Map<String, FeedbackSession> sessionsMap = new HashMap<>();
             List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);

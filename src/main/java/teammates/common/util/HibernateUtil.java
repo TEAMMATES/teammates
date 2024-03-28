@@ -269,4 +269,14 @@ public final class HibernateUtil {
         HibernateUtil.getCurrentSession().createMutationQuery(cd).executeUpdate();
     }
 
+    /**
+     * Return a reference to the persistent instance with the given class and
+     * identifier,making the assumption that the instance is still persistent in the
+     * database.
+     * @see Session#getReference(Class, Object)
+     */
+    public static <T> T getReference(Class<T> entityType, Object id) {
+        return HibernateUtil.getCurrentSession().getReference(entityType, id);
+    }
+
 }
