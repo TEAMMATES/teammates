@@ -48,7 +48,10 @@ export type SortableEvent = {
 export interface SortableTableCellData {
   value?: any; // Optional value used for sorting with sortBy provided in ColumnData
   displayValue?: string; // Raw string to be display in the cell
-  style?: string; // Optional value used to set style of data
+  style?: string; // Optional value used to set style of cell data
+  rowStyle?: string; // Optional value used to set style of data for the entire row
+  tooltip?: string; // Optional value used to set tooltip of data
+  class?: string; // Optional value used to set class of data
   customComponent?: {
     component: Type<any>,
     componentData: (idx: number) => Record<string, any>, // @Input values for component
@@ -109,7 +112,6 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.tableRows = this.rows;
-    this.sortRows();
   }
 
   onClickHeader(columnHeader: string): void {
@@ -162,6 +164,14 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   getStyle(cellData: SortableTableCellData): string | undefined {
     return cellData.style;
+  }
+
+  getTooltip(cellData: SortableTableCellData): string | undefined {
+    return cellData.tooltip;
+  }
+
+  getClass(cellData: SortableTableCellData): string | undefined {
+    return cellData.class;
   }
 
   getAlignment(column: ColumnData): { 'text-align': ColumnData['alignment'] } {

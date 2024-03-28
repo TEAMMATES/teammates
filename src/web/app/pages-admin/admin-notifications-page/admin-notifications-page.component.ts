@@ -242,10 +242,11 @@ export class AdminNotificationsPageComponent implements OnInit {
     .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
     .subscribe({
       next: (notification: Notification) => {
-        this.notificationsTableRowModels.unshift({
+        this.notificationsTableRowModels = [{
           isHighlighted: true,
           notification,
-        });
+        }, ...this.notificationsTableRowModels];
+
         this.initNotificationEditFormModel();
         this.statusMessageService.showSuccessToast('Notification created successfully.');
       },
@@ -288,6 +289,8 @@ export class AdminNotificationsPageComponent implements OnInit {
             rowModel.notification = notification;
           }
         });
+
+        this.notificationsTableRowModels = [...this.notificationsTableRowModels];
 
         this.initNotificationEditFormModel();
       },

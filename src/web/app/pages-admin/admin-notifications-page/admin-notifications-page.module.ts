@@ -11,6 +11,7 @@ import { DatepickerModule } from '../../components/datepicker/datepicker.module'
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { RichTextEditorModule } from '../../components/rich-text-editor/rich-text-editor.module';
+import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TimepickerModule } from '../../components/timepicker/timepicker.module';
 
@@ -38,6 +39,7 @@ const routes: Routes = [
     CommonModule,
     DatepickerModule,
     FormsModule,
+    SortableTableModule,
     RichTextEditorModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
