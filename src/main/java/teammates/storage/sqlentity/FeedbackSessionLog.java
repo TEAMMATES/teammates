@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
 import jakarta.persistence.Column;
@@ -28,10 +31,12 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "studentId")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "sessionId")
+    @NotFound(action = NotFoundAction.IGNORE)
     private FeedbackSession feedbackSession;
 
     @Column(nullable = false)

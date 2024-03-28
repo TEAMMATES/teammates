@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.hibernate.ObjectNotFoundException;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSessionLog;
