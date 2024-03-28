@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -63,6 +64,13 @@ public final class AccountRequestsLogic {
         AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
 
         return accountRequestDb.createAccountRequest(toCreate);
+    }
+
+    /**
+     * Gets the account request associated with the {@code id}.
+     */
+    public AccountRequest getAccountRequest(UUID id) {
+        return accountRequestDb.getAccountRequest(id);
     }
 
     /**

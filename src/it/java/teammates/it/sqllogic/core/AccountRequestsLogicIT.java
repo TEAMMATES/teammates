@@ -1,6 +1,7 @@
 package teammates.it.sqllogic.core;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -19,6 +20,23 @@ import teammates.storage.sqlentity.AccountRequest;
 public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
+
+    @Test
+    public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
+        UUID id = UUID.randomUUID();
+        AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
+        assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+        AccountRequest expectedAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        UUID id = expectedAccountRequest.getId();
+        accountRequestsLogic.createAccountRequest(expectedAccountRequest);
+        AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
+        assertEquals(expectedAccountRequest, actualAccountRequest);
+    }
 
     @Test
     public void testResetAccountRequest()
