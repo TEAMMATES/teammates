@@ -31,4 +31,4 @@ jobs:
       - name: Run Solr search service
         run: docker-compose run -d -p 8983:8983 solr
       - name: Run Backend Tests
-        run: ./gradlew createConfigs componentTests
+        run: ./gradlew createConfigs componentTests --continue
