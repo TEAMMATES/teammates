@@ -29,6 +29,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelperExtension;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -204,6 +205,10 @@ public class BaseTestCase {
                 null, null, null);
         comment.setId(id);
         return comment;
+    }
+
+    protected AccountRequest getTypicalAccountRequest() {
+        return new AccountRequest("valid@test.com", "Test account Name", "TEAMMATES Test Institute 1");
     }
 
     /**
