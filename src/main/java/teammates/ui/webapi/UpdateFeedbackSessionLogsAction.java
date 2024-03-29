@@ -35,9 +35,12 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
                 startTime.toEpochMilli(), endTime.toEpochMilli(), null);
 
         Map<UUID, Map<String, Map<UUID, Map<String, Long>>>> lastSavedTimestamps = new HashMap<>();
+        Map<String, Boolean> isCourseMigratedMap = new HashMap<>();
         for (FeedbackSessionLogEntry logEntry : logEntries) {
 
-            if (!isCourseMigrated(logEntry.getCourseId())) {
+            isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(), k -> logic.getCourse(logEntry.getCourseId()) == null);
+            
+            if (isCourseMigratedMap.get(logEntry.getCourseId())) {
                 continue;
             }
 

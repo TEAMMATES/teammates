@@ -37,8 +37,8 @@ interface SearchLogsFormModel {
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
   logType: string;
-  feedbackSessionName: string;
-  studentEmail: string;
+  selectedSession: SelectedSession;
+  selectedStudent: SelectedStudent;
   showActions: boolean;
   showInactions: boolean;
 }
@@ -46,6 +46,16 @@ interface SearchLogsFormModel {
 interface LogType {
   label: string;
   value: string;
+}
+
+interface SelectedStudent {
+    studentEmail: string;
+    studentId?: string;
+}
+
+interface SelectedSession {
+    feedbackSessionName: string;
+    sessionId?: string;
 }
 
 /**
@@ -86,8 +96,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsDateTo: getDefaultDateFormat(),
     logsTimeTo: getDefaultTimeFormat(),
     logType: '',
-    studentEmail: '',
-    feedbackSessionName: '',
+    selectedStudent: {studentEmail: '', studentId: ''},
+    selectedSession: {feedbackSessionName: '', sessionId: ''},
     showActions: false,
     showInactions: false,
   };
@@ -172,16 +182,18 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       courseId: this.course.courseId,
       searchFrom: searchFrom.toString(),
       searchUntil: searchUntil.toString(),
-      studentEmail: this.formModel.studentEmail,
+      studentEmail: this.formModel.selectedStudent.studentEmail,
       logType: this.formModel.logType,
-      sessionName: this.formModel.feedbackSessionName,
+      sessionName: this.formModel.selectedSession.feedbackSessionName,
+      studentId: this.formModel.selectedStudent.studentId,
+      sessionId: this.formModel.selectedSession.sessionId
     }).pipe(
         finalize(() => {
           this.isSearching = false;
         }),
     ).subscribe({
       next: (logs: FeedbackSessionLogs) => {
-        if (this.formModel.feedbackSessionName === '') {
+        if (this.formModel.selectedSession.feedbackSessionName === '') {
           logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
             log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
               this.studentToLog[this.getStudentKey(log, entry.studentData.email)] = entry;
@@ -190,7 +202,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           });
         } else {
           const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
-              log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
+              log.feedbackSessionData.feedbackSessionName === this.formModel.selectedSession.feedbackSessionName);
 
           if (targetFeedbackSessionLog) {
             targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
@@ -283,7 +295,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               return false;
             }
 
-            if (this.formModel.studentEmail !== '' && student.email !== this.formModel.studentEmail) {
+            if (this.formModel.selectedStudent.studentEmail !== '' && student.email !== this.formModel.selectedStudent.studentEmail) {
               return false;
             }
 

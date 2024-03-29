@@ -162,10 +162,10 @@ public class GoogleCloudLoggingService implements LogService {
             } else {
                 continue;
             }
-
+            UUID studentId = details.getStudentId() != null ? UUID.fromString(details.getStudentId()) : null;
+            UUID fsId = details.getFeedbackSessionId() != null ? UUID.fromString(details.getFeedbackSessionId()) : null;
             FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getCourseId(),
-                    UUID.fromString(details.getStudentId()), details.getStudentEmail(),
-                    UUID.fromString(details.getFeedbackSessionId()), details.getFeedbackSessionName(),
+                    studentId, details.getStudentEmail(), fsId, details.getFeedbackSessionName(),
                     details.getAccessType(), timestamp);
             fsLogEntries.add(fslEntry);
         }

@@ -59,6 +59,8 @@ export class LogService {
     studentEmail?: string,
     sessionName?: string,
     logType?: string,
+    studentId?: string,
+    sessionId?: string
   }): Observable<FeedbackSessionLogs> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
@@ -76,6 +78,14 @@ export class LogService {
 
     if (queryParams.logType) {
       paramMap['fsltype'] = queryParams.logType;
+    }
+
+    if (queryParams.studentId) {
+      paramMap['studentid'] = queryParams.studentId;
+    }
+
+    if (queryParams.sessionId) {
+      paramMap['fsid'] = queryParams.sessionId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
