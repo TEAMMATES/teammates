@@ -20,7 +20,13 @@ public class CreateAccountRequestAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // Nothing needs to be done here because anybody should be able to create an account request.
+        // Nothing needs to be done here because anybody should be able to create an
+        // account request.
+    }
+
+    @Override
+    public boolean isTransactionNeeded() {
+        return false;
     }
 
     @Override
@@ -38,11 +44,16 @@ public class CreateAccountRequestAction extends Action {
         AccountRequest accountRequest;
 
         try {
-            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
-                    AccountRequestStatus.PENDING, comments);
-            taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
+            accountRequest = sqlLogic.createAccountRequestWithTransaction(instructorName, instructorEmail,
+                    instructorInstitution, AccountRequestStatus.PENDING, comments);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
+        }
+
+        taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
+
+        if (accountRequest.getRegisteredAt() != null) {
+            throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
         }
 
         assert accountRequest != null;

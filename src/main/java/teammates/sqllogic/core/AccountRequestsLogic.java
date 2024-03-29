@@ -7,6 +7,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlsearch.AccountRequestSearchManager;
@@ -104,7 +105,8 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given email and institute such that it is not registered.
+     * Creates/resets the account request with the given email and institute such
+     * that it is not registered.
      */
     public AccountRequest resetAccountRequest(String email, String institute)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -112,7 +114,7 @@ public final class AccountRequestsLogic {
 
         if (accountRequest == null) {
             throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
-                + "the given email and institute cannot be found.");
+                    + "the given email and institute cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
 
@@ -120,9 +122,13 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes account request associated with the {@code email} and {@code institute}.
+     * Deletes account request associated with the {@code email} and
+     * {@code institute}.
      *
-     * <p>Fails silently if no account requests with the given email and institute to delete can be found.</p>
+     * <p>
+     * Fails silently if no account requests with the given email and institute to
+     * delete can be found.
+     * </p>
      *
      */
     public void deleteAccountRequest(String email, String institute) {
@@ -139,5 +145,24 @@ public final class AccountRequestsLogic {
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
         return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Creates an or gets an account request.
+     */
+    public AccountRequest createOrGetAccountRequestWithTransaction(String name, String email, String institute,
+            AccountRequestStatus status, String comments)
+            throws InvalidParametersException {
+        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
+        HibernateUtil.beginTransaction();
+        AccountRequest accountRequest;
+        try {
+            accountRequest = accountRequestDb.createAccountRequest(toCreate);
+            HibernateUtil.commitTransaction();
+        } catch (InvalidParametersException ipe) {
+            HibernateUtil.rollbackTransaction();
+            throw new InvalidParametersException(ipe);
+        }
+        return accountRequest;
     }
 }
