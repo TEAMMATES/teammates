@@ -1,10 +1,12 @@
 package teammates.it.ui.webapi;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
@@ -26,6 +28,13 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         return POST;
     }
 
+    @BeforeMethod
+    @Override
+    protected void setUp() {
+        // CreateAccountRequestAction handles its own transactions;
+        // There is thus no need to setup a transaction.
+    }
+
     @Override
     @Test
     protected void testExecute() throws Exception {
@@ -37,7 +46,9 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         CreateAccountRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
         JoinLinkData output = (JoinLinkData) result.getOutput();
+        HibernateUtil.beginTransaction();
         AccountRequest accountRequest = logic.getAccountRequest("ring-bearer@fellowship.net", "The Fellowship of the Ring");
+        HibernateUtil.commitTransaction();
         assertEquals("ring-bearer@fellowship.net", accountRequest.getEmail());
         assertEquals("Frodo Baggins", accountRequest.getName());
         assertEquals("The Fellowship of the Ring", accountRequest.getInstitute());
