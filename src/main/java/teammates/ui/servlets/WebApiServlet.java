@@ -136,15 +136,10 @@ public class WebApiServlet extends HttpServlet {
 
     private ActionResult executeWithoutTransaction(Action action, HttpServletRequest req)
             throws InvalidOperationException, InvalidHttpRequestBodyException, UnauthorizedAccessException {
-        try {
-            action.init(req);
-            action.checkAccessControl();
+        action.init(req);
+        action.checkAccessControl();
 
-            ActionResult result = action.execute();
-            return result;
-        } catch (Exception e) {
-            throw e;
-        }
+        return action.execute();
     }
 
     private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
