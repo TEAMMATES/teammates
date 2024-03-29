@@ -1005,10 +1005,10 @@ public final class SqlEmailGenerator {
      * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
      */
     public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
-        String name = accountRequest.getName();
-        String institute = accountRequest.getInstitute();
-        String emailAddress = accountRequest.getEmail();
-        String comments = accountRequest.getComments();
+        String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
+        String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute());
+        String emailAddress = SanitizationHelper.sanitizeForHtml(accountRequest.getEmail());
+        String comments = SanitizationHelper.sanitizeForHtml(accountRequest.getComments());
         if (comments == null) {
             comments = "";
         }
