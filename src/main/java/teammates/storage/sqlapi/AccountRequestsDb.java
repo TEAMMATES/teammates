@@ -78,13 +78,6 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
-     * Get AccountRequest by {@code id} from database.
-     */
-    public AccountRequest getAccountRequest(UUID id) {
-        return HibernateUtil.get(AccountRequest.class, id);
-    }
-
-    /**
      * Get all Account Requests with {@code status} of 'pending'.
      */
     public List<AccountRequest> getPendingAccountRequests() {
