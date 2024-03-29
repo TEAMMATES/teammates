@@ -17,10 +17,10 @@ export class InstructorRequestFormComponent {
   constructor(private accountService: AccountService) {}
 
   arf = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)]),
     institution: new FormControl('', [Validators.required]),
     country: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(FormValidator.EMAIL_REGEX), Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
     homePage: new FormControl('', [Validators.pattern(FormValidator.URL_REGEX)]),
     comments: new FormControl(''),
   }, { updateOn: 'submit' });
@@ -36,6 +36,8 @@ export class InstructorRequestFormComponent {
   hasSubmitAttempt = false;
   isLoading = false;
   @Output() requestSubmissionEvent = new EventEmitter<InstructorRequestFormModel>();
+
+  serverErrorMessage = "";
 
   checkIsFieldRequired(field: FormControl): boolean {
     return field.hasValidator(Validators.required);
@@ -64,6 +66,7 @@ export class InstructorRequestFormComponent {
   onSubmit(): void {
     this.hasSubmitAttempt = true;
     this.isLoading = true;
+    this.serverErrorMessage = "";
 
     if (this.arf.invalid) {
       this.isLoading = false;
@@ -110,10 +113,8 @@ export class InstructorRequestFormComponent {
           });
         },
         error: (resp: ErrorMessageOutput) => {
-          // TODO: improve server error display
-          alert(resp.error.message);
+          this.serverErrorMessage = resp.error.message;
         },
       });
-
   }
 }

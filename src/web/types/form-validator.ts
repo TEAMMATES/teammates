@@ -38,4 +38,9 @@ export enum FormValidator {
    * Regex used to verify URLs as Angular does not have a built-in URL validator.
    */
   URL_REGEX = ApiStringConst.URL_REGEX,
+
+  /**
+   * Regex used to verify emails in the back-end.
+   */
+  EMAIL_REGEX = ApiStringConst.EMAIL_REGEX,
 }

@@ -9,8 +9,11 @@ import teammates.common.util.FieldValidator;
  */
 public enum ApiStringConst {
     // CHECKSTYLE.OFF:JavadocVariable
-    // double escape regex
-    URL_REGEX(FieldValidator.REGEX_HOME_PAGE_URL.replace("\\", "\\\\")),
+    URL_REGEX(doubleEscapeRegex(FieldValidator.REGEX_HOME_PAGE_URL)),
+    // Replace possessive zero or more times quantifier *+ that the email pattern uses
+    // with greedy zero or more times quantifier *
+    // as possessive quantifiers are not supported in JavaScript
+    EMAIL_REGEX(doubleEscapeRegex(FieldValidator.REGEX_EMAIL.replace("*+", "*")));
     // CHECKSTYLE.ON:JavadocVariable
 
     private final Object value;
@@ -22,6 +25,13 @@ public enum ApiStringConst {
     @JsonValue
     public Object getValue() {
         return value;
+    }
+
+    /**
+     * Double escape regex pattern strings to ensure the pattern remains correct when converted
+     */
+    private static String doubleEscapeRegex(String regexStr) {
+        return regexStr.replace("\\", "\\\\");
     }
 
 }
