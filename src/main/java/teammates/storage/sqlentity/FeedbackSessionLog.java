@@ -20,8 +20,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -58,11 +56,7 @@ public class FeedbackSessionLog extends BaseEntity {
 
     public FeedbackSessionLog(Student student, FeedbackSession feedbackSession,
             FeedbackSessionLogType feedbackSessionLogType, Instant timestamp) {
-    public FeedbackSessionLog(Student student, FeedbackSession feedbackSession,
-            FeedbackSessionLogType feedbackSessionLogType, Instant timestamp) {
         this.setId(UUID.randomUUID());
-        this.student = student;
-        this.feedbackSession = feedbackSession;
         this.student = student;
         this.feedbackSession = feedbackSession;
         this.feedbackSessionLogType = feedbackSessionLogType;
@@ -79,24 +73,16 @@ public class FeedbackSessionLog extends BaseEntity {
 
     public Student getStudent() {
         return student;
-    public Student getStudent() {
-        return student;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
     public void setStudent(Student student) {
         this.student = student;
     }
 
     public FeedbackSession getFeedbackSession() {
         return feedbackSession;
-    public FeedbackSession getFeedbackSession() {
-        return feedbackSession;
     }
 
-    public void setFeedbackSession(FeedbackSession feedbackSession) {
-        this.feedbackSession = feedbackSession;
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;
     }
@@ -119,7 +105,6 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackSessionLog [id=" + id + ", student=" + student + ", feedbackSession=" + feedbackSession
         return "FeedbackSessionLog [id=" + id + ", student=" + student + ", feedbackSession=" + feedbackSession
                 + ", feedbackSessionLogType=" + feedbackSessionLogType.getLabel() + ", timestamp=" + timestamp + "]";
     }

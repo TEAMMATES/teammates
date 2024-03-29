@@ -75,7 +75,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
         FeedbackSessionLog student1Session2Log2 = typicalDataBundle.feedbackSessionLogs.get("student1Session2Log2");
         FeedbackSessionLog student2Session1Log1 = typicalDataBundle.feedbackSessionLogs.get("student2Session1Log1");
         FeedbackSessionLog student2Session1Log2 = typicalDataBundle.feedbackSessionLogs.get("student2Session1Log2");
- 
+
         ______TS("Return logs belonging to a course in time range");
         List<FeedbackSessionLog> expectedLogs = List.of(
                 student1Session1Log1,
