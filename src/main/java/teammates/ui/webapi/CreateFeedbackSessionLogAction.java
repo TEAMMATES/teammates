@@ -46,23 +46,14 @@ class CreateFeedbackSessionLogAction extends Action {
         details.setAccessType(fslType);
 
         if (isCourseMigrated(courseId)) {
-            // TODO: remove unnecessary db reads after updating the front end
-            Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
-            FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsName, courseId);
-            UUID studentId = null;
-            UUID fsId = null;
+            String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+            String fsId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-            if (student != null) {
-                studentId = student.getId();
-                details.setStudentId(studentId.toString());
-            }
-
-            if (feedbackSession != null) {
-                fsId = feedbackSession.getId();
-                details.setFeedbackSessionId(fsId.toString());
-            }
+            details.setStudentId(studentId);
+            details.setFeedbackSessionId(fsId);
+            
             // Necessary to assist local testing. For production usage, this will be a no-op.
-            logsProcessor.createFeedbackSessionLog(courseId, studentId, studentEmail, fsId, fsName, fslType);
+            logsProcessor.createFeedbackSessionLog(courseId, UUID.fromString(studentId), studentEmail, UUID.fromString(fsId), fsName, fslType);
         } else {
             // Necessary to assist local testing. For production usage, this will be a no-op.
             logsProcessor.createFeedbackSessionLog(courseId, null, studentEmail, null, fsName, fslType);

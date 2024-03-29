@@ -123,6 +123,7 @@ public final class Const {
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
         public static final String IS_INSTRUCTOR = "isinstructor";
 
+        public static final String FEEDBACK_SESSION_ID = "fsid";
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -144,6 +145,7 @@ public final class Const {
 
         public static final String PREVIEWAS = "previewas";
 
+        public static final String STUDENT_SQL_ID = "studentid";
         public static final String STUDENT_ID = "googleid";
         public static final String INVITER_ID = "invitergoogleid";
 

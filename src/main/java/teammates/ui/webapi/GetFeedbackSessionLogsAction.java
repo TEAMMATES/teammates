@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
@@ -139,9 +140,13 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         if (isCourseMigrated(courseId)) {
-            // TODO: replace null ids with value from request after FE changes and enable test
-            List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, null,
-                    null, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
+            String studentIdString = getRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+            String feedbackSessionIdString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+            UUID studentId = studentIdString != null ? UUID.fromString(studentIdString) : null;
+            UUID feedbackSessionId = feedbackSessionIdString != null ? UUID.fromString(feedbackSessionIdString) : null;
+
+            List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, studentId,
+                    feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
             Map<String, Student> studentsMap = new HashMap<>();
             Map<String, FeedbackSession> sessionsMap = new HashMap<>();
             List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);

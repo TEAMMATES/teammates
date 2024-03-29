@@ -124,7 +124,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime))).thenReturn(student1Fs1Logs);
     }
 
-    @Test(enabled = false)
+    @Test
     protected void testExecute() {
         JsonResult actionOutput;
 
@@ -204,10 +204,10 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1.getEmail());
         assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
-        ______TS("Success case: should accept optional email");
+        ______TS("Success case: should accept optional student id");
         String[] paramsSuccessful2 = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
@@ -233,7 +233,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         ______TS("Success case: should accept optional feedback session");
         String[] paramsSuccessful3 = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
@@ -257,8 +257,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         ______TS("Success case: should accept all optional params");
         String[] paramsSuccessful4 = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
