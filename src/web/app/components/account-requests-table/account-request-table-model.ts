@@ -2,6 +2,7 @@
  * Model for the row entries in the account requests table.
  */
 export interface AccountRequestTableRowModel {
+    id: string;
     name: string;
     email: string;
     status: string;

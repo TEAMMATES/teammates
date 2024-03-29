@@ -253,6 +253,7 @@ export class AdminHomePageComponent implements OnInit {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return requests.accountRequests.map((request) => {
       return {
+        id: request.id,
         name: request.name,
         email: request.email,
         status: request.status,
