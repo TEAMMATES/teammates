@@ -128,7 +128,7 @@ public final class AccountRequestsDb extends EntitiesDb {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
 
-        if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) == null) {
+        if (getAccountRequest(accountRequest.getId()) == null) {
             throw new EntityDoesNotExistException(
                 String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
         }
