@@ -185,12 +185,13 @@ describe('SearchService', () => {
   };
 
   const mockAccountRequest: AccountRequest = {
-    id: 'test@example.com%Test Institute',
+    id: '132efa02-b208-4195-a262-a8eae25ceb95',
     registrationKey: 'regkey',
     createdAt: 1585487897502,
     name: 'Test Instructor',
     institute: 'Test Institute',
     email: 'test@example.com',
+    comments: 'This is a test account request',
     status: AccountRequestStatus.APPROVED,
   };
 
@@ -304,6 +305,7 @@ describe('SearchService', () => {
     };
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
 
+    expect(result.id).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
     expect(result.email).toBe('test@example.com');
     expect(result.institute).toBe('Test Institute');
     expect(result.name).toBe('Test Instructor');

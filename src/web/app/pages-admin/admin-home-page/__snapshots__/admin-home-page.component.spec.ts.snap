@@ -2,9 +2,12 @@
 
 exports[`AdminHomePageComponent should snap with default view 1`] = `
 <tm-admin-home-page
+  accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
+  currentPage={[Function Number]}
+  formatDateDetailPipe={[Function FormatDateDetailPipe]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
@@ -12,13 +15,16 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
   isRegisteredInstructorModalLoading="false"
+  items$={[Function Observable]}
   linkService={[Function LinkService]}
   ngbModal={[Function _NgbModal]}
+  pageSize={[Function Number]}
   registeredInstructorAccountData={[Function Array]}
   registeredInstructorIndex="0"
   registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
 >
   <div
     class="card bg-light top-padded"
@@ -131,9 +137,12 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
 
 exports[`AdminHomePageComponent should snap with disabled adding instructor button if there are active requests 1`] = `
 <tm-admin-home-page
+  accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests={[Function Number]}
   courseService={[Function CourseService]}
+  currentPage={[Function Number]}
+  formatDateDetailPipe={[Function FormatDateDetailPipe]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
@@ -141,13 +150,16 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   instructorsConsolidated={[Function Array]}
   isAddingInstructors={[Function Boolean]}
   isRegisteredInstructorModalLoading="false"
+  items$={[Function Observable]}
   linkService={[Function LinkService]}
   ngbModal={[Function _NgbModal]}
+  pageSize={[Function Number]}
   registeredInstructorAccountData={[Function Array]}
   registeredInstructorIndex="0"
   registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
 >
   <div
     class="card bg-light top-padded"
@@ -424,9 +436,12 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
 
 exports[`AdminHomePageComponent should snap with some instructors details 1`] = `
 <tm-admin-home-page
+  accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
+  currentPage={[Function Number]}
+  formatDateDetailPipe={[Function FormatDateDetailPipe]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
@@ -434,13 +449,16 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
   isRegisteredInstructorModalLoading="false"
+  items$={[Function Observable]}
   linkService={[Function LinkService]}
   ngbModal={[Function _NgbModal]}
+  pageSize={[Function Number]}
   registeredInstructorAccountData={[Function Array]}
   registeredInstructorIndex="0"
   registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
 >
   <div
     class="card bg-light top-padded"

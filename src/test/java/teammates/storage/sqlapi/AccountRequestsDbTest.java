@@ -10,6 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
@@ -71,6 +72,26 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
+        UUID id = UUID.randomUUID();
+        mockHibernateUtil.when(() -> HibernateUtil.get(AccountRequest.class, id)).thenReturn(null);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(AccountRequest.class, id));
+        assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
+        AccountRequest expectedAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        UUID id = expectedAccountRequest.getId();
+        mockHibernateUtil.when(() -> HibernateUtil.get(AccountRequest.class, id)).thenReturn(expectedAccountRequest);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(AccountRequest.class, id));
+        assertEquals(expectedAccountRequest, actualAccountRequest);
+    }
+
+    @Test
     public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
         AccountRequest accountRequestWithInvalidEmail =
                 new AccountRequest("testgmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
@@ -85,7 +106,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        doReturn(null).when(accountRequestDb).getAccountRequest(accountRequest.getId());
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequest));
@@ -97,7 +118,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(accountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        doReturn(accountRequest).when(accountRequestDb).getAccountRequest(accountRequest.getId());
 
         accountRequestDb.updateAccountRequest(accountRequest);
 

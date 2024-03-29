@@ -96,6 +96,15 @@ public class Logic {
     }
 
     /**
+     * Gets the account request with the given {@code id}.
+     *
+     * @return account request with the given {@code id}.
+     */
+    public AccountRequest getAccountRequest(UUID id) {
+        return accountRequestLogic.getAccountRequest(id);
+    }
+
+    /**
      * Gets the account request with the given email and institute.
      *
      * @return account request with the given email and institute.
