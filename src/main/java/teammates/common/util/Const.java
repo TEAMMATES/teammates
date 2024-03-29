@@ -45,8 +45,6 @@ public final class Const {
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
 
-    public static final String URL_REGEX = "(https?:\\/\\/)?(www\\.)[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,4}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)|(https?:\\/\\/)?(www\\.)?(?!ww)[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,4}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
-
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
     public static final int INT_UNINITIALIZED = -9999;

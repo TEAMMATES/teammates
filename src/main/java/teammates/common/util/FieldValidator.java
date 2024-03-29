@@ -264,6 +264,21 @@ public final class FieldValidator {
                                             + "@([A-Za-z0-9-]+\\.)+[A-Za-z]+$";
 
     /**
+     * Scheme:
+     * <li>May include scheme "http://" or "https://"<br><br>
+     * Domain:
+     * <li>Allowed characters: letters, digits, hyphens;
+     * <li>Must have TLD;
+     * <li>May contain port number<br><br>
+     * Others (path, anchor, query params etc):
+     * <li>May be absent;
+     * <li>Allowed characters: letters, digits, - @ : % . _ \ + ~ # =
+     */
+    public static final String REGEX_HOME_PAGE_URL = "(https?:\\/\\/)?"
+                                                + "(([-a-zA-Z0-9]{2,}\\.)+[a-zA-Z]{2,})\\b"
+                                                + "([-a-zA-Z0-9@:%_\\+.~#?&/=]*)";
+
+    /**
      * Allows English alphabet, numbers, underscore,  dot and hyphen.
      */
     public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
