@@ -60,7 +60,14 @@ public class WebApiServlet extends HttpServlet {
 
         try {
             action = ActionFactory.getAction(req, req.getMethod());
-            ActionResult result = executeWithTransaction(action, req);
+            ActionResult result;
+
+            if (action.isTransactionNeeded()) {
+                result = executeWithTransaction(action, req);
+            } else {
+                result = executeWithoutTransaction(action, req);
+            }
+
             statusCode = result.getStatusCode();
             result.send(resp);
         } catch (ActionMappingException e) {
@@ -123,6 +130,19 @@ public class WebApiServlet extends HttpServlet {
             return result;
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
+            throw e;
+        }
+    }
+
+    private ActionResult executeWithoutTransaction(Action action, HttpServletRequest req)
+            throws InvalidOperationException, InvalidHttpRequestBodyException, UnauthorizedAccessException {
+        try {
+            action.init(req);
+            action.checkAccessControl();
+
+            ActionResult result = action.execute();
+            return result;
+        } catch (Exception e) {
             throw e;
         }
     }
