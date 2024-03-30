@@ -51,10 +51,6 @@ public class CreateAccountRequestAction extends Action {
 
         taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
 
-        if (accountRequest.getRegisteredAt() != null) {
-            throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
-        }
-
         assert accountRequest != null;
         EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         emailSender.sendEmail(adminAlertEmail);
