@@ -105,8 +105,7 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given email and institute such
-     * that it is not registered.
+     * Creates/resets the account request with the given email and institute such that it is not registered.
      */
     public AccountRequest resetAccountRequest(String email, String institute)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -114,7 +113,7 @@ public final class AccountRequestsLogic {
 
         if (accountRequest == null) {
             throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
-                    + "the given email and institute cannot be found.");
+                + "the given email and institute cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
 
@@ -122,13 +121,9 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes account request associated with the {@code email} and
-     * {@code institute}.
+     * Deletes account request associated with the {@code email} and {@code institute}.
      *
-     * <p>
-     * Fails silently if no account requests with the given email and institute to
-     * delete can be found.
-     * </p>
+     * <p>Fails silently if no account requests with the given email and institute to delete can be found.</p>
      *
      */
     public void deleteAccountRequest(String email, String institute) {

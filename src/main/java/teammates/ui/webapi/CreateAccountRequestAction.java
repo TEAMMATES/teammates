@@ -20,8 +20,7 @@ public class CreateAccountRequestAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // Nothing needs to be done here because anybody should be able to create an
-        // account request.
+        // Nothing needs to be done here because anybody should be able to create an account request.
     }
 
     @Override
