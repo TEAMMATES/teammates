@@ -19,7 +19,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -41,10 +40,6 @@ public class Team extends BaseEntity {
         inverseJoinColumns = { @JoinColumn(name = "studentId") })
     Set<Student> students = new HashSet<>();
 
-    @OneToMany(mappedBy = "teamToStudentMap")
-    // TODO: See if we can get Students directly from this attribute.
-    private List<TeamToStudentMap> teamToStudentMaps;
-
     @Column(nullable = false)
     private String name;
 
@@ -59,7 +54,6 @@ public class Team extends BaseEntity {
         this.setId(UUID.randomUUID());
         this.setSection(section);
         this.setName(name);
-        this.setTeamToStudentMaps(new ArrayList<>());
     }
 
     @Override
@@ -106,12 +100,12 @@ public class Team extends BaseEntity {
         this.section = section;
     }
 
-    public List<TeamToStudentMap> getTeamToStudentMaps() {
-        return teamToStudentMaps;
+    public Set<Student> getStudents() {
+        return students;
     }
 
-    public void setTeamToStudentMaps(List<TeamToStudentMap> teamToStudentMaps) {
-        this.teamToStudentMaps = teamToStudentMaps;
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     public String getName() {
@@ -132,7 +126,7 @@ public class Team extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Team [id=" + id + ", teamToStudentMaps=" + teamToStudentMaps + ", name=" + name
+        return "Team [id=" + id + ", students=" + students + ", name=" + name
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
