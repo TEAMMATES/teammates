@@ -47,7 +47,10 @@ public class CreateAccountRequestAction extends Action {
 
         assert accountRequest != null;
         EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        EmailWrapper userAcknowledgementEmail = sqlEmailGenerator
+                .generateNewAccountRequestAcknowledgementEmail(accountRequest);
         emailSender.sendEmail(adminAlertEmail);
+        emailSender.sendEmail(userAcknowledgementEmail);
         AccountRequestData output = new AccountRequestData(accountRequest);
         return new JsonResult(output);
     }

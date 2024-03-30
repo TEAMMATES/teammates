@@ -125,9 +125,11 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-        verifyNumberOfEmailsSent(1);
+        verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
+        EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
     @Test
@@ -153,9 +155,11 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertNull(accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-        verifyNumberOfEmailsSent(1);
+        verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
+        EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
     @Test
@@ -186,9 +190,11 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-        verifyNumberOfEmailsSent(1);
+        verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
+        EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
     @Override

@@ -39,6 +39,29 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 "/adminNewAccountRequestAlertEmailWithNoComments.html");
     }
 
+    @Test
+    void testGenerateNewAccountRequestAcknowledgementEmail_withComments_generatesSuccessfully() throws IOException {
+        AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader", "Sith Order",
+                AccountRequestStatus.PENDING,
+                "I Am Your Father");
+        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
+        verifyEmail(email, "darth-vader@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
+                "TEAMMATES: Acknowledgement of Instructor Account Request",
+                Config.SUPPORT_EMAIL,
+                "/instructorNewAccountRequestAcknowledgementEmailWithComments.html");
+    }
+
+    @Test
+    void testGenerateNewAccountRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
+        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+                AccountRequestStatus.PENDING, null);
+        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
+        verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
+                "TEAMMATES: Acknowledgement of Instructor Account Request",
+                Config.SUPPORT_EMAIL,
+                "/instructorNewAccountRequestAcknowledgementEmailWithNoComments.html");
+    }
+
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
             String expectedSubject, String expectedEmailContentFilePathname) throws IOException {
         assertEquals(expectedRecipientEmailAddress, email.getRecipient());
@@ -47,6 +70,20 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         assertEquals(expectedEmailType, email.getType());
         assertEquals(expectedSubject, email.getSubject());
+        String emailContent = email.getContent();
+        EmailChecker.verifyEmailContent(emailContent, expectedEmailContentFilePathname);
+        verifyEmailContentHasNoPlaceholders(emailContent);
+    }
+
+    private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
+            String expectedSubject, String expectedBcc, String expectedEmailContentFilePathname) throws IOException {
+        assertEquals(expectedRecipientEmailAddress, email.getRecipient());
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        assertEquals(expectedEmailType, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertEquals(expectedBcc, email.getBcc());
         String emailContent = email.getContent();
         EmailChecker.verifyEmailContent(emailContent, expectedEmailContentFilePathname);
         verifyEmailContentHasNoPlaceholders(emailContent);
