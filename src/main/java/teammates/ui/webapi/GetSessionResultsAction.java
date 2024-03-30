@@ -126,7 +126,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         if (isCourseMigrated(courseId)) {
             if (questionId != null) {
                 UUID questionUuid = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-                executeWithSql(courseId, feedbackSessionName, questionUuid,
+                return executeWithSql(courseId, feedbackSessionName, questionUuid,
                         selectedSection, fetchType, intent, isPreviewResults);
             }
             return executeWithSql(courseId, feedbackSessionName, null, selectedSection,
