@@ -100,7 +100,7 @@ public class FeedbackResultsPage extends AppPage {
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestion question) {
         assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
-        if (!question.getQuestionDetailsCopy().equals(FeedbackQuestionType.TEXT)) {
+        if (!question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.TEXT)) {
             assertEquals(getAdditionalInfoString(question), getAdditionalInfo(questionNum));
         }
     }
@@ -420,7 +420,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private boolean isResponseEqual(FeedbackQuestion question, WebElement responseField,
             FeedbackResponse response) {
-        if (question.getQuestionDetailsCopy().equals(FeedbackQuestionType.RUBRIC)) {
+        if (question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.RUBRIC)) {
             return isRubricResponseEqual(responseField, response);
         } else {
             return getAnswerString(question, response.getFeedbackResponseDetailsCopy()).equals(responseField.getText());
@@ -647,108 +647,108 @@ public class FeedbackResultsPage extends AppPage {
 
     private String getAdditionalInfoString(FeedbackQuestionAttributes question) {
         switch (question.getQuestionType()) {
-            case TEXT:
-                return "";
-            case MCQ:
-                return getMcqAddInfo((FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy());
-            case MSQ:
-                return getMsqAddInfo((FeedbackMsqQuestionDetails) question.getQuestionDetailsCopy());
-            case RUBRIC:
-                return getRubricAddInfo((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy());
-            case NUMSCALE:
-                return getNumScaleAddInfo((FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
-            case CONTRIB:
-                return "Team contribution question";
-            case RANK_OPTIONS:
-                return getRankOptionsAddInfo((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy());
-            case RANK_RECIPIENTS:
-                return "Rank (recipients) question";
-            case CONSTSUM_OPTIONS:
-                return getConstSumOptionsAddInfo(
-                        (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
-            case CONSTSUM_RECIPIENTS:
-                return getConstSumRecipientsAddInfo(
-                        (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
-            default:
-                throw new AssertionError("Unknown question type: " + question.getQuestionType());
+        case TEXT:
+            return "";
+        case MCQ:
+            return getMcqAddInfo((FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy());
+        case MSQ:
+            return getMsqAddInfo((FeedbackMsqQuestionDetails) question.getQuestionDetailsCopy());
+        case RUBRIC:
+            return getRubricAddInfo((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy());
+        case NUMSCALE:
+            return getNumScaleAddInfo((FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
+        case CONTRIB:
+            return "Team contribution question";
+        case RANK_OPTIONS:
+            return getRankOptionsAddInfo((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy());
+        case RANK_RECIPIENTS:
+            return "Rank (recipients) question";
+        case CONSTSUM_OPTIONS:
+            return getConstSumOptionsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        case CONSTSUM_RECIPIENTS:
+            return getConstSumRecipientsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        default:
+            throw new AssertionError("Unknown question type: " + question.getQuestionType());
         }
     }
 
     private String getAdditionalInfoString(FeedbackQuestion question) {
         switch (question.getQuestionDetailsCopy().getQuestionType()) {
-            case TEXT:
-                return "";
-            case MCQ:
-                return getMcqAddInfo((FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy());
-            case MSQ:
-                return getMsqAddInfo((FeedbackMsqQuestionDetails) question.getQuestionDetailsCopy());
-            case RUBRIC:
-                return getRubricAddInfo((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy());
-            case NUMSCALE:
-                return getNumScaleAddInfo((FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
-            case CONTRIB:
-                return "Team contribution question";
-            case RANK_OPTIONS:
-                return getRankOptionsAddInfo((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy());
-            case RANK_RECIPIENTS:
-                return "Rank (recipients) question";
-            case CONSTSUM_OPTIONS:
-                return getConstSumOptionsAddInfo(
-                        (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
-            case CONSTSUM_RECIPIENTS:
-                return getConstSumRecipientsAddInfo(
-                        (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
-            default:
-                throw new AssertionError(
-                        "Unknown question type: " + question.getQuestionDetailsCopy().getQuestionType());
+        case TEXT:
+            return "";
+        case MCQ:
+            return getMcqAddInfo((FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy());
+        case MSQ:
+            return getMsqAddInfo((FeedbackMsqQuestionDetails) question.getQuestionDetailsCopy());
+        case RUBRIC:
+            return getRubricAddInfo((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy());
+        case NUMSCALE:
+            return getNumScaleAddInfo((FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
+        case CONTRIB:
+            return "Team contribution question";
+        case RANK_OPTIONS:
+            return getRankOptionsAddInfo((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy());
+        case RANK_RECIPIENTS:
+            return "Rank (recipients) question";
+        case CONSTSUM_OPTIONS:
+            return getConstSumOptionsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        case CONSTSUM_RECIPIENTS:
+            return getConstSumRecipientsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        default:
+            throw new AssertionError(
+                    "Unknown question type: " + question.getQuestionDetailsCopy().getQuestionType());
         }
     }
 
     private String getAnswerString(FeedbackQuestionAttributes question, FeedbackResponseDetails response) {
         switch (response.getQuestionType()) {
-            case TEXT:
-            case NUMSCALE:
-            case RANK_RECIPIENTS:
-                return response.getAnswerString();
-            case MCQ:
-            case MSQ:
-                return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
-            case RANK_OPTIONS:
-                return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
-                        (FeedbackRankOptionsResponseDetails) response);
-            case CONSTSUM:
-                return getConstSumOptionsAnsString(
-                        (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
-                        (FeedbackConstantSumResponseDetails) response);
-            case RUBRIC:
-            case CONTRIB:
-                return "";
-            default:
-                throw new AssertionError("Unknown question type: " + response.getQuestionType());
+        case TEXT:
+        case NUMSCALE:
+        case RANK_RECIPIENTS:
+            return response.getAnswerString();
+        case MCQ:
+        case MSQ:
+            return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
+        case RANK_OPTIONS:
+            return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackRankOptionsResponseDetails) response);
+        case CONSTSUM:
+            return getConstSumOptionsAnsString(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackConstantSumResponseDetails) response);
+        case RUBRIC:
+        case CONTRIB:
+            return "";
+        default:
+            throw new AssertionError("Unknown question type: " + response.getQuestionType());
         }
     }
 
     private String getAnswerString(FeedbackQuestion question, FeedbackResponseDetails response) {
         switch (response.getQuestionType()) {
-            case TEXT:
-            case NUMSCALE:
-            case RANK_RECIPIENTS:
-                return response.getAnswerString();
-            case MCQ:
-            case MSQ:
-                return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
-            case RANK_OPTIONS:
-                return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
-                        (FeedbackRankOptionsResponseDetails) response);
-            case CONSTSUM:
-                return getConstSumOptionsAnsString(
-                        (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
-                        (FeedbackConstantSumResponseDetails) response);
-            case RUBRIC:
-            case CONTRIB:
-                return "";
-            default:
-                throw new AssertionError("Unknown question type: " + response.getQuestionType());
+        case TEXT:
+        case NUMSCALE:
+        case RANK_RECIPIENTS:
+            return response.getAnswerString();
+        case MCQ:
+        case MSQ:
+            return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
+        case RANK_OPTIONS:
+            return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackRankOptionsResponseDetails) response);
+        case CONSTSUM:
+            return getConstSumOptionsAnsString(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackConstantSumResponseDetails) response);
+        case RUBRIC:
+        case CONTRIB:
+            return "";
+        default:
+            throw new AssertionError("Unknown question type: " + response.getQuestionType());
         }
     }
 
