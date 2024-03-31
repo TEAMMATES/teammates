@@ -49,12 +49,12 @@ interface LogType {
 }
 
 interface SelectedStudent {
-    studentEmail: string;
+    studentEmail?: string;
     studentId?: string;
 }
 
 interface SelectedSession {
-    feedbackSessionName: string;
+    feedbackSessionName?: string;
     sessionId?: string;
 }
 
@@ -96,8 +96,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsDateTo: getDefaultDateFormat(),
     logsTimeTo: getDefaultTimeFormat(),
     logType: '',
-    selectedStudent: {studentEmail: '', studentId: ''},
-    selectedSession: {feedbackSessionName: '', sessionId: ''},
+    selectedStudent: {studentEmail: undefined, studentId: undefined},
+    selectedSession: {feedbackSessionName: undefined, sessionId: undefined},
     showActions: false,
     showInactions: false,
   };
@@ -111,7 +111,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   };
   dateToday: DateFormat = getDefaultDateFormat();
   earliestSearchDate: DateFormat = getDefaultDateFormat();
-  studentToLog: Record<string, FeedbackSessionLogEntry> = {};
+  studentLogsMap: Map<string, FeedbackSessionLogEntry[]> = new Map();
   students: Student[] = [];
   feedbackSessions: Map<string, FeedbackSession> = new Map();
   searchResults: FeedbackSessionLogModel[] = [];
@@ -168,7 +168,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    * Search for logs of student activity
    */
   search(): void {
-    this.studentToLog = {};
+    if (this.formModel.logType == '') {
+      this.statusMessageService.showErrorToast("Please select an activity type");
+      return;
+    }
+
+    this.studentLogsMap = new Map();
     this.searchResults = [];
     this.isSearching = true;
 
@@ -193,10 +198,15 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         }),
     ).subscribe({
       next: (logs: FeedbackSessionLogs) => {
-        if (this.formModel.selectedSession.feedbackSessionName === '') {
+        if (this.formModel.selectedSession.feedbackSessionName === undefined) {
           logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
             log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-              this.studentToLog[this.getStudentKey(log, entry.studentData.email)] = entry;
+              const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(this.getStudentKey(log, entry.studentData.email))
+              if(arr) {
+                arr.push(entry);
+              } else {
+                this.studentLogsMap.set(this.getStudentKey(log, entry.studentData.email), [entry]);
+              }
             });
             this.searchResults.push(this.toFeedbackSessionLogModel(log));
           });
@@ -206,7 +216,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
           if (targetFeedbackSessionLog) {
             targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-              this.studentToLog[this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email)] = entry;
+                const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email))
+                if(arr) {
+                  arr.push(entry);
+                } else {
+                  this.studentLogsMap.set(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email), [entry]);
+                }
             });
             this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
           }
@@ -295,7 +310,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               return false;
             }
 
-            if (this.formModel.selectedStudent.studentEmail !== '' && student.email !== this.formModel.selectedStudent.studentEmail) {
+            if (this.formModel.selectedStudent.studentEmail !== undefined && student.email !== this.formModel.selectedStudent.studentEmail) {
               return false;
             }
 
@@ -305,7 +320,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
             const studentKey = this.getStudentKey(log, student.email);
 
-            if (studentKey in this.studentToLog) {
+            if (this.studentLogsMap.has(studentKey)) {
               if (this.formModel.showInactions) {
                 return false;
               }
@@ -315,33 +330,47 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
             return true;
           })
-          .map((student: Student) => {
+          .flatMap((student: Student) => {
             let status: string;
             let dataStyle: string = 'font-family:monospace; white-space:pre;';
-            const statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
             const studentKey = this.getStudentKey(log, student.email);
 
-            if (studentKey in this.studentToLog) {
-              const entry: FeedbackSessionLogEntry = this.studentToLog[studentKey];
-              const timestamp: string = this.timezoneService.formatToString(
-                  entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `${statusPrefix} at ${timestamp}`;
+            const entries: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(studentKey);
+            if (entries) {
+              const rows: any[] = [];
+              entries.forEach((entry: FeedbackSessionLogEntry) => {
+                const timestamp: string = this.timezoneService.formatToString(
+                    entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+                status = `${entry.feedbackSessionLogType} at ${timestamp}`;
+                rows.push(
+                  [{
+                    value: status,
+                    style: dataStyle,
+                  },
+                  { value: student.name },
+                  { value: student.email },
+                  { value: student.sectionName },
+                  { value: student.teamName }]
+                )
+              })
+              
+              return rows;
             } else {
               const timestamp: string = this.timezoneService.formatToString(
                   notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Not ${statusPrefix.toLowerCase()} since ${timestamp}`;
+              status = `Not ${this.logTypeToActivityDisplay(this.formModel.logType)} since ${timestamp}`;
               dataStyle += 'color:red;';
+              return [[
+                {
+                  value: status,
+                  style: dataStyle,
+                },
+                { value: student.name },
+                { value: student.email },
+                { value: student.sectionName },
+                { value: student.teamName },
+              ]];
             }
-            return [
-              {
-                value: status,
-                style: dataStyle,
-              },
-              { value: student.name },
-              { value: student.email },
-              { value: student.sectionName },
-              { value: student.teamName },
-            ];
           }),
       isTabExpanded: (log.feedbackSessionLogEntries.length !== 0 && this.formModel.showActions)
           || (log.feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),

@@ -44,7 +44,7 @@
         </div>
         <div class="col-12">
           <select id="student-name-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.selectedStudent">
-            <option *ngFor="let student of students" [value]="{studentEmail: student.email, studentId: student.studentId}">
+            <option *ngFor="let student of students" [ngValue]="{studentEmail: student.email || '', studentId: student.studentId}">
               {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
             </option>
           </select>
@@ -80,7 +80,7 @@
         <div class="col-12">
           <select id="session-dropdown" class="form-control form-select col-md-12" [(ngModel)]="formModel.selectedSession">
             <option value=""></option>
-            <option *ngFor="let session of feedbackSessions | keyvalue" [value]="{feedbackSessionName: session.key, sessionId: session.value.sessionId}">
+            <option *ngFor="let session of feedbackSessions | keyvalue" [ngValue]="{feedbackSessionName: session.key, sessionId: session.value.sessionId}">
               {{session.key}}
             </option>
           </select>
