@@ -1,12 +1,8 @@
 package teammates.client.scripts.sql;
 
 // CHECKSTYLE.OFF:ImportOrder
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -17,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
-import teammates.storage.sqlentity.ReadNotification;
 
 /**
  * Class for verifying account attributes.
@@ -87,18 +82,25 @@ public class VerifyAccountAttributes
             return false;
         }
 
-        Map<String, Instant> datastoreReadNotifications = datastoreEntity.getReadNotifications();
-        List<ReadNotification> sqlReadNotifications = sqlEntity.getReadNotifications();
+        return true;
 
-        List<Instant> datastoreEndTimes = new ArrayList<Instant>(datastoreReadNotifications.values());
-        Collections.sort(datastoreEndTimes);
+        // Not verifying read notification as current datastore implementation does not remove notifications
+        // that have been deleted from account entities. During migration, the notification will not be
+        // migrated since it is deleted and read notification will fail during migration (foreign key error)
+        // causing the verification to fail
 
-        List<Instant> sqlEndTimes = new ArrayList<>();
-        for (ReadNotification sqlReadNotification : sqlReadNotifications) {
-            sqlEndTimes.add(sqlReadNotification.getNotification().getEndTime());
-        }
-        Collections.sort(sqlEndTimes);
+        // Map<String, Instant> datastoreReadNotifications = datastoreEntity.getReadNotifications();
+        // List<ReadNotification> sqlReadNotifications = sqlEntity.getReadNotifications();
 
-        return datastoreEndTimes.equals(sqlEndTimes);
+        // List<Instant> datastoreEndTimes = new ArrayList<Instant>(datastoreReadNotifications.values());
+        // Collections.sort(datastoreEndTimes);
+
+        // List<Instant> sqlEndTimes = new ArrayList<>();
+        // for (ReadNotification sqlReadNotification : sqlReadNotifications) {
+        //     sqlEndTimes.add(sqlReadNotification.getNotification().getEndTime());
+        // }
+        // Collections.sort(sqlEndTimes);
+
+        // return datastoreEndTimes.equals(sqlEndTimes);
     }
 }

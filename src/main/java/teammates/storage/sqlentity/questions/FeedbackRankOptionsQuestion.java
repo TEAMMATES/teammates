@@ -52,8 +52,7 @@ public class FeedbackRankOptionsQuestion extends FeedbackQuestion {
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(),
                 new ArrayList<>(this.getShowResponsesTo()), new ArrayList<>(this.getShowGiverNameTo()),
                 new ArrayList<>(this.getShowRecipientNameTo()),
-                new FeedbackRankOptionsQuestionDetails(this.questionDetails.getQuestionText())
-        );
+                this.questionDetails.getDeepCopy());
     }
 
     @Override

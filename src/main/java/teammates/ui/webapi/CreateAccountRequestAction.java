@@ -24,6 +24,11 @@ public class CreateAccountRequestAction extends Action {
     }
 
     @Override
+    public boolean isTransactionNeeded() {
+        return false;
+    }
+
+    @Override
     public JsonResult execute()
             throws InvalidHttpRequestBodyException, InvalidOperationException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
@@ -38,12 +43,13 @@ public class CreateAccountRequestAction extends Action {
         AccountRequest accountRequest;
 
         try {
-            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
-                    AccountRequestStatus.PENDING, comments);
-            taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
+            accountRequest = sqlLogic.createAccountRequestWithTransaction(instructorName, instructorEmail,
+                    instructorInstitution, AccountRequestStatus.PENDING, comments);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }
+
+        taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
 
         assert accountRequest != null;
         EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
