@@ -242,7 +242,7 @@ public final class CoursesDb extends EntitiesDb {
 
     /**
      * Gets the course associated with a feedback response comment.
-     * 
+     *
      * @param id The identifier of a feedback response comment.
      * @return A course.
      */

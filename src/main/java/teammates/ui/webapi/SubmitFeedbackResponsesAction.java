@@ -214,7 +214,8 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         }
 
         Map<String, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
-        existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient().getEmail(), response));
+        existingResponses.forEach(response ->
+                existingResponsesPerRecipient.put(response.getRecipient().getEmail(), response));
 
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
         log.info(JsonUtils.toCompactJson(submitRequest));

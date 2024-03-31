@@ -22,6 +22,7 @@ import teammates.storage.sqlentity.User;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.SearchManagerFactory;
 import teammates.storage.sqlsearch.StudentSearchManager;
+
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -671,6 +672,9 @@ public final class UsersDb extends EntitiesDb {
         }
     }
 
+    /**
+     * Gets a User by course id and email.
+     */
     public User getUserByEmail(String courseId, String email) {
         assert courseId != null;
         assert email != null;

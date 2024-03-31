@@ -32,8 +32,8 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
-import teammates.storage.sqlentity.responses.FeedbackMissingResponse;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.responses.FeedbackMissingResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
@@ -284,7 +284,7 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Gets all responses given by a user for a course.
-     * 
+     *
      * @param courseId the identifier of a course.
      * @param giver the email of the giver.
      */
@@ -300,7 +300,7 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Gets all responses received by a user for a course.
-     * 
+     *
      * @param courseId the identifier of a course.
      * @param recipient the email of the recipient.
      */
@@ -813,10 +813,12 @@ public final class FeedbackResponsesLogic {
         for (FeedbackResponse existingResponse : existingResponses) {
             Map<String, Set<String>> currGiverRecipientMap =
                     questionCompleteGiverRecipientMap.get(existingResponse.getFeedbackQuestion());
-            if (!currGiverRecipientMap.containsKey(existingResponse.getGiver())) {
+            if (!currGiverRecipientMap.containsKey(existingResponse.getGiver().getEmail())) {
                 continue;
             }
-            currGiverRecipientMap.get(existingResponse.getGiver()).remove(existingResponse.getRecipient());
+            currGiverRecipientMap
+                    .get(existingResponse.getGiver().getEmail())
+                    .remove(existingResponse.getRecipient().getEmail());
         }
 
         List<FeedbackResponse> missingResponses = new ArrayList<>();
@@ -842,10 +844,12 @@ public final class FeedbackResponsesLogic {
                         continue;
                     }
 
+                    User giver = usersLogic.getUserByEmail(correspondingQuestion.getCourseId(), giverIdentifier);
+                    User recipient = usersLogic.getUserByEmail(correspondingQuestion.getCourseId(), recipientIdentifier);
                     FeedbackResponse missingResponse = new FeedbackMissingResponse(
                             correspondingQuestion,
-                            giverIdentifier, giverInfo.getSectionName(),
-                            recipientIdentifier, recipientInfo.getSectionName());
+                            giver, giverInfo.getSectionName(),
+                            recipient, recipientInfo.getSectionName());
 
                     // check visibility of the missing response
                     boolean isVisibleResponse = isResponseVisibleForUser(
@@ -886,11 +890,11 @@ public final class FeedbackResponsesLogic {
         // Early return if user is giver
         if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentInTeam(userEmail, response.getGiver())) {
+            if (roster.isStudentInTeam(userEmail, response.getGiver().getEmail())) {
                 return true;
             }
         } else {
-            if (response.getGiver().equals(userEmail)) {
+            if (response.getGiver().getEmail().equals(userEmail)) {
                 return true;
             }
         }
@@ -915,20 +919,20 @@ public final class FeedbackResponsesLogic {
             case OWN_TEAM_MEMBERS:
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 // Refers to Giver's Team Members
-                if (roster.isStudentsInSameTeam(response.getGiver(), userEmail)) {
+                if (roster.isStudentsInSameTeam(response.getGiver().getEmail(), userEmail)) {
                     return true;
                 }
                 break;
             case RECEIVER:
                 // Response to team
                 if (question.getRecipientType().isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.getRecipient())) {
+                    if (roster.isStudentInTeam(userEmail, response.getRecipient().getEmail())) {
                         // this is a team name
                         return true;
                     }
                     break;
                     // Response to individual
-                } else if (response.getRecipient().equals(userEmail)) {
+                } else if (response.getRecipient().getEmail().equals(userEmail)) {
                     return true;
                 } else {
                     break;
@@ -936,12 +940,12 @@ public final class FeedbackResponsesLogic {
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
                 if (question.getRecipientType().isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.getRecipient())) {
+                    if (roster.isStudentInTeam(userEmail, response.getRecipient().getEmail())) {
                         // this is a team name
                         return true;
                     }
                     break;
-                } else if (roster.isStudentsInSameTeam(response.getRecipient(), userEmail)) {
+                } else if (roster.isStudentsInSameTeam(response.getRecipient().getEmail(), userEmail)) {
                     // Response to individual
                     return true;
                 }
@@ -967,9 +971,9 @@ public final class FeedbackResponsesLogic {
 
         boolean isVisibleResponse = false;
         if (isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                || response.getRecipient().equals(userEmail)
+                || response.getRecipient().getEmail().equals(userEmail)
                 && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || response.getGiver().equals(userEmail)
+                || response.getGiver().getEmail().equals(userEmail)
                 || !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && !isInstructor) {
@@ -977,16 +981,16 @@ public final class FeedbackResponsesLogic {
                     || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION
                     || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_EXCLUDING_SELF)
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.getRecipient().equals(student.getTeamName())) {
+                    && response.getRecipient().getEmail().equals(student.getTeamName())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                    && response.getGiver().equals(student.getTeamName())) {
+                    && response.getGiver().getEmail().equals(student.getTeamName())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                    && studentsEmailInTeam.contains(response.getGiver())) {
+                    && studentsEmailInTeam.contains(response.getGiver().getEmail())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                    && studentsEmailInTeam.contains(response.getRecipient())) {
+                    && studentsEmailInTeam.contains(response.getRecipient().getEmail())) {
                 isVisibleResponse = true;
             }
         }

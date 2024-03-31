@@ -32,11 +32,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
     private static final UUID TYPICAL_UUID = UUID.randomUUID();
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private FeedbackResponseCommentsDb frcDb;
+    private UsersLogic usersLogic;
+    private CoursesLogic coursesLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         frcDb = mock(FeedbackResponseCommentsDb.class);
-        frcLogic.initLogicDependencies(frcDb);
+        frcLogic.initLogicDependencies(frcDb, usersLogic, coursesLogic);
     }
 
     @Test
@@ -156,7 +158,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
         assertEquals(updatedCommentText, updatedComment.getCommentText());
         assertEquals(expectedShowCommentTo, updatedComment.getShowCommentTo());
         assertEquals(expectedShowGiverNameTo, updatedComment.getShowGiverNameTo());
-        assertEquals(lastEditorEmail, updatedComment.getLastEditorEmail());
+        assertEquals(lastEditorEmail, updatedComment.getLastEditor().getEmail());
     }
 
     @Test

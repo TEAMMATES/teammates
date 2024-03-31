@@ -185,7 +185,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
 
     /**
      * Checks whether a user has responses in a session.
-     * 
+     *
      * @param giver the email of the giver.
      * @param feedbackSessionName the name of the feedback session.
      * @param courseId the identifier of the course.

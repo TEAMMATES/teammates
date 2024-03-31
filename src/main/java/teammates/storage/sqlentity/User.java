@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
