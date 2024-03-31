@@ -990,6 +990,9 @@ public final class UsersLogic {
         return emailUserMap;
     }
 
+    /**
+     * Gets a User by course id and email.
+     */
     public User getUserByEmail(String courseId, String email) {
         assert courseId != null;
         assert email != null;
