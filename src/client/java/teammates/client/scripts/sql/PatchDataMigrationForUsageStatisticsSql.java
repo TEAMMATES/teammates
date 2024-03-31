@@ -209,7 +209,6 @@ public class PatchDataMigrationForUsageStatisticsSql extends DatastoreClient {
             cr.select(root).where(root.get("startTime").in(instantList));
             TypedQuery<teammates.storage.sqlentity.UsageStatistics> query = HibernateUtil.createQuery(cr);
             List<teammates.storage.sqlentity.UsageStatistics> sqlEntitiesFound = query.getResultList();
-            log("SQL entities found: " + sqlEntitiesFound.size());
             if (sqlEntitiesFound.size() != entitiesSavingBuffer.size()) {
                 Set<Instant> foundInstants = sqlEntitiesFound.stream().map(entity -> entity.getStartTime())
                         .collect(Collectors.toSet());
@@ -218,8 +217,7 @@ public class PatchDataMigrationForUsageStatisticsSql extends DatastoreClient {
                         continue;
                     }
                     // entity is not found in SQL
-                    // log("Migrating missing usage stats: it's start time is: " +
-                    // entity.getStartTime().toString());
+                    log("Migrating missing usage stats: it's start time is: " + entity.getStartTime().toString());
                     numberOfAffectedEntities.incrementAndGet();
                     numberOfUpdatedEntities.incrementAndGet();
                     HibernateUtil.persist(entity);
