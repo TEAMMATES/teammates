@@ -92,14 +92,12 @@ export class InstructorRequestFormComponent {
 
     const name = this.name.value!.trim();
     const email = this.email.value!.trim();
+    const comments = this.comments.value!.trim();
 
     // Combine country and institution
     const country = this.country.value!.trim();
     const institution = this.institution.value!.trim();
     const combinedInstitution = `${institution}, ${country}`;
-
-    // Combine home page URL and comments
-    const comments = this.comments.value!.trim();
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
