@@ -126,10 +126,8 @@ public class GetFeedbackSessionLogsAction extends Action {
                 throw new EntityNotFoundException("Feedback session not found");
             }
 
-            String studentIdString = getRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
-            String feedbackSessionIdString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-            UUID studentId = studentIdString != null ? UUID.fromString(studentIdString) : null;
-            UUID feedbackSessionId = feedbackSessionIdString != null ? UUID.fromString(feedbackSessionIdString) : null;
+            UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+            UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
             List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, studentId,
                     feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));

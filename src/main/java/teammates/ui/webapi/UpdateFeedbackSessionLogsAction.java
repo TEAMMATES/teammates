@@ -38,8 +38,9 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
         Map<String, Boolean> isCourseMigratedMap = new HashMap<>();
         for (FeedbackSessionLogEntry logEntry : logEntries) {
 
-            isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(), k -> logic.getCourse(logEntry.getCourseId()) == null);
-            
+            isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(),
+                    k -> logic.getCourse(logEntry.getCourseId()) == null);
+
             if (isCourseMigratedMap.get(logEntry.getCourseId())) {
                 continue;
             }
