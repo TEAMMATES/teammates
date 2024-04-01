@@ -93,6 +93,6 @@
     <strong>Error submitting request:</strong> {{serverErrorMessage}}
   </ngb-alert>
   <button type="submit" class="btn btn-primary" id="submit-button" [disabled]="!checkCanSubmit()">
-    Submit
+    {{isLoading ? "Submitting..." : "Submit"}}
   </button>
 </form>
