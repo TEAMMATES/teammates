@@ -115,24 +115,6 @@ export class AccountService {
   }
 
   /**
-   * Rejects an account request by calling API.
-   */
-   rejectAccountRequest(name: string, email: string, institute: string, comments:string,
-    title?: string, reason?: string): Observable<MessageOutput> {
-    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
-      name,
-      email,
-      institute,
-      comments,
-      status: AccountRequestStatus.REJECTED,
-      rejectionTitle: title,
-      rejectionReason: reason,
-    };
-
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
-  }
-
-  /**
    * Edits an account request by calling API.
    */
   editAccountRequest(id: string, name: string, email: string, institute: string, comments: string)
