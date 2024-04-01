@@ -2,9 +2,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { AccountService } from '../../../../services/account.service';
-import { ErrorMessageOutput } from '../../../../app/error-message-output';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import { FormValidator } from '../../../../types/form-validator';
+import { ErrorMessageOutput } from '../../../error-message-output';
 
 @Component({
   selector: 'tm-instructor-request-form',
@@ -18,20 +18,20 @@ export class InstructorRequestFormComponent {
   arf = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)
+      Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH),
     ]),
     institution: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidator.INSTITUTION_NAME_MAX_LENGTH)
+      Validators.maxLength(FormValidator.INSTITUTION_NAME_MAX_LENGTH),
     ]),
     country: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidator.COUNTRY_NAME_MAX_LENGTH)
+      Validators.maxLength(FormValidator.COUNTRY_NAME_MAX_LENGTH),
     ]),
     email: new FormControl('', [
       Validators.required,
       Validators.pattern(FormValidator.EMAIL_REGEX),
-      Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)
+      Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH),
     ]),
     homePage: new FormControl('', [Validators.pattern(FormValidator.URL_REGEX)]),
     comments: new FormControl(''),
@@ -49,7 +49,7 @@ export class InstructorRequestFormComponent {
   isLoading = false;
   @Output() requestSubmissionEvent = new EventEmitter<InstructorRequestFormModel>();
 
-  serverErrorMessage = "";
+  serverErrorMessage = '';
 
   checkIsFieldRequired(field: FormControl): boolean {
     return field.hasValidator(Validators.required);
@@ -78,7 +78,7 @@ export class InstructorRequestFormComponent {
   onSubmit(): void {
     this.hasSubmitAttempt = true;
     this.isLoading = true;
-    this.serverErrorMessage = "";
+    this.serverErrorMessage = '';
 
     if (this.arf.invalid) {
       this.isLoading = false;
@@ -98,12 +98,13 @@ export class InstructorRequestFormComponent {
     const homePage = this.homePage.value!;
     const comments = this.comments.value!.trim();
     const combinedComments = `${homePage} ${comments}`.trim();
-  
+
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
       instructorName: name,
       instructorInstitution: combinedInstitution,
-    }
+    };
+
     if (combinedComments) {
       requestData.instructorComments = combinedComments;
     }
