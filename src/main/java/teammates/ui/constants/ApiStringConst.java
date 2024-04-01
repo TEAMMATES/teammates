@@ -9,10 +9,7 @@ import teammates.common.util.FieldValidator;
  */
 public enum ApiStringConst {
     // CHECKSTYLE.OFF:JavadocVariable
-    // Replace possessive zero or more times quantifier *+ that the email pattern uses
-    // with greedy zero or more times quantifier *
-    // as possessive quantifiers are not supported in JavaScript
-    EMAIL_REGEX(doubleEscapeRegex(FieldValidator.REGEX_EMAIL.replace("*+", "*")));
+    EMAIL_REGEX(escapeRegex(FieldValidator.REGEX_EMAIL));
     // CHECKSTYLE.ON:JavadocVariable
 
     private final Object value;
@@ -27,10 +24,17 @@ public enum ApiStringConst {
     }
 
     /**
-     * Double escape regex pattern strings to ensure the pattern remains correct when converted.
+     * Escape regex pattern strings to ensure the pattern remains valid when converted to JS.
      */
-    private static String doubleEscapeRegex(String regexStr) {
-        return regexStr.replace("\\", "\\\\");
+    private static String escapeRegex(String regexStr) {
+        String escapedRegexStr = regexStr;
+        // Double escape backslashes
+        escapedRegexStr = escapedRegexStr.replace("\\", "\\\\");
+        // Replace possessive zero or more times quantifier *+ that the email pattern uses
+        // with greedy zero or more times quantifier *
+        // as possessive quantifiers are not supported in JavaScript
+        escapedRegexStr = escapedRegexStr.replace("*+", "*");
+        return escapedRegexStr;
     }
 
 }

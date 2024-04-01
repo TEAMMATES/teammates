@@ -26,14 +26,17 @@ export class InstructorRequestFormComponent {
     name: new FormControl('', [
       Validators.required,
       Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH),
+      Validators.pattern(FormValidator.NAME_REGEX),
     ]),
     institution: new FormControl('', [
       Validators.required,
       Validators.maxLength(FormValidator.INSTITUTION_NAME_MAX_LENGTH),
+      Validators.pattern(FormValidator.NAME_REGEX),
     ]),
     country: new FormControl('', [
       Validators.required,
       Validators.maxLength(FormValidator.COUNTRY_NAME_MAX_LENGTH),
+      Validators.pattern(FormValidator.NAME_REGEX),
     ]),
     email: new FormControl('', [
       Validators.required,

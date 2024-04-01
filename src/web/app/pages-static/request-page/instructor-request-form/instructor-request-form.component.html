@@ -18,6 +18,10 @@
     <div *ngIf="name.errors?.['maxlength']" role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
       Name must be shorter than {{STUDENT_NAME_MAX_LENGTH}} characters. (Current: {{name.value?.length}})
     </div>
+    <div *ngIf="name.errors?.['pattern']" role="alert" aria-describedby="name-label" tabindex="0"
+      class="invalid-feedback">
+      Name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or percent sign (%).
+    </div>
   </div>
   <br>
   <div class="form-group {{checkIsFieldRequired(institution) ? 'required' : ''}}">
@@ -38,6 +42,10 @@
       class="invalid-feedback">
       Institution name must be shorter than {{INSTITUTION_NAME_MAX_LENGTH}} characters. (Current: {{institution.value?.length}})
     </div>
+    <div *ngIf="institution.errors?.['pattern']" role="alert" aria-describedby="institution-label" tabindex="0"
+      class="invalid-feedback">
+      Institution name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or percent sign (%).
+    </div>
   </div>
   <br>
   <div class="form-group {{checkIsFieldRequired(country) ? 'required' : ''}}">
@@ -57,6 +65,10 @@
     <div *ngIf="country.errors?.['maxlength']" role="alert" aria-describedby="country-label" tabindex="0"
       class="invalid-feedback">
       Country name must be shorter than {{COUNTRY_NAME_MAX_LENGTH}} characters. (Current: {{country.value?.length}})
+    </div>
+    <div *ngIf="country.errors?.['pattern']" role="alert" aria-describedby="country-label" tabindex="0"
+      class="invalid-feedback">
+      Country name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or percent sign (%).
     </div>
   </div>
   <br>

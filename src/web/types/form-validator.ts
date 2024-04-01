@@ -40,6 +40,22 @@ export enum FormValidator {
   EMAIL_REGEX = ApiStringConst.EMAIL_REGEX,
 
   /**
+   * Regex used to verify names.
+   *
+   * Based on back-end's `FieldValidator.REGEX_NAME`.
+   * The back-end regex is not converted to use here as the pattern syntax is not accepted in JS.
+   */
+  NAME_REGEX = '^[a-zA-Z0-9][^|%]*$',
+
+  /**
+   * Regex used to verify country names.
+   *
+   * Based on back-end's `FieldValidator.REGEX_NAME`, but without needing to start with alphanumeric
+   * as the country is added to the end of the combined institute string.
+   */
+  COUNTRY_REGEX = '^[^|%]*$',
+
+  /**
    * Max length for institution name in account request. (to be combined with country)
    */
   INSTITUTION_NAME_MAX_LENGTH = 86,
