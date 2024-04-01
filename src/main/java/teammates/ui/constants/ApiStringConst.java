@@ -27,7 +27,7 @@ public enum ApiStringConst {
     }
 
     /**
-     * Double escape regex pattern strings to ensure the pattern remains correct when converted
+     * Double escape regex pattern strings to ensure the pattern remains correct when converted.
      */
     private static String doubleEscapeRegex(String regexStr) {
         return regexStr.replace("\\", "\\\\");
