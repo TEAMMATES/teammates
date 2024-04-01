@@ -117,6 +117,9 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hbm2ddl.auto", "validate")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
+                .setProperty("hibernate.agroal.minSize", "5")
+                .setProperty("hibernate.agroal.maxSize", "50")
+                .setProperty("hibernate.agroal.reapTimeout", "PT1M")
                 // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
                 // .setProperty("hibernate.jdbc.batch_size", "50")
                 // .setProperty("hibernate.order_updates", "true")

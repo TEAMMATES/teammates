@@ -77,6 +77,8 @@ dependencies {
     implementation("org.jsoup:jsoup:1.15.2")
     implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
     implementation("org.postgresql:postgresql:42.7.2")
+    implementation("org.hibernate.orm:hibernate-agroal:6.1.6.Final")
+    implementation("io.agroal:agroal-pool:2.1")
 
     testAnnotationProcessor(testng)
 

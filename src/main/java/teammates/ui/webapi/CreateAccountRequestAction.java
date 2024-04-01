@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
@@ -14,6 +13,11 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 public class CreateAccountRequestAction extends AdminOnlyAction {
 
     @Override
+    public boolean isTransactionNeeded() {
+        return false;
+    }
+
+    @Override
     public JsonResult execute()
             throws InvalidHttpRequestBodyException, InvalidOperationException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
@@ -25,16 +29,13 @@ public class CreateAccountRequestAction extends AdminOnlyAction {
         AccountRequest accountRequest;
 
         try {
-            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution);
-            taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
+            accountRequest =
+                sqlLogic.createAccountRequestWithTransaction(instructorName, instructorEmail, instructorInstitution);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
-        } catch (EntityAlreadyExistsException eaee) {
-            // Use existing account request
-            accountRequest = sqlLogic.getAccountRequest(instructorEmail, instructorInstitution);
         }
 
-        assert accountRequest != null;
+        taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
 
         if (accountRequest.getRegisteredAt() != null) {
             throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
