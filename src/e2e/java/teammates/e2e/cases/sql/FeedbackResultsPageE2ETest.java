@@ -22,8 +22,8 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 
 /**
-* SUT: {@link Const.WebPageURIs#SESSION_RESULTS_PAGE}.
-*/
+ * SUT: {@link Const.WebPageURIs#SESSION_RESULTS_PAGE}.
+ */
 public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
     private FeedbackResultsPage resultsPage;
     private Course course;
@@ -75,7 +75,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("verify statistics - numscale");
-        String[] expectedNumScaleStats = { student.getTeam().toString(), "You", "3.83", "4.5", "3", "3.5" };
+        String[] expectedNumScaleStats = { student.getTeam().getName(), "You", "3.83", "4.5", "3", "3.5" };
 
         resultsPage.verifyNumScaleStatistics(5, expectedNumScaleStats);
 
@@ -526,7 +526,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         String[][] expectedRubricStatsExcludingSelf = {
                 {
-                    formattedSubQns[0],
+                        formattedSubQns[0],
                         "50% (1)",
                         "0% (0)",
                         "0% (0)",
