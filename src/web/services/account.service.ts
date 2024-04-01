@@ -11,7 +11,7 @@ import {
   MessageOutput,
   AccountRequestStatus,
 } from '../types/api-output';
-import { AccountCreateRequest } from '../types/api-request';
+import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
 
 /**
  * Handles account related logic provision
@@ -93,6 +93,61 @@ export class AccountService {
       instructoremail: instructorEmail,
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramMap);
+  }
+
+  /**
+   * Approves account request by calling API
+   */
+  approveAccountRequest(id: string, name: string, email: string, institute: string, comments:string)
+  : Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      id,
+    };
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      comments,
+      status: AccountRequestStatus.APPROVED,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, accountReqUpdateRequest);
+  }
+
+  /**
+   * Rejects an account request by calling API.
+   */
+   rejectAccountRequest(name: string, email: string, institute: string, comments:string,
+    title?: string, reason?: string): Observable<MessageOutput> {
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      comments,
+      status: AccountRequestStatus.REJECTED,
+      rejectionTitle: title,
+      rejectionReason: reason,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, {}, accountReqUpdateRequest);
+  }
+
+  /**
+   * Edits an account request by calling API.
+   */
+  editAccountRequest(id: string, name: string, email: string, institute: string, comments: string)
+  : Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      id,
+    };
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      comments,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, accountReqUpdateRequest);
   }
 
   /**
