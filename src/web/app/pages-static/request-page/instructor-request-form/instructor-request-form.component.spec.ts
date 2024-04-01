@@ -1,13 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { first } from 'rxjs';
+import { Observable, first } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
+import { AccountService } from '../../../../services/account.service';
+import { AccountCreateRequest } from '../../../../types/api-request';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
   let fixture: ComponentFixture<InstructorRequestFormComponent>;
+  let accountService: AccountService;
   const typicalModel: InstructorRequestFormModel = {
     name: 'John Doe',
     institution: 'Example Institution',
@@ -15,6 +18,17 @@ describe('InstructorRequestFormComponent', () => {
     email: 'jd@example.edu',
     homePage: 'xyz.example.edu/john',
     comments: '',
+  };
+  const typicalCreateRequest: AccountCreateRequest = {
+    instructorEmail: typicalModel.email,
+    instructorName: typicalModel.name,
+    instructorInstitution: `${typicalModel.institution}, ${typicalModel.country}`,
+  };
+
+  const accountServiceStub: Partial<AccountService> = {
+    createAccountRequest: () => new Observable((subscriber) => {
+        subscriber.next();
+      }),
   };
 
   /**
@@ -31,15 +45,21 @@ describe('InstructorRequestFormComponent', () => {
     component.comments.setValue(data.comments);
   }
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorRequestFormComponent],
       imports: [ReactiveFormsModule],
-    });
+      providers: [{ provide: AccountService, useValue: accountServiceStub }],
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
-
+    accountService = TestBed.inject(AccountService);
     fixture.detectChanges();
+    jest.clearAllMocks();
   });
 
   it('should create', () => {
@@ -60,7 +80,10 @@ describe('InstructorRequestFormComponent', () => {
     expect(component.requestSubmissionEvent.emit).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
+  it('should emit requestSubmissionEvent with the correct data when form is submitted', fakeAsync(() => {
+    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+      new Observable((subscriber) => { subscriber.next(); }));
+
     // Listen for emitted value
     let actualModel: InstructorRequestFormModel | null = null;
     component.requestSubmissionEvent.pipe(first())
@@ -68,6 +91,7 @@ describe('InstructorRequestFormComponent', () => {
 
     fillFormWith(typicalModel);
     component.onSubmit();
+    tick(1000);
 
     expect(actualModel).toBeTruthy();
     expect(actualModel!.name).toBe(typicalModel.name);
@@ -76,5 +100,17 @@ describe('InstructorRequestFormComponent', () => {
     expect(actualModel!.email).toBe(typicalModel.email);
     expect(actualModel!.homePage).toBe(typicalModel.homePage);
     expect(actualModel!.comments).toBe(typicalModel.comments);
-  });
+  }));
+
+  it('should send the correct request data when form is submitted', fakeAsync(() => {
+    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+      new Observable((subscriber) => { subscriber.next(); }));
+
+    fillFormWith(typicalModel);
+    component.onSubmit();
+    tick(1000);
+
+    expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
+    expect(accountService.createAccountRequest).toHaveBeenCalledWith(expect.objectContaining(typicalCreateRequest));
+  }));
 });
