@@ -99,7 +99,7 @@
   <ngb-alert type="danger" [dismissible]="false" *ngIf="serverErrorMessage" class="error-box">
     <strong>Error submitting request:</strong> {{serverErrorMessage}}
   </ngb-alert>
-  <button type="submit" class="btn btn-primary" id="submit-button" [disabled]="!checkCanSubmit()">
+  <button type="submit" class="btn btn-primary" id="submit-button" [disabled]="!canSubmit">
     {{isLoading ? "Submitting..." : "Submit"}}
   </button>
 </form>

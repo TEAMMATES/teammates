@@ -59,11 +59,7 @@ export class InstructorRequestFormComponent {
     return field.hasValidator(Validators.required);
   }
 
-  checkIsFieldInvalid(field: FormControl): boolean {
-    return field.invalid;
-  }
-
-  checkCanSubmit(): boolean {
+  get canSubmit(): boolean {
     return !this.isLoading;
   }
 
