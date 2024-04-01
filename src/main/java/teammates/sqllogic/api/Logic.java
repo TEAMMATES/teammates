@@ -95,6 +95,19 @@ public class Logic {
     }
 
     /**
+     * Creates a or gets an account request.
+     *
+     * @return newly created account request.
+     * @throws InvalidParametersException if the account request details are invalid.
+     * @throws EntityAlreadyExistsException if the account request already exists.
+     */
+    public AccountRequest createAccountRequestWithTransaction(String name, String email, String institute)
+            throws InvalidParametersException {
+
+        return accountRequestLogic.createOrGetAccountRequestWithTransaction(name, email, institute);
+    }
+
+    /**
      * Gets the account request with the given email and institute.
      *
      * @return account request with the given email and institute.
