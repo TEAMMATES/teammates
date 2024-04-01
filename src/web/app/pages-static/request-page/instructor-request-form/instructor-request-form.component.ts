@@ -39,7 +39,6 @@ export class InstructorRequestFormComponent {
       Validators.pattern(FormValidator.EMAIL_REGEX),
       Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH),
     ]),
-    homePage: new FormControl('', [Validators.pattern(FormValidator.URL_REGEX)]),
     comments: new FormControl(''),
   }, { updateOn: 'submit' });
 
@@ -48,7 +47,6 @@ export class InstructorRequestFormComponent {
   institution = this.arf.controls.institution;
   country = this.arf.controls.country;
   email = this.arf.controls.email;
-  homePage = this.arf.controls.homePage;
   comments = this.arf.controls.comments;
 
   hasSubmitAttempt = false;
@@ -101,9 +99,7 @@ export class InstructorRequestFormComponent {
     const combinedInstitution = `${institution}, ${country}`;
 
     // Combine home page URL and comments
-    const homePage = this.homePage.value!;
     const comments = this.comments.value!.trim();
-    const combinedComments = `${homePage} ${comments}`.trim();
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
@@ -111,8 +107,8 @@ export class InstructorRequestFormComponent {
       instructorInstitution: combinedInstitution,
     };
 
-    if (combinedComments) {
-      requestData.instructorComments = combinedComments;
+    if (comments) {
+      requestData.instructorComments = comments;
     }
 
     this.accountService.createAccountRequest(requestData)
@@ -124,7 +120,6 @@ export class InstructorRequestFormComponent {
             institution,
             country,
             email,
-            homePage,
             comments,
           });
         },

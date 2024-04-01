@@ -9,7 +9,6 @@ import teammates.common.util.FieldValidator;
  */
 public enum ApiStringConst {
     // CHECKSTYLE.OFF:JavadocVariable
-    URL_REGEX(doubleEscapeRegex(FieldValidator.REGEX_HOME_PAGE_URL)),
     // Replace possessive zero or more times quantifier *+ that the email pattern uses
     // with greedy zero or more times quantifier *
     // as possessive quantifiers are not supported in JavaScript

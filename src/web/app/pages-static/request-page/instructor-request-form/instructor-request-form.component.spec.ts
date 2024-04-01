@@ -16,7 +16,6 @@ describe('InstructorRequestFormComponent', () => {
     institution: 'Example Institution',
     country: 'Example Country',
     email: 'jd@example.edu',
-    homePage: 'xyz.example.edu/john',
     comments: '',
   };
   const typicalCreateRequest: AccountCreateRequest = {
@@ -41,7 +40,6 @@ describe('InstructorRequestFormComponent', () => {
     component.institution.setValue(data.institution);
     component.country.setValue(data.country);
     component.email.setValue(data.email);
-    component.homePage.setValue(data.homePage);
     component.comments.setValue(data.comments);
   }
 
@@ -98,7 +96,6 @@ describe('InstructorRequestFormComponent', () => {
     expect(actualModel!.institution).toBe(typicalModel.institution);
     expect(actualModel!.country).toBe(typicalModel.country);
     expect(actualModel!.email).toBe(typicalModel.email);
-    expect(actualModel!.homePage).toBe(typicalModel.homePage);
     expect(actualModel!.comments).toBe(typicalModel.comments);
   }));
 
