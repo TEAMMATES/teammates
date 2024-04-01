@@ -95,10 +95,10 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify comments");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
-        // Commented as only one student comment should be visible to students
-        // verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"),
-        // student);
         verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"), student);
+        // Commented as only one student comment should be visible to students
+        // verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"),
+        // student);
         verifyCommentDetails(4, testData.feedbackResponseComments.get("qn4Comment1"), student);
 
         ______TS("registered instructor: can access results");
