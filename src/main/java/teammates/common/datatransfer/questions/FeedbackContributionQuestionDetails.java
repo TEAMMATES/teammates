@@ -166,7 +166,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return JsonUtils.toJson(output);
     }
 
-
     @Override
     public String getQuestionResultStatisticsJson(
             FeedbackQuestionAttributes question, String studentEmail, SessionResultsBundle bundle) {
