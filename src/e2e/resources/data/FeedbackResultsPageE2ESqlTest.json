@@ -2260,8 +2260,7 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
-      "createdAt": "2026-02-02T23:59:00Z",
-      "lastEditorEmail": "FRes.instr@gmail.tmt"
+      "createdAt": "2026-02-02T23:59:00Z"
     },
     "qn2Comment2": {
       "id": 1,
@@ -2285,7 +2284,6 @@
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
-      "lastEditorEmail": "FRes.instr@gmail.tmt",
       "createdAt": "2026-03-01T23:59:00Z"
     },
     "qn3Comment1": {
@@ -2312,8 +2310,7 @@
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "createdAt": "2026-03-02T23:59:00Z",
-      "lastEditorEmail": "FRes.benny.c@gmail.tmt"
+      "createdAt": "2026-03-02T23:59:00Z"
     },
     "qn3Comment2": {
       "id": 3,
@@ -2339,8 +2336,7 @@
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "createdAt": "2026-03-02T23:59:00Z",
-      "lastEditorEmail": "FRes.alice.b@gmail.tmt"
+      "createdAt": "2026-03-02T23:59:00Z"
     },
     "qn4Comment1": {
       "id": 4,
@@ -2366,8 +2362,7 @@
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "createdAt": "2026-03-02T23:59:00Z",
-      "lastEditorEmail": "FRes.danny.e@gmail.tmt"
+      "createdAt": "2026-03-02T23:59:00Z"
     }
   },
   "notifications": {},
