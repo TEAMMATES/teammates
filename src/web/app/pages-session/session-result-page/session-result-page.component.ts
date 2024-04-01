@@ -382,27 +382,27 @@ export class SessionResultPageComponent implements OnInit {
   /**
   * Logs student activity after student/session details have been fetched.
   */
-    logStudentAccess(): void {
-        if (this.intent != Intent.STUDENT_RESULT) {
-          return;
-        }
-    
-        if (this.isPersonLoading || this.isFeedbackSessionDetailsLoading) {
-          return;
-        }
-        
-        this.logService.createFeedbackSessionLog({
-          courseId: this.courseId,
-          feedbackSessionName: this.feedbackSessionName,
-          studentEmail: this.personEmail,
-          logType: FeedbackSessionLogType.VIEW_RESULT,
-          feedbackSessionId: this.feedbackSessionId,
-          studentId: this.studentId,
-        }).subscribe({
-          next: () => {},
-          error: () => {
-            this.statusMessageService.showWarningToast('Failed to log feedback session access');
-          },
-        });
-      }
+  logStudentAccess(): void {
+    if (this.intent != Intent.STUDENT_RESULT) {
+      return;
+    }
+
+    if (this.isPersonLoading || this.isFeedbackSessionDetailsLoading) {
+      return;
+    }
+
+    this.logService.createFeedbackSessionLog({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+      studentEmail: this.personEmail,
+      logType: FeedbackSessionLogType.VIEW_RESULT,
+      feedbackSessionId: this.feedbackSessionId,
+      studentId: this.studentId,
+    }).subscribe({
+      next: () => { },
+      error: () => {
+        this.statusMessageService.showWarningToast('Failed to log feedback session view');
+      },
+    });
+  }
 }
