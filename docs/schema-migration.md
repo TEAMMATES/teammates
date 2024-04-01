@@ -17,8 +17,8 @@ A _change log_ is a file that contains a series of _change sets_ (analagous to a
 
 ## How to use Liquibase in Teammates
 In Teammates, the release leader will add a folder in `src/main/resources/db/changelog` for changelogs that will used in the next release. 
-1. Create an _XML_ change log file in `src/main/resources/db/changelog/<latest-release>` naming convention is the `db.changelog-<entity>-<PR_Number>-<short_description>.xml` e.g `db.changelog-courses-2048-migrate-courses.xml`.
-2. Amend the `build.gradle` to specify the path to the your changelog file e.g `src/main/resources/db/changelog/V9.0.0/db.changelog-courses-2048-migrate-courses.xml`, then proceed to the next step to update the change log file in the next section.
+1. Create an _XML_ change log file in `src/main/resources/db/changelog/<latest-release>` naming convention is the `db.changelog-<entity>-<pr_short_description>.xml` e.g `db.changelog-courses-migrate-courses.xml`.
+2. Amend the `build.gradle` to specify the path to the your changelog file e.g `src/main/resources/db/changelog/V9.0.0/db.changelog-courses-migrate-courses.xml`, then proceed to the next step to update the change log file in the next section.
 
 
 ## Generating/ Updating liquibase change logs
@@ -27,6 +27,6 @@ In Teammates, the release leader will add a folder in `src/main/resources/db/cha
 2. Run `git checkout master` and 
 3. Run the server using `./gradlew serverRun` to generate tables found on master
 4. Generate snapshot of database by running `./gradlew liquibaseSnapshot -PrunList=snapshot`, the snapshot will be output to `liquibase-snapshot.json`
-4. Checkout your branch and repeat steps 1 and 3 to generate the tables found on your branch
-5. Run `./gradlew liquibaseDiffChangeLog -PrunList=diffMain` to generate changeLog to resolve database schema differences
+5. Checkout your branch and repeat steps 1 and 3 to generate the tables found on your branch
+6. Run `./gradlew liquibaseDiffChangeLog -PrunList=diffMain` to generate changeLog to resolve database schema differences
 
