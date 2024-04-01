@@ -15,6 +15,12 @@ export class InstructorRequestFormComponent {
 
   constructor(private accountService: AccountService) {}
 
+  // Create members to be accessed in template
+  readonly STUDENT_NAME_MAX_LENGTH = FormValidator.STUDENT_NAME_MAX_LENGTH;
+  readonly INSTITUTION_NAME_MAX_LENGTH = FormValidator.INSTITUTION_NAME_MAX_LENGTH;
+  readonly COUNTRY_NAME_MAX_LENGTH = FormValidator.COUNTRY_NAME_MAX_LENGTH;
+  readonly EMAIL_MAX_LENGTH = FormValidator.EMAIL_MAX_LENGTH;
+
   arf = new FormGroup({
     name: new FormControl('', [
       Validators.required,

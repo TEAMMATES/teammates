@@ -11,9 +11,12 @@
       This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.)
     </p>
     <input class="form-control {{getFieldValidationClasses(name)}}" type="text" id="name" autocomplete="name"
-      [formControl]="name" [required]="checkIsFieldRequired(name)" [attr.aria-invalid]="checkIsFieldInvalid(name)">
-    <div *ngIf="checkIsFieldInvalid(name)" role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
+      [formControl]="name" [required]="checkIsFieldRequired(name)" [attr.aria-invalid]="name.invalid">
+    <div *ngIf="name.errors?.['required']" role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
       Please enter your name.
+    </div>
+    <div *ngIf="name.errors?.['maxlength']" role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
+      Name must be shorter than {{STUDENT_NAME_MAX_LENGTH}} characters. (Current: {{name.value?.length}})
     </div>
   </div>
   <br>
@@ -26,10 +29,14 @@
     </p>
     <input class="form-control {{getFieldValidationClasses(institution)}}" type="text" id="institution"
       autocomplete="organization" [formControl]="institution" [required]="checkIsFieldRequired(institution)"
-      [attr.aria-invalid]="checkIsFieldInvalid(institution)">
-    <div *ngIf="checkIsFieldInvalid(institution)" role="alert" aria-describedby="institution-label" tabindex="0"
+      [attr.aria-invalid]="institution.invalid">
+    <div *ngIf="institution.errors?.['required']" role="alert" aria-describedby="institution-label" tabindex="0"
       class="invalid-feedback">
-      Please enter your institution.
+      Please enter your institution name.
+    </div>
+    <div *ngIf="institution.errors?.['maxlength']" role="alert" aria-describedby="institution-label" tabindex="0"
+      class="invalid-feedback">
+      Institution name must be shorter than {{INSTITUTION_NAME_MAX_LENGTH}} characters. (Current: {{institution.value?.length}})
     </div>
   </div>
   <br>
@@ -42,10 +49,14 @@
     </p>
     <input class="form-control {{getFieldValidationClasses(country)}}" type="text" id="country"
       autocomplete="country-name" [formControl]="country" [required]="checkIsFieldRequired(country)"
-      [attr.aria-invalid]="checkIsFieldInvalid(country)">
-    <div *ngIf="checkIsFieldInvalid(country)" role="alert" aria-describedby="country-label" tabindex="0"
+      [attr.aria-invalid]="country.invalid">
+    <div *ngIf="country.errors?.['required']" role="alert" aria-describedby="country-label" tabindex="0"
       class="invalid-feedback">
       Please enter your institution's country.
+    </div>
+    <div *ngIf="country.errors?.['maxlength']" role="alert" aria-describedby="country-label" tabindex="0"
+      class="invalid-feedback">
+      Country name must be shorter than {{COUNTRY_NAME_MAX_LENGTH}} characters. (Current: {{country.value?.length}})
     </div>
   </div>
   <br>
@@ -59,8 +70,16 @@
       Note that this email address will be visible to the students you enroll in TEAMMATES.
     </p>
     <input class="form-control {{getFieldValidationClasses(email)}}" type="email" id="email" autocomplete="email"
-      [formControl]="email" [required]="checkIsFieldRequired(email)" [attr.aria-invalid]="checkIsFieldInvalid(email)">
-    <div *ngIf="checkIsFieldInvalid(email)" role="alert" aria-describedby="email-label" tabindex="0"
+      [formControl]="email" [required]="checkIsFieldRequired(email)" [attr.aria-invalid]="email.invalid">
+    <div *ngIf="email.errors?.['required']" role="alert" aria-describedby="email-label" tabindex="0"
+      class="invalid-feedback">
+      Please enter your email address.
+    </div>
+    <div *ngIf="email.errors?.['maxlength']" role="alert" aria-describedby="email-label" tabindex="0"
+      class="invalid-feedback">
+      Email address must be shorter than {{EMAIL_MAX_LENGTH}} characters. (Current: {{email.value?.length}})
+    </div>
+    <div *ngIf="email.errors?.['pattern']" role="alert" aria-describedby="email-label" tabindex="0"
       class="invalid-feedback">
       Please enter a valid email address.
     </div>
@@ -83,7 +102,7 @@
       Any other comments/queries
     </label>
     <textarea class="form-control {{getFieldValidationClasses(comments)}}" [formControl]="comments"
-      [attr.aria-invalid]="checkIsFieldInvalid(comments)"></textarea>
+      [attr.aria-invalid]="comments.invalid"></textarea>
   </div>
   <br>
   <ngb-alert type="danger" [dismissible]="false" *ngIf="hasSubmitAttempt && arf.invalid" class="error-box">
