@@ -43,4 +43,14 @@ export enum FormValidator {
    * Regex used to verify emails in the back-end.
    */
   EMAIL_REGEX = ApiStringConst.EMAIL_REGEX,
+
+  /**
+   * Max length for institution name in account request. (to be combined with country)
+   */
+  INSTITUTION_NAME_MAX_LENGTH = 86,
+
+  /**
+   * Max length for country in account request. (to be combined with institution name)
+   */
+  COUNTRY_NAME_MAX_LENGTH = 40,
 }

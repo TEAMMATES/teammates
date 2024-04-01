@@ -16,10 +16,23 @@ export class InstructorRequestFormComponent {
   constructor(private accountService: AccountService) {}
 
   arf = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)]),
-    institution: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.pattern(FormValidator.EMAIL_REGEX), Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)
+    ]),
+    institution: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(FormValidator.INSTITUTION_NAME_MAX_LENGTH)
+    ]),
+    country: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(FormValidator.COUNTRY_NAME_MAX_LENGTH)
+    ]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(FormValidator.EMAIL_REGEX),
+      Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)
+    ]),
     homePage: new FormControl('', [Validators.pattern(FormValidator.URL_REGEX)]),
     comments: new FormControl(''),
   }, { updateOn: 'submit' });
