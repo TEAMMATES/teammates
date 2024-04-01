@@ -155,7 +155,7 @@ public final class AccountRequestsDb extends EntitiesDb {
             // Solr saves the id with the prefix "java.util.UUID:", so we need to add it here to
             // identify and delete the document from the index
             getSearchManager().deleteDocuments(
-                    Collections.singletonList("java.util.UUID:" + accountRequestId.toString()));
+                    Collections.singletonList(accountRequestId.toString()));
         }
     }
 
