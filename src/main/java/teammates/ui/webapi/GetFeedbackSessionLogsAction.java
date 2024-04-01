@@ -125,21 +125,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             if (feedbackSessionName != null && sqlLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
                 throw new EntityNotFoundException("Feedback session not found");
             }
-        } else {
-            if (logic.getCourse(courseId) == null) {
-                throw new EntityNotFoundException("Course not found");
-            }
 
-            if (email != null && logic.getStudentForEmail(courseId, email) == null) {
-                throw new EntityNotFoundException("Student not found");
-            }
-
-            if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-                throw new EntityNotFoundException("Feedback session not found");
-            }
-        }
-
-        if (isCourseMigrated(courseId)) {
             String studentIdString = getRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
             String feedbackSessionIdString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
             UUID studentId = studentIdString != null ? UUID.fromString(studentIdString) : null;
@@ -178,6 +164,18 @@ public class GetFeedbackSessionLogsAction extends Action {
             FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
             return new JsonResult(fslData);
         } else {
+            if (logic.getCourse(courseId) == null) {
+                throw new EntityNotFoundException("Course not found");
+            }
+
+            if (email != null && logic.getStudentForEmail(courseId, email) == null) {
+                throw new EntityNotFoundException("Student not found");
+            }
+
+            if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+                throw new EntityNotFoundException("Feedback session not found");
+            }
+
             List<FeedbackSessionLogEntry> fsLogEntries =
                     logsProcessor.getOrderedFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
             Map<String, StudentAttributes> studentsMap = new HashMap<>();
