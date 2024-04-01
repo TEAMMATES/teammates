@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { InstructorRequestFormComponent } from './instructor-request-form/instructor-request-form.component';
 import { RequestPageComponent } from './request-page.component';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     TeammatesRouterModule,
     ReactiveFormsModule,
+    NgbAlertModule,
   ],
 })
 export class RequestPageModule { }

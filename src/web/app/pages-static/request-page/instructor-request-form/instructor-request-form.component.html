@@ -86,6 +86,12 @@
       [attr.aria-invalid]="checkIsFieldInvalid(comments)"></textarea>
   </div>
   <br>
+  <ngb-alert type="danger" [dismissible]="false" *ngIf="hasSubmitAttempt && arf.invalid" class="error-box">
+    <strong>There was a problem with your submission.</strong> Please check and fix the errors above and submit again.
+  </ngb-alert>
+  <ngb-alert type="danger" [dismissible]="false" *ngIf="serverErrorMessage" class="error-box">
+    <strong>Error submitting request:</strong> {{serverErrorMessage}}
+  </ngb-alert>
   <button type="submit" class="btn btn-primary" id="submit-button" [disabled]="!checkCanSubmit()">
     Submit
   </button>
