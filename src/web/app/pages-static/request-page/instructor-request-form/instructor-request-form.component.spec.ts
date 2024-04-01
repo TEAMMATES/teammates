@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Observable, first } from 'rxjs';
@@ -68,17 +68,17 @@ describe('InstructorRequestFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should emit requestSubmissionEvent once when submit button is clicked', () => {
-    jest.spyOn(component.requestSubmissionEvent, 'emit');
+  it('should run onSubmit() when submit button is clicked', () => {
+    jest.spyOn(component, 'onSubmit');
 
     fillFormWith(typicalModel);
     const submitButton = fixture.debugElement.query(By.css('#submit-button'));
     submitButton.nativeElement.click();
 
-    expect(component.requestSubmissionEvent.emit).toHaveBeenCalledTimes(1);
+    expect(component.onSubmit).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit requestSubmissionEvent with the correct data when form is submitted', fakeAsync(() => {
+  it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => { subscriber.next(); }));
 
@@ -89,7 +89,6 @@ describe('InstructorRequestFormComponent', () => {
 
     fillFormWith(typicalModel);
     component.onSubmit();
-    tick(1000);
 
     expect(actualModel).toBeTruthy();
     expect(actualModel!.name).toBe(typicalModel.name);
@@ -97,17 +96,16 @@ describe('InstructorRequestFormComponent', () => {
     expect(actualModel!.country).toBe(typicalModel.country);
     expect(actualModel!.email).toBe(typicalModel.email);
     expect(actualModel!.comments).toBe(typicalModel.comments);
-  }));
+  });
 
-  it('should send the correct request data when form is submitted', fakeAsync(() => {
+  it('should send the correct request data when form is submitted', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => { subscriber.next(); }));
 
     fillFormWith(typicalModel);
     component.onSubmit();
-    tick(1000);
 
     expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
     expect(accountService.createAccountRequest).toHaveBeenCalledWith(expect.objectContaining(typicalCreateRequest));
-  }));
+  });
 });
