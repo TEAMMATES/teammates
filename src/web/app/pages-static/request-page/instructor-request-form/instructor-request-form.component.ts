@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { finalize } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
@@ -106,6 +107,7 @@ export class InstructorRequestFormComponent {
     }
 
     this.accountService.createAccountRequest(requestData)
+      .pipe(finalize(() => { this.isLoading = false; }))
       .subscribe({
         next: () => {
           // Pass form input to parent to display confirmation
@@ -119,9 +121,6 @@ export class InstructorRequestFormComponent {
         },
         error: (resp: ErrorMessageOutput) => {
           this.serverErrorMessage = resp.error.message;
-        },
-        complete: () => {
-          this.isLoading = false;
         },
       });
   }
