@@ -49,6 +49,7 @@ public class ArchitectureTest {
     private static final String LNP_PACKAGE = "teammates.lnp";
 
     private static final String LNP_CASES_PACKAGE = LNP_PACKAGE + ".cases";
+    private static final String LNP_SQL_PACKAGE = LNP_PACKAGE + ".sql";
     private static final String LNP_UTIL_PACKAGE = LNP_PACKAGE + ".util";
 
     private static final String CLIENT_PACKAGE = "teammates.client";
@@ -413,7 +414,13 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_lnp_lnpShouldNotTouchProductionCodeExceptCommonAndRequests() {
         noClasses().that().resideInAPackage(includeSubpackages(LNP_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
+                .should().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
+                                && !input.getPackageName().startsWith(STORAGE_SQL_ENTITY_PACKAGE);
+                    }
+                })
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
                 .orShould().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
@@ -440,6 +447,23 @@ public class ArchitectureTest {
                         && !input.isInnerClass();
             }
         }).check(forClasses(LNP_CASES_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpSqlTestCasesShouldBeIndependentOfEachOther() {
+        noClasses().that(new DescribedPredicate<>("") {
+            @Override
+            public boolean apply(JavaClass input) {
+                return input.getPackageName().startsWith(LNP_SQL_PACKAGE) && !input.isInnerClass();
+            }
+        }).should().accessClassesThat(new DescribedPredicate<>("") {
+            @Override
+            public boolean apply(JavaClass input) {
+                return input.getPackageName().startsWith(LNP_SQL_PACKAGE)
+                        && !input.getSimpleName().startsWith("Base")
+                        && !input.isInnerClass();
+            }
+        }).check(forClasses(LNP_SQL_PACKAGE));
     }
 
     @Test
