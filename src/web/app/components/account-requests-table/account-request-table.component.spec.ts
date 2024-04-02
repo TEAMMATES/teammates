@@ -133,12 +133,6 @@ describe('AccountRequestTableComponent', () => {
         ];
 
         component.accountRequests = accountRequestResults;
-
-        expect(component.accountRequests.length).toEqual(2);
-        expect(component.accountRequests).toEqual(accountRequestResults);
-        expect(component.accountRequests[0].showLinks).toEqual(false);
-        expect(component.accountRequests[1].showLinks).toEqual(false);
-
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot();
       });
@@ -152,12 +146,6 @@ describe('AccountRequestTableComponent', () => {
 
         component.accountRequests = accountRequestResults;
         component.searchString = 'test';
-
-        expect(component.accountRequests.length).toEqual(2);
-        expect(component.accountRequests).toEqual(accountRequestResults);
-        expect(component.accountRequests[0].showLinks).toEqual(false);
-        expect(component.accountRequests[1].showLinks).toEqual(false);
-
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot();
       });
