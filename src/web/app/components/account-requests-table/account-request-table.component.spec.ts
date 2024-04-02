@@ -1,23 +1,24 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { AccountRequestTableComponent } from './account-request-table.component';
 import { AccountRequestTableModule } from './account-request-table.module';
 import { AccountService } from '../../../services/account.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequestStatus } from '../../../types/api-output';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
 describe('AccountRequestTableComponent', () => {
     let component: AccountRequestTableComponent;
     let fixture: ComponentFixture<AccountRequestTableComponent>;
     let accountService: AccountService;
     let statusMessageService: StatusMessageService;
-    let ngbModal: NgbModal;
+    let simpleModalService: SimpleModalService;
 
     const accountRequestDetailsBuilder = createBuilder<AccountRequestTableRowModel>({
         id: '',
@@ -32,6 +33,52 @@ describe('AccountRequestTableComponent', () => {
         showLinks: false,
     });
 
+    const DEFAULT_ACCOUNT_REQUEST_PENDING = accountRequestDetailsBuilder
+        .email('email')
+        .name('name')
+        .status(AccountRequestStatus.PENDING)
+        .instituteAndCountry('institute')
+        .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
+        .comments('comment');
+
+    const DEFAULT_ACCOUNT_REQUEST_APPROVED = accountRequestDetailsBuilder
+        .email('email')
+        .name('name')
+        .status(AccountRequestStatus.APPROVED)
+        .registrationLink('registrationLink')
+        .instituteAndCountry('institute')
+        .createdAtText('createdTime')
+        .comments('comment');
+
+    const DEFAULT_ACCOUNT_REQUEST_REGISTERED = accountRequestDetailsBuilder
+        .email('email')
+        .name('name')
+        .status(AccountRequestStatus.REGISTERED)
+        .registrationLink('registrationLink')
+        .instituteAndCountry('institute')
+        .registeredAtText('registeredTime')
+        .createdAtText('createdTime')
+        .comments('comment');
+
+    const DEFAULT_ACCOUNT_REQUEST_REJECTED = accountRequestDetailsBuilder
+        .email('email')
+        .name('name')
+        .status(AccountRequestStatus.REGISTERED)
+        .registrationLink('registrationLink')
+        .instituteAndCountry('institute')
+        .createdAtText('createdTime')
+        .comments('comment');
+
+    const resetModalContent = `Are you sure you want to reset the account request for
+        <strong>name</strong> with email <strong>email</strong> from
+        <strong>institute</strong>?
+        An email with the account registration link will also be sent to the instructor.`;
+    const resetModalTitle = 'Reset account request for <strong>name</strong>?';
+    const deleteModalContent = `Are you sure you want to <strong>delete</strong> the account request for
+        <strong>name</strong> with email <strong>email</strong> from
+        <strong>institute</strong>?`;
+    const deleteModalTitle = 'Delete account request for <strong>name</strong>?';
+
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [AccountRequestTableComponent],
@@ -41,7 +88,7 @@ describe('AccountRequestTableComponent', () => {
                 HttpClientTestingModule,
             ],
             providers: [
-                AccountService, NgbModal,
+                AccountService, SimpleModalService,
             ],
         }).compileComponents();
     }));
@@ -51,7 +98,7 @@ describe('AccountRequestTableComponent', () => {
         component = fixture.componentInstance;
         accountService = TestBed.inject(AccountService);
         statusMessageService = TestBed.inject(StatusMessageService);
-        ngbModal = TestBed.inject(NgbModal);
+        simpleModalService = TestBed.inject(SimpleModalService);
         fixture.detectChanges();
       });
 
@@ -61,14 +108,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should snap with an expanded account requests table', () => {
         component.accountRequests = [
-            accountRequestDetailsBuilder
-            .id('1234')
-            .email('test@email.com')
-            .name('John Doe')
-            .status(AccountRequestStatus.PENDING)
-            .instituteAndCountry('NUS')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .build(),
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
         ];
 
         fixture.detectChanges();
@@ -76,14 +116,7 @@ describe('AccountRequestTableComponent', () => {
       });
 
       it('should show account request links when expand all button clicked', () => {
-        const accountRequestResult: AccountRequestTableRowModel = accountRequestDetailsBuilder
-                                                                    .id('1234')
-                                                                    .email('test@email.com')
-                                                                    .name('John Doe')
-                                                                    .instituteAndCountry('NUS')
-                                                                    .registrationLink('regLink1')
-                                                                    .status(AccountRequestStatus.APPROVED)
-                                                                    .build();
+        const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST_APPROVED.build();
         component.accountRequests = [accountRequestResult];
         component.searchString = 'test'; // To allow expandable links
         fixture.detectChanges();
@@ -95,24 +128,8 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display account requests with no reset or expand links button', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            accountRequestDetailsBuilder
-            .id('1234')
-            .email('test@email.com')
-            .name('John Doe')
-            .status(AccountRequestStatus.PENDING)
-            .instituteAndCountry('NUS')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .comments('Test')
-            .build(),
-            accountRequestDetailsBuilder
-            .id('1235')
-            .email('test2@email.com')
-            .name('Jane Doe')
-            .status(AccountRequestStatus.PENDING)
-            .instituteAndCountry('NUS')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .comments('Test')
-            .build(),
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -129,26 +146,8 @@ describe('AccountRequestTableComponent', () => {
       it('should display account requests with reset button and expandable links buttons',
       () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            accountRequestDetailsBuilder
-            .id('1234')
-            .email('test@email.com')
-            .name('John Doe')
-            .status(AccountRequestStatus.APPROVED)
-            .registrationLink('link1')
-            .instituteAndCountry('NUS')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .comments('Test')
-            .build(),
-            accountRequestDetailsBuilder
-            .id('1235')
-            .email('test2@email.com')
-            .name('Jane Doe')
-            .status(AccountRequestStatus.APPROVED)
-            .registrationLink('link2')
-            .instituteAndCountry('NUS')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .comments('Test')
-            .build(),
+            DEFAULT_ACCOUNT_REQUEST_APPROVED.build(),
+            DEFAULT_ACCOUNT_REQUEST_REJECTED.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -165,17 +164,12 @@ describe('AccountRequestTableComponent', () => {
 
       it('should show success message when deleting account request is successful', () => {
         component.accountRequests = [
-            accountRequestDetailsBuilder
-                .id('1234')
-                .email('test@email.com')
-                .name('John Doe')
-                .instituteAndCountry('NUS')
-                .build(),
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
         ];
         fixture.detectChanges();
 
-        jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-          return createMockNgbModalRef({});
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
+            return createMockNgbModalRef({});
         });
 
         jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(of({
@@ -191,24 +185,19 @@ describe('AccountRequestTableComponent', () => {
         deleteButton.click();
 
         expect(spyStatusMessageService).toHaveBeenCalled();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(deleteModalTitle, SimpleModalType.DANGER, deleteModalContent);
       });
 
       it('should show error message when deleting account request is unsuccessful', () => {
         component.accountRequests = [
-            accountRequestDetailsBuilder
-            .id('1234')
-            .email('test@email.com')
-            .name('John Doe')
-            .status(AccountRequestStatus.PENDING)
-            .instituteAndCountry('NUS')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .build(),
-          ];
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
 
         fixture.detectChanges();
 
-        jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-          return createMockNgbModalRef({});
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
+            return createMockNgbModalRef({});
         });
 
         jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(throwError(() => ({
@@ -226,27 +215,20 @@ describe('AccountRequestTableComponent', () => {
         deleteButton.click();
 
         expect(spyStatusMessageService).toHaveBeenCalled();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(deleteModalTitle, SimpleModalType.DANGER, deleteModalContent);
       });
 
       it('should show success message when resetting account request is successful', () => {
         component.accountRequests = [
-            accountRequestDetailsBuilder
-            .id('1234')
-            .email('test@email.com')
-            .name('John Doe')
-            .status(AccountRequestStatus.APPROVED)
-            .instituteAndCountry('NUS')
-            .registrationLink('registrationLink')
-            .registeredAtText('Wed, 09 Feb 2022, 10:23 AM +00:00')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .build(),
-          ];
+            DEFAULT_ACCOUNT_REQUEST_REGISTERED.build(),
+        ];
 
         component.searchString = 'test';
         fixture.detectChanges();
 
-        jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-          return createMockNgbModalRef({});
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
+            return createMockNgbModalRef({});
         });
 
         jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
@@ -256,32 +238,25 @@ describe('AccountRequestTableComponent', () => {
         const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')
           .mockImplementation((args: string) => {
             expect(args)
-                .toEqual(`Reset successful. An email has been sent to ${'test@email.com'}.`);
+                .toEqual('Reset successful. An email has been sent to email.');
           });
 
         const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
         resetButton.click();
 
         expect(spyStatusMessageService).toHaveBeenCalled();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
       });
 
       it('should show error message when resetting account request is unsuccessful', () => {
         component.accountRequests = [
-            accountRequestDetailsBuilder
-            .id('1234')
-            .email('test@email.com')
-            .name('John Doe')
-            .status(AccountRequestStatus.APPROVED)
-            .instituteAndCountry('NUS')
-            .registrationLink('registrationLink')
-            .registeredAtText('Wed, 09 Feb 2022, 10:23 AM +00:00')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .build(),
+            DEFAULT_ACCOUNT_REQUEST_REGISTERED.build(),
         ];
         component.searchString = 'test';
         fixture.detectChanges();
 
-        jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
           return createMockNgbModalRef({});
         });
 
@@ -300,29 +275,25 @@ describe('AccountRequestTableComponent', () => {
         resetButton.click();
 
         expect(spyStatusMessageService).toHaveBeenCalled();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
       });
 
       it('should display comment modal', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            accountRequestDetailsBuilder
-            .id('1234')
-            .email('test@email.com')
-            .name('John Doe')
-            .status(AccountRequestStatus.PENDING)
-            .instituteAndCountry('NUS')
-            .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-            .comments('Test')
-            .build(),
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
         ];
 
         component.accountRequests = accountRequestResults;
-        const modalSpy = jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-            return createMockNgbModalRef({});
-        });
         fixture.detectChanges();
+
+        const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal')
+            .mockReturnValue(createMockNgbModalRef());
 
         const viewCommentButton: any = fixture.debugElement.nativeElement.querySelector('#view-account-request-0');
         viewCommentButton.click();
         expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith('Comments for <strong>name</strong> Request',
+            SimpleModalType.INFO, '<strong>Comment:</strong> comment');
       });
 });

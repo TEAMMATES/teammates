@@ -53,27 +53,27 @@ exports[`AccountRequestTableComponent should display account requests with no re
         <tbody>
           <tr>
             <td>
-              John Doe
+              name
             </td>
             <td>
-              test@email.com
+              email
             </td>
             <td>
-              PENDING
+              REGISTERED
             </td>
             <td>
-              NUS
+              institute
             </td>
             <td
               id="timestamp-box"
             >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
+              createdTime
             </td>
             <td>
               <div
                 id="comment-box"
               >
-                 Test 
+                 comment 
               </div>
             </td>
             <td
@@ -109,27 +109,27 @@ exports[`AccountRequestTableComponent should display account requests with no re
           </tr>
           <tr>
             <td>
-              Jane Doe
+              name
             </td>
             <td>
-              test2@email.com
+              email
             </td>
             <td>
-              PENDING
+              REGISTERED
             </td>
             <td>
-              NUS
+              institute
             </td>
             <td
               id="timestamp-box"
             >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
+              createdTime
             </td>
             <td>
               <div
                 id="comment-box"
               >
-                 Test 
+                 comment 
               </div>
             </td>
             <td
@@ -247,37 +247,32 @@ exports[`AccountRequestTableComponent should display account requests with reset
         <tbody>
           <tr>
             <td>
-              John Doe
+              name
             </td>
             <td>
-              <span
-                class="highlighted-text"
-              >
-                test
-              </span>
-              @email.com
+              email
             </td>
             <td>
-              APPROVED
+              REGISTERED
             </td>
             <td>
-              NUS
+              institute
             </td>
             <td
               id="timestamp-box"
             >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
+              createdTime
             </td>
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              registeredTime
             </td>
             <td>
               <div
                 id="comment-box"
               >
-                 Test 
+                 comment 
               </div>
             </td>
             <td
@@ -313,7 +308,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 >
                   <button
                     class="btn btn-primary"
-                    disabled=""
                     id="reset-account-request-0"
                   >
                     Reset
@@ -324,37 +318,32 @@ exports[`AccountRequestTableComponent should display account requests with reset
           </tr>
           <tr>
             <td>
-              Jane Doe
+              name
             </td>
             <td>
-              <span
-                class="highlighted-text"
-              >
-                test
-              </span>
-              2@email.com
+              email
             </td>
             <td>
-              APPROVED
+              REGISTERED
             </td>
             <td>
-              NUS
+              institute
             </td>
             <td
               id="timestamp-box"
             >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
+              createdTime
             </td>
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              registeredTime
             </td>
             <td>
               <div
                 id="comment-box"
               >
-                 Test 
+                 comment 
               </div>
             </td>
             <td
@@ -390,7 +379,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 >
                   <button
                     class="btn btn-primary"
-                    disabled=""
                     id="reset-account-request-1"
                   >
                     Reset
@@ -459,26 +447,27 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
         <tbody>
           <tr>
             <td>
-              John Doe
+              name
             </td>
             <td>
-              test@email.com
+              email
             </td>
             <td>
-              PENDING
+              REGISTERED
             </td>
             <td>
-              NUS
+              institute
             </td>
             <td
               id="timestamp-box"
             >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
+              createdTime
             </td>
             <td>
               <div
                 id="comment-box"
               >
+                 comment 
               </div>
             </td>
             <td
