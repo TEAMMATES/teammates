@@ -215,6 +215,22 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillMcqResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        if (responseDetails.isOther()) {
+            markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
+            fillTextBox(getMcqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
+        } else {
+            List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
+            for (int i = 0; i < optionTexts.size(); i++) {
+                if (optionTexts.get(i).getText().equals(responseDetails.getAnswer())) {
+                    markOptionAsSelected(getMcqRadioBtns(qnNumber, recipient).get(i));
+                    break;
+                }
+            }
+        }
+    }
+
     public void verifyMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetailsCopy();
         if (responseDetails.isOther()) {
@@ -559,6 +575,20 @@ public class FeedbackSubmitPage extends AppPage {
     public void fillRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackRankOptionsResponseDetails responseDetails =
                 (FeedbackRankOptionsResponseDetails) response.getResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i), "");
+            } else {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i),
+                        Integer.toString(answers.get(i)));
+            }
+        }
+    }
+
+    public void fillRankOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackRankOptionsResponseDetails responseDetails =
+                (FeedbackRankOptionsResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswers();
         for (int i = 0; i < answers.size(); i++) {
             if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
