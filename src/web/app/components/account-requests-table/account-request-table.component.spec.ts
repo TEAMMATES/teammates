@@ -118,7 +118,7 @@ describe('AccountRequestTableComponent', () => {
       it('should show account request links when expand all button clicked', () => {
         const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST_APPROVED.build();
         component.accountRequests = [accountRequestResult];
-        component.searchString = 'test'; // To allow expandable links
+        component.searchString = 'test';
         fixture.detectChanges();
 
         const button: any = fixture.debugElement.nativeElement.querySelector('#show-account-request-links');
