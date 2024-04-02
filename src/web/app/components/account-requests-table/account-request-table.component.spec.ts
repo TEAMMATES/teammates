@@ -63,7 +63,7 @@ describe('AccountRequestTableComponent', () => {
     const DEFAULT_ACCOUNT_REQUEST_REJECTED = accountRequestDetailsBuilder
         .email('email')
         .name('name')
-        .status(AccountRequestStatus.REGISTERED)
+        .status(AccountRequestStatus.REJECTED)
         .registrationLink('registrationLink')
         .instituteAndCountry('institute')
         .createdAtText('createdTime')

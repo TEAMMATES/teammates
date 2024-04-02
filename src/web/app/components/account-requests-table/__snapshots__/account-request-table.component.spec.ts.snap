@@ -59,7 +59,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               email
             </td>
             <td>
-              REGISTERED
+              REJECTED
             </td>
             <td>
               institute
@@ -115,7 +115,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               email
             </td>
             <td>
-              REGISTERED
+              REJECTED
             </td>
             <td>
               institute
@@ -253,7 +253,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
               email
             </td>
             <td>
-              REGISTERED
+              REJECTED
             </td>
             <td>
               institute
@@ -324,7 +324,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
               email
             </td>
             <td>
-              REGISTERED
+              REJECTED
             </td>
             <td>
               institute
@@ -453,7 +453,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               email
             </td>
             <td>
-              REGISTERED
+              REJECTED
             </td>
             <td>
               institute
