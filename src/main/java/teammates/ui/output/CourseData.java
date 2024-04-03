@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.time.Instant;
+
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
@@ -19,6 +21,7 @@ public class CourseData extends ApiOutput {
     private long deletionTimestamp;
     @Nullable
     private InstructorPermissionSet privileges;
+    @Nullable final Boolean isMigrated;
 
     public CourseData(CourseAttributes courseAttributes) {
         this.courseId = courseAttributes.getId();
@@ -29,6 +32,7 @@ public class CourseData extends ApiOutput {
         if (courseAttributes.getDeletedAt() != null) {
             this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
         }
+        this.isMigrated = false;
     }
 
     public CourseData(Course course) {
@@ -40,6 +44,7 @@ public class CourseData extends ApiOutput {
         if (course.getDeletedAt() != null) {
             this.deletionTimestamp = course.getDeletedAt().toEpochMilli();
         }
+        this.isMigrated = true;
     }
 
     public String getCourseId() {
@@ -64,6 +69,10 @@ public class CourseData extends ApiOutput {
 
     public long getDeletionTimestamp() {
         return deletionTimestamp;
+    }
+
+    public Boolean getIsMigrated() {
+        return isMigrated;
     }
 
     public InstructorPermissionSet getPrivileges() {
