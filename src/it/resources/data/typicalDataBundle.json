@@ -1431,7 +1431,7 @@
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:05Z"
     },
-    "staleLog": {
+    "outOfRangeLog": {
       "id": "00000000-0000-4000-8000-000000001307",
       "student": {
         "id" : "00000000-0000-4000-8000-000000000602"

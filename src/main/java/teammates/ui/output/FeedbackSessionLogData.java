@@ -18,7 +18,7 @@ public class FeedbackSessionLogData {
     private final FeedbackSessionData feedbackSessionData;
     private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
 
-    // Remove generic types after migration is done (i.e. can just use FeedbackSession and Student)
+    // Remove generic types after migration is done (i.e. can just use FeedbackSession, Student, FeedbackSessionLog)
     public <S, T, U> FeedbackSessionLogData(S feedbackSession, List<U> logEntries,
             Map<String, T> studentsMap) {
         if (feedbackSession instanceof FeedbackSessionAttributes) {
