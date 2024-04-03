@@ -324,7 +324,7 @@ Back-end component tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
-`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
+`Component tests` | `./gradlew componentTests --continue` | `{project folder}/build/reports/tests/componentTests/index.html`
 Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
 
 You can continue with `unitTests` although `integrationTests` fails by using `--continue` flag, e.g.:
