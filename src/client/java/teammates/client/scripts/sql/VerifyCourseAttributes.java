@@ -31,7 +31,9 @@ public class VerifyCourseAttributes
             return sqlEntity.getId().equals(datastoreEntity.getUniqueId())
                     && sqlEntity.getName().equals(datastoreEntity.getName())
                     && sqlEntity.getTimeZone().equals(datastoreEntity.getTimeZone())
-                    && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute());
+                    && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())
+                    && sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt())
+                    && sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
         } catch (IllegalArgumentException iae) {
             return false;
         }

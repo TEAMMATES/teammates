@@ -29,6 +29,7 @@ import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.Notification;
 import teammates.test.FileHelper;
 
@@ -38,6 +39,8 @@ import teammates.test.FileHelper;
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
     private final LogicExtension logic = new LogicExtension();
+
+    private static final int MAX_ENTITY_SIZE = 10000;
 
     private Closeable closeable;
 
@@ -101,13 +104,35 @@ public class SeedDb extends DatastoreClient {
      * Persists additional data.
      */
     protected void persistAdditionalData() {
-        int constEntitySize = 10000;
-        // Each account will have this amount of read notifications
-        int constReadNotificationSize = 5;
-        int constNotificationSize = 1000;
-        assert constNotificationSize >= constReadNotificationSize;
-
         String[] args = {};
+        // Each account will have this amount of read notifications
+        seedNotificationAccountAndAccountRequest(5, 1000);
+        seedCourse();
+
+        GenerateUsageStatisticsObjects.main(args);
+    }
+
+    private void seedCourse() {
+        for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
+            if (i % (MAX_ENTITY_SIZE / 5) == 0) {
+                log(String.format("Seeded %d %% of new sets of entities",
+                        (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
+            }
+            try {
+                String courseName = String.format("Course %s", i);
+                String courseInstitute = String.format("Institute %s", i);
+                String courseTimeZone = String.format("Time Zone %s", i);
+                Course course = new Course(UUID.randomUUID().toString(), courseName, courseTimeZone, courseInstitute,
+                        Instant.now(), null, false);
+                ofy().save().entities(course).now();
+            } catch (Exception e) {
+                log(e.toString());
+            }
+        }
+    }
+
+    private void seedNotificationAccountAndAccountRequest(int constReadNotificationSize, int constNotificationSize) {
+        assert constNotificationSize >= constReadNotificationSize;
 
         Set<String> notificationsUuidSeen = new HashSet<String>();
         ArrayList<String> notificationUuids = new ArrayList<>();
@@ -145,11 +170,11 @@ public class SeedDb extends DatastoreClient {
             }
         }
 
-        for (int i = 0; i < constEntitySize; i++) {
+        for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
 
-            if (i % (constEntitySize / 5) == 0) {
+            if (i % (MAX_ENTITY_SIZE / 5) == 0) {
                 log(String.format("Seeded %d %% of new sets of entities",
-                        (int) (100 * ((float) i / (float) constEntitySize))));
+                        (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
             }
 
             try {
@@ -181,8 +206,6 @@ public class SeedDb extends DatastoreClient {
                 log(e.toString());
             }
         }
-
-        GenerateUsageStatisticsObjects.main(args);
     }
 
     private void log(String logLine) {

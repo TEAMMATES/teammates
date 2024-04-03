@@ -50,6 +50,8 @@ public class DataMigrationForCourseSql extends
                 oldCourse.getName(),
                 oldCourse.getTimeZone(),
                 oldCourse.getInstitute());
+        newCourse.setCreatedAt(oldCourse.getCreatedAt());
+        newCourse.setDeletedAt(oldCourse.getDeletedAt());
 
         saveEntityDeferred(newCourse);
     }
