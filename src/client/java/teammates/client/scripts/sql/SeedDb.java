@@ -113,6 +113,7 @@ public class SeedDb extends DatastoreClient {
     }
 
     private void seedCourse() {
+        log("Seeding courses")
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
             if (i % (MAX_ENTITY_SIZE / 5) == 0) {
                 log(String.format("Seeded %d %% of new sets of entities",
@@ -123,7 +124,7 @@ public class SeedDb extends DatastoreClient {
                 String courseInstitute = String.format("Institute %s", i);
                 String courseTimeZone = String.format("Time Zone %s", i);
                 Course course = new Course(UUID.randomUUID().toString(), courseName, courseTimeZone, courseInstitute,
-                        Instant.now(), null, false);
+                        getRandomInstant(), getRandomInstant(), false);
                 ofy().save().entities(course).now();
             } catch (Exception e) {
                 log(e.toString());
@@ -133,6 +134,7 @@ public class SeedDb extends DatastoreClient {
 
     private void seedNotificationAccountAndAccountRequest(int constReadNotificationSize, int constNotificationSize) {
         assert constNotificationSize >= constReadNotificationSize;
+        log("Seeding Notifications, Account and Account Request");
 
         Set<String> notificationsUuidSeen = new HashSet<String>();
         ArrayList<String> notificationUuids = new ArrayList<>();
