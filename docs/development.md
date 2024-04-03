@@ -327,12 +327,6 @@ Test suite | Command | Results can be viewed in
 `Component tests` | `./gradlew componentTests --continue` | `{project folder}/build/reports/tests/componentTests/index.html`
 Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
 
-You can continue with `unitTests` although `integrationTests` fails by using `--continue` flag, e.g.:
-
-```sh
-./gradlew componentTests --continue
-```
-
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
 
 ```sh
