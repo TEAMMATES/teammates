@@ -111,7 +111,8 @@ public final class HibernateUtil {
         Configuration config = new Configuration()
                 .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                 .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
-                .setProperty("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider")
+                .setProperty("hibernate.connection.provider_class",
+                        "org.hibernate.hikaricp.internal.HikariCPConnectionProvider")
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)
                 .setProperty("hibernate.connection.url", dbUrl)
