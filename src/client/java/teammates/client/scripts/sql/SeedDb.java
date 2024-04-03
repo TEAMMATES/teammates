@@ -119,12 +119,17 @@ public class SeedDb extends DatastoreClient {
                 log(String.format("Seeded %d %% of new sets of entities",
                         (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
             }
+
+            Random rand = new Random();
+
             try {
                 String courseName = String.format("Course %s", i);
                 String courseInstitute = String.format("Institute %s", i);
                 String courseTimeZone = String.format("Time Zone %s", i);
                 Course course = new Course(UUID.randomUUID().toString(), courseName, courseTimeZone, courseInstitute,
-                        getRandomInstant(), getRandomInstant(), false);
+                        getRandomInstant(),
+                        rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
+                        false);
                 ofy().save().entities(course).now();
             } catch (Exception e) {
                 log(e.toString());
