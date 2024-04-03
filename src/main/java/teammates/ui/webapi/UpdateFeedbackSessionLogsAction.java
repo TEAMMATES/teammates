@@ -41,7 +41,7 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
             isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(),
                     k -> logic.getCourse(logEntry.getCourseId()) == null);
 
-            if (isCourseMigratedMap.get(logEntry.getCourseId())) {
+            if (!isCourseMigratedMap.get(logEntry.getCourseId())) {
                 continue;
             }
 
