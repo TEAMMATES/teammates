@@ -122,7 +122,6 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hikari.maximumPoolSize", "30")
                 .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
-
                 // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
                 // .setProperty("hibernate.jdbc.batch_size", "50")
                 // .setProperty("hibernate.order_updates", "true")
