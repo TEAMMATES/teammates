@@ -8,7 +8,6 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
@@ -51,15 +50,10 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
             try {
                 // should not need to update other fields for an approval
                 accountRequest.setStatus(accountRequestUpdateRequest.getStatus());
-                sqlLogic.updateAccountRequest(accountRequest);
-                boolean emailSent = sendEmail(
+                accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+                EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
                         accountRequest.getRegistrationUrl(), accountRequest.getEmail(), accountRequest.getName());
-                if (!emailSent) {
-                    // revert status to PENDING if email sending failed, so it can be re-triggered by approving again
-                    accountRequest.setStatus(AccountRequestStatus.PENDING);
-                    sqlLogic.updateAccountRequest(accountRequest);
-                    return new JsonResult(ACCOUNT_REQUEST_APPROVED_EMAIL_FAILED);
-                }
+                emailSender.sendEmail(email);
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
             } catch (EntityDoesNotExistException e) {
@@ -81,17 +75,5 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));
-    }
-
-    /**
-     * Sends the approval email to the instructor.
-     *
-     * @return The true if email was sent successfully or false otherwise.
-     */
-    private boolean sendEmail(String registrationUrl, String instructorEmail, String instructorName) {
-        EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
-                registrationUrl, instructorEmail, instructorName);
-        EmailSendingStatus status = emailSender.sendEmail(email);
-        return status.isSuccess();
     }
 }

@@ -76,6 +76,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("approve a pending account request");
         accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor2");
+        assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
                 accountRequest.getInstitute(), AccountRequestStatus.APPROVED, accountRequest.getComments());
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
