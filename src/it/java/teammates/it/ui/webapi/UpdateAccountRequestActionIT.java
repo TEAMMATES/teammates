@@ -168,7 +168,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
                 FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.PERSON_NAME_MAX_LENGTH), ihrbe.getMessage());
 
-        ______TS("null update value");
+        ______TS("null email value");
         name = "newName";
 
         requestBody = new AccountRequestUpdateRequest(name, null, institute, status, comments);
@@ -177,6 +177,30 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("email cannot be null", ihrbe.getMessage());
+
+        ______TS("null name value");
+        requestBody = new AccountRequestUpdateRequest(null, email, institute, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+
+        ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
+
+        assertEquals("name cannot be null", ihrbe.getMessage());
+
+        ______TS("null status value");
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, null, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+
+        ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
+
+        assertEquals("status cannot be null", ihrbe.getMessage());
+
+        ______TS("null institute value");
+        requestBody = new AccountRequestUpdateRequest(name, email, null, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+
+        ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
+
+        assertEquals("institute cannot be null", ihrbe.getMessage());
 
         ______TS("allow null comments in request");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, status, null);
