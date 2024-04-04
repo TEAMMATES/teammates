@@ -3,6 +3,5 @@ export type InstructorRequestFormModel = {
     institution: string,
     country: string,
     email: string,
-    homePage: string,
     comments: string,
 };

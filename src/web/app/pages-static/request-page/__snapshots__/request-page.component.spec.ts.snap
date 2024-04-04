@@ -67,16 +67,6 @@ exports[`RequestPageComponent should render correctly after form is submitted 1`
             <th
               scope="row"
             >
-              Home Page URL
-            </th>
-            <td>
-               u.exampleu.edu/jsmith 
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
               Comments
             </th>
             <td>
