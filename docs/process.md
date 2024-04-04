@@ -125,7 +125,6 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      npm run lint
      ```
 
-   * **Database schema changes** have a corresponding changelog (see [schema migration](schema-migration.md))
    * **All affected tests are passing** on your dev server.<br>
      You are more than welcome to also ensure that all tests are passing on your dev server.
    * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server, ensure that the affected tests are passing against the updated app running on your own GAE staging server.
