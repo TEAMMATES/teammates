@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -50,14 +49,13 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
     /**
      * Creates a feedbackResponseComment.
+     *
+     * <p>Preconditions:</p>
+     * * FeedbackResponseComment fields are valid.
      */
     public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws EntityAlreadyExistsException {
         assert feedbackResponseComment != null;
-
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
 
         if (feedbackResponseComment.getId() != null
                 && getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
@@ -192,17 +190,16 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
     /**
      * Updates the feedback response comment.
+     *
+     * <p>Preconditions:</p>
+     * * FeedbackResponseComment fields are valid.
      */
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         assert feedbackResponseComment != null;
 
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
-
         if (getFeedbackResponseComment(feedbackResponseComment.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + FeedbackResponseComment.class);
         }
 
         return merge(feedbackResponseComment);

@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -107,6 +108,18 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testCreateComment_commentInvalid_throwsInvalidParametersException()
+            throws EntityAlreadyExistsException {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+        comment.setGiverType(FeedbackParticipantType.SELF);
+
+        assertThrows(InvalidParametersException.class,
+                () -> frcLogic.createFeedbackResponseComment(comment));
+
+        verify(frcDb, never()).createFeedbackResponseComment(comment);
+    }
+
+    @Test
     public void testDeleteComment_commentExists_success() {
         frcLogic.deleteFeedbackResponseComment(TYPICAL_ID);
 
@@ -182,4 +195,17 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
         assertEquals("Trying to update a feedback response comment that does not exist.", ex.getMessage());
     }
+
+    @Test
+    public void testUpdateComment_commentInvalid_throwsInvalidParametersException()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+        comment.setGiverType(FeedbackParticipantType.SELF);
+
+        assertThrows(InvalidParametersException.class,
+                () -> frcLogic.updateFeedbackResponseComment(comment));
+
+        verify(frcDb, never()).updateFeedbackResponseComment(comment);
+    }
+
 }

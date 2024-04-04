@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
@@ -186,7 +185,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
     @Test
     public void testGetFeedbackResponseCommentsForSessionInSection_matchFound_success()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException {
         Section section1 = testDataBundle.sections.get("section1InCourse1");
         Section section2 = testDataBundle.sections.get("section2InCourse1");
         Course course = testDataBundle.courses.get("course1");

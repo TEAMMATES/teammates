@@ -84,6 +84,12 @@ public final class FeedbackResponseCommentsLogic {
      */
     public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert frc != null;
+
+        if (!frc.isValid()) {
+            throw new InvalidParametersException(frc.getInvalidityInfo());
+        }
+
         return frcDb.createFeedbackResponseComment(frc);
     }
 
@@ -103,7 +109,11 @@ public final class FeedbackResponseCommentsLogic {
      */
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
             throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponseComment != null;
 
+        if (!feedbackResponseComment.isValid()) {
+            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
+        }
         return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
     }
 
