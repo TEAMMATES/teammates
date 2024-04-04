@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.cmd.Query;
@@ -43,17 +42,17 @@ public class MarkIsMigratedForAccounts extends DatastoreClient {
     /** SQL entity class. */
     protected Class<Account> sqlEntityClass = Account.class;
 
-    AtomicLong numberOfScannedKey;
-    AtomicLong numberOfAffectedEntities;
-    AtomicLong numberOfUpdatedEntities;
+    //    AtomicLong numberOfScannedKey;
+    //    AtomicLong numberOfAffectedEntities;
+    //    AtomicLong numberOfUpdatedEntities;
 
     private long entitiesVerified = 0;
     private long entitiesSetToIsMigrated = 0;
 
     public MarkIsMigratedForAccounts() {
-        numberOfScannedKey = new AtomicLong();
-        numberOfAffectedEntities = new AtomicLong();
-        numberOfUpdatedEntities = new AtomicLong();
+        //        numberOfScannedKey = new AtomicLong();
+        //        numberOfAffectedEntities = new AtomicLong();
+        //        numberOfUpdatedEntities = new AtomicLong();
 
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
         String username = ClientProperties.SCRIPT_API_NAME;
