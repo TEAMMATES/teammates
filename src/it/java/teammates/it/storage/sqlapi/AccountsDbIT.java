@@ -98,12 +98,14 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         String email = "test';/**/DROP/**/TABLE/**/accounts;/**/--@gmail.com";
         Account accountEmail = new Account("google-id-email", "name", email);
 
-        // The regex check should fail and throw an exception
-        assertThrows(InvalidParametersException.class, () -> accountsDb.createAccount(accountEmail));
+        // The system should treat the input as a plain text string
+        accountsDb.createAccount(accountEmail);
+        Account actualAccountEmail = accountsDb.getAccountByGoogleId("google-id-email");
+        assertEquals(email, actualAccountEmail.getEmail());
 
         ______TS("SQL Injection test in createAccount name field");
 
-        // Attempt to use SQL commands in email field
+        // Attempt to use SQL commands in name field
         String name = "test';/**/DROP/**/TABLE/**/accounts;/**/--";
         Account accountName = new Account("google-id-name", name, "email@gmail.com");
 

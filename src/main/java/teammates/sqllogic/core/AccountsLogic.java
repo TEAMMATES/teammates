@@ -88,7 +88,30 @@ public final class AccountsLogic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
+
+        if (!account.isValid()) {
+            throw new InvalidParametersException(account.getInvalidityInfo());
+        }
+
         return accountsDb.createAccount(account);
+    }
+
+    /**
+     * Updates an account.
+     *
+     * @return the updated account
+     * @throws InvalidParametersException  if the account is not valid
+     * @throws EntityDoesNotExistException if the account already exists in the database.
+     */
+    public Account updateAccount(Account account)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert account != null;
+
+        if (!account.isValid()) {
+            throw new InvalidParametersException(account.getInvalidityInfo());
+        }
+
+        return accountsDb.updateAccount(account);
     }
 
     /**
