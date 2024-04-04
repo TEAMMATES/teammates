@@ -2,7 +2,6 @@ package teammates.client.scripts.sql;
 
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 
 /**
@@ -36,11 +35,12 @@ public class DataMigrationForCourseSql extends
 
     @Override
     protected boolean isMigrationNeeded(Course entity) {
-        HibernateUtil.beginTransaction();
-        teammates.storage.sqlentity.Course course = HibernateUtil.get(
-                teammates.storage.sqlentity.Course.class, entity.getUniqueId());
-        HibernateUtil.commitTransaction();
-        return course == null;
+        //        HibernateUtil.beginTransaction();
+        //        teammates.storage.sqlentity.Course course = HibernateUtil.get(
+        //                teammates.storage.sqlentity.Course.class, entity.getUniqueId());
+        //        HibernateUtil.commitTransaction();
+        //        return course == null;
+        return true;
     }
 
     @Override
