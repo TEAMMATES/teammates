@@ -389,7 +389,8 @@ export class SessionResultPageComponent implements OnInit {
       return;
     }
 
-    if (this.isPersonLoading || this.isFeedbackSessionDetailsLoading) {
+    // dummy vars to check that both student and session has been loaded
+    if (!this.personEmail || !this.session.courseId ) {
       return;
     }
 

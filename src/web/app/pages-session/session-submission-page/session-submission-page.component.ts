@@ -1147,7 +1147,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (this.isPersonLoading || this.isFeedbackSessionLoading) {
+    // dummy vars to check that both student and session has been loaded
+    if (!this.personEmail || !this.feedbackSessionTimezone) {
       return;
     }
 
