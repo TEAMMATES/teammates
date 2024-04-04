@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -53,6 +54,12 @@ public final class AccountRequestsLogic {
      */
     public AccountRequest createAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert accountRequest != null;
+
+        if (!accountRequest.isValid()) {
+            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
+        }
+
         return accountRequestDb.createAccountRequest(accountRequest);
     }
 
@@ -63,7 +70,15 @@ public final class AccountRequestsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest toCreate = new AccountRequest(email, name, institute);
 
-        return accountRequestDb.createAccountRequest(toCreate);
+        return createAccountRequest(toCreate);
+    }
+
+    /**
+     * Gets account request associated with the {@code id}.
+     */
+    public AccountRequest getAccountRequest(UUID id) {
+
+        return accountRequestDb.getAccountRequest(id);
     }
 
     /**
@@ -79,6 +94,12 @@ public final class AccountRequestsLogic {
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
+        assert accountRequest != null;
+
+        if (!accountRequest.isValid()) {
+            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
+        }
+
         return accountRequestDb.updateAccountRequest(accountRequest);
     }
 
@@ -102,7 +123,7 @@ public final class AccountRequestsLogic {
         }
         accountRequest.setRegisteredAt(null);
 
-        return accountRequestDb.updateAccountRequest(accountRequest);
+        return updateAccountRequest(accountRequest);
     }
 
     /**

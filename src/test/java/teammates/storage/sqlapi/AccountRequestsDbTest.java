@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
@@ -49,8 +48,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateAccountRequest_accountRequestDoesNotExist_success() throws EntityAlreadyExistsException {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
@@ -73,16 +71,6 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
-        AccountRequest accountRequestWithInvalidEmail = new AccountRequest("testgmail.com", "name", "institute");
-
-        assertThrows(InvalidParametersException.class,
-                () -> accountRequestDb.updateAccountRequest(accountRequestWithInvalidEmail));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(accountRequestWithInvalidEmail), never());
-    }
-
-    @Test
     public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
@@ -94,7 +82,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateAccountRequest_success() throws EntityDoesNotExistException {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(accountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
