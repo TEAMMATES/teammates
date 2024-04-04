@@ -71,6 +71,30 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
+    public void testCreateInstructor() throws EntityAlreadyExistsException {
+        ______TS("success: creates a new instructor");
+        Instructor newInstructor = getTypicalInstructor();
+        newInstructor.setEmail("newEmail@teammates.tmt");
+        usersDb.createInstructor(newInstructor);
+        verifyEquals(newInstructor, usersDb.getInstructor(newInstructor.getId()));
+
+        ______TS("failure: creates an instructor that already exists");
+        assertThrows(EntityAlreadyExistsException.class, () -> usersDb.createInstructor(instructor));
+    }
+
+    @Test
+    public void testCreateStudent() throws EntityAlreadyExistsException {
+        ______TS("success: creates a new student");
+        Student newStudent = getTypicalStudent();
+        newStudent.setEmail("newEmail@teammates.tmt");
+        usersDb.createStudent(newStudent);
+        verifyEquals(newStudent, usersDb.getStudent(newStudent.getId()));
+
+        ______TS("failure: creates a student that already exists");
+        assertThrows(EntityAlreadyExistsException.class, () -> usersDb.createStudent(student));
+    }
+
+    @Test
     public void testGetInstructor() {
         ______TS("success: gets an instructor that already exists");
         Instructor actualInstructor = usersDb.getInstructor(instructor.getId());
@@ -293,10 +317,16 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         String email = "test';/**/DROP/**/TABLE/**/users;/**/--@gmail.com";
         Instructor instructorEmail = getTypicalInstructor();
         instructorEmail.setEmail(email);
+        String instructorEmailRegKey = "ins.usersdbit.regkey0";
+        instructorEmail.setRegKey(instructorEmailRegKey);
 
-        // The regex check should fail and throw an exception
-        assertThrows(InvalidParametersException.class,
-                () -> usersDb.createInstructor(instructorEmail));
+        usersDb.createInstructor(instructorEmail);
+
+        HibernateUtil.flushSession();
+
+        // The system should treat the input as a plain text string
+        Instructor actualInstructorEmail = usersDb.getInstructorByRegKey(instructorEmailRegKey);
+        assertEquals(actualInstructorEmail.getEmail(), email);
 
         ______TS("SQL Injection test in createInstructor name field");
         Instructor instructorName = getTypicalInstructor();
@@ -338,10 +368,16 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         String email = "test';/**/DROP/**/TABLE/**/users;/**/--@gmail.com";
         Student studentEmail = getTypicalStudent();
         studentEmail.setEmail(email);
+        String studentEmailRegKey = "ins.usersdbit.regkey4";
+        studentEmail.setRegKey(studentEmailRegKey);
 
-        // The regex check should fail and throw an exception
-        assertThrows(InvalidParametersException.class,
-                () -> usersDb.createStudent(studentEmail));
+        usersDb.createStudent(studentEmail);
+
+        HibernateUtil.flushSession();
+
+        // The system should treat the input as a plain text string
+        Student actualStudentEmail = usersDb.getStudentByRegKey(studentEmailRegKey);
+        assertEquals(actualStudentEmail.getEmail(), email);
 
         ______TS("SQL Injection test in createStudent name field");
         Student studentName = getTypicalStudent();
@@ -611,7 +647,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         studentEmail.setEmail(email);
 
         // The regex check should fail and throw an exception
-        assertThrows(InvalidParametersException.class,
+        assertThrows(EntityDoesNotExistException.class,
                 () -> usersDb.updateStudent(studentEmail));
 
         ______TS("SQL Injection test in updateStudent name field");

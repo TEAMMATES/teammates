@@ -1,6 +1,8 @@
 package teammates.sqllogic.core;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,19 +13,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCase;
+import teammates.ui.request.InstructorCreateRequest;
 
 /**
  * SUT: {@link UsersLogic}.
@@ -44,6 +52,8 @@ public class UsersLogicTest extends BaseTestCase {
 
     private Course course;
 
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
+
     @BeforeMethod
     public void setUpMethod() {
         usersDb = mock(UsersDb.class);
@@ -51,6 +61,7 @@ public class UsersLogicTest extends BaseTestCase {
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = mock(FeedbackResponseCommentsLogic.class);
         DeadlineExtensionsLogic deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
         usersLogic.initLogicDependencies(usersDb, accountsLogic, feedbackResponsesLogic,
                 feedbackResponseCommentsLogic, deadlineExtensionsLogic);
 
@@ -61,6 +72,70 @@ public class UsersLogicTest extends BaseTestCase {
 
         instructor.setAccount(account);
         student.setAccount(account);
+    }
+
+    @AfterMethod
+    public void teardownMethod() {
+        mockHibernateUtil.close();
+    }
+
+    @Test
+    public void testCreateInstructor_validInstructorDoesNotExist_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        usersLogic.createInstructor(instructor);
+
+        verify(usersDb, times(1)).createInstructor(instructor);
+    }
+
+    @Test
+    public void testCreateInstructor_instructorWithInvalidEmail_throwsInvalidParametersException()
+            throws EntityAlreadyExistsException {
+        instructor.setEmail("invalid-email");
+
+        assertThrows(InvalidParametersException.class, () -> usersLogic.createInstructor(instructor));
+        verify(usersDb, never()).createInstructor(instructor);
+    }
+
+    @Test
+    public void testUpdateInstructor_invalidInstructor_throwsInvalidParametersException()
+            throws EntityDoesNotExistException {
+        String invalidName = "1234567890".repeat(11);
+        InstructorCreateRequest request = new InstructorCreateRequest(
+                instructor.getGoogleId(), invalidName, "", instructor.getRole().toString(),
+                instructor.getDisplayName(), true);
+        
+        when(usersDb.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId())).thenReturn(instructor);
+
+        assertThrows(InvalidParametersException.class,
+                () -> usersLogic.updateInstructorCascade(instructor.getCourseId(), request));
+
+        verify(usersDb, never()).updateInstructor(instructor);
+    }
+
+    @Test
+    public void testCreateStudent_studentDoesNotExist_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        usersLogic.createStudent(student);
+
+        verify(usersDb, times(1)).createStudent(student);
+    }
+
+    @Test
+    public void testCreateStudent_studentWithInvalidEmail_throwsInvalidParametersException()
+            throws EntityAlreadyExistsException {
+        student.setEmail("invalid-email");
+
+        assertThrows(InvalidParametersException.class, () -> usersLogic.createStudent(student));
+        verify(usersDb, never()).createStudent(student);
+    }
+
+    @Test
+    public void testUpdateStudent_invalidStudent_throwsInvalidParametersException()
+            throws EntityDoesNotExistException {
+        student.setEmail("");
+
+        assertThrows(InvalidParametersException.class, () -> usersLogic.updateStudentCascade(student));
+        verify(usersDb, never()).updateStudent(student);
     }
 
     @Test

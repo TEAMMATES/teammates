@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -56,13 +55,15 @@ public final class UsersDb extends EntitiesDb {
 
     /**
      * Creates an instructor.
+     *
+     * <p>Preconditions:</p>
+     * * Instructor fields are valid.
      */
-    public Instructor createInstructor(Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public Instructor createInstructor(Instructor instructor) throws EntityAlreadyExistsException {
         assert instructor != null;
 
-        if (!instructor.isValid()) {
-            throw new InvalidParametersException(instructor.getInvalidityInfo());
+        if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
+            throw new EntityAlreadyExistsException("Instructor already exists.");
         }
 
         persist(instructor);
@@ -71,13 +72,15 @@ public final class UsersDb extends EntitiesDb {
 
     /**
      * Creates a student.
+     *
+     * <p>Preconditions:</p>
+     * * Student fields are valid.
      */
-    public Student createStudent(Student student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public Student createStudent(Student student) throws EntityAlreadyExistsException {
         assert student != null;
 
-        if (!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
+        if (getStudentForEmail(student.getCourseId(), student.getEmail()) != null) {
+            throw new EntityAlreadyExistsException("Student already exists.");
         }
 
         persist(student);
@@ -251,7 +254,7 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets all instructors.
+     * Updates a user.
      */
     public <T extends User> T updateUser(T user) {
         assert user != null;
@@ -647,28 +650,34 @@ public final class UsersDb extends EntitiesDb {
 
     /**
      * Updates a student.
+     *
+     * <p>Preconditions:</p>
+     * * Student fields are valid.
      */
-    public Student updateStudent(Student student)
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        checkBeforeUpdateStudent(student);
+    public Student updateStudent(Student student) throws EntityDoesNotExistException {
+        assert student != null;
+
+        if (getStudent(student.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Student.class);
+        }
 
         return merge(student);
     }
 
     /**
-     * Performs checks on student without updating.
+     * Updates an instructor.
+     *
+     * <p>Preconditions:</p>
+     * * Instructor fields are valid.
      */
-    public void checkBeforeUpdateStudent(Student student)
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        assert student != null;
+    public Instructor updateInstructor(Instructor instructor) throws EntityDoesNotExistException {
+        assert instructor != null;
 
-        if (!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
+        if (getInstructor(instructor.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Instructor.class);
         }
 
-        if (getStudent(student.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
+        return merge(instructor);
     }
 
 }
