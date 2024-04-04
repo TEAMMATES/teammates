@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -36,7 +34,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
 
         if (accountRequest == null) {
             String errorMessage = String.format(ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
-            return new JsonResult(errorMessage, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(errorMessage);
         }
 
         AccountRequestUpdateRequest accountRequestUpdateRequest =

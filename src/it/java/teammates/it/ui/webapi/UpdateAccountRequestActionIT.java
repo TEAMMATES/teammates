@@ -15,9 +15,9 @@ import teammates.common.util.StringHelperExtension;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.ui.output.AccountRequestData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.AccountRequestUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateAccountRequestAction;
@@ -113,11 +113,9 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         String validUuid = UUID.randomUUID().toString();
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, validUuid};
 
-        action = getAction(requestBody, params);
-        result = getJsonResult(action, 404);
+        EntityNotFoundException enfe = verifyEntityNotFound(requestBody, params);
 
-        assertEquals(String.format("Account request with id = %s not found", validUuid),
-                ((MessageOutput) result.getOutput()).getMessage());
+        assertEquals(String.format("Account request with id = %s not found", validUuid), enfe.getMessage());
 
         ______TS("invalid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
