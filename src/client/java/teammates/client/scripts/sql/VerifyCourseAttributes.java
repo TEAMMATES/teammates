@@ -32,9 +32,10 @@ public class VerifyCourseAttributes
                     && sqlEntity.getName().equals(datastoreEntity.getName())
                     && sqlEntity.getTimeZone().equals(datastoreEntity.getTimeZone())
                     && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())
-                    && (datastoreEntity.getDeletedAt() == null
-                            ? sqlEntity.getDeletedAt() == null
-                            : sqlEntity.getDeletedAt() != null);
+                    // && sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt())
+                    && datastoreEntity.getDeletedAt() == null ? 
+                        sqlEntity.getDeletedAt() == null : 
+                        sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
         } catch (IllegalArgumentException iae) {
             return false;
         }

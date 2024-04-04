@@ -1,8 +1,5 @@
 package teammates.client.scripts.sql;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.util.HibernateUtil;
@@ -14,8 +11,6 @@ import teammates.storage.entity.Course;
 @SuppressWarnings("PMD")
 public class DataMigrationForCourseSql extends
         DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Course, teammates.storage.sqlentity.Course> {
-
-    private static final int HOURS_OFFSET = 1;
 
     public static void main(String[] args) {
         new DataMigrationForCourseSql().doOperationRemotely();
@@ -55,9 +50,8 @@ public class DataMigrationForCourseSql extends
                 oldCourse.getName(),
                 oldCourse.getTimeZone(),
                 oldCourse.getInstitute());
-        if (oldCourse.getDeletedAt() != null) {
-            newCourse.setDeletedAt(Instant.now().plus(Duration.ofHours(HOURS_OFFSET)));
-        }
+        // newCourse.setCreatedAt(oldCourse.getCreatedAt());
+        newCourse.setDeletedAt(oldCourse.getDeletedAt());
         saveEntityDeferred(newCourse);
     }
 }
