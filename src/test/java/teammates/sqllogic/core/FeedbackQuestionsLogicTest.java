@@ -1,6 +1,8 @@
 package teammates.sqllogic.core;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.Course;
@@ -81,6 +84,22 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         assertEquals(questions.size(), actualQuestions.size());
         assertTrue(questions.containsAll(actualQuestions));
+    }
+
+    @Test
+    public void testCreateFeedbackQuestion_invalidQuestion_throwsInvalidParametersException()
+            throws EntityAlreadyExistsException {
+        Course c = getTypicalCourse();
+        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
+        FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(fs);
+
+        feedbackQuestion.setGiverType(FeedbackParticipantType.NONE);
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> fqLogic.createFeedbackQuestion(feedbackQuestion));
+
+        assertEquals(feedbackQuestion.getInvalidityInfo(), List.of(ipe.getMessage()));
+        verify(fqDb, never()).createFeedbackQuestion(feedbackQuestion);
     }
 
     @Test
@@ -272,6 +291,24 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, null).size(), studentsInCourse.size() - 1);
         assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, courseRoster).size(), studentsInCourse.size() - 1);
 
+    }
+
+    @Test
+    public void testUpdateFeedbackQuestion_invalidQuestionDetails_throwsInvalidParametersException()
+            throws EntityDoesNotExistException {
+        Course c = getTypicalCourse();
+        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
+        FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(fs);
+
+        feedbackQuestion.setGiverType(FeedbackParticipantType.NONE);
+
+        when(fqDb.getFeedbackQuestion(feedbackQuestion.getId())).thenReturn(feedbackQuestion);
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> fqLogic.createFeedbackQuestion(feedbackQuestion));
+
+        assertEquals(feedbackQuestion.getInvalidityInfo(), List.of(ipe.getMessage()));
+        verify(fqDb, never()).updateFeedbackQuestion(feedbackQuestion);
     }
 
     private List<FeedbackQuestion> createQuestionList(FeedbackSession fs, int numOfQuestions) {

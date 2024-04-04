@@ -23,6 +23,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -78,6 +79,12 @@ public final class FeedbackQuestionsLogic {
      */
     public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackQuestion != null;
+
+        if (!feedbackQuestion.isValid()) {
+            throw new InvalidParametersException(feedbackQuestion.getInvalidityInfo());
+        }
+
         FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
 
         List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());
@@ -179,6 +186,9 @@ public final class FeedbackQuestionsLogic {
             throw new EntityDoesNotExistException("Trying to update a feedback question that does not exist.");
         }
 
+        // evict managed entity to avoid auto-persist
+        HibernateUtil.flushAndEvict(question);
+
         int oldQuestionNumber = question.getQuestionNumber();
         int newQuestionNumber = updateRequest.getQuestionNumber();
 
@@ -188,7 +198,7 @@ public final class FeedbackQuestionsLogic {
             previousQuestionsInSession = getFeedbackQuestionsForSession(question.getFeedbackSession());
         }
 
-        // update question
+        // update question fields
         question.setQuestionNumber(updateRequest.getQuestionNumber());
         question.setDescription(updateRequest.getQuestionDescription());
         question.setQuestionDetails(updateRequest.getQuestionDetails());
@@ -211,6 +221,12 @@ public final class FeedbackQuestionsLogic {
         if (!questionDetailsErrors.isEmpty()) {
             throw new InvalidParametersException(questionDetailsErrors.toString());
         }
+
+        if (!question.isValid()) {
+            throw new InvalidParametersException(question.getInvalidityInfo());
+        }
+
+        fqDb.updateFeedbackQuestion(question);
 
         if (oldQuestionNumber != newQuestionNumber) {
             // shift other feedback questions (generate an empty "slot")
