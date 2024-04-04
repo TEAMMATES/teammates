@@ -49,14 +49,13 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Test
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
-        AccountRequest accountRequest = typicalBundle.accountRequests.get("instructor1");
+        AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         UUID id = accountRequest.getId();
         String name = "newName";
         String email = "newEmail@email.com";
         String institute = "newInstitute";
         String comments = "newComments";
-        AccountRequestStatus status = accountRequest.getStatus() == null
-                ? AccountRequestStatus.PENDING : accountRequest.getStatus();
+        AccountRequestStatus status = accountRequest.getStatus();
 
         AccountRequestUpdateRequest requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};

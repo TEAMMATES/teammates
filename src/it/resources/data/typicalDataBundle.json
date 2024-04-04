@@ -73,8 +73,7 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "2010-02-14T00:00:00Z",
-      "status": "REGISTERED"
+      "registeredAt": "2010-02-14T00:00:00Z"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000102",
@@ -138,7 +137,9 @@
       "name": "Unregistered Instructor 1",
       "email": "unregisteredinstructor1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "status": "PENDING",
+      "comments": "Test"
     },
     "unregisteredInstructor2": {
       "name": "Unregistered Instructor 2",
@@ -146,7 +147,7 @@
       "institute": "TEAMMATES Test Institute 2",
       "createdAt": "2011-01-01T00:00:00Z",
       "status": "PENDING",
-      "comments": "Comments"
+      "comments": "Test"
     }
   },
   "courses": {
