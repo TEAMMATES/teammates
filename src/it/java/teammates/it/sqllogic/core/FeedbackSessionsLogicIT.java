@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -44,6 +45,44 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         persistDataBundle(typicalDataBundle);
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
+    }
+
+    @Test
+    public void testCreateFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {
+
+        ______TS("failure: invalid parameters");
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession session = new FeedbackSession(
+                "", fs.getCourse(), fs.getCreatorEmail(), fs.getInstructions(), fs.getStartTime(), fs.getEndTime(),
+                fs.getSessionVisibleFromTime(), fs.getResultsVisibleFromTime(), fs.getGracePeriod(),
+                fs.isOpeningEmailEnabled(), fs.isClosingEmailEnabled(), fs.isPublishedEmailEnabled());
+
+        assertThrows(InvalidParametersException.class, () -> fsLogic.createFeedbackSession(session));
+        assertNull(fsLogic.getFeedbackSession(session.getId()));
+
+        ______TS("success: typical case");
+        session.setName(fs.getName());
+        fsLogic.createFeedbackSession(session);
+
+        assertEquals(fs.getName(), fsLogic.getFeedbackSession(session.getId()).getName());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession() throws InvalidParametersException, EntityDoesNotExistException {
+
+        ______TS("success: typical case");
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        fs.setName("new name");
+
+        fsLogic.updateFeedbackSession(fs);
+        assertEquals("new name", fsLogic.getFeedbackSession(fs.getId()).getName());
+
+        ______TS("failure: invalid parameters, original unchanged");
+        String originalName = fs.getName();
+        fs.setName("");
+
+        assertThrows(InvalidParametersException.class, () -> fsLogic.updateFeedbackSession(fs));
+        assertEquals(originalName, fsLogic.getFeedbackSession(fs.getId()).getName());
     }
 
     @Test

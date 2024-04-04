@@ -208,6 +208,11 @@ public final class FeedbackSessionsLogic {
     public FeedbackSession createFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert session != null;
+
+        if (!session.isValid()) {
+            throw new InvalidParametersException(session.getInvalidityInfo());
+        }
+
         return fsDb.createFeedbackSession(session);
     }
 
@@ -220,6 +225,12 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSession updateFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
+        assert session != null;
+
+        if (!session.isValid()) {
+            throw new InvalidParametersException(session.getInvalidityInfo());
+        }
+
         return fsDb.updateFeedbackSession(session);
     }
 
