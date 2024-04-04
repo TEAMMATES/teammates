@@ -272,8 +272,12 @@ public final class HibernateUtil {
         HibernateUtil.getCurrentSession().createMutationQuery(cd).executeUpdate();
     }
 
+    /**
+     * Flush the current session and evict the given entity from the session.
+     * @see Session#evict(Object)
+     */
     public static <T> void flushAndEvict(T entity) {
-        HibernateUtil.getCurrentSession().flush();
+        flushSession();
         HibernateUtil.getCurrentSession().evict(entity);
     }
 

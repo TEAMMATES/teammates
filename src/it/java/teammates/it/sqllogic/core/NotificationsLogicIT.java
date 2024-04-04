@@ -23,6 +23,48 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     private NotificationsLogic notificationsLogic = NotificationsLogic.inst();
 
     @Test
+    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException() {
+        Notification invalidNotification = new Notification(
+                Instant.parse("2011-02-01T00:00:00Z"),
+                Instant.parse("2011-01-01T00:00:00Z"),
+                NotificationStyle.DANGER,
+                NotificationTargetUser.GENERAL,
+                "A deprecation note",
+                "<p>Deprecation happens in three minutes</p>");
+
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        assertNull(notificationsLogic.getNotification(invalidNotification.getId()));
+    }
+
+    @Test
+    public void testCreateNotification_emptyTitle_throwsInvalidParametersException() {
+        Notification invalidNotification = new Notification(
+                Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"),
+                NotificationStyle.DANGER,
+                NotificationTargetUser.GENERAL,
+                "",
+                "<p>Deprecation happens in three minutes</p>");
+
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        assertNull(notificationsLogic.getNotification(invalidNotification.getId()));
+    }
+
+    @Test
+    public void testCreateNotification_emptyMessage_throwsInvalidParametersException() {
+        Notification invalidNotification = new Notification(
+                Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"),
+                NotificationStyle.DANGER,
+                NotificationTargetUser.GENERAL,
+                "A deprecation note",
+                "");
+
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        assertNull(notificationsLogic.getNotification(invalidNotification.getId()));
+    }
+
+    @Test
     public void testUpdateNotification()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Instant newStartTime = Instant.parse("2012-01-01T00:00:00Z");
@@ -50,8 +92,6 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(newTitle, expectedNotification.getTitle());
         assertEquals(newMessage, expectedNotification.getMessage());
 
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
         Notification actualNotification = notificationsLogic.getNotification(notificationId);
         verifyEquals(expectedNotification, actualNotification);
 
@@ -87,15 +127,13 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                         NotificationStyle.DANGER,
                         NotificationTargetUser.GENERAL,
                         invalidLongTitle,
-                        validNewMessage
-                )
-        );
+                        validNewMessage));
 
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
         Notification actual = notificationsLogic.getNotification(notif.getId());
-        assert actual.getTitle().equals(originalTitle) : actual.getTitle();
-        assert actual.getMessage().equals(originalMessage);
+        assertEquals(originalTitle, actual.getTitle());
+        assertEquals(originalMessage, actual.getMessage());
     }
 
 }

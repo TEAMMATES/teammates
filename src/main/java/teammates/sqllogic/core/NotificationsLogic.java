@@ -48,6 +48,11 @@ public final class NotificationsLogic {
      */
     public Notification createNotification(Notification notification)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert notification != null;
+
+        if (!notification.isValid()) {
+            throw new InvalidParametersException(notification.getInvalidityInfo());
+        }
         return notificationsDb.createNotification(notification);
     }
 

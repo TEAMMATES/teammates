@@ -1,5 +1,6 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
@@ -9,7 +10,6 @@ import java.util.UUID;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 
@@ -37,13 +37,16 @@ public final class NotificationsDb extends EntitiesDb {
 
     /**
      * Creates a notification.
+     *
+     * <p>Preconditions:</p>
+     * * Notification fields are valid.
      */
-    public Notification createNotification(Notification notification)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public Notification createNotification(Notification notification) throws EntityAlreadyExistsException {
         assert notification != null;
 
-        if (!notification.isValid()) {
-            throw new InvalidParametersException(notification.getInvalidityInfo());
+        if (getNotification(notification.getId()) != null) {
+            throw new EntityAlreadyExistsException(
+                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, notification.toString()));
         }
 
         persist(notification);
@@ -56,10 +59,7 @@ public final class NotificationsDb extends EntitiesDb {
     public Notification getNotification(UUID notificationId) {
         assert notificationId != null;
 
-        Notification notif = HibernateUtil.get(Notification.class, notificationId);
-        // HibernateUtil.flushSession();
-        // HibernateUtil.evict(notif);
-        return notif;
+        return HibernateUtil.get(Notification.class, notificationId);
     }
 
     /**
@@ -111,8 +111,7 @@ public final class NotificationsDb extends EntitiesDb {
      * <p>Preconditions:</p>
      * * Notification fields are valid.
      */
-    public Notification updateNotification(Notification notification)
-            throws EntityDoesNotExistException {
+    public Notification updateNotification(Notification notification) throws EntityDoesNotExistException {
         assert notification != null;
 
         if (getNotification(notification.getId()) == null) {
