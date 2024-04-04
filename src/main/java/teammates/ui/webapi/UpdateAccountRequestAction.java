@@ -20,8 +20,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 public class UpdateAccountRequestAction extends AdminOnlyAction {
 
     static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
-    static final String ACCOUNT_REQUEST_APPROVED_EMAIL_FAILED =
-            "Failed to send approval email to instructor, status reverted to PENDING, please try again";
 
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
