@@ -45,6 +45,7 @@ public abstract class User extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "teamId")
+    // TODO: Could be removed as only Students should be part of a team, not Instructors.
     private Team team;
 
     @Column(nullable = false)
