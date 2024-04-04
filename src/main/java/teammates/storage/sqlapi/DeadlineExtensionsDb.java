@@ -41,14 +41,13 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
 
     /**
      * Creates a deadline extension.
+     *
+     * <p>Preconditions:</p>
+     * * Deadline extension fields are valid.
      */
     public DeadlineExtension createDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert de != null;
-
-        if (!de.isValid()) {
-            throw new InvalidParametersException(de.getInvalidityInfo());
-        }
 
         if (getDeadlineExtension(de.getId()) != null) {
             throw new EntityAlreadyExistsException(
@@ -92,20 +91,19 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
     /**
      * Saves an updated {@code DeadlineExtension} to the db.
      *
+     * <p>Preconditions:</p>
+     * * Deadline extension fields are valid.
+     *
      * @return updated deadline extension
      * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the deadline extension cannot be found
      */
     public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         assert deadlineExtension != null;
 
-        if (!deadlineExtension.isValid()) {
-            throw new InvalidParametersException(deadlineExtension.getInvalidityInfo());
-        }
-
         if (getDeadlineExtension(deadlineExtension.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + DeadlineExtension.class);
         }
 
         return merge(deadlineExtension);
