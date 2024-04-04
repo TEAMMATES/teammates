@@ -257,11 +257,11 @@ export class SessionResultPageComponent implements OnInit {
           this.regKey,
         ).pipe(finalize(() => {
           this.isPersonLoading = false;
-          this.logStudentAccess();
         })).subscribe((student: Student) => {
           this.studentId = student.studentId;
           this.personName = student.name;
           this.personEmail = student.email;
+          this.logStudentView();
         });
         break;
       case Intent.INSTRUCTOR_RESULT:
@@ -292,7 +292,6 @@ export class SessionResultPageComponent implements OnInit {
     })
     .pipe(finalize(() => {
       this.isFeedbackSessionDetailsLoading = false; 
-      this.logStudentAccess()
     }))
     .subscribe({
       next: (feedbackSession: FeedbackSession) => {
@@ -303,6 +302,9 @@ export class SessionResultPageComponent implements OnInit {
             .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
         this.formattedSessionClosingTime = this.timezoneService
             .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
+
+        this.logStudentView();
+
         this.feedbackQuestionsService.getFeedbackQuestions({
           courseId: this.courseId,
           feedbackSessionName: this.feedbackSessionName,
@@ -382,7 +384,7 @@ export class SessionResultPageComponent implements OnInit {
   /**
   * Logs student activity after student/session details have been fetched.
   */
-  logStudentAccess(): void {
+  logStudentView(): void {
     if (this.intent != Intent.STUDENT_RESULT) {
       return;
     }

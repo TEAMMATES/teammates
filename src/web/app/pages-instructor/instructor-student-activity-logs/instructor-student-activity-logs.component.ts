@@ -340,7 +340,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               const rows: any[] = [];
               entries.forEach((entry: FeedbackSessionLogEntry) => {
                 const timestamp: string = this.timezoneService.formatToString(
-                    entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+                  entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
                 status = `${entry.feedbackSessionLogType} at ${timestamp}`;
                 rows.push(
                   [{
@@ -380,15 +380,15 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   private logTypeToActivityDisplay(logType: string): string {
     switch (logType.toUpperCase()) {
       case 'ACCESS':
-        return 'Viewed the submission page';
+        return 'viewed the submission page';
       case 'SUBMISSION':
-        return 'Submitted responses';
+        return 'submitted responses';
       case 'VIEW RESULT':
-        return 'Viewed the session results';
+        return 'viewed the session results';
       case 'ACCESS,SUBMISSION':
-        return 'Viewed the submission page or submitted responses';
+        return 'viewed the submission page or submitted responses';
       default:
-        return 'Unknown activity';
+        return 'unknown activity';
     }
   }
 

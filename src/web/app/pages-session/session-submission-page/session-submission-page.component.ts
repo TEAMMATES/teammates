@@ -327,11 +327,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.regKey,
         ).pipe(finalize(() => {
           this.isPersonLoading = false;
-          this.logStudentAccess();
         })).subscribe((student: Student) => {
           this.studentId = student.studentId;
           this.personName = student.name;
           this.personEmail = student.email;
+          this.logStudentAccess();
         });
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
@@ -373,7 +373,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       previewAs: this.previewAsPerson,
     }).pipe(finalize(() => {
       this.isFeedbackSessionLoading = false;
-      this.logStudentAccess()
     }))
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
@@ -386,6 +385,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
           this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
           this.feedbackSessionTimezone = feedbackSession.timeZone;
+
+          this.logStudentAccess();
 
           // don't show alert modal in moderation
           if (!this.moderatedPerson) {
