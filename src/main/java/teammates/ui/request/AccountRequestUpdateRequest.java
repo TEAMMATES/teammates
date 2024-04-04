@@ -1,5 +1,7 @@
 package teammates.ui.request;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.SanitizationHelper;
 
@@ -11,6 +13,8 @@ public class AccountRequestUpdateRequest extends BasicRequest {
     private String email;
     private String institute;
     private AccountRequestStatus status;
+
+    @Nullable
     private String comments;
 
     public AccountRequestUpdateRequest(String name, String email, String institute, AccountRequestStatus status,
@@ -19,7 +23,9 @@ public class AccountRequestUpdateRequest extends BasicRequest {
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeName(institute);
         this.status = status;
-        this.comments = SanitizationHelper.sanitizeTextField(comments);
+        if (comments != null) {
+            this.comments = SanitizationHelper.sanitizeTextField(comments);
+        }
     }
 
     @Override
@@ -33,7 +39,6 @@ public class AccountRequestUpdateRequest extends BasicRequest {
                 || status == AccountRequestStatus.PENDING
                 || status == AccountRequestStatus.REGISTERED,
                 "status must be one of the following: APPROVED, REJECTED, PENDING, REGISTERED");
-        assertTrue(comments != null, "comments cannot be null");
     }
 
     public String getName() {

@@ -50,6 +50,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        accountRequest.setStatus(AccountRequestStatus.PENDING);
         UUID id = accountRequest.getId();
         String name = "newName";
         String email = "newEmail@email.com";
@@ -75,7 +76,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("approve a pending account request");
         accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor2");
-        assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
+        accountRequest.setStatus(AccountRequestStatus.PENDING);
         requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
                 accountRequest.getInstitute(), AccountRequestStatus.APPROVED, accountRequest.getComments());
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
@@ -176,6 +177,19 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("email cannot be null", ihrbe.getMessage());
+
+        ______TS("allow null comments in request");
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, status, null);
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+
+        action = getAction(requestBody, params);
+        result = getJsonResult(action, 200);
+        data = (AccountRequestData) result.getOutput();
+
+        assertEquals(name, data.getName());
+        assertEquals(email, data.getEmail());
+        assertEquals(institute, data.getInstitute());
+        assertEquals(null, data.getComments());
     }
 
     @Override
