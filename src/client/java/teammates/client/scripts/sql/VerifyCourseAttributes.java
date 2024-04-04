@@ -33,9 +33,8 @@ public class VerifyCourseAttributes
                     && sqlEntity.getTimeZone().equals(datastoreEntity.getTimeZone())
                     && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())
                     // && sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt())
-                    && datastoreEntity.getDeletedAt() == null ? 
-                        sqlEntity.getDeletedAt() == null : 
-                        sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
+                    && datastoreEntity.getDeletedAt() == null ? sqlEntity.getDeletedAt() == null
+                            : sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
         } catch (IllegalArgumentException iae) {
             return false;
         }

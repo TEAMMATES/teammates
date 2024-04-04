@@ -38,10 +38,9 @@ import teammates.test.FileHelper;
  */
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
-    private final LogicExtension logic = new LogicExtension();
 
     private static final int MAX_ENTITY_SIZE = 10000;
-
+    private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
 
     /**
