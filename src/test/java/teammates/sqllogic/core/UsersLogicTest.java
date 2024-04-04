@@ -103,7 +103,7 @@ public class UsersLogicTest extends BaseTestCase {
         InstructorCreateRequest request = new InstructorCreateRequest(
                 instructor.getGoogleId(), invalidName, "", instructor.getRole().toString(),
                 instructor.getDisplayName(), true);
-        
+
         when(usersDb.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId())).thenReturn(instructor);
 
         assertThrows(InvalidParametersException.class,

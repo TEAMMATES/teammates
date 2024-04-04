@@ -49,7 +49,8 @@ public class NotificationsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException() throws EntityAlreadyExistsException {
+    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException()
+            throws EntityAlreadyExistsException {
         Notification invalidNotification = new Notification(Instant.parse("2011-02-01T00:00:00Z"),
                 Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
