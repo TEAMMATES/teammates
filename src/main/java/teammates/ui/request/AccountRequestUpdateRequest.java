@@ -28,6 +28,11 @@ public class AccountRequestUpdateRequest extends BasicRequest {
         assertTrue(email != null, "email cannot be null");
         assertTrue(institute != null, "institute cannot be null");
         assertTrue(status != null, "status cannot be null");
+        assertTrue(status == AccountRequestStatus.APPROVED
+                || status == AccountRequestStatus.REJECTED
+                || status == AccountRequestStatus.PENDING
+                || status == AccountRequestStatus.REGISTERED,
+                "status must be one of the following: APPROVED, REJECTED, PENDING, REGISTERED");
         assertTrue(comments != null, "comments cannot be null");
     }
 

@@ -20,10 +20,9 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class UpdateAccountRequestAction extends AdminOnlyAction {
 
-    static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request not found";
-    static final String ACCOUNT_REQUEST_UPDATED = "Account request successfully updated";
+    static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
     static final String ACCOUNT_REQUEST_APPROVED_EMAIL_FAILED =
-            "Account request successfully approved but email failed to send";
+            "Failed to send approval email to instructor, status reverted to PENDING, please try again";
 
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
@@ -39,36 +38,45 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
         AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
 
         if (accountRequest == null) {
-            return new JsonResult(ACCOUNT_REQUEST_NOT_FOUND, HttpStatus.SC_NOT_FOUND);
+            String errorMessage = String.format(ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
+            return new JsonResult(errorMessage, HttpStatus.SC_NOT_FOUND);
         }
 
-        boolean toSendEmail = false;
         AccountRequestUpdateRequest accountRequestUpdateRequest =
                 getAndValidateRequestBody(AccountRequestUpdateRequest.class);
+
         if (accountRequestUpdateRequest.getStatus() == AccountRequestStatus.APPROVED
-                && accountRequest.getStatus() == AccountRequestStatus.PENDING) {
-            toSendEmail = true;
-        }
-
-        try {
-            accountRequest.setName(accountRequestUpdateRequest.getName());
-            accountRequest.setEmail(accountRequestUpdateRequest.getEmail());
-            accountRequest.setInstitute(accountRequestUpdateRequest.getInstitute());
-            accountRequest.setStatus(accountRequestUpdateRequest.getStatus());
-            accountRequest.setComments(accountRequestUpdateRequest.getComments());
-            sqlLogic.updateAccountRequest(accountRequest);
-        } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
-        }
-
-        if (toSendEmail) {
-            boolean emailSent = sendEmail(accountRequest.getRegistrationUrl(),
-                    accountRequest.getEmail(), accountRequest.getName());
-
-            if (!emailSent) {
-                return new JsonResult(ACCOUNT_REQUEST_APPROVED_EMAIL_FAILED);
+                && (accountRequest.getStatus() == AccountRequestStatus.PENDING
+                || accountRequest.getStatus() == AccountRequestStatus.REJECTED)) {
+            try {
+                // should not need to update other fields for an approval
+                accountRequest.setStatus(accountRequestUpdateRequest.getStatus());
+                sqlLogic.updateAccountRequest(accountRequest);
+                boolean emailSent = sendEmail(
+                        accountRequest.getRegistrationUrl(), accountRequest.getEmail(), accountRequest.getName());
+                if (!emailSent) {
+                    // revert status to PENDING if email sending failed, so it can be re-triggered by approving again
+                    accountRequest.setStatus(AccountRequestStatus.PENDING);
+                    sqlLogic.updateAccountRequest(accountRequest);
+                    return new JsonResult(ACCOUNT_REQUEST_APPROVED_EMAIL_FAILED);
+                }
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
+            }
+        } else {
+            try {
+                accountRequest.setName(accountRequestUpdateRequest.getName());
+                accountRequest.setEmail(accountRequestUpdateRequest.getEmail());
+                accountRequest.setInstitute(accountRequestUpdateRequest.getInstitute());
+                accountRequest.setStatus(accountRequest.getStatus());
+                accountRequest.setComments(accountRequestUpdateRequest.getComments());
+                sqlLogic.updateAccountRequest(accountRequest);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
             }
         }
 

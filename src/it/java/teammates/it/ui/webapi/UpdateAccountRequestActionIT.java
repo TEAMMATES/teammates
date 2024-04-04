@@ -67,35 +67,56 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(result.getStatusCode(), 200);
         AccountRequestData data = (AccountRequestData) result.getOutput();
 
-        assertEquals(data.getName(), name);
-        assertEquals(data.getEmail(), email);
-        assertEquals(data.getInstitute(), institute);
-        assertEquals(data.getStatus(), status);
-        assertEquals(data.getComments(), comments);
+        assertEquals(name, data.getName());
+        assertEquals(email, data.getEmail());
+        assertEquals(institute, data.getInstitute());
+        assertEquals(status, data.getStatus());
+        assertEquals(comments, data.getComments());
         verifyNoEmailsSent();
 
-        ______TS("approve account request");
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
+        ______TS("approve a pending account request");
+        accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor2");
+        requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
+                accountRequest.getInstitute(), AccountRequestStatus.APPROVED, accountRequest.getComments());
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
         action = getAction(requestBody, params);
         result = getJsonResult(action, 200);
         data = (AccountRequestData) result.getOutput();
 
-        assertEquals(data.getName(), name);
-        assertEquals(data.getEmail(), email);
-        assertEquals(data.getInstitute(), institute);
-        assertEquals(data.getStatus(), AccountRequestStatus.APPROVED);
-        assertEquals(data.getComments(), comments);
+        assertEquals(accountRequest.getName(), data.getName());
+        assertEquals(accountRequest.getEmail(), data.getEmail());
+        assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
+        assertEquals(accountRequest.getComments(), data.getComments());
         verifyNumberOfEmailsSent(1);
+
+        ______TS("already registered account request has no email sent when approved");
+        accountRequest = typicalBundle.accountRequests.get("instructor2");
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+
+        action = getAction(requestBody, params);
+        result = getJsonResult(action, 200);
+        data = (AccountRequestData) result.getOutput();
+
+        assertEquals(name, data.getName());
+        assertEquals(email, data.getEmail());
+        assertEquals(institute, data.getInstitute());
+        assertEquals(AccountRequestStatus.REGISTERED, data.getStatus());
+        assertEquals(comments, data.getComments());
+        verifyNumberOfEmailsSent(0);
 
         ______TS("non-existent but valid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
                 "institute", AccountRequestStatus.PENDING, "comments");
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "63338e93-db1e-474d-9207-ea7cd3ddd491"};
+        String validUuid = UUID.randomUUID().toString();
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, validUuid};
 
         action = getAction(requestBody, params);
         result = getJsonResult(action, 404);
 
-        assertEquals("Account request not found", ((MessageOutput) result.getOutput()).getMessage());
+        assertEquals(String.format("Account request with id = %s not found", validUuid),
+                ((MessageOutput) result.getOutput()).getMessage());
 
         ______TS("invalid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
@@ -109,10 +130,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         ______TS("invalid email");
         accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         id = accountRequest.getId();
-        name = "newName";
         email = "newEmail";
-        institute = "newInstitute";
-        comments = "newComments";
         status = accountRequest.getStatus() == null ? AccountRequestStatus.PENDING : accountRequest.getStatus();
 
         requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
@@ -149,7 +167,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
                 FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.PERSON_NAME_MAX_LENGTH), ihrbe.getMessage());
 
-        ______TS("null param");
+        ______TS("null update value");
         name = "newName";
 
         requestBody = new AccountRequestUpdateRequest(name, null, institute, status, comments);
