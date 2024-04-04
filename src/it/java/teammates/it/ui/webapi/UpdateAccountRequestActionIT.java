@@ -130,7 +130,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         id = accountRequest.getId();
         email = "newEmail";
-        status = accountRequest.getStatus() == null ? AccountRequestStatus.PENDING : accountRequest.getStatus();
+        status = accountRequest.getStatus();
 
         requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
