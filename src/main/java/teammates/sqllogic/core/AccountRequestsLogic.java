@@ -7,6 +7,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlsearch.AccountRequestSearchManager;
@@ -146,5 +147,27 @@ public final class AccountRequestsLogic {
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
         return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Creates an or gets an account request.
+     */
+    public AccountRequest createOrGetAccountRequestWithTransaction(String name, String email, String institute)
+            throws InvalidParametersException {
+        AccountRequest toCreate = new AccountRequest(email, name, institute);
+        HibernateUtil.beginTransaction();
+        AccountRequest accountRequest;
+        try {
+            accountRequest = accountRequestDb.createAccountRequest(toCreate);
+            HibernateUtil.commitTransaction();
+        } catch (InvalidParametersException ipe) {
+            HibernateUtil.rollbackTransaction();
+            throw new InvalidParametersException(ipe);
+        } catch (EntityAlreadyExistsException eaee) {
+            // Use existing account request
+            accountRequest = getAccountRequest(email, institute);
+            HibernateUtil.commitTransaction();
+        }
+        return accountRequest;
     }
 }
