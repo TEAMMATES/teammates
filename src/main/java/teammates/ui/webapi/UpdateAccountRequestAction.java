@@ -76,7 +76,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
     }
 
     /**
-     * Sends the feedback session summary as an email.
+     * Sends the approval email to the instructor.
      *
      * @return The true if email was sent successfully or false otherwise.
      */
