@@ -3,7 +3,6 @@ package teammates.client.scripts.sql;
 // CHECKSTYLE.OFF:ImportOrder
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,20 +12,15 @@ import java.util.stream.Collectors;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.AccountRequest;
 
 // CHECKSTYLE.ON:ImportOrder
 /**
  * Protected methods may be overriden.
- * 
- * @param <E> Datastore entity
- * @param <T> SQL entity
  */
 @SuppressWarnings("PMD")
 public class ReverseDataMigrationForAccount
@@ -88,7 +82,7 @@ public class ReverseDataMigrationForAccount
         return query.getResultList();
     }
 
-    /*
+    /**
      * Reverse migrate accounts to datastore.
      */
     protected void reverseMigrateToDatastore() {
@@ -127,7 +121,7 @@ public class ReverseDataMigrationForAccount
 
     /**
      * Log a line.
-     * 
+     *
      * @param logLine the line to log
      */
     protected void log(String logLine) {

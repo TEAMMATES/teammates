@@ -35,7 +35,6 @@ import teammates.test.FileHelper;
 // CHECKSTYLE.ON:ImportOrder
 /**
  * Patch Migration Script for Usage Statistics
- * 
  * Batch select datastore usage statistics, and then batch select SQL entities
  * with the same start timestamps.
  * Compare the size of the two list, if is not equal, find the missing one in

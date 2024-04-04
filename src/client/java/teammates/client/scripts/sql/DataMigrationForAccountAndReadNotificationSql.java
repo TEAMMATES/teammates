@@ -141,16 +141,15 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
 
         TypedQuery<teammates.storage.sqlentity.Account> query = HibernateUtil.createQuery(cr);
 
-        
         boolean isEntityInDb = query.getResultList().size() != 0;
         HibernateUtil.commitTransaction();
 
         // In db, but somehow not set as migrated.
         if (isEntityInDb) {
             oldAccount.setMigrated(true);
-            entitiesOldAccountSavingBuffer.add(oldAccount);    
+            entitiesOldAccountSavingBuffer.add(oldAccount);
             return;
-        };
+        }
 
         teammates.storage.sqlentity.Account newAccount = new teammates.storage.sqlentity.Account(
                 oldAccount.getGoogleId(),

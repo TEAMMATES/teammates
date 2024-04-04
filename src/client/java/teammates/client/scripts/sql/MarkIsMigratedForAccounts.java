@@ -1,18 +1,13 @@
 package teammates.client.scripts.sql;
 
-import java.io.IOException;
 // CHECKSTYLE.OFF:ImportOrder
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-import com.google.cloud.datastore.Cursor;
-import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
 import jakarta.persistence.TypedQuery;
@@ -21,7 +16,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
 import teammates.storage.sqlentity.Account;
-import teammates.test.FileHelper;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
@@ -32,35 +26,33 @@ import teammates.common.util.HibernateUtil;
  */
 @SuppressWarnings("PMD")
 public class MarkIsMigratedForAccounts extends DatastoreClient {
+    /**
+     * Batch size to fetch per page.
+     */
+    protected static final int CONST_SQL_FETCH_BASE_SIZE = 1000;
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
     /* NOTE
      * Before running the verification, please enable hibernate.jdbc.fetch_size in HibernateUtil.java
      * for optimized batch-fetching.
     */
-
-    /**
-     * Batch size to fetch per page.
-     */
-    protected static final int CONST_SQL_FETCH_BASE_SIZE = 1000;
-
-    AtomicLong numberOfScannedKey;
-    AtomicLong numberOfAffectedEntities;
-    AtomicLong numberOfUpdatedEntities;
-
     /** Datastore entity class. */
     protected Class<teammates.storage.entity.Account> datastoreEntityClass = teammates.storage.entity.Account.class;
 
     /** SQL entity class. */
     protected Class<Account> sqlEntityClass = Account.class;
 
+    //    AtomicLong numberOfScannedKey;
+    //    AtomicLong numberOfAffectedEntities;
+    //    AtomicLong numberOfUpdatedEntities;
+
     private long entitiesVerified = 0;
     private long entitiesSetToIsMigrated = 0;
 
     public MarkIsMigratedForAccounts() {
-        numberOfScannedKey = new AtomicLong();
-        numberOfAffectedEntities = new AtomicLong();
-        numberOfUpdatedEntities = new AtomicLong();
+        //        numberOfScannedKey = new AtomicLong();
+        //        numberOfAffectedEntities = new AtomicLong();
+        //        numberOfUpdatedEntities = new AtomicLong();
 
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
         String username = ClientProperties.SCRIPT_API_NAME;
@@ -184,7 +176,7 @@ public class MarkIsMigratedForAccounts extends DatastoreClient {
                     failures.add(new AbstractMap.SimpleEntry<Account, Account>(sqlEntity, null));
                     continue;
                 }
-                
+
                 if (!datastoreEntity.isMigrated()) {
                     datastoreEntity.setMigrated(true);
                     setMigratedAccountBuffer.add(datastoreEntity);
@@ -192,13 +184,14 @@ public class MarkIsMigratedForAccounts extends DatastoreClient {
             }
 
             /* Flushing the buffer */
-            if (setMigratedAccountBuffer.size() != 0 ) {
+            if (setMigratedAccountBuffer.size() != 0) {
                 long startTimeForDatastoreFlushing = System.currentTimeMillis();
                 entitiesSetToIsMigrated += setMigratedAccountBuffer.size();
                 ofy().save().entities(setMigratedAccountBuffer).now();
                 setMigratedAccountBuffer.clear();
                 long endTimeForDatastoreFlushing = System.currentTimeMillis();
-                log("Flushing for datastore " + (endTimeForDatastoreFlushing - startTimeForDatastoreFlushing) + " milliseconds");    
+                log("Flushing for datastore " + (endTimeForDatastoreFlushing - startTimeForDatastoreFlushing)
+                        + " milliseconds");
             }
         }
 
@@ -226,7 +219,7 @@ public class MarkIsMigratedForAccounts extends DatastoreClient {
         }
 
         long checkEndTime = System.currentTimeMillis();
-        
+
         log("Entity took " + (checkEndTime - checkStartTime) + " milliseconds to verify");
         log("Verified " + entitiesVerified + " SQL entities successfully");
         log("Number of datastore accounts set to isMigrated " + entitiesSetToIsMigrated);
