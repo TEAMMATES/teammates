@@ -158,7 +158,7 @@ public final class AccountRequestsLogic {
         HibernateUtil.beginTransaction();
         AccountRequest accountRequest;
         try {
-            accountRequest = accountRequestDb.createAccountRequest(toCreate);
+            accountRequest = createAccountRequest(toCreate);
             HibernateUtil.commitTransaction();
         } catch (InvalidParametersException ipe) {
             HibernateUtil.rollbackTransaction();
