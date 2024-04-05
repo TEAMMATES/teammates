@@ -17,8 +17,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class UpdateAccountRequestAction extends AdminOnlyAction {
 
-    static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
-
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         String id = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
@@ -33,7 +31,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
         AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
 
         if (accountRequest == null) {
-            String errorMessage = String.format(ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
+            String errorMessage = String.format(Const.ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
         }
 
