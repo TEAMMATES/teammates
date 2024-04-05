@@ -58,7 +58,7 @@ export class AccountRequestTableComponent {
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
     modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
-    modalRef.componentInstance.accountRequestComment = accountRequest.comments;
+    modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
     modalRef.result.then(() => {
       this.accountService.editAccountRequest(
@@ -67,7 +67,7 @@ export class AccountRequestTableComponent {
         modalRef.componentInstance.accountRequestEmail,
         modalRef.componentInstance.accountRequestInstitution,
         accountRequest.status,
-        modalRef.componentInstance.accountRequestComment)
+        modalRef.componentInstance.accountRequestComments)
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.comments = resp.comments ?? '';

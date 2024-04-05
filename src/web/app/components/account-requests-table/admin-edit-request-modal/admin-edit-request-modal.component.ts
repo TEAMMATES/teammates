@@ -20,7 +20,7 @@ export class EditRequestModalComponent {
   @Input()
   accountRequestInstitution: string = '';
   @Input()
-  accountRequestComment: string = '';
+  accountRequestComments: string = '';
 
   constructor(public activeModal: NgbActiveModal) {}
 
@@ -32,7 +32,7 @@ export class EditRequestModalComponent {
         accountRequestName: this.accountRequestName,
         accountRequestEmail: this.accountRequestEmail,
         accountRequestInstitution: this.accountRequestInstitution,
-        accountRequestComment: this.accountRequestComment,
+        accountRequestComment: this.accountRequestComments,
       };
 
       this.activeModal.close(result);
