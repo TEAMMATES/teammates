@@ -46,7 +46,8 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
             throw new EntityNotFoundException(e);
         }
 
-        if (accountRequestRejectionRequest.getReasonBody() != null) {
+        if (accountRequestRejectionRequest.getReasonBody() != null
+                && accountRequest.getStatus() != AccountRequestStatus.REJECTED) {
             // TODO: generate rejection email from reason title and reason body
         }
 
