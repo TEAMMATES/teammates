@@ -98,7 +98,6 @@ export class SessionResultPageComponent implements OnInit {
   isPreviewHintExpanded: boolean = false;
 
   isCourseLoading: boolean = true;
-  isPersonLoading: boolean = true;
   isFeedbackSessionDetailsLoading: boolean = true;
   isFeedbackSessionResultsLoading: boolean = true;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
@@ -255,9 +254,7 @@ export class SessionResultPageComponent implements OnInit {
           this.courseId,
           this.previewAsPerson,
           this.regKey,
-        ).pipe(finalize(() => {
-          this.isPersonLoading = false;
-        })).subscribe((student: Student) => {
+        ).subscribe((student: Student) => {
           this.studentId = student.studentId;
           this.personName = student.name;
           this.personEmail = student.email;

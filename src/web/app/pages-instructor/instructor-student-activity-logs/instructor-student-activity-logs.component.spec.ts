@@ -145,9 +145,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      studentEmail: 'doejohn@email.com',
+      selectedStudent: {studentEmail: 'doejohn@email.com', studentId: undefined},
       logType: 'session access',
-      feedbackSessionName: '',
+      selectedSession: {feedbackSessionName: undefined, sessionId: undefined},
       showActions: false,
       showInactions: false,
     };
@@ -232,9 +232,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      studentEmail: testStudent.email,
+      selectedStudent: {studentEmail: testStudent.email, studentId: undefined},
       logType: 'submission',
-      feedbackSessionName: '',
+      selectedSession: {feedbackSessionName: undefined, sessionId: undefined},
       showActions: true,
       showInactions: false,
     };
@@ -259,8 +259,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
       searchUntil: (new Date('2021-01-01T00:00+00:00').getTime()
         - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
       studentEmail: testStudent.email,
-      sessionName: '',
+      sessionName: undefined,
       logType: 'submission',
+      studentId: undefined,
+      sessionId: undefined,
     });
 
     expect(component.searchResults.length).toEqual(2);
@@ -272,7 +274,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       expect(component.searchResults[i].isTabExpanded).toBeTruthy();
       expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
+      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`submission at ${timestamp}`);
     }
   });
 });

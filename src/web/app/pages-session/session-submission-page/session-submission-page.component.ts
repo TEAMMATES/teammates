@@ -111,7 +111,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   moderatedQuestionId: string = '';
 
   isCourseLoading: boolean = true;
-  isPersonLoading: boolean = true;
   isFeedbackSessionLoading: boolean = true;
   isFeedbackSessionQuestionsLoading: boolean = true;
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
@@ -325,9 +324,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.courseId,
             this.moderatedPerson || this.previewAsPerson,
             this.regKey,
-        ).pipe(finalize(() => {
-          this.isPersonLoading = false;
-        })).subscribe((student: Student) => {
+        ).subscribe((student: Student) => {
           this.studentId = student.studentId;
           this.personName = student.name;
           this.personEmail = student.email;

@@ -11,6 +11,7 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -35,6 +36,7 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -157,6 +159,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -181,6 +184,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -307,6 +311,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -331,6 +336,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -454,6 +460,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -478,6 +485,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -601,6 +609,7 @@ exports[`SessionResultPageComponent should snap with session details and results
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -625,6 +634,7 @@ exports[`SessionResultPageComponent should snap with session details and results
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -697,6 +707,7 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -721,6 +732,7 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -844,6 +856,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -868,6 +881,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -992,6 +1006,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionId=""
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -1016,6 +1031,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   route={[Function Object]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
+  studentId=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   visibilityRecipient={[Function String]}
