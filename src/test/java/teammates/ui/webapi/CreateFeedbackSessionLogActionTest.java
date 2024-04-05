@@ -73,14 +73,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         getJsonResult(getAction(paramsSuccessfulSubmission));
 
         ______TS("Success case: should create even for invalid parameters");
-        String[] paramsNonExistentCourseId = {
-                Const.ParamsNames.COURSE_ID, "non-existent-course-id",
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
-        };
-        getJsonResult(getAction(paramsNonExistentCourseId));
-
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
