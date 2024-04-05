@@ -1029,6 +1029,15 @@ public final class SqlEmailGenerator {
         return email;
     }
 
+    public EmailWrapper generateAccountRequestRejectionEmail(AccountRequest accountRequest, String title, String content) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(accountRequest.getEmail());
+        email.setType(EmailType.ACCOUNT_REQUEST_REJECTION);
+        email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
+        email.setContent(SanitizationHelper.sanitizeForRichText(content));
+
+        return email;
+    }
+
     /**
      * Generates the course registered email for the user with the given details in {@code course}.
      */
