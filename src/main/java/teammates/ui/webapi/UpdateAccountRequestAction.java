@@ -20,6 +20,11 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
     static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
 
     @Override
+    public boolean isTransactionNeeded() {
+        return false;
+    }
+
+    @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         String id = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
         UUID accountRequestId;
@@ -30,7 +35,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException(e.getMessage(), e);
         }
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
+        AccountRequest accountRequest = sqlLogic.getAccountRequestWithTransaction(accountRequestId);
 
         if (accountRequest == null) {
             String errorMessage = String.format(ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
@@ -46,9 +51,10 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
             try {
                 // should not need to update other fields for an approval
                 accountRequest.setStatus(accountRequestUpdateRequest.getStatus());
-                accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+                accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
                 EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
                         accountRequest.getRegistrationUrl(), accountRequest.getEmail(), accountRequest.getName());
+                taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
                 emailSender.sendEmail(email);
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
@@ -62,7 +68,8 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
                 accountRequest.setInstitute(accountRequestUpdateRequest.getInstitute());
                 accountRequest.setStatus(accountRequest.getStatus());
                 accountRequest.setComments(accountRequestUpdateRequest.getComments());
-                sqlLogic.updateAccountRequest(accountRequest);
+                accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
+                taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
             } catch (EntityDoesNotExistException e) {
