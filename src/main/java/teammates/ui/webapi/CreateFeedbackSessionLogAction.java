@@ -10,7 +10,7 @@ import teammates.common.util.Logger;
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.
  */
-class CreateFeedbackSessionLogAction extends Action {
+public class CreateFeedbackSessionLogAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
