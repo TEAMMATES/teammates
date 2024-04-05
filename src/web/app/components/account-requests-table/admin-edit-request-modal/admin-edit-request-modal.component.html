@@ -23,7 +23,7 @@
           <label><b>Comments:</b></label>
         </div>
         <div class="form-group">
-          <tm-rich-text-editor id="request-comment" [richText]="accountRequestComment" (richTextChange)="accountRequestComment = $event.target.value"></tm-rich-text-editor>        
+          <textarea id="request-comment" class="form-control" rows="5" value="{{ accountRequestComment }}" (input)="accountRequestComment = $event.target.value"></textarea>
         </div>
   </div>
   <div class="modal-footer">

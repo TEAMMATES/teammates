@@ -5,7 +5,7 @@ import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { AccountRequest, AccountRequestStatus, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -66,14 +66,14 @@ export class AccountRequestTableComponent {
         modalRef.componentInstance.accountRequestName,
         modalRef.componentInstance.accountRequestEmail,
         modalRef.componentInstance.accountRequestInstitution,
+        accountRequest.status,
         modalRef.componentInstance.accountRequestComment)
       .subscribe({
-        next: (resp: MessageOutput) => {
-          this.statusMessageService.showSuccessToast(resp.message);
-          accountRequest.comments = modalRef.componentInstance.accountRequestComment;
-          accountRequest.name = modalRef.componentInstance.accountRequestName;
-          accountRequest.email = modalRef.componentInstance.accountRequestEmail;
-          accountRequest.instituteAndCountry = modalRef.componentInstance.accountRequestInstitution;
+        next: (resp: AccountRequest) => {
+          accountRequest.comments = resp.comments ?? '';
+          accountRequest.name = resp.name;
+          accountRequest.email = resp.email;
+          accountRequest.instituteAndCountry = resp.institute;
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -84,10 +84,10 @@ export class AccountRequestTableComponent {
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     this.accountService.approveAccountRequest(accountRequest.id, accountRequest.name,
-      accountRequest.email, accountRequest.instituteAndCountry, accountRequest.comments)
+        accountRequest.email, accountRequest.instituteAndCountry)
     .subscribe({
       next: () => {
-        accountRequest.status = 'APPROVED';
+        accountRequest.status = AccountRequestStatus.APPROVED;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);

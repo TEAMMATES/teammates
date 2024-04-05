@@ -98,7 +98,7 @@ export class AccountService {
   /**
    * Approves account request by calling API
    */
-  approveAccountRequest(id: string, name: string, email: string, institute: string, comments:string)
+  approveAccountRequest(id: string, name: string, email: string, institute: string)
   : Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       id,
@@ -107,7 +107,6 @@ export class AccountService {
       name,
       email,
       institute,
-      comments,
       status: AccountRequestStatus.APPROVED,
     };
 
@@ -117,8 +116,9 @@ export class AccountService {
   /**
    * Edits an account request by calling API.
    */
-  editAccountRequest(id: string, name: string, email: string, institute: string, comments: string)
-  : Observable<MessageOutput> {
+  editAccountRequest(id: string, name: string, email: string, institute: string,
+    status: AccountRequestStatus, comments: string)
+  : Observable<AccountRequest> {
     const paramMap: Record<string, string> = {
       id,
     };
@@ -126,6 +126,7 @@ export class AccountService {
       name,
       email,
       institute,
+      status,
       comments,
     };
 
