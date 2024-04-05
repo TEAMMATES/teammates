@@ -19,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -33,6 +34,9 @@ public class Team extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "sectionId")
     private Section section;
+
+    @OneToMany(mappedBy = "team")
+    private List<User> users;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "TeamToStudentMaps", 
@@ -54,6 +58,7 @@ public class Team extends BaseEntity {
         this.setId(UUID.randomUUID());
         this.setSection(section);
         this.setName(name);
+        this.setUsers(new ArrayList<>());
     }
 
     @Override
@@ -100,6 +105,14 @@ public class Team extends BaseEntity {
         this.section = section;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public Set<Student> getStudents() {
         return students;
     }
@@ -126,7 +139,7 @@ public class Team extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Team [id=" + id + ", students=" + students + ", name=" + name
+        return "Team [id=" + id + ", users=" + users + ", students=" + students + ", name=" + name
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 

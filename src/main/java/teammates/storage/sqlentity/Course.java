@@ -42,6 +42,9 @@ public class Course extends BaseEntity {
     @OneToMany(mappedBy = "course")
     private List<FeedbackSession> feedbackSessions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Section> sections = new ArrayList<>();
+
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -67,6 +70,13 @@ public class Course extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
 
         return errors;
+    }
+
+    /**
+     * Adds a section to the Course.
+     */
+    public void addSection(Section section) {
+        this.sections.add(section);
     }
 
     public String getId() {
@@ -107,6 +117,14 @@ public class Course extends BaseEntity {
 
     public void setFeedbackSessions(List<FeedbackSession> feedbackSessions) {
         this.feedbackSessions = feedbackSessions;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 
     public Instant getUpdatedAt() {
