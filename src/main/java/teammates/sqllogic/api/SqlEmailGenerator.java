@@ -1029,6 +1029,9 @@ public final class SqlEmailGenerator {
         return email;
     }
 
+    /**
+     * Generates the email to be sent to instructor when their account request has been rejected by admin.
+     */
     public EmailWrapper generateAccountRequestRejectionEmail(AccountRequest accountRequest, String title, String content) {
         EmailWrapper email = getEmptyEmailAddressedToEmail(accountRequest.getEmail());
         email.setType(EmailType.ACCOUNT_REQUEST_REJECTION);
