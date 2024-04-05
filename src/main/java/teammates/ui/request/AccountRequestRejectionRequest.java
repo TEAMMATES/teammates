@@ -2,7 +2,6 @@ package teammates.ui.request;
 
 import javax.annotation.Nullable;
 
-import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -22,7 +21,12 @@ public class AccountRequestRejectionRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        // No validation
+        if (reasonBody != null) {
+            assertTrue(reasonTitle != null, "If reason body is not null, reason title cannot be null");
+        }
+        if (reasonTitle != null) {
+            assertTrue(reasonBody != null, "If reason title is not null, reason body cannot be null");
+        }
     }
 
     public String getReasonTitle() {
