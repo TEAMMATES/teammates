@@ -2,15 +2,21 @@
 
 exports[`InstructorRequestFormComponent should render correctly 1`] = `
 <tm-instructor-request-form
+  COUNTRY_NAME_MAX_LENGTH={[Function Number]}
+  EMAIL_MAX_LENGTH={[Function Number]}
+  INSTITUTION_NAME_MAX_LENGTH={[Function Number]}
+  STUDENT_NAME_MAX_LENGTH={[Function Number]}
+  accountService={[Function Object]}
   arf={[Function FormGroup]}
   comments={[Function FormControl2]}
   country={[Function FormControl2]}
   email={[Function FormControl2]}
   hasSubmitAttempt="false"
-  homePage={[Function FormControl2]}
   institution={[Function FormControl2]}
+  isLoading="false"
   name={[Function FormControl2]}
   requestSubmissionEvent={[Function EventEmitter_]}
+  serverErrorMessage=""
 >
   <p
     aria-hidden="true"
@@ -88,7 +94,7 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
         role="alert"
         tabindex="0"
       >
-         Please enter your institution. 
+         Please enter your institution name. 
       </div>
     </div>
     <br />
@@ -158,27 +164,8 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
         role="alert"
         tabindex="0"
       >
-         Please enter a valid email address. 
+         Please enter your email address. 
       </div>
-    </div>
-    <br />
-    <div
-      class="form-group"
-    >
-      <label
-        class="qn"
-        for="homePage"
-        id="homePage-label"
-      >
-         URL of your home page (if any) 
-      </label>
-      <input
-        aria-invalid="false"
-        autocomplete="url"
-        class="form-control ng-untouched ng-pristine ng-valid"
-        id="homePage"
-        type="url"
-      />
     </div>
     <br />
     <div
