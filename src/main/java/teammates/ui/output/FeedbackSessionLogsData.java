@@ -11,7 +11,7 @@ public class FeedbackSessionLogsData extends ApiOutput {
 
     private final List<FeedbackSessionLogData> feedbackSessionLogs;
 
-    // Remove generic types after migration is done (i.e. can just use FeedbackSession and Student)
+    // Remove generic types after migration is done (i.e. can just use FeedbackSession and Student, FeedbackSessionLog)
     public <S, T, U> FeedbackSessionLogsData(Map<String, List<U>> groupedEntries,
             Map<String, S> studentsMap, Map<String, T> sessionsMap) {
         this.feedbackSessionLogs = groupedEntries.entrySet().stream()
