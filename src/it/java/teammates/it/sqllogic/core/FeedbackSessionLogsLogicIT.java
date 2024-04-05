@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.sqllogic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -12,18 +12,18 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
-import teammates.storage.sqlapi.FeedbackSessionLogsDb;
+import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
 
 /**
- * SUT: {@link FeedbackSessionLogsDb}.
+ * SUT: {@link FeedbackSessionLogsLogic}.
  */
-public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final FeedbackSessionLogsDb fslDb = FeedbackSessionLogsDb.inst();
+    private FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
 
     private SqlDataBundle typicalDataBundle;
 
@@ -40,25 +40,26 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         super.setUp();
         persistDataBundle(typicalDataBundle);
         HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
     }
 
     @Test
     public void test_createFeedbackSessionLog_success() {
         Course course = typicalDataBundle.courses.get("course1");
-        FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");
+        Instant timestamp = Instant.now();
+        FeedbackSessionLog newLog1 = new FeedbackSessionLog(student, fs, FeedbackSessionLogType.ACCESS, timestamp);
+        FeedbackSessionLog newLog2 = new FeedbackSessionLog(student, fs, FeedbackSessionLogType.SUBMISSION, timestamp);
+        FeedbackSessionLog newLog3 = new FeedbackSessionLog(student, fs, FeedbackSessionLogType.VIEW_RESULT, timestamp);
+        List<FeedbackSessionLog> expected = List.of(newLog1, newLog2, newLog3);
 
-        Instant logTimestamp = Instant.parse("2011-01-01T00:00:00Z");
-        FeedbackSessionLog expected = new FeedbackSessionLog(student, feedbackSession, FeedbackSessionLogType.ACCESS,
-                logTimestamp);
+        fslLogic.createFeedbackSessionLogs(expected);
 
-        fslDb.createFeedbackSessionLog(expected);
+        List<FeedbackSessionLog> actual = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student.getId(),
+                fs.getId(), timestamp, timestamp.plusSeconds(1));
 
-        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student.getId(),
-                feedbackSession.getId(), logTimestamp, logTimestamp.plusSeconds(1));
-
-        assertEquals(actualLogs.size(), 1);
-        assertEquals(expected, actualLogs.get(0));
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -81,21 +82,21 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 student1Session2Log1,
                 student1Session2Log2,
                 student2Session1Log1,
-                student2Session1Log2
-        );
+                student2Session1Log2);
 
-        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, null,
+        List<FeedbackSessionLog> actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
-        ______TS("Return logs belonging to a student in time range");
+        ______TS("Return logs belonging to a student in a course in time range");
         expectedLogs = List.of(
                 student1Session1Log1,
                 student1Session2Log1,
                 student1Session2Log2);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), null, startTime, endTime);
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), null, startTime,
+                endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
@@ -105,14 +106,15 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 student2Session1Log1,
                 student2Session1Log2);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, fs1.getId(), startTime, endTime);
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, fs1.getId(), startTime, endTime);
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in a feedback session in time range");
         expectedLogs = List.of(student1Session1Log1);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), fs1.getId(), startTime,
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), fs1.getId(),
+                startTime,
                 endTime);
 
         assertEquals(expectedLogs, actualLogs);
@@ -120,9 +122,10 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("No logs in time range, return empty list");
         expectedLogs = new ArrayList<>();
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, null, endTime.plusSeconds(3600),
+        actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null, endTime.plusSeconds(3600),
                 endTime.plusSeconds(7200));
 
         assertEquals(expectedLogs, actualLogs);
     }
+
 }

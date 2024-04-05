@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
@@ -32,11 +34,13 @@ public class FeedbackSessionLog extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "studentId")
     @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "sessionId")
     @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private FeedbackSession feedbackSession;
 
     @Column(nullable = false)
