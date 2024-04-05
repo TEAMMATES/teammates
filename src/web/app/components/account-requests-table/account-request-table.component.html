@@ -69,7 +69,7 @@
               <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
                 <button id="reset-account-request-{{i}}" class="btn btn-primary" [disabled]="!accountRequest.registeredAtText" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);">Reset</button>
               </div>
-              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="accountRequest.registeredAtText" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)">Approve</button>
+              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="accountRequest.registeredAtText || accountRequest.status == 'APPROVED'" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)">Approve</button>
             </div>
             </td>
           </tr>
