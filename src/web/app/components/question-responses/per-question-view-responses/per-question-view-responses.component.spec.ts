@@ -56,6 +56,112 @@ describe('PerQuestionViewResponsesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('sortResponsesBy', () => {
+    it('should sort by giver team', () => {
+      component.sortBy = SortBy.GIVER_TEAM;
+      const responseA: ResponseOutput = { giverTeam: 'Team B' };
+      const responseB: ResponseOutput = { giverTeam: 'Team A' };
+  
+      const result = component.sortResponsesBy(component.sortBy, SortOrder.ASC)(responseA, responseB);
+  
+      expect(result).toBeGreaterThan(0); // 'Team B' should come after 'Team A' alphabetically
+    });
+  
+    it('should sort by giver name', () => {
+      component.sortBy = SortBy.GIVER_NAME;
+      const responseA: ResponseOutput = { giver: 'Alice' };
+      const responseB: ResponseOutput = { giver: 'Bob' };
+  
+      const result = component.sortResponsesBy(component.sortBy, SortOrder.ASC)(responseA, responseB);
+  
+      expect(result).toBeLessThan(0); // 'Alice' should come before 'Bob' alphabetically
+    });
+  
+    it('should sort by recipient team', () => {
+      component.sortBy = SortBy.RECIPIENT_TEAM;
+      const responseA: ResponseOutput = { recipientTeam: 'Team B' };
+      const responseB: ResponseOutput = { recipientTeam: 'Team A' };
+  
+      const result = component.sortResponsesBy(component.sortBy, SortOrder.ASC)(responseA, responseB);
+  
+      expect(result).toBeGreaterThan(0); // 'Team B' should come after 'Team A' alphabetically
+    });
+  
+    it('should sort by recipient name', () => {
+      component.sortBy = SortBy.RECIPIENT_NAME;
+      const responseA: ResponseOutput = { recipient: 'Alice' };
+      const responseB: ResponseOutput = { recipient: 'Bob' };
+  
+      const result = component.sortResponsesBy(component.sortBy, SortOrder.ASC)(responseA, responseB);
+  
+      expect(result).toBeLessThan(0); // 'Alice' should come before 'Bob' alphabetically
+    });
+  });
+
+  
+  it('should open modal and set currResponseToAdd when showCommentTableModel is called', () => {
+    const selectedResponse: ResponseOutput = { /* mock response */ };
+    const modalResultPromise = new Promise(resolve => resolve());
+    const commentModalRef: NgbModalRef = {
+      result: modalResultPromise as Promise<any>,
+      close: jest.fn(), // Mocking close method
+      dismiss: jest.fn() // Mocking dismiss method
+    };
+  
+    const ngbModalSpy = spyOn(component.ngbModal, 'open').and.returnValue(commentModalRef);
+  
+    component.showCommentTableModel(selectedResponse, 'modal'); // Call the method
+  
+    expect(ngbModalSpy).toHaveBeenCalledWith('modal'); // Ensure ngbModal.open was called with 'modal'
+    expect(component.currResponseToAdd).toEqual(selectedResponse); // Ensure currResponseToAdd is set correctly
+  
+    // Simulate modal closing
+    modalResultPromise.then(() => {
+      expect(component.currResponseToAdd).toBeUndefined(); // Ensure currResponseToAdd is reset when modal is closed
+    });
+  });
+
+  describe('filterResponses', () => {
+    it('should filter out missing responses when indicateMissingResponses is false', () => {
+      component.indicateMissingResponses = false;
+      const responseWithMissing: ResponseOutput = { isMissingResponse: true };
+      const responseWithoutMissing: ResponseOutput = { isMissingResponse: false };
+      component.responses = [responseWithMissing, responseWithoutMissing];
+  
+      component.filterResponses();
+  
+      expect(component.responsesToShow.length).toBe(1);
+      expect(component.responsesToShow).toContain(responseWithoutMissing);
+    });
+  
+    it('should filter responses based on section', () => {
+      component.section = 'section1'; // Set the section to filter by
+      const responseInSection: ResponseOutput = { giverSection: 'section1' };
+      const responseNotInSection: ResponseOutput = { giverSection: 'section2' };
+      component.responses = [responseInSection, responseNotInSection];
+  
+      component.filterResponses();
+  
+      expect(component.responsesToShow.length).toBe(1);
+      expect(component.responsesToShow).toContain(responseInSection);
+    });
+  
+  });
+
+  it('should skip response when shouldDisplayBasedOnSection is false', () => {
+    const responseInSection: ResponseOutput = { giverSection: 'section1' };
+    const responseNotInSection: ResponseOutput = { giverSection: 'section2' };
+    spyOn(feedbackResponsesService, 'isFeedbackResponsesDisplayedOnSection').and.returnValues(true, false);
+    component.section = 'section1'; // Set the section to filter by
+    component.responses = [responseInSection, responseNotInSection];
+  
+    component.filterResponses();
+  
+    expect(component.responsesToShow.length).toBe(1);
+    expect(component.responsesToShow).toContain(responseInSection);
+  });
+
+
   const commentOutput: CommentOutput = {
     commentGiverName: 'Jennie Kim',
     lastEditorName: 'Jennie Kim',
