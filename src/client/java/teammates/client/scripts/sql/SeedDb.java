@@ -30,6 +30,7 @@ import teammates.storage.api.OfyHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Notification;
 import teammates.test.FileHelper;
 
@@ -40,6 +41,8 @@ import teammates.test.FileHelper;
 public class SeedDb extends DatastoreClient {
 
     private static final int MAX_ENTITY_SIZE = 10000;
+    private static final int MAX_STUDENT_PER_COURSE = 100;
+    private static final int MAX_SECTION_PER_COURSE = 10;
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
 
@@ -105,7 +108,7 @@ public class SeedDb extends DatastoreClient {
     protected void persistAdditionalData() {
         String[] args = {};
         // Each account will have this amount of read notifications
-        seedNotificationAccountAndAccountRequest(5, 1000);
+        // seedNotificationAccountAndAccountRequest(5, 1000);
         seedCourse();
 
         GenerateUsageStatisticsObjects.main(args);
@@ -130,6 +133,46 @@ public class SeedDb extends DatastoreClient {
                         rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
                         false);
                 ofy().save().entities(course).now();
+                seedStudents(i, course.getUniqueId());
+            } catch (Exception e) {
+                log(e.toString());
+            }
+
+        }
+
+    }
+
+    private void seedStudents(int courseNumber, String courseId) {
+        Random rand = new Random();
+
+        assert MAX_SECTION_PER_COURSE >= MAX_STUDENT_PER_COURSE;
+
+        log("Seeding students for course " + courseNumber);
+        int currSection = -1;
+        for (int i = 0; i < MAX_STUDENT_PER_COURSE; i++) {
+
+            if (i % (MAX_STUDENT_PER_COURSE / MAX_SECTION_PER_COURSE) == 0) {
+                currSection++;
+            }
+
+            int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
+            try {
+                String studentEmail = String.format("Course %s Student %s Email ", courseNumber, i);
+                String studentName = String.format("Student %s in Course %s", i, courseNumber);
+                String studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
+                String studentComments = String.format("Comments for student %s in course %s", i, courseNumber);
+                String studentTeamName = String.format("Course %s Team %s", courseNumber, i);
+                String studentSectionName = String.format("Course %s Section %s", courseNumber, currSection);
+                String studentRegistrationKey = String.format("Student %s in Course %s Registration Key", i,
+                        courseNumber);
+
+                CourseStudent student = new CourseStudent(studentEmail, studentName, studentGoogleId, studentComments,
+                        courseId, studentTeamName, studentSectionName);
+                student.setCreatedAt(getRandomInstant());
+                student.setLastUpdate(rand.nextInt(3) > 1 ? null : getRandomInstant());
+                student.setRegistrationKey(studentRegistrationKey);
+
+                ofy().save().entities(student).now();
             } catch (Exception e) {
                 log(e.toString());
             }
