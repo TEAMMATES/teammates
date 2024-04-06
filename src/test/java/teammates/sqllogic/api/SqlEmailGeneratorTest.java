@@ -63,7 +63,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     }
             
     @Test
-    void testGenerateAccountRequestRejectionEmail_withNoComments_generatesSuccessfully() throws IOException {
+    void testGenerateAccountRequestRejectionEmail_withDefaultReason_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
                 AccountRequestStatus.PENDING, null);
         String title = "We are Unable to Create an Account for you";
