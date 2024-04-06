@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
+import {
+  RejectWithReasonModalComponent,
+} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { AccountRequest, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -31,6 +34,7 @@ export class AccountRequestTableComponent {
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
     private accountService: AccountService,
+    private ngbModal: NgbModal,
   ) {}
 
   /**
@@ -101,5 +105,35 @@ export class AccountRequestTableComponent {
         `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
 
     modalRef.result.then(() => {}, () => {});
+  }
+
+  rejectAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    this.accountService.rejectAccountRequest(accountRequest.id)
+    .subscribe({
+      next: (resp : AccountRequest) => {
+        accountRequest.status = resp.status;
+        },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+
+  rejectAccountRequestWithReason(accountRequest: AccountRequestTableRowModel): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
+    modalRef.componentInstance.accountRequestName = accountRequest.name;
+
+    modalRef.result.then(() => {
+      this.accountService.rejectAccountRequest(accountRequest.id,
+        modalRef.componentInstance.rejectionReasonTitle, modalRef.componentInstance.rejectionReasonBody)
+      .subscribe({
+        next: (resp: AccountRequest) => {
+          accountRequest.status = resp.status;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+    }, () => {});
   }
 }

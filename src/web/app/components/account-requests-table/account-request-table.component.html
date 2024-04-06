@@ -61,6 +61,15 @@
                     <i class="fa-solid fa-eye"></i>
                 </a>
               </div>
+              <span ngbDropdown container="body">
+                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="accountRequest.registeredAtText" ngbDropdownToggle> Reject </button>
+                <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                  <ng-container>
+                    <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest)"> Reject </button>
+                  </ng-container>
+                  <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest)"> Reject With Reason </button>
+                </div>
+              </span>
               <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
                 <button id="reset-account-request-{{i}}" class="btn btn-primary" [disabled]="!accountRequest.registeredAtText" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);">Reset</button>
               </div>

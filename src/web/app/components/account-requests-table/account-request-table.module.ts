@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableComponent } from './account-request-table.component';
+import {
+  RejectWithReasonModalComponent,
+} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { Pipes } from '../../pipes/pipes.module';
+import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 
 /**
  * Module for account requests table.
@@ -11,6 +15,7 @@ import { Pipes } from '../../pipes/pipes.module';
 @NgModule({
   declarations: [
     AccountRequestTableComponent,
+    RejectWithReasonModalComponent,
   ],
   exports: [
     AccountRequestTableComponent,
@@ -21,6 +26,7 @@ import { Pipes } from '../../pipes/pipes.module';
     NgbTooltipModule,
     NgbDropdownModule,
     Pipes,
+    RichTextEditorModule,
   ],
 })
 export class AccountRequestTableModule { }

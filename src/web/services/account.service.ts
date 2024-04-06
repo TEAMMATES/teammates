@@ -11,7 +11,7 @@ import {
   MessageOutput,
   AccountRequestStatus,
 } from '../types/api-output';
-import { AccountCreateRequest } from '../types/api-request';
+import { AccountCreateRequest, AccountRequestRejectionRequest } from '../types/api-request';
 
 /**
  * Handles account related logic provision
@@ -124,6 +124,22 @@ export class AccountService {
     };
 
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
+  }
+
+  /**
+   * Rejects an account request by calling API.
+   */
+  rejectAccountRequest(id: string, title?: string, body?: string): Observable<AccountRequest> {
+    const accountReqRejecteRequest : AccountRequestRejectionRequest = {
+      reasonTitle: title || '',
+      reasonBody: body || '',
+    };
+
+    const paramMap: Record<string, string> = {
+      id,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_REJECTION, paramMap, accountReqRejecteRequest);
   }
 
 }

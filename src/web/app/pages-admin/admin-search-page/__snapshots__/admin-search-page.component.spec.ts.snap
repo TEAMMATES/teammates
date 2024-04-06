@@ -529,6 +529,36 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                       />
                     </a>
                   </div>
+                  <span
+                    class="dropdown"
+                    container="body"
+                    ngbdropdown=""
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="dropdown-toggle btn btn-warning"
+                      id="reject-account-request-0"
+                      ngbdropdowntoggle=""
+                      type="button"
+                    >
+                       Reject 
+                    </button>
+                    <div
+                      class="dropdown-menu"
+                      ngbdropdownmenu=""
+                    >
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                      >
+                         Reject 
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                      >
+                         Reject With Reason 
+                      </button>
+                    </div>
+                  </span>
                 </div>
               </td>
             </tr>
