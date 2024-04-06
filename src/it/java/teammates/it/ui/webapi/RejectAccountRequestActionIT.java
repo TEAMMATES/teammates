@@ -51,7 +51,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     @Test
     protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail()
-            throws InvalidHttpParameterException, InvalidOperationException, InvalidHttpRequestBodyException {
+            throws InvalidOperationException, InvalidHttpRequestBodyException {
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         accountRequest.setStatus(AccountRequestStatus.PENDING);
         UUID id = accountRequest.getId();
@@ -76,7 +76,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     @Test
     protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail()
-            throws InvalidHttpParameterException, InvalidOperationException, InvalidHttpRequestBodyException {
+            throws InvalidOperationException, InvalidHttpRequestBodyException {
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         accountRequest.setStatus(AccountRequestStatus.PENDING);
         UUID id = accountRequest.getId();
@@ -88,7 +88,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         JsonResult result = action.execute();
 
         assertEquals(result.getStatusCode(), 200);
-        
+
         AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(accountRequest.getName(), data.getName());
         assertEquals(accountRequest.getEmail(), data.getEmail());
@@ -100,7 +100,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() throws InvalidHttpParameterException {
+    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() {
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         UUID id = accountRequest.getId();
 
@@ -114,7 +114,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonTitleButNoBody_shouldThrow() throws InvalidHttpParameterException {
+    protected void testExecute_withReasonTitleButNoBody_shouldThrow() {
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         UUID id = accountRequest.getId();
 
@@ -129,7 +129,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     @Test
     protected void testExecute_alreadyRejected_shouldNotSendEmail()
-            throws InvalidHttpParameterException, InvalidOperationException, InvalidHttpRequestBodyException {
+            throws InvalidOperationException, InvalidHttpRequestBodyException {
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         accountRequest.setStatus(AccountRequestStatus.REJECTED);
         UUID id = accountRequest.getId();
@@ -153,7 +153,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_invalidUuid_shouldThrow() throws InvalidHttpParameterException {
+    protected void testExecute_invalidUuid_shouldThrow() {
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, null);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
 
@@ -162,9 +162,8 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         verifyNoEmailsSent();
     }
 
-
     @Test
-    protected void testExecute_accountRequestNotFound_shouldThrow() throws InvalidHttpParameterException {
+    protected void testExecute_accountRequestNotFound_shouldThrow() {
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, null);
         String uuid = UUID.randomUUID().toString();
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};

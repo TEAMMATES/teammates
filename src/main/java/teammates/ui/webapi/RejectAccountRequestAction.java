@@ -37,18 +37,28 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
         AccountRequestRejectionRequest accountRequestRejectionRequest =
                 getAndValidateRequestBody(AccountRequestRejectionRequest.class);
 
-        try {
-            accountRequest.setStatus(AccountRequestStatus.REJECTED);
-            accountRequest = sqlLogic.updateAccountRequest(accountRequest);
-        } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
-        }
-
         if (accountRequestRejectionRequest.getReasonBody() != null
                 && accountRequest.getStatus() != AccountRequestStatus.REJECTED) {
-            // TODO: generate rejection email from reason title and reason body
+            try {
+                accountRequest.setStatus(AccountRequestStatus.REJECTED);
+                accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+                // TODO: generate and send rejection email from reason title and reason body
+                // EmailWrapper email = ...
+                // emailSender.sendEmail(email);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
+            }
+        } else {
+            try {
+                accountRequest.setStatus(AccountRequestStatus.REJECTED);
+                accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
+            }
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));
