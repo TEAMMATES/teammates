@@ -46,7 +46,7 @@ public class VerifySectionAttributes
                 .filter(sectionName -> {
                     try {
                         return sqlEntity.getName().equals(sectionName)
-                                && sqlEntity.getCourse().getId().toString().equals(datastoreEntity.getUniqueId());
+                                && sqlEntity.getCourse().getId().equals(datastoreEntity.getUniqueId());
                     } catch (IllegalArgumentException e) {
                         return false;
                     }

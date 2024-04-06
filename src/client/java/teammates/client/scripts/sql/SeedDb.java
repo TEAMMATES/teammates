@@ -108,7 +108,7 @@ public class SeedDb extends DatastoreClient {
     protected void persistAdditionalData() {
         String[] args = {};
         // Each account will have this amount of read notifications
-        // seedNotificationAccountAndAccountRequest(5, 1000);
+        seedNotificationAccountAndAccountRequest(5, 1000);
         seedCourse();
 
         GenerateUsageStatisticsObjects.main(args);
@@ -143,9 +143,9 @@ public class SeedDb extends DatastoreClient {
     }
 
     private void seedStudents(int courseNumber, String courseId) {
-        Random rand = new Random();
-
         assert MAX_SECTION_PER_COURSE >= MAX_STUDENT_PER_COURSE;
+
+        Random rand = new Random();
 
         log("Seeding students for course " + courseNumber);
         int currSection = -1;
