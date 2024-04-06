@@ -239,6 +239,16 @@ public final class HibernateUtil {
     }
 
     /**
+     * Return an instance, whose state may be lazily fetched.
+     * If there is no such persistent instance, EntityNotFoundException is thrown when the instance state 
+     * is first accessed. This method can be used to increase performance, if it is known that the instance exists
+     * and fetching of an entity is not necessary.
+     */
+    public static <T extends BaseEntity> T getReference(Class<T> entityType, Object id) {
+        return HibernateUtil.getCurrentSession().getReference(entityType, id);
+    }
+
+    /**
      * Return the persistent instance of the given entity class with the given natural id,
      * or null if there is no such persistent instance.
      * @see Session#get(Class, Object)

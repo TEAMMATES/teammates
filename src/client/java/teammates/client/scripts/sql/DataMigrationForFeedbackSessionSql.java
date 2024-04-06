@@ -43,7 +43,7 @@ public class DataMigrationForFeedbackSessionSql
     @Override
     protected void migrateEntity(FeedbackSession oldEntity) throws Exception {
         HibernateUtil.beginTransaction();
-        Course course = HibernateUtil.get(teammates.storage.sqlentity.Course.class, oldEntity.getCourseId());
+        Course course = HibernateUtil.getReference(teammates.storage.sqlentity.Course.class, oldEntity.getCourseId());
         HibernateUtil.commitTransaction();
 
         teammates.storage.sqlentity.FeedbackSession newFeedbackSession = new teammates.storage.sqlentity.FeedbackSession(
