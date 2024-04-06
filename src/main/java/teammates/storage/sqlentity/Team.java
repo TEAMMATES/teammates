@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,10 +39,10 @@ public class Team extends BaseEntity {
     @OneToMany(mappedBy = "team")
     private List<User> users;
 
+    @JoinTable(name = "TeamToStudentMaps",
+            joinColumns = { @JoinColumn(name = "teamId") },
+            inverseJoinColumns = { @JoinColumn(name = "studentId") })
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "TeamToStudentMaps", 
-        joinColumns = { @JoinColumn(name = "teamId") }, 
-        inverseJoinColumns = { @JoinColumn(name = "studentId") })
     Set<Student> students = new HashSet<>();
 
     @Column(nullable = false)
