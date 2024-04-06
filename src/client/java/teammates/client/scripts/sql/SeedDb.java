@@ -136,8 +136,7 @@ public class SeedDb extends DatastoreClient {
                 log(e.toString());
             }
 
-            // Uncomment to seed feedback sessions
-            // seedFeedbackSession(courseId);
+            seedFeedbackSession(courseId);
         }
     }
 
