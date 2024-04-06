@@ -38,7 +38,7 @@ public abstract class DatastoreClient {
 
         DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
         // if (ClientProperties.isTargetUrlDevServer()) {
-        // builder.setHost(ClientProperties.TARGET_URL);
+        //     builder.setHost(ClientProperties.TARGET_URL);
         // }
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
