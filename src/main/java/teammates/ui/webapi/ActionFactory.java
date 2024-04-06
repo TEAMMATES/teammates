@@ -53,7 +53,7 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT_REQUEST, PUT, UpdateAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUESTS, GET, GetAccountRequestsAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST_REJECTION, PUT, RejectAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST_REJECTION, POST, RejectAccountRequestAction.class);
         map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
