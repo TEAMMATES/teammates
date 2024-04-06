@@ -31,7 +31,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
-        // no need to call super.setUp() because the action is wrapped in a transaction
+        // no need to call super.setUp() because the action handles its own transactions
     }
 
     @Override
@@ -218,17 +218,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Override
     @Test
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
-        // TODO: find a way to test this in its own transaction
-        // HibernateUtil.beginTransaction();
-        // Course course = typicalBundle.courses.get("course1");
-        // course = logic.createCourse(course);
-        // verifyOnlyAdminCanAccess(course);
-        // verifyInaccessibleWithoutLogin();
-        // verifyInaccessibleForUnregisteredUsers();
-        // verifyInaccessibleForStudents(course);
-        // verifyInaccessibleForInstructors(course);
-        // verifyAccessibleForAdmin();
-        // HibernateUtil.rollbackTransaction();
+        verifyOnlyAdminCanAccessWithTransaction();
     }
 
     @Override
@@ -239,8 +229,6 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         for (AccountRequest ar : accountRequests) {
             logic.deleteAccountRequest(ar.getEmail(), ar.getInstitute());
         }
-        accountRequests = logic.getPendingAccountRequests();
         HibernateUtil.commitTransaction();
-        assert accountRequests.isEmpty();
     }
 }
