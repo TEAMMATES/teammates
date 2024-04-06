@@ -314,19 +314,15 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         HibernateUtil.beginTransaction();
         Course course = getTypicalCourse();
         course = logic.createCourse(course);
-        Student student = createTypicalStudent(course, "InaccessibleForStudents@teammates.tmt");
-        Instructor instructor = createTypicalInstructor(course, "InaccessibleForInstructors@teammates.tmt");
         HibernateUtil.commitTransaction();
 
         verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForUnregisteredUsersWithTransaction(params);
-        verifyInaccessibleForStudents(student, params);
-        verifyInaccessibleForInstructors(instructor, params);
+        verifyInaccessibleForStudentsWithTransaction(course, params);
+        verifyInaccessibleForInstructorsWithTransaction(course, params);
         verifyAccessibleForAdminWithTransaction(params);
 
         HibernateUtil.beginTransaction();
-        logic.deleteAccountCascade(instructor.getAccount().getGoogleId());
-        logic.deleteAccountCascade(student.getAccount().getGoogleId());
         logic.deleteCourseCascade(course.getId());
         HibernateUtil.commitTransaction();
     }
@@ -432,12 +428,19 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
 
     }
 
-    void verifyInaccessibleForStudents(Student student, String... params)
+    void verifyInaccessibleForStudentsWithTransaction(Course course, String... params)
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("Students cannot access");
+        HibernateUtil.beginTransaction();
+        Student student = createTypicalStudent(course, "InaccessibleForStudents@teammates.tmt");
+        HibernateUtil.commitTransaction();
+
         loginAsStudentWithTransaction(student.getAccount().getGoogleId());
         verifyCannotAccess(params);
 
+        HibernateUtil.beginTransaction();
+        logic.deleteAccountCascade(student.getAccount().getGoogleId());
+        HibernateUtil.commitTransaction();
     }
 
     void verifyInaccessibleForInstructors(Course course, String... params)
@@ -450,12 +453,19 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
 
     }
 
-    void verifyInaccessibleForInstructors(Instructor instructor, String... params)
+    void verifyInaccessibleForInstructorsWithTransaction(Course course, String... params)
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("Instructors cannot access");
+        HibernateUtil.beginTransaction();
+        Instructor instructor = createTypicalInstructor(course, "InaccessibleForInstructors@teammates.tmt");
+        HibernateUtil.commitTransaction();
+
         loginAsInstructorWithTransaction(instructor.getAccount().getGoogleId());
         verifyCannotAccess(params);
 
+        HibernateUtil.beginTransaction();
+        logic.deleteAccountCascade(instructor.getAccount().getGoogleId());
+        HibernateUtil.commitTransaction();
     }
 
     void verifyAccessibleForAdminToMasqueradeAsInstructor(
