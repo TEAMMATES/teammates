@@ -31,10 +31,10 @@ public class CourseStructure extends BaseEntity {
     private Course course;
 
     @Column(nullable = false)
-    private String name;
+    private String name; //NOPMD UnusedPrivateField, SingularField
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
-    private List<Section> sections = new ArrayList<>();
+    private List<Section> sections = new ArrayList<>(); //NOPMD UnusedPrivateField
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -63,7 +63,7 @@ public class CourseStructure extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        return errors;
+        return errors; //NOPMD UnnecessaryLocalBeforeReturn
     }
 
     @Override

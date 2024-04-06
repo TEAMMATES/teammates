@@ -39,11 +39,11 @@ public class Team extends BaseEntity {
     @OneToMany(mappedBy = "team")
     private List<User> users;
 
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "TeamToStudentMaps",
             joinColumns = { @JoinColumn(name = "teamId") },
             inverseJoinColumns = { @JoinColumn(name = "studentId") })
-    @ManyToMany(cascade = {CascadeType.ALL})
-    Set<Student> students = new HashSet<>();
+    private Set<Student> students = new HashSet<>();
 
     @Column(nullable = false)
     private String name;

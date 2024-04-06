@@ -38,7 +38,7 @@ public class Course extends BaseEntity {
     private String institute;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<CourseStructure> courseStructures = new ArrayList<>();
+    private List<CourseStructure> courseStructures = new ArrayList<>(); //NOPMD UnusedPrivateField
 
     @OneToMany(mappedBy = "course")
     private List<FeedbackSession> feedbackSessions = new ArrayList<>();
