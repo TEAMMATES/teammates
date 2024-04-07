@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
+import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { AccountRequest, AccountRequestStatus, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -31,6 +32,7 @@ export class AccountRequestTableComponent {
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
     private accountService: AccountService,
+    private ngbModal: NgbModal,
   ) {}
 
   /**
@@ -49,6 +51,48 @@ export class AccountRequestTableComponent {
     for (const accountRequest of this.accountRequests) {
       accountRequest.showLinks = false;
     }
+  }
+
+  editAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
+    modalRef.componentInstance.accountRequestName = accountRequest.name;
+    modalRef.componentInstance.accountRequestEmail = accountRequest.email;
+    modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
+    modalRef.componentInstance.accountRequestComments = accountRequest.comments;
+
+    modalRef.result.then(() => {
+      this.accountService.editAccountRequest(
+        accountRequest.id,
+        modalRef.componentInstance.accountRequestName,
+        modalRef.componentInstance.accountRequestEmail,
+        modalRef.componentInstance.accountRequestInstitution,
+        accountRequest.status,
+        modalRef.componentInstance.accountRequestComments)
+      .subscribe({
+        next: (resp: AccountRequest) => {
+          accountRequest.comments = resp.comments ?? '';
+          accountRequest.name = resp.name;
+          accountRequest.email = resp.email;
+          accountRequest.instituteAndCountry = resp.institute;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+    });
+  }
+
+  approveAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    this.accountService.approveAccountRequest(accountRequest.id, accountRequest.name,
+        accountRequest.email, accountRequest.instituteAndCountry)
+    .subscribe({
+      next: () => {
+        accountRequest.status = AccountRequestStatus.APPROVED;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   resetAccountRequest(accountRequest: AccountRequestTableRowModel): void {

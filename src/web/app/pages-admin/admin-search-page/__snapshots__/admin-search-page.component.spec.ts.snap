@@ -507,6 +507,16 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                 <div
                   class="d-flex flex-row align-items-center justify-content-center gap-2"
                 >
+                  <div>
+                    <a
+                      href="javascript:;"
+                      id="edit-account-request-0"
+                    >
+                      <i
+                        class="fa-solid fa-pen"
+                      />
+                    </a>
+                  </div>
                   <div
                     class="ngb-tooltip-class"
                   >
@@ -529,6 +539,12 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                       />
                     </a>
                   </div>
+                  <button
+                    class="btn btn-success"
+                    id="approve-account-request-0"
+                  >
+                    Approve
+                  </button>
                 </div>
               </td>
             </tr>
