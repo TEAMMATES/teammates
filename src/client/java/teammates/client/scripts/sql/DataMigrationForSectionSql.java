@@ -49,23 +49,19 @@ public class DataMigrationForSectionSql extends
                 .filter("courseId", course.getUniqueId())
                 .list()
                 .stream()
-                .map(stu -> stu.getSectionName())
+                .map(CourseStudent::getSectionName)
                 .distinct();
 
     }
 
     @Override
     protected void migrateEntity(Course oldCourse) throws Exception {
-        // TODO: Uncomment when yx FK function is implemented
-        // HibernateUtil.beginTransaction();
-        // Course newCourse =
-        // HibernateUtil.getReference(teammates.storage.sqlentity.Course.class,
-        // oldCourse.getUniqueId());
-        // HibernateUtil.commitTransaction();
+
         HibernateUtil.beginTransaction();
-        teammates.storage.sqlentity.Course newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class,
-                oldCourse.getUniqueId());
+        teammates.storage.sqlentity.Course newCourse = HibernateUtil.getReference(teammates.storage.sqlentity.Course.class,
+        oldCourse.getUniqueId());
         HibernateUtil.commitTransaction();
+
         getAllSectionNames(oldCourse)
                 .map(sectionName -> new teammates.storage.sqlentity.Section(newCourse, sectionName))
                 .forEach(this::saveEntityDeferred);
