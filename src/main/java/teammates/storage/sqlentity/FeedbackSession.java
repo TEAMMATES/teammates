@@ -92,12 +92,10 @@ public class FeedbackSession extends BaseEntity {
     private boolean isPublishedEmailSent;
 
     @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
-    @Fetch(FetchMode.JOIN)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
     @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
-    @Fetch(FetchMode.JOIN)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
 
