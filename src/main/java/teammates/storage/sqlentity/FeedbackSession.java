@@ -8,8 +8,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
