@@ -61,7 +61,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 Config.SUPPORT_EMAIL,
                 "/instructorNewAccountRequestAcknowledgementEmailWithNoComments.html");
     }
-            
+
     @Test
     void testGenerateAccountRequestRejectionEmail_withDefaultReason_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
@@ -69,21 +69,24 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         String title = "We are Unable to Create an Account for you";
         String content = new StringBuilder()
                             .append("<p>Hi, Maul</p>\n")
-                            .append("<p>Thanks for your interest in using TEAMMATES. We are unable to create a TEAMMATES instructor account for you.</p>\n\n")
+                            .append("<p>Thanks for your interest in using TEAMMATES. ")
+                            .append("We are unable to create a TEAMMATES instructor account for you.</p>\n\n")
                             .append("<p>\n")
-                            .append("  <strong>Reason:</strong> The email address you provided is not an 'official' email address provided by your institution.<br />\n")
-                            .append("  <strong>Remedy:</strong> Please re-submit an account request with your 'official' institution email address.\n")
+                            .append("  <strong>Reason:</strong> The email address you provided ")
+                            .append("is not an 'official' email address provided by your institution.<br />\n")
+                            .append("  <strong>Remedy:</strong> ")
+                            .append("Please re-submit an account request with your 'official' institution email address.\n")
                             .append("</p>\n\n")
-                            .append("<p>If you need further clarification or would like to appeal this decision, please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")
+                            .append("<p>If you need further clarification or would like to appeal this decision, ")
+                            .append("please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")
                             .append("<p>Regards,<br />TEAMMATES Team.</p>\n")
                             .toString();
-        
+
         EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest, title, content);
         verifyEmail(email, "maul@sith.org", EmailType.ACCOUNT_REQUEST_REJECTION,
                 "TEAMMATES: " + title,
                 "/instructorAccountRequestRejectionEmail.html");
     }
-
 
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
             String expectedSubject, String expectedEmailContentFilePathname) throws IOException {
