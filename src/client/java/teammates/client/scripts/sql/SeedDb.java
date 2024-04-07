@@ -41,7 +41,7 @@ import teammates.test.FileHelper;
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
 
-    private static final int MAX_ENTITY_SIZE = 100;
+    private static final int MAX_ENTITY_SIZE = 10000;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_SECTION_PER_COURSE = 10;
     private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 3;
@@ -110,7 +110,7 @@ public class SeedDb extends DatastoreClient {
     protected void persistAdditionalData() {
         String[] args = {};
         // Each account will have this amount of read notifications
-        // seedNotificationAccountAndAccountRequest(5, 1000);
+        seedNotificationAccountAndAccountRequest(5, 1000);
         seedCourseAndRelatedEntities();
 
         GenerateUsageStatisticsObjects.main(args);
