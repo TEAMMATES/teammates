@@ -41,7 +41,7 @@ import teammates.test.FileHelper;
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
 
-    private static final int MAX_ENTITY_SIZE = 10000;
+    private static final int MAX_ENTITY_SIZE = 100;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_SECTION_PER_COURSE = 10;
     private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 3;
@@ -110,7 +110,7 @@ public class SeedDb extends DatastoreClient {
     protected void persistAdditionalData() {
         String[] args = {};
         // Each account will have this amount of read notifications
-        seedNotificationAccountAndAccountRequest(5, 1000);
+        // seedNotificationAccountAndAccountRequest(5, 1000);
         seedCourseAndRelatedEntities();
 
         GenerateUsageStatisticsObjects.main(args);
@@ -124,24 +124,27 @@ public class SeedDb extends DatastoreClient {
                         (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
             }
 
-            Random rand = new Random();
             String courseId = UUID.randomUUID().toString();
             try {
-                String courseName = String.format("Course %s", i);
-                String courseInstitute = String.format("Institute %s", i);
-                String courseTimeZone = String.format("Time Zone %s", i);
-                Course course = new Course(courseId, courseName, courseTimeZone, courseInstitute,
-                        getRandomInstant(),
-                        rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
-                        false);
-                ofy().save().entities(course).now();
-                seedStudents(i, course.getUniqueId());
+                seedCourseWithCourseId(i, courseId);
+                seedStudents(i, courseId);
+                seedFeedbackSession(courseId);
             } catch (Exception e) {
                 log(e.toString());
             }
-
         }
+    }
 
+    private void seedCourseWithCourseId(int i, String courseId) {
+        Random rand = new Random();
+        String courseName = String.format("Course %s", i);
+        String courseInstitute = String.format("Institute %s", i);
+        String courseTimeZone = String.format("Time Zone %s", i);
+        Course course = new Course(courseId, courseName, courseTimeZone, courseInstitute,
+                getRandomInstant(),
+                rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
+                false);
+        ofy().save().entities(course).now();
     }
 
     private void seedStudents(int courseNumber, String courseId) {
@@ -179,7 +182,6 @@ public class SeedDb extends DatastoreClient {
                 log(e.toString());
             }
 
-            seedFeedbackSession(courseId);
         }
     }
 
@@ -188,7 +190,6 @@ public class SeedDb extends DatastoreClient {
         for (int i = 0; i < MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE; i++) {
             try {
                 String feedbackSessionName = String.format("Feedback Session %s", i);
-                String feedbackSessionCourseId = courseId;
                 String feedbackSessionCreatorEmail = String.format("Creator Email %s", i);
                 String feedbackSessionInstructions = String.format("Instructions %s", i);
                 String timezone = String.format("Time Zone %s", i);
@@ -198,7 +199,7 @@ public class SeedDb extends DatastoreClient {
                 Instant feedbackSessionResultsVisibleFromTime = getRandomInstant();
                 int feedbackSessionGracePeriod = rand.nextInt(3600);
 
-                FeedbackSession feedbackSession = new FeedbackSession(feedbackSessionName, feedbackSessionCourseId,
+                FeedbackSession feedbackSession = new FeedbackSession(feedbackSessionName, courseId,
                         feedbackSessionCreatorEmail, feedbackSessionInstructions, getRandomInstant(),
                         rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
                         feedbackSessionStartTime, feedbackSessionEndTime,
