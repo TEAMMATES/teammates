@@ -495,7 +495,7 @@ describe('AdminSearchPageComponent', () => {
   it('should show account request links when expand all button clicked', () => {
     const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT;
     component.accountRequests = [accountRequestResult];
-    component.searchQuery = 'test'; // To show the account request table
+    component.searchString = 'test'; // To show the account request table
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#show-account-request-links');
@@ -961,7 +961,7 @@ describe('AdminSearchPageComponent', () => {
   it('should show error message when resetting account request is unsuccessful', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
     component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
-    component.searchQuery = 'test';
+    component.searchString = 'test';
     fixture.detectChanges();
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
@@ -988,7 +988,7 @@ describe('AdminSearchPageComponent', () => {
   it('should show success message when resetting account request is successful', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
     component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
-    component.searchQuery = 'test';
+    component.searchString = 'test';
     fixture.detectChanges();
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {

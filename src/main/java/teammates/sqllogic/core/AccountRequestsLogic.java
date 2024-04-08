@@ -83,11 +83,42 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Gets the account request associated with the {@code id}.
+     */
+    public AccountRequest getAccountRequestWithTransaction(UUID id) {
+        HibernateUtil.beginTransaction();
+        AccountRequest request = accountRequestDb.getAccountRequest(id);
+        HibernateUtil.commitTransaction();
+        return request;
+    }
+
+    /**
      * Updates an account request.
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return accountRequestDb.updateAccountRequest(accountRequest);
+    }
+
+    /**
+     * Updates an account request.
+     */
+    @SuppressWarnings("PMD")
+    public AccountRequest updateAccountRequestWithTransaction(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        HibernateUtil.beginTransaction();
+        AccountRequest updatedRequest;
+
+        try {
+            updatedRequest = accountRequestDb.updateAccountRequest(accountRequest);
+            HibernateUtil.commitTransaction();
+        } catch (InvalidParametersException ipe) {
+            HibernateUtil.rollbackTransaction();
+            throw new InvalidParametersException(ipe.getMessage());
+        }
+
+        return updatedRequest;
     }
 
     /**
@@ -102,6 +133,13 @@ public final class AccountRequestsLogic {
      */
     public List<AccountRequest> getPendingAccountRequests() {
         return accountRequestDb.getPendingAccountRequests();
+    }
+
+    /**
+     * Gets all account requests.
+     */
+    public List<AccountRequest> getAllAccountRequests() {
+        return accountRequestDb.getAllAccountRequests();
     }
 
     /**

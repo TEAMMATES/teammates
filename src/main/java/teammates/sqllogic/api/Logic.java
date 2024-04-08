@@ -114,6 +114,15 @@ public class Logic {
     }
 
     /**
+     * Gets the account request with the given {@code id}.
+     *
+     * @return account request with the given {@code id}.
+     */
+    public AccountRequest getAccountRequestWithTransaction(UUID id) {
+        return accountRequestLogic.getAccountRequestWithTransaction(id);
+    }
+
+    /**
      * Creates a or gets an account request.
      *
      * @return newly created account request.
@@ -143,6 +152,16 @@ public class Logic {
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return accountRequestLogic.updateAccountRequest(accountRequest);
+    }
+
+    /**
+     * Updates the given account request.
+     *
+     * @return the updated account request.
+     */
+    public AccountRequest updateAccountRequestWithTransaction(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestLogic.updateAccountRequestWithTransaction(accountRequest);
     }
 
     /**
@@ -176,6 +195,13 @@ public class Logic {
      */
     public List<AccountRequest> getPendingAccountRequests() {
         return accountRequestLogic.getPendingAccountRequests();
+    }
+
+    /**
+     * Gets all pending account requests.
+     */
+    public List<AccountRequest> getAllAccountRequests() {
+        return accountRequestLogic.getAllAccountRequests();
     }
 
     /**
