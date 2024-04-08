@@ -11,7 +11,11 @@ import {
   MessageOutput,
   AccountRequestStatus,
 } from '../types/api-output';
-import { AccountCreateRequest, AccountRequestUpdateRequest, AccountRequestRejectionRequest } from '../types/api-request';
+import {
+  AccountCreateRequest,
+  AccountRequestUpdateRequest,
+  AccountRequestRejectionRequest,
+} from '../types/api-request';
 
 /**
  * Handles account related logic provision

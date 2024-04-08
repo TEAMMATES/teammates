@@ -539,12 +539,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                       />
                     </a>
                   </div>
-                  <button
-                    class="btn btn-success"
-                    id="approve-account-request-0"
-                  >
-                    Approve
-                  </button>
                   <span
                     class="dropdown"
                     container="body"
@@ -575,6 +569,12 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                       </button>
                     </div>
                   </span>
+                  <button
+                    class="btn btn-success"
+                    id="approve-account-request-0"
+                  >
+                    Approve
+                  </button>
                 </div>
               </td>
             </tr>
