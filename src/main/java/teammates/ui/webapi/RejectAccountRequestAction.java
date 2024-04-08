@@ -37,29 +37,21 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
 
         AccountRequestRejectionRequest accountRequestRejectionRequest =
                 getAndValidateRequestBody(AccountRequestRejectionRequest.class);
+        AccountRequestStatus initialStatus = accountRequest.getStatus();
 
-        if (accountRequestRejectionRequest.getReasonBody() != null
-                && accountRequest.getStatus() != AccountRequestStatus.REJECTED) {
-            try {
-                accountRequest.setStatus(AccountRequestStatus.REJECTED);
-                accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+        try {
+            accountRequest.setStatus(AccountRequestStatus.REJECTED);
+            accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+            if (accountRequestRejectionRequest.checkHasReason()
+                    && initialStatus != AccountRequestStatus.REJECTED) {
                 EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest,
                         accountRequestRejectionRequest.getReasonTitle(), accountRequestRejectionRequest.getReasonBody());
                 emailSender.sendEmail(email);
-            } catch (InvalidParametersException e) {
-                throw new InvalidHttpRequestBodyException(e);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
             }
-        } else {
-            try {
-                accountRequest.setStatus(AccountRequestStatus.REJECTED);
-                accountRequest = sqlLogic.updateAccountRequest(accountRequest);
-            } catch (InvalidParametersException e) {
-                throw new InvalidHttpRequestBodyException(e);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            }
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));

@@ -37,4 +37,10 @@ public class AccountRequestRejectionRequest extends BasicRequest {
         return this.reasonBody;
     }
 
+    /**
+     * Returns true if both reason body and title are non-null.
+     */
+    public boolean checkHasReason() {
+        return this.reasonBody != null && this.reasonTitle != null;
+    }
 }
