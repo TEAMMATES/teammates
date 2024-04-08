@@ -58,7 +58,7 @@ it('displayInviteButton: should display "Send Invite" button when a student has 
 });
 ```
 
-By including only the relevant details in tests, it makes it easier for future developers to read and understand the purpose of the test.
+Including only the relevant details in tests makes it easier for future developers to read and understand the purpose of the test.
 
 #### Favor readability over uniqueness
 Since tests don't have tests, it should be easy for developers to manually inspect them for correctness, even at the expense of greater code duplication.
