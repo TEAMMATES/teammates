@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableComponent } from './account-request-table.component';
+import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
@@ -15,6 +16,7 @@ import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.modul
 @NgModule({
   declarations: [
     AccountRequestTableComponent,
+    EditRequestModalComponent,
     RejectWithReasonModalComponent,
   ],
   exports: [
