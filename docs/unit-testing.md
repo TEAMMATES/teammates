@@ -21,7 +21,7 @@ Frontend Unit tests in TEAMMATES are located in `.spec.ts` files, while Backend 
 #### Include only relevant details in tests
 When writing unit tests, reduce the amount of noise in the code to make it easier for future developers to follow.
 
-The code below has alot of noise in creation of the `studentModel`:
+The code below has a lot of noise in creation of the `studentModel`:
 
 ```javascript
 it('displayInviteButton: should display "Send Invite" button when a student has not joined the course', () => {
