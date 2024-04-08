@@ -109,7 +109,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("If reason body is not null, reason title cannot be null", ihrbe.getMessage());
+        assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -123,7 +123,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("If reason title is not null, reason body cannot be null", ihrbe.getMessage());
+        assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
         verifyNoEmailsSent();
     }
 
