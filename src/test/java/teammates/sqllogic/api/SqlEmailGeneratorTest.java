@@ -85,6 +85,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest, title, content);
         verifyEmail(email, "maul@sith.org", EmailType.ACCOUNT_REQUEST_REJECTION,
                 "TEAMMATES: " + title,
+                Config.SUPPORT_EMAIL,
                 "/instructorAccountRequestRejectionEmail.html");
     }
 

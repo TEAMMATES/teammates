@@ -1035,6 +1035,7 @@ public final class SqlEmailGenerator {
     public EmailWrapper generateAccountRequestRejectionEmail(AccountRequest accountRequest, String title, String content) {
         EmailWrapper email = getEmptyEmailAddressedToEmail(accountRequest.getEmail());
         email.setType(EmailType.ACCOUNT_REQUEST_REJECTION);
+        email.setBcc(Config.SUPPORT_EMAIL);
         email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
         email.setContent(SanitizationHelper.sanitizeForRichText(content));
 
