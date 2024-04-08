@@ -1,25 +1,29 @@
 package teammates.client.scripts.sql;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.sqlentity.Section;
 
 /**
  * Class for verifying section attributes.
  */
 @SuppressWarnings("PMD")
 public class VerifySectionAttributes
-        extends VerifyNonCourseEntityAttributesBaseScript<Course, teammates.storage.sqlentity.Section> {
+        extends VerifyNonCourseEntityAttributesBaseScript<Course, teammates.storage.sqlentity.Course> {
 
     public VerifySectionAttributes() {
         super(Course.class,
-                teammates.storage.sqlentity.Section.class);
+                teammates.storage.sqlentity.Course.class);
     }
 
     @Override
-    protected String generateID(teammates.storage.sqlentity.Section sqlEntity) {
-        return sqlEntity.getCourse().getId();
+    protected String generateID(teammates.storage.sqlentity.Course sqlEntity) {
+        return sqlEntity.getId();
     }
 
     public static void main(String[] args) {
@@ -27,7 +31,7 @@ public class VerifySectionAttributes
         script.doOperationRemotely();
     }
 
-    private Stream<String> getAllSectionNames(Course course) {
+    private HashSet<String> getAllSectionNames(Course course) {
         return ofy()
                 .load()
                 .type(CourseStudent.class)
@@ -35,22 +39,22 @@ public class VerifySectionAttributes
                 .list()
                 .stream()
                 .map(stu -> stu.getSectionName())
-                .distinct();
+                .distinct()
+                .collect(Collectors.toCollection(HashSet::new));
 
     }
 
     // Used for sql data migration
     @Override
-    public boolean equals(teammates.storage.sqlentity.Section sqlEntity, Course datastoreEntity) {
-        return getAllSectionNames(datastoreEntity)
-                .filter(sectionName -> {
-                    try {
-                        return sqlEntity.getName().equals(sectionName)
-                                && sqlEntity.getCourse().getId().equals(datastoreEntity.getUniqueId());
-                    } catch (IllegalArgumentException e) {
-                        return false;
-                    }
-                })
-                .count() == 1;
+    public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
+        List<Section> sections = sqlEntity.getSections();
+        HashSet<String> newSectionNames = new HashSet<>(
+                sections.stream().map(Section::getName).collect(Collectors.toList()));
+        HashSet<String> oldSectionNames = getAllSectionNames(datastoreEntity);
+
+        return sqlEntity.getId().equals(datastoreEntity.getUniqueId())
+                && sections.size() == newSectionNames.size()
+                && newSectionNames.equals(oldSectionNames);
+
     }
 }

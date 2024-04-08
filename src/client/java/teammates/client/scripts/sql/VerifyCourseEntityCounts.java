@@ -2,6 +2,7 @@ package teammates.client.scripts.sql;
 
 // CHECKSTYLE.OFF:ImportOrder
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -12,6 +13,8 @@ import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.BaseEntity;
+import teammates.storage.entity.CourseStudent;
+import teammates.storage.sqlentity.Section;
 // CHECKSTYLE.ON:ImportOrder
 
 /**
@@ -54,8 +57,12 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
 
     @Override
     protected void doOperation() {
-        Map<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entities =
-                new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
+        verifyCurrentEntities();
+        verifyNewEntities();
+    }
+
+    private void verifyCurrentEntities() {
+        Map<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entities = new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
 
         entities.put(teammates.storage.entity.Course.class, teammates.storage.sqlentity.Course.class);
         entities.put(teammates.storage.entity.FeedbackSession.class, teammates.storage.sqlentity.FeedbackSession.class);
@@ -71,5 +78,18 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
 
             printEntityVerification(objectifyClass.getSimpleName(), objectifyEntityCount, postgresEntityCount);
         }
+    }
+
+    private void verifyNewEntities() {
+        List<CourseStudent> students = ofy().load().type(CourseStudent.class).order("courseId").list();
+        verifySectionEntities(students);
+    }
+
+    private void verifySectionEntities(List<CourseStudent> students) {
+        int objectifyEntityCount = (int) students.stream().map(stu -> stu.getSectionName() + stu.getCourseId())
+                .distinct().count();
+        Long postgresEntityCount = countPostgresEntities(Section.class);
+
+        printEntityVerification("Section", objectifyEntityCount, postgresEntityCount);
     }
 }
