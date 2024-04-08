@@ -62,7 +62,8 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
     }
 
     private void verifyCurrentEntities() {
-        Map<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entities = new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
+        Map<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entities =
+                new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
 
         entities.put(teammates.storage.entity.Course.class, teammates.storage.sqlentity.Course.class);
         entities.put(teammates.storage.entity.FeedbackSession.class, teammates.storage.sqlentity.FeedbackSession.class);

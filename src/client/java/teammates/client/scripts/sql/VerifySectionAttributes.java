@@ -2,8 +2,8 @@ package teammates.client.scripts.sql;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
@@ -31,7 +31,7 @@ public class VerifySectionAttributes
         script.doOperationRemotely();
     }
 
-    private HashSet<String> getAllSectionNames(Course course) {
+    private Set<String> getAllSectionNames(Course course) {
         return ofy()
                 .load()
                 .type(CourseStudent.class)
@@ -48,9 +48,9 @@ public class VerifySectionAttributes
     @Override
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         List<Section> sections = sqlEntity.getSections();
-        HashSet<String> newSectionNames = new HashSet<>(
+        Set<String> newSectionNames = new HashSet<>(
                 sections.stream().map(Section::getName).collect(Collectors.toList()));
-        HashSet<String> oldSectionNames = getAllSectionNames(datastoreEntity);
+        Set<String> oldSectionNames = getAllSectionNames(datastoreEntity);
 
         return sqlEntity.getId().equals(datastoreEntity.getUniqueId())
                 && sections.size() == newSectionNames.size()

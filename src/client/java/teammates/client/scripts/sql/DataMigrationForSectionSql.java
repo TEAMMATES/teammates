@@ -59,7 +59,7 @@ public class DataMigrationForSectionSql extends
 
         HibernateUtil.beginTransaction();
         teammates.storage.sqlentity.Course newCourse = HibernateUtil.getReference(teammates.storage.sqlentity.Course.class,
-        oldCourse.getUniqueId());
+                        oldCourse.getUniqueId());
         HibernateUtil.commitTransaction();
 
         getAllSectionNames(oldCourse)
