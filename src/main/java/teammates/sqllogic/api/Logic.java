@@ -171,9 +171,9 @@ public class Logic {
      * @return account request that is unregistered with the
      *         email and institute.
      */
-    public AccountRequest resetAccountRequest(String email, String institute)
+    public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
-        return accountRequestLogic.resetAccountRequest(email, institute);
+        return accountRequestLogic.resetAccountRequest(id);
     }
 
     /**

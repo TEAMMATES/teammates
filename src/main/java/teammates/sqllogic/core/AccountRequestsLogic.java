@@ -145,9 +145,9 @@ public final class AccountRequestsLogic {
     /**
      * Creates/resets the account request with the given email and institute such that it is not registered.
      */
-    public AccountRequest resetAccountRequest(String email, String institute)
+    public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
-        AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
+        AccountRequest accountRequest = accountRequestDb.getAccountRequest(id);
 
         if (accountRequest == null) {
             throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
