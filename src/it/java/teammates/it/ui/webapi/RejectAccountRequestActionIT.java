@@ -8,8 +8,12 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.ui.output.AccountRequestData;
@@ -25,6 +29,22 @@ import teammates.ui.webapi.RejectAccountRequestAction;
  * SUT: {@link RejectAccountRequestAction}.
  */
 public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequestAction> {
+
+    private static final String TYPICAL_TITLE = "We are Unable to Create an Account for you";
+    private static final String TYPICAL_BODY = new StringBuilder()
+            .append("<p>Hi, Example</p>\n")
+            .append("<p>Thanks for your interest in using TEAMMATES. ")
+            .append("We are unable to create a TEAMMATES instructor account for you.</p>\n\n")
+            .append("<p>\n")
+            .append("  <strong>Reason:</strong> The email address you provided ")
+            .append("is not an 'official' email address provided by your institution.<br />\n")
+            .append("  <strong>Remedy:</strong> ")
+            .append("Please re-submit an account request with your 'official' institution email address.\n")
+            .append("</p>\n\n")
+            .append("<p>If you need further clarification or would like to appeal this decision, ")
+            .append("please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")
+            .append("<p>Regards,<br />TEAMMATES Team.</p>\n")
+            .toString();
 
     @Override
     @BeforeMethod
@@ -56,13 +76,13 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         accountRequest.setStatus(AccountRequestStatus.PENDING);
         UUID id = accountRequest.getId();
 
-        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest("title", "body");
+        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         RejectAccountRequestAction action = getAction(requestBody, params);
         JsonResult result = action.execute();
 
-        assertEquals(result.getStatusCode(), 200);
+        assertEquals(200, result.getStatusCode());
 
         AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(accountRequest.getName(), data.getName());
@@ -71,7 +91,13 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         assertEquals(AccountRequestStatus.REJECTED, data.getStatus());
         assertEquals(accountRequest.getComments(), data.getComments());
 
-        // TODO: test email number and contents
+        verifyNumberOfEmailsSent(1);
+        EmailWrapper sentEmail = mockEmailSender.getEmailsSent().get(0);
+        assertEquals(EmailType.ACCOUNT_REQUEST_REJECTION, sentEmail.getType());
+        assertEquals(Config.SUPPORT_EMAIL, sentEmail.getBcc());
+        assertEquals(accountRequest.getEmail(), sentEmail.getRecipient());
+        assertEquals(SanitizationHelper.sanitizeForRichText(TYPICAL_BODY), sentEmail.getContent());
+        assertEquals("TEAMMATES: " + TYPICAL_TITLE, sentEmail.getSubject());
     }
 
     @Test
@@ -87,7 +113,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         RejectAccountRequestAction action = getAction(requestBody, params);
         JsonResult result = action.execute();
 
-        assertEquals(result.getStatusCode(), 200);
+        assertEquals(200, result.getStatusCode());
 
         AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(accountRequest.getName(), data.getName());
@@ -104,7 +130,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         UUID id = accountRequest.getId();
 
-        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, "body");
+        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -118,7 +144,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         AccountRequest accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         UUID id = accountRequest.getId();
 
-        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest("title", null);
+        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, null);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -134,7 +160,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         accountRequest.setStatus(AccountRequestStatus.REJECTED);
         UUID id = accountRequest.getId();
 
-        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest("title", "body");
+        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         RejectAccountRequestAction action = getAction(requestBody, params);
