@@ -101,7 +101,9 @@ dependencies {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
+    liquibaseRuntime("org.liquibase:liquibase-core:4.19.0")
     liquibaseRuntime("info.picocli:picocli:4.7.1")
+    liquibaseRuntime("org.postgresql:postgresql:42.7.2")
     liquibaseRuntime(sourceSets.main.output)
 }
 
@@ -136,6 +138,10 @@ sourceSets {
     }
 }
 
+if (!project.hasProperty("runList")) {
+    project.ext.set("runList", "main")
+}
+
 liquibase {
     activities {
         main {
@@ -145,7 +151,23 @@ liquibase {
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
         }
+        snapshot {
+            url project.properties['liquibaseDbUrl']
+            username project.properties['liquibaseUsername']
+            password project.properties['liquibasePassword']
+            snapshotFormat "json"
+            outputFile "liquibase-snapshot.json"
+        }
+        diffMain {
+            searchPath "${projectDir}"
+            changeLogFile "src/main/resources/db/changelog/db.changelog-new.xml"
+            referenceUrl  project.properties['liquibaseDbUrl']
+            referenceUsername project.properties['liquibaseUsername']
+            referencePassword project.properties['liquibasePassword']
+            url "offline:postgresql?snapshot=liquibase-snapshot.json"
+        }
     }
+    runList = project.ext.runList
 }
 
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
