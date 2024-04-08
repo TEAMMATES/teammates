@@ -27,3 +27,26 @@ describe('MsqQuestionEditAnswerFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+describe('updateNoneOfTheAbove', () => {
+  it('should update answers based on isNoneOfTheAboveEnabled', () => {
+    const component = new MsqQuestionEditAnswerFormComponent();
+    component.responseDetails = {
+      answers: ['A', 'B', 'C']
+    };
+
+    // Simulate isNoneOfTheAboveEnabled being false
+    component.updateNoneOfTheAbove();
+
+    expect(component.responseDetails.answers).toEqual(['NoneOfTheAbove']);
+
+    // Simulate isNoneOfTheAboveEnabled being true
+    component.responseDetails = {
+      answers: ['A', 'B', 'C']
+    };
+
+    component.updateNoneOfTheAbove();
+
+    expect(component.responseDetails.answers).toEqual([]);
+  });
+});
