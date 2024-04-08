@@ -1,5 +1,7 @@
 package teammates.ui.request;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 import teammates.common.util.SanitizationHelper;
@@ -22,7 +24,8 @@ public class AccountRequestRejectionRequest extends BasicRequest {
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
         if (reasonBody == null || reasonTitle == null) {
-            assertTrue(reasonTitle == reasonBody, "Both reason body and title need to be null to reject silently");
+            assertTrue(Objects.equals(reasonBody, reasonTitle),
+                    "Both reason body and title need to be null to reject silently");
         }
     }
 
