@@ -6,6 +6,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestRejectionRequest;
@@ -42,9 +43,9 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
             try {
                 accountRequest.setStatus(AccountRequestStatus.REJECTED);
                 accountRequest = sqlLogic.updateAccountRequest(accountRequest);
-                // TODO: generate and send rejection email from reason title and reason body
-                // EmailWrapper email = ...
-                // emailSender.sendEmail(email);
+                EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest,
+                        accountRequestRejectionRequest.getReasonTitle(), accountRequestRejectionRequest.getReasonBody());
+                emailSender.sendEmail(email);
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
             } catch (EntityDoesNotExistException e) {
