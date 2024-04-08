@@ -9,8 +9,8 @@ import teammates.test.BaseTestCase;
  */
 public class AccountRequestRejectionRequestTest extends BaseTestCase {
 
-    private static final String typicalTitle = "We are Unable to Create an Account for you";
-    private static final String typicalBody = new StringBuilder()
+    private static final String TYPICAL_TITLE = "We are Unable to Create an Account for you";
+    private static final String TYPICAL_BODY = new StringBuilder()
             .append("<p>Hi, Example</p>\n")
             .append("<p>Thanks for your interest in using TEAMMATES. ")
             .append("We are unable to create a TEAMMATES instructor account for you.</p>\n\n")
@@ -27,7 +27,7 @@ public class AccountRequestRejectionRequestTest extends BaseTestCase {
 
     @Test
     public void testValidate_withNonNullBodyAndNonNullTitle_shouldPass() throws Exception {
-        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(typicalTitle, typicalBody);
+        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         request.validate();
     }
 
@@ -39,14 +39,13 @@ public class AccountRequestRejectionRequestTest extends BaseTestCase {
 
     @Test
     public void testValidate_withNonNullBodyAndNullTitle_shouldFail() {
-        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(null, typicalBody);
+        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(null, TYPICAL_BODY);
         assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 
-
     @Test
     public void testValidate_withNullBodyAndNonNullTitle_shouldFail() {
-        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(typicalTitle, null);
+        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(TYPICAL_TITLE, null);
         assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 }
