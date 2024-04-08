@@ -177,7 +177,7 @@ public class Logic {
     }
 
     /**
-     * Deletes account request by email and institute.
+     * Deletes account request by id.
      *
      * <ul>
      * <li>Fails silently if no such account request.</li>
@@ -186,8 +186,8 @@ public class Logic {
      * <p>Preconditions:</p>
      * All parameters are non-null.
      */
-    public void deleteAccountRequest(String email, String institute) {
-        accountRequestLogic.deleteAccountRequest(email, institute);
+    public void deleteAccountRequest(UUID id) {
+        accountRequestLogic.deleteAccountRequest(id);
     }
 
     /**
