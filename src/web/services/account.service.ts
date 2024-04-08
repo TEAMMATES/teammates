@@ -56,7 +56,7 @@ export class AccountService {
    */
   deleteAccountRequest(id: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      id: id,
+      id,
     };
     return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   }
