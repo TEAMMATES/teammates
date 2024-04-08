@@ -67,7 +67,7 @@
                 </a>
               </div>
               <span ngbDropdown container="body">
-                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="accountRequest.registeredAtText" ngbDropdownToggle> Reject </button>
+                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="accountRequest.registeredAtText || accountRequest.status === 'APPROVED'" ngbDropdownToggle> Reject </button>
                 <div ngbDropdownMenu (click)="$event.stopPropagation()">
                   <ng-container>
                     <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest)"> Reject </button>

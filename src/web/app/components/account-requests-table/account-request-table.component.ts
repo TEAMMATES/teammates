@@ -165,6 +165,7 @@ export class AccountRequestTableComponent {
   rejectAccountRequestWithReason(accountRequest: AccountRequestTableRowModel): void {
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
+    modalRef.componentInstance.accountRequestEmail = accountRequest.email;
 
     modalRef.result.then(() => {
       this.accountService.rejectAccountRequest(accountRequest.id,
