@@ -21,11 +21,8 @@ public class AccountRequestRejectionRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        if (reasonBody != null) {
-            assertTrue(reasonTitle != null, "If reason body is not null, reason title cannot be null");
-        }
-        if (reasonTitle != null) {
-            assertTrue(reasonBody != null, "If reason title is not null, reason body cannot be null");
+        if (reasonBody == null || reasonTitle == null) {
+            assertTrue(reasonTitle == reasonBody, "Both reason body and title need to be null to reject silently");
         }
     }
 
