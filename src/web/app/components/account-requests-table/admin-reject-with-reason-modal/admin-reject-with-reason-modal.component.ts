@@ -55,7 +55,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   reject(): void {
 
     if (!this.rejectionReasonBody) {
-      this.statusMessageService.showErrorToast('Please provide a reason for rejection.');
+      this.statusMessageService.showErrorToast('Please provide an email body for the rejection email.');
       return;
     }
 
