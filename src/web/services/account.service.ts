@@ -172,16 +172,20 @@ export class AccountService {
    * Rejects an account request by calling API.
    */
   rejectAccountRequest(id: string, title?: string, body?: string): Observable<AccountRequest> {
-    const accountReqRejecteRequest : AccountRequestRejectionRequest = {
-      reasonTitle: title || '',
-      reasonBody: body || '',
-    };
+    let accountReqRejectRequest: AccountRequestRejectionRequest = {};
+
+    if (title !== undefined && body !== undefined) {
+      accountReqRejectRequest = {
+        reasonTitle: title,
+        reasonBody: body,
+      };
+    }
 
     const paramMap: Record<string, string> = {
       id,
     };
 
-    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, accountReqRejecteRequest);
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, accountReqRejectRequest);
   }
 
 }
