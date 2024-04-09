@@ -96,8 +96,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsDateTo: getDefaultDateFormat(),
     logsTimeTo: getDefaultTimeFormat(),
     logType: '',
-    selectedStudent: {studentEmail: undefined, studentId: undefined},
-    selectedSession: {feedbackSessionName: undefined, sessionId: undefined},
+      selectedStudent: { studentEmail: undefined, studentId: undefined },
+      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
     showActions: false,
     showInactions: false,
   };
@@ -168,8 +168,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    * Search for logs of student activity
    */
   search(): void {
-    if (this.formModel.logType == '') {
-      this.statusMessageService.showErrorToast("Please select an activity type");
+    if (this.formModel.logType === '') {
+      this.statusMessageService.showErrorToast('Please select an activity type');
       return;
     }
 
@@ -191,7 +191,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       logType: this.formModel.logType,
       sessionName: this.formModel.selectedSession.feedbackSessionName,
       studentId: this.formModel.selectedStudent.studentId,
-      sessionId: this.formModel.selectedSession.sessionId
+      sessionId: this.formModel.selectedSession.sessionId,
     }).pipe(
         finalize(() => {
           this.isSearching = false;
@@ -201,8 +201,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         if (this.formModel.selectedSession.feedbackSessionName === undefined) {
           logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
             log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-              const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(this.getStudentKey(log, entry.studentData.email))
-              if(arr) {
+              const arr: FeedbackSessionLogEntry[] | undefined =
+                this.studentLogsMap.get(this.getStudentKey(log, entry.studentData.email));
+              if (arr) {
                 arr.push(entry);
               } else {
                 this.studentLogsMap.set(this.getStudentKey(log, entry.studentData.email), [entry]);
@@ -216,12 +217,14 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
           if (targetFeedbackSessionLog) {
             targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-                const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email))
-                if(arr) {
-                  arr.push(entry);
-                } else {
-                  this.studentLogsMap.set(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email), [entry]);
-                }
+              const arr: FeedbackSessionLogEntry[] | undefined =
+                this.studentLogsMap.get(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email));
+              if (arr) {
+                arr.push(entry);
+              } else {
+                this.studentLogsMap.set(
+                  this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email), [entry]);
+              }
             });
             this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
           }
@@ -310,7 +313,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               return false;
             }
 
-            if (this.formModel.selectedStudent.studentEmail !== undefined && student.email !== this.formModel.selectedStudent.studentEmail) {
+            if (
+              this.formModel.selectedStudent.studentEmail !== undefined
+              && student.email !== this.formModel.selectedStudent.studentEmail
+            ) {
               return false;
             }
 
@@ -336,31 +342,27 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             const studentKey = this.getStudentKey(log, student.email);
 
             const entries: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(studentKey);
+            const rows: any[] = [];
             if (entries) {
-              const rows: any[] = [];
               entries.forEach((entry: FeedbackSessionLogEntry) => {
                 const timestamp: string = this.timezoneService.formatToString(
                   entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
                 status = `${entry.feedbackSessionLogType} at ${timestamp}`;
-                rows.push(
-                  [{
-                    value: status,
-                    style: dataStyle,
-                  },
-                  { value: student.name },
-                  { value: student.email },
-                  { value: student.sectionName },
-                  { value: student.teamName }]
-                )
-              })
-              
-              return rows;
+                rows.push([{
+                  value: status,
+                  style: dataStyle,
+                },
+                { value: student.name },
+                { value: student.email },
+                { value: student.sectionName },
+                { value: student.teamName }]);
+              });
             } else {
               const timestamp: string = this.timezoneService.formatToString(
-                  notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+                notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
               status = `Not ${this.logTypeToActivityDisplay(this.formModel.logType)} since ${timestamp}`;
               dataStyle += 'color:red;';
-              return [[
+              rows.push([[
                 {
                   value: status,
                   style: dataStyle,
@@ -369,8 +371,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
                 { value: student.email },
                 { value: student.sectionName },
                 { value: student.teamName },
-              ]];
+              ]]);
             }
+            return rows;
           }),
       isTabExpanded: (log.feedbackSessionLogEntries.length !== 0 && this.formModel.showActions)
           || (log.feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),

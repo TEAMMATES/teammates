@@ -1140,7 +1140,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   * Logs student activity after student/session details have been fetched.
   */
   logStudentAccess(): void {
-    if (this.intent != Intent.STUDENT_SUBMISSION) {
+    if (this.intent !== Intent.STUDENT_SUBMISSION) {
       return;
     }
 

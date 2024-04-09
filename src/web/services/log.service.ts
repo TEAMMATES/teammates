@@ -60,7 +60,7 @@ export class LogService {
     sessionName?: string,
     logType?: string,
     studentId?: string,
-    sessionId?: string
+    sessionId?: string,
   }): Observable<FeedbackSessionLogs> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,

@@ -145,9 +145,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      selectedStudent: {studentEmail: 'doejohn@email.com', studentId: undefined},
+      selectedStudent: { studentEmail: 'doejohn@email.com', studentId: undefined },
       logType: 'session access',
-      selectedSession: {feedbackSessionName: undefined, sessionId: undefined},
+      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
       showActions: false,
       showInactions: false,
     };
@@ -232,9 +232,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      selectedStudent: {studentEmail: testStudent.email, studentId: undefined},
+      selectedStudent: { studentEmail: testStudent.email, studentId: undefined },
       logType: 'submission',
-      selectedSession: {feedbackSessionName: undefined, sessionId: undefined},
+      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
       showActions: true,
       showInactions: false,
     };

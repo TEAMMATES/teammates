@@ -288,7 +288,7 @@ export class SessionResultPageComponent implements OnInit {
       previewAs: this.previewAsPerson,
     })
     .pipe(finalize(() => {
-      this.isFeedbackSessionDetailsLoading = false; 
+      this.isFeedbackSessionDetailsLoading = false;
     }))
     .subscribe({
       next: (feedbackSession: FeedbackSession) => {
@@ -382,12 +382,12 @@ export class SessionResultPageComponent implements OnInit {
   * Logs student activity after student/session details have been fetched.
   */
   logStudentView(): void {
-    if (this.intent != Intent.STUDENT_RESULT) {
+    if (this.intent !== Intent.STUDENT_RESULT) {
       return;
     }
 
     // dummy vars to check that both student and session has been loaded
-    if (!this.personEmail || !this.session.courseId ) {
+    if (!this.personEmail || !this.session.courseId) {
       return;
     }
 
