@@ -25,13 +25,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         String id = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
-        UUID accountRequestId;
-
-        try {
-            accountRequestId = UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException(e.getMessage(), e);
-        }
+        UUID accountRequestId = getUuidFromString(Const.ParamsNames.ACCOUNT_REQUEST_ID, id);
 
         AccountRequest accountRequest = sqlLogic.getAccountRequestWithTransaction(accountRequestId);
 

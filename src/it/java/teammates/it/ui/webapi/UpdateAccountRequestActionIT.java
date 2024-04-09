@@ -124,7 +124,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(requestBody, params);
 
-        assertEquals("Invalid UUID string: invalid", ihpe.getMessage());
+        assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
 
         ______TS("invalid email");
         accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
