@@ -5,7 +5,6 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests="0"
-  courseService={[Function CourseService]}
   currentPage={[Function Number]}
   formatDateDetailPipe={[Function FormatDateDetailPipe]}
   instructorDetails=""
@@ -14,15 +13,9 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
-  isRegisteredInstructorModalLoading="false"
   items$={[Function Observable]}
   linkService={[Function LinkService]}
-  ngbModal={[Function _NgbModal]}
   pageSize={[Function Number]}
-  registeredInstructorAccountData={[Function Array]}
-  registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef2]}
-  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
@@ -140,7 +133,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests={[Function Number]}
-  courseService={[Function CourseService]}
   currentPage={[Function Number]}
   formatDateDetailPipe={[Function FormatDateDetailPipe]}
   instructorDetails=""
@@ -149,15 +141,9 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors={[Function Boolean]}
-  isRegisteredInstructorModalLoading="false"
   items$={[Function Observable]}
   linkService={[Function LinkService]}
-  ngbModal={[Function _NgbModal]}
   pageSize={[Function Number]}
-  registeredInstructorAccountData={[Function Array]}
-  registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef2]}
-  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
@@ -439,7 +425,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   accountReqs={[Function Array]}
   accountService={[Function AccountService]}
   activeRequests="0"
-  courseService={[Function CourseService]}
   currentPage={[Function Number]}
   formatDateDetailPipe={[Function FormatDateDetailPipe]}
   instructorDetails=""
@@ -448,15 +433,9 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
-  isRegisteredInstructorModalLoading="false"
   items$={[Function Observable]}
   linkService={[Function LinkService]}
-  ngbModal={[Function _NgbModal]}
   pageSize={[Function Number]}
-  registeredInstructorAccountData={[Function Array]}
-  registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef2]}
-  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
@@ -783,85 +762,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                   id="message-instructor-2"
                 >
                   The instructor cannot be added for some reason
-                </span>
-              </td>
-            </tr>
-            <tr
-              tm-new-instructor-data-row=""
-            >
-              <td>
-                <span
-                  id="instructor-3-name"
-                >
-                  Instructor D
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-3-email"
-                >
-                  instructord@example.com
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-3-institution"
-                >
-                  Sample Institution C
-                </span>
-              </td>
-              <td
-                style="width: 17%;"
-              >
-                <div
-                  class="button-group"
-                >
-                  <button
-                    class="action-btn btn btn-sm btn-primary text-nowrap"
-                    id="add-instructor-3"
-                    style="margin-right: 10px;"
-                  >
-                    Add
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-info text-nowrap"
-                    id="edit-instructor-3"
-                    style="margin-right: 10px;"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-danger"
-                    id="remove-instructor-3"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </td>
-              <td
-                style="width: 8%;"
-              >
-                FAIL
-              </td>
-              <td
-                style="width: 40%;"
-              >
-                <span
-                  class="message"
-                  id="message-instructor-3"
-                >
-                  Cannot create account request as instructor has already registered.
-                </span>
-                <span>
-                  <a
-                    class="btn btn-link"
-                    id="instructor-3-registered-info-button"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-info-circle"
-                    />
-                  </a>
                 </span>
               </td>
             </tr>
