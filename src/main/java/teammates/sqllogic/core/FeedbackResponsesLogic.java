@@ -77,6 +77,16 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets a single question corresponding to question-giver-receiver.
+     */
+    public FeedbackResponse getFeedbackResponseForQuestionGiverRecipient(
+            UUID feedbackQuestionId,
+            String giver,
+            String recipient) {
+        return frDb.getFeedbackResponseForQuestionGiverRecipient(feedbackQuestionId, giver, recipient);
+    }
+
+    /**
      * Returns true if the responses of the question are visible to students.
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestion question) {
@@ -206,24 +216,14 @@ public final class FeedbackResponsesLogic {
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
         FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);
 
-        boolean isGiverSectionChanged = !oldResponse.getGiverSection().equals(newResponse.getGiverSection());
-        boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
+        List<FeedbackResponseComment> oldResponseComments =
+                frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
 
-        if (isGiverSectionChanged || isRecipientSectionChanged) {
-            List<FeedbackResponseComment> oldResponseComments =
-                    frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
-            for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
-                if (isGiverSectionChanged) {
-                    oldResponseComment.setGiverSection(newResponse.getGiverSection());
-                }
+        for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
+            oldResponseComment.setGiverSection(newResponse.getGiverSection());
+            oldResponseComment.setRecipientSection(newResponse.getRecipientSection());
 
-                if (isRecipientSectionChanged) {
-                    oldResponseComment.setRecipientSection(newResponse.getRecipientSection());
-                }
-
-                frcLogic.updateFeedbackResponseComment(oldResponseComment);
-            }
-
+            frcLogic.updateFeedbackResponseComment(oldResponseComment);
         }
 
         return newResponse;

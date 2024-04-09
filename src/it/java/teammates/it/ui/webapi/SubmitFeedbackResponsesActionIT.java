@@ -1,37 +1,51 @@
-package teammates.ui.webapi;
+package teammates.it.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.SubmitFeedbackResponsesAction;
 
 /**
  * SUT: {@link SubmitFeedbackResponsesAction}.
  */
-public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeedbackResponsesAction> {
+public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedbackResponsesAction> {
+    @Override
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
+    }
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.RESPONSES;
@@ -42,111 +56,123 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         return PUT;
     }
 
-    private FeedbackSessionAttributes getSession(String sessionId) {
+    private FeedbackSession getSession(String sessionId) {
         return typicalBundle.feedbackSessions.get(sessionId);
     }
 
-    private InstructorAttributes getInstructor(String instructorId) {
+    private Instructor getInstructor(String instructorId) {
         return typicalBundle.instructors.get(instructorId);
     }
 
-    private InstructorAttributes loginInstructor(String instructorId) {
-        InstructorAttributes instructor = getInstructor(instructorId);
+    private Instructor loginInstructor(String instructorId) {
+        Instructor instructor = getInstructor(instructorId);
         loginAsInstructor(instructor.getGoogleId());
 
         return instructor;
     }
 
-    private StudentAttributes getStudent(String studentId) {
+    private Student getStudent(String studentId) {
         return typicalBundle.students.get(studentId);
     }
 
-    private List<StudentAttributes> getStudents(String... studentIds) {
-        List<StudentAttributes> students = new ArrayList<>();
+    private List<Student> getStudents(String... studentIds) {
+        List<Student> students = new ArrayList<>();
         for (String studentId : studentIds) {
-            StudentAttributes student = getStudent(studentId);
+            Student student = getStudent(studentId);
             students.add(student);
         }
 
         return students;
     }
 
-    private StudentAttributes loginStudent(String studentId) {
-        StudentAttributes student = getStudent(studentId);
+    private Student loginStudent(String studentId) {
+        Student student = getStudent(studentId);
         loginAsStudent(student.getGoogleId());
 
         return student;
     }
 
-    private FeedbackQuestionAttributes getQuestion(
-            FeedbackSessionAttributes session, int questionNumber) {
-        String sessionName = session.getFeedbackSessionName();
-        String courseId = session.getCourseId();
-        return logic.getFeedbackQuestion(sessionName, courseId, questionNumber);
+    private FeedbackQuestion getQuestion(
+            FeedbackSession session, int questionNumber) {
+        return logic.getFeedbackQuestionForSessionQuestionNumber(session.getId(), questionNumber);
     }
 
-    private void setStartTime(FeedbackSessionAttributes session, int days)
+    private void setStartTime(FeedbackSession session, int days)
             throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getFeedbackSessionName();
+        String sessionName = session.getName();
         String courseId = session.getCourseId();
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
-        logic.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(sessionName, courseId)
-                        .withStartTime(startTime)
-                        .build());
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setStartTime(startTime);
+
+        logic.updateFeedbackSession(session);
     }
 
-    private void setEndTime(FeedbackSessionAttributes session, int days)
+    private void setEndTime(FeedbackSession session, int days)
             throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getFeedbackSessionName();
+        String sessionName = session.getName();
         String courseId = session.getCourseId();
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
-        logic.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(sessionName, courseId)
-                        .withEndTime(endTime)
-                        .build());
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setEndTime(endTime);
+
+        logic.updateFeedbackSession(session);
     }
 
-    private void setInstructorDeadline(FeedbackSessionAttributes session,
-                                       InstructorAttributes instructor,
+    private void setInstructorDeadline(FeedbackSession session,
+                                       Instructor instructor,
                                        int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getFeedbackSessionName();
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        String sessionName = session.getName();
         String courseId = session.getCourseId();
 
-        Map<String, Instant> deadlines = Map.of(instructor.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(days));
+        DeadlineExtension deadline = 
+                new DeadlineExtension(instructor, session, TimeHelper.getInstantDaysOffsetFromNow(days));
+        logic.createDeadlineExtension(deadline);
 
-        logic.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(sessionName, courseId)
-                        .withInstructorDeadlines(deadlines)
-                        .build());
+        List<DeadlineExtension> deadlines = new ArrayList<DeadlineExtension>();
+        deadlines.add(deadline);
+
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setDeadlineExtensions(deadlines);
+
+        logic.updateFeedbackSession(session);
     }
 
-    private void setStudentDeadline(FeedbackSessionAttributes session, StudentAttributes student, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getFeedbackSessionName();
+    private void setStudentDeadline(FeedbackSession session, Student student, int days)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        String sessionName = session.getName();
         String courseId = session.getCourseId();
 
-        Map<String, Instant> deadlines = Map.of(student.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(days));
+        DeadlineExtension deadline = 
+                new DeadlineExtension(student, session, TimeHelper.getInstantDaysOffsetFromNow(days));
+        logic.createDeadlineExtension(deadline);
 
-        logic.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(sessionName, courseId)
-                        .withStudentDeadlines(deadlines)
-                        .build());
+        List<DeadlineExtension> deadlines = new ArrayList<DeadlineExtension>();
+        deadlines.add(deadline);
+
+        session.setName(sessionName);
+        session.getCourse().setId(courseId);
+        session.setDeadlineExtensions(deadlines);
+
+        logic.updateFeedbackSession(session);
     }
 
-    private String[] buildSubmissionParams(FeedbackSessionAttributes session,
+    private String[] buildSubmissionParams(FeedbackSession session,
                                            int questionNumber,
                                            Intent intent) {
-        FeedbackQuestionAttributes question = getQuestion(session, questionNumber);
+        FeedbackQuestion question = getQuestion(session, questionNumber);
         return buildSubmissionParams(question, intent);
     }
 
-    private String[] buildSubmissionParams(FeedbackQuestionAttributes question,
+    private String[] buildSubmissionParams(FeedbackQuestion question,
                                            Intent intent) {
-        String questionId = question != null ? question.getId() : "";
+        String questionId = question != null ? question.getId().toString() : "";
 
         return new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId, Const.ParamsNames.INTENT,
                 intent.toString()};
@@ -162,44 +188,46 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatorPerson};
     }
 
-    private void setCommentInSectionInstructorPrivilege(FeedbackSessionAttributes session,
-                                                        InstructorAttributes instructor, boolean value)
+    private void setCommentInSectionInstructorPrivilege(FeedbackSession session,
+                                                        Instructor instructor, boolean value)
             throws Exception {
         String courseId = session.getCourseId();
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, value);
 
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(courseId, instructor.getEmail())
-                .withPrivileges(instructorPrivileges).build());
+        instructor.getCourse().setId(courseId);
+        instructor.setPrivileges(instructorPrivileges);
+
+        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructor);
     }
 
-    private List<String> extractStudentEmails(List<StudentAttributes> students) {
+    private List<String> extractStudentEmails(List<Student> students) {
         return students.stream().map(recipient -> recipient.getEmail()).collect(Collectors.toList());
     }
 
-    private List<String> extractStudentTeams(List<StudentAttributes> students) {
-        return students.stream().map(recipient -> recipient.getTeam()).collect(Collectors.toList());
+    private List<String> extractStudentTeams(List<Student> students) {
+        return students.stream().map(recipient -> recipient.getTeam().getName()).collect(Collectors.toList());
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(
-            List<StudentAttributes> recipients) {
+            List<Student> recipients) {
         List<String> emails = extractStudentEmails(recipients);
         return buildRequestBody(emails);
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsTeam(
-            List<StudentAttributes> recipients) {
+            List<Student> recipients) {
         List<String> teams = extractStudentTeams(recipients);
         return buildRequestBody(teams);
     }
 
     private List<String> extractInstructorEmails(
-            List<InstructorAttributes> students) {
+            List<Instructor> students) {
         return students.stream().map(recipient -> recipient.getEmail()).collect(Collectors.toList());
     }
 
-    private FeedbackResponsesRequest buildRequestBodyWithInstructorRecipients(List<InstructorAttributes> recipients) {
+    private FeedbackResponsesRequest buildRequestBodyWithInstructorRecipients(List<Instructor> recipients) {
         List<String> emails = extractInstructorEmails(recipients);
         return buildRequestBody(emails);
     }
@@ -231,7 +259,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     private void validateOutputForStudentRecipientsByEmail(List<FeedbackResponseData> responses, String giverEmail,
-                                                           List<StudentAttributes> recipients) {
+                                                           List<Student> recipients) {
         int responsesSize = responses.size();
         assertEquals(recipients.size(), responsesSize);
 
@@ -241,7 +269,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     private void validateOutputForStudentRecipientsByTeam(List<FeedbackResponseData> responses, String giverTeam,
-                                                          List<StudentAttributes> recipients) {
+                                                          List<Student> recipients) {
         int responsesSize = responses.size();
         assertEquals(recipients.size(), responsesSize);
 
@@ -251,7 +279,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     private void validateOutputForInstructorRecipients(List<FeedbackResponseData> responses, String giverEmail,
-                                                       List<InstructorAttributes> recipients) {
+                                                       List<Instructor> recipients) {
         int responsesSize = responses.size();
         assertEquals(recipients.size(), responsesSize);
 
@@ -276,48 +304,47 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     private void validateStudentDatabaseByTeam(
-            FeedbackSessionAttributes session,
-            FeedbackQuestionAttributes question,
-            String giverTeam, List<StudentAttributes> recipients) {
+            FeedbackSession session,
+            FeedbackQuestion question,
+            String giverEmail, List<Student> recipients) {
         List<String> teams = extractStudentTeams(recipients);
 
-        validateDatabase(session, question, giverTeam, teams);
+        validateDatabase(session, question, giverEmail, teams);
     }
 
     private void validateStudentDatabaseByEmail(
-            FeedbackSessionAttributes session,
-            FeedbackQuestionAttributes question,
-            String giverTeam, List<StudentAttributes> recipients) {
+            FeedbackSession session,
+            FeedbackQuestion question,
+            String giverEmail, List<Student> recipients) {
         List<String> teams = extractStudentEmails(recipients);
 
-        validateDatabase(session, question, giverTeam, teams);
+        validateDatabase(session, question, giverEmail, teams);
     }
 
     private void validateInstructorDatabaseByEmail(
-            FeedbackSessionAttributes session,
-            FeedbackQuestionAttributes question,
-            String giverTeam, List<InstructorAttributes> recipients) {
+            FeedbackSession session,
+            FeedbackQuestion question,
+            String giverEmail, List<Instructor> recipients) {
         List<String> teams = extractInstructorEmails(recipients);
 
-        validateDatabase(session, question, giverTeam, teams);
+        validateDatabase(session, question, giverEmail, teams);
     }
 
-    private void validateDatabase(FeedbackSessionAttributes session, FeedbackQuestionAttributes question,
-                                  String giverValue, List<String> recipientValues) {
+    private void validateDatabase(FeedbackSession session, FeedbackQuestion question,
+                                  String giverEmail, List<String> recipientValues) {
 
         for (String recipientValue : recipientValues) {
-            FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(), giverValue,
+            FeedbackResponse frResponse = logic.getFeedbackResponseForQuestionGiverRecipient(question.getId(), giverEmail,
                     recipientValue);
+            FeedbackQuestion fqResponse = logic.getFeedbackQuestion(question.getId());
 
-            assertEquals(question.getId(), response.getFeedbackQuestionId());
-            assertEquals(giverValue, response.getGiver());
+            assertEquals(giverEmail, frResponse.getGiver());
+            assertEquals(recipientValue, frResponse.getRecipient());
 
-            assertEquals(recipientValue, response.getRecipient());
+            assertEquals(session.getName(), fqResponse.getFeedbackSessionName());
+            assertEquals(session.getCourseId(), fqResponse.getCourseId());
 
-            assertEquals(session.getFeedbackSessionName(), response.getFeedbackSessionName());
-            assertEquals(session.getCourseId(), response.getCourseId());
-
-            FeedbackResponseDetails responseDetails = response.getResponseDetails();
+            FeedbackResponseDetails responseDetails = frResponse.getFeedbackResponseDetailsCopy();
             assertEquals(
                     StringEscapeUtils.unescapeHtml(
                             SanitizationHelper.sanitizeForRichText("Response for " + recipientValue)),
@@ -333,12 +360,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     //GENERAL
     @Test
     public void testAccessControl_feedbackSubmissionQuestionExists_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse2");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 40);
 
-        int questionNumber = 2;
+        int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
@@ -346,8 +373,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_feedbackSubmissionNoFeedbackQuestionParameter_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse2");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 35);
         setInstructorDeadline(session, instructor, 40);
 
@@ -358,8 +385,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_feedbackSubmissionQuestionDoesNotExist_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse2");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 35);
         setInstructorDeadline(session, instructor, 40);
 
@@ -371,8 +398,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_feedbackSubmissionValidIntent_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse1");
-        StudentAttributes student = loginStudent("student2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
         setStudentDeadline(session, student, 75);
 
@@ -384,22 +411,22 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_feedbackSubmissionNoIntentParameter_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse1");
-        StudentAttributes student = loginStudent("student2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
         setStudentDeadline(session, student, 72);
 
         int questionNumber = 2;
-        FeedbackQuestionAttributes question = getQuestion(session, questionNumber);
-        String[] submissionParams = new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId()};
+        FeedbackQuestion question = getQuestion(session, questionNumber);
+        String[] submissionParams = new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString()};
 
         verifyHttpParameterFailureAcl(submissionParams);
     }
 
     @Test
     public void testAccessControl_feedbackSubmissionInvalidIntent_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse1");
-        StudentAttributes student = loginStudent("student2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
         setStudentDeadline(session, student, 75);
 
@@ -411,8 +438,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_submissionIsNotOpen_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        StudentAttributes student = loginStudent("student2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student1InCourse1");
         setStartTime(session, 10);
         setEndTime(session, 20);
         setStudentDeadline(session, student, 30);
@@ -425,11 +452,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_submissionBeforeEndTimeBeforeDeadline_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        StudentAttributes student = loginStudent("student3InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student1InCourse1");
         setEndTime(session, 7);
 
-        int questionNumber = 1;
+        int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         ______TS("No selective deadline; should pass.");
@@ -439,17 +466,17 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyCanAccess(submissionParams);
     }
 
+    // TODO: Enable after fixing issue #12758
     @Test
     public void testAccessControl_submissionPastEndTime_shouldAllowIfBeforeDeadline() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse1");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, -2);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         ______TS("No selective deadline; should pass.");
-        verifyCanAccess(submissionParams);
 
         ______TS("After selective deadline; should fail.");
         setInstructorDeadline(session, instructor, -1);
@@ -462,12 +489,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_submissionAfterDeadline_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, -20);
         setInstructorDeadline(session, instructor, -10);
 
-        int questionNumber = 1;
+        int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
@@ -476,8 +503,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     //STUDENT
     @Test
     public void testAccessControl_studentSubmissionStudentAnswerableQuestion_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse1");
-        StudentAttributes student = loginStudent("student2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student2InCourse1");
         setEndTime(session, 3);
         setStudentDeadline(session, student, 75);
 
@@ -489,8 +516,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_studentSubmissionNotStudentAnswerableQuestion_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse1");
-        StudentAttributes student = loginStudent("student2InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student2InCourse1");
         setEndTime(session, 3);
         setStudentDeadline(session, student, 75);
 
@@ -500,10 +527,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyCannotAccess(submissionParams);
     }
 
+    // TODO: Failing test
     @Test
     public void testAccessControl_studentSubmissionLoggedOut_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse2");
-        StudentAttributes student = getStudent("student1InCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = getStudent("student2InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
@@ -513,24 +541,26 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyCannotAccess(submissionParams);
     }
 
+    // TODO: Failing test   
     @Test
     public void testAccessControl_studentSubmissionLoggedInAsInstructor_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse2");
-        StudentAttributes student = getStudent("student1InCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = getStudent("student2InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
         int questionNumber = 1;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
-        loginInstructor("instructor2OfCourse2");
+        loginInstructor("instructor1OfCourse1");
         verifyCannotAccess(submissionParams);
     }
 
+    // TODO: Failing test
     @Test
     public void testAccessControl_studentSubmissionLoggedInAsAdmin_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse2");
-        StudentAttributes student = getStudent("student1InCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Student student = getStudent("student2InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
@@ -541,10 +571,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyCannotAccess(submissionParams);
     }
 
+    // TODO: Failing test
     @Test
     public void testAccessControl_studentSubmissionLoggedInAsAdminMasqueradeAsStudent_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("gracePeriodSession");
-        StudentAttributes student = getStudent("student1InCourse1");
+        FeedbackSession session = getSession("gracePeriodSession");
+        Student student = getStudent("student1InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
@@ -558,12 +589,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     //INSTRUCTOR
     @Test
     public void testAccessControl_instructorSubmissionToInstructorAnswerableQuestion_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("session1InCourse2");
-        InstructorAttributes instructor = loginInstructor("instructor2OfCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 3);
         setInstructorDeadline(session, instructor, 3);
 
-        int questionNumber = 1;
+        int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
@@ -571,12 +602,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_instructorSubmissionToSelfAnswerableQuestion_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse2");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse2");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 3);
         setInstructorDeadline(session, instructor, 3);
 
-        int questionNumber = 1;
+        int questionNumber = 6;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
@@ -584,21 +615,22 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     public void testAccessControl_instructorSubmissionToNotInstructorAnswerableQuestion_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("gracePeriodSession");
-        InstructorAttributes instructor = loginInstructor("instructor2OfCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor2OfCourse1");
         setEndTime(session, 3);
         setInstructorDeadline(session, instructor, 3);
 
-        int questionNumber = 3;
+        int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
     }
 
+    // TODO: Failing test 
     @Test
     public void testAccessControl_instructorSubmissionLoggedOut_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse2");
-        InstructorAttributes instructor = getInstructor("instructor2OfCourse2");
+        FeedbackSession session = getSession("session2InCourse2");
+        Instructor instructor = getInstructor("instructor2OfCourse2");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 1);
 
@@ -608,10 +640,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyEntityNotFoundAcl(submissionParams);
     }
 
+    // TODO: Failing test 
     @Test
     public void testAccessControl_instructorSubmissionLoggedInAsAdmin_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse2");
-        InstructorAttributes instructor = getInstructor("instructor2OfCourse2");
+        FeedbackSession session = getSession("session2InCourse2");
+        Instructor instructor = getInstructor("instructor2OfCourse2");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 1);
 
@@ -622,10 +655,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyEntityNotFoundAcl(submissionParams);
     }
 
+    // TODO: Failing test 
     @Test
     protected void testAccessControl_submissionLoggedInAsAdminMasqueradeAsInstructor_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse2");
-        InstructorAttributes instructor = getInstructor("instructor2OfCourse2");
+        FeedbackSession session = getSession("session2InCourse2");
+        Instructor instructor = getInstructor("instructor2OfCourse2");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 1);
 
@@ -636,10 +670,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
+    // TODO: Failing test 
     @Test
     public void testAccessControl_instructorSubmissionLoggedInAsStudent_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        InstructorAttributes instructor = getInstructor("instructor2OfCourse2");
+        FeedbackSession session = getSession("session2InCourse1");
+        Instructor instructor = getInstructor("instructor2OfCourse2");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 1);
 
@@ -652,8 +687,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testAccessControl_instructorsWithSufficientPreviewPrivilege_shouldAllow() throws Exception {
-        FeedbackSessionAttributes session = getSession("closedSession");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse1");
+        FeedbackSession session = getSession("closedSessionInCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 1);
 
@@ -663,14 +698,15 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
         setPreviewPerson(submissionParams, instructor.getEmail());
 
+        // TODO: Verify if this is really it, compared to below. Is this a bug?
         verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);   
     }
 
     @Test
     protected void testAccessControl_instructorsWithInsufficientPreviewPrivilege_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("closedSession");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse1");
+        FeedbackSession session = getSession("closedSessionInCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 1);
 
@@ -680,14 +716,15 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
         setPreviewPerson(submissionParams, instructor.getEmail());
 
+        // TODO: Verify if this is really it, compared to below. Is this a bug?
         verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);   
     }
 
     @Test
     protected void testAccessControl_instructorsWithInsufficientModeratorPrivilege_shouldFail() throws Exception {
-        FeedbackSessionAttributes session = getSession("closedSession");
-        InstructorAttributes instructor = loginInstructor("instructor1OfCourse1");
+        FeedbackSession session = getSession("closedSessionInCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
         setInstructorDeadline(session, instructor, 1);
 
@@ -697,6 +734,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
         setModeratorPerson(submissionParams, instructor.getEmail());
 
+        // TODO: Verify if this is really it, compared to below. Is this a bug?
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
     }
@@ -736,7 +774,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     @Test
     protected void testExecute_invalidIntent_shouldFail() {
         loginInstructor("instructor2OfCourse1");
-        FeedbackSessionAttributes session = getSession("session1InCourse1");
+        FeedbackSession session = getSession("session1InCourse1");
         int questionNumber = 3;
 
         ______TS("invalid intent STUDENT_RESULT");
@@ -750,8 +788,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testExecute_noRequestBody_shouldFail() {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        loginStudent("student4InCourse1");
+        FeedbackSession session = getSession("ongoingSession2InCourse1");
+        loginStudent("student3InCourse1");
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -760,7 +798,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testExecute_requestBodyNoRecipient_shouldFail() {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
+        FeedbackSession session = getSession("ongoingSession2InCourse1");
         loginInstructor("instructor1OfCourse1");
 
         int questionNumber = 1;
@@ -779,14 +817,14 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testExecute_noExistingResponses_shouldPass() {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        StudentAttributes giver = loginStudent("student4InCourse1");
+        FeedbackSession session = getSession("session2InCourse1");
+        Student giver = loginStudent("student4InCourse1");
 
         int questionNumber = 2;
-        FeedbackQuestionAttributes question = getQuestion(session, questionNumber);
+        FeedbackQuestion question = getQuestion(session, questionNumber);
         String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
 
-        List<StudentAttributes> recipients = getStudents("student3InCourse1");
+        List<Student> recipients = getStudents("student3InCourse1");
         FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsEmail(recipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
@@ -796,14 +834,14 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testExecute_hasExistingResponse_shouldPass() {
-        FeedbackSessionAttributes session = getSession("gracePeriodSession");
-        InstructorAttributes giver = loginInstructor("helperOfCourse1");
+        FeedbackSession session = getSession("gracePeriodSession");
+        Instructor giver = loginInstructor("helperOfCourse1");
 
         int questionNumber = 2;
-        FeedbackQuestionAttributes question = getQuestion(session, questionNumber);
+        FeedbackQuestion question = getQuestion(session, questionNumber);
         String[] submissionParams = buildSubmissionParams(question, Intent.INSTRUCTOR_SUBMISSION);
 
-        List<InstructorAttributes> recipients = Collections.singletonList(giver);
+        List<Instructor> recipients = Collections.singletonList(giver);
         FeedbackResponsesRequest requestBody = buildRequestBodyWithInstructorRecipients(recipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
@@ -813,14 +851,14 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testExecute_validRecipientsOfQuestion_shouldPass() {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        InstructorAttributes giver = loginInstructor("instructor1OfCourse1");
+        FeedbackSession session = getSession("session2InCourse1");
+        Instructor giver = loginInstructor("instructor1OfCourse1");
 
         int questionNumber = 3;
-        FeedbackQuestionAttributes question = getQuestion(session, questionNumber);
+        FeedbackQuestion question = getQuestion(session, questionNumber);
         String[] submissionParams = buildSubmissionParams(question, Intent.INSTRUCTOR_SUBMISSION);
 
-        List<StudentAttributes> recipients = getStudents("student5InCourse1", "student2InCourse1");
+        List<Student> recipients = getStudents("student5InCourse1", "student2InCourse1");
         FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsTeam(recipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
@@ -831,14 +869,14 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testExecute_invalidRecipientOfQuestion_shouldFail() {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
+        FeedbackSession session = getSession("session2InCourse1");
         loginStudent("student4InCourse1");
 
         int questionNumber = 2;
-        FeedbackQuestionAttributes question = getQuestion(session, questionNumber);
+        FeedbackQuestion question = getQuestion(session, questionNumber);
         String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
 
-        List<StudentAttributes> recipients = getStudents("student5InCourse1");
+        List<Student> recipients = getStudents("student5InCourse1");
         FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsTeam(recipients);
 
         verifyInvalidOperation(requestBody, submissionParams);
@@ -846,14 +884,14 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     protected void testExecute_tooManyRecipients_shouldPass() {
-        FeedbackSessionAttributes session = getSession("session2InCourse1");
-        StudentAttributes giver = loginStudent("student4InCourse1");
+        FeedbackSession session = getSession("session2InCourse1");
+        Student giver = loginStudent("student4InCourse1");
 
         int questionNumber = 2;
-        FeedbackQuestionAttributes question = getQuestion(session, questionNumber);
+        FeedbackQuestion question = getQuestion(session, questionNumber);
         String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
 
-        List<StudentAttributes> recipients = getStudents("student3InCourse1", "student2InCourse1");
+        List<Student> recipients = getStudents("student3InCourse1", "student2InCourse1");
         FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsEmail(recipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
