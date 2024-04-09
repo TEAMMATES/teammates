@@ -758,12 +758,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       logType: FeedbackSessionLogType.SUBMISSION,
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
-    }).subscribe({
-      next: () => {},
-      error: () => {
-        this.statusMessageService.showWarningToast('Failed to log feedback session submission');
-      },
-    });
+    }).subscribe();
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
@@ -1137,8 +1132,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-  * Logs student activity after student/session details have been fetched.
-  */
+   * Logs student activity after student/session details have been fetched.
+   */
   logStudentAccess(): void {
     if (this.intent !== Intent.STUDENT_SUBMISSION) {
       return;
@@ -1156,11 +1151,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       logType: FeedbackSessionLogType.ACCESS,
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
-    }).subscribe({
-      next: () => {},
-      error: () => {
-        this.statusMessageService.showWarningToast('Failed to log feedback session access');
-      },
-    });
+    }).subscribe();
   }
 }

@@ -379,8 +379,8 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   /**
-  * Logs student activity after student/session details have been fetched.
-  */
+   * Logs student activity after student/session details have been fetched.
+   */
   logStudentView(): void {
     if (this.intent !== Intent.STUDENT_RESULT) {
       return;
@@ -398,11 +398,6 @@ export class SessionResultPageComponent implements OnInit {
       logType: FeedbackSessionLogType.VIEW_RESULT,
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
-    }).subscribe({
-      next: () => { },
-      error: () => {
-        this.statusMessageService.showWarningToast('Failed to log feedback session view');
-      },
-    });
+    }).subscribe();
   }
 }
