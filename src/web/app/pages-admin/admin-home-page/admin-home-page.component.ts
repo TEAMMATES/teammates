@@ -1,17 +1,13 @@
-import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
-import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
+import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { InstructorData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
-import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Account, AccountRequest, Accounts, AccountRequests, Courses, JoinLink } from '../../../types/api-output';
+import { AccountRequest, AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -39,20 +35,11 @@ export class AdminHomePageComponent implements OnInit {
 
   isAddingInstructors: boolean = false;
 
-  isRegisteredInstructorModalLoading = false;
-  registeredInstructorIndex: number = 0;
-  registeredInstructorAccountData: RegisteredInstructorAccountData[] = [];
-
-  @ViewChild('registeredInstructorModal') registeredInstructorModal!: TemplateRef<any>;
-
   constructor(
     private accountService: AccountService,
-    private courseService: CourseService,
-    private simpleModalService: SimpleModalService,
     private statusMessageService: StatusMessageService,
     private timezoneService: TimezoneService,
     private linkService: LinkService,
-    private ngbModal: NgbModal,
     private formatDateDetailPipe: FormatDateDetailPipe,
   ) {}
 
@@ -171,84 +158,6 @@ export class AdminHomePageComponent implements OnInit {
     }
   }
 
-  /**
-   * Opens a modal containing more information about a registered instructor.
-   */
-  showRegisteredInstructorModal(i: number): void {
-    this.registeredInstructorIndex = i;
-    this.registeredInstructorAccountData = [];
-    this.isRegisteredInstructorModalLoading = true;
-
-    const email = this.instructorsConsolidated[i].email;
-
-    const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
-      'An instructor has already registered using this account request',
-      SimpleModalType.INFO,
-      this.registeredInstructorModal,
-      undefined,
-      { scrollable: true },
-    );
-
-    this.accountService.getAccounts(email).pipe(
-      map((accounts: Accounts) => accounts.accounts),
-      mergeMap((accounts: Account[]) =>
-        forkJoin(accounts.map(
-          (account: Account) => this.getRegisteredAccountData(account.googleId)),
-        ),
-      ),
-      finalize(() => { this.isRegisteredInstructorModalLoading = false; }),
-    ).subscribe({
-      next: (resp: RegisteredInstructorAccountData[]) => {
-        this.registeredInstructorAccountData = resp;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        modalRef.dismiss();
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
-  }
-
-  private getRegisteredAccountData(googleId: string): Observable<RegisteredInstructorAccountData> {
-    const getStudentCourses: Observable<Courses> = this.courseService
-      .getStudentCoursesInMasqueradeMode(googleId)
-      .pipe(
-        catchError((err: ErrorMessageOutput) => {
-          if (err.status === 403) {
-            // User is not a student
-            return of({ courses: [] });
-          }
-          return throwError(() => err);
-        }),
-      );
-    const getInstructorCourses: Observable<Courses> = this.courseService
-      .getInstructorCoursesInMasqueradeMode(googleId)
-      .pipe(
-        catchError((err: ErrorMessageOutput) => {
-          if (err.status === 403) {
-            // User is not an instructor
-            return of({ courses: [] });
-          }
-          return throwError(() => err);
-        }),
-      );
-
-    return forkJoin([
-      getStudentCourses,
-      getInstructorCourses,
-    ]).pipe(
-      map((value: [Courses, Courses]) => {
-        const manageAccountLink = this.linkService
-          .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
-        return {
-          googleId,
-          manageAccountLink,
-          studentCourses: value[0].courses,
-          instructorCourses: value[1].courses,
-        };
-      }),
-    );
-  }
-
   private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return requests.accountRequests.map((request) => {
@@ -278,36 +187,4 @@ export class AdminHomePageComponent implements OnInit {
       },
     });
   }
-
-  resetAccountRequest(i: number): void {
-    const modalContent = `Are you sure you want to reset the account request for
-        <strong>${this.instructorsConsolidated[i].name}</strong> with email
-        <strong>${this.instructorsConsolidated[i].email}</strong> from
-        <strong>${this.instructorsConsolidated[i].institution}</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset account request for <strong>${this.instructorsConsolidated[i].name}</strong>?`,
-        SimpleModalType.WARNING,
-        modalContent);
-
-    modalRef.result.then(() => {
-      this.accountService
-        .resetAccountRequest(
-          this.instructorsConsolidated[i].email,
-          this.instructorsConsolidated[i].institution,
-        )
-        .subscribe({
-          next: (resp: JoinLink) => {
-            this.instructorsConsolidated[i].status = 'SUCCESS';
-            this.instructorsConsolidated[i].statusCode = 200;
-            this.instructorsConsolidated[i].joinLink = resp.joinLink;
-            this.ngbModal.dismissAll();
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-    }, () => {});
-  }
-
 }
