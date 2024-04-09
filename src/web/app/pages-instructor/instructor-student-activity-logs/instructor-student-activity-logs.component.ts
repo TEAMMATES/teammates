@@ -347,7 +347,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               entries.forEach((entry: FeedbackSessionLogEntry) => {
                 const timestamp: string = this.timezoneService.formatToString(
                   entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-                status = `${entry.feedbackSessionLogType} at ${timestamp}`;
+                status = `${this.logTypeToActivityDisplay(entry.feedbackSessionLogType)} at ${timestamp}`;
+                status = status.charAt(0).toUpperCase() + status.slice(1);
                 rows.push([{
                   value: status,
                   style: dataStyle,
@@ -362,7 +363,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
                 notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
               status = `Not ${this.logTypeToActivityDisplay(this.formModel.logType)} since ${timestamp}`;
               dataStyle += 'color:red;';
-              rows.push([[
+              rows.push([
                 {
                   value: status,
                   style: dataStyle,
@@ -371,7 +372,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
                 { value: student.email },
                 { value: student.sectionName },
                 { value: student.teamName },
-              ]]);
+              ]);
             }
             return rows;
           }),
