@@ -165,11 +165,11 @@ public class Logic {
     }
 
     /**
-     * Creates/Resets the account request with the given email and institute
+     * Creates/Resets the account request with the given id
      * such that it is not registered.
      *
      * @return account request that is unregistered with the
-     *         email and institute.
+     *         id.
      */
     public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
