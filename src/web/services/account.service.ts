@@ -181,7 +181,7 @@ export class AccountService {
       id,
     };
 
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_REJECTION, paramMap, accountReqRejecteRequest);
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, accountReqRejecteRequest);
   }
 
 }
