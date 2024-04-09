@@ -52,12 +52,10 @@ public class CreateFeedbackSessionLogAction extends Action {
             details.setFeedbackSessionId(fsId.toString());
 
             // Necessary to assist local testing. For production usage, this will be a no-op.
-            logsProcessor.createFeedbackSessionLog(courseId, studentId, studentEmail, fsId, fsName,
-                    fslType);
+            logsProcessor.createFeedbackSessionLog(courseId, studentId, fsId, fslType);
         } else {
             // Necessary to assist local testing. For production usage, this will be a no-op.
-            logsProcessor.createFeedbackSessionLog(courseId, null, studentEmail, null, fsName,
-                    fslType);
+            logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
         }
 
         log.event("Feedback session audit event: " + fslType, details);

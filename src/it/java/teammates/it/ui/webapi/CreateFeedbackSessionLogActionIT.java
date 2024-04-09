@@ -68,7 +68,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "invalid log type",
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString()
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         verifyHttpParameterFailure(paramsInvalid);
 
@@ -79,7 +79,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString()
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         getJsonResult(getAction(paramsSuccessfulAccess));
 
@@ -90,7 +90,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs2.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString()
+                Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString(),
         };
         getJsonResult(getAction(paramsSuccessfulSubmission));
 
@@ -101,7 +101,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString()
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         getJsonResult(getAction(paramsNonExistentCourseId));
 
@@ -112,7 +112,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString()
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         getJsonResult(getAction(paramsNonExistentFsName));
 
@@ -122,7 +122,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString()
+                Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
         };
         getJsonResult(getAction(paramsNonExistentStudentEmail));
 
@@ -133,7 +133,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString()
+                Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString(),
         };
         getJsonResult(getAction(paramsWithoutAccess));
     }
@@ -143,5 +143,4 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
     protected void testAccessControl() throws Exception {
         verifyAnyUserCanAccess();
     }
-    
 }

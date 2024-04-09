@@ -1,7 +1,5 @@
 package teammates.ui.output;
 
-import java.time.Instant;
-
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
@@ -17,11 +15,12 @@ public class CourseData extends ApiOutput {
     private final String courseName;
     private final String timeZone;
     private final String institute;
+    @Nullable
+    private final Boolean isMigrated;
     private long creationTimestamp;
     private long deletionTimestamp;
     @Nullable
     private InstructorPermissionSet privileges;
-    @Nullable final Boolean isMigrated;
 
     public CourseData(CourseAttributes courseAttributes) {
         this.courseId = courseAttributes.getId();

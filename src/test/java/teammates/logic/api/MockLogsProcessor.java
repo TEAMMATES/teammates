@@ -33,10 +33,10 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of feedback session logs.
      */
-    public void insertFeedbackSessionLog(String courseId, UUID studentId, String studentEmail,
-            UUID feedbackSessionId, String feedbackSessionName, String fslType, long timestamp) {
-        feedbackSessionLogs.add(new FeedbackSessionLogEntry(courseId, studentId, studentEmail, feedbackSessionId,
-                feedbackSessionName, fslType, timestamp));
+    public void insertFeedbackSessionLog(String courseId, UUID studentId, UUID feedbackSessionId,
+            String fslType, long timestamp) {
+        feedbackSessionLogs
+                .add(new FeedbackSessionLogEntry(courseId, studentId, feedbackSessionId, fslType, timestamp));
     }
 
     /**
@@ -108,8 +108,7 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
-            String fslType) {
+    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
         // No-op
     }
 

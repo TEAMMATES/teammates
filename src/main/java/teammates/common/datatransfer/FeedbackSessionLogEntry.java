@@ -25,13 +25,13 @@ public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEnt
         this.timestamp = timestamp;
     }
 
-    public FeedbackSessionLogEntry(String courseId, UUID studentId, String studentEmail, UUID feedbackSessionId,
-            String feedbackSessionName, String feedbackSessionLogType, long timestamp) {
+    public FeedbackSessionLogEntry(String courseId, UUID studentId, UUID feedbackSessionId,
+            String feedbackSessionLogType, long timestamp) {
         this.courseId = courseId;
         this.studentId = studentId;
-        this.studentEmail = studentEmail;
+        this.studentEmail = null;
         this.feedbackSessionId = feedbackSessionId;
-        this.feedbackSessionName = feedbackSessionName;
+        this.feedbackSessionName = null;
         this.feedbackSessionLogType = feedbackSessionLogType;
         this.timestamp = timestamp;
     }
