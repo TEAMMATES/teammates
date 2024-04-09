@@ -66,15 +66,20 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
 
         ______TS("edit question");
         questionDetails = (FeedbackNumericalScaleQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
-        questionDetails.setMinScale(0);
-        questionDetails.setStep(1);
-        questionDetails.setMaxScale(100);
-        loadedQuestion.setQuestionDetails(questionDetails);
-        feedbackEditPage.editNumScaleQuestion(2, questionDetails);
+        FeedbackNumericalScaleQuestionDetails newQuestionDetails =
+                (FeedbackNumericalScaleQuestionDetails) questionDetails.getDeepCopy();
+        newQuestionDetails.setMinScale(0);
+        newQuestionDetails.setStep(1);
+        newQuestionDetails.setMaxScale(100);
+        loadedQuestion.setQuestionDetails(newQuestionDetails);
+        feedbackEditPage.editNumScaleQuestion(2, newQuestionDetails);
         feedbackEditPage.waitForPageToLoad();
 
-        feedbackEditPage.verifyNumScaleQuestionDetails(2, questionDetails);
+        feedbackEditPage.verifyNumScaleQuestionDetails(2, newQuestionDetails);
         verifyPresentInDatabase(loadedQuestion);
+
+        // reset question details to original
+        loadedQuestion.setQuestionDetails(questionDetails);
     }
 
     @Override
