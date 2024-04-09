@@ -36,7 +36,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   + '<p>If you need further clarification or would like to appeal this decision, please '
   + 'feel free to contact us at teammates&#64;comp.nus.edu.sg.</p>'
   + '<p>Regards,<br />TEAMMATES Team.</p>';
-  rejectionReasonTitle: string = 'TEAMMATES: We are Unable to Create an Account for you';
+  rejectionReasonTitle: string = 'We are Unable to Create an Account for you';
 
   constructor(public activeModal: NgbActiveModal, public statusMessageService: StatusMessageService) {}
 
