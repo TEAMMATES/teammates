@@ -4,6 +4,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  ngbModal={[Function _NgbModal]}
   searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -82,6 +83,16 @@ exports[`AccountRequestTableComponent should display account requests with no re
               <div
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
+                <div>
+                  <a
+                    href="javascript:;"
+                    id="edit-account-request-0"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </a>
+                </div>
                 <div
                   class="ngb-tooltip-class"
                 >
@@ -104,6 +115,45 @@ exports[`AccountRequestTableComponent should display account requests with no re
                     />
                   </a>
                 </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-0"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
               </div>
             </td>
           </tr>
@@ -138,6 +188,16 @@ exports[`AccountRequestTableComponent should display account requests with no re
               <div
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
+                <div>
+                  <a
+                    href="javascript:;"
+                    id="edit-account-request-1"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </a>
+                </div>
                 <div
                   class="ngb-tooltip-class"
                 >
@@ -160,6 +220,45 @@ exports[`AccountRequestTableComponent should display account requests with no re
                     />
                   </a>
                 </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-1"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-request-1"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-1"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-1"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
               </div>
             </td>
           </tr>
@@ -174,6 +273,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  ngbModal={[Function _NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -281,6 +381,16 @@ exports[`AccountRequestTableComponent should display account requests with reset
               <div
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
+                <div>
+                  <a
+                    href="javascript:;"
+                    id="edit-account-request-0"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </a>
+                </div>
                 <div
                   class="ngb-tooltip-class"
                 >
@@ -303,6 +413,45 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     />
                   </a>
                 </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-0"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
                 <div
                   class="ngb-tooltip-class"
                 >
@@ -352,6 +501,16 @@ exports[`AccountRequestTableComponent should display account requests with reset
               <div
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
+                <div>
+                  <a
+                    href="javascript:;"
+                    id="edit-account-request-1"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </a>
+                </div>
                 <div
                   class="ngb-tooltip-class"
                 >
@@ -374,6 +533,45 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     />
                   </a>
                 </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-1"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-request-1"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-1"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-1"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
                 <div
                   class="ngb-tooltip-class"
                 >
@@ -398,6 +596,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  ngbModal={[Function _NgbModal]}
   searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -476,6 +675,16 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               <div
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
+                <div>
+                  <a
+                    href="javascript:;"
+                    id="edit-account-request-0"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </a>
+                </div>
                 <div
                   class="ngb-tooltip-class"
                 >
@@ -498,6 +707,45 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                     />
                   </a>
                 </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-0"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
               </div>
             </td>
           </tr>

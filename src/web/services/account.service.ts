@@ -103,7 +103,7 @@ export class AccountService {
    * Approves account request by calling API
    */
   approveAccountRequest(id: string, name: string, email: string, institute: string)
-  : Observable<MessageOutput> {
+  : Observable<AccountRequest> {
     const paramMap: Record<string, string> = {
       id,
     };

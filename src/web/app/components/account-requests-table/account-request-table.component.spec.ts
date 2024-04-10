@@ -1,16 +1,21 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { AccountRequestTableComponent } from './account-request-table.component';
 import { AccountRequestTableModule } from './account-request-table.module';
+import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
+import {
+  RejectWithReasonModalComponent,
+} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { AccountRequestStatus } from '../../../types/api-output';
+import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
 describe('AccountRequestTableComponent', () => {
@@ -19,6 +24,7 @@ describe('AccountRequestTableComponent', () => {
     let accountService: AccountService;
     let statusMessageService: StatusMessageService;
     let simpleModalService: SimpleModalService;
+    let ngbModal: NgbModal;
 
     const accountRequestDetailsBuilder = createBuilder<AccountRequestTableRowModel>({
         id: '',
@@ -99,6 +105,7 @@ describe('AccountRequestTableComponent', () => {
         accountService = TestBed.inject(AccountService);
         statusMessageService = TestBed.inject(StatusMessageService);
         simpleModalService = TestBed.inject(SimpleModalService);
+        ngbModal = TestBed.inject(NgbModal);
         fixture.detectChanges();
       });
 
@@ -283,5 +290,214 @@ describe('AccountRequestTableComponent', () => {
         expect(modalSpy).toHaveBeenCalledTimes(1);
         expect(modalSpy).toHaveBeenCalledWith('Comments for <strong>name</strong> Request',
             SimpleModalType.INFO, '<strong>Comment:</strong> comment');
+      });
+
+      it('should display edit modal when edit button is clicked', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        const modalSpy = jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+          return createMockNgbModalRef({});
+        });
+
+        const editButton: any = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+        editButton.click();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
+      });
+
+      it('should display reject modal when reject button is clicked', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        const modalSpy = jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+          return createMockNgbModalRef({});
+        });
+
+        const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
+        rejectButton.click();
+        fixture.detectChanges();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(RejectWithReasonModalComponent);
+      });
+
+      it('should display error message when rejection was unsuccessful', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        jest.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(throwError(() => ({
+          error: {
+            message: 'This is the error message.',
+          },
+        })));
+
+        const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
+          .mockImplementation((args: string) => {
+            expect(args).toEqual('This is the error message.');
+          });
+
+        const rejectButton = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
+        rejectButton.click();
+
+        expect(spyStatusMessageService).toHaveBeenCalled();
+      });
+
+      it('should display error message when approval was unsuccessful', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+          DEFAULT_ACCOUNT_REQUEST_REJECTED.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        jest.spyOn(accountService, 'approveAccountRequest').mockReturnValue(throwError(() => ({
+          error: {
+            message: 'This is the error message.',
+          },
+        })));
+
+        const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showErrorToast')
+          .mockImplementation((args: string) => {
+            expect(args).toEqual('This is the error message.');
+        });
+
+        const approveButton: any = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
+        approveButton.click();
+
+        expect(spyStatusMessageService).toHaveBeenCalled();
+      });
+
+      it('should display error message when edit was unsuccessful', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+          return createMockNgbModalRef({});
+        });
+
+        jest.spyOn(accountService, 'editAccountRequest').mockReturnValue(throwError(() => ({
+          error: {
+            message: 'This is the error message.',
+          },
+        })));
+
+        const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
+          .mockImplementation((args: string) => {
+            expect(args).toEqual('This is the error message.');
+          });
+
+        const editButton = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+        editButton.click();
+
+        expect(spyStatusMessageService).toHaveBeenCalled();
+      });
+
+      it('should update request when edit is succcessful', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        const modalSpy = jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+          return createMockNgbModalRef({});
+        });
+
+        const editedAccountRequest : AccountRequest = {
+          id: 'id',
+          comments: 'new comment',
+          email: 'new email',
+          institute: 'new institute',
+          registrationKey: 'registration key',
+          name: 'new name',
+          createdAt: 1,
+          status: AccountRequestStatus.PENDING,
+        };
+
+        jest.spyOn(accountService, 'editAccountRequest').mockReturnValue(of(editedAccountRequest));
+
+        const editButton: any = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+        editButton.click();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
+
+        fixture.detectChanges();
+        expect(component.accountRequests[0].comments).toEqual('new comment');
+        expect(component.accountRequests[0].email).toEqual('new email');
+        expect(component.accountRequests[0].instituteAndCountry).toEqual('new institute');
+        expect(component.accountRequests[0].name).toEqual('new name');
+      });
+
+      it('should update status when approval is succcessful', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        const approvedRequest : AccountRequest = {
+          id: component.accountRequests[0].id,
+          comments: component.accountRequests[0].comments,
+          email: component.accountRequests[0].email,
+          institute: component.accountRequests[0].instituteAndCountry,
+          registrationKey: 'registration key',
+          name: component.accountRequests[0].name,
+          createdAt: 1,
+          status: AccountRequestStatus.APPROVED,
+        };
+
+        jest.spyOn(accountService, 'approveAccountRequest').mockReturnValue(of(approvedRequest));
+
+        const approveButton: any = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
+        approveButton.click();
+
+        fixture.detectChanges();
+        expect(component.accountRequests[0].status).toEqual(AccountRequestStatus.APPROVED);
+      });
+
+      it('should update status when rejection is succcessful', () => {
+        const accountRequestResults: AccountRequestTableRowModel[] = [
+            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+        ];
+
+        component.accountRequests = accountRequestResults;
+        fixture.detectChanges();
+
+        const rejectedRequest : AccountRequest = {
+          id: component.accountRequests[0].id,
+          comments: component.accountRequests[0].comments,
+          email: component.accountRequests[0].email,
+          institute: component.accountRequests[0].instituteAndCountry,
+          registrationKey: 'registration key',
+          name: component.accountRequests[0].name,
+          createdAt: 1,
+          status: AccountRequestStatus.REJECTED,
+        };
+
+        jest.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(rejectedRequest));
+
+        const approveButton: any = fixture.debugElement.nativeElement.querySelector('#reject-account-request-0');
+        approveButton.click();
+
+        fixture.detectChanges();
+        expect(component.accountRequests[0].status).toEqual(AccountRequestStatus.REJECTED);
       });
 });
