@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -38,8 +39,10 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
         Map<String, Boolean> isCourseMigratedMap = new HashMap<>();
         for (FeedbackSessionLogEntry logEntry : logEntries) {
 
-            isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(),
-                    k -> logic.getCourse(logEntry.getCourseId()) == null);
+            isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(), k -> {
+                CourseAttributes course = logic.getCourse(logEntry.getCourseId());
+                return course == null || course.isMigrated();
+            });
 
             if (!isCourseMigratedMap.get(logEntry.getCourseId())) {
                 continue;
