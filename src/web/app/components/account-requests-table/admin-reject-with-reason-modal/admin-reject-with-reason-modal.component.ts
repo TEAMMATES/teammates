@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RejectWithReasonModalComponentResult } from './admin-reject-with-reason-modal-model';
+import { environment } from '../../../../environments/environment';
 import { StatusMessageService } from '../../../../services/status-message.service';
 
 /**
@@ -30,11 +31,11 @@ export class RejectWithReasonModalComponent implements OnInit {
   + '<p><strong>Reason:</strong> The email address you have provided does seems like it belongs to a student '
   + '(i.e., not a staff member) of your institution.<br />'
   + '<strong>Remedy:</strong> If you are a student but you still need an instructor account, '
-  + 'please send your justification to teammates&#64;comp.nus.edu.sg.</p>\n\n'
+  + 'please send your justification to {supportEmail}</p>\n\n'
   + '<p><strong>Reason:</strong> You already have an account for this email address and this institution.<br />'
   + '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account {existingEmail} </p>\n\n'
   + '<p>If you need further clarification or would like to appeal this decision, please '
-  + 'feel free to contact us at teammates&#64;comp.nus.edu.sg.</p>'
+  + 'feel free to contact us at {supportEmail}</p>'
   + '<p>Regards,<br />TEAMMATES Team.</p>';
   rejectionReasonTitle: string = 'We are Unable to Create an Account for you';
 
@@ -43,6 +44,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   ngOnInit(): void {
     this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountRequestName}', this.accountRequestName);
     this.rejectionReasonBody = this.rejectionReasonBody.replace('{existingEmail}', this.accountRequestEmail);
+    this.rejectionReasonBody = this.rejectionReasonBody.replaceAll('{supportEmail}', environment.supportEmail);
   }
 
   onRejectionReasonBodyChange(updatedText: string): void {
