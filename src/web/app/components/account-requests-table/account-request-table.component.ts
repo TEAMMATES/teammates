@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
+import {
+  RejectWithReasonModalComponent,
+} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -145,5 +148,40 @@ export class AccountRequestTableComponent {
         `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
 
     modalRef.result.then(() => {}, () => {});
+  }
+
+  rejectAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    this.accountService.rejectAccountRequest(accountRequest.id)
+    .subscribe({
+      next: (resp : AccountRequest) => {
+        accountRequest.status = resp.status;
+        },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+
+  rejectAccountRequestWithReason(accountRequest: AccountRequestTableRowModel): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
+    modalRef.componentInstance.accountRequestName = accountRequest.name;
+    modalRef.componentInstance.accountRequestEmail = accountRequest.email;
+
+    modalRef.result.then(() => {
+      this.accountService.rejectAccountRequest(accountRequest.id,
+        modalRef.componentInstance.rejectionReasonTitle, modalRef.componentInstance.rejectionReasonBody)
+      .subscribe({
+        next: (resp: AccountRequest) => {
+          accountRequest.status = resp.status;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+    }, () => {});
+  }
+
+  trackAccountRequest(accountRequest: AccountRequestTableRowModel): string {
+    return accountRequest.id;
   }
 }
