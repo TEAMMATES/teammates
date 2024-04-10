@@ -23,7 +23,7 @@ public interface LogService {
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType);
 
     /**
-     * Creates a feedback session log.
+     * Creates a feedback session log for migrated courses.
      */
     void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType);
 
