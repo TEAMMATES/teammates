@@ -42,7 +42,6 @@ describe('RequestPageComponent', () => {
       institution: 'University of Example',
       country: 'Example Republic',
       email: 'js@exampleu.edu',
-      homePage: 'u.exampleu.edu/jsmith',
       comments: '',
     };
     fixture.detectChanges();

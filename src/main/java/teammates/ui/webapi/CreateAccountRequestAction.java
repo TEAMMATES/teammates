@@ -49,7 +49,7 @@ public class CreateAccountRequestAction extends Action {
             throw new InvalidHttpRequestBodyException(ipe);
         }
 
-        taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
+        taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
 
         assert accountRequest != null;
         EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);

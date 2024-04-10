@@ -11,6 +11,7 @@ import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
   AccountRequests,
+  AccountRequestStatus,
   Course, FeedbackSession,
   FeedbackSessions,
   Instructor,
@@ -307,7 +308,7 @@ export class SearchService {
       registeredAtText: '',
       registrationLink: '',
       showLinks: false,
-      status: '',
+      status: AccountRequestStatus.PENDING,
       comments: '',
     };
 
@@ -474,7 +475,7 @@ export interface AccountRequestSearchResult {
   id: string;
   name: string;
   email: string;
-  status: string;
+  status: AccountRequestStatus;
   institute: string;
   createdAtText: string;
   registeredAtText: string | null;

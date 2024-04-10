@@ -1,20 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { first } from 'rxjs';
+import { Observable, first } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
+import { AccountService } from '../../../../services/account.service';
+import { AccountCreateRequest } from '../../../../types/api-request';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
   let fixture: ComponentFixture<InstructorRequestFormComponent>;
+  let accountService: AccountService;
   const typicalModel: InstructorRequestFormModel = {
     name: 'John Doe',
     institution: 'Example Institution',
     country: 'Example Country',
     email: 'jd@example.edu',
-    homePage: 'xyz.example.edu/john',
     comments: '',
+  };
+  const typicalCreateRequest: AccountCreateRequest = {
+    instructorEmail: typicalModel.email,
+    instructorName: typicalModel.name,
+    instructorInstitution: `${typicalModel.institution}, ${typicalModel.country}`,
+  };
+
+  const accountServiceStub: Partial<AccountService> = {
+    createAccountRequest: () => new Observable((subscriber) => {
+        subscriber.next();
+      }),
   };
 
   /**
@@ -27,19 +40,24 @@ describe('InstructorRequestFormComponent', () => {
     component.institution.setValue(data.institution);
     component.country.setValue(data.country);
     component.email.setValue(data.email);
-    component.homePage.setValue(data.homePage);
     component.comments.setValue(data.comments);
   }
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorRequestFormComponent],
       imports: [ReactiveFormsModule],
-    });
+      providers: [{ provide: AccountService, useValue: accountServiceStub }],
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
-
+    accountService = TestBed.inject(AccountService);
     fixture.detectChanges();
+    jest.clearAllMocks();
   });
 
   it('should create', () => {
@@ -50,17 +68,20 @@ describe('InstructorRequestFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should emit requestSubmissionEvent once when submit button is clicked', () => {
-    jest.spyOn(component.requestSubmissionEvent, 'emit');
+  it('should run onSubmit() when submit button is clicked', () => {
+    jest.spyOn(component, 'onSubmit');
 
     fillFormWith(typicalModel);
     const submitButton = fixture.debugElement.query(By.css('#submit-button'));
     submitButton.nativeElement.click();
 
-    expect(component.requestSubmissionEvent.emit).toHaveBeenCalledTimes(1);
+    expect(component.onSubmit).toHaveBeenCalledTimes(1);
   });
 
   it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
+    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+      new Observable((subscriber) => { subscriber.next(); }));
+
     // Listen for emitted value
     let actualModel: InstructorRequestFormModel | null = null;
     component.requestSubmissionEvent.pipe(first())
@@ -74,7 +95,17 @@ describe('InstructorRequestFormComponent', () => {
     expect(actualModel!.institution).toBe(typicalModel.institution);
     expect(actualModel!.country).toBe(typicalModel.country);
     expect(actualModel!.email).toBe(typicalModel.email);
-    expect(actualModel!.homePage).toBe(typicalModel.homePage);
     expect(actualModel!.comments).toBe(typicalModel.comments);
+  });
+
+  it('should send the correct request data when form is submitted', () => {
+    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+      new Observable((subscriber) => { subscriber.next(); }));
+
+    fillFormWith(typicalModel);
+    component.onSubmit();
+
+    expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
+    expect(accountService.createAccountRequest).toHaveBeenCalledWith(expect.objectContaining(typicalCreateRequest));
   });
 });

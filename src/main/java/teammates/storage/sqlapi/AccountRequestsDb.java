@@ -91,6 +91,19 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
+     * Get all Account Requests.
+     */
+    public List<AccountRequest> getAllAccountRequests() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root);
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultList();
+    }
+
+    /**
      * Get AccountRequest by {@code registrationKey} from database.
      */
     public AccountRequest getAccountRequestByRegistrationKey(String registrationKey) {
@@ -152,10 +165,8 @@ public final class AccountRequestsDb extends EntitiesDb {
      */
     public void deleteDocumentByAccountRequestId(UUID accountRequestId) {
         if (getSearchManager() != null) {
-            // Solr saves the id with the prefix "java.util.UUID:", so we need to add it here to
-            // identify and delete the document from the index
             getSearchManager().deleteDocuments(
-                    Collections.singletonList("java.util.UUID:" + accountRequestId.toString()));
+                    Collections.singletonList(accountRequestId.toString()));
         }
     }
 

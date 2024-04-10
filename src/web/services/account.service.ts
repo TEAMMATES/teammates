@@ -11,7 +11,11 @@ import {
   MessageOutput,
   AccountRequestStatus,
 } from '../types/api-output';
-import { AccountCreateRequest } from '../types/api-request';
+import {
+  AccountCreateRequest,
+  AccountRequestUpdateRequest,
+  AccountRequestRejectionRequest,
+} from '../types/api-request';
 
 /**
  * Handles account related logic provision
@@ -96,6 +100,44 @@ export class AccountService {
   }
 
   /**
+   * Approves account request by calling API
+   */
+  approveAccountRequest(id: string, name: string, email: string, institute: string)
+  : Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      id,
+    };
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      status: AccountRequestStatus.APPROVED,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, accountReqUpdateRequest);
+  }
+
+  /**
+   * Edits an account request by calling API.
+   */
+  editAccountRequest(id: string, name: string, email: string, institute: string,
+    status: AccountRequestStatus, comments: string)
+  : Observable<AccountRequest> {
+    const paramMap: Record<string, string> = {
+      id,
+    };
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      status,
+      comments,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, accountReqUpdateRequest);
+  }
+
+  /**
    * Gets an account by calling API.
    */
   getAccount(googleId: string): Observable<Account> {
@@ -124,6 +166,26 @@ export class AccountService {
     };
 
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
+  }
+
+  /**
+   * Rejects an account request by calling API.
+   */
+  rejectAccountRequest(id: string, title?: string, body?: string): Observable<AccountRequest> {
+    let accountReqRejectRequest: AccountRequestRejectionRequest = {};
+
+    if (title !== undefined && body !== undefined) {
+      accountReqRejectRequest = {
+        reasonTitle: title,
+        reasonBody: body,
+      };
+    }
+
+    const paramMap: Record<string, string> = {
+      id,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, accountReqRejectRequest);
   }
 
 }
