@@ -75,9 +75,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fs2.setCreatedAt(Instant.now());
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getFeedbackSession(fs1.getName(), course.getId())).thenReturn(fs1);
-        when(mockLogic.getStudentForEmail(course.getId(), student1.getEmail())).thenReturn(student1);
-        when(mockLogic.getStudentForEmail(course.getId(), student2.getEmail())).thenReturn(student2);
+        when(mockLogic.getFeedbackSession(fs1.getId())).thenReturn(fs1);
+        when(mockLogic.getStudent(student1.getId())).thenReturn(student1);
+        when(mockLogic.getStudent(student2.getId())).thenReturn(student2);
 
         List<FeedbackSession> feedbackSessions = new ArrayList<>();
         feedbackSessions.add(fs1);
@@ -142,16 +142,16 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         ______TS("Failure case: invalid course id");
         String[] paramsInvalid1 = {
                 Const.ParamsNames.COURSE_ID, "fake-course-id",
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
         verifyEntityNotFound(paramsInvalid1);
 
-        ______TS("Failure case: invalid student email");
+        ______TS("Failure case: invalid student id");
         String[] paramsInvalid2 = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, "fake-student-email@gmail.com",
+                Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
