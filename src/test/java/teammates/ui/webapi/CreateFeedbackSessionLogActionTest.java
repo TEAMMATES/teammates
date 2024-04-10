@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
+import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link CreateFeedbackSessionLogAction}.
@@ -61,7 +62,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
-        getJsonResult(getAction(paramsSuccessfulAccess));
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         ______TS("Success case: typical submission");
         String[] paramsSuccessfulSubmission = {
@@ -70,7 +73,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
         };
-        getJsonResult(getAction(paramsSuccessfulSubmission));
+        response = getJsonResult(getAction(paramsSuccessfulSubmission));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         ______TS("Success case: should create even for invalid parameters");
         String[] paramsNonExistentFsName = {
@@ -79,7 +84,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
-        getJsonResult(getAction(paramsNonExistentFsName));
+        response = getJsonResult(getAction(paramsNonExistentFsName));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -87,7 +94,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
         };
-        getJsonResult(getAction(paramsNonExistentStudentEmail));
+        response = getJsonResult(getAction(paramsNonExistentStudentEmail));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         ______TS("Success case: should create even when student cannot access feedback session in course");
         String[] paramsWithoutAccess = {
@@ -96,7 +105,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
         };
-        getJsonResult(getAction(paramsWithoutAccess));
+        response = getJsonResult(getAction(paramsWithoutAccess));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
     }
 
     @Test

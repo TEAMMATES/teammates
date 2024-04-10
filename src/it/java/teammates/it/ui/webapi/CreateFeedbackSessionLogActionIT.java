@@ -9,7 +9,9 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Student;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateFeedbackSessionLogAction}.
@@ -81,7 +83,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
-        getJsonResult(getAction(paramsSuccessfulAccess));
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         ______TS("Success case: typical submission");
         String[] paramsSuccessfulSubmission = {
@@ -92,7 +96,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs2.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString(),
         };
-        getJsonResult(getAction(paramsSuccessfulSubmission));
+        response = getJsonResult(getAction(paramsSuccessfulSubmission));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         ______TS("Success case: should create even for invalid parameters");
         String[] paramsNonExistentCourseId = {
@@ -103,7 +109,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
-        getJsonResult(getAction(paramsNonExistentCourseId));
+        response = getJsonResult(getAction(paramsNonExistentCourseId));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         ______TS("Success case: should create even for invalid parameters");
         String[] paramsNonExistentFsName = {
@@ -114,7 +122,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
-        getJsonResult(getAction(paramsNonExistentFsName));
+        response = getJsonResult(getAction(paramsNonExistentFsName));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -124,7 +134,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
         };
-        getJsonResult(getAction(paramsNonExistentStudentEmail));
+        response = getJsonResult(getAction(paramsNonExistentStudentEmail));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
 
         ______TS("Success case: should create even when student cannot access feedback session in course");
         String[] paramsWithoutAccess = {
@@ -135,7 +147,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString(),
         };
-        getJsonResult(getAction(paramsWithoutAccess));
+        response = getJsonResult(getAction(paramsWithoutAccess));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
     }
 
     @Test
