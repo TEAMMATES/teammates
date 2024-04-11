@@ -106,6 +106,25 @@ public final class AccountsLogic {
     }
 
     /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException   if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the
+     *                                      database.
+     */
+    public Account createAccountWithTransaction(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert account != null;
+
+        HibernateUtil.beginTransaction();
+        Account createdAccount = accountsDb.createAccount(account);
+        HibernateUtil.commitTransaction();
+
+        return createdAccount;
+    }
+
+    /**
      * Deletes account associated with the {@code googleId}.
      *
      * <p>Fails silently if the account doesn't exist.</p>

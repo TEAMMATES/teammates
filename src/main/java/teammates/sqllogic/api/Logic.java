@@ -245,6 +245,18 @@ public class Logic {
     }
 
     /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the database.
+     */
+    public Account createAccountWithTransaction(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return accountsLogic.createAccountWithTransaction(account);
+    }
+
+    /**
      * Deletes account by googleId.
      *
      * <ul>
