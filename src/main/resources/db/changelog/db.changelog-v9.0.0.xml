@@ -533,4 +533,7 @@
             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
             referencedColumnNames="id" referencedTableName="feedback_questions" validate="true" />
     </changeSet>
+    <changeSet  author="NicolasCwy"  id="1711160431792-42">
+        <tagDatabase  tag="v9.0.0"/>
+    </changeSet>
 </databaseChangeLog>
