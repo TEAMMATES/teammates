@@ -107,7 +107,7 @@ export class AccountRequestTableComponent {
         `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
-      this.accountService.resetAccountRequest(accountRequest.email, accountRequest.instituteAndCountry)
+      this.accountService.resetAccountRequest(accountRequest.id)
         .subscribe({
           next: () => {
             this.statusMessageService

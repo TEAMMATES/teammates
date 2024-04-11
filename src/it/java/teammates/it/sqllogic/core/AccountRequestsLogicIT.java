@@ -55,13 +55,14 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         toReset.setRegisteredAt(Instant.now());
         toReset = accountRequestsDb.getAccountRequest(email, institute);
+        UUID id = toReset.getId();
 
         assertNotNull(toReset);
         assertNotNull(toReset.getRegisteredAt());
 
         ______TS("success: reset account request that already exists");
 
-        AccountRequest resetted = accountRequestsLogic.resetAccountRequest(email, institute);
+        AccountRequest resetted = accountRequestsLogic.resetAccountRequest(id);
 
         assertNull(resetted.getRegisteredAt());
 
@@ -74,6 +75,6 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("failure: reset account request that does not exist");
 
         assertThrows(EntityDoesNotExistException.class,
-                () -> accountRequestsLogic.resetAccountRequest(name, institute));
+                () -> accountRequestsLogic.resetAccountRequest(id));
     }
 }

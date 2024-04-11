@@ -92,10 +92,9 @@ describe('AccountService', () => {
   });
 
   it('should execute PUT on account request reset endpoint', () => {
-    service.resetAccountRequest('testEmail', 'testInstitution');
+    service.resetAccountRequest('testId');
     const paramMap: Record<string, string> = {
-      instructoremail: 'testEmail',
-      instructorinstitution: 'testInstitution',
+      id: 'testId',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
   });
