@@ -159,13 +159,13 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes account request associated with the {@code email} and {@code institute}.
+     * Deletes account request associated with the {@code id}.
      *
-     * <p>Fails silently if no account requests with the given email and institute to delete can be found.</p>
+     * <p>Fails silently if no account requests with the given id to delete can be found.</p>
      *
      */
-    public void deleteAccountRequest(String email, String institute) {
-        AccountRequest toDelete = accountRequestDb.getAccountRequest(email, institute);
+    public void deleteAccountRequest(UUID id) {
+        AccountRequest toDelete = accountRequestDb.getAccountRequest(id);
 
         accountRequestDb.deleteAccountRequest(toDelete);
     }

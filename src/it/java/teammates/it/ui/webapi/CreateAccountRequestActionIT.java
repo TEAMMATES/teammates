@@ -230,7 +230,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         HibernateUtil.beginTransaction();
         List<AccountRequest> accountRequests = logic.getPendingAccountRequests();
         for (AccountRequest ar : accountRequests) {
-            logic.deleteAccountRequest(ar.getEmail(), ar.getInstitute());
+            logic.deleteAccountRequest(ar.getId());
         }
         accountRequests = logic.getPendingAccountRequests();
         HibernateUtil.commitTransaction();

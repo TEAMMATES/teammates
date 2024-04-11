@@ -67,9 +67,9 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("success: test delete account request");
 
-        accountRequestsLogic.deleteAccountRequest(email, institute);
+        accountRequestsLogic.deleteAccountRequest(toReset.getId());
 
-        assertNull(accountRequestsLogic.getAccountRequest(email, institute));
+        assertNull(accountRequestsLogic.getAccountRequest(toReset.getId()));
 
         ______TS("failure: reset account request that does not exist");
 

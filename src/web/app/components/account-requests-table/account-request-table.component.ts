@@ -129,7 +129,7 @@ export class AccountRequestTableComponent {
         `Delete account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
-      this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.instituteAndCountry)
+      this.accountService.deleteAccountRequest(accountRequest.id)
       .subscribe({
         next: (resp: MessageOutput) => {
           this.statusMessageService.showSuccessToast(resp.message);
