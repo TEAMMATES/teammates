@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -75,6 +76,19 @@ public final class AccountsLogic {
         assert email != null;
 
         return accountsDb.getAccountsByEmail(email);
+    }
+
+    /**
+     * Gets accounts associated with email.
+     */
+    public List<Account> getAccountsForEmailWithTransaction(String email) {
+        assert email != null;
+
+        HibernateUtil.beginTransaction();
+        List<Account> accounts = accountsDb.getAccountsByEmail(email);
+        HibernateUtil.commitTransaction();
+
+        return accounts;
     }
 
     /**

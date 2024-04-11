@@ -226,6 +226,13 @@ public class Logic {
     }
 
     /**
+     * Get a list of accounts associated with email provided.
+     */
+    public List<Account> getAccountsForEmailWithTransaction(String email) {
+        return accountsLogic.getAccountsForEmailWithTransaction(email);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
