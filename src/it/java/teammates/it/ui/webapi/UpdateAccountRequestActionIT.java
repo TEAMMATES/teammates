@@ -14,12 +14,14 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.InvalidHttpParameterException;
+import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateAccountRequestAction;
 
@@ -106,6 +108,18 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(AccountRequestStatus.REGISTERED, data.getStatus());
         assertEquals(comments, data.getComments());
         verifyNumberOfEmailsSent(0);
+
+        ______TS("email with existing account throws exception");
+        Account account = logic.createAccountWithTransaction(getTypicalAccount());
+        accountRequest = logic.createAccountRequestWithTransaction("name", account.getEmail(),
+                "institute", AccountRequestStatus.PENDING, "comments");
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+
+        InvalidOperationException ipe = verifyInvalidOperation(requestBody, params);
+
+        assertEquals(String.format("An account with email %s already exists. "
+                + "Please reject or delete the account request instead.", account.getEmail()), ipe.getMessage());
 
         ______TS("non-existent but valid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",

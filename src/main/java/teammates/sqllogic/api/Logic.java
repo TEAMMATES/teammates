@@ -226,6 +226,13 @@ public class Logic {
     }
 
     /**
+     * Get a list of accounts associated with email provided.
+     */
+    public List<Account> getAccountsForEmailWithTransaction(String email) {
+        return accountsLogic.getAccountsForEmailWithTransaction(email);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
@@ -235,6 +242,18 @@ public class Logic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsLogic.createAccount(account);
+    }
+
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the database.
+     */
+    public Account createAccountWithTransaction(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return accountsLogic.createAccountWithTransaction(account);
     }
 
     /**

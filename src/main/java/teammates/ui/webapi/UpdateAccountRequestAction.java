@@ -40,6 +40,13 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
         if (accountRequestUpdateRequest.getStatus() == AccountRequestStatus.APPROVED
                 && (accountRequest.getStatus() == AccountRequestStatus.PENDING
                 || accountRequest.getStatus() == AccountRequestStatus.REJECTED)) {
+
+            if (sqlLogic.getAccountsForEmailWithTransaction(accountRequest.getEmail()).size() > 0) {
+                throw new InvalidOperationException(String.format("An account with email %s already exists. "
+                        + "Please reject or delete the account request instead.",
+                        accountRequest.getEmail()));
+            }
+
             try {
                 // should not need to update other fields for an approval
                 accountRequest.setStatus(accountRequestUpdateRequest.getStatus());
