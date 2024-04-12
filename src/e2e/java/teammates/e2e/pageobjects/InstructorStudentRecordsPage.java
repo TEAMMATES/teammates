@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Page Object Model for instructor student records page.
@@ -31,6 +32,10 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void verifyStudentDetails(StudentAttributes student) {
         verifyIsCorrectPage(student.getCourse(), student.getName());
+    }
+
+    public void verifyStudentDetails(Student student) {
+        verifyIsCorrectPage(student.getCourse().getId(), student.getName());
     }
 
 }
