@@ -80,6 +80,7 @@ interface FeedbackSessionLogModel {
 export class InstructorStudentActivityLogsComponent implements OnInit {
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
+  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL: number = ApiConst.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL;
   LOG_TYPES: LogType[] = [
     { label: 'session access', value: 'access' },
     { label: 'session submission', value: 'submission' },

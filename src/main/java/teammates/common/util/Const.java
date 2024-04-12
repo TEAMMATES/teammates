@@ -45,6 +45,8 @@ public final class Const {
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
 
+    public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
+
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
     public static final int INT_UNINITIALIZED = -9999;
