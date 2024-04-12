@@ -96,8 +96,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsDateTo: getDefaultDateFormat(),
     logsTimeTo: getDefaultTimeFormat(),
     logType: '',
-      selectedStudent: { studentEmail: undefined, studentId: undefined },
-      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
+      selectedStudent: { studentEmail: '', studentId: '' },
+      selectedSession: { feedbackSessionName: '', sessionId: '' },
     showActions: false,
     showInactions: false,
   };
@@ -198,7 +198,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         }),
     ).subscribe({
       next: (logs: FeedbackSessionLogs) => {
-        if (this.formModel.selectedSession.feedbackSessionName === undefined) {
+        if (this.formModel.selectedSession.feedbackSessionName === '') {
           logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
             log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
               const arr: FeedbackSessionLogEntry[] | undefined =
@@ -314,7 +314,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             }
 
             if (
-              this.formModel.selectedStudent.studentEmail !== undefined
+              this.formModel.selectedStudent.studentEmail !== ''
               && student.email !== this.formModel.selectedStudent.studentEmail
             ) {
               return false;

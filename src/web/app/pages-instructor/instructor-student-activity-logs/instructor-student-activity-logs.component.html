@@ -79,7 +79,7 @@
         </div>
         <div class="col-12">
           <select id="session-dropdown" class="form-control form-select col-md-12" [(ngModel)]="formModel.selectedSession">
-            <option value=""></option>
+            <option [ngValue]="{feedbackSessionName: '', sessionId: ''}"></option>
             <option *ngFor="let session of feedbackSessions | keyvalue" [ngValue]="{feedbackSessionName: session.key, sessionId: session.value.sessionId}">
               {{session.key}}
             </option>
