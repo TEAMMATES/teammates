@@ -51,7 +51,7 @@ public class UpdateFeedbackSessionLogsActionIT extends BaseActionIT<UpdateFeedba
         HibernateUtil.flushSession();
         SearchManagerFactory.getStudentSearchManager().resetCollections();
 
-        endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
+        endTime = TimeHelper.getInstantNearestQuarterHourBefore(Instant.now());
         startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
         course1 = typicalBundle.courses.get("course1");

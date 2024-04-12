@@ -32,7 +32,7 @@ import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 public class UpdateFeedbackSessionLogsActionTest
         extends BaseActionTest<UpdateFeedbackSessionLogsAction> {
 
-    static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
+    static final int COLLECTION_TIME_PERIOD = 15; // in mins
     static final long SPAM_FILTER = 2000L; // in ms
 
     Student student1;
@@ -60,7 +60,7 @@ public class UpdateFeedbackSessionLogsActionTest
 
     @BeforeMethod
     void setUp() {
-        endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
+        endTime = TimeHelper.getInstantNearestQuarterHourBefore(Instant.now());
         startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
         course1 = getTypicalCourse();
