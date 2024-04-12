@@ -43,6 +43,7 @@ public class SeedDb extends DatastoreClient {
 
     private static final int MAX_ENTITY_SIZE = 10000;
     private static final int MAX_STUDENT_PER_COURSE = 100;
+    private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
     private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 3;
     private final LogicExtension logic = new LogicExtension();
@@ -154,10 +155,16 @@ public class SeedDb extends DatastoreClient {
 
         log("Seeding students for course " + courseNumber);
         int currSection = -1;
+        int currTeam = -1;
         for (int i = 0; i < MAX_STUDENT_PER_COURSE; i++) {
 
             if (i % (MAX_STUDENT_PER_COURSE / MAX_SECTION_PER_COURSE) == 0) {
                 currSection++;
+                currTeam = -1; // Reset team number for each section
+            }
+
+            if (i % (MAX_STUDENT_PER_COURSE / (MAX_SECTION_PER_COURSE * MAX_TEAM_PER_SECTION)) == 0) {
+                currTeam++;
             }
 
             int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
@@ -166,7 +173,7 @@ public class SeedDb extends DatastoreClient {
                 String studentName = String.format("Student %s in Course %s", i, courseNumber);
                 String studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
                 String studentComments = String.format("Comments for student %s in course %s", i, courseNumber);
-                String studentTeamName = String.format("Course %s Team %s", courseNumber, i);
+                String studentTeamName = String.format("Course %s Section %s Team %s", courseNumber, currSection, currTeam);
                 String studentSectionName = String.format("Course %s Section %s", courseNumber, currSection);
                 String studentRegistrationKey = String.format("Student %s in Course %s Registration Key", i,
                         courseNumber);

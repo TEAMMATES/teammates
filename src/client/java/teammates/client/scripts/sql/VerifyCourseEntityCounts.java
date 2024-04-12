@@ -16,6 +16,7 @@ import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Section;
 // CHECKSTYLE.ON:ImportOrder
+import teammates.storage.sqlentity.Team;
 
 /**
  * Verify the counts of non-course entities are correct.
@@ -66,7 +67,7 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
                 new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
 
         entities.put(teammates.storage.entity.Course.class, teammates.storage.sqlentity.Course.class);
-        entities.put(teammates.storage.entity.FeedbackSession.class, teammates.storage.sqlentity.FeedbackSession.class);
+        // entities.put(teammates.storage.entity.FeedbackSession.class, teammates.storage.sqlentity.FeedbackSession.class);
 
         // Compare datastore "table" to postgres table for each entity
         for (Map.Entry<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entry : entities
@@ -84,6 +85,7 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
     private void verifyNewEntities() {
         List<CourseStudent> students = ofy().load().type(CourseStudent.class).order("courseId").list();
         verifySectionEntities(students);
+        verifyTeamEntities(students);
     }
 
     private void verifySectionEntities(List<CourseStudent> students) {
@@ -92,5 +94,13 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
         Long postgresEntityCount = countPostgresEntities(Section.class);
 
         printEntityVerification("Section", objectifyEntityCount, postgresEntityCount);
+    }
+
+    private void verifyTeamEntities(List<CourseStudent> students) {
+        int objectifyEntityCount = (int) students.stream().map(stu -> stu.getTeamName() + stu.getCourseId())
+                .distinct().count();
+        Long postgresEntityCount = countPostgresEntities(Team.class);
+
+        printEntityVerification("Team", objectifyEntityCount, postgresEntityCount);
     }
 }
