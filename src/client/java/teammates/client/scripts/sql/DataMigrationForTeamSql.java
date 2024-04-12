@@ -1,8 +1,6 @@
 package teammates.client.scripts.sql;
 
-import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.cmd.Query;
@@ -56,10 +54,12 @@ public class DataMigrationForTeamSql extends
     protected void migrateEntity(Course oldCourse) throws Exception {
         HibernateUtil.beginTransaction();
         teammates.storage.sqlentity.Course newCourse = getNewCourse(oldCourse.getUniqueId());
+        Map<String, Section> sectionNameToSectionMap =
+                newCourse.getSections().stream().collect(Collectors.toMap(Section::getName, s -> s));
         HibernateUtil.commitTransaction();
 
-        getTeamNameToSectionNameMap(oldCourse)
-                .forEach((teamName, sectionName) -> createTeam(teamName, sectionName, newCourse.getSections()));
+        getTeamNameToSectionNameMap(oldCourse).forEach((teamName, sectionName) ->
+                        saveEntityDeferred(new Team(sectionNameToSectionMap.get(sectionName), teamName)));
     }
 
     private teammates.storage.sqlentity.Course getNewCourse(String courseId) {
@@ -83,12 +83,4 @@ public class DataMigrationForTeamSql extends
                 .collect(Collectors.toMap(CourseStudent::getTeamName, CourseStudent::getSectionName));
     }
 
-    private void createTeam(String teamName, String sectionName, List<Section> sections) throws NoSuchElementException {
-        Section section = sections.stream()
-                .filter(s -> s.getName().equals(sectionName))
-                .findFirst()
-                .get();
-
-        saveEntityDeferred(new Team(section, teamName));
-    }
 }
