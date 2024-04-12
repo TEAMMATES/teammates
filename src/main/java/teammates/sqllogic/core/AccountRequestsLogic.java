@@ -143,6 +143,16 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Get a list of account requests associated with email provided.
+     */
+    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
+        HibernateUtil.beginTransaction();
+        List<AccountRequest> accountRequests = accountRequestDb.getApprovedAccountRequestsForEmail(email);
+        HibernateUtil.commitTransaction();
+        return accountRequests;
+    }
+
+    /**
      * Creates/resets the account request with the given id such that it is not registered.
      */
     public AccountRequest resetAccountRequest(UUID id)

@@ -227,6 +227,20 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(email, data.getEmail());
         assertEquals(institute, data.getInstitute());
         assertEquals(null, data.getComments());
+
+        ______TS("email with approved account request throws exception");
+        logic.createAccountRequestWithTransaction("test", "test@email.com",
+                "institute", AccountRequestStatus.APPROVED, "comments");
+        accountRequest = logic.createAccountRequestWithTransaction("test", "test@email.com",
+                "institute", AccountRequestStatus.PENDING, "comments");
+        requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
+                accountRequest.getInstitute(), AccountRequestStatus.APPROVED, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+
+        ipe = verifyInvalidOperation(requestBody, params);
+
+        assertEquals(String.format("An account request with email %s has already been approved. "
+                + "Please reject or delete the account request instead.", accountRequest.getEmail()), ipe.getMessage());
     }
 
     @Override
