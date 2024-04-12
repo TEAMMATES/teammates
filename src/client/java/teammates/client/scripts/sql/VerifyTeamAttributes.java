@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Team;
 
 /**

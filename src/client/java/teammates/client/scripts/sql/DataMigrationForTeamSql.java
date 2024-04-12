@@ -11,18 +11,19 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
+
 import teammates.common.util.HibernateUtil;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Team;
-import teammates.storage.entity.Course;
 
 /**
  * Data migration class for team entity.
  */
 @SuppressWarnings("PMD")
 public class DataMigrationForTeamSql extends
-        DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Course, teammates.storage.sqlentity.Team> {
+        DataMigrationEntitiesBaseScriptSql<Course, teammates.storage.sqlentity.Team> {
 
     public static void main(String[] args) {
         new DataMigrationForTeamSql().doOperationRemotely();
@@ -30,7 +31,7 @@ public class DataMigrationForTeamSql extends
 
     @Override
     protected Query<Course> getFilterQuery() {
-        return ofy().load().type(teammates.storage.entity.Course.class);
+        return ofy().load().type(Course.class);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class DataMigrationForTeamSql extends
         CriteriaQuery<teammates.storage.sqlentity.Course> cr = cb.createQuery(teammates.storage.sqlentity.Course.class);
         Root<teammates.storage.sqlentity.Course> courseRoot = cr.from(teammates.storage.sqlentity.Course.class);
         courseRoot.fetch("sections", JoinType.LEFT); // Fetch sections to avoid lazy-loading
-        
+
         cr.select(courseRoot).where(cb.equal(courseRoot.get("id"), courseId));
 
         return HibernateUtil.createQuery(cr).getSingleResult();

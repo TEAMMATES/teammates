@@ -15,8 +15,8 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Section;
-// CHECKSTYLE.ON:ImportOrder
 import teammates.storage.sqlentity.Team;
+// CHECKSTYLE.ON:ImportOrder
 
 /**
  * Verify the counts of non-course entities are correct.
@@ -67,7 +67,7 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
                 new HashMap<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>>();
 
         entities.put(teammates.storage.entity.Course.class, teammates.storage.sqlentity.Course.class);
-        // entities.put(teammates.storage.entity.FeedbackSession.class, teammates.storage.sqlentity.FeedbackSession.class);
+        entities.put(teammates.storage.entity.FeedbackSession.class, teammates.storage.sqlentity.FeedbackSession.class);
 
         // Compare datastore "table" to postgres table for each entity
         for (Map.Entry<Class<? extends BaseEntity>, Class<? extends teammates.storage.sqlentity.BaseEntity>> entry : entities
