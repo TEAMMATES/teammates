@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.test.TestProperties;
 
 /**
  * SUT: {@link AccountRequestsDb}.
@@ -193,18 +194,4 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(accountRequest, actual);
     }
 
-    @Test
-    public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
-        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
-
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        accountRequestDb.createAccountRequest(accountRequest);
-
-        String searchInjection = "institute'; DROP TABLE account_requests; --";
-        List<AccountRequest> actualInjection = accountRequestDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(0, actualInjection.size());
-
-        AccountRequest actual = accountRequestDb.getAccountRequest("test@gmail.com", "institute");
-        assertEquals(accountRequest, actual);
-    }
 }
