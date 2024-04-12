@@ -3,7 +3,7 @@ package teammates.client.scripts.sql;
 import teammates.storage.entity.Course;
 
 /**
- * Class for verifying account attributes.
+ * Class for verifying course attributes.
  */
 @SuppressWarnings("PMD")
 public class VerifyCourseAttributes
