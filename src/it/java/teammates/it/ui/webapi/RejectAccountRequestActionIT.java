@@ -222,7 +222,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         HibernateUtil.beginTransaction();
         List<AccountRequest> accountRequests = logic.getAllAccountRequests();
         for (AccountRequest ar : accountRequests) {
-            logic.deleteAccountRequest(ar.getEmail(), ar.getInstitute());
+            logic.deleteAccountRequest(ar.getId());
         }
         HibernateUtil.commitTransaction();
     }

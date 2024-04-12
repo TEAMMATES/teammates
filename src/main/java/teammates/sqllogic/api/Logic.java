@@ -205,6 +205,13 @@ public class Logic {
     }
 
     /**
+     * Get a list of account requests associated with email provided.
+     */
+    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
+        return accountRequestLogic.getApprovedAccountRequestsForEmailWithTransaction(email);
+    }
+
+    /**
      * Gets an account.
      */
     public Account getAccount(UUID id) {
