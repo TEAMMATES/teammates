@@ -11,6 +11,7 @@ import java.util.UUID;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -22,8 +23,8 @@ import teammates.storage.sqlentity.Student;
  */
 public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
 
-    static final int COLLECTION_TIME_PERIOD = 15; // in minutes
-    static final long SPAM_FILTER = 2000L; // in ms
+    static final long COLLECTION_TIME_PERIOD = Const.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL.toMinutes();
+    static final long SPAM_FILTER = Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis();
 
     @Override
     public JsonResult execute() {

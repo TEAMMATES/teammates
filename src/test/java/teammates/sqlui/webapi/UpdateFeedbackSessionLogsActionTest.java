@@ -32,8 +32,8 @@ import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 public class UpdateFeedbackSessionLogsActionTest
         extends BaseActionTest<UpdateFeedbackSessionLogsAction> {
 
-    static final int COLLECTION_TIME_PERIOD = 15; // in mins
-    static final long SPAM_FILTER = 2000L; // in ms
+    static final long COLLECTION_TIME_PERIOD = Const.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL.toMinutes();
+    static final long SPAM_FILTER = Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis();
 
     Student student1;
     Student student2;
