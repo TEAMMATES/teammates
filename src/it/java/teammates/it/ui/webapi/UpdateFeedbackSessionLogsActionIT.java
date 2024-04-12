@@ -26,7 +26,7 @@ import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
  */
 public class UpdateFeedbackSessionLogsActionIT extends BaseActionIT<UpdateFeedbackSessionLogsAction> {
 
-    static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
+    static final int COLLECTION_TIME_PERIOD = 15; // in minutes
     static final long SPAM_FILTER = 2000L; // in ms
 
     Student student1InCourse1;
@@ -85,37 +85,37 @@ public class UpdateFeedbackSessionLogsActionIT extends BaseActionIT<UpdateFeedba
         // Different Types
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(300).toEpochMilli());
+                startTime.plusSeconds(100).toEpochMilli());
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.SUBMISSION.getLabel(),
-                startTime.plusSeconds(300).toEpochMilli());
+                startTime.plusSeconds(100).toEpochMilli());
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.VIEW_RESULT.getLabel(),
-                startTime.plusSeconds(300).toEpochMilli());
+                startTime.plusSeconds(100).toEpochMilli());
 
         // Different feedback sessions
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(600).toEpochMilli());
+                startTime.plusSeconds(200).toEpochMilli());
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session2InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(600).toEpochMilli());
+                startTime.plusSeconds(200).toEpochMilli());
 
         // Different Student
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(900).toEpochMilli());
+                startTime.plusSeconds(300).toEpochMilli());
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student2InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(900).toEpochMilli());
+                startTime.plusSeconds(300).toEpochMilli());
 
         // Different course
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(1200).toEpochMilli());
+                startTime.plusSeconds(400).toEpochMilli());
         mockLogsProcessor.insertFeedbackSessionLog(course3.getId(), student1InCourse3.getId(),
                 session1InCourse3.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(1200).toEpochMilli());
+                startTime.plusSeconds(400).toEpochMilli());
 
         // Gap is larger than spam filter
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
@@ -180,27 +180,27 @@ public class UpdateFeedbackSessionLogsActionIT extends BaseActionIT<UpdateFeedba
         UUID badUuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(300).toEpochMilli());
+                startTime.plusSeconds(100).toEpochMilli());
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(),
                 session1InCourse1.getId(), FeedbackSessionLogType.ACCESS.getLabel(),
-                startTime.plusSeconds(900).toEpochMilli());
+                startTime.plusSeconds(300).toEpochMilli());
 
         // bad student id
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), badUuid, session1InCourse1.getId(),
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(600).toEpochMilli());
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(200).toEpochMilli());
 
         // bad session id
         mockLogsProcessor.insertFeedbackSessionLog(course1.getId(), student1InCourse1.getId(), badUuid,
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(600).toEpochMilli());
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(200).toEpochMilli());
 
         UpdateFeedbackSessionLogsAction action = getAction();
         action.execute();
 
         List<FeedbackSessionLogEntry> expected = new ArrayList<>();
         expected.add(new FeedbackSessionLogEntry(course1.getId(), student1InCourse1.getId(), session1InCourse1.getId(),
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(300).toEpochMilli()));
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(100).toEpochMilli()));
         expected.add(new FeedbackSessionLogEntry(course1.getId(), student1InCourse1.getId(), session1InCourse1.getId(),
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(900).toEpochMilli()));
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime.plusSeconds(300).toEpochMilli()));
 
         List<FeedbackSessionLog> actual = logic.getOrderedFeedbackSessionLogs(course1.getId(), null, null, startTime,
                 endTime);

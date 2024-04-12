@@ -22,14 +22,14 @@ import teammates.storage.sqlentity.Student;
  */
 public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
 
-    static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
+    static final int COLLECTION_TIME_PERIOD = 15; // in minutes
     static final long SPAM_FILTER = 2000L; // in ms
 
     @Override
     public JsonResult execute() {
         List<FeedbackSessionLog> filteredLogs = new ArrayList<>();
 
-        Instant endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
+        Instant endTime = TimeHelper.getInstantNearestQuarterHourBefore(Instant.now());
         Instant startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
         List<FeedbackSessionLogEntry> logEntries = logsProcessor.getOrderedFeedbackSessionLogs(null, null,
