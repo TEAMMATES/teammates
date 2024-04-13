@@ -185,9 +185,9 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     /**
      * Soft-deletes a specific feedback session by its name and course id.
      *
-     * @return Soft-deletion time of the feedback session.
+     * @return the feedback session.
      */
-    public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
+    public FeedbackSession softDeleteFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
         assert courseId != null;
         assert feedbackSessionName != null;
@@ -201,7 +201,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         feedbackSessionEntity.setDeletedAt(Instant.now());
         merge(feedbackSessionEntity);
 
-        return feedbackSessionEntity.getDeletedAt();
+        return feedbackSessionEntity;
     }
 
     /**
