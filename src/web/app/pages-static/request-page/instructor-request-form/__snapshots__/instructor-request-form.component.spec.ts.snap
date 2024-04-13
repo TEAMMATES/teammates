@@ -181,6 +181,7 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
       <textarea
         aria-invalid="false"
         class="form-control ng-untouched ng-pristine ng-valid"
+        id="comments"
       />
     </div>
     <br />
