@@ -278,6 +278,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
     }
 
+    /**
+     * Checks if the feedback session is published.
+     */
     protected boolean isFeedbackSessionPublished(FeedbackSessionPublishStatus status) {
         return status == FeedbackSessionPublishStatus.PUBLISHED;
     }

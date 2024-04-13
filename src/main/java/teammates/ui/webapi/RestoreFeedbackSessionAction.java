@@ -32,7 +32,8 @@ class RestoreFeedbackSessionAction extends Action {
                     feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
-            FeedbackSessionAttributes feedbackSession = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+            FeedbackSessionAttributes feedbackSession =
+                    logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
 
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(courseId, userInfo.getId()),

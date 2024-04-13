@@ -140,6 +140,11 @@ public class FeedbackSession extends BaseEntity {
         return copy;
     }
 
+    /**
+     * Creates a copy of the feedback session.
+     *
+     * @return The copy of this object.
+     */
     public FeedbackSession getCopy() {
         FeedbackSession fs = new FeedbackSession(
                 name, course, creatorEmail, instructions, startTime,
