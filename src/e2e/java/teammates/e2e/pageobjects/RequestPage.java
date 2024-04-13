@@ -4,6 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * Page Object Model for account request form page.
+ */
 public class RequestPage extends AppPage {
 
     @FindBy(id = "btn-am-instructor")
@@ -35,7 +38,7 @@ public class RequestPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageTitle().contains("Request for an Instructor Account");
     }
-    
+
     public void clickAmInstructorButton() {
         click(amInstructorButton);
         waitForPageToLoad();
@@ -57,11 +60,11 @@ public class RequestPage extends AppPage {
     public void verifySubmittedInfo(String name, String institution, String country, String email, String comments) {
         WebElement table = browser.driver.findElement(By.className("table"));
         String[][] expected = {
-            {name},
-            {institution},
-            {country},
-            {email},
-            {comments}
+                { name },
+                { institution },
+                { country },
+                { email },
+                { comments },
         };
         verifyTableBodyValues(table, expected);
     }

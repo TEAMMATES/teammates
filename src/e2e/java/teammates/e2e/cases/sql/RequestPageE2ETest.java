@@ -6,6 +6,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.RequestPage;
 
+/**
+ * SUT: {@link Const.WebPageURIs#ACCOUNT_REQUEST_PAGE}.
+ */
 public class RequestPageE2ETest extends BaseE2ETestCase {
 
     @Override
@@ -23,7 +26,7 @@ public class RequestPageE2ETest extends BaseE2ETestCase {
         String comments = "arf-test-comments";
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ACCOUNT_REQUEST_PAGE);
-        RequestPage  requestPage = getNewPageInstance(url, RequestPage.class);
+        RequestPage requestPage = getNewPageInstance(url, RequestPage.class);
 
         ______TS("verify submission with comments");
         requestPage.clickAmInstructorButton();
@@ -34,9 +37,8 @@ public class RequestPageE2ETest extends BaseE2ETestCase {
         ______TS("verify submission without comments");
         requestPage = getNewPageInstance(url, RequestPage.class);
         requestPage.clickAmInstructorButton();
-        requestPage.fillForm(name, institution, country, email, null);
+        requestPage.fillForm(name, institution, country, email, "");
         requestPage.clickSubmitFormButton();
-        requestPage.verifySubmittedInfo(name, institution, country, email, null);
+        requestPage.verifySubmittedInfo(name, institution, country, email, "");
     }
-    
 }
