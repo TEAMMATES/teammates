@@ -222,14 +222,18 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             return getStudent((Student) entity);
         } else if (entity instanceof FeedbackQuestion) {
             return getFeedbackQuestion((FeedbackQuestion) entity);
+        } else if (entity instanceof FeedbackSession) {
+            return getFeedbackSession((FeedbackSession) entity);
         } else if (entity instanceof FeedbackResponse) {
             return getFeedbackResponse((FeedbackResponse) entity);
-        } else {
+        }else {
             throw new RuntimeException("Unknown entity type");
         }
     }
 
     protected abstract FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq);
+
+    protected abstract FeedbackSessionData getFeedbackSession(FeedbackSession fq);
 
     protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fq);
 
