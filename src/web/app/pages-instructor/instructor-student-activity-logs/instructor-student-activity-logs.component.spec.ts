@@ -232,9 +232,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      selectedStudent: { studentEmail: testStudent.email, studentId: undefined },
+      selectedStudent: { studentEmail: testStudent.email, studentId: '' },
       logType: 'submission',
-      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
+      selectedSession: { feedbackSessionName: '', sessionId: '' },
       showActions: true,
       showInactions: false,
     };
@@ -259,10 +259,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
       searchUntil: (new Date('2021-01-01T00:00+00:00').getTime()
         - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
       studentEmail: testStudent.email,
-      sessionName: undefined,
+      sessionName: '',
       logType: 'submission',
-      studentId: undefined,
-      sessionId: undefined,
+      studentId: '',
+      sessionId: '',
     });
 
     expect(component.searchResults.length).toEqual(2);
@@ -274,7 +274,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       expect(component.searchResults[i].isTabExpanded).toBeTruthy();
       expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`submission at ${timestamp}`);
+      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
     }
   });
 });

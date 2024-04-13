@@ -5,6 +5,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
+  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
@@ -31,7 +32,11 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
     <b>
       owner or manager privileges
     </b>
-     for the course. The earliest date you can search for is 
+     for the course. Please note that recent logs may be shown as the information is updated every 
+    <b>
+      15 minutes
+    </b>
+    . The earliest date you can search for is 
     <b>
       30 days
     </b>
@@ -64,6 +69,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
+  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
@@ -90,7 +96,11 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
     <b>
       owner or manager privileges
     </b>
-     for the course. The earliest date you can search for is 
+     for the course. Please note that recent logs may be shown as the information is updated every 
+    <b>
+      15 minutes
+    </b>
+    . The earliest date you can search for is 
     <b>
       30 days
     </b>
@@ -567,7 +577,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               id="session-dropdown"
             >
               <option
-                value=""
+                value="0: Object"
               />
             </select>
           </div>
@@ -633,6 +643,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
+  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
@@ -659,7 +670,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
     <b>
       owner or manager privileges
     </b>
-     for the course. The earliest date you can search for is 
+     for the course. Please note that recent logs may be shown as the information is updated every 
+    <b>
+      15 minutes
+    </b>
+    . The earliest date you can search for is 
     <b>
       30 days
     </b>
@@ -692,6 +707,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
+  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
@@ -718,7 +734,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
     <b>
       owner or manager privileges
     </b>
-     for the course. The earliest date you can search for is 
+     for the course. Please note that recent logs may be shown as the information is updated every 
+    <b>
+      15 minutes
+    </b>
+    . The earliest date you can search for is 
     <b>
       30 days
     </b>
@@ -1190,7 +1210,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               id="session-dropdown"
             >
               <option
-                value=""
+                value="0: Object"
               />
             </select>
           </div>
