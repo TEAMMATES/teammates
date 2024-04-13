@@ -140,7 +140,7 @@ public class FeedbackSession extends BaseEntity {
         return copy;
     }
 
-    private FeedbackSession getCopy() {
+    public FeedbackSession getCopy() {
         FeedbackSession fs = new FeedbackSession(
                 name, course, creatorEmail, instructions, startTime,
                 endTime, sessionVisibleFromTime, resultsVisibleFromTime,
@@ -507,7 +507,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Returns {@code true} if the results of the feedback session is visible; {@code false} if not.
+     * Returns {@code true} if the results of the feedback session is published; {@code false} if not.
      *         Does not care if the session has ended or not.
      */
     public boolean isPublished() {
