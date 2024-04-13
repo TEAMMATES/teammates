@@ -9,7 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.test.TestProperties;
+
 
 /**
  * SUT: {@link AccountRequestsDb}.
