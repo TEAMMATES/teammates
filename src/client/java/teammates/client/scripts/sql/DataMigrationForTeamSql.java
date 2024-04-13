@@ -56,10 +56,11 @@ public class DataMigrationForTeamSql extends
         teammates.storage.sqlentity.Course newCourse = getNewCourse(oldCourse.getUniqueId());
         Map<String, Section> sectionNameToSectionMap =
                 newCourse.getSections().stream().collect(Collectors.toMap(Section::getName, s -> s));
-        HibernateUtil.commitTransaction();
 
         getTeamNameToSectionNameMap(oldCourse).forEach((teamName, sectionName) ->
-                        saveEntityDeferred(new Team(sectionNameToSectionMap.get(sectionName), teamName)));
+                        HibernateUtil.persist(new Team(sectionNameToSectionMap.get(sectionName), teamName)));
+
+        HibernateUtil.commitTransaction();
     }
 
     private teammates.storage.sqlentity.Course getNewCourse(String courseId) {
