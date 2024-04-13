@@ -646,7 +646,7 @@ public abstract class AbstractBackDoor {
     /**
      * Get soft deleted feedback session from database.
      */
-    public FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName, String instructorId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
         params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
@@ -663,6 +663,14 @@ public abstract class AbstractBackDoor {
                 .findFirst()
                 .orElse(null);
 
+        return feedbackSession;
+    }
+
+    /**
+     * Get soft deleted feedback session from database.
+     */
+    public FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        FeedbackSessionData feedbackSession = getSoftDeletedSessionData(feedbackSessionName, instructorId);
         if (feedbackSession == null) {
             return null;
         }
