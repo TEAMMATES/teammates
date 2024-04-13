@@ -104,6 +104,20 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
+     * Get all Account Requests for a given {@code email}.
+     */
+    public List<AccountRequest> getApprovedAccountRequestsForEmail(String email) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root).where(cb.and(cb.equal(root.get("email"), email),
+                cb.equal(root.get("status"), AccountRequestStatus.APPROVED)));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultList();
+    }
+
+    /**
      * Get AccountRequest by {@code registrationKey} from database.
      */
     public AccountRequest getAccountRequestByRegistrationKey(String registrationKey) {

@@ -143,15 +143,25 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given email and institute such that it is not registered.
+     * Get a list of account requests associated with email provided.
      */
-    public AccountRequest resetAccountRequest(String email, String institute)
+    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
+        HibernateUtil.beginTransaction();
+        List<AccountRequest> accountRequests = accountRequestDb.getApprovedAccountRequestsForEmail(email);
+        HibernateUtil.commitTransaction();
+        return accountRequests;
+    }
+
+    /**
+     * Creates/resets the account request with the given id such that it is not registered.
+     */
+    public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
-        AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
+        AccountRequest accountRequest = accountRequestDb.getAccountRequest(id);
 
         if (accountRequest == null) {
             throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
-                + "the given email and institute cannot be found.");
+                + "the given id cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
 
@@ -159,13 +169,13 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes account request associated with the {@code email} and {@code institute}.
+     * Deletes account request associated with the {@code id}.
      *
-     * <p>Fails silently if no account requests with the given email and institute to delete can be found.</p>
+     * <p>Fails silently if no account requests with the given id to delete can be found.</p>
      *
      */
-    public void deleteAccountRequest(String email, String institute) {
-        AccountRequest toDelete = accountRequestDb.getAccountRequest(email, institute);
+    public void deleteAccountRequest(UUID id) {
+        AccountRequest toDelete = accountRequestDb.getAccountRequest(id);
 
         accountRequestDb.deleteAccountRequest(toDelete);
     }

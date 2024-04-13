@@ -165,19 +165,19 @@ public class Logic {
     }
 
     /**
-     * Creates/Resets the account request with the given email and institute
+     * Creates/Resets the account request with the given id
      * such that it is not registered.
      *
      * @return account request that is unregistered with the
-     *         email and institute.
+     *         id.
      */
-    public AccountRequest resetAccountRequest(String email, String institute)
+    public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
-        return accountRequestLogic.resetAccountRequest(email, institute);
+        return accountRequestLogic.resetAccountRequest(id);
     }
 
     /**
-     * Deletes account request by email and institute.
+     * Deletes account request by id.
      *
      * <ul>
      * <li>Fails silently if no such account request.</li>
@@ -186,8 +186,8 @@ public class Logic {
      * <p>Preconditions:</p>
      * All parameters are non-null.
      */
-    public void deleteAccountRequest(String email, String institute) {
-        accountRequestLogic.deleteAccountRequest(email, institute);
+    public void deleteAccountRequest(UUID id) {
+        accountRequestLogic.deleteAccountRequest(id);
     }
 
     /**
@@ -202,6 +202,13 @@ public class Logic {
      */
     public List<AccountRequest> getAllAccountRequests() {
         return accountRequestLogic.getAllAccountRequests();
+    }
+
+    /**
+     * Get a list of account requests associated with email provided.
+     */
+    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
+        return accountRequestLogic.getApprovedAccountRequestsForEmailWithTransaction(email);
     }
 
     /**
@@ -226,6 +233,13 @@ public class Logic {
     }
 
     /**
+     * Get a list of accounts associated with email provided.
+     */
+    public List<Account> getAccountsForEmailWithTransaction(String email) {
+        return accountsLogic.getAccountsForEmailWithTransaction(email);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
@@ -235,6 +249,18 @@ public class Logic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsLogic.createAccount(account);
+    }
+
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the database.
+     */
+    public Account createAccountWithTransaction(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return accountsLogic.createAccountWithTransaction(account);
     }
 
     /**
