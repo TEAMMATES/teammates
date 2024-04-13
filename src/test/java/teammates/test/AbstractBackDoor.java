@@ -657,13 +657,11 @@ public abstract class AbstractBackDoor {
         }
 
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
-        FeedbackSessionData feedbackSession = sessionsData.getFeedbackSessions()
+        return sessionsData.getFeedbackSessions()
                 .stream()
                 .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
                 .findFirst()
                 .orElse(null);
-
-        return feedbackSession;
     }
 
     /**

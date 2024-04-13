@@ -205,7 +205,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyStatusMessage("The feedback session has been deleted. "
                 + "You can restore it from the 'Sessions' tab.");
         homePage.sortCoursesByCreationDate();
-        courseIndex = 1;
         otherCourseIndex = 0;
         FeedbackSession[] otherCourseSessionsWithCopyTwo = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
