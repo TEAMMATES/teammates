@@ -60,7 +60,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               email
             </td>
             <td>
-              REJECTED
+              PENDING
             </td>
             <td>
               institute
@@ -68,7 +68,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
             <td
               id="timestamp-box"
             >
-              createdTime
+              Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td>
               <div
@@ -129,7 +129,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    disabled=""
                     id="reject-account-request-0"
                     ngbdropdowntoggle=""
                     type="button"
@@ -165,7 +164,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               email
             </td>
             <td>
-              REJECTED
+              PENDING
             </td>
             <td>
               institute
@@ -173,7 +172,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
             <td
               id="timestamp-box"
             >
-              createdTime
+              Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td>
               <div
@@ -234,7 +233,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    disabled=""
                     id="reject-account-request-1"
                     ngbdropdowntoggle=""
                     type="button"
@@ -353,7 +351,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
               email
             </td>
             <td>
-              REJECTED
+              APPROVED
             </td>
             <td>
               institute
@@ -361,12 +359,12 @@ exports[`AccountRequestTableComponent should display account requests with reset
             <td
               id="timestamp-box"
             >
-              createdTime
+              Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td
               id="timestamp-box"
             >
-              registeredTime
+              Not Registered Yet
             </td>
             <td>
               <div
@@ -415,6 +413,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <button
                   class="btn btn-success"
+                  disabled=""
                   id="approve-account-request-0"
                 >
                   Approve
@@ -457,6 +456,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 >
                   <button
                     class="btn btn-primary"
+                    disabled=""
                     id="reset-account-request-0"
                   >
                     Reset
@@ -473,7 +473,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
               email
             </td>
             <td>
-              REJECTED
+              REGISTERED
             </td>
             <td>
               institute
@@ -481,12 +481,12 @@ exports[`AccountRequestTableComponent should display account requests with reset
             <td
               id="timestamp-box"
             >
-              createdTime
+              Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td
               id="timestamp-box"
             >
-              registeredTime
+              Not Registered Yet
             </td>
             <td>
               <div
@@ -535,6 +535,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <button
                   class="btn btn-success"
+                  disabled=""
                   id="approve-account-request-1"
                 >
                   Approve
@@ -577,6 +578,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 >
                   <button
                     class="btn btn-primary"
+                    disabled=""
                     id="reset-account-request-1"
                   >
                     Reset
@@ -652,7 +654,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               email
             </td>
             <td>
-              REJECTED
+              PENDING
             </td>
             <td>
               institute
@@ -660,7 +662,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
             <td
               id="timestamp-box"
             >
-              createdTime
+              Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td>
               <div
@@ -721,7 +723,6 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    disabled=""
                     id="reject-account-request-0"
                     ngbdropdowntoggle=""
                     type="button"

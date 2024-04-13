@@ -39,40 +39,12 @@ describe('AccountRequestTableComponent', () => {
         showLinks: false,
     });
 
-    const DEFAULT_ACCOUNT_REQUEST_PENDING = accountRequestDetailsBuilder
+    const DEFAULT_ACCOUNT_REQUEST = accountRequestDetailsBuilder
         .email('email')
         .name('name')
         .status(AccountRequestStatus.PENDING)
         .instituteAndCountry('institute')
         .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
-        .comments('comment');
-
-    const DEFAULT_ACCOUNT_REQUEST_APPROVED = accountRequestDetailsBuilder
-        .email('email')
-        .name('name')
-        .status(AccountRequestStatus.APPROVED)
-        .registrationLink('registrationLink')
-        .instituteAndCountry('institute')
-        .createdAtText('createdTime')
-        .comments('comment');
-
-    const DEFAULT_ACCOUNT_REQUEST_REGISTERED = accountRequestDetailsBuilder
-        .email('email')
-        .name('name')
-        .status(AccountRequestStatus.REGISTERED)
-        .registrationLink('registrationLink')
-        .instituteAndCountry('institute')
-        .registeredAtText('registeredTime')
-        .createdAtText('createdTime')
-        .comments('comment');
-
-    const DEFAULT_ACCOUNT_REQUEST_REJECTED = accountRequestDetailsBuilder
-        .email('email')
-        .name('name')
-        .status(AccountRequestStatus.REJECTED)
-        .registrationLink('registrationLink')
-        .instituteAndCountry('institute')
-        .createdAtText('createdTime')
         .comments('comment');
 
     const resetModalContent = `Are you sure you want to reset the account request for
@@ -114,8 +86,9 @@ describe('AccountRequestTableComponent', () => {
       });
 
       it('should snap with an expanded account requests table', () => {
+        const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
         component.accountRequests = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          accountRequestResult,
         ];
 
         fixture.detectChanges();
@@ -123,8 +96,12 @@ describe('AccountRequestTableComponent', () => {
       });
 
       it('should show account request links when expand all button clicked', () => {
-        const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST_APPROVED.build();
-        component.accountRequests = [accountRequestResult];
+        const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        accountRequestResult.status = AccountRequestStatus.APPROVED;
+        accountRequestResult.registrationLink = 'registrationLink';
+        component.accountRequests = [
+          accountRequestResult,
+        ];
         component.searchString = 'test';
         fixture.detectChanges();
 
@@ -135,8 +112,8 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display account requests with no reset or expand links button', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+            DEFAULT_ACCOUNT_REQUEST.build(),
+            DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -146,9 +123,17 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display account requests with reset button and expandable links buttons',
       () => {
+        const approvedAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        approvedAccountRequestResult.status = AccountRequestStatus.APPROVED;
+        approvedAccountRequestResult.registrationLink = 'registrationLink';
+
+        const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
+        registeredAccountRequestResult.registrationLink = 'registrationLink';
+
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_APPROVED.build(),
-            DEFAULT_ACCOUNT_REQUEST_REJECTED.build(),
+            approvedAccountRequestResult,
+            registeredAccountRequestResult,
         ];
 
         component.accountRequests = accountRequestResults;
@@ -159,7 +144,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should show success message when deleting account request is successful', () => {
         component.accountRequests = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+            DEFAULT_ACCOUNT_REQUEST.build(),
         ];
         fixture.detectChanges();
 
@@ -186,7 +171,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should show error message when deleting account request is unsuccessful', () => {
         component.accountRequests = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+            DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         fixture.detectChanges();
@@ -215,8 +200,12 @@ describe('AccountRequestTableComponent', () => {
       });
 
       it('should show success message when resetting account request is successful', () => {
+        const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
+        registeredAccountRequestResult.registrationLink = 'registrationLink';
+        registeredAccountRequestResult.registeredAtText = 'registeredTime';
         component.accountRequests = [
-            DEFAULT_ACCOUNT_REQUEST_REGISTERED.build(),
+            registeredAccountRequestResult,
         ];
 
         component.searchString = 'test';
@@ -245,9 +234,14 @@ describe('AccountRequestTableComponent', () => {
       });
 
       it('should show error message when resetting account request is unsuccessful', () => {
+        const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
+        registeredAccountRequestResult.registrationLink = 'registrationLink';
+        registeredAccountRequestResult.registeredAtText = 'registeredTime';
         component.accountRequests = [
-            DEFAULT_ACCOUNT_REQUEST_REGISTERED.build(),
+            registeredAccountRequestResult,
         ];
+
         component.searchString = 'test';
         fixture.detectChanges();
 
@@ -276,7 +270,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display comment modal', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+            DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -294,7 +288,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display edit modal when edit button is clicked', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -312,7 +306,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display reject modal when reject button is clicked', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -331,7 +325,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display error message when rejection was unsuccessful', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -356,7 +350,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display error message when approval was unsuccessful', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-          DEFAULT_ACCOUNT_REQUEST_REJECTED.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -381,7 +375,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display error message when edit was unsuccessful', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -410,7 +404,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should update request when edit is succcessful', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -447,7 +441,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should update status when approval is succcessful', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -475,7 +469,7 @@ describe('AccountRequestTableComponent', () => {
 
       it('should update status when rejection is succcessful', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST_PENDING.build(),
+          DEFAULT_ACCOUNT_REQUEST.build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -494,8 +488,8 @@ describe('AccountRequestTableComponent', () => {
 
         jest.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(rejectedRequest));
 
-        const approveButton: any = fixture.debugElement.nativeElement.querySelector('#reject-account-request-0');
-        approveButton.click();
+        const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
+        rejectButton.click();
 
         fixture.detectChanges();
         expect(component.accountRequests[0].status).toEqual(AccountRequestStatus.REJECTED);
