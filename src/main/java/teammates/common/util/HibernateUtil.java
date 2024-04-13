@@ -111,21 +111,28 @@ public final class HibernateUtil {
         Configuration config = new Configuration()
                 .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                 .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
+                .setProperty("hibernate.connection.provider_class",
+                        "org.hibernate.hikaricp.internal.HikariCPConnectionProvider")
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)
                 .setProperty("hibernate.connection.url", dbUrl)
-                .setProperty("hibernate.hbm2ddl.auto", "update")
+                .setProperty("hibernate.hbm2ddl.auto", "validate")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
-                .setProperty("hibernate.agroal.minSize", "5")
-                .setProperty("hibernate.agroal.maxSize", "50")
-                .setProperty("hibernate.agroal.reapTimeout", "PT1M")
+                .setProperty("hibernate.hikari.minimumIdle", "10")
+                .setProperty("hibernate.hikari.maximumPoolSize", "30")
+                .setProperty("hibernate.hikari.idleTimeout", "300000")
+                .setProperty("hibernate.hikari.connectionTimeout", "30000")
                 // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
                 // .setProperty("hibernate.jdbc.batch_size", "50")
                 // .setProperty("hibernate.order_updates", "true")
                 // .setProperty("hibernate.batch_versioned_data", "true")
                 // .setProperty("hibernate.jdbc.fetch_size", "50")
                 .addPackage("teammates.storage.sqlentity");
+
+        if (Config.IS_DEV_SERVER) {
+            config.setProperty("hibernate.hbm2ddl.auto", "update");
+        }
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {
             config = config.addAnnotatedClass(cls);

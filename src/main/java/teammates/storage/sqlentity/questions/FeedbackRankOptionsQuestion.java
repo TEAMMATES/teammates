@@ -33,8 +33,7 @@ public class FeedbackRankOptionsQuestion extends FeedbackQuestion {
             String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
-            FeedbackQuestionDetails feedbackQuestionDetails
-    ) {
+            FeedbackQuestionDetails feedbackQuestionDetails) {
         super(feedbackSession, questionNumber, description, giverType, recipientType,
                 numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
         setFeedBackQuestionDetails((FeedbackRankOptionsQuestionDetails) feedbackQuestionDetails);

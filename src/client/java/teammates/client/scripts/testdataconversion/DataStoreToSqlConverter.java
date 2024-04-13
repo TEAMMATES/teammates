@@ -57,8 +57,7 @@ public class DataStoreToSqlConverter {
     private UuidGenerator accounRequestUuidGenerator = new UuidGenerator(initialAccountRequestNumber, uuidPrefix);
     private UuidGenerator sectionUuidGenerator = new UuidGenerator(initialSectionNumber, uuidPrefix);
     private UuidGenerator teamUuidGenerator = new UuidGenerator(initialTeamNumber, uuidPrefix);
-    private UuidGenerator deadlineExtensionUuidGenerator = new UuidGenerator(initialDeadlineExtensionNumber,
-            uuidPrefix);
+    private UuidGenerator deadlineExtensionUuidGenerator = new UuidGenerator(initialDeadlineExtensionNumber, uuidPrefix);
     private UuidGenerator instructorUuidGenerator = new UuidGenerator(initialInstructorNumber, uuidPrefix);
     private UuidGenerator studentUuidGenerator = new UuidGenerator(initialStudentNumber, uuidPrefix);
     private UuidGenerator feedbackSessionUuidGenerator = new UuidGenerator(intitialFeedbackSessionNumber, uuidPrefix);
@@ -262,11 +261,9 @@ public class DataStoreToSqlConverter {
      */
     protected DeadlineExtension convert(DeadlineExtensionAttributes deadlineExtension) {
         FeedbackSession sqlFeedbackSession = feedbackSessions.get(
-                generatefeedbackSessionKey(deadlineExtension.getCourseId(),
-                        deadlineExtension.getFeedbackSessionName()));
+                generatefeedbackSessionKey(deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName()));
 
-        // User is not included since DataBundleLogic.java does not read users from this
-        // attribute
+        // User is not included since DataBundleLogic.java does not read users from this attribute
         DeadlineExtension sqlDE = new DeadlineExtension(null,
                 sqlFeedbackSession,
                 deadlineExtension.getEndTime());
