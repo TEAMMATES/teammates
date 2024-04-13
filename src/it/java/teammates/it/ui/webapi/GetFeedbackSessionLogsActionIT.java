@@ -41,7 +41,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         return GET;
     }
 
-    @Test(enabled = false)
+    @Test
     @Override
     protected void testExecute() {
         JsonResult actionOutput;
@@ -49,7 +49,6 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         Course course = typicalBundle.courses.get("course1");
         String courseId = course.getId();
         FeedbackSession fsa1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        String fsa1Name = fsa1.getName();
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student2 = typicalBundle.students.get("student2InCourse1");
         String student1Email = student1.getEmail();
@@ -73,16 +72,16 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         ______TS("Failure case: invalid course id");
         String[] paramsInvalid1 = {
                 Const.ParamsNames.COURSE_ID, "fake-course-id",
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
         verifyEntityNotFound(paramsInvalid1);
 
-        ______TS("Failure case: invalid student email");
+        ______TS("Failure case: invalid student id");
         String[] paramsInvalid2 = {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, "fake-student-email@gmail.com",
+                Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
@@ -140,10 +139,10 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
         assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
-        ______TS("Success case: should accept optional email");
+        ______TS("Success case: should accept optional student Id");
         String[] paramsSuccessful2 = {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
@@ -170,10 +169,10 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
         assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
-        ______TS("Success case: should accept feedback session");
+        ______TS("Success case: should accept optional feedback session");
         String[] paramsSuccessful3 = {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };

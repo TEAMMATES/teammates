@@ -23,10 +23,9 @@ public interface LogService {
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType);
 
     /**
-     * Creates a feedback session log.
+     * Creates a feedback session log for migrated courses.
      */
-    void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
-            String fslType);
+    void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType);
 
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by ascending timestamp.

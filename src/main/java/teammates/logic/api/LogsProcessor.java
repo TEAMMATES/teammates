@@ -54,9 +54,8 @@ public class LogsProcessor {
     /**
      * Creates a feedback session log.
      */
-    public void createFeedbackSessionLog(String courseId, UUID studentId, String email, UUID fsId, String fsName,
-            String fslType) {
-        service.createFeedbackSessionLog(courseId, studentId, email, fsId, fsName, fslType);
+    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
+        service.createFeedbackSessionLog(courseId, studentId, fsId, fslType);
     }
 
     /**

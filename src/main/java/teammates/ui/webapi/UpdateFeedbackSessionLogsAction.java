@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -21,23 +23,29 @@ import teammates.storage.sqlentity.Student;
  */
 public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
 
-    static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
-    static final long SPAM_FILTER = 2000L; // in ms
+    static final long COLLECTION_TIME_PERIOD = Const.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL.toMinutes();
+    static final long SPAM_FILTER = Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis();
 
     @Override
     public JsonResult execute() {
         List<FeedbackSessionLog> filteredLogs = new ArrayList<>();
 
-        Instant endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
+        Instant endTime = TimeHelper.getInstantNearestQuarterHourBefore(Instant.now());
         Instant startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
         List<FeedbackSessionLogEntry> logEntries = logsProcessor.getOrderedFeedbackSessionLogs(null, null,
                 startTime.toEpochMilli(), endTime.toEpochMilli(), null);
 
         Map<UUID, Map<String, Map<UUID, Map<String, Long>>>> lastSavedTimestamps = new HashMap<>();
+        Map<String, Boolean> isCourseMigratedMap = new HashMap<>();
         for (FeedbackSessionLogEntry logEntry : logEntries) {
 
-            if (!isCourseMigrated(logEntry.getCourseId())) {
+            isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(), k -> {
+                CourseAttributes course = logic.getCourse(logEntry.getCourseId());
+                return course == null || course.isMigrated();
+            });
+
+            if (!isCourseMigratedMap.get(logEntry.getCourseId())) {
                 continue;
             }
 

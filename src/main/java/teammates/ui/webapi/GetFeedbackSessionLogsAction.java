@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
@@ -109,25 +110,34 @@ public class GetFeedbackSessionLogsAction extends Action {
             }
         }
 
-        String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
         if (isCourseMigrated(courseId)) {
-            // TODO: replace null ids with value from request after FE changes and enable test
+            UUID studentId = null;
+            UUID feedbackSessionId = null;
+            String studentIdString = getRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+            String feedbackSessionIdString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+
+            if (studentIdString != null) {
+                studentId = getUuidFromString(Const.ParamsNames.STUDENT_SQL_ID, studentIdString);
+            }
+
+            if (feedbackSessionIdString != null) {
+                feedbackSessionId = getUuidFromString(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionIdString);
+            }
+
             if (sqlLogic.getCourse(courseId) == null) {
                 throw new EntityNotFoundException("Course not found");
             }
 
-            if (email != null && sqlLogic.getStudentForEmail(courseId, email) == null) {
+            if (studentId != null && sqlLogic.getStudent(studentId) == null) {
                 throw new EntityNotFoundException("Student not found");
             }
 
-            if (feedbackSessionName != null && sqlLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+            if (feedbackSessionId != null && sqlLogic.getFeedbackSession(feedbackSessionId) == null) {
                 throw new EntityNotFoundException("Feedback session not found");
             }
 
-            List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, null,
-                    null, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
+            List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, studentId,
+                    feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
             Map<String, Student> studentsMap = new HashMap<>();
             Map<String, FeedbackSession> sessionsMap = new HashMap<>();
             List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
@@ -142,7 +152,7 @@ public class GetFeedbackSessionLogsAction extends Action {
                 }
 
                 if (!studentsMap.containsKey(logEntry.getStudent().getEmail())) {
-                    Student student = sqlLogic.getStudentForEmail(courseId, logEntry.getStudent().getEmail());
+                    Student student = sqlLogic.getStudent(logEntry.getStudent().getId());
                     if (student == null) {
                         // If the student email retrieved from the log is invalid, ignore the log
                         return false;
@@ -163,10 +173,12 @@ public class GetFeedbackSessionLogsAction extends Action {
                 throw new EntityNotFoundException("Course not found");
             }
 
+            String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
             if (email != null && logic.getStudentForEmail(courseId, email) == null) {
                 throw new EntityNotFoundException("Student not found");
             }
 
+            String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
             if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
                 throw new EntityNotFoundException("Feedback session not found");
             }
