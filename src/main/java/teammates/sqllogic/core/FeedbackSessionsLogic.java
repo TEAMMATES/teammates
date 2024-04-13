@@ -111,7 +111,7 @@ public final class FeedbackSessionsLogic {
      * @return null if not found.
      */
     public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        return fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
+        return fsDb.getSoftDeletedFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
