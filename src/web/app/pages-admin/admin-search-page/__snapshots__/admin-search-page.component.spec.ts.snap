@@ -519,6 +519,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                   </div>
                   <div
                     class="ngb-tooltip-class"
+                    placement="top"
                   >
                     <a
                       href="javascript:;"
