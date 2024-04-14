@@ -8,7 +8,7 @@ import {
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountRequest, AccountRequestStatus, MessageOutput } from '../../../types/api-output';
+import { AccountRequest, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -89,8 +89,8 @@ export class AccountRequestTableComponent {
     this.accountService.approveAccountRequest(accountRequest.id, accountRequest.name,
         accountRequest.email, accountRequest.instituteAndCountry)
     .subscribe({
-      next: () => {
-        accountRequest.status = AccountRequestStatus.APPROVED;
+      next: (resp : AccountRequest) => {
+        accountRequest.status = resp.status;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);

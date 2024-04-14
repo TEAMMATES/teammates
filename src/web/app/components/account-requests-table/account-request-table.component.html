@@ -66,12 +66,12 @@
                     <i class="fa-solid fa-eye"></i>
                 </a>
               </div>
-              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="accountRequest.registeredAtText || accountRequest.status === 'APPROVED'" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)">Approve</button>
+              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED'" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)">Approve</button>
               <span ngbDropdown container="body">
-                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="accountRequest.registeredAtText || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED'" ngbDropdownToggle> Reject </button>
+                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="accountRequest.status === 'REGISTERED' || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED'" ngbDropdownToggle> Reject </button>
                 <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                  <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest)"> Reject </button>
-                  <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest)"> Reject With Reason </button>
+                  <button id="reject-request-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest)"> Reject </button>
+                  <button id="reject-request-with-reason-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest)"> Reject With Reason </button>
                 </div>
               </span>
               <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
