@@ -8,6 +8,7 @@ import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.ui.output.StudentData;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
@@ -54,10 +55,14 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
         enrollPage.verifyExistingStudentsTableContains(studentsEnrollingToEmptyCourse);
 
+        StudentData s1 = new StudentData(student1);
+        StudentData s2 = new StudentData(student2);
+        StudentData s3 = new StudentData(student3);
+
         // verify students in database
-        assertEquals(getStudent(student1), student1);
-        assertEquals(getStudent(student2), student2);
-        assertEquals(getStudent(student3), student3);
+        assertEquals(getStudent(student1), s1);
+        assertEquals(getStudent(student2), s2);
+        assertEquals(getStudent(student3), s3);
 
         ______TS("Enroll and modify students in existing course");
         // modify team details of existing student
@@ -83,11 +88,14 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage.verifyResultsPanelContains(newStudentsData, modifiedStudentsData, modifiedWithoutChangeStudentsData,
                 errorStudentsData, unmodifiedStudentsData);
 
+        s3 = new StudentData(student3);
+        StudentData s4 = new StudentData(student4);
+
         // verify students in database
-        assertEquals(getStudent(student1), student1);
-        assertEquals(getStudent(student2), student2);
-        assertEquals(getStudent(student3), student3);
-        assertEquals(getStudent(student4), student4);
+        assertEquals(getStudent(student1), s1);
+        assertEquals(getStudent(student2), s2);
+        assertEquals(getStudent(student3), s3);
+        assertEquals(getStudent(student4), s4);
         assertNull(getStudent(student5));
 
         // refresh page to confirm enrollment
