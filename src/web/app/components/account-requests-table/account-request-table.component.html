@@ -56,7 +56,7 @@
                     <i class="fa-solid fa-pen"></i>
                   </a>
                 </div>
-              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
+              <div class="ngb-tooltip-class" [ngbTooltip]="'Account requests of registered instructors cannot be deleted'" placement="top">
                 <a id="delete-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)">
                   <i class="fa-solid fa-trash"></i>
                 </a>
@@ -74,7 +74,7 @@
                   <button class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest)"> Reject With Reason </button>
                 </div>
               </span>
-              <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
+              <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="'Account requests of registered instructors cannot be deleted'" placement="top">
                 <button id="reset-account-request-{{i}}" class="btn btn-primary" [disabled]="!accountRequest.registeredAtText" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);">Reset</button>
               </div>
             </div>
