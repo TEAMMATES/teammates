@@ -1,0 +1,215 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RejectWithReasonModal should show empty fields 1`] = `
+<tm-edit-request-modal
+  accountRequestComments=""
+  accountRequestEmail=""
+  accountRequestInstitution=""
+  accountRequestName=""
+  activeModal={[Function NgbActiveModal]}
+>
+  <div
+    class="modal-header bg-primary"
+  >
+    <h5
+      class="modal-title text-white"
+    >
+      <div>
+        Edit Account Request for 
+      </div>
+    </h5>
+    <button
+      class="btn-close"
+      type="button"
+    />
+  </div><div
+    class="modal-body"
+    id="reject-account-request-modal"
+  >
+    <div>
+      <label>
+        <b>
+          Name:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-name"
+        type="text"
+      />
+    </div>
+    <div>
+      <label>
+        <b>
+          Email:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-email"
+        type="text"
+      />
+    </div>
+    <div>
+      <label>
+        <b>
+          Institution, Country:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-institution"
+        type="text"
+      />
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div>
+          <label>
+            <b>
+              Comments:
+            </b>
+          </label>
+        </div>
+        <div
+          class="form-group"
+        >
+          <textarea
+            class="form-control"
+            id="request-comments"
+            rows="5"
+          />
+        </div>
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-light"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary"
+          id="btn-confirm-edit-request"
+          type="button"
+        >
+           Save 
+        </button>
+      </div>
+    </div>
+  </div>
+</tm-edit-request-modal>
+`;
+
+exports[`RejectWithReasonModal should show populated data 1`] = `
+<tm-edit-request-modal
+  accountRequestComments={[Function String]}
+  accountRequestEmail={[Function String]}
+  accountRequestInstitution={[Function String]}
+  accountRequestName={[Function String]}
+  activeModal={[Function NgbActiveModal]}
+>
+  <div
+    class="modal-header bg-primary"
+  >
+    <h5
+      class="modal-title text-white"
+    >
+      <div>
+        Edit Account Request for John Doe
+      </div>
+    </h5>
+    <button
+      class="btn-close"
+      type="button"
+    />
+  </div><div
+    class="modal-body"
+    id="reject-account-request-modal"
+  >
+    <div>
+      <label>
+        <b>
+          Name:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-name"
+        type="text"
+      />
+    </div>
+    <div>
+      <label>
+        <b>
+          Email:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-email"
+        type="text"
+      />
+    </div>
+    <div>
+      <label>
+        <b>
+          Institution, Country:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-institution"
+        type="text"
+      />
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div>
+          <label>
+            <b>
+              Comments:
+            </b>
+          </label>
+        </div>
+        <div
+          class="form-group"
+        >
+          <textarea
+            class="form-control"
+            id="request-comments"
+            rows="5"
+          />
+        </div>
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-light"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary"
+          id="btn-confirm-edit-request"
+          type="button"
+        >
+           Save 
+        </button>
+      </div>
+    </div>
+  </div>
+</tm-edit-request-modal>
+`;

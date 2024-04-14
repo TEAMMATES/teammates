@@ -27,10 +27,9 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
-        ______TS("Read account request using the given email and institute");
+        ______TS("Read account request using the given ID");
 
-        AccountRequest actualAccReqEmalAndInstitute =
-                accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actualAccReqEmalAndInstitute = accountRequestDb.getAccountRequest(accountRequest.getId());
         verifyEquals(accountRequest, actualAccReqEmalAndInstitute);
 
         ______TS("Read account request using the given registration key");

@@ -54,8 +54,8 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
         toReset.setRegisteredAt(Instant.now());
-        toReset = accountRequestsDb.getAccountRequest(email, institute);
         UUID id = toReset.getId();
+        toReset = accountRequestsDb.getAccountRequest(id);
 
         assertNotNull(toReset);
         assertNotNull(toReset.getRegisteredAt());

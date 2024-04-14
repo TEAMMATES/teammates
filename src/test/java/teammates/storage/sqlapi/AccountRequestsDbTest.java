@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -50,24 +49,11 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestDoesNotExist_success() throws InvalidParametersException {
+    public void testCreateAccountRequest_typicalCase_success() throws InvalidParametersException {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
-
         accountRequestDb.createAccountRequest(accountRequest);
 
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
-    }
-
-    @Test
-    public void testCreateAccountRequest_accountRequestAlreadyExists_createsSuccessfully()
-            throws InvalidParametersException {
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments"))
-                .when(accountRequestDb).getAccountRequest(anyString(), anyString());
-        accountRequestDb.createAccountRequest(accountRequest);
         mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
     }
 
