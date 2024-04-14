@@ -1015,10 +1015,66 @@
         "questionType": "TEXT"
       },
       "description": "Feedback question with no responses",
-      "questionNumber": 5,
+      "questionNumber": 6,
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    },
+    "qn7InSession1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000807",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "This is question 7, a text question.",
+        "questionType": "TEXT"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 7,
+      "giverType": "SELF",
+      "recipientType": "SELF",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    },
+    "qn8InSession1InCourse1": {
+    "id": "00000000-0000-4000-8000-000000000808",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "This is question 8, a text question.",
+        "questionType": "TEXT"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 8,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"]
+    },
+    "qn9InSession1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000809",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 9,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
       "showRecipientNameTo": ["INSTRUCTORS"]

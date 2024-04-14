@@ -304,6 +304,18 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets all responses from a specific giver and recipient for a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(
+            String courseId, String giverEmail, String recipientEmail) {
+        assert courseId != null;
+        assert giverEmail != null;
+        assert recipientEmail != null;
+
+        return frDb.getFeedbackResponsesForGiverAndRecipientForCourse(courseId, giverEmail, recipientEmail);
+    }
+
+    /**
      * Gets all responses given by a user for a question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForQuestion(
