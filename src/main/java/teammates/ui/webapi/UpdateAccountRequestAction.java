@@ -59,7 +59,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
                 accountRequest.setStatus(accountRequestUpdateRequest.getStatus());
                 accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
                 EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
-                        accountRequest.getRegistrationUrl(), accountRequest.getEmail(), accountRequest.getName());
+                        accountRequest.getEmail(), accountRequest.getName(), accountRequest.getRegistrationUrl());
                 taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
                 emailSender.sendEmail(email);
             } catch (InvalidParametersException e) {
