@@ -477,6 +477,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         ______TS("No selective deadline; should pass.");
+        verifyCanAccess(submissionParams);
 
         ______TS("After selective deadline; should fail.");
         setInstructorDeadline(session, instructor, -1);
@@ -504,7 +505,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     @Test
     public void testAccessControl_studentSubmissionStudentAnswerableQuestion_shouldAllow() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student2InCourse1");
+        Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
         setStudentDeadline(session, student, 75);
 
@@ -517,7 +518,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     @Test
     public void testAccessControl_studentSubmissionNotStudentAnswerableQuestion_shouldFail() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student2InCourse1");
+        Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
         setStudentDeadline(session, student, 75);
 
@@ -527,29 +528,28 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyCannotAccess(submissionParams);
     }
 
-    // TODO: Failing test
+    // Failing here onwards
     @Test
     public void testAccessControl_studentSubmissionLoggedOut_shouldFail() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
-        Student student = getStudent("student2InCourse1");
+        Student student = getStudent("student1InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
-        int questionNumber = 1;
+        int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
     }
 
-    // TODO: Failing test   
     @Test
     public void testAccessControl_studentSubmissionLoggedInAsInstructor_shouldFail() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
-        Student student = getStudent("student2InCourse1");
+        Student student = getStudent("student1InCourse1");
         setEndTime(session, 1);
         setStudentDeadline(session, student, 1);
 
-        int questionNumber = 1;
+        int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         loginInstructor("instructor1OfCourse1");
