@@ -95,6 +95,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 </div>
                 <div
                   class="ngb-tooltip-class"
+                  placement="top"
                 >
                   <a
                     href="javascript:;"
@@ -199,6 +200,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 </div>
                 <div
                   class="ngb-tooltip-class"
+                  placement="top"
                 >
                   <a
                     href="javascript:;"
@@ -391,6 +393,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <div
                   class="ngb-tooltip-class"
+                  placement="top"
                 >
                   <a
                     href="javascript:;"
@@ -453,6 +456,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </span>
                 <div
                   class="ngb-tooltip-class"
+                  placement="top"
                 >
                   <button
                     class="btn btn-primary"
@@ -513,6 +517,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <div
                   class="ngb-tooltip-class"
+                  placement="top"
                 >
                   <a
                     href="javascript:;"
@@ -575,6 +580,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </span>
                 <div
                   class="ngb-tooltip-class"
+                  placement="top"
                 >
                   <button
                     class="btn btn-primary"
@@ -689,6 +695,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                 </div>
                 <div
                   class="ngb-tooltip-class"
+                  placement="top"
                 >
                   <a
                     href="javascript:;"
