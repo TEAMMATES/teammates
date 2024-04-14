@@ -77,6 +77,7 @@ export class AccountRequestTableComponent {
           accountRequest.name = resp.name;
           accountRequest.email = resp.email;
           accountRequest.instituteAndCountry = resp.institute;
+          this.statusMessageService.showSuccessToast('Account request was successfully updated.');
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -91,6 +92,9 @@ export class AccountRequestTableComponent {
     .subscribe({
       next: (resp : AccountRequest) => {
         accountRequest.status = resp.status;
+        this.statusMessageService.showSuccessToast(
+          `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`
+        );
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -143,7 +147,7 @@ export class AccountRequestTableComponent {
   }
 
   viewAccountRequest(accountRequest: AccountRequestTableRowModel): void {
-    const modalContent: string = `<strong>Comment:</strong> ${accountRequest.comments || ''}`;
+    const modalContent: string = `<strong>Comment:</strong> ${accountRequest.comments || 'No comments'}`;
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
         `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
 
@@ -155,6 +159,7 @@ export class AccountRequestTableComponent {
     .subscribe({
       next: (resp : AccountRequest) => {
         accountRequest.status = resp.status;
+        this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
         },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -173,6 +178,9 @@ export class AccountRequestTableComponent {
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.status = resp.status;
+          this.statusMessageService.showSuccessToast(
+            `Account request was successfully rejected. Email has been sent to ${accountRequest.email}.`
+          );
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
