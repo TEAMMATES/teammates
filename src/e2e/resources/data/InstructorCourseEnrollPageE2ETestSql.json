@@ -45,7 +45,60 @@
       }
     }
   },
-  "students": {},
+  "students": {
+    "Student1Course": {
+      "comments": "This student's name is Alice Betsy",
+      "id": "00000000-0000-4000-8000-000000000601",
+      "courseId": "tm.e2e.ICEnroll.CS2104",
+      "course": {
+        "id": "tm.e2e.ICEnroll.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "Alice Betsy",
+      "email": "alice.b.tmms@gmail.tmt"
+    },
+    "Student2Course": {
+      "comments": "This student's name is Benny Charles",
+      "id": "00000000-0000-4000-8000-000000000602",
+      "courseId": "tm.e2e.ICEnroll.CS2104",
+      "course": {
+        "id": "tm.e2e.ICEnroll.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "Benny Charles",
+      "email": "benny.c.tmms@gmail.tmt"
+    },
+    "Student3Course": {
+      "comments": "This student's name is Charile Davis",
+      "id": "00000000-0000-4000-8000-000000000603",
+      "courseId": "tm.e2e.ICEnroll.CS2104",
+      "course": {
+        "id": "tm.e2e.ICEnroll.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "name": "Charile Davis",
+      "email": "charlie.d.tmms@gmail.tmt"
+    },
+    "Student4Course": {
+      "comments": "This student's name is Danny Engrid",
+      "id": "00000000-0000-4000-8000-000000000604",
+      "courseId": "tm.e2e.ICEnroll.CS2104",
+      "course": {
+        "id": "tm.e2e.ICEnroll.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "name": "Danny Engrid",
+      "email": "danny.e.tmms@gmail.tmt"
+    }
+  },
   "sections": {
     "tm.e2e.ICEnroll.courseICEnroll.CS2104-Section1": {
       "id": "00000000-0000-4000-8000-000000000201",

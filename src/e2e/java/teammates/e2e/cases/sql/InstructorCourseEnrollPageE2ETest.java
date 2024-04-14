@@ -39,11 +39,11 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Enroll students to empty course");
         Student student1 = createCourseStudent(course, "Alice Betsy",
-                "alice.b.tmms@gmail.tmt", "Comment for Alice", team1);
+                "alice.b.tmms@gmail.tmt", "This student's name is Alice Betsy", team1);
         Student student2 = createCourseStudent(course, "Benny Charles",
-                "benny.c.tmms@gmail.tmt", "Comment for Benny", team1);
+                "benny.c.tmms@gmail.tmt", "This student's name is Benny Charles", team1);
         Student student3 = createCourseStudent(course, "Charlie Davis",
-                "charlie.d.tmms@gmail.tmt", "Comment for Charlie", team2);
+                "charlie.d.tmms@gmail.tmt", "This student's name is Charile Davis", team2);
 
         Student[] studentsEnrollingToEmptyCourse = { student1, student2, student3 };
 
@@ -69,7 +69,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         student3.setTeam(team3);
         // add valid new student
         Student student4 = createCourseStudent(course, "Danny Engrid",
-                "danny.e.tmms@gmail.tmt", "Comment for Danny", team2);
+                "danny.e.tmms@gmail.tmt", "This student's name is Danny Engrid", team2);
         // add new student with invalid email
         Student student5 = createCourseStudent(course, "Invalid Student",
                 "invalid.email", "Comment for Invalid", team2);
