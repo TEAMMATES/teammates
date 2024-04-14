@@ -565,11 +565,13 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                     >
                       <button
                         class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-0"
                       >
                          Reject 
                       </button>
                       <button
                         class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-with-reason-0"
                       >
                          Reject With Reason 
                       </button>

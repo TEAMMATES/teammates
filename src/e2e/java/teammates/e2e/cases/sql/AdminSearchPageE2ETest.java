@@ -162,39 +162,24 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.fillInEditModalFields(accountRequest.getName(), "invalid",
                 accountRequest.getInstitute(), "New comment");
         searchPage.clickSaveEditAccountRequestButton();
-        try {
-            searchPage.verifyStatusMessage(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid",
-                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                    FieldValidator.EMAIL_MAX_LENGTH));
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
-        }
-
-        searchPage.clickEditAccountRequestButton(accountRequest);
-        searchPage.fillInEditModalFields("%$#%#$%#", accountRequest.getEmail(),
-                accountRequest.getInstitute(), "New comment");
-        searchPage.clickSaveEditAccountRequestButton();
-        try {
-            searchPage.verifyStatusMessage(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "%$#%#$%#",
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
-        }
+        String formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
+                + "An email address contains some text followed by one '@' sign followed by some more text, "
+                + "and should end with a top level domain address like .com. It cannot be longer than %d characters, "
+                + "cannot be empty and cannot contain spaces.",
+                "invalid", FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                FieldValidator.EMAIL_MAX_LENGTH);
+        searchPage.verifyStatusMessage(formattedErrorMessage);
 
         String name = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         searchPage.clickEditAccountRequestButton(accountRequest);
         searchPage.fillInEditModalFields(name, accountRequest.getEmail(), accountRequest.getInstitute(), "New comment");
         searchPage.clickSaveEditAccountRequestButton();
-
-        try {
-            searchPage.verifyStatusMessage(getPopulatedErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, name,
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                    FieldValidator.PERSON_NAME_MAX_LENGTH));
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
-        }
+        formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
+                + "The value of a/an %s should be no longer than %d characters. It should not be empty.",
+                name, FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH);
+        searchPage.verifyStatusMessage(formattedErrorMessage);
 
         ______TS("Typical case: Approve account request successful");
         accountRequest = testData.accountRequests.get("unregisteredInstructor2");
