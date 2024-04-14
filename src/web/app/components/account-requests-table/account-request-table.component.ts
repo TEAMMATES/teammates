@@ -93,7 +93,7 @@ export class AccountRequestTableComponent {
       next: (resp : AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
-          `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`
+          `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`,
         );
       },
       error: (resp: ErrorMessageOutput) => {
@@ -179,7 +179,7 @@ export class AccountRequestTableComponent {
         next: (resp: AccountRequest) => {
           accountRequest.status = resp.status;
           this.statusMessageService.showSuccessToast(
-            `Account request was successfully rejected. Email has been sent to ${accountRequest.email}.`
+            `Account request was successfully rejected. Email has been sent to ${accountRequest.email}.`,
           );
         },
         error: (resp: ErrorMessageOutput) => {
