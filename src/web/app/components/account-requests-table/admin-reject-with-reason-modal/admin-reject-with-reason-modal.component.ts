@@ -56,12 +56,12 @@ export class RejectWithReasonModalComponent implements OnInit {
    */
   reject(): void {
 
-    if (!this.rejectionReasonBody) {
+    if (!this.rejectionReasonBody || this.rejectionReasonBody.length === 0) {
       this.statusMessageService.showErrorToast('Please provide an email body for the rejection email.');
       return;
     }
 
-    if (!this.rejectionReasonTitle) {
+    if (!this.rejectionReasonTitle || this.rejectionReasonTitle.length === 0) {
       this.statusMessageService.showErrorToast('Please provide a title for the rejection email.');
       return;
     }

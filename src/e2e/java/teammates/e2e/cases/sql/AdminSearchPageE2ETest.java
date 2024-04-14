@@ -5,8 +5,11 @@ import java.time.Instant;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelperExtension;
 import teammates.e2e.pageobjects.AdminSearchPage;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.AccountRequest;
@@ -126,6 +129,114 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         searchPage.clickDeleteAccountRequestButton(accountRequest);
         assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()));
+
+        ______TS("Typical case: Edit account request successful");
+        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickEditAccountRequestButton(accountRequest);
+        searchPage.fillInEditModalFields("Different name", accountRequest.getEmail(),
+                accountRequest.getInstitute(), "New comment");
+        searchPage.clickSaveEditAccountRequestButton();
+        accountRequest.setName("Different name");
+        accountRequest.setComments("New comment");
+        searchPage.verifyAccountRequestRowContent(accountRequest);
+
+        ______TS("Typical case: View comment of account request");
+        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickViewAccountRequestCommentsButton(accountRequest);
+
+        ______TS("Edit account request with invalid details");
+        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickEditAccountRequestButton(accountRequest);
+        searchPage.fillInEditModalFields(accountRequest.getName(), "invalid",
+                accountRequest.getInstitute(), "New comment");
+        searchPage.clickSaveEditAccountRequestButton();
+        try {
+            searchPage.verifyStatusMessage(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid",
+                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                    FieldValidator.EMAIL_MAX_LENGTH));
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
+
+        searchPage.clickEditAccountRequestButton(accountRequest);
+        searchPage.fillInEditModalFields("%$#%#$%#", accountRequest.getEmail(),
+                accountRequest.getInstitute(), "New comment");
+        searchPage.clickSaveEditAccountRequestButton();
+        try {
+            searchPage.verifyStatusMessage(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "%$#%#$%#",
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
+
+        String name = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+
+        searchPage.clickEditAccountRequestButton(accountRequest);
+        searchPage.fillInEditModalFields(name, accountRequest.getEmail(), accountRequest.getInstitute(), "New comment");
+        searchPage.clickSaveEditAccountRequestButton();
+
+        try {
+            searchPage.verifyStatusMessage(getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, name,
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                    FieldValidator.PERSON_NAME_MAX_LENGTH));
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
+
+        ______TS("Typical case: Approve account request successful");
+        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickApproveAccountRequestButton(accountRequest);
+        accountRequest.setStatus(AccountRequestStatus.APPROVED);
+        searchPage.verifyAccountRequestRowContent(accountRequest);
+
+        ______TS("Typical case: Reject account request successfully");
+        accountRequest = testData.accountRequests.get("unregisteredInstructor3");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickRejectAccountRequestButton(accountRequest);
+        accountRequest.setStatus(AccountRequestStatus.REJECTED);
+        searchPage.verifyAccountRequestRowContent(accountRequest);
+
+        ______TS("Reject account request with empty body");
+        accountRequest = testData.accountRequests.get("unregisteredInstructor5");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickRejectAccountRequestWithReasonButton(accountRequest);
+        searchPage.fillInRejectionModalBody("");
+        searchPage.clickConfirmRejectAccountRequest();
+        searchPage.verifyStatusMessage("Please provide an email body for the rejection email.");
+        searchPage.closeRejectionModal();
+
+        ______TS("Typical case: Reject account request with reason successfully");
+        accountRequest = testData.accountRequests.get("unregisteredInstructor4");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickRejectAccountRequestWithReasonButton(accountRequest);
+        accountRequest.setStatus(AccountRequestStatus.REJECTED);
+        searchPage.verifyAccountRequestRowContent(accountRequest);
     }
 
     private String getExpectedStudentDetails(Student student) {
