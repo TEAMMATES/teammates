@@ -91,19 +91,33 @@ export class MsqQuestionStatisticsCalculation
     const perRecipientResponse: Record<string, Record<string, number>> = {};
     const recipientToTeam: Record<string, string> = {};
     const recipientEmails: Record<string, string> = {};
+    const recipientNames: Record<string, string> = {};
     for (const response of this.responses) {
-      perRecipientResponse[response.recipient] = perRecipientResponse[response.recipient] || {};
-      recipientEmails[response.recipient] = recipientEmails[response.recipient] || response.recipientEmail || '';
+      if (!response.recipientEmail) {
+        continue;
+      }
+      perRecipientResponse[response.recipientEmail] = perRecipientResponse[response.recipientEmail] || {};
+      const email = response.recipientEmail;
+      const defaultRecipientEmail = '';
+      recipientEmails[email] = recipientEmails[email] || email || defaultRecipientEmail;
+
+      recipientNames[response.recipientEmail] = recipientNames[response.recipientEmail] || response.recipient || '';
       for (const choice of this.question.msqChoices) {
-        perRecipientResponse[response.recipient][choice] = 0;
+        perRecipientResponse[response.recipientEmail][choice] = 0;
       }
       if (this.question.otherEnabled) {
-        perRecipientResponse[response.recipient]['Other'] = 0;
+        perRecipientResponse[response.recipientEmail]['Other'] = 0;
       }
-      recipientToTeam[response.recipient] = response.recipientTeam;
+      recipientToTeam[response.recipientEmail] = response.recipientTeam;
     }
     for (const response of this.responses) {
-      this.updateResponseCountPerOptionForResponse(response.responseDetails, perRecipientResponse[response.recipient]);
+      if (!response.recipientEmail) {
+        continue;
+      }
+      const responseEmail = response.recipientEmail;
+      const recipientResponse = perRecipientResponse[responseEmail];
+      this.updateResponseCountPerOptionForResponse(response.responseDetails, recipientResponse);
+
     }
 
     for (const recipient of Object.keys(perRecipientResponse)) {
@@ -120,7 +134,7 @@ export class MsqQuestionStatisticsCalculation
       average = numOfResponsesForRecipient ? total / numOfResponsesForRecipient : 0;
 
       this.perRecipientResponses[recipient] = {
-        recipient,
+        recipient: recipientNames[recipient],
         recipientEmail: recipientEmails[recipient],
         total: +total.toFixed(5),
         average: +average.toFixed(2),
