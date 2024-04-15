@@ -119,6 +119,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   isLoading: boolean = true;
   isSearching: boolean = false;
   notViewedSince: number = 0;
+  lastUpdated: string = '';
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
@@ -252,6 +253,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         .subscribe({
           next: (course: Course) => {
             this.course = course;
+            this.setLastUpdated();
           },
           error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
         });
@@ -415,4 +417,14 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     };
   }
 
+  private setLastUpdated(): void {
+    // 15 mins buffer to allow cron job to finish adding all logs to the database
+    const CRON_JOB_BUFFER = 15;
+    const now: Date = new Date();
+    const minsPastQuarter = now.getMinutes() % 15;
+
+    const lastUpdated = now.getTime() - ((CRON_JOB_BUFFER + minsPastQuarter) * Milliseconds.IN_ONE_MINUTE);
+
+    this.lastUpdated = this.timezoneService.formatToString(lastUpdated, this.course.timeZone, 'DD MMM YYYY, hh:mm A');
+  }
 }
