@@ -132,6 +132,7 @@ public class DataMigrationForCourseEntitySql extends
         Student newStudent = new Student(newCourse, oldStudent.getName(), oldStudent.getEmail(),
                 oldStudent.getComments(), newTeam);
         newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
+
         return newStudent;
     }
 }
