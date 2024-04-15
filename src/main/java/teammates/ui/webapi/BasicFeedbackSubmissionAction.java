@@ -427,7 +427,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             switch (giverType) {
             case INSTRUCTORS:
             case SELF:
-                return sqlLogic.getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
+                return sqlLogic.getDefaultSectionOrCreate(courseId);
             case TEAMS:
             case TEAMS_IN_SAME_SECTION:
                 Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
