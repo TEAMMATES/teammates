@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -10,7 +9,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -412,12 +410,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      *
      * <p>If it is moderation request, omit the check.
      */
-    void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession, User user) throws UnauthorizedAccessException {
+    void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession, User user)
+            throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         Instant deadlineExtension = sqlLogic.getDeadlineForUser(feedbackSession, user);
 
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpenedGivenExtendedDeadline(deadlineExtension)
-            || feedbackSession.isInGracePeriodGivenExtendedDeadline(deadlineExtension))) {
+                || feedbackSession.isInGracePeriodGivenExtendedDeadline(deadlineExtension))) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
         }
     }

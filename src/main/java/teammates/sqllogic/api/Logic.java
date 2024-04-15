@@ -1521,7 +1521,7 @@ public class Logic {
      * Gets all feedback responses from a specific giver and recipient for a course.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(String courseId, String giverEmail,
-        String recipientEmail) {
+            String recipientEmail) {
 
         return feedbackResponsesLogic.getFeedbackResponsesFromGiverAndRecipientForCourse(courseId, giverEmail,
             recipientEmail);

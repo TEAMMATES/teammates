@@ -94,7 +94,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      * Gets all responses with a specific giver and recipient in a course.
      */
     public List<FeedbackResponse> getFeedbackResponsesForGiverAndRecipientForCourse(String courseId, String giver,
-        String recipient) {
+            String recipient) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cr = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
