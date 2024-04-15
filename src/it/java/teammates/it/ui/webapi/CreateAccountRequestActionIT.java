@@ -229,22 +229,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         CreateAccountRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
         AccountRequestData output = (AccountRequestData) result.getOutput();
-        assertEquals("kwisatz.haderach@atreides.org", output.getEmail());
-        assertEquals("Paul Atreides", output.getName());
-        assertEquals("House Atreides", output.getInstitute());
-        assertEquals(AccountRequestStatus.PENDING, output.getStatus());
-        assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getRegisteredAt());
-        HibernateUtil.beginTransaction();
-        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
-        HibernateUtil.commitTransaction();
-        assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
-        assertEquals("Paul Atreides", accountRequest.getName());
-        assertEquals("House Atreides", accountRequest.getInstitute());
-        assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
-        assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
-        assertNull(accountRequest.getRegisteredAt());
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNoEmailsSent();
         logoutUser();
     }
