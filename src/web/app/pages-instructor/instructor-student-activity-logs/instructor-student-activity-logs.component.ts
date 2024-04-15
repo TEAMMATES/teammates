@@ -118,6 +118,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
+  notViewedSince: number = 0;
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
@@ -183,6 +184,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
     const searchUntil: number = this.timezoneService.resolveLocalDateTime(
         this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
+
+    this.notViewedSince = searchFrom;
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.course.courseId,
@@ -289,15 +292,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
     const fsName = log.feedbackSessionData.feedbackSessionName;
-    const fs = this.feedbackSessions.get(fsName);
-    let publishedTime = 0;
-
-    if (fs && fs.resultVisibleFromTimestamp) {
-      publishedTime = fs.resultVisibleFromTimestamp;
-    }
-
-    const publishedDate: Date = new Date(publishedTime);
-    const notViewedSince = publishedDate.getTime();
 
     return {
       feedbackSessionName: fsName,
@@ -361,7 +355,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               });
             } else {
               const timestamp: string = this.timezoneService.formatToString(
-                notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+                this.notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
               status = `Not ${this.logTypeToActivityDisplay(this.formModel.logType)} since ${timestamp}`;
               dataStyle += 'color:red;';
               rows.push([
