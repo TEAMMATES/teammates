@@ -41,7 +41,7 @@ public class VerifyCourseEntityAttributes
     @Override
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         try {
-            return verifyCourse(sqlEntity, datastoreEntity); // && verifySectionChain(sqlEntity);
+            return verifyCourse(sqlEntity, datastoreEntity) && verifySectionChain(sqlEntity);
         } catch (IllegalArgumentException iae) {
             return false;
         }
@@ -55,6 +55,46 @@ public class VerifyCourseEntityAttributes
                 // && sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt())
                 && datastoreEntity.getDeletedAt() == null ? sqlEntity.getDeletedAt() == null
                         : sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
+    }
+
+    private boolean verifySectionChain(teammates.storage.sqlentity.Course sqlEntity) {
+        // Get old and new students
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", sqlEntity.getId())
+                .list();
+        List<Student> newStudents = getCurrStudents(sqlEntity.getId());
+
+        // Group students by section
+        Map<String, List<CourseStudent>> sectionToOldStuMap = oldStudents.stream()
+                .collect(Collectors.groupingBy(CourseStudent::getSectionName));
+        Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
+                .collect(Collectors.groupingBy(Student::getSectionName));
+
+        List<Section> newSection = sqlEntity.getSections();
+
+        boolean isSectionsCountEqual = newSection.size() != sectionToOldStuMap.size()
+                || newSection.size() != sectionToNewStuMap.size();
+        if (!isSectionsCountEqual) {
+            return false;
+        }
+
+        return newSection.stream().allMatch(section -> {
+            List<CourseStudent> oldSectionStudents = sectionToOldStuMap.get(section.getName());
+            List<Student> newSectionStudents = sectionToNewStuMap.get(section.getName());
+
+            // If sectionStudent is null, then section is not present in sql
+            boolean isSectionNamePresent = oldSectionStudents != null && newSectionStudents != null;
+            if (!isSectionNamePresent) {
+                return false;
+            }
+
+            // Group students by team
+            // Map<String, List<CourseStudent>> teamNameToOldStuMap = oldSectionStudents.stream()
+            //         .collect(Collectors.groupingBy(CourseStudent::getTeamName));
+            // Map<String, List<Student>> teamNameToNewStuMap = newSectionStudents.stream()
+            //         .collect(Collectors.groupingBy(Student::getTeamName));
+            return true; // verifyTeams(section, teamNameToOldStuMap, teamNameToNewStuMap);
+        });
+
     }
 
 }

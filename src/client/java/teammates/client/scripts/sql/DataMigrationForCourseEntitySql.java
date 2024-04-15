@@ -59,13 +59,30 @@ public class DataMigrationForCourseEntitySql extends
     }
 
     private void migrateCourseEntity(teammates.storage.sqlentity.Course newCourse) {
-        // Map<String, teammates.storage.sqlentity.Section> sectionNameToSectionMap =
-        // migrateSectionChain(newCourse);
-        // System.out.println(sectionNameToSectionMap); // To stop lint from complaining
+        Map<String, teammates.storage.sqlentity.Section> sectionNameToSectionMap = migrateSectionChain(newCourse);
+        System.out.println(sectionNameToSectionMap); // To stop lint from complaining
         // TODO: Add mirgrateFeedbackChain
         // migrateFeedbackChain(sectionNameToSectionMap);
     }
 
+    private Map<String, teammates.storage.sqlentity.Section> migrateSectionChain(
+            teammates.storage.sqlentity.Course newCourse) {
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
+                .list();
+        Map<String, teammates.storage.sqlentity.Section> sections = new HashMap<>();
+        Map<String, List<CourseStudent>> sectionToStuMap = oldStudents.stream()
+                .collect(Collectors.groupingBy(CourseStudent::getSectionName));
+
+        for (Map.Entry<String, List<CourseStudent>> entry : sectionToStuMap.entrySet()) {
+            String sectionName = entry.getKey();
+            // List<CourseStudent> stuList = entry.getValue();
+            teammates.storage.sqlentity.Section newSection = createSection(newCourse, sectionName);
+            sections.put(sectionName, newSection);
+            // migrateTeams(newCourse, newSection, stuList);
+            saveEntityDeferred(newSection);
+        }
+        return sections;
+    }
 
     private teammates.storage.sqlentity.Course createCourse(Course oldCourse) {
         teammates.storage.sqlentity.Course newCourse = new teammates.storage.sqlentity.Course(
@@ -77,5 +94,10 @@ public class DataMigrationForCourseEntitySql extends
         // newCourse.setCreatedAt(oldCourse.getCreatedAt());
         saveEntityDeferred(newCourse);
         return newCourse;
+    }
+
+    private teammates.storage.sqlentity.Section createSection(teammates.storage.sqlentity.Course newCourse,
+            String sectionName) {
+        return new teammates.storage.sqlentity.Section(newCourse, sectionName);
     }
 }
