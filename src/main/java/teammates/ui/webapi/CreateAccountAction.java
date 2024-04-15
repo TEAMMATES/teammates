@@ -108,11 +108,9 @@ public class CreateAccountAction extends Action {
      *
      * @return the updated account request
      */
-    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest,
-            String instructorEmail, String instructorInstitution)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        accountRequest.setEmail(instructorEmail);
-        accountRequest.setInstitute(instructorInstitution);
+    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest)    
+        throws InvalidParametersException, EntityDoesNotExistException {
+      
         accountRequest.setRegisteredAt(Instant.now());
 
         sqlLogic.updateAccountRequest(accountRequest);
