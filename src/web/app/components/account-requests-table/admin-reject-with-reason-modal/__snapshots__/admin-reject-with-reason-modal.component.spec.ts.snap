@@ -66,6 +66,7 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
       >
         <button
           class="btn btn-light"
+          id="btn-cancel-reject-request"
           type="button"
         >
           Cancel
