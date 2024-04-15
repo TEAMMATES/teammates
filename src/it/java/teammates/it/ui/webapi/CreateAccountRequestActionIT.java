@@ -218,6 +218,37 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
+    @Test
+    void testExecute_typicalCaseAsAdmin_noEmailsSent() {
+        loginAsAdminWithTransaction();
+        AccountCreateRequest request = new AccountCreateRequest();
+        request.setInstructorEmail("kwisatz.haderach@atreides.org");
+        request.setInstructorName("Paul Atreides");
+        request.setInstructorInstitution("House Atreides");
+        request.setInstructorComments("My road leads into the desert. I can see it.");
+        CreateAccountRequestAction action = getAction(request);
+        JsonResult result = getJsonResult(action);
+        AccountRequestData output = (AccountRequestData) result.getOutput();
+        assertEquals("kwisatz.haderach@atreides.org", output.getEmail());
+        assertEquals("Paul Atreides", output.getName());
+        assertEquals("House Atreides", output.getInstitute());
+        assertEquals(AccountRequestStatus.PENDING, output.getStatus());
+        assertEquals("My road leads into the desert. I can see it.", output.getComments());
+        assertNull(output.getRegisteredAt());
+        HibernateUtil.beginTransaction();
+        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
+        HibernateUtil.commitTransaction();
+        assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
+        assertEquals("Paul Atreides", accountRequest.getName());
+        assertEquals("House Atreides", accountRequest.getInstitute());
+        assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
+        assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
+        assertNull(accountRequest.getRegisteredAt());
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+        verifyNoEmailsSent();
+        logoutUser();
+    }
+
     @Override
     @Test
     protected void testAccessControl() throws Exception {
