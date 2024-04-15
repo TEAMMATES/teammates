@@ -2,8 +2,10 @@
   background-color: yellow;
 }
 
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
 .table-responsive {
-  overflow: -moz-scrollbars-horizontal; 
+  overflow-y: visible;
+  overflow-x: -moz-scrollbars-horizontal; 
 }
 
 .table-responsive > table > thead > tr > th {
