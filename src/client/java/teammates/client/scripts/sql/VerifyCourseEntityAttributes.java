@@ -143,7 +143,9 @@ public class VerifyCourseEntityAttributes
         return newStudent.getName().equals(oldStudent.getName())
                 && newStudent.getEmail().equals(oldStudent.getEmail())
                 && newStudent.getComments().equals(oldStudent.getComments())
-                && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt());
+                && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt())
+                && newStudent.getCreatedAt().equals(oldStudent.getCreatedAt())
+                && newStudent.getRegKey().equals(oldStudent.getRegistrationKey());
 
     }
 

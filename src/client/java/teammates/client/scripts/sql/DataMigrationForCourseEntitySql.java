@@ -1,5 +1,6 @@
 package teammates.client.scripts.sql;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,10 +8,11 @@ import java.util.stream.Collectors;
 
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 
 /**
  * Data migration class for course entity.
@@ -121,14 +123,18 @@ public class DataMigrationForCourseEntitySql extends
 
     private teammates.storage.sqlentity.Section createSection(teammates.storage.sqlentity.Course newCourse,
             String sectionName) {
-        if (sectionName.equals(Const.DEFAULT_SECTION)) {
-            return Const.DEFAULT_SQL_SECTION;
-        }
-        return new teammates.storage.sqlentity.Section(newCourse, sectionName);
+        // if (sectionName.equals(Const.DEFAULT_SECTION)) {
+        // return Const.DEFAULT_SQL_SECTION;
+        // }
+        Section newSection = new Section(newCourse, sectionName);
+        newSection.setCreatedAt(Instant.now());
+        return newSection;
     }
 
     private teammates.storage.sqlentity.Team createTeam(teammates.storage.sqlentity.Section section, String teamName) {
-        return new teammates.storage.sqlentity.Team(section, teamName);
+        Team newTeam = new teammates.storage.sqlentity.Team(section, teamName);
+        newTeam.setCreatedAt(Instant.now());
+        return newTeam;
     }
 
     private Student createStudent(teammates.storage.sqlentity.Course newCourse,
@@ -138,6 +144,7 @@ public class DataMigrationForCourseEntitySql extends
                 oldStudent.getComments(), newTeam);
         newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
         newStudent.setRegKey(oldStudent.getRegistrationKey());
+        newStudent.setCreatedAt(oldStudent.getCreatedAt());
 
         return newStudent;
     }
