@@ -48,7 +48,7 @@ public class TeamToStudentMap extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        return errors;
+        return errors; //NOPMD UnnecessaryLocalBeforeReturn
     }
 
     @Override

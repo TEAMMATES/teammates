@@ -44,7 +44,7 @@ public class FeedbackSession extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "structureId")
-    private CourseStructure courseStructure;
+    private CourseStructure courseStructure; //NOPMD UnusedPrivateField
 
     @Column(nullable = false)
     private String name;

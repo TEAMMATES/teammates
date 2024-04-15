@@ -33,7 +33,7 @@ public class Section extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "structureId")
-    private CourseStructure courseStructure;
+    private CourseStructure courseStructure; //NOPMD UnusedPrivateField
 
     @ManyToOne
     @JoinColumn(name = "courseId")
@@ -44,7 +44,7 @@ public class Section extends BaseEntity {
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Team> teams;
+    private List<Team> teams; //NOPMD UnusedPrivateField
 
     @UpdateTimestamp
     private Instant updatedAt;

@@ -23,7 +23,7 @@ public class Student extends User {
     private String comments;
 
     @ManyToMany(mappedBy = "teamId")
-    private List<Team> teams;
+    private List<Team> teams; //NOPMD UnusedPrivateField
 
     protected Student() {
         // required by Hibernate
