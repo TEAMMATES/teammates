@@ -21,6 +21,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.common.util.Const;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -996,6 +997,14 @@ public class Logic {
      */
     public List<Student> getStudentsByTeamName(String teamName, String courseId) {
         return usersLogic.getStudentsForTeam(teamName, courseId);
+    }
+
+    /**
+     * Returns the default SQL section.
+     * If it does not exist, create and return it.
+     */
+    public Section getDefaultSectionOrCreate(String courseId) {
+        return getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
     }
 
     /**

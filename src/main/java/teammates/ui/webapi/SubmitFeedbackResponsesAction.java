@@ -205,7 +205,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructor.getEmail();
-            giverSection = Const.DEFAULT_SQL_SECTION;
+            giverSection = sqlLogic.getDefaultSectionOrCreate(courseId);
             existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
             sqlLogic.populateFieldsToGenerateInQuestion(feedbackQuestion,
