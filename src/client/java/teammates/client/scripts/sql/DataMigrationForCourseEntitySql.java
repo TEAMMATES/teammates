@@ -90,10 +90,18 @@ public class DataMigrationForCourseEntitySql extends
                 .collect(Collectors.groupingBy(CourseStudent::getTeamName));
         for (Map.Entry<String, List<CourseStudent>> entry : teamNameToStuMap.entrySet()) {
             String teamName = entry.getKey();
-            // List<CourseStudent> stuList = entry.getValue();
+            List<CourseStudent> stuList = entry.getValue();
             teammates.storage.sqlentity.Team newTeam = createTeam(newSection, teamName);
-            // migrateStudent(newCourse, newTeam, stuList);
+            migrateStudent(newCourse, newTeam, stuList);
             saveEntityDeferred(newTeam);
+        }
+    }
+
+    private void migrateStudent(teammates.storage.sqlentity.Course newCourse, teammates.storage.sqlentity.Team newTeam,
+            List<CourseStudent> studentsInTeam) {
+        for (CourseStudent oldStudent : studentsInTeam) {
+            teammates.storage.sqlentity.Student newStudent = createStudent(newCourse, newTeam, oldStudent);
+            saveEntityDeferred(newStudent);
         }
     }
 
@@ -118,4 +126,12 @@ public class DataMigrationForCourseEntitySql extends
         return new teammates.storage.sqlentity.Team(section, teamName);
     }
 
+    private Student createStudent(teammates.storage.sqlentity.Course newCourse,
+            teammates.storage.sqlentity.Team newTeam,
+            CourseStudent oldStudent) {
+        Student newStudent = new Student(newCourse, oldStudent.getName(), oldStudent.getEmail(),
+                oldStudent.getComments(), newTeam);
+        newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
+        return newStudent;
+    }
 }

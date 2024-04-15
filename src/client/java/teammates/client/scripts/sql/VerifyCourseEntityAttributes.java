@@ -117,7 +117,43 @@ public class VerifyCourseEntityAttributes
             if (!isTeamNamePresent) {
                 return false;
             }
-            return true; // verifyStudents(oldTeamStudents, newTeamStudents);
+            return verifyStudents(oldTeamStudents, newTeamStudents);
         });
+    }
+
+    private boolean verifyStudents(
+            List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {
+        if (oldTeamStudents.size() != newTeamStudents.size()) {
+            return false;
+        }
+        oldTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+        newTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+        for (int i = 0; i < oldTeamStudents.size(); i++) {
+            CourseStudent oldStudent = oldTeamStudents.get(i);
+            Student newStudent = newTeamStudents.get(i);
+            if (!verifyStudent(oldStudent, newStudent)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean verifyStudent(CourseStudent oldStudent,
+            Student newStudent) {
+        return newStudent.getName().equals(oldStudent.getName())
+                && newStudent.getEmail().equals(oldStudent.getEmail())
+                && newStudent.getComments().equals(oldStudent.getComments());
+    }
+
+    private List<Student> getCurrStudents(String courseId) {
+        HibernateUtil.beginTransaction();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Student> cr = cb
+                .createQuery(teammates.storage.sqlentity.Student.class);
+        Root<teammates.storage.sqlentity.Student> courseRoot = cr.from(teammates.storage.sqlentity.Student.class);
+        cr.select(courseRoot).where(cb.equal(courseRoot.get("courseId"), courseId));
+        List<Student> newStudents = HibernateUtil.createQuery(cr).getResultList();
+        HibernateUtil.commitTransaction();
+        return newStudents;
     }
 }
