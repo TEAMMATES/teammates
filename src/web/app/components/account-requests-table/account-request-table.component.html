@@ -40,12 +40,12 @@
               </div>
             </td>
             <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
-            <td>{{ accountRequest.status }}</td>
+            <td [innerHtml]="accountRequest.status | highlighter:searchString:true">{{ accountRequest.status }}</td>
             <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true">{{ accountRequest.instituteAndCountry }}</td>
             <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
             <td *ngIf="searchString" id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
             <td>
-              <div id="comment-box">
+              <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter:searchString:true">
                 {{ accountRequest.comments }}
                 </div>
             </td>
@@ -56,7 +56,7 @@
                     <i class="fa-solid fa-pen"></i>
                   </a>
                 </div>
-              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
+              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'" placement="top">
                 <a id="delete-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)">
                   <i class="fa-solid fa-trash"></i>
                 </a>
@@ -66,15 +66,15 @@
                     <i class="fa-solid fa-eye"></i>
                 </a>
               </div>
-              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="accountRequest.registeredAtText || accountRequest.status === 'APPROVED'" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)">Approve</button>
+              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="!accountRequest.status || accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED'" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)">Approve</button>
               <span ngbDropdown container="body">
-                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="accountRequest.registeredAtText || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED'" ngbDropdownToggle> Reject </button>
+                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="!accountRequest.status || accountRequest.status === 'REGISTERED' || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED'" ngbDropdownToggle> Reject </button>
                 <div ngbDropdownMenu (click)="$event.stopPropagation()">
                   <button id="reject-request-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest)"> Reject </button>
                   <button id="reject-request-with-reason-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest)"> Reject With Reason </button>
                 </div>
               </span>
-              <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
+              <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'" placement="top">
                 <button id="reset-account-request-{{i}}" class="btn btn-primary" [disabled]="!accountRequest.registeredAtText" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);">Reset</button>
               </div>
             </div>
