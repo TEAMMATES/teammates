@@ -74,7 +74,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -178,7 +178,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -370,7 +370,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -492,7 +492,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -668,7 +668,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
