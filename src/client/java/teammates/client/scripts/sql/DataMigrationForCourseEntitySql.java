@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Student;
@@ -92,12 +93,12 @@ public class DataMigrationForCourseEntitySql extends
             String teamName = entry.getKey();
             List<CourseStudent> stuList = entry.getValue();
             teammates.storage.sqlentity.Team newTeam = createTeam(newSection, teamName);
-            migrateStudent(newCourse, newTeam, stuList);
+            migrateStudents(newCourse, newTeam, stuList);
             saveEntityDeferred(newTeam);
         }
     }
 
-    private void migrateStudent(teammates.storage.sqlentity.Course newCourse, teammates.storage.sqlentity.Team newTeam,
+    private void migrateStudents(teammates.storage.sqlentity.Course newCourse, teammates.storage.sqlentity.Team newTeam,
             List<CourseStudent> studentsInTeam) {
         for (CourseStudent oldStudent : studentsInTeam) {
             teammates.storage.sqlentity.Student newStudent = createStudent(newCourse, newTeam, oldStudent);
@@ -112,13 +113,17 @@ public class DataMigrationForCourseEntitySql extends
                 oldCourse.getTimeZone(),
                 oldCourse.getInstitute());
         newCourse.setDeletedAt(oldCourse.getDeletedAt());
-        // newCourse.setCreatedAt(oldCourse.getCreatedAt());
+        newCourse.setCreatedAt(oldCourse.getCreatedAt());
+
         saveEntityDeferred(newCourse);
         return newCourse;
     }
 
     private teammates.storage.sqlentity.Section createSection(teammates.storage.sqlentity.Course newCourse,
             String sectionName) {
+        if (sectionName.equals(Const.DEFAULT_SECTION)) {
+            return Const.DEFAULT_SQL_SECTION;
+        }
         return new teammates.storage.sqlentity.Section(newCourse, sectionName);
     }
 
@@ -132,6 +137,7 @@ public class DataMigrationForCourseEntitySql extends
         Student newStudent = new Student(newCourse, oldStudent.getName(), oldStudent.getEmail(),
                 oldStudent.getComments(), newTeam);
         newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
+        newStudent.setRegKey(oldStudent.getRegistrationKey());
 
         return newStudent;
     }

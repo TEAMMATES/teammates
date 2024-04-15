@@ -61,7 +61,7 @@ public class VerifyCourseEntityAttributes
         // Get old and new students
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", sqlEntity.getId())
                 .list();
-        List<Student> newStudents = getCurrStudents(sqlEntity.getId());
+        List<Student> newStudents = getNewStudents(sqlEntity.getId());
 
         // Group students by section
         Map<String, List<CourseStudent>> sectionToOldStuMap = oldStudents.stream()
@@ -142,10 +142,12 @@ public class VerifyCourseEntityAttributes
             Student newStudent) {
         return newStudent.getName().equals(oldStudent.getName())
                 && newStudent.getEmail().equals(oldStudent.getEmail())
-                && newStudent.getComments().equals(oldStudent.getComments());
+                && newStudent.getComments().equals(oldStudent.getComments())
+                && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt());
+
     }
 
-    private List<Student> getCurrStudents(String courseId) {
+    private List<Student> getNewStudents(String courseId) {
         HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.Student> cr = cb
