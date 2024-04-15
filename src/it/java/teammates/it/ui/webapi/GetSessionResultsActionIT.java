@@ -180,7 +180,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 student);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
-
     }
 
     @Override
