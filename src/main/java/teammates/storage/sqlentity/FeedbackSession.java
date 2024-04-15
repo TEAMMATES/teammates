@@ -146,7 +146,7 @@ public class FeedbackSession extends BaseEntity {
                 endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 gracePeriod, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
         );
-
+        fs.setId(getId());
         fs.setCreatedAt(getCreatedAt());
         fs.setUpdatedAt(getUpdatedAt());
         fs.setDeletedAt(getDeletedAt());

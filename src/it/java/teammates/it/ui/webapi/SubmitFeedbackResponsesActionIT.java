@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -123,28 +124,23 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         logic.updateFeedbackSession(session);
     }
 
-    private void setInstructorDeadline(FeedbackSession session,
+    private void setInstructorDeadlineExtension(FeedbackSession session,
                                        Instructor instructor,
                                        int days)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        String sessionName = session.getName();
-        String courseId = session.getCourseId();
-
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {        
         DeadlineExtension deadline = 
                 new DeadlineExtension(instructor, session, TimeHelper.getInstantDaysOffsetFromNow(days));
         logic.createDeadlineExtension(deadline);
 
         List<DeadlineExtension> deadlines = new ArrayList<DeadlineExtension>();
         deadlines.add(deadline);
-
-        session.setName(sessionName);
-        session.getCourse().setId(courseId);
+        
         session.setDeadlineExtensions(deadlines);
 
         logic.updateFeedbackSession(session);
     }
 
-    private void setStudentDeadline(FeedbackSession session, Student student, int days)
+    private void setStudentDeadlineExtension(FeedbackSession session, Student student, int days)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         String sessionName = session.getName();
         String courseId = session.getCourseId();
@@ -176,16 +172,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         return new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId, Const.ParamsNames.INTENT,
                 intent.toString()};
-    }
-
-    private String[] setPreviewPerson(String[] submissionParams, String previewPerson) {
-        return new String[] {submissionParams[0], submissionParams[1], submissionParams[2], submissionParams[3],
-                Const.ParamsNames.PREVIEWAS, previewPerson};
-    }
-
-    private String[] setModeratorPerson(String[] submissionParams, String moderatorPerson) {
-        return new String[] {submissionParams[0], submissionParams[1], submissionParams[2], submissionParams[3],
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatorPerson};
     }
 
     private void setCommentInSectionInstructorPrivilege(FeedbackSession session,
@@ -303,6 +289,15 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         }
     }
 
+    private void validateStudentDatabaseByTeam(
+        FeedbackSession session,
+        FeedbackQuestion question,
+        String giverTeam, List<Student> recipients) {
+        List<String> studentTeamNames = extractStudentTeams(recipients);
+
+        validateDatabaseWithRecipientEmails(session, question, giverTeam, studentTeamNames);
+    }
+
     private void validateStudentDatabaseByEmail(
             FeedbackSession session,
             FeedbackQuestion question,
@@ -327,7 +322,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses = logic.
                 getFeedbackResponsesFromGiverAndRecipientForCourse(session.getCourseId(), giverEmail, recipientEmail);
-        
+
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
 
@@ -343,9 +338,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                                 SanitizationHelper.sanitizeForRichText("Response for " + recipientEmail)),
                         StringEscapeUtils.unescapeHtml(responseDetails.getAnswerString()));
             }
-
         }
-
     }
 
     @Override
@@ -353,13 +346,12 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         // See each independent test case.
     }
 
-    //GENERAL
     @Test
     public void testAccessControl_feedbackSubmissionQuestionExists_shouldAllow() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
-        setInstructorDeadline(session, instructor, 40);
+        setInstructorDeadlineExtension(session, instructor, 40);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -372,7 +364,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 35);
-        setInstructorDeadline(session, instructor, 40);
+        setInstructorDeadlineExtension(session, instructor, 40);
 
         String[] submissionParams = new String[] {Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString()};
 
@@ -384,7 +376,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 35);
-        setInstructorDeadline(session, instructor, 40);
+        setInstructorDeadlineExtension(session, instructor, 40);
 
         int questionNumber = 222;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -397,7 +389,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
-        setStudentDeadline(session, student, 75);
+        setStudentDeadlineExtension(session, student, 75);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -410,7 +402,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
-        setStudentDeadline(session, student, 72);
+        setStudentDeadlineExtension(session, student, 72);
 
         int questionNumber = 2;
         FeedbackQuestion question = getQuestion(session, questionNumber);
@@ -424,7 +416,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
-        setStudentDeadline(session, student, 75);
+        setStudentDeadlineExtension(session, student, 75);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_RESULT);
@@ -438,7 +430,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         Student student = loginStudent("student1InCourse1");
         setStartTime(session, 10);
         setEndTime(session, 20);
-        setStudentDeadline(session, student, 30);
+        setStudentDeadlineExtension(session, student, 30);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -457,12 +449,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         ______TS("No selective deadline; should pass.");
         verifyCanAccess(submissionParams);
-        ______TS("Before selective deadline; should pass.");
-        setStudentDeadline(session, student, 7);
+        ______TS("With selective deadline; should pass.");
+        setStudentDeadlineExtension(session, student, 7);
         verifyCanAccess(submissionParams);
     }
 
-    // TODO: Enable after fixing issue #12758
     @Test
     public void testAccessControl_submissionPastEndTime_shouldAllowIfBeforeDeadline() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
@@ -472,15 +463,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
-        ______TS("No selective deadline; should pass.");
-        verifyCanAccess(submissionParams);
-
-        ______TS("After selective deadline; should fail.");
-        setInstructorDeadline(session, instructor, -1);
-        verifyCannotAccess(submissionParams);
-
-        ______TS("Before selective deadline; should pass.");
-        setInstructorDeadline(session, instructor, 1);
+        ______TS("With selective deadline, should pass.");
+        setInstructorDeadlineExtension(session, instructor, 1);
         verifyCanAccess(submissionParams);
     }
 
@@ -489,7 +473,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, -20);
-        setInstructorDeadline(session, instructor, -10);
+        setInstructorDeadlineExtension(session, instructor, -10);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -497,13 +481,12 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyCannotAccess(submissionParams);
     }
 
-    //STUDENT
     @Test
     public void testAccessControl_studentSubmissionStudentAnswerableQuestion_shouldAllow() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
-        setStudentDeadline(session, student, 75);
+        setStudentDeadlineExtension(session, student, 75);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -516,7 +499,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         setEndTime(session, 3);
-        setStudentDeadline(session, student, 75);
+        setStudentDeadlineExtension(session, student, 75);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -529,7 +512,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = getStudent("student1InCourse1");
         setEndTime(session, 1);
-        setStudentDeadline(session, student, 1);
+        setStudentDeadlineExtension(session, student, 1);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -542,7 +525,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = getStudent("student1InCourse1");
         setEndTime(session, 1);
-        setStudentDeadline(session, student, 1);
+        setStudentDeadlineExtension(session, student, 1);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -556,7 +539,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = getStudent("student1InCourse1");
         setEndTime(session, 1);
-        setStudentDeadline(session, student, 1);
+        setStudentDeadlineExtension(session, student, 1);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -570,7 +553,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = getStudent("student1InCourse1");
         setEndTime(session, 1);
-        setStudentDeadline(session, student, 1);
+        setStudentDeadlineExtension(session, student, 1);
 
         int questionNumber = 2;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
@@ -579,13 +562,12 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyCanMasquerade(student.getGoogleId(), submissionParams);
     }
 
-    //INSTRUCTOR
     @Test
     public void testAccessControl_instructorSubmissionToInstructorAnswerableQuestion_shouldAllow() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 3);
-        setInstructorDeadline(session, instructor, 3);
+        setInstructorDeadlineExtension(session, instructor, 3);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -598,7 +580,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 3);
-        setInstructorDeadline(session, instructor, 3);
+        setInstructorDeadlineExtension(session, instructor, 3);
 
         int questionNumber = 3;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -611,7 +593,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
         setEndTime(session, 3);
-        setInstructorDeadline(session, instructor, 3);
+        setInstructorDeadlineExtension(session, instructor, 3);
 
         int questionNumber = 1;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -624,7 +606,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = getInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
-        setInstructorDeadline(session, instructor, 1);
+        setInstructorDeadlineExtension(session, instructor, 1);
 
         int questionNumber = 3;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -637,7 +619,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = getInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
-        setInstructorDeadline(session, instructor, 1);
+        setInstructorDeadlineExtension(session, instructor, 1);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -651,7 +633,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = getInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
-        setInstructorDeadline(session, instructor, 1);
+        setInstructorDeadlineExtension(session, instructor, 1);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -665,7 +647,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Instructor instructor = getInstructor("instructor1OfCourse1");
         setEndTime(session, 1);
-        setInstructorDeadline(session, instructor, 1);
+        setInstructorDeadlineExtension(session, instructor, 1);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
@@ -674,15 +656,59 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyCannotAccess(submissionParams);
     }
 
-    /* TODO: Preview tests */
+    @Test
+    protected void testAccessControl_instructorsWithSufficientPreviewPrivilege_shouldAllow() throws Exception {
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
+        setEndTime(session, 1);
+        setInstructorDeadlineExtension(session, instructor, 1);
 
+        setCommentInSectionInstructorPrivilege(session, instructor, true);
+
+        int questionNumber = 1;
+        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCannotAccess(submissionParams);
+        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorsWithInsufficientPreviewPrivilege_shouldFail() throws Exception {
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
+        setEndTime(session, 1);
+        setInstructorDeadlineExtension(session, instructor, 1);
+
+        setCommentInSectionInstructorPrivilege(session, instructor, false);
+
+        int questionNumber = 1;
+        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCannotAccess(submissionParams);
+        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorsWithInsufficientModeratorPrivilege_shouldFail() throws Exception {
+        FeedbackSession session = getSession("session1InCourse1");
+        Instructor instructor = loginInstructor("instructor1OfCourse1");
+        setEndTime(session, 1);
+        setInstructorDeadlineExtension(session, instructor, 1);
+
+        setCommentInSectionInstructorPrivilege(session, instructor, false);
+
+        int questionNumber = 1;
+        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCannotAccess(submissionParams);
+        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+    }
 
     @Override
     public void testExecute() {
         // See each independent test case.
     }
 
-    //GENERAL
     @Test
     public void testExecute_noHttpParameters_shouldFail() {
         loginInstructor("instructor1OfCourse1");
@@ -756,23 +782,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     @Test
     protected void testExecute_noExistingResponses_shouldPass() {
         FeedbackSession session = getSession("session1InCourse1");
-        Student giver = loginStudent("student1InCourse1");
-
-        int questionNumber = 2;
-        FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
-
-        List<Student> recipients = getStudents("student3InCourse1");
-        FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsEmail(recipients);
-
-        List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), recipients);
-        validateStudentDatabaseByEmail(session, question, giver.getEmail(), recipients);
-    }
-
-    @Test
-    protected void testExecute_hasExistingResponse_shouldPass() {
-        FeedbackSession session = getSession("session1InCourse1");
         Instructor giver = loginInstructor("instructor1OfCourse1");
 
         int questionNumber = 7;
@@ -785,6 +794,24 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
         validateOutputForInstructorRecipients(outputResponses, giver.getEmail(), recipients);
         validateInstructorDatabaseByEmail(session, question, giver.getEmail(), recipients);
+
+    }
+
+    @Test
+    protected void testExecute_hasExistingResponse_shouldPass() {
+        FeedbackSession session = getSession("session1InCourse1");
+        Student giver = loginStudent("student1InCourse1");
+
+        int questionNumber = 2;
+        FeedbackQuestion question = getQuestion(session, questionNumber);
+        String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
+
+        List<Student> recipients = getStudents("student3InCourse1");
+        FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsEmail(recipients);
+
+        List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
+        validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), recipients);
+        validateStudentDatabaseByEmail(session, question, giver.getEmail(), recipients);
     }
 
     @Test
@@ -801,8 +828,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
         validateOutputForStudentRecipientsByTeam(outputResponses, giver.getEmail(), recipients);
-        // (session, question, giver.getEmail(), recipients);
-        // TODO: VALIDATE BY TEAM
+        validateStudentDatabaseByTeam(session, question, giver.getEmail(), recipients);
     }
 
     @Test
