@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Section;
@@ -49,13 +48,12 @@ public final class CoursesDb extends EntitiesDb {
 
     /**
      * Creates a course.
+     *
+     * <p>Preconditions:</p>
+     * * Course fields are valid.
      */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Course createCourse(Course course) throws EntityAlreadyExistsException {
         assert course != null;
-
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
 
         if (getCourse(course.getId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
@@ -67,16 +65,15 @@ public final class CoursesDb extends EntitiesDb {
 
     /**
      * Saves an updated {@code Course} to the db.
+     *
+     * <p>Preconditions:</p>
+     * * Course fields are valid.
      */
-    public Course updateCourse(Course course) throws InvalidParametersException, EntityDoesNotExistException {
+    public Course updateCourse(Course course) throws EntityDoesNotExistException {
         assert course != null;
 
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
-
         if (getCourse(course.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
         }
 
         return merge(course);
@@ -93,13 +90,12 @@ public final class CoursesDb extends EntitiesDb {
 
     /**
      * Creates a section.
+     *
+     * <p>Preconditions:</p>
+     * * Section fields are valid.
      */
-    public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Section createSection(Section section) throws EntityAlreadyExistsException {
         assert section != null;
-
-        if (!section.isValid()) {
-            throw new InvalidParametersException(section.getInvalidityInfo());
-        }
 
         if (getSectionByName(section.getCourse().getId(), section.getName()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, section.toString()));
@@ -201,13 +197,12 @@ public final class CoursesDb extends EntitiesDb {
 
     /**
      * Creates a team.
+     *
+     * <p>Preconditions:</p>
+     * * Team fields are valid.
      */
-    public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Team createTeam(Team team) throws EntityAlreadyExistsException {
         assert team != null;
-
-        if (!team.isValid()) {
-            throw new InvalidParametersException(team.getInvalidityInfo());
-        }
 
         if (getTeamByName(team.getSection().getId(), team.getName()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, team.toString()));

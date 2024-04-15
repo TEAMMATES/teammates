@@ -22,6 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
@@ -118,8 +119,10 @@ public final class UsersLogic {
      */
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
-            throw new EntityAlreadyExistsException("Instructor already exists.");
+        assert instructor != null;
+
+        if (!instructor.isValid()) {
+            throw new InvalidParametersException(instructor.getInvalidityInfo());
         }
         return usersDb.createInstructor(instructor);
     }
@@ -157,6 +160,9 @@ public final class UsersLogic {
             newDisplayName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
+        // evict managed entity to avoid auto-persist
+        HibernateUtil.flushAndEvict(instructor);
+
         instructor.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
         instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
         instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
@@ -173,6 +179,8 @@ public final class UsersLogic {
         if (!instructor.isValid()) {
             throw new InvalidParametersException(instructor.getInvalidityInfo());
         }
+
+        usersDb.updateInstructor(instructor);
 
         if (needsCascade) {
             // cascade responses
@@ -228,6 +236,12 @@ public final class UsersLogic {
      *                                      database.
      */
     public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
+        assert student != null;
+
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
+
         return usersDb.createStudent(student);
     }
 
@@ -746,6 +760,10 @@ public final class UsersLogic {
     public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
+
         String courseId = student.getCourseId();
         Student originalStudent = getStudent(student.getId());
         String originalEmail = originalStudent.getEmail();
@@ -763,12 +781,15 @@ public final class UsersLogic {
         boolean changedTeam = isTeamChanged(originalTeam, student.getTeam());
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
-        // update student
-        usersDb.checkBeforeUpdateStudent(student);
+        // evict managed entity to avoid auto-persist
+        HibernateUtil.flushAndEvict(originalStudent);
+
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
         originalStudent.setEmail(student.getEmail());
         originalStudent.setComments(student.getComments());
+
+        usersDb.updateStudent(originalStudent);
 
         // cascade email changes to responses and comments
         if (changedEmail) {

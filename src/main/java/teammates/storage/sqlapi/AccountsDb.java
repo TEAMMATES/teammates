@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 
@@ -68,13 +67,12 @@ public final class AccountsDb extends EntitiesDb {
 
     /**
      * Creates an Account.
+     *
+     * <p>Preconditions:</p>
+     * * Account fields are valid.
      */
-    public Account createAccount(Account account) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Account createAccount(Account account) throws EntityAlreadyExistsException {
         assert account != null;
-
-        if (!account.isValid()) {
-            throw new InvalidParametersException(account.getInvalidityInfo());
-        }
 
         if (getAccountByGoogleId(account.getGoogleId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
@@ -86,13 +84,12 @@ public final class AccountsDb extends EntitiesDb {
 
     /**
      * Saves an updated {@code Account} to the db.
+     *
+     * <p>Preconditions:</p>
+     * * Account fields are valid.
      */
-    public Account updateAccount(Account account) throws InvalidParametersException, EntityDoesNotExistException {
+    public Account updateAccount(Account account) throws EntityDoesNotExistException {
         assert account != null;
-
-        if (!account.isValid()) {
-            throw new InvalidParametersException(account.getInvalidityInfo());
-        }
 
         if (getAccount(account.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + account.toString());

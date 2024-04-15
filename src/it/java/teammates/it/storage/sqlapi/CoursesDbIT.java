@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
@@ -48,10 +47,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("failure: null course assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.createCourse(null));
-
-        ______TS("failure: invalid course details");
-        Course invalidCourse = new Course("course-id", "!@#!@#", "Asia/Singapore", "institute");
-        assertThrows(InvalidParametersException.class, () -> coursesDb.createCourse(invalidCourse));
 
         ______TS("failure: create course that already exist, execption thrown");
         Course identicalCourse = getTypicalCourse();
@@ -112,10 +107,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("failure: null section assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.createSection(null));
 
-        ______TS("failure: invalid section details");
-        Section invalidSection = new Section(course, null);
-        assertThrows(InvalidParametersException.class, () -> coursesDb.createSection(invalidSection));
-
         ______TS("failure: create section that already exist, execption thrown");
         assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createSection(section));
     }
@@ -143,7 +134,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetSectionByCourseIdAndTeam() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetSectionByCourseIdAndTeam() throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
         Section section = new Section(course, "section-name");
         course.addSection(section);
@@ -163,7 +154,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetTeamsForSection() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetTeamsForSection() throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
         Section section = new Section(course, "section-name");
         course.addSection(section);
@@ -206,7 +197,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetTeamsForCourse() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetTeamsForCourse() throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
 
         Section section1 = new Section(course, "section-name1");
@@ -253,10 +244,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         coursesDb.createTeam(team);
         Team actualTeam = coursesDb.getTeamByName(section.getId(), team.getName());
         verifyEquals(team, actualTeam);
-
-        ______TS("failure: invalid team details");
-        Team invalidTeam = new Team(section, null);
-        assertThrows(InvalidParametersException.class, () -> coursesDb.createTeam(invalidTeam));
 
         ______TS("failure: create team that already exist, execption thrown");
         assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createTeam(team));

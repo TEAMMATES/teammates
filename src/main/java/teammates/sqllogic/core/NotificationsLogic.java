@@ -11,6 +11,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
 
@@ -47,6 +48,11 @@ public final class NotificationsLogic {
      */
     public Notification createNotification(Notification notification)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert notification != null;
+
+        if (!notification.isValid()) {
+            throw new InvalidParametersException(notification.getInvalidityInfo());
+        }
         return notificationsDb.createNotification(notification);
     }
 
@@ -78,6 +84,9 @@ public final class NotificationsLogic {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
         }
 
+        // evict managed entity to avoid auto-persist
+        HibernateUtil.flushAndEvict(notification);
+
         notification.setStartTime(startTime);
         notification.setEndTime(endTime);
         notification.setStyle(style);
@@ -88,6 +97,8 @@ public final class NotificationsLogic {
         if (!notification.isValid()) {
             throw new InvalidParametersException(notification.getInvalidityInfo());
         }
+
+        notificationsDb.updateNotification(notification);
 
         return notification;
     }

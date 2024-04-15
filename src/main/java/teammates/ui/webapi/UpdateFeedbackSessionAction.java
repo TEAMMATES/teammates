@@ -20,6 +20,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
@@ -146,6 +147,9 @@ public class UpdateFeedbackSessionAction extends Action {
                     .stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                             entry.getValue(), timeZone, true)));
+
+            // evict managed entity to avoid auto-persist
+            HibernateUtil.flushAndEvict(feedbackSession);
 
             feedbackSession.setInstructions(updateRequest.getInstructions());
             feedbackSession.setStartTime(startTime);

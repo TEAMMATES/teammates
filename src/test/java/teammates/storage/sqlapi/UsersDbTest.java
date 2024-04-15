@@ -44,36 +44,6 @@ public class UsersDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateInstructor_validInstructorDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        Instructor newInstructor = getTypicalInstructor();
-
-        usersDb.createInstructor(newInstructor);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(newInstructor));
-    }
-
-    @Test
-    public void testCreateStudent_studentDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        Student newStudent = getTypicalStudent();
-
-        usersDb.createStudent(newStudent);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(newStudent));
-    }
-
-    @Test
-    public void testCreateStudent_studentWithInvalidEmail_throwsInvalidParametersException() {
-        Student newStudent = getTypicalStudent();
-        newStudent.setEmail("invalid-email");
-
-        assertThrows(InvalidParametersException.class, () -> usersDb.createStudent(newStudent));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(newStudent), never());
-    }
-
-    @Test
     public void testGetInstructor_instructorIdPresent_success() {
         Instructor instructor = getTypicalInstructor();
 
@@ -113,17 +83,6 @@ public class UsersDbTest extends BaseTestCase {
         usersDb.deleteUser(null);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
-    }
-
-    @Test
-    public void testUpdateStudent_invalidStudent_throwsInvalidParametersException() {
-        Student invalidStudent = getTypicalStudent();
-        invalidStudent.setEmail("");
-
-        assertThrows(InvalidParametersException.class,
-                () -> usersDb.updateStudent(invalidStudent));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(invalidStudent), never());
     }
 
     @Test

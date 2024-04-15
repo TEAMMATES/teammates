@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
@@ -45,14 +44,12 @@ public final class AccountRequestsDb extends EntitiesDb {
 
     /**
      * Creates an AccountRequest in the database.
+     *
+     * <p>Preconditions:</p>
+     * * AccountRequest fields are valid.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws EntityAlreadyExistsException {
         assert accountRequest != null;
-
-        if (!accountRequest.isValid()) {
-            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
-        }
 
         // don't need to check registrationKey for uniqueness since it is generated using email + institute
         if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) != null) {
@@ -62,6 +59,14 @@ public final class AccountRequestsDb extends EntitiesDb {
 
         persist(accountRequest);
         return accountRequest;
+    }
+
+    /**
+     * Get AccountRequest by {@code id} from database.
+     */
+    public AccountRequest getAccountRequest(UUID id) {
+        assert id != null;
+        return HibernateUtil.get(AccountRequest.class, id);
     }
 
     /**
@@ -106,19 +111,16 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
-     * Updates or creates (if does not exist) the AccountRequest in the database.
+     * Updates the AccountRequest in the database.
+     *
+     * <p>Preconditions:</p>
+     * * AccountRequest fields are valid.
      */
-    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public AccountRequest updateAccountRequest(AccountRequest accountRequest) throws EntityDoesNotExistException {
         assert accountRequest != null;
 
-        if (!accountRequest.isValid()) {
-            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
-        }
-
         if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) == null) {
-            throw new EntityDoesNotExistException(
-                String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + AccountRequest.class);
         }
 
         merge(accountRequest);

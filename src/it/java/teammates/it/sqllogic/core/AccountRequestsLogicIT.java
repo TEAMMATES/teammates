@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.storage.sqlapi.AccountRequestsDb;
@@ -55,4 +56,48 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestsLogic.resetAccountRequest(name, institute));
     }
+
+    @Test
+    public void testCreateAccountRequest() throws EntityAlreadyExistsException, InvalidParametersException {
+
+        ______TS("success: create account request");
+
+        AccountRequest accountRequest = new AccountRequest("new@email.com", "name", "institute");
+
+        accountRequestsLogic.createAccountRequest(accountRequest);
+
+        AccountRequest accountRequestFromDb = accountRequestsLogic.getAccountRequest(accountRequest.getId());
+        assertEquals(accountRequest.getEmail(), accountRequestFromDb.getEmail());
+        assertEquals(accountRequest.getName(), accountRequestFromDb.getName());
+        assertEquals(accountRequest.getInstitute(), accountRequestFromDb.getInstitute());
+
+        ______TS("failure: invalid parameters");
+
+        AccountRequest accountRequestWithInvalidEmail = new AccountRequest("invalid email", "name", "institute");
+
+        assertThrows(InvalidParametersException.class,
+                () -> accountRequestsLogic.createAccountRequest(accountRequestWithInvalidEmail));
+        assertNull(accountRequestsLogic.getAccountRequest(accountRequestWithInvalidEmail.getId()));
+    }
+
+    @Test
+    public void testUpdateAccountRequest() throws EntityAlreadyExistsException, InvalidParametersException {
+
+        ______TS("failure: invalid parameters, original unchanged");
+
+        String originalEmail = "test@gmail.com";
+        AccountRequest accountRequest = new AccountRequest(originalEmail, "name", "institute");
+        accountRequestsLogic.createAccountRequest(accountRequest);
+
+        AccountRequest accountRequestWithInvalidEmail = new AccountRequest("invalid email", "name", "institute");
+
+        assertThrows(InvalidParametersException.class,
+                () -> accountRequestsLogic.updateAccountRequest(accountRequestWithInvalidEmail));
+
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+        AccountRequest actual = accountRequestsLogic.getAccountRequest(accountRequest.getId());
+        assertEquals(originalEmail, actual.getEmail());
+    }
+
 }

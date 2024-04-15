@@ -7,7 +7,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.mockito.MockedStatic;
@@ -15,9 +14,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.test.BaseTestCase;
@@ -41,7 +38,7 @@ public class FeedbackQuestionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateFeedbackQuestion_success() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateFeedbackQuestion_success() throws EntityAlreadyExistsException {
         FeedbackQuestion feedbackQuestion = getFeedbackQuestion();
 
         feedbackQuestionsDb.createFeedbackQuestion(feedbackQuestion);
@@ -60,18 +57,6 @@ public class FeedbackQuestionsDbTest extends BaseTestCase {
                 () -> feedbackQuestionsDb.createFeedbackQuestion(feedbackQuestion));
 
         assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackQuestion.toString()), eaee.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(feedbackQuestion), never());
-    }
-
-    @Test
-    public void testCreateFeedbackQuestion_invalidQuestion_throwsInvalidParametersException() {
-        FeedbackQuestion feedbackQuestion = getFeedbackQuestion();
-        feedbackQuestion.setGiverType(FeedbackParticipantType.NONE);
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> feedbackQuestionsDb.createFeedbackQuestion(feedbackQuestion));
-
-        assertEquals(feedbackQuestion.getInvalidityInfo(), List.of(ipe.getMessage()));
         mockHibernateUtil.verify(() -> HibernateUtil.persist(feedbackQuestion), never());
     }
 

@@ -92,23 +92,6 @@ public class AccountsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccount_invalidEmail_throwsInvalidParametersException() {
-        Account account = new Account("google-id", "name", "invalid");
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> accountsDb.createAccount(account));
-
-        assertEquals(
-                "\"invalid\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format. "
-                        + "An email address contains some text followed by one '@' sign followed by some more text, "
-                        + "and should end with a top level domain address like .com. "
-                        + "It cannot be longer than 254 characters, "
-                        + "cannot be empty and cannot contain spaces.",
-                ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(account), never());
-    }
-
-    @Test
     public void testUpdateAccount_accountAlreadyExists_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         Account account = getTypicalAccount();
@@ -130,24 +113,6 @@ public class AccountsDbTest extends BaseTestCase {
                 () -> accountsDb.updateAccount(account));
 
         assertEquals("Trying to update non-existent Entity: " + account.toString(), ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(account), never());
-    }
-
-    @Test
-    public void testUpdateAccount_invalidEmail_throwsInvalidParametersException() {
-        Account account = getTypicalAccount();
-        account.setEmail("invalid");
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> accountsDb.updateAccount(account));
-
-        assertEquals(
-                "\"invalid\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format. "
-                        + "An email address contains some text followed by one '@' sign followed by some more text, "
-                        + "and should end with a top level domain address like .com. "
-                        + "It cannot be longer than 254 characters, "
-                        + "cannot be empty and cannot contain spaces.",
-                ex.getMessage());
         mockHibernateUtil.verify(() -> HibernateUtil.persist(account), never());
     }
 

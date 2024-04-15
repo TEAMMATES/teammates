@@ -12,7 +12,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -97,17 +96,6 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
         feedbackResponseCommentsDb.deleteFeedbackResponseComment(TYPICAL_ID);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(comment));
-    }
-
-    @Test
-    public void testUpdateComment_commentInvalid_throwsInvalidParametersException() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-        comment.setGiverType(FeedbackParticipantType.SELF);
-
-        assertThrows(InvalidParametersException.class,
-                () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(comment), never());
     }
 
     @Test

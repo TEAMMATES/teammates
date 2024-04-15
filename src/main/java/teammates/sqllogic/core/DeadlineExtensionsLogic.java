@@ -76,6 +76,11 @@ public final class DeadlineExtensionsLogic {
     public DeadlineExtension createDeadlineExtension(DeadlineExtension deadlineExtension)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert deadlineExtension != null;
+
+        if (!deadlineExtension.isValid()) {
+            throw new InvalidParametersException(deadlineExtension.getInvalidityInfo());
+        }
+
         return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
     }
 
@@ -94,6 +99,12 @@ public final class DeadlineExtensionsLogic {
      */
     public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException, EntityDoesNotExistException {
+        assert de != null;
+
+        if (!de.isValid()) {
+            throw new InvalidParametersException(de.getInvalidityInfo());
+        }
+
         return deadlineExtensionsDb.updateDeadlineExtension(de);
     }
 

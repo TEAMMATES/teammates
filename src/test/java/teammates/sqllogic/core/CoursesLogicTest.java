@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,12 +13,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -39,12 +43,20 @@ public class CoursesLogicTest extends BaseTestCase {
 
     private CoursesDb coursesDb;
 
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
+
     @BeforeMethod
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
         fsLogic = mock(FeedbackSessionsLogic.class);
         usersLogic = mock(UsersLogic.class);
         coursesLogic.initLogicDependencies(coursesDb, fsLogic, usersLogic);
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        mockHibernateUtil.close();
     }
 
     @Test
@@ -155,8 +167,20 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateDuplicateCourse_throwEntityAlreadyExistsException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateCourse_invalidName_throwInvalidParametersException() throws EntityAlreadyExistsException {
+        Course course = getTypicalCourse();
+        course.setName("");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.createCourse(course));
+
+        assertEquals("The field 'course name' is empty."
+                + " The value of a/an course name should be no longer than 80 characters."
+                + " It should not be empty.", ex.getMessage());
+    }
+
+    @Test
+    public void testCreateDuplicateCourse_throwEntityAlreadyExistsException() throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
 
         when(coursesDb.createCourse(course))
@@ -226,8 +250,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCourse_throwEntityDoesNotExistException()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateCourse_throwEntityDoesNotExistException() {
         Course course = getTypicalCourse();
         String courseId = course.getId();
 
@@ -240,8 +263,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCourse_throwInvalidParametersException()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateCourse_throwInvalidParametersException() throws EntityDoesNotExistException {
         Course course = getTypicalCourse();
         String courseId = course.getId();
 
@@ -271,8 +293,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateDuplicateSection_throwEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateDuplicateSection_throwEntityAlreadyExistsException() throws EntityAlreadyExistsException {
         Section section = getTypicalSection();
 
         when(coursesDb.createSection(section))
@@ -286,12 +307,9 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateSectionInvalidName_throwInvalidParametersException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateSectionInvalidName_throwInvalidParametersException() throws EntityAlreadyExistsException {
         Section section = getTypicalSection();
         section.setName(null);
-
-        when(coursesDb.createSection(section)).thenThrow(new InvalidParametersException(section.getInvalidityInfo()));
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.createSection(section));
@@ -366,8 +384,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateDuplicateTeam_throwEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateDuplicateTeam_throwEntityAlreadyExistsException() throws EntityAlreadyExistsException {
         Team team = getTypicalTeam();
 
         when(coursesDb.createTeam(team)).thenThrow(
@@ -381,12 +398,9 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateTeamInvalidName_throwInvalidParametersException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateTeamInvalidName_throwInvalidParametersException() throws EntityAlreadyExistsException {
         Team team = getTypicalTeam();
         team.setName(null);
-
-        when(coursesDb.createTeam(team)).thenThrow(new InvalidParametersException(team.getInvalidityInfo()));
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.createTeam(team));

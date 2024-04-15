@@ -67,6 +67,22 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
     }
 
     @Test
+    public void testCreateFeedbackQuestion_invalidDetails_throwsInvalidParameterException() {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
+        List<FeedbackParticipantType> showTos = new ArrayList<>();
+        showTos.add(FeedbackParticipantType.INSTRUCTORS);
+        FeedbackQuestion newQuestion = FeedbackQuestion.makeQuestion(fs, 6, "This is a new text question",
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS, -100,
+                showTos, showTos, showTos, newQuestionDetails);
+
+        newQuestion.setGiverType(FeedbackParticipantType.RECEIVER);
+
+        assertThrows(InvalidParametersException.class, () -> fqLogic.createFeedbackQuestion(newQuestion));
+        assertNull(fqLogic.getFeedbackQuestion(newQuestion.getId()));
+    }
+
+    @Test
     public void testGetFeedbackQuestionsForSession() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -87,10 +103,10 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
     @Test
     public void testUpdateFeedbackQuestionCascade() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        fq1.setDescription("New question description");
+        String newQuestionDescription = "New question description";
         FeedbackQuestionUpdateRequest updateRequest = generateFeedbackQuestionUpdateRequest(
                 fq1.getQuestionNumber(),
-                fq1.getDescription(),
+                newQuestionDescription,
                 fq1.getQuestionDetailsCopy(),
                 fq1.getQuestionDetailsCopy().getQuestionType(),
                 fq1.getGiverType(),
@@ -106,7 +122,40 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
         FeedbackQuestion actualFeedbackQuestion = fqLogic.getFeedbackQuestion(fq1.getId());
 
-        verifyEquals(fq1, actualFeedbackQuestion);
+        assertEquals(newQuestionDescription, actualFeedbackQuestion.getDescription());
+    }
+
+    @Test
+    public void testUpdateFeedbackQuestionCascade_invalidDetails_originalUnchanged()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        String originalDescription = fq1.getDescription();
+
+        FeedbackQuestionUpdateRequest updateRequest = generateFeedbackQuestionUpdateRequest(
+                fq1.getQuestionNumber(),
+                "new question description",
+                fq1.getQuestionDetailsCopy(),
+                fq1.getQuestionDetailsCopy().getQuestionType(),
+                fq1.getGiverType(),
+                fq1.getRecipientType(),
+                fq1.getNumOfEntitiesToGiveFeedbackTo(),
+                fq1.getShowResponsesTo(),
+                fq1.getShowGiverNameTo(),
+                fq1.getShowRecipientNameTo()
+        );
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+
+        // set invalid question detail
+        FeedbackTextQuestionDetails ftqd = (FeedbackTextQuestionDetails) updateRequest.getQuestionDetails();
+        ftqd.setRecommendedLength(0);
+        updateRequest.setQuestionDetails(ftqd);
+
+        assertThrows(InvalidParametersException.class,
+                () -> fqLogic.updateFeedbackQuestionCascade(fq1.getId(), updateRequest));
+
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+        assertEquals(originalDescription, fqLogic.getFeedbackQuestion(fq1.getId()).getDescription());
     }
 
     private FeedbackQuestionUpdateRequest generateFeedbackQuestionUpdateRequest(

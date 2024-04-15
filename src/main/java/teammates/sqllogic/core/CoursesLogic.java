@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -57,6 +58,12 @@ public final class CoursesLogic {
      *                                      database.
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+        assert course != null;
+
+        if (!course.isValid()) {
+            throw new InvalidParametersException(course.getInvalidityInfo());
+        }
+
         return coursesDb.createCourse(course);
     }
 
@@ -177,6 +184,10 @@ public final class CoursesLogic {
         if (course == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
         }
+
+        // evict managed entity to avoid auto-persist
+        HibernateUtil.flushAndEvict(course);
+
         course.setName(name);
         course.setTimeZone(timezone);
 
@@ -184,6 +195,7 @@ public final class CoursesLogic {
             throw new InvalidParametersException(course.getInvalidityInfo());
         }
 
+        coursesDb.updateCourse(course);
         return course;
     }
 
@@ -191,6 +203,12 @@ public final class CoursesLogic {
      * Creates a section.
      */
     public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+        assert section != null;
+
+        if (!section.isValid()) {
+            throw new InvalidParametersException(section.getInvalidityInfo());
+        }
+
         return coursesDb.createSection(section);
     }
 
@@ -234,6 +252,11 @@ public final class CoursesLogic {
      * Creates a team.
      */
     public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+        assert team != null;
+
+        if (!team.isValid()) {
+            throw new InvalidParametersException(team.getInvalidityInfo());
+        }
         return coursesDb.createTeam(team);
     }
 

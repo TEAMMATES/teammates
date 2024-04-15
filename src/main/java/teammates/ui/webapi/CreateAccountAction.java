@@ -17,6 +17,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -111,6 +112,9 @@ public class CreateAccountAction extends Action {
     private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest,
             String instructorEmail, String instructorInstitution)
             throws InvalidParametersException, EntityDoesNotExistException {
+        // evict managed entity to avoid auto-persist
+        HibernateUtil.flushAndEvict(accountRequest);
+
         accountRequest.setEmail(instructorEmail);
         accountRequest.setInstitute(instructorInstitution);
         accountRequest.setRegisteredAt(Instant.now());

@@ -113,7 +113,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
-        resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
+        resetStudent(student1, student1.getId(), originalEmail, originalTeam, originalComments);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
         verifyNoEmailsSent();
 
-        resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
+        resetStudent(student1, student1.getId(), originalEmail, originalTeam, originalComments);
     }
 
     @Test
@@ -309,7 +309,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
         assertEquals(student4.getComments(), actualStudent.getComments());
 
-        resetStudent(student4.getId(), student4.getEmail(), originalTeam, student4.getComments());
+        resetStudent(student4, student4.getId(), student4.getEmail(), originalTeam, student4.getComments());
     }
 
     @Override
@@ -327,11 +327,16 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
     }
 
-    private void resetStudent(UUID studentId, String originalEmail, Team originalTeam, String originalComments) {
+    private void resetStudent(Student student, UUID studentId, String originalEmail, Team originalTeam,
+            String originalComments) {
         Student updatedStudent = logic.getStudent(studentId);
         updatedStudent.setEmail(originalEmail);
         updatedStudent.setTeam(originalTeam);
         updatedStudent.setComments(originalComments);
+
+        student.setEmail(originalEmail);
+        student.setTeam(originalTeam);
+        student.setComments(originalComments);
     }
 
 }

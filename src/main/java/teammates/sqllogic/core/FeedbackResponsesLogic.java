@@ -145,6 +145,12 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackResponse != null;
+
+        if (!feedbackResponse.isValid()) {
+            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
+        }
+
         return frDb.createFeedbackResponse(feedbackResponse);
     }
 
@@ -202,6 +208,11 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponse != null;
+
+        if (!feedbackResponse.isValid()) {
+            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
+        }
 
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
         FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);

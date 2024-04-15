@@ -2,6 +2,7 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -21,6 +24,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelperExtension;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -42,6 +46,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
     private Instant nearestHour;
     private Instant endHour;
     private Instant responseVisibleHour;
+
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @Override
     protected String getActionUri() {
@@ -66,6 +72,13 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
+
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterMethod
+    void tearDown() {
+        mockHibernateUtil.close();
     }
 
     @Test

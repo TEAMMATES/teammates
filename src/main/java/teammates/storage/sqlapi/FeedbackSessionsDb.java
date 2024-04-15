@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
@@ -134,17 +133,15 @@ public final class FeedbackSessionsDb extends EntitiesDb {
 
     /**
      * Creates a feedback session.
+     *
+     * <p>Preconditions:</p>
+     * * Feedback session fields are valid.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public FeedbackSession createFeedbackSession(FeedbackSession session) throws EntityAlreadyExistsException {
         assert session != null;
 
-        if (!session.isValid()) {
-            throw new InvalidParametersException(session.getInvalidityInfo());
-        }
-
         if (getFeedbackSession(session.getId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, FeedbackSession.class));
         }
 
         persist(session);
@@ -154,20 +151,17 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     /**
      * Saves an updated {@code FeedbackSession} to the db.
      *
+     * <p>Preconditions:</p>
+     * * Feedback session fields are valid.
+     *
      * @return updated feedback session
-     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession) throws EntityDoesNotExistException {
         assert feedbackSession != null;
 
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
         if (getFeedbackSession(feedbackSession.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + FeedbackSession.class);
         }
 
         return merge(feedbackSession);

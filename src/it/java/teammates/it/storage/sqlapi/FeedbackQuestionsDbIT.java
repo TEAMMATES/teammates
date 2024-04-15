@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
@@ -60,7 +59,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testCreateFeedbackQuestion() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateFeedbackQuestion() throws EntityAlreadyExistsException {
         ______TS("success: typical case");
         FeedbackQuestion expectedFq = getTypicalFeedbackQuestionForSession(
                 getTypicalFeedbackSessionForCourse(getTypicalCourse()));
@@ -70,14 +69,6 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("failure: duplicate question, throws error");
         assertThrows(EntityAlreadyExistsException.class, () -> fqDb.createFeedbackQuestion(expectedFq));
-
-        ______TS("failure: invalid question, throws error");
-        FeedbackQuestion invalidFq = getTypicalFeedbackQuestionForSession(
-                getTypicalFeedbackSessionForCourse(getTypicalCourse()));
-        invalidFq.setGiverType(FeedbackParticipantType.RECEIVER);
-
-        assertThrows(InvalidParametersException.class, () -> fqDb.createFeedbackQuestion(invalidFq));
-        assertNull(fqDb.getFeedbackQuestion(invalidFq.getId()));
 
         ______TS("failure: null parameter, assertion error");
         assertThrows(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
