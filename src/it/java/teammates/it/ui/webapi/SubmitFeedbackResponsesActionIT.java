@@ -111,12 +111,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void setEndTime(FeedbackSession session, int days)
             throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getName();
-        String courseId = session.getCourseId();
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
-        session.setName(sessionName);
-        session.getCourse().setId(courseId);
         session.setEndTime(endTime);
 
         logic.updateFeedbackSession(session);
@@ -700,10 +696,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
-    @Override
-    public void testExecute() {
-        // See each independent test case.
-    }
 
     @Test
     public void testExecute_noHttpParameters_shouldFail() {
