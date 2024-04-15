@@ -88,13 +88,36 @@ public class VerifyCourseEntityAttributes
             }
 
             // Group students by team
-            // Map<String, List<CourseStudent>> teamNameToOldStuMap = oldSectionStudents.stream()
-            //         .collect(Collectors.groupingBy(CourseStudent::getTeamName));
-            // Map<String, List<Student>> teamNameToNewStuMap = newSectionStudents.stream()
-            //         .collect(Collectors.groupingBy(Student::getTeamName));
-            return true; // verifyTeams(section, teamNameToOldStuMap, teamNameToNewStuMap);
+            Map<String, List<CourseStudent>> teamNameToOldStuMap = oldSectionStudents.stream()
+                    .collect(Collectors.groupingBy(CourseStudent::getTeamName));
+            Map<String, List<Student>> teamNameToNewStuMap = newSectionStudents.stream()
+                    .collect(Collectors.groupingBy(Student::getTeamName));
+            return verifyTeams(section, teamNameToOldStuMap, teamNameToNewStuMap);
         });
 
     }
 
+    private boolean verifyTeams(Section newSection,
+            Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
+
+        List<Team> newTeam = newSection.getTeams();
+
+        boolean isTeamCountEqual = newTeam.size() != teamNameToNewStuMap.size()
+                || newTeam.size() != teamNameToOldStuMap.size();
+        if (!isTeamCountEqual) {
+            return false;
+        }
+
+        return newTeam.stream().allMatch(team -> {
+            List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
+            List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
+
+            // If teamStudents is null, then team is not present in sql
+            boolean isTeamNamePresent = oldTeamStudents != null && newTeamStudents != null;
+            if (!isTeamNamePresent) {
+                return false;
+            }
+            return true; // verifyStudents(oldTeamStudents, newTeamStudents);
+        });
+    }
 }
