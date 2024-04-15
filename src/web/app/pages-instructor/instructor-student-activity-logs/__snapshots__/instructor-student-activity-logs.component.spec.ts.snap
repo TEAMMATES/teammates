@@ -40,20 +40,18 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
     </b>
      before today.
   </p><p>
-    Please note that recent activity may 
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
     <b>
       NOT
     </b>
-     be shown as the information is updated every 
+     be shown as the information is updated in 
     <b>
-      15 minutes
+      15 minute
     </b>
-    .
-    <br />
-    Last updated: 
-    <b>
-    </b>
-    .
+     intervals.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -117,20 +115,18 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
     </b>
      before today.
   </p><p>
-    Please note that recent activity may 
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
     <b>
       NOT
     </b>
-     be shown as the information is updated every 
+     be shown as the information is updated in 
     <b>
-      15 minutes
+      15 minute
     </b>
-    .
-    <br />
-    Last updated: 
-    <b>
-    </b>
-    .
+     intervals.
   </p><hr /><div
     class="card bg-form no-border"
   >
@@ -704,20 +700,18 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
     </b>
      before today.
   </p><p>
-    Please note that recent activity may 
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
     <b>
       NOT
     </b>
-     be shown as the information is updated every 
+     be shown as the information is updated in 
     <b>
-      15 minutes
+      15 minute
     </b>
-    .
-    <br />
-    Last updated: 
-    <b>
-    </b>
-    .
+     intervals.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -781,20 +775,18 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
     </b>
      before today.
   </p><p>
-    Please note that recent activity may 
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
     <b>
       NOT
     </b>
-     be shown as the information is updated every 
+     be shown as the information is updated in 
     <b>
-      15 minutes
+      15 minute
     </b>
-    .
-    <br />
-    Last updated: 
-    <b>
-    </b>
-    .
+     intervals.
   </p><hr /><div
     class="card bg-form no-border"
   >
