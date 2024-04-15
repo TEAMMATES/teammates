@@ -88,8 +88,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
                     expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
             FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
             FeedbackResponseDetails actualResponseDetails = actualResponse.getResponseDetails();
-            assertEquals(expectedFeedbackResponse.getGiver(), actualResponse.getGiverIdentifier());
-            assertEquals(expectedFeedbackResponse.getRecipient(), actualResponse.getRecipientIdentifier());
+            assertEquals(expectedFeedbackResponse.getGiver().getEmail(), actualResponse.getGiverIdentifier());
+            assertEquals(expectedFeedbackResponse.getRecipient().getEmail(), actualResponse.getRecipientIdentifier());
             assertEquals(expectedResponseDetails.getAnswerString(),
                     actualResponse.getResponseDetails().getAnswerString());
             assertEquals(expectedResponseDetails.getQuestionType(),
@@ -116,11 +116,11 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
             FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
-            assertEquals(expectedFeedbackResponseComment.getGiver(), actualComment.getCommentGiver());
+            assertEquals(expectedFeedbackResponseComment.getGiver().getEmail(), actualComment.getCommentGiver());
             assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
             assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
                     actualComment.isVisibilityFollowingFeedbackQuestion());
-            assertEquals(expectedFeedbackResponseComment.getLastEditorEmail(), actualComment.getLastEditorEmail());
+            assertEquals(expectedFeedbackResponseComment.getLastEditor().getEmail(), actualComment.getLastEditorEmail());
         } else if (expected instanceof FeedbackSession) {
             FeedbackSession expectedFeedbackSession = (FeedbackSession) expected;
             FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;

@@ -981,7 +981,7 @@ public final class FeedbackResponsesLogic {
                     || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION
                     || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_EXCLUDING_SELF)
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.getRecipient().getEmail().equals(student.getTeamName())) {
+                    && response.getRecipient().getTeam().getName().equals(student.getTeamName())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                     && response.getGiver().getEmail().equals(student.getTeamName())) {

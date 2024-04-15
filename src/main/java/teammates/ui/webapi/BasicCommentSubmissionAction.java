@@ -83,7 +83,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      */
     void verifyResponseOwnerShipForInstructor(Instructor instructor, FeedbackResponse response)
             throws UnauthorizedAccessException {
-        if (!response.getGiver().equals(instructor.getEmail())) {
+        if (!response.getGiver().getEmail().equals(instructor.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + instructor.getName());
         }
