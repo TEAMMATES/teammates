@@ -28,7 +28,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   + 'email address provided by your institution.<br />'
   + '<strong>Remedy:</strong> Please re-submit an account request with your &#39;official&#39; '
   + 'institution email address.</p>\n\n'
-  + '<p><strong>Reason:</strong> The email address you have provided does seem like it belongs to a student '
+  + '<p><strong>Reason:</strong> The email address you have provided seems like it belongs to a student '
   + '(i.e., not a staff member) of your institution.<br />'
   + '<strong>Remedy:</strong> If you are a student but you still need an instructor account, '
   + 'please send your justification to {supportEmail}</p>\n\n'
