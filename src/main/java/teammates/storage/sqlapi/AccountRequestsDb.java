@@ -84,7 +84,9 @@ public final class AccountRequestsDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.equal(root.get("status"), AccountRequestStatus.PENDING));
+        cr.select(root)
+                .where(cb.equal(root.get("status"), AccountRequestStatus.PENDING))
+                .orderBy(cb.desc(root.get("createdAt")));
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultList();
