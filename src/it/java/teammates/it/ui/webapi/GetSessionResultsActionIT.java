@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
@@ -150,6 +151,32 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                         accessibleFeedbackSession.getCourse().getId(),
                         student.getEmail(),
                         false, null, false),
+                student);
+
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        ______TS("Typical: Student accesses results of their course by questionId");
+
+        loginAsStudent(student.getGoogleId());
+
+        FeedbackQuestion question = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession,
+                        accessibleFeedbackSession.getCourse().getId(),
+                        student.getEmail(),
+                        false, question.getId(), false),
                 student);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
