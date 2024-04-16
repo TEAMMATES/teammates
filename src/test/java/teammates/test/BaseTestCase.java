@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -29,6 +30,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelperExtension;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -204,6 +206,11 @@ public class BaseTestCase {
                 null, null, null);
         comment.setId(id);
         return comment;
+    }
+
+    protected AccountRequest getTypicalAccountRequest() {
+        return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1, Test Country",
+                AccountRequestStatus.PENDING, "");
     }
 
     /**
