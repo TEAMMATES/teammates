@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.hibernate.Hibernate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
