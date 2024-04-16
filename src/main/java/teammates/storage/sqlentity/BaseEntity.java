@@ -4,8 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -26,8 +24,9 @@ import jakarta.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @CreationTimestamp
-    @Column(updatable = false)
+    // @CreationTimestamp
+    // @Column(updatable = false)
+    @Column(updatable = true)
     private Instant createdAt;
 
     BaseEntity() {
