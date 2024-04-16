@@ -466,10 +466,10 @@ final class GateKeeper {
     void verifyOwnership(FeedbackResponseComment frc, String feedbackParticipant)
             throws UnauthorizedAccessException {
         verifyNotNull(frc, "feedback response comment");
-        verifyNotNull(frc.getGiver(), "feedback response comment giver");
+        verifyNotNull(frc.getGiver().getEmail(), "feedback response comment giver");
         verifyNotNull(feedbackParticipant, "comment giver");
 
-        if (!frc.getGiver().equals(feedbackParticipant)) {
+        if (!frc.getGiver().getEmail().equals(feedbackParticipant)) {
             throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
                     + feedbackParticipant);
         }

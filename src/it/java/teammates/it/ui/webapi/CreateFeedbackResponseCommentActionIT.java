@@ -61,7 +61,7 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
         FeedbackResponseComment comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
         assertEquals(comment.getCommentText(), "Student submission comment");
-        assertEquals(student.getEmail(), comment.getGiver());
+        assertEquals(student.getEmail(), comment.getGiver().getEmail());
         assertTrue(comment.getIsCommentFromFeedbackParticipant());
         assertTrue(comment.getIsVisibilityFollowingFeedbackQuestion());
         assertEquals(FeedbackParticipantType.STUDENTS, comment.getGiverType());

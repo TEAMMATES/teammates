@@ -159,7 +159,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("SQL Injection test in GetFeedbackResponsesFromGiverForCourse, courseId param");
         String courseId = "'; DELETE FROM feedback_responses;--";
-        frDb.getFeedbackResponsesFromGiverForCourse(courseId, "");
+        frDb.getFeedbackResponsesFromGiverForCourse(courseId, null);
 
         checkSqliFailed(fr);
     }
@@ -170,7 +170,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("SQL Injection test in GetFeedbackResponsesForRecipientForCourse, courseId param");
         String courseId = "'; DELETE FROM feedback_responses;--";
-        frDb.getFeedbackResponsesForRecipientForCourse(courseId, "");
+        frDb.getFeedbackResponsesForRecipientForCourse(courseId, null);
 
         checkSqliFailed(fr);
     }
@@ -204,34 +204,6 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("SQL Injection test in HasResponsesForCourse, courseId param");
         String courseId = "'; DELETE FROM feedback_responses;--";
         frDb.hasResponsesForCourse(courseId);
-
-        checkSqliFailed(fr);
-    }
-
-    @Test
-    public void testSqlInjectionInCreateFeedbackResponse() throws Exception {
-        FeedbackResponse fr = prepareSqlInjectionTest();
-
-        FeedbackQuestion fq = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        Section s = testDataBundle.sections.get("section1InCourse1");
-        String dummyUuid = "00000000-0000-4000-8000-000000000001";
-        FeedbackResponseDetails frd = new FeedbackTextResponseDetails();
-
-        String sqli = "', " + dummyUuid + ", " + dummyUuid + "); DELETE FROM feedback_responses;--";
-
-        FeedbackResponse newFr = new FeedbackTextResponse(fq, "", s, sqli, s, frd);
-        frDb.createFeedbackResponse(newFr);
-
-        checkSqliFailed(fr);
-    }
-
-    @Test
-    public void testSqlInjectionInCpdateFeedbackResponse() throws Exception {
-        FeedbackResponse fr = prepareSqlInjectionTest();
-
-        String sqli = "''); DELETE FROM feedback_response_comments;--";
-        fr.setGiver(sqli);
-        frDb.updateFeedbackResponse(fr);
 
         checkSqliFailed(fr);
     }

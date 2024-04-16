@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -39,7 +40,7 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     private String courseId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 

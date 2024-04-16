@@ -3,8 +3,10 @@ package teammates.sqllogic.core;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -76,14 +78,19 @@ public final class DataBundleLogic {
     /**
      * Deserialize JSON into a data bundle.
      *
-     * <p>NOTE: apart from for Course, ids used in the jsonString may be any valid UUID
-     * and are used only to link entities together. They will be replaced by a random
-     * UUID when deserialized and hence do not need to be checked if they exist in the
-     * database previously.</p>
+     * <p>
+     * NOTE: apart from for Course, ids used in the jsonString may be any valid UUID
+     * and are used only to link entities together. They will be replaced by a
+     * random
+     * UUID when deserialized and hence do not need to be checked if they exist in
+     * the
+     * database previously.
+     * </p>
      *
      * @param jsonString containing entities to persist at once to the database.
-     *         CourseID must be a valid UUID not currently in use.
-     *         For other entities, replaces the given ids with randomly generated UUIDs.
+     *                   CourseID must be a valid UUID not currently in use.
+     *                   For other entities, replaces the given ids with randomly
+     *                   generated UUIDs.
      * @return newly created DataBundle
      */
     public static SqlDataBundle deserializeDataBundle(String jsonString) {
@@ -159,28 +166,6 @@ public final class DataBundleLogic {
             question.setFeedbackSession(fs);
         }
 
-        for (FeedbackResponse response : responses) {
-            UUID placeholderId = response.getId();
-            response.setId(UUID.randomUUID());
-            responseMap.put(placeholderId, response);
-            FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
-            Section giverSection = sectionsMap.get(response.getGiverSection().getId());
-            Section recipientSection = response.getRecipientSection() != null
-                    ? sectionsMap.get(response.getRecipientSection().getId()) : null;
-            response.setFeedbackQuestion(fq);
-            response.setGiverSection(giverSection);
-            response.setRecipientSection(recipientSection);
-        }
-
-        for (FeedbackResponseComment responseComment : responseComments) {
-            FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
-            Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
-            Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
-            responseComment.setFeedbackResponse(fr);
-            responseComment.setGiverSection(giverSection);
-            responseComment.setRecipientSection(recipientSection);
-        }
-
         for (Account account : accounts) {
             UUID placeholderId = account.getId();
             account.setId(UUID.randomUUID());
@@ -215,6 +200,67 @@ public final class DataBundleLogic {
             student.generateNewRegistrationKey();
         }
 
+        for (FeedbackResponse response : responses) {
+            UUID placeholderId = response.getId();
+            response.setId(UUID.randomUUID());
+            responseMap.put(placeholderId, response);
+            User giver = usersMap.get(response.getGiver().getId());
+            User recipient = usersMap.get(response.getRecipient().getId());
+            FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
+            Section giverSection = sectionsMap.get(response.getGiverSection().getId());
+            Section recipientSection = response.getRecipientSection() != null
+                    ? sectionsMap.get(response.getRecipientSection().getId())
+                    : null;
+            response.setGiver(giver);
+            response.setRecipient(recipient);
+            response.setFeedbackQuestion(fq);
+            response.setGiverSection(giverSection);
+            response.setRecipientSection(recipientSection);
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
+            FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
+            Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
+            Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
+            String giverEmail = responseComment.getGiver().getEmail();
+            if (responseComment.getGiver() instanceof Instructor) {
+                Instructor giver = instructors
+                        .stream()
+                        .filter(instructor -> giverEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student giver = students
+                        .stream()
+                        .filter(student -> giverEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            }
+
+            String lastEditorEmail = responseComment.getLastEditor().getEmail();
+            if (responseComment.getLastEditor() instanceof Instructor) {
+                Instructor lastEditor = instructors
+                        .stream()
+                        .filter(instructor -> lastEditorEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student lastEditor = students
+                        .stream()
+                        .filter(student -> lastEditorEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            }
+
+            responseComment.setFeedbackResponse(fr);
+            responseComment.setGiverSection(giverSection);
+            responseComment.setRecipientSection(recipientSection);
+        }
+
         for (Notification notification : notifications) {
             UUID placeholderId = notification.getId();
             notification.setId(UUID.randomUUID());
@@ -244,9 +290,10 @@ public final class DataBundleLogic {
     /**
      * Persists data in the given {@link DataBundle} to the database.
      *
-     * @throws InvalidParametersException if invalid data is encountered.
+     * @throws InvalidParametersException  if invalid data is encountered.
      * @throws EntityDoesNotExistException if an entity was not found.
-     *         (ReadNotification requires Account and Notification to be created)
+     *                                     (ReadNotification requires Account and
+     *                                     Notification to be created)
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
@@ -299,15 +346,6 @@ public final class DataBundleLogic {
             fqLogic.createFeedbackQuestion(question);
         }
 
-        for (FeedbackResponse response : responses) {
-            frLogic.createFeedbackResponse(response);
-        }
-
-        for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setId(null);
-            frcLogic.createFeedbackResponseComment(responseComment);
-        }
-
         for (Account account : accounts) {
             accountsLogic.createAccount(account);
         }
@@ -323,6 +361,50 @@ public final class DataBundleLogic {
         for (ReadNotification readNotification : readNotifications) {
             accountsLogic.updateReadNotifications(readNotification.getAccount().getGoogleId(),
                     readNotification.getNotification().getId(), readNotification.getNotification().getEndTime());
+        }
+
+        for (FeedbackResponse response : responses) {
+            frLogic.createFeedbackResponse(response);
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setId(null);
+
+            String giverEmail = responseComment.getGiver().getEmail();
+            if (responseComment.getGiver() instanceof Instructor) {
+                Instructor giver = instructors
+                        .stream()
+                        .filter(instructor -> giverEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student giver = students
+                        .stream()
+                        .filter(student -> giverEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setGiver(giver);
+            }
+
+            String lastEditorEmail = responseComment.getLastEditor().getEmail();
+            if (responseComment.getLastEditor() instanceof Instructor) {
+                Instructor lastEditor = instructors
+                        .stream()
+                        .filter(instructor -> lastEditorEmail.equals(instructor.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            } else if (responseComment.getGiver() instanceof Student) {
+                Student lastEditor = students
+                        .stream()
+                        .filter(student -> lastEditorEmail.equals(student.getEmail()))
+                        .findFirst()
+                        .orElseThrow(NoSuchElementException::new);
+                responseComment.setLastEditor(lastEditor);
+            }
+
+            frcLogic.createFeedbackResponseComment(responseComment);
         }
 
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {
