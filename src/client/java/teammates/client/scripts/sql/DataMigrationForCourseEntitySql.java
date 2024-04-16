@@ -1,36 +1,80 @@
 package teammates.client.scripts.sql;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.client.connector.DatastoreClient;
+import teammates.client.util.ClientProperties;
+import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.test.FileHelper;
 
 /**
  * Data migration class for course entity.
  */
 @SuppressWarnings("PMD")
-public class DataMigrationForCourseEntitySql extends
-        DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Course, teammates.storage.sqlentity.BaseEntity> {
+public class DataMigrationForCourseEntitySql extends DatastoreClient {
+
+    private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
+
+    private static final int BATCH_SIZE = 1000;
+
+    private List<BaseEntity> entitiesSavingBuffer;
+
+    // Creates the folder that will contain the stored log.
+    static {
+        new File(BASE_LOG_URI).mkdir();
+    }
+
+    AtomicLong numberOfAffectedEntities;
+    AtomicLong numberOfScannedKey;
+    AtomicLong numberOfUpdatedEntities;
+
+    public DataMigrationForCourseEntitySql() {
+        numberOfAffectedEntities = new AtomicLong();
+        numberOfScannedKey = new AtomicLong();
+        numberOfUpdatedEntities = new AtomicLong();
+
+        entitiesSavingBuffer = new ArrayList<>();
+
+        String connectionUrl = ClientProperties.SCRIPT_API_URL;
+        String username = ClientProperties.SCRIPT_API_NAME;
+        String password = ClientProperties.SCRIPT_API_PASSWORD;
+
+        HibernateUtil.buildSessionFactory(connectionUrl, username, password);
+    }
 
     public static void main(String[] args) {
         new DataMigrationForCourseEntitySql().doOperationRemotely();
     }
 
-    @Override
     protected Query<Course> getFilterQuery() {
         return ofy().load().type(teammates.storage.entity.Course.class);
     }
 
-    @Override
     protected boolean isPreview() {
         return false;
     }
@@ -38,22 +82,16 @@ public class DataMigrationForCourseEntitySql extends
     /*
      * Sets the migration criteria used in isMigrationNeeded.
      */
-    @Override
     protected void setMigrationCriteria() {
         // No migration criteria currently needed.
     }
 
-    @Override
     protected boolean isMigrationNeeded(Course entity) {
         return true;
     }
 
-    @Override
     protected void migrateEntity(Course oldCourse) throws Exception {
         teammates.storage.sqlentity.Course newCourse = createCourse(oldCourse);
-        // TODO: add shutdown hook to save the entity
-        // Runnable shutdownScript = () -> { cascadeDelete(newCourse)};
-        // Runtime.getRuntime().addShutdownHook(new Thread(shutdownScript));
 
         migrateCourseEntity(newCourse);
         // verifyCourseEntity(newCourse);
@@ -147,5 +185,201 @@ public class DataMigrationForCourseEntitySql extends
         newStudent.setCreatedAt(oldStudent.getCreatedAt());
 
         return newStudent;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void doOperation() {
+        log("Running " + getClass().getSimpleName() + "...");
+        log("Preview: " + isPreview());
+        setMigrationCriteria();
+
+        Cursor cursor = readPositionOfCursorFromFile().orElse(null);
+        if (cursor == null) {
+            log("Start from the beginning");
+        } else {
+            log("Start from cursor position: " + cursor.toUrlSafe());
+        }
+
+        boolean shouldContinue = true;
+        while (shouldContinue) {
+            shouldContinue = false;
+            Query<Course> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
+            if (cursor != null) {
+                filterQueryKeys = filterQueryKeys.startAt(cursor);
+            }
+
+            QueryResults<?> iterator = filterQueryKeys.iterator();
+
+            Course currentCourse = null;
+            // Cascade delete the course if it is not fully migrated.
+            if (iterator.hasNext()) {
+                currentCourse = (Course) iterator.next();
+                if (currentCourse.isMigrated()) {
+                    currentCourse = (Course) iterator.next();
+                } else {
+                    deleteCourseCascade(currentCourse);
+                }
+            }
+
+            while (currentCourse != null) {
+                shouldContinue = true;
+                migrateWithoutTrx(currentCourse);
+                numberOfScannedKey.incrementAndGet();
+
+                cursor = iterator.getCursorAfter();
+                savePositionOfCursorToFile(cursor);
+
+                currentCourse = iterator.hasNext() ? (Course) iterator.next() : null;
+            }
+
+            if (shouldContinue) {
+                log(String.format("Cursor Position: %s", cursor.toUrlSafe()));
+                log(String.format("Number Of Course Entity Key Scanned: %d", numberOfScannedKey.get()));
+                log(String.format("Number Of Course Entity affected: %d", numberOfAffectedEntities.get()));
+                log(String.format("Number Of Course Entity updated: %d", numberOfUpdatedEntities.get()));
+            }
+        }
+
+        deleteCursorPositionFile();
+        log(isPreview() ? "Preview Completed!" : "Migration Completed!");
+        log("Total number of course entities: " + numberOfScannedKey.get());
+        log("Number of affected course entities: " + numberOfAffectedEntities.get());
+        log("Number of updated course entities: " + numberOfUpdatedEntities.get());
+    }
+
+    /**
+     * Deletes the course and its related entities from sql database.
+     */
+    private void deleteCourseCascade(Course oldCourse) {
+        // TODO: Implement deleteCourseCascase
+        log("delete course id: " + oldCourse.getUniqueId());
+    }
+
+    /**
+     * Reads the cursor position from the saved file.
+     *
+     * @return cursor if the file can be properly decoded.
+     */
+    private Optional<Cursor> readPositionOfCursorFromFile() {
+        try {
+            String cursorPosition = FileHelper.readFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
+            return Optional.of(Cursor.fromUrlSafe(cursorPosition));
+        } catch (IOException | IllegalArgumentException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Saves the cursor position to a file so it can be used in the next run.
+     */
+    private void savePositionOfCursorToFile(Cursor cursor) {
+        try {
+            FileHelper.saveFile(
+                    BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor", cursor.toUrlSafe());
+        } catch (IOException e) {
+            logError("Fail to save cursor position " + e.getMessage());
+        }
+    }
+
+    /**
+     * Deletes the cursor position file.
+     */
+    private void deleteCursorPositionFile() {
+        FileHelper.deleteFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
+    }
+
+    /**
+     * Migrates the entity without transaction for better performance.
+     */
+    private void migrateWithoutTrx(Course entity) {
+        doMigration(entity);
+    }
+
+    /**
+     * Migrates the entity and counts the statistics.
+     */
+    private void doMigration(Course entity) {
+        try {
+            if (!isMigrationNeeded(entity)) {
+                return;
+            }
+            numberOfAffectedEntities.incrementAndGet();
+            if (!isPreview()) {
+                migrateEntity(entity);
+                numberOfUpdatedEntities.incrementAndGet();
+            }
+        } catch (Exception e) {
+            logError("Problem migrating entity " + entity);
+            logError(e.getMessage());
+        }
+    }
+
+    /**
+     * Stores the entity to save in a buffer and saves it later.
+     */
+    protected void saveEntityDeferred(BaseEntity entity) {
+        if (shouldUseTransaction()) {
+            throw new RuntimeException("Batch saving is not supported for transaction!");
+        }
+        entitiesSavingBuffer.add(entity);
+    }
+
+    /**
+     * Flushes the saving buffer by issuing Cloud SQL save request.
+     */
+    private void flushEntitiesSavingBuffer() {
+        if (!entitiesSavingBuffer.isEmpty() && !isPreview()) {
+            log("Saving entities in batch..." + entitiesSavingBuffer.size());
+
+            long startTime = System.currentTimeMillis();
+            HibernateUtil.beginTransaction();
+            for (BaseEntity entity : entitiesSavingBuffer) {
+                HibernateUtil.persist(entity);
+            }
+
+            HibernateUtil.flushSession();
+            HibernateUtil.clearSession();
+            HibernateUtil.commitTransaction();
+            long endTime = System.currentTimeMillis();
+            log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");
+        }
+        entitiesSavingBuffer.clear();
+    }
+
+    /**
+     * Logs a comment.
+     */
+    protected void log(String logLine) {
+        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
+
+        Path logPath = Paths.get(BASE_LOG_URI + this.getClass().getSimpleName() + ".log");
+        try (OutputStream logFile = Files.newOutputStream(logPath,
+                StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
+            logFile.write((logLine + System.lineSeparator()).getBytes(Const.ENCODING));
+        } catch (Exception e) {
+            System.err.println("Error writing log line: " + logLine);
+            System.err.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Returns the log prefix.
+     */
+    protected String getLogPrefix() {
+        return String.format("Migrating Course chains:");
+    }
+
+    /**
+     * Logs an error and persists it to the disk.
+     */
+    protected void logError(String logLine) {
+        System.err.println(logLine);
+
+        log("[ERROR]" + logLine);
+    }
+
+    protected boolean shouldUseTransaction() {
+        return false;
     }
 }
