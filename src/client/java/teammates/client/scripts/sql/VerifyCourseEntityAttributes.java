@@ -52,7 +52,7 @@ public class VerifyCourseEntityAttributes
                 && sqlEntity.getName().equals(datastoreEntity.getName())
                 && sqlEntity.getTimeZone().equals(datastoreEntity.getTimeZone())
                 && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())
-                // && sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt())
+                && sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt())
                 && datastoreEntity.getDeletedAt() == null ? sqlEntity.getDeletedAt() == null
                         : sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
     }
