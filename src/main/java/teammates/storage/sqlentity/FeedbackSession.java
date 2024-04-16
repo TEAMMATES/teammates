@@ -489,7 +489,7 @@ public class FeedbackSession extends BaseEntity {
     public boolean isOpenedGivenExtendedDeadline(Instant extendedDeadline) {
         Instant now = Instant.now();
         return (now.isAfter(startTime) || now.equals(startTime))
-                && now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod));
+                && (now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod)));
     }
 
     /**

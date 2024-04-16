@@ -104,6 +104,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         session.setStartTime(startTime);
 
         logic.updateFeedbackSession(session);
+        HibernateUtil.flushSession();
     }
 
     private void setEndTime(FeedbackSession session, int days)
@@ -113,11 +114,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         session.setEndTime(endTime);
 
         logic.updateFeedbackSession(session);
+        HibernateUtil.flushSession();
     }
 
-    private void setUserDeadlineExtension(FeedbackSession session,
-                                       User user,
-                                       int days)
+    private void setUserDeadlineExtension(FeedbackSession session, User user, int days)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         DeadlineExtension newDeadline =
                 new DeadlineExtension(user, session, TimeHelper.getInstantDaysOffsetFromNow(days));
@@ -134,15 +134,21 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         }
     }
 
-    private String[] buildSubmissionParams(FeedbackSession session,
-                                           int questionNumber,
-                                           Intent intent) {
+    private void deleteDeadlineExtensionForUser(FeedbackSession session, User user) {
+        DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(session, user);
+        if (existingDeadlineEndTime == null) {
+            return;
+        }
+
+        logic.deleteDeadlineExtension(existingDeadlineEndTime);
+    }
+
+    private String[] buildSubmissionParams(FeedbackSession session, int questionNumber, Intent intent) {
         FeedbackQuestion question = getQuestion(session, questionNumber);
         return buildSubmissionParams(question, intent);
     }
 
-    private String[] buildSubmissionParams(FeedbackQuestion question,
-                                           Intent intent) {
+    private String[] buildSubmissionParams(FeedbackQuestion question, Intent intent) {
         String questionId = question != null ? question.getId().toString() : "";
 
         return new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId, Const.ParamsNames.INTENT,
@@ -197,11 +203,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
 
         for (String value : values) {
-
             FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails("Response for " + value);
             FeedbackResponsesRequest.FeedbackResponseRequest response =
-                    new FeedbackResponsesRequest.FeedbackResponseRequest(value,
-                            responseDetails);
+                    new FeedbackResponsesRequest.FeedbackResponseRequest(value, responseDetails);
 
             responses.add(response);
         }
@@ -320,6 +324,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
+        deleteDeadlineExtensionForUser(session, instructor);
+        deleteDeadlineExtensionForUser(session, student);
 
         ______TS("Typical case with instructors: feedback question exists");
         setStartTime(session, -1);
@@ -378,7 +384,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         verifyHttpParameterFailureAcl(submissionParams);
 
-        ______TS("Failure with students: submission not open");
+        ______TS("Failure with students: submission not open, start time is in the future");
+        loginStudent("student1InCourse1");
         setStartTime(session, 2);
         setEndTime(session, 3);
 
@@ -429,8 +436,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         ______TS("Typical success with student: student answers question with correct giver");
         loginStudent("student1InCourse1");
-        // Reset the deadline extension
-        setUserDeadlineExtension(session, instructor, 4);
+        deleteDeadlineExtensionForUser(session, student);
         setEndTime(session, 3);
         setStartTime(session, -1);
 
@@ -678,7 +684,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         validateStudentDatabaseByEmail(session, question, studentGiver.getEmail(), studentRecipients);
 
         ______TS("Success: instructor is a valid giver of the question to student team");
-        loginStudent("student4InCourse1");
         instructorGiver = loginInstructor("instructor1OfCourse1");
 
         questionNumber = 8;

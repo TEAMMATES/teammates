@@ -1056,7 +1056,7 @@
       "questionNumber": 8,
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
-      "numOfEntitiesToGiveFeedbackTo": -100,
+      "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["RECEIVER"],
       "showGiverNameTo": ["RECEIVER"],
       "showRecipientNameTo": ["RECEIVER"]
