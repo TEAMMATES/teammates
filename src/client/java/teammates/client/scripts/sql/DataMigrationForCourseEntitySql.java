@@ -81,8 +81,8 @@ public class DataMigrationForCourseEntitySql extends
             List<CourseStudent> stuList = entry.getValue();
             teammates.storage.sqlentity.Section newSection = createSection(newCourse, sectionName);
             sections.put(sectionName, newSection);
-            migrateTeams(newCourse, newSection, stuList);
             saveEntityDeferred(newSection);
+            migrateTeams(newCourse, newSection, stuList);   
         }
         return sections;
     }
@@ -95,8 +95,8 @@ public class DataMigrationForCourseEntitySql extends
             String teamName = entry.getKey();
             List<CourseStudent> stuList = entry.getValue();
             teammates.storage.sqlentity.Team newTeam = createTeam(newSection, teamName);
-            migrateStudents(newCourse, newTeam, stuList);
             saveEntityDeferred(newTeam);
+            migrateStudents(newCourse, newTeam, stuList);
         }
     }
 

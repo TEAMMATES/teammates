@@ -57,11 +57,11 @@ public class VerifyCourseEntityAttributes
                         : sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
     }
 
-    private boolean verifySectionChain(teammates.storage.sqlentity.Course sqlEntity) {
+    private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
         // Get old and new students
-        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", sqlEntity.getId())
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
                 .list();
-        List<Student> newStudents = getNewStudents(sqlEntity.getId());
+        List<Student> newStudents = getNewStudents(newCourse.getId());
 
         // Group students by section
         Map<String, List<CourseStudent>> sectionToOldStuMap = oldStudents.stream()
@@ -69,7 +69,7 @@ public class VerifyCourseEntityAttributes
         Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
                 .collect(Collectors.groupingBy(Student::getSectionName));
 
-        List<Section> newSection = sqlEntity.getSections();
+        List<Section> newSection = newCourse.getSections();
 
         boolean isSectionsCountEqual = newSection.size() != sectionToOldStuMap.size()
                 || newSection.size() != sectionToNewStuMap.size();
@@ -81,7 +81,9 @@ public class VerifyCourseEntityAttributes
             List<CourseStudent> oldSectionStudents = sectionToOldStuMap.get(section.getName());
             List<Student> newSectionStudents = sectionToNewStuMap.get(section.getName());
 
-            // If sectionStudent is null, then section is not present in sql
+            // If either of the sectionStudent is null,
+            // then section is not present in the corresponding datastore or sql
+            // which means a possible migration error
             boolean isSectionNamePresent = oldSectionStudents != null && newSectionStudents != null;
             if (!isSectionNamePresent) {
                 return false;
@@ -100,19 +102,21 @@ public class VerifyCourseEntityAttributes
     private boolean verifyTeams(Section newSection,
             Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
 
-        List<Team> newTeam = newSection.getTeams();
+        List<Team> newTeams = newSection.getTeams();
 
-        boolean isTeamCountEqual = newTeam.size() != teamNameToNewStuMap.size()
-                || newTeam.size() != teamNameToOldStuMap.size();
+        boolean isTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
+                || newTeams.size() != teamNameToOldStuMap.size();
         if (!isTeamCountEqual) {
             return false;
         }
 
-        return newTeam.stream().allMatch(team -> {
+        return newTeams.stream().allMatch(team -> {
             List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
             List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
 
-            // If teamStudents is null, then team is not present in sql
+            // If either of the teamStudent is null,
+            // then team is not present in the corresponding datastore or sql
+            // which means a possible migration error
             boolean isTeamNamePresent = oldTeamStudents != null && newTeamStudents != null;
             if (!isTeamNamePresent) {
                 return false;
