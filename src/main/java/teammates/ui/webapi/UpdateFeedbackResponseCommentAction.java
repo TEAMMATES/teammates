@@ -158,7 +158,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (feedbackResponseComment.getGiver().equals(instructor.getEmail())) { // giver, allowed by default
+            if (feedbackResponseComment.getGiver().getEmail().equals(instructor.getEmail())) { // giver, allowed by default
                 return;
             }
             gateKeeper.verifyAccessible(instructor, session, response.getGiverSection().getName(),
