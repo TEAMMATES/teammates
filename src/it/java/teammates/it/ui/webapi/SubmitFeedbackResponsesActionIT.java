@@ -603,6 +603,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+
+        // Reset privileges
+        setSubmitSessionInSectionsInstructorPrivilege(session, instructor, true);
     }
 
     @Override
@@ -669,20 +672,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         validateOutputForInstructorRecipients(outputResponses, instructorGiver.getEmail(), instructorRecipients);
         validateInstructorDatabaseByEmail(session, question, instructorGiver.getEmail(), instructorRecipients);
 
-        ______TS("Success: question has existing responses");
-        Student studentGiver = loginStudent("student1InCourse1");
-
-        questionNumber = 2;
-        question = getQuestion(session, questionNumber);
-        submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
-
-        List<Student> studentRecipients = getStudents("student3InCourse1");
-        requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
-
-        outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByEmail(outputResponses, studentGiver.getEmail(), studentRecipients);
-        validateStudentDatabaseByEmail(session, question, studentGiver.getEmail(), studentRecipients);
-
         ______TS("Success: instructor is a valid giver of the question to student team");
         instructorGiver = loginInstructor("instructor1OfCourse1");
 
@@ -690,16 +679,28 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         question = getQuestion(session, questionNumber);
         submissionParams = buildSubmissionParams(question, Intent.INSTRUCTOR_SUBMISSION);
 
-        studentRecipients = getStudents("student2InCourse1", "student3InCourse1");
+        List<Student> studentRecipients = getStudents("student2InCourse1", "student3InCourse1");
         requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
 
         outputResponses = callExecute(requestBody, submissionParams);
         validateOutputForStudentRecipientsByTeam(outputResponses, instructorGiver.getEmail(), studentRecipients);
         validateStudentDatabaseByTeam(session, question, instructorGiver.getEmail(), studentRecipients);
 
-        ______TS("Failure: student is a invalid giver of the question");
-        loginStudent("student1InCourse1");
+        ______TS("Success: question has existing responses");
+        Student studentGiver = loginStudent("student1InCourse1");
 
+        questionNumber = 2;
+        question = getQuestion(session, questionNumber);
+        submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
+
+        studentRecipients = getStudents("student3InCourse1");
+        requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
+
+        outputResponses = callExecute(requestBody, submissionParams);
+        validateOutputForStudentRecipientsByEmail(outputResponses, studentGiver.getEmail(), studentRecipients);
+        validateStudentDatabaseByEmail(session, question, studentGiver.getEmail(), studentRecipients);
+
+        ______TS("Failure: student is a invalid giver of the question");
         questionNumber = 6;
         question = getQuestion(session, questionNumber);
         submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
