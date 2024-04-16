@@ -542,7 +542,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    public void testAccessControl_studentSubmissionLoggedInAsAdminMasqueradeAsStudent_shouldFail() throws Exception {
+    public void testAccessControl_studentSubmissionLoggedInAsAdminMasqueradeAsStudent_shouldAllow() throws Exception {
         FeedbackSessionAttributes session = getSession("gracePeriodSession");
         StudentAttributes student = getStudent("student1InCourse1");
         setEndTime(session, 1);

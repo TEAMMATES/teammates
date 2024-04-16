@@ -26,6 +26,7 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
@@ -98,12 +99,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void setStartTime(FeedbackSession session, int days)
             throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getName();
-        String courseId = session.getCourseId();
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
-        session.setName(sessionName);
-        session.getCourse().setId(courseId);
         session.setStartTime(startTime);
 
         logic.updateFeedbackSession(session);
@@ -118,39 +115,23 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         logic.updateFeedbackSession(session);
     }
 
-    private void setInstructorDeadlineExtension(FeedbackSession session,
-                                       Instructor instructor,
+    private void setUserDeadlineExtension(FeedbackSession session,
+                                       User user,
                                        int days)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        DeadlineExtension deadline =
-                new DeadlineExtension(instructor, session, TimeHelper.getInstantDaysOffsetFromNow(days));
-        logic.createDeadlineExtension(deadline);
+        DeadlineExtension newDeadline =
+                new DeadlineExtension(user, session, TimeHelper.getInstantDaysOffsetFromNow(days));
 
-        List<DeadlineExtension> deadlines = new ArrayList<>();
-        deadlines.add(deadline);
+        newDeadline.setFeedbackSession(session);
+        newDeadline.setUser(user);
 
-        session.setDeadlineExtensions(deadlines);
-
-        logic.updateFeedbackSession(session);
-    }
-
-    private void setStudentDeadlineExtension(FeedbackSession session, Student student, int days)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        String sessionName = session.getName();
-        String courseId = session.getCourseId();
-
-        DeadlineExtension deadline =
-                new DeadlineExtension(student, session, TimeHelper.getInstantDaysOffsetFromNow(days));
-        logic.createDeadlineExtension(deadline);
-
-        List<DeadlineExtension> deadlines = new ArrayList<>();
-        deadlines.add(deadline);
-
-        session.setName(sessionName);
-        session.getCourse().setId(courseId);
-        session.setDeadlineExtensions(deadlines);
-
-        logic.updateFeedbackSession(session);
+        DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(session, user);
+        if (existingDeadlineEndTime != null) {
+            newDeadline.setId(existingDeadlineEndTime.getId());
+            logic.updateDeadlineExtension(newDeadline);
+        } else {
+            logic.createDeadlineExtension(newDeadline);
+        }
     }
 
     private String[] buildSubmissionParams(FeedbackSession session,
@@ -168,13 +149,13 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 intent.toString()};
     }
 
-    private void setCommentInSectionInstructorPrivilege(FeedbackSession session,
+    private void setSubmitSessionInSectionsInstructorPrivilege(FeedbackSession session,
                                                         Instructor instructor, boolean value)
             throws Exception {
         String courseId = session.getCourseId();
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, value);
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
 
         instructor.getCourse().setId(courseId);
         instructor.setPrivileges(instructorPrivileges);
@@ -334,520 +315,407 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     @Override
-    protected void testAccessControl() {
-        // See each independent test case.
-    }
-
     @Test
-    public void testAccessControl_feedbackSubmissionQuestionExists_shouldAllow() throws Exception {
+    protected void testAccessControl() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
+        Student student = loginStudent("student1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
+
+        ______TS("Typical case with instructors: feedback question exists");
+        setStartTime(session, -1);
         setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 40);
 
         int questionNumber = 4;
         String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_feedbackSubmissionNoFeedbackQuestionParameter_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, 35);
-        setInstructorDeadlineExtension(session, instructor, 40);
+        ______TS("Typical case with student: feedback question exists");
+        loginStudent("student1InCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
 
-        String[] submissionParams = new String[] {Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString()};
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+
+        verifyCanAccess(submissionParams);
+
+        ______TS("Failure with instructors: no feedback question parameter");
+        loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        submissionParams = new String[] {Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString()};
 
         verifyHttpParameterFailureAcl(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_feedbackSubmissionQuestionDoesNotExist_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, 35);
-        setInstructorDeadlineExtension(session, instructor, 40);
+        ______TS("Failure with instructors: feedback question does not exist");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
 
-        int questionNumber = 222;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        questionNumber = 222;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyEntityNotFoundAcl(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_feedbackSubmissionValidIntent_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student1InCourse1");
+        ______TS("Failure with students: no feedback question parameter");
+        loginStudent("student1InCourse1");
+        setStartTime(session, -1);
         setEndTime(session, 3);
-        setStudentDeadlineExtension(session, student, 75);
 
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
-
-        verifyCanAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_feedbackSubmissionNoIntentParameter_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student1InCourse1");
-        setEndTime(session, 3);
-        setStudentDeadlineExtension(session, student, 72);
-
-        int questionNumber = 2;
+        questionNumber = 2;
         FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString()};
+        submissionParams = new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString()};
 
         verifyHttpParameterFailureAcl(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_feedbackSubmissionInvalidIntent_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student1InCourse1");
+        ______TS("Failure with students: invalid intent for action STUDENT_RESULT");
+        setStartTime(session, -1);
         setEndTime(session, 3);
-        setStudentDeadlineExtension(session, student, 75);
 
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_RESULT);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_RESULT);
 
         verifyHttpParameterFailureAcl(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_submissionIsNotOpen_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student1InCourse1");
-        setStartTime(session, 10);
-        setEndTime(session, 20);
-        setStudentDeadlineExtension(session, student, 30);
+        ______TS("Failure with students: submission not open");
+        setStartTime(session, 2);
+        setEndTime(session, 3);
 
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_submissionBeforeEndTimeBeforeDeadline_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student1InCourse1");
-        setEndTime(session, 7);
+        ______TS("Typical success with students: redundant deadline extension");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
 
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
-        ______TS("No selective deadline; should pass.");
+        // No selective deadline, should pass.
         verifyCanAccess(submissionParams);
-        ______TS("With selective deadline; should pass.");
-        setStudentDeadlineExtension(session, student, 7);
-        verifyCanAccess(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_submissionPastEndTime_shouldAllowIfBeforeDeadline() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
+        // With selective deadline, should still pass.
+        setUserDeadlineExtension(session, student, 7);
+        verifyCanAccess(submissionParams);
+
+        ______TS("Typical success with instructor: deadline extension granted after submission closed");
+        loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -3);
         setEndTime(session, -2);
 
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        setUserDeadlineExtension(session, instructor, -1);
 
-        ______TS("With selective deadline, should pass.");
-        setInstructorDeadlineExtension(session, instructor, 1);
+        // No selective deadline, should not pass.
+        verifyCannotAccess(submissionParams);
+
+        // With selective deadline, should pass
+        setUserDeadlineExtension(session, instructor, 1);
         verifyCanAccess(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_submissionAfterDeadline_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, -20);
-        setInstructorDeadlineExtension(session, instructor, -10);
+        ______TS("Failure with instructor: submission after deadline extension expired");
+        setStartTime(session, -3);
+        setEndTime(session, -2);
 
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
+        setUserDeadlineExtension(session, instructor, -1);
         verifyCannotAccess(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_studentSubmissionStudentAnswerableQuestion_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student1InCourse1");
+        ______TS("Typical success with student: student answers question with correct giver");
+        loginStudent("student1InCourse1");
+        // Reset the deadline extension
+        setUserDeadlineExtension(session, instructor, 4);
         setEndTime(session, 3);
-        setStudentDeadlineExtension(session, student, 75);
+        setStartTime(session, -1);
 
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         verifyCanAccess(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_studentSubmissionNotStudentAnswerableQuestion_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = loginStudent("student1InCourse1");
+        ______TS("Failure with student: student answers question with incorrect giver");
+        setStartTime(session, -1);
         setEndTime(session, 3);
-        setStudentDeadlineExtension(session, student, 75);
 
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
-
-        verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_studentSubmissionLoggedOut_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = getStudent("student1InCourse1");
-        setEndTime(session, 1);
-        setStudentDeadlineExtension(session, student, 1);
-
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
-    }
 
-    @Test
-    public void testAccessControl_studentSubmissionLoggedInAsInstructor_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = getStudent("student1InCourse1");
-        setEndTime(session, 1);
-        setStudentDeadlineExtension(session, student, 1);
+        ______TS("Failure with student: student logged out");
+        logoutUser();
+        setStartTime(session, -1);
+        setEndTime(session, 3);
 
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Failure with student: student logged in as instructor");
+        logoutUser();
         loginInstructor("instructor1OfCourse1");
-        verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_studentSubmissionLoggedInAsAdmin_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = getStudent("student1InCourse1");
-        setEndTime(session, 1);
-        setStudentDeadlineExtension(session, student, 1);
-
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
-
-        loginAsAdmin();
-        verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_studentSubmissionLoggedInAsAdminMasqueradeAsStudent_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student student = getStudent("student1InCourse1");
-        setEndTime(session, 1);
-        setStudentDeadlineExtension(session, student, 1);
-
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
-
-        loginAsAdmin();
-        verifyCanMasquerade(student.getGoogleId(), submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_instructorSubmissionToInstructorAnswerableQuestion_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -1);
         setEndTime(session, 3);
-        setInstructorDeadlineExtension(session, instructor, 3);
 
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        verifyCanAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_instructorSubmissionToSelfAnswerableQuestion_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, 3);
-        setInstructorDeadlineExtension(session, instructor, 3);
-
-        int questionNumber = 3;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        verifyCanAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_instructorSubmissionToNotInstructorAnswerableQuestion_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, 3);
-        setInstructorDeadlineExtension(session, instructor, 3);
-
-        int questionNumber = 1;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_instructorSubmissionLoggedOut_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = getInstructor("instructor1OfCourse1");
-        setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 1);
-
-        int questionNumber = 3;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_instructorSubmissionLoggedInAsAdmin_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = getInstructor("instructor1OfCourse1");
-        setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 1);
-
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        loginAsAdmin();
-        verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    protected void testAccessControl_submissionLoggedInAsAdminMasqueradeAsInstructor_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = getInstructor("instructor1OfCourse1");
-        setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 1);
-
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        loginAsAdmin();
-        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
-    }
-
-    @Test
-    public void testAccessControl_instructorSubmissionLoggedInAsStudent_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = getInstructor("instructor1OfCourse1");
-        setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 1);
-
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         loginStudent("student1InCourse1");
+        verifyCanAccess(submissionParams);
+
+        ______TS("Failure with student: student logged in as admin");
+        logoutUser();
+        loginAsAdmin();
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+
         verifyCannotAccess(submissionParams);
-    }
 
-    @Test
-    protected void testAccessControl_instructorsWithSufficientPreviewPrivilege_shouldAllow() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 1);
+        loginStudent("student1InCourse1");
+        verifyCanAccess(submissionParams);
 
-        setCommentInSectionInstructorPrivilege(session, instructor, true);
+        ______TS("Typical success with student: logged in as admin masquerading as student");
+        logoutUser();
+        loginAsAdmin();
+        setStartTime(session, -1);
+        setEndTime(session, 3);
 
-        int questionNumber = 1;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+
+        verifyCanMasquerade(student.getGoogleId(), submissionParams);
+
+        ______TS("Typical success with instructor: instructor answers question with correct giver");
+        loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCanAccess(submissionParams);
+
+        ______TS("Typical success with instructor: instructor answers question to self-answerable question");
+        loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 3;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCanAccess(submissionParams);
+
+        ______TS("Failure with instructor: instructor answers question with incorrect giver");
+        loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 1;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Failure with instructor: instructor logged out");
+        logoutUser();
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 3;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Failure with instructor: instructor logged in as admin");
+        logoutUser();
+        loginAsAdmin();
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCannotAccess(submissionParams);
+
+        loginInstructor("instructor1OfCourse1");
+        verifyCanAccess(submissionParams);
+
+        ______TS("Typical success with instructor: logged in as admin masquerading as instructor");
+        logoutUser();
+        loginAsAdmin();
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
+
+        ______TS("Failure with instructor: instructor logged in as student");
+        loginStudent("student1InCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Typical success with instructor: instructor has modify session comment privileges");
+        loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        setSubmitSessionInSectionsInstructorPrivilege(session, instructor, true);
+
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+
+        verifyCanAccess(submissionParams);
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
+
+        ______TS("Failure with instructor: instructor has no modify session comment privileges");
+        loginInstructor("instructor1OfCourse1");
+        setStartTime(session, -1);
+        setEndTime(session, 3);
+
+        setSubmitSessionInSectionsInstructorPrivilege(session, instructor, false);
+
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
+    @Override
     @Test
-    protected void testAccessControl_instructorsWithInsufficientPreviewPrivilege_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 1);
-
-        setCommentInSectionInstructorPrivilege(session, instructor, false);
-
-        int questionNumber = 1;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
-    }
-
-    @Test
-    protected void testAccessControl_instructorsWithInsufficientModeratorPrivilege_shouldFail() throws Exception {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor instructor = loginInstructor("instructor1OfCourse1");
-        setEndTime(session, 1);
-        setInstructorDeadlineExtension(session, instructor, 1);
-
-        setCommentInSectionInstructorPrivilege(session, instructor, false);
-
-        int questionNumber = 1;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
-    }
-
-
-    @Test
-    public void testExecute_noHttpParameters_shouldFail() {
+    public void testExecute() {
+        ______TS("Failure: invalid http parameters");
         loginInstructor("instructor1OfCourse1");
 
         verifyHttpParameterFailure(new String[] {});
-    }
 
-    @Test
-    public void testExecute_noFeedbackQuestionId_shouldFail() {
-        loginInstructor("instructor1OfCourse1");
-
-        ______TS("Not enough parameters for request; should fail.");
+        ______TS("Failure: not feedback question parameter specified");
         String[] submissionParams = new String[] {Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()};
         verifyHttpParameterFailure(submissionParams);
-    }
 
-    @Test
-    public void testExecute_feedbackQuestionDoesNotExist_shouldFail() {
-        loginInstructor("instructor1OfCourse1");
-
-        String[] submissionParams = new String[] {
+        ______TS("Failure: feedback question does not exist");
+        submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "non-existent id"};
         verifyEntityNotFound(submissionParams);
-    }
 
-    @Test
-    protected void testExecute_invalidIntent_shouldFail() {
-        loginInstructor("instructor1OfCourse1");
+        ______TS("Failure: instructor has invalid intent");
         FeedbackSession session = getSession("session1InCourse1");
         int questionNumber = 3;
 
-        ______TS("invalid intent STUDENT_RESULT");
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_RESULT);
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_RESULT);
         verifyHttpParameterFailure(submissionParams);
 
-        ______TS("invalid intent FULL_DETAIL");
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.FULL_DETAIL);
         verifyHttpParameterFailure(submissionParams);
-    }
 
-    @Test
-    protected void testExecute_noRequestBody_shouldFail() {
-        FeedbackSession session = getSession("session1InCourse1");
+        ______TS("Failure: no request body");
         loginStudent("student1InCourse1");
 
-        int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
+        questionNumber = 2;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
         verifyHttpRequestBodyFailure(null, submissionParams);
-    }
 
-    @Test
-    protected void testExecute_requestBodyNoRecipient_shouldFail() {
-        FeedbackSession session = getSession("session1InCourse1");
+        ______TS("Failure: request body has no recipient");
         loginInstructor("instructor1OfCourse1");
 
-        int questionNumber = 4;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        questionNumber = 4;
+        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
-        ______TS("Null recipient");
+        // Null recipient
         List<String> nullEmail = Collections.singletonList(null);
         FeedbackResponsesRequest requestBody = buildRequestBody(nullEmail);
         verifyInvalidOperation(requestBody, submissionParams);
 
-        ______TS("Empty String recipient");
+        // Empty String recipient
         requestBody = buildRequestBody(Collections.singletonList(""));
         verifyInvalidOperation(requestBody, submissionParams);
 
-    }
+        ______TS("Success: question has no existing responses");
+        Instructor instructorGiver = loginInstructor("instructor1OfCourse1");
 
-    @Test
-    protected void testExecute_noExistingResponses_shouldPass() {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor giver = loginInstructor("instructor1OfCourse1");
-
-        int questionNumber = 7;
+        questionNumber = 7;
         FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = buildSubmissionParams(question, Intent.INSTRUCTOR_SUBMISSION);
+        submissionParams = buildSubmissionParams(question, Intent.INSTRUCTOR_SUBMISSION);
 
-        List<Instructor> recipients = Collections.singletonList(giver);
-        FeedbackResponsesRequest requestBody = buildRequestBodyWithInstructorRecipients(recipients);
+        List<Instructor> instructorRecipients = Collections.singletonList(instructorGiver);
+        requestBody = buildRequestBodyWithInstructorRecipients(instructorRecipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForInstructorRecipients(outputResponses, giver.getEmail(), recipients);
-        validateInstructorDatabaseByEmail(session, question, giver.getEmail(), recipients);
+        validateOutputForInstructorRecipients(outputResponses, instructorGiver.getEmail(), instructorRecipients);
+        validateInstructorDatabaseByEmail(session, question, instructorGiver.getEmail(), instructorRecipients);
 
-    }
+        ______TS("Success: question has existing responses");
+        Student studentGiver = loginStudent("student1InCourse1");
 
-    @Test
-    protected void testExecute_hasExistingResponse_shouldPass() {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student giver = loginStudent("student1InCourse1");
+        questionNumber = 2;
+        question = getQuestion(session, questionNumber);
+        submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
 
-        int questionNumber = 2;
-        FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
+        List<Student> studentRecipients = getStudents("student3InCourse1");
+        requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
 
-        List<Student> recipients = getStudents("student3InCourse1");
-        FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsEmail(recipients);
+        outputResponses = callExecute(requestBody, submissionParams);
+        validateOutputForStudentRecipientsByEmail(outputResponses, studentGiver.getEmail(), studentRecipients);
+        validateStudentDatabaseByEmail(session, question, studentGiver.getEmail(), studentRecipients);
 
-        List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), recipients);
-        validateStudentDatabaseByEmail(session, question, giver.getEmail(), recipients);
-    }
+        ______TS("Success: instructor is a valid giver of the question to student team");
+        loginStudent("student4InCourse1");
+        instructorGiver = loginInstructor("instructor1OfCourse1");
 
-    @Test
-    protected void testExecute_validRecipientsOfQuestion_shouldPass() {
-        FeedbackSession session = getSession("session1InCourse1");
-        Instructor giver = loginInstructor("instructor1OfCourse1");
+        questionNumber = 8;
+        question = getQuestion(session, questionNumber);
+        submissionParams = buildSubmissionParams(question, Intent.INSTRUCTOR_SUBMISSION);
 
-        int questionNumber = 8;
-        FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = buildSubmissionParams(question, Intent.INSTRUCTOR_SUBMISSION);
+        studentRecipients = getStudents("student2InCourse1", "student3InCourse1");
+        requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
 
-        List<Student> recipients = getStudents("student2InCourse1", "student3InCourse1");
-        FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsTeam(recipients);
+        outputResponses = callExecute(requestBody, submissionParams);
+        validateOutputForStudentRecipientsByTeam(outputResponses, instructorGiver.getEmail(), studentRecipients);
+        validateStudentDatabaseByTeam(session, question, instructorGiver.getEmail(), studentRecipients);
 
-        List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByTeam(outputResponses, giver.getEmail(), recipients);
-        validateStudentDatabaseByTeam(session, question, giver.getEmail(), recipients);
-    }
-
-    @Test
-    protected void testExecute_invalidRecipientOfQuestion_shouldFail() {
-        FeedbackSession session = getSession("session1InCourse1");
+        ______TS("Failure: student is a invalid giver of the question");
         loginStudent("student1InCourse1");
 
-        int questionNumber = 6;
-        FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
+        questionNumber = 6;
+        question = getQuestion(session, questionNumber);
+        submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
 
-        List<Student> recipients = getStudents("student2InCourse1");
-        FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsTeam(recipients);
+        studentRecipients = getStudents("student2InCourse1");
+        requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
 
         verifyInvalidOperation(requestBody, submissionParams);
-    }
 
-    @Test
-    protected void testExecute_tooManyRecipients_shouldPass() {
-        FeedbackSession session = getSession("session1InCourse1");
-        Student giver = loginStudent("student1InCourse1");
+        ______TS("Success: too many recipients");
+        studentGiver = loginStudent("student4InCourse1");
 
-        int questionNumber = 9;
-        FeedbackQuestion question = getQuestion(session, questionNumber);
-        String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
+        questionNumber = 9;
+        question = getQuestion(session, questionNumber);
+        submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
 
-        List<Student> recipients = getStudents("student3InCourse1", "student2InCourse1");
-        FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsEmail(recipients);
+        studentRecipients = getStudents("student2InCourse1", "student3InCourse1");
+        requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
 
-        List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), recipients);
-        validateStudentDatabaseByEmail(session, question, giver.getEmail(), recipients);
+        outputResponses = callExecute(requestBody, submissionParams);
+        validateOutputForStudentRecipientsByEmail(outputResponses, studentGiver.getEmail(), studentRecipients);
+        validateStudentDatabaseByEmail(session, question, studentGiver.getEmail(), studentRecipients);
     }
 }
