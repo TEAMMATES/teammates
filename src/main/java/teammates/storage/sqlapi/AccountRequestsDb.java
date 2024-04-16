@@ -64,20 +64,6 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
-     * Get AccountRequest by {@code email} and {@code institute} from database.
-     */
-    public AccountRequest getAccountRequest(String email, String institute) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.equal(
-                root.get("email"), email), cb.equal(root.get("institute"), institute)));
-
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
-        return query.getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Get all Account Requests with {@code status} of 'pending'.
      */
     public List<AccountRequest> getPendingAccountRequests() {

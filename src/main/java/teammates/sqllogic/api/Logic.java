@@ -105,15 +105,6 @@ public class Logic {
     }
 
     /**
-     * Gets the account request with the given email and institute.
-     *
-     * @return account request with the given email and institute.
-     */
-    public AccountRequest getAccountRequest(String email, String institute) {
-        return accountRequestLogic.getAccountRequest(email, institute);
-    }
-
-    /**
      * Gets the account request with the given {@code id}.
      *
      * @return account request with the given {@code id}.
