@@ -1,7 +1,7 @@
 package teammates.client.scripts.sql;
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,7 +10,7 @@ import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Team;
 
 /**
- * Class for verifying section attributes.
+ * Class for verifying team attributes.
  */
 @SuppressWarnings("PMD")
 public class VerifyTeamAttributes
@@ -31,32 +31,30 @@ public class VerifyTeamAttributes
         script.doOperationRemotely();
     }
 
-    private Set<String> getAllTeamNames(Course course) {
+    private Map<String, Set<String>> getSectionNameToTeamNamesMap(Course course) {
         return ofy()
                 .load()
                 .type(CourseStudent.class)
                 .filter("courseId", course.getUniqueId())
                 .list()
                 .stream()
-                .map(stu -> stu.getTeamName())
-                .distinct()
-                .collect(Collectors.toCollection(HashSet::new));
-
+                .collect(Collectors.groupingBy(stu -> stu.getSectionName(),
+                        Collectors.mapping(CourseStudent::getTeamName, Collectors.toSet())));
     }
 
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
-        List<Team> teams = sqlEntity.getSections().stream()
-                .flatMap(section -> section.getTeams().stream())
-                .collect(Collectors.toList());
-        Set<String> newTeamNames = new HashSet<>(
-                teams.stream().map(Team::getName).collect(Collectors.toList()));
-        Set<String> oldTeamNames = getAllTeamNames(datastoreEntity);
+        Map<String, Set<String>> sectionNameToTeamNamesMap = getSectionNameToTeamNamesMap(datastoreEntity);
 
-        return sqlEntity.getId().equals(datastoreEntity.getUniqueId())
-                && teams.size() == newTeamNames.size()
-                && newTeamNames.equals(oldTeamNames);
+        return sqlEntity.getSections().stream().map(section -> {
+            Set<String> oldTeamNames = sectionNameToTeamNamesMap.get(section.getName());
+            Set<String> newTeamNames = new HashSet<>(
+                    section.getTeams().stream().map(Team::getName).collect(Collectors.toList()));
+            
+            return section.getTeams().size() == newTeamNames.size()
+                    && newTeamNames.equals(oldTeamNames);
+        }).allMatch(b -> true);
     }
 
 }
