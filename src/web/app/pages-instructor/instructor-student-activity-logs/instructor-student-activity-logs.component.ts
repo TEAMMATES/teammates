@@ -384,6 +384,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         return 'viewed the submission page';
       case 'SUBMISSION':
         return 'submitted responses';
+      case 'VIEW_RESULT':
       case 'VIEW RESULT':
         return 'viewed the session results';
       case 'ACCESS,SUBMISSION':
