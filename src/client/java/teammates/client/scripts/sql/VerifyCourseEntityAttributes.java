@@ -71,9 +71,9 @@ public class VerifyCourseEntityAttributes
 
         List<Section> newSection = newCourse.getSections();
 
-        boolean isSectionsCountEqual = newSection.size() != sectionToOldStuMap.size()
+        boolean isNotSectionsCountEqual = newSection.size() != sectionToOldStuMap.size()
                 || newSection.size() != sectionToNewStuMap.size();
-        if (!isSectionsCountEqual) {
+        if (isNotSectionsCountEqual) {
             return false;
         }
 
@@ -104,9 +104,9 @@ public class VerifyCourseEntityAttributes
 
         List<Team> newTeams = newSection.getTeams();
 
-        boolean isTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
+        boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
                 || newTeams.size() != teamNameToOldStuMap.size();
-        if (!isTeamCountEqual) {
+        if (isNotTeamCountEqual) {
             return false;
         }
 
