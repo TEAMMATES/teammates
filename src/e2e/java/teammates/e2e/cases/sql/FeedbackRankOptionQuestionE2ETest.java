@@ -123,6 +123,6 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
     private FeedbackResponse getResponse(FeedbackQuestion question, Student receiver, List<Integer> answers) {
         FeedbackRankOptionsResponseDetails details = new FeedbackRankOptionsResponseDetails();
         details.setAnswers(answers);
-        return FeedbackResponse.makeResponse(question, student.getEmail(), null, receiver.getEmail(), null, details);
+        return FeedbackResponse.makeResponse(question, student, null, receiver, null, details);
     }
 }

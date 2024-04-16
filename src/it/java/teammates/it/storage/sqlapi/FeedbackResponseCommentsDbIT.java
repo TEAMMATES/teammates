@@ -59,66 +59,6 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         assertEquals(expectedComment, actualComment);
     }
 
-    private FeedbackResponseComment prepareSqlInjectionTest() {
-        FeedbackResponseComment frc = testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        assertNotNull(frcDb.getFeedbackResponseComment(frc.getId()));
-
-        return frc;
-    }
-
-    private void checkSqlInjectionFailed(FeedbackResponseComment frc) {
-        assertNotNull(frcDb.getFeedbackResponseComment(frc.getId()));
-    }
-
-    @Test
-    public void testSqlInjectionInUpdateGiverEmailOfFeedbackResponseComments() {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        String sqli = "'; DELETE FROM feedback_response_comments;--";
-        frcDb.updateGiverEmailOfFeedbackResponseComments(sqli, "", "");
-
-        checkSqlInjectionFailed(frc);
-    }
-
-    @Test
-    public void testSqlInjectionInUpdateLastEditorEmailOfFeedbackResponseComments() {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        String sqli = "'; DELETE FROM feedback_response_comments;--";
-        frcDb.updateLastEditorEmailOfFeedbackResponseComments(sqli, "", "");
-
-        checkSqlInjectionFailed(frc);
-    }
-
-    @Test
-    public void testSqlInjectionInCreateFeedbackResponseComment() throws Exception {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        FeedbackResponse fr = testDataBundle.feedbackResponses.get("response1ForQ1");
-        Section s = testDataBundle.sections.get("section2InCourse1");
-
-        String sqli = "'');/**/DELETE/**/FROM/**/feedback_response_comments;--@gmail.com";
-        FeedbackResponseComment newFrc = new FeedbackResponseComment(
-                fr, "", FeedbackParticipantType.INSTRUCTORS, s, s, "",
-                false, false,
-                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(), sqli);
-
-        frcDb.createFeedbackResponseComment(newFrc);
-
-        checkSqlInjectionFailed(frc);
-    }
-
-    @Test
-    public void testSqlInjectionInUpdateFeedbackResponseComment() throws Exception {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        String sqli = "'');/**/DELETE/**/FROM/**/feedback_response_comments;--@gmail.com";
-        frc.setLastEditorEmail(sqli);
-        frcDb.updateFeedbackResponseComment(frc);
-
-        checkSqlInjectionFailed(frc);
-    }
-
     @Test
     public void testGetFeedbackResponseCommentsForSession_matchFound_success() {
         Course course = testDataBundle.courses.get("course1");

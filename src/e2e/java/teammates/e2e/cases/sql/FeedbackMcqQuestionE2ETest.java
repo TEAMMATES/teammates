@@ -134,7 +134,6 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponse.makeResponse(feedbackQuestion, student.getEmail(), null, instructor.getEmail(), null,
-                details);
+        return FeedbackResponse.makeResponse(feedbackQuestion, student, null, instructor, null, details);
     }
 }

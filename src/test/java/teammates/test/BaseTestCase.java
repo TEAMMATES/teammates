@@ -190,7 +190,11 @@ public class BaseTestCase {
     }
 
     protected FeedbackResponse getTypicalFeedbackResponseForQuestion(FeedbackQuestion question) {
-        return FeedbackResponse.makeResponse(question, "test-giver", getTypicalSection(), "test-recipient",
+        Student giver = getTypicalStudent();
+        giver.setEmail("test-giver");
+        Student recipient = getTypicalStudent();
+        recipient.setEmail("test-recipient");
+        return FeedbackResponse.makeResponse(question, giver, getTypicalSection(), recipient,
                 getTypicalSection(), getTypicalFeedbackResponseDetails());
     }
 
