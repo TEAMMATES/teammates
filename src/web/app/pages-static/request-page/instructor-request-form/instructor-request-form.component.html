@@ -101,7 +101,7 @@
     <label for="comments" id="comments-label" class="qn">
       Any other comments/queries
     </label>
-    <textarea class="form-control {{getFieldValidationClasses(comments)}}" [formControl]="comments"
+    <textarea class="form-control {{getFieldValidationClasses(comments)}}" id="comments" [formControl]="comments"
       [attr.aria-invalid]="comments.invalid"></textarea>
   </div>
   <br>

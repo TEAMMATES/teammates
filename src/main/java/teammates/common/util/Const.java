@@ -318,6 +318,8 @@ public final class Const {
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
+
+        public static final String ACCOUNT_REQUEST_PAGE = FRONT_PAGE + "/request";
     }
 
     /**

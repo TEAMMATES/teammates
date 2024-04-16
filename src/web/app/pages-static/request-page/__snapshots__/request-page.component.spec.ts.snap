@@ -159,6 +159,7 @@ exports[`RequestPageComponent should render correctly before instructor declarat
         </a>
         <button
           class="btn btn-primary ms-3"
+          id="btn-am-instructor"
           type="button"
         >
           I am an instructor
