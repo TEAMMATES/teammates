@@ -18,7 +18,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   isSearching="false"
   lastUpdated=""
   logsService={[Function LogService]}
-  notViewedSince="0"
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -93,7 +92,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   isSearching={[Function Boolean]}
   lastUpdated=""
   logsService={[Function LogService]}
-  notViewedSince="0"
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -678,7 +676,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   isSearching="false"
   lastUpdated=""
   logsService={[Function LogService]}
-  notViewedSince="0"
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -753,7 +750,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   isSearching="false"
   lastUpdated=""
   logsService={[Function LogService]}
-  notViewedSince="0"
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
