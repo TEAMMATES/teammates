@@ -202,20 +202,6 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         }
         verifyEquals(expected, actual);
     }
-    
-    /**
-     * Verifies that the given entity is absent in the database.
-     */
-    protected void verifyAbsentInDatabase(BaseEntity expected) {
-        int retryLimit = VERIFICATION_RETRY_COUNT;
-        ApiOutput actual = getEntity(expected);
-        while (actual != null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
-            actual = getEntity(expected);
-        }
-        assertNull(actual);
-    }
 
     /**
      * Verifies that the given entity is absent in the database.
