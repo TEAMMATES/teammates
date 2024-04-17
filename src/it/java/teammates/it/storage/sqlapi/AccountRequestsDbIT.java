@@ -156,6 +156,21 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
+    public void testSqlInjectionInCreateAccountRequestCommentsField() throws Exception {
+        ______TS("SQL Injection test in comments field");
+
+        // Attempt to use SQL commands in comments field
+        String comments = "comment'; DROP TABLE account_requests; --";
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, comments);
+
+        // The system should treat the input as a plain text string
+        accountRequestDb.createAccountRequest(accountRequest);
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
+        assertEquals(comments, actual.getComments());
+    }
+
+    @Test
     public void testSqlInjectionInGetAccountRequestByRegistrationKey() throws Exception {
         ______TS("SQL Injection test in getAccountRequestByRegistrationKey");
 
@@ -169,6 +184,22 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         AccountRequest actual = accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
         assertEquals(accountRequest, actual);
+    }
+
+    @Test
+    public void testSqlInjectionInGetApprovedAccountRequestsForEmail() throws Exception {
+        ______TS("SQL Injection test in getApprovedAccountRequestsForEmail");
+
+        String email = "test@gmail.com";
+        AccountRequest accountRequest =
+                new AccountRequest(email, "name", "institute", AccountRequestStatus.APPROVED, "comments");
+        accountRequestDb.createAccountRequest(accountRequest);
+
+        // Attempt to use SQL commands in email field
+        String emailInjection = "email'/**/OR/**/1=1/**/@gmail.com";
+        List<AccountRequest> actualInjection = accountRequestDb.getApprovedAccountRequestsForEmail(emailInjection);
+        // The system should treat the input as a plain text string
+        assertEquals(0, actualInjection.size());
     }
 
     @Test
