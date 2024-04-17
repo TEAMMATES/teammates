@@ -628,11 +628,38 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillRankRecipientResponseSql(int qnNumber, List<FeedbackResponse> responses) {
+        List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackRankRecipientsResponseDetails response =
+                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
+            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(recipientDropdowns.get(i), "");
+            } else {
+                selectDropdownOptionByText(recipientDropdowns.get(i), Integer.toString(response.getAnswer()));
+            }
+        }
+    }
+
     public void verifyRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackRankRecipientsResponseDetails response =
                     (FeedbackRankRecipientsResponseDetails) responses.get(i).getResponseDetailsCopy();
+            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)), "");
+            } else {
+                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)),
+                        Integer.toString(response.getAnswer()));
+            }
+        }
+    }
+
+    public void verifyRankRecipientResponseSql(int qnNumber, List<FeedbackResponse> responses) {
+        List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackRankRecipientsResponseDetails response =
+                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
             if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)), "");
             } else {
