@@ -52,11 +52,15 @@ public class CreateAccountRequestAction extends Action {
         taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
 
         assert accountRequest != null;
-        EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-        EmailWrapper userAcknowledgementEmail = sqlEmailGenerator
-                .generateNewAccountRequestAcknowledgementEmail(accountRequest);
-        emailSender.sendEmail(adminAlertEmail);
-        emailSender.sendEmail(userAcknowledgementEmail);
+
+        if (userInfo == null || !userInfo.isAdmin) {
+            EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+            EmailWrapper userAcknowledgementEmail = sqlEmailGenerator
+                    .generateNewAccountRequestAcknowledgementEmail(accountRequest);
+            emailSender.sendEmail(adminAlertEmail);
+            emailSender.sendEmail(userAcknowledgementEmail);
+        }
+
         AccountRequestData output = new AccountRequestData(accountRequest);
         return new JsonResult(output);
     }

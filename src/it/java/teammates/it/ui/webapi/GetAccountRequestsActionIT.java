@@ -87,17 +87,17 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
 
         assertEquals(2, arData.size());
 
-        // account request 1
-        assertEquals(arData.get(0).getEmail(), accountRequest1.getEmail());
-        assertEquals(arData.get(0).getInstitute(), accountRequest1.getInstitute());
-        assertEquals(arData.get(0).getName(), accountRequest1.getName());
-        assertEquals(arData.get(0).getRegistrationKey(), accountRequest1.getRegistrationKey());
+        // account request 1 (with the most recent created_at)
+        assertEquals(arData.get(1).getEmail(), accountRequest1.getEmail());
+        assertEquals(arData.get(1).getInstitute(), accountRequest1.getInstitute());
+        assertEquals(arData.get(1).getName(), accountRequest1.getName());
+        assertEquals(arData.get(1).getRegistrationKey(), accountRequest1.getRegistrationKey());
 
         // account request 2
-        assertEquals(arData.get(1).getEmail(), accountRequest2.getEmail());
-        assertEquals(arData.get(1).getInstitute(), accountRequest2.getInstitute());
-        assertEquals(arData.get(1).getName(), accountRequest2.getName());
-        assertEquals(arData.get(1).getRegistrationKey(), accountRequest2.getRegistrationKey());
+        assertEquals(arData.get(0).getEmail(), accountRequest2.getEmail());
+        assertEquals(arData.get(0).getInstitute(), accountRequest2.getInstitute());
+        assertEquals(arData.get(0).getName(), accountRequest2.getName());
+        assertEquals(arData.get(0).getRegistrationKey(), accountRequest2.getRegistrationKey());
     }
 
     @Override

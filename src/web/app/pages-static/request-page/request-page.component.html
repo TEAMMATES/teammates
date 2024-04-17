@@ -12,7 +12,7 @@
         Note: <b>Students should not use this form to request for TEAMMATES accounts</b>, as students do not need accounts to use TEAMMATES. Instead, TEAMMATES will email students (who have been added to TEAMMATES by a course instructor) an access link when there is a TEAMMATES session available for them to access.
       </p>
       <a type="button" class="btn btn-secondary" tmRouterLink="/web/front/home">Back to home page</a>
-      <button type="button" class="btn btn-primary ms-3" (click)="onDeclarationButtonClicked()">I am an instructor</button>
+      <button id="btn-am-instructor" type="button" class="btn btn-primary ms-3" (click)="onDeclarationButtonClicked()">I am an instructor</button>
     </div>
     <div *ngIf="isDeclarationDone">
       <tm-instructor-request-form *ngIf="!submittedFormData" (requestSubmissionEvent)="onRequestSubmitted($event)"></tm-instructor-request-form>
