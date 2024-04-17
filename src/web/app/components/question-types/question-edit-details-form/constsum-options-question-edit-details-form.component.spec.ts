@@ -84,7 +84,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect((inputEvent.target as HTMLInputElement).value).toEqual('123456789');
   });
 
-  it('should increase the number of constSumOptions by 1 and add an empty string as the new option', () => {
+  it('increaseNumberOfConstsumOptions: should increase the number of constSumOptions by 1 and add an empty string as the new option when wanting to increase constSumOptions', () => {
     component.model = { ...component.model, constSumOptions: ['Options 1'] };
     fixture.detectChanges();
     const initialLength = component.model.constSumOptions.length;
@@ -94,7 +94,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.model.constSumOptions[component.model.constSumOptions.length - 1]).toBe('', 'The new option is not an empty string');
   });
 
-  it('should reorder constSumOptions when an option is dragged and dropped', () => {
+  it('onConstsumOptionDropped: should reorder constSumOptions when an option is dragged and dropped', () => {
     component.model = { ...component.model, constSumOptions: ['Option 1', 'Option 2', 'Option 3'] };
     component.isEditable = true;
     fixture.detectChanges();
@@ -115,7 +115,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.model.constSumOptions).toEqual(['Option 2', 'Option 3', 'Option 1'], 'constSumOptions were not reordered correctly');
   });
 
-  it('should not reorder constSumOptions when the component is not editable', () => {
+  it('onConstsumOptionDropped: should not reorder constSumOptions when the component is not editable', () => {
     component.model = { ...component.model, constSumOptions: ['Option 1', 'Option 2', 'Option 3'] };
     component.isEditable = false;
     fixture.detectChanges();
@@ -136,7 +136,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.model.constSumOptions).toEqual(['Option 1', 'Option 2', 'Option 3'], 'constSumOptions were changed despite component being not editable');
   });
 
-  it('should not delete a constSumOption if doing so leaves fewer than 2 options', () => {
+  it('onConstsumOptionDeleted: should not delete a constSumOption if doing so leaves fewer than 2 options', () => {
     component.model = { ...component.model, constSumOptions: ['Options 1', 'Option 2'] };
     fixture.deteectChanges();
 
@@ -147,7 +147,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.statusMessageService.showErrorToast).toHaveBeenCalledWith('There must be at least one option.');
   });
 
-  it('should successfully delete a constSumOption when more than 2 options exist', () => {
+  it('onConstsumOptionDeleted: should successfully delete a constSumOption when more than 2 options exist', () => {
     component.model = { ...component.model, constSumOptions: ['Option 1', 'Option 2', 'Option 3'] };
     fixture.detectChanges();
     
@@ -157,7 +157,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.model.constSumOptions).toEqual(['Option 1', 'Option 3'], 'The option was not deleted correctly');
   });
 
-  it('should update the value of a constSumOption at the specified index', () => {
+  it('onConstsumOptionEntered: should update the value of a constSumOption when the specified index is entered', () => {
     component.model = { ...component.model, constSumOptions: ['Options 1', 'Option 2', 'Option 3'] };
     fixture.detectChanges();
 
@@ -169,7 +169,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.model.constSumOptions).toEqual(['Option 1', updatedOption, 'Option 3'], 'The constSumOptions array did not update correctly');
   });
 
-  it('should enable force uneven distribution and set distributePointsFor accordingly when event is true', () => {
+  it('onForceUnevenDistribution: should enable force uneven distribution and set distributePointsFor accordingly when event is true', () => {
     component.model = {
       ...component.model,
       forceUnevenDistribution: false,
@@ -187,7 +187,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.model.distributePointsFor).toEqual(FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY, 'distributePointsFor was not set to DISTRIBUTE_ALL_UNEVENLY');
   });
 
-  it('should disable force uneven distribution and set distributePointsFor to NONE when event is false', () => {
+  it('onForceUnevenDistribution: should disable force uneven distribution and set distributePointsFor to NONE when event is false', () => {
     component.model = {
       ...component.model,
       forceUnevenDistribution: true,
@@ -200,39 +200,39 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
 
     expect(component.model.forceUnevenDistribution).toBe(false, 'forceUnevenDistribution was not set to false');
     expect(component.model.distributePointsFor).toEqual(FeedbackConstantSumDistributePointsType.NONE, 'distributePointsFor was not set to NONE');
-    });
+  });
 
-    it('should reset maxPoint to 0 when event is true', () => {
-      component.resetMaxPoint(true);
-      fixture.detectChanges();
+  it('resetMaxPoint: should reset maxPoint to 0 when event is true', () => {
+    component.resetMaxPoint(true);
+    fixture.detectChanges();
 
-      expect(component.model.maxPoint).toBe(0, 'maxPoint was not set to 0 when event is true');
-    });
+    expect(component.model.maxPoint).toBe(0, 'maxPoint was not set to 0 when event is true');
+  });
 
-    it('should set maxPoint to undefined when event is false', () => {
-      component.model.maxPoint = 10;
-      fixture.detectChanges();
+  it('resetMaxPoint: should set maxPoint to undefined when event is false', () => {
+    component.model.maxPoint = 10;
+    fixture.detectChanges();
 
-      component.resetMaxPoint(false);
-      fixture.detectChanges();
+    component.resetMaxPoint(false);
+    fixture.detectChanges();
 
-      expect(component.model.maxPoint).toBeUndefined('maxPoint was not set to undefined when event is false');
-    });
+    expect(component.model.maxPoint).toBeUndefined('maxPoint was not set to undefined when event is false');
+  });
 
-    it('should set minPoint to 0 when event is true', () => {
-      component.resetMinPoint(true);
-      fixture.detectChanges();
+  it('detectChanges: should set minPoint to 0 when event is true', () => {
+    component.resetMinPoint(true);
+    fixture.detectChanges();
 
-      expect(component.model.minPoint).toBe(0, 'minPoint was not set to 0 when event is true');
-    });
+    expect(component.model.minPoint).toBe(0, 'minPoint was not set to 0 when event is true');
+  });
     
-    it('should set minPoint to undefined when event is false', () => {
-      component.model.minPoint = 10;
-      fixture.detectChanges();
+  it('resetMinPoint: should set minPoint to undefined when event is false', () => {
+    component.model.minPoint = 10;
+    fixture.detectChanges();
 
-      component.resetMinPoint(false);
-      fixture.detectChanges();
+    component.resetMinPoint(false);
+    fixture.detectChanges();
 
-      expect(component.model.minPoint).toBeUndefined('minPoint was not set to undefined when event is false');
-    });
+    expect(component.model.minPoint).toBeUndefined('minPoint was not set to undefined when event is false');
+  });
 });
