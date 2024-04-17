@@ -36,11 +36,13 @@ import teammates.test.FileHelper;
  * Data migration class for course entity.
  */
 @SuppressWarnings("PMD")
-public class DataMigrationForCourseEntitySql extends DatastoreClient {
+public class DataMigrationForCourseEntitiesSql extends DatastoreClient {
 
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
-    private static final int BATCH_SIZE = 1000;
+    private static final int BATCH_SIZE = 100;
+
+    private static final int MAX_BUFFER_SIZE = 1000;
 
     private List<BaseEntity> entitiesSavingBuffer;
 
@@ -53,7 +55,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     AtomicLong numberOfScannedKey;
     AtomicLong numberOfUpdatedEntities;
 
-    public DataMigrationForCourseEntitySql() {
+    public DataMigrationForCourseEntitiesSql() {
         numberOfAffectedEntities = new AtomicLong();
         numberOfScannedKey = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
@@ -68,7 +70,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     public static void main(String[] args) {
-        new DataMigrationForCourseEntitySql().doOperationRemotely();
+        new DataMigrationForCourseEntitiesSql().doOperationRemotely();
     }
 
     protected Query<Course> getFilterQuery() {
@@ -79,24 +81,16 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return false;
     }
 
-    /*
-     * Sets the migration criteria used in isMigrationNeeded.
+    /**
+     * Migrates the course and all related entity.
      */
-    protected void setMigrationCriteria() {
-        // No migration criteria currently needed.
-    }
-
-    protected boolean isMigrationNeeded(Course entity) {
-        return true;
-    }
-
-    protected void migrateEntity(Course oldCourse) throws Exception {
+    protected void migrateCourse(Course oldCourse) throws Exception {
         teammates.storage.sqlentity.Course newCourse = createCourse(oldCourse);
 
         migrateCourseEntity(newCourse);
+        // flushEntitiesSavingBuffer();
         // verifyCourseEntity(newCourse);
         // markOldCourseAsMigrated(courseId)
-        // Runtime.getRuntime().removeShutDownHook(new Thread(shutdownScript));
     }
 
     private void migrateCourseEntity(teammates.storage.sqlentity.Course newCourse) {
@@ -192,7 +186,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     protected void doOperation() {
         log("Running " + getClass().getSimpleName() + "...");
         log("Preview: " + isPreview());
-        setMigrationCriteria();
 
         Cursor cursor = readPositionOfCursorFromFile().orElse(null);
         if (cursor == null) {
@@ -211,26 +204,26 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
             QueryResults<?> iterator = filterQueryKeys.iterator();
 
-            Course currentCourse = null;
+            Course currentOldCourse = null;
             // Cascade delete the course if it is not fully migrated.
             if (iterator.hasNext()) {
-                currentCourse = (Course) iterator.next();
-                if (currentCourse.isMigrated()) {
-                    currentCourse = (Course) iterator.next();
+                currentOldCourse = (Course) iterator.next();
+                if (currentOldCourse.isMigrated()) {
+                    currentOldCourse = (Course) iterator.next();
                 } else {
-                    deleteCourseCascade(currentCourse);
+                    deleteCourseCascade(currentOldCourse);
                 }
             }
 
-            while (currentCourse != null) {
+            while (currentOldCourse != null) {
                 shouldContinue = true;
-                migrateWithoutTrx(currentCourse);
+                doMigration(currentOldCourse);
                 numberOfScannedKey.incrementAndGet();
 
                 cursor = iterator.getCursorAfter();
                 savePositionOfCursorToFile(cursor);
 
-                currentCourse = iterator.hasNext() ? (Course) iterator.next() : null;
+                currentOldCourse = iterator.hasNext() ? (Course) iterator.next() : null;
             }
 
             if (shouldContinue) {
@@ -290,23 +283,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     /**
-     * Migrates the entity without transaction for better performance.
-     */
-    private void migrateWithoutTrx(Course entity) {
-        doMigration(entity);
-    }
-
-    /**
      * Migrates the entity and counts the statistics.
      */
     private void doMigration(Course entity) {
         try {
-            if (!isMigrationNeeded(entity)) {
-                return;
-            }
             numberOfAffectedEntities.incrementAndGet();
             if (!isPreview()) {
-                migrateEntity(entity);
+                migrateCourse(entity);
                 numberOfUpdatedEntities.incrementAndGet();
             }
         } catch (Exception e) {
@@ -319,10 +302,10 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
      * Stores the entity to save in a buffer and saves it later.
      */
     protected void saveEntityDeferred(BaseEntity entity) {
-        if (shouldUseTransaction()) {
-            throw new RuntimeException("Batch saving is not supported for transaction!");
-        }
         entitiesSavingBuffer.add(entity);
+        if (entitiesSavingBuffer.size() == MAX_BUFFER_SIZE) {
+            flushEntitiesSavingBuffer();
+        }
     }
 
     /**
@@ -377,9 +360,5 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         System.err.println(logLine);
 
         log("[ERROR]" + logLine);
-    }
-
-    protected boolean shouldUseTransaction() {
-        return false;
     }
 }
