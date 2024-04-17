@@ -150,7 +150,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickViewAccountRequestAndVerifyCommentsButton(accountRequest, "No comments");
+        searchPage.clickViewAccountRequestAndVerifyCommentsButton(accountRequest, "New comment");
 
         ______TS("Edit account request with invalid details");
         accountRequest = testData.accountRequests.get("unregisteredInstructor2");
