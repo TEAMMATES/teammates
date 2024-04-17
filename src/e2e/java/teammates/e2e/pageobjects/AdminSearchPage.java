@@ -533,10 +533,14 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickViewAccountRequestCommentsButton(AccountRequest accountRequest) {
+    public void clickViewAccountRequestAndVerifyCommentsButton(AccountRequest accountRequest, String comments) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement viewCommentsButton = accountRequestRow.findElement(By.cssSelector("[id^='view-account-request-']"));
         viewCommentsButton.click();
+        waitForElementVisibility(By.className("modal-btn-ok"));
+        WebElement modal = browser.driver.findElement(By.className("modal-body"));
+        String actualComments = modal.findElement(By.tagName("div")).getText();
+        assertEquals("Comment: " + comments, actualComments);
         waitForConfirmationModalAndClickOk();
     }
 
