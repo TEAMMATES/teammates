@@ -45,6 +45,8 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse.FeedbackTextRe
 public class DataMigrationForCourseEntitySql extends
         DataMigrationEntitiesBaseScriptSql<teammates.storage.entity.Course, teammates.storage.sqlentity.BaseEntity> {
 
+    private static final int MAX_RESPONSE_COUNT = -1;
+
     public static void main(String[] args) {
         new DataMigrationForCourseEntitySql().doOperationRemotely();
     }
@@ -195,15 +197,27 @@ public class DataMigrationForCourseEntitySql extends
         teammates.storage.sqlentity.FeedbackSession newSession = createFeedbackSession(newCourse, oldSession);
         saveEntityDeferred(newSession);
 
+        Map<String, List<FeedbackResponse>> questionIdToResponsesMap;
+        Query<FeedbackResponse> responsesInSession = ofy().load().type(FeedbackResponse.class)
+                .filter("courseId", newCourse.getId())
+                .filter("feedbackSessionName", oldSession.getFeedbackSessionName());
+        if (responsesInSession.count() <= MAX_RESPONSE_COUNT) {
+            questionIdToResponsesMap = responsesInSession.list().stream()
+                    .collect(Collectors.groupingBy(FeedbackResponse::getFeedbackQuestionId));
+        } else {
+            questionIdToResponsesMap = null;
+        }
+
         // cascade migrate questions
         List<FeedbackQuestion> oldQuestions = sessionNameToQuestionsMap.get(oldSession.getFeedbackSessionName());
         for (FeedbackQuestion oldQuestion : oldQuestions) {
-            migrateFeedbackQuestion(newSession, oldQuestion, sectionNameToSectionMap);
+            migrateFeedbackQuestion(newSession, oldQuestion, questionIdToResponsesMap, sectionNameToSectionMap);
         }
     }
 
     private void migrateFeedbackQuestion(teammates.storage.sqlentity.FeedbackSession newSession,
-            FeedbackQuestion oldQuestion, Map<String, Section> sectionNameToSectionMap) {
+            FeedbackQuestion oldQuestion, Map<String, List<FeedbackResponse>> questionIdToResponsesMap,
+            Map<String, Section> sectionNameToSectionMap) {
         teammates.storage.sqlentity.FeedbackQuestion newFeedbackQuestion = createFeedbackQuestion(newSession, oldQuestion);
         saveEntityDeferred(newFeedbackQuestion);
 
@@ -215,10 +229,15 @@ public class DataMigrationForCourseEntitySql extends
                 .collect(Collectors.groupingBy(FeedbackResponseComment::getFeedbackResponseId));
 
         // cascade migrate responses
-        List<FeedbackResponse> oldResponses = ofy().load().type(FeedbackResponse.class)
-                .filter("courseId", newSession.getCourse().getId())
-                .filter("feedbackSessionName", newSession.getName())
-                .filter("feedbackQuestionId", oldQuestion.getId()).list();
+        List<FeedbackResponse> oldResponses;
+        if (questionIdToResponsesMap != null) {
+            oldResponses = questionIdToResponsesMap.get(oldQuestion.getId());
+        } else {
+            oldResponses = ofy().load().type(FeedbackResponse.class)
+                    .filter("courseId", newSession.getCourse().getId())
+                    .filter("feedbackSessionName", newSession.getName())
+                    .filter("feedbackQuestionId", oldQuestion.getId()).list();
+        }
         for (FeedbackResponse oldResponse : oldResponses) {
             Section newGiverSection = sectionNameToSectionMap.get(oldResponse.getGiverSection());
             Section newRecipientSection = sectionNameToSectionMap.get(oldResponse.getRecipientSection());
