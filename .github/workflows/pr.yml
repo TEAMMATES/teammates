@@ -6,7 +6,6 @@ on:
       - reopened
     branches:
       - master
-      - account-request-form
 
 jobs:
   check-pr:
