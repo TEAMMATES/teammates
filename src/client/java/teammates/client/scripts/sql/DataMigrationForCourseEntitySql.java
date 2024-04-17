@@ -195,21 +195,15 @@ public class DataMigrationForCourseEntitySql extends
         teammates.storage.sqlentity.FeedbackSession newSession = createFeedbackSession(newCourse, oldSession);
         saveEntityDeferred(newSession);
 
-        Map<String, List<FeedbackResponse>> questionIdToResponsesMap = ofy().load().type(FeedbackResponse.class)
-                .filter("courseId", newCourse.getId())
-                .filter("feedbackSessionName", oldSession.getFeedbackSessionName()).list().stream()
-                .collect(Collectors.groupingBy(FeedbackResponse::getFeedbackQuestionId));
-
         // cascade migrate questions
         List<FeedbackQuestion> oldQuestions = sessionNameToQuestionsMap.get(oldSession.getFeedbackSessionName());
         for (FeedbackQuestion oldQuestion : oldQuestions) {
-            migrateFeedbackQuestion(newSession, oldQuestion, questionIdToResponsesMap, sectionNameToSectionMap);
+            migrateFeedbackQuestion(newSession, oldQuestion, sectionNameToSectionMap);
         }
     }
 
     private void migrateFeedbackQuestion(teammates.storage.sqlentity.FeedbackSession newSession,
-            FeedbackQuestion oldQuestion, Map<String, List<FeedbackResponse>> questionIdToResponsesMap,
-            Map<String, Section> sectionNameToSectionMap) {
+            FeedbackQuestion oldQuestion, Map<String, Section> sectionNameToSectionMap) {
         teammates.storage.sqlentity.FeedbackQuestion newFeedbackQuestion = createFeedbackQuestion(newSession, oldQuestion);
         saveEntityDeferred(newFeedbackQuestion);
 
@@ -221,7 +215,10 @@ public class DataMigrationForCourseEntitySql extends
                 .collect(Collectors.groupingBy(FeedbackResponseComment::getFeedbackResponseId));
 
         // cascade migrate responses
-        List<FeedbackResponse> oldResponses = questionIdToResponsesMap.get(oldQuestion.getId());
+        List<FeedbackResponse> oldResponses = ofy().load().type(FeedbackResponse.class)
+                .filter("courseId", newSession.getCourse().getId())
+                .filter("feedbackSessionName", newSession.getName())
+                .filter("feedbackQuestionId", oldQuestion.getId()).list();
         for (FeedbackResponse oldResponse : oldResponses) {
             Section newGiverSection = sectionNameToSectionMap.get(oldResponse.getGiverSection());
             Section newRecipientSection = sectionNameToSectionMap.get(oldResponse.getRecipientSection());
@@ -273,7 +270,7 @@ public class DataMigrationForCourseEntitySql extends
         newSession.setOpeningSoonEmailSent(oldSession.isSentOpeningSoonEmail());
         newSession.setPublishedEmailSent(oldSession.isSentPublishedEmail());
         newSession.setCreatedAt(oldSession.getCreatedTime());
-        // newSession.setUpdatedAt(oldSession.getUpdatedAt()); // present in sql but not in datstore section
+        newSession.setUpdatedAt(Instant.now()); // not present in datastore section
         newSession.setDeletedAt(oldSession.getDeletedTime());
 
         return newSession;
@@ -294,7 +291,7 @@ public class DataMigrationForCourseEntitySql extends
                         oldQuestion.getShowGiverNameTo(),
                         oldQuestion.getShowRecipientNameTo(),
                         getFeedbackQuestionDetails(oldQuestion));
-            
+
         newFeedbackQuestion.setCreatedAt(oldQuestion.getCreatedAt());
         newFeedbackQuestion.setUpdatedAt(oldQuestion.getUpdatedAt());
 
