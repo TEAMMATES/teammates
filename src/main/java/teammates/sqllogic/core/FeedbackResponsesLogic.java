@@ -344,7 +344,7 @@ public final class FeedbackResponsesLogic {
      */
     private void makeRankRecipientQuestionResponsesConsistent(
             FeedbackQuestion question, SqlCourseRoster roster) {
-        assert !question.getQuestionDetailsCopy().getQuestionType()
+        assert question.getQuestionDetailsCopy().getQuestionType()
                 .equals(FeedbackQuestionType.RANK_RECIPIENTS);
 
         FeedbackParticipantType giverType = question.getGiverType();
@@ -593,7 +593,7 @@ public final class FeedbackResponsesLogic {
         Set<String> studentsEmailInTeam = new HashSet<>();
         if (student != null) {
             for (Student studentInTeam
-                    : roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList())) {
+                    : roster.getTeamToMembersTable().getOrDefault(student.getTeam().getName(), Collections.emptyList())) {
                 studentsEmailInTeam.add(studentInTeam.getEmail());
             }
         }
