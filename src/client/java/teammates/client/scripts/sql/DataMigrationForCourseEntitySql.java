@@ -270,7 +270,7 @@ public class DataMigrationForCourseEntitySql extends
         newSession.setOpeningSoonEmailSent(oldSession.isSentOpeningSoonEmail());
         newSession.setPublishedEmailSent(oldSession.isSentPublishedEmail());
         newSession.setCreatedAt(oldSession.getCreatedTime());
-        newSession.setUpdatedAt(Instant.now()); // not present in datastore section
+        newSession.setUpdatedAt(Instant.now()); // not present in datastore session
         newSession.setDeletedAt(oldSession.getDeletedTime());
 
         return newSession;
