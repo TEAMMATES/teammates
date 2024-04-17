@@ -5,12 +5,10 @@ on:
     branches:
       - master
       - release
-      - account-request-form
   pull_request:
     branches:
       - master
       - release
-      - account-request-form
 jobs:
   axe-testing:
     runs-on: ubuntu-latest
