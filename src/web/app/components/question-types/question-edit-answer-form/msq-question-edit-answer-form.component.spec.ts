@@ -23,13 +23,12 @@ describe('MsqQuestionEditAnswerFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create: should return true if compnent is successfully created', () => {
     expect(component).toBeTruthy();
   });
 });
 
-describe('updateNoneOfTheAbove', () => {
-  it('should update answers based on isNoneOfTheAboveEnabled', () => {
+  it('updateNoneOfTheAbove: should update answers based on isNoneOfTheAboveEnabled', () => {
     const component = new MsqQuestionEditAnswerFormComponent();
     component.responseDetails = {
       answers: ['A', 'B', 'C']
@@ -49,4 +48,3 @@ describe('updateNoneOfTheAbove', () => {
 
     expect(component.responseDetails.answers).toEqual([]);
   });
-});
