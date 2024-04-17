@@ -75,14 +75,6 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Gets account request associated with the {@code email} and {@code institute}.
-     */
-    public AccountRequest getAccountRequest(String email, String institute) {
-
-        return accountRequestDb.getAccountRequest(email, institute);
-    }
-
-    /**
      * Gets the account request associated with the {@code id}.
      */
     public AccountRequest getAccountRequestWithTransaction(UUID id) {
