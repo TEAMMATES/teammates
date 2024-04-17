@@ -30,6 +30,7 @@ import teammates.storage.api.OfyHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Notification;
 import teammates.test.FileHelper;
@@ -41,6 +42,8 @@ import teammates.test.FileHelper;
 public class SeedDb extends DatastoreClient {
 
     private static final int MAX_ENTITY_SIZE = 10000;
+    private static final int MAX_STUDENT_PER_COURSE = 100;
+    private static final int MAX_SECTION_PER_COURSE = 10;
     private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 3;
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
@@ -108,12 +111,12 @@ public class SeedDb extends DatastoreClient {
         String[] args = {};
         // Each account will have this amount of read notifications
         seedNotificationAccountAndAccountRequest(5, 1000);
-        seedCourseAndRelatedEntites();
+        seedCourseAndRelatedEntities();
 
         GenerateUsageStatisticsObjects.main(args);
     }
 
-    private void seedCourseAndRelatedEntites() {
+    private void seedCourseAndRelatedEntities() {
         log("Seeding courses");
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
             if (i % (MAX_ENTITY_SIZE / 5) == 0) {
@@ -121,22 +124,64 @@ public class SeedDb extends DatastoreClient {
                         (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
             }
 
-            Random rand = new Random();
             String courseId = UUID.randomUUID().toString();
             try {
-                String courseName = String.format("Course %s", i);
-                String courseInstitute = String.format("Institute %s", i);
-                String courseTimeZone = String.format("Time Zone %s", i);
-                Course course = new Course(courseId, courseName, courseTimeZone, courseInstitute,
-                        getRandomInstant(),
-                        rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
-                        false);
-                ofy().save().entities(course).now();
+                seedCourseWithCourseId(i, courseId);
+                seedStudents(i, courseId);
+                seedFeedbackSession(courseId);
+            } catch (Exception e) {
+                log(e.toString());
+            }
+        }
+    }
+
+    private void seedCourseWithCourseId(int i, String courseId) {
+        Random rand = new Random();
+        String courseName = String.format("Course %s", i);
+        String courseInstitute = String.format("Institute %s", i);
+        String courseTimeZone = String.format("Time Zone %s", i);
+        Course course = new Course(courseId, courseName, courseTimeZone, courseInstitute,
+                getRandomInstant(),
+                rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
+                false);
+        ofy().save().entities(course).now();
+    }
+
+    private void seedStudents(int courseNumber, String courseId) {
+        assert MAX_SECTION_PER_COURSE <= MAX_STUDENT_PER_COURSE;
+
+        Random rand = new Random();
+
+        log("Seeding students for course " + courseNumber);
+        int currSection = -1;
+        for (int i = 0; i < MAX_STUDENT_PER_COURSE; i++) {
+
+            if (i % (MAX_STUDENT_PER_COURSE / MAX_SECTION_PER_COURSE) == 0) {
+                currSection++;
+            }
+
+            int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
+            try {
+                String studentEmail = String.format("Course %s Student %s Email ", courseNumber, i);
+                String studentName = String.format("Student %s in Course %s", i, courseNumber);
+                String studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
+                String studentComments = String.format("Comments for student %s in course %s", i, courseNumber);
+                String studentTeamName = String.format("Course %s Team %s", courseNumber, i);
+                String studentSectionName = String.format("Course %s Section %s", courseNumber, currSection);
+                String studentRegistrationKey = String.format("Student %s in Course %s Registration Key", i,
+                        courseNumber);
+
+                CourseStudent student = new CourseStudent(studentEmail, studentName, studentGoogleId, studentComments,
+                        courseId, studentTeamName, studentSectionName);
+                student.setCreatedAt(getRandomInstant());
+                student.setLastUpdate(rand.nextInt(3) > 1 ? null : getRandomInstant());
+                student.setRegistrationKey(studentRegistrationKey);
+
+                ofy().save().entities(student).now();
             } catch (Exception e) {
                 log(e.toString());
             }
 
-            seedFeedbackSession(courseId);
         }
     }
 
@@ -145,7 +190,6 @@ public class SeedDb extends DatastoreClient {
         for (int i = 0; i < MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE; i++) {
             try {
                 String feedbackSessionName = String.format("Feedback Session %s", i);
-                String feedbackSessionCourseId = courseId;
                 String feedbackSessionCreatorEmail = String.format("Creator Email %s", i);
                 String feedbackSessionInstructions = String.format("Instructions %s", i);
                 String timezone = String.format("Time Zone %s", i);
@@ -155,7 +199,7 @@ public class SeedDb extends DatastoreClient {
                 Instant feedbackSessionResultsVisibleFromTime = getRandomInstant();
                 int feedbackSessionGracePeriod = rand.nextInt(3600);
 
-                FeedbackSession feedbackSession = new FeedbackSession(feedbackSessionName, feedbackSessionCourseId,
+                FeedbackSession feedbackSession = new FeedbackSession(feedbackSessionName, courseId,
                         feedbackSessionCreatorEmail, feedbackSessionInstructions, getRandomInstant(),
                         rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
                         feedbackSessionStartTime, feedbackSessionEndTime,
