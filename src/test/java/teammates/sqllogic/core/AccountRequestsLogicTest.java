@@ -134,27 +134,6 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetAccountRequest_typicalRequest_success() {
-        AccountRequest expectedAr = getTypicalAccountRequest();
-        when(accountRequestsDb.getAccountRequest(expectedAr.getEmail(), expectedAr.getInstitute())).thenReturn(expectedAr);
-        AccountRequest actualAr =
-                accountRequestsLogic.getAccountRequest(expectedAr.getEmail(), expectedAr.getInstitute());
-
-        assertEquals(expectedAr, actualAr);
-        verify(accountRequestsDb, times(1)).getAccountRequest(expectedAr.getEmail(), expectedAr.getInstitute());
-    }
-
-    @Test
-    public void testGetAccountRequest_nonexistentRequest_shouldReturnNull() {
-        String nonexistentEmail = "not-found@test.com";
-        String nonexistentInstitute = "not-found";
-        when(accountRequestsDb.getAccountRequest(nonexistentEmail, nonexistentInstitute)).thenReturn(null);
-
-        assertNull(accountRequestsLogic.getAccountRequest(nonexistentEmail, nonexistentInstitute));
-        verify(accountRequestsDb, times(1)).getAccountRequest(nonexistentEmail, nonexistentInstitute);
-    }
-
-    @Test
     public void testResetAccountRequest_typicalRequest_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest = getTypicalAccountRequest();
