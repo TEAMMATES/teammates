@@ -234,7 +234,7 @@
         "questionNumber": 1,
         "giverType": "STUDENTS",
         "recipientType": "INSTRUCTORS",
-        "numberOfEntitiesToGiveFeedbackTo": -100,
+        "numOfEntitiesToGiveFeedbackTo": -100,
         "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
         "showGiverNameTo": ["INSTRUCTORS"],
         "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
@@ -252,7 +252,7 @@
         "questionNumber": 1,
         "giverType": "STUDENTS",
         "recipientType": "INSTRUCTORS",
-        "numberOfEntitiesToGiveFeedbackTo": -100,
+        "numOfEntitiesToGiveFeedbackTo": -100,
         "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
         "showGiverNameTo": ["INSTRUCTORS" ],
         "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
