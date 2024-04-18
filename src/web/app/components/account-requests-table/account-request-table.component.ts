@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
+import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
   RejectWithReasonModalComponent,
@@ -63,14 +64,14 @@ export class AccountRequestTableComponent {
     modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
     modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
-    modalRef.result.then(() => {
+    modalRef.result.then((res: EditRequestModalComponentResult) => {
       this.accountService.editAccountRequest(
         accountRequest.id,
-        modalRef.componentInstance.accountRequestName,
-        modalRef.componentInstance.accountRequestEmail,
-        modalRef.componentInstance.accountRequestInstitution,
+        res.accountRequestName,
+        res.accountRequestEmail,
+        res.accountRequestInstitution,
         accountRequest.status,
-        modalRef.componentInstance.accountRequestComments)
+        res.accountRequestComment)
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.comments = resp.comments ?? '';
