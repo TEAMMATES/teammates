@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -128,7 +129,11 @@ public class DataStoreToSqlConverter {
     protected AccountRequest convert(AccountRequestAttributes accReqAttr) {
         AccountRequest sqlAccountRequest = new AccountRequest(accReqAttr.getEmail(),
                 accReqAttr.getName(),
-                accReqAttr.getInstitute());
+                accReqAttr.getInstitute(), AccountRequestStatus.APPROVED, null);
+
+        if (accReqAttr.getRegisteredAt() != null) {
+            sqlAccountRequest.setStatus(AccountRequestStatus.REGISTERED);
+        }
 
         sqlAccountRequest.setCreatedAt(accReqAttr.getCreatedAt());
         sqlAccountRequest.setRegisteredAt(accReqAttr.getRegisteredAt());

@@ -4,9 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
-import teammates.ui.output.JoinLinkData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -64,44 +62,22 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(institute, accountRequestAttributes.getInstitute());
         assertNotNull(accountRequestAttributes.getRegistrationKey());
 
-        String joinLink = accountRequestAttributes.getRegistrationUrl();
-        JoinLinkData output = (JoinLinkData) r.getOutput();
-        assertEquals(joinLink, output.getJoinLink());
+        String registrationKey = accountRequestAttributes.getRegistrationKey();
+        AccountRequestData output = (AccountRequestData) r.getOutput();
+        assertEquals(registrationKey, output.getRegistrationKey());
 
-        verifyNumberOfEmailsSent(1);
+        verifyNoEmailsSent();
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
-        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
-                emailSent.getSubject());
-        assertEquals(email, emailSent.getRecipient());
-        assertTrue(emailSent.getContent().contains(joinLink));
-
-        ______TS("Account request already exists: instructor unregistered, email sent again");
+        ______TS("Account request already exists: instructor unregistered");
 
         a = getAction(req);
         r = getJsonResult(a);
-        output = (JoinLinkData) r.getOutput();
-        assertEquals(joinLink, output.getJoinLink());
+        output = (AccountRequestData) r.getOutput();
+        assertEquals(registrationKey, output.getRegistrationKey());
 
-        verifyNumberOfEmailsSent(1);
+        verifyNoEmailsSent();
         verifyNoTasksAdded(); // Account request not added to search indexing queue
-
-        emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
-                emailSent.getSubject());
-        assertEquals(email, emailSent.getRecipient());
-        assertTrue(emailSent.getContent().contains(joinLink));
-
-        ______TS("Account request already exists: instructor registered, InvalidOperationException thrown");
-
-        accountRequestAttributes = typicalBundle.accountRequests.get("instructor1OfCourse1");
-
-        req = buildCreateRequest(accountRequestAttributes.getName(),
-                accountRequestAttributes.getInstitute(), accountRequestAttributes.getEmail());
-
-        InvalidOperationException ioe = verifyInvalidOperation(req);
-        assertEquals("Cannot create account request as instructor has already registered.", ioe.getMessage());
 
         ______TS("Error: invalid parameter");
 

@@ -32,6 +32,10 @@ public final class Templates {
      * Collection of templates of emails to be sent by the system.
      */
     public static class EmailTemplates {
+        public static final String ADMIN_NEW_ACCOUNT_REQUEST_ALERT =
+                FileHelper.readResourceFile("adminEmailTemplate-newAccountRequestAlert.html");
+        public static final String INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT =
+                FileHelper.readResourceFile("instructorEmailTemplate-newAccountRequestAcknowledgement.html");
         public static final String USER_COURSE_JOIN =
                 FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
         public static final String USER_COURSE_REGISTER =
