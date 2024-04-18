@@ -16,6 +16,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
+  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -32,15 +33,24 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
     <b>
       owner or manager privileges
     </b>
-     for the course. Please note that recent logs may be shown as the information is updated every 
-    <b>
-      15 minutes
-    </b>
-    . The earliest date you can search for is 
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>
      before today.
+  </p><p>
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
+    <b>
+      NOT
+    </b>
+     be shown as the information is updated in 
+    <b>
+      15 minute
+    </b>
+     intervals.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -80,6 +90,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   formModel={[Function Object]}
   isLoading="false"
   isSearching={[Function Boolean]}
+  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -96,15 +107,24 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
     <b>
       owner or manager privileges
     </b>
-     for the course. Please note that recent logs may be shown as the information is updated every 
-    <b>
-      15 minutes
-    </b>
-    . The earliest date you can search for is 
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>
      before today.
+  </p><p>
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
+    <b>
+      NOT
+    </b>
+     be shown as the information is updated in 
+    <b>
+      15 minute
+    </b>
+     intervals.
   </p><hr /><div
     class="card bg-form no-border"
   >
@@ -654,6 +674,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
+  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -670,15 +691,24 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
     <b>
       owner or manager privileges
     </b>
-     for the course. Please note that recent logs may be shown as the information is updated every 
-    <b>
-      15 minutes
-    </b>
-    . The earliest date you can search for is 
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>
      before today.
+  </p><p>
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
+    <b>
+      NOT
+    </b>
+     be shown as the information is updated in 
+    <b>
+      15 minute
+    </b>
+     intervals.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -718,6 +748,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   formModel={[Function Object]}
   isLoading="false"
   isSearching="false"
+  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -734,15 +765,24 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
     <b>
       owner or manager privileges
     </b>
-     for the course. Please note that recent logs may be shown as the information is updated every 
-    <b>
-      15 minutes
-    </b>
-    . The earliest date you can search for is 
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>
      before today.
+  </p><p>
+    Please note that recent activity after 
+    <b>
+    </b>
+     may 
+    <b>
+      NOT
+    </b>
+     be shown as the information is updated in 
+    <b>
+      15 minute
+    </b>
+     intervals.
   </p><hr /><div
     class="card bg-form no-border"
   >

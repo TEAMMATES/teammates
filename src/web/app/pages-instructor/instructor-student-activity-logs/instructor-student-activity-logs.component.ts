@@ -118,6 +118,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
+  lastUpdated: string = '';
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
@@ -249,6 +250,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         .subscribe({
           next: (course: Course) => {
             this.course = course;
+            this.setLastUpdated();
           },
           error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
         });
@@ -289,15 +291,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
     const fsName = log.feedbackSessionData.feedbackSessionName;
-    const fs = this.feedbackSessions.get(fsName);
-    let publishedTime = 0;
-
-    if (fs && fs.resultVisibleFromTimestamp) {
-      publishedTime = fs.resultVisibleFromTimestamp;
-    }
-
-    const publishedDate: Date = new Date(publishedTime);
-    const notViewedSince = publishedDate.getTime();
 
     return {
       feedbackSessionName: fsName,
@@ -360,9 +353,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
                 { value: student.teamName }]);
               });
             } else {
-              const timestamp: string = this.timezoneService.formatToString(
-                notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Not ${this.logTypeToActivityDisplay(this.formModel.logType)} since ${timestamp}`;
+              status = `Not ${this.logTypeToActivityDisplay(this.formModel.logType)} within the query range`;
               dataStyle += 'color:red;';
               rows.push([
                 {
@@ -388,6 +379,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         return 'viewed the submission page';
       case 'SUBMISSION':
         return 'submitted responses';
+      case 'VIEW_RESULT':
       case 'VIEW RESULT':
         return 'viewed the session results';
       case 'ACCESS,SUBMISSION':
@@ -421,4 +413,14 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     };
   }
 
+  private setLastUpdated(): void {
+    // 15 mins buffer to allow cron job to finish adding all logs to the database
+    const CRON_JOB_BUFFER = 15;
+    const now: Date = new Date();
+    const minsPastQuarter = now.getMinutes() % 15;
+
+    const lastUpdated = now.getTime() - ((CRON_JOB_BUFFER + minsPastQuarter) * Milliseconds.IN_ONE_MINUTE);
+
+    this.lastUpdated = this.timezoneService.formatToString(lastUpdated, this.course.timeZone, 'DD MMM YYYY, hh:mm A');
+  }
 }
