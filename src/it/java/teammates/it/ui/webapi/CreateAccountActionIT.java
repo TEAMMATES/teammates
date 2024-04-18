@@ -75,7 +75,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         ______TS("Normal case with valid timezone");
         String timezone = "Asia/Singapore";
-        AccountRequest accountRequest = logic.getAccountRequest(email, institute);
+        AccountRequest accountRequest = logic.getAccountRequest(accReq.getId());
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
@@ -118,10 +118,9 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         accReq = typicalBundle.accountRequests.get("unregisteredInstructor2");
         email = accReq.getEmail();
-        institute = accReq.getInstitute();
         timezone = "InvalidTimezone";
 
-        accountRequest = logic.getAccountRequest(email, institute);
+        accountRequest = logic.getAccountRequest(accReq.getId());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),

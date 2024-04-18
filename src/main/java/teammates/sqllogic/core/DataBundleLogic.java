@@ -365,7 +365,7 @@ public final class DataBundleLogic {
             accountsLogic.deleteAccount(account.getGoogleId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
-            accountRequestsLogic.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+            accountRequestsLogic.deleteAccountRequest(accountRequest.getId());
         });
     }
 
