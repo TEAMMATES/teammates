@@ -135,7 +135,7 @@ public final class FileStore {
     /**
      * An adapter for Gson to serialize {@link Instant} type.
      */
-    private static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+    private static final class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext context) {
