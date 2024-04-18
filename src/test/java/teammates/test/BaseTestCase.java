@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -208,7 +209,8 @@ public class BaseTestCase {
     }
 
     protected AccountRequest getTypicalAccountRequest() {
-        return new AccountRequest("valid@test.com", "Test account Name", "TEAMMATES Test Institute 1");
+        return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1, Test Country",
+                AccountRequestStatus.PENDING, "");
     }
 
     /**
