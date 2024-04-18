@@ -44,7 +44,7 @@ public final class Const {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
- 
+
     public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
     public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
 
@@ -128,12 +128,10 @@ public final class Const {
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
         public static final String IS_INSTRUCTOR = "isinstructor";
 
-
         public static final String FEEDBACK_SESSION_ID = "fsid";
 
         public static final String ACCOUNT_REQUEST_ID = "id";
         public static final String ACCOUNT_REQUEST_STATUS = "status";
-
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
