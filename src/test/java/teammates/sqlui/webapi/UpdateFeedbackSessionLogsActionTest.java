@@ -107,7 +107,7 @@ public class UpdateFeedbackSessionLogsActionTest
         UpdateFeedbackSessionLogsAction action = getAction();
         action.execute();
 
-        verify(mockLogic).createFeedbackSessionLogs(argThat(filteredLogs -> filteredLogs.size() == 0));
+        verify(mockLogic).createFeedbackSessionLogs(argThat(filteredLogs -> filteredLogs.isEmpty()));
     }
 
     @Test

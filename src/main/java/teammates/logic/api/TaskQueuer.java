@@ -194,9 +194,9 @@ public class TaskQueuer {
         int oneHourInMillis = 60 * 60 * 1000;
         int emailIntervalMillis = Math.min(5000, oneHourInMillis / emails.size());
 
-        int numberOfEmailsSent = 0;
+        long numberOfEmailsSent = 0L;
         for (EmailWrapper email : emails) {
-            long emailDelayTimer = (long) numberOfEmailsSent * (long) emailIntervalMillis;
+            long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
             scheduleEmailForSending(email, emailDelayTimer);
             numberOfEmailsSent++;
         }

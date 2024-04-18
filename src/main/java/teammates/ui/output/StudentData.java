@@ -2,7 +2,7 @@ package teammates.ui.output;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.storage.sqlentity.Student;

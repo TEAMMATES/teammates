@@ -1,6 +1,6 @@
 package teammates.ui.output;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;

@@ -5,9 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
@@ -158,7 +158,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         log.request(req, status, message);
     }
 
-    private static class AuthResult {
+    private static final class AuthResult {
         private final String email;
         private final String nextUrl;
 

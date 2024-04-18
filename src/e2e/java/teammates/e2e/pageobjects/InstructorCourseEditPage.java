@@ -1,8 +1,8 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,7 +106,7 @@ public class InstructorCourseEditPage extends AppPage {
             assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
         assertEquals(instructor.getRole(), getInstructorRole(instrNum));
-        if (instructor.getRole().equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
+        if (Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(instructor.getRole())
                 && getEditInstructorButton(instrNum).isEnabled()) {
             verifyCustomPrivileges(instrNum, instructor.getPrivileges());
         }
@@ -305,7 +305,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void toggleCustomCourseLevelPrivilege(int instrNum, String privilege) {
-        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
+        if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
 
@@ -316,7 +316,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSectionLevelPrivilege(int instrNum, int panelNum, String section,
                                                 String privilege) {
-        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
+        if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
 
@@ -330,7 +330,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSessionLevelPrivilege(int instrNum, int panelNum, String section, String session,
                                                String privilege) {
-        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
+        if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
 

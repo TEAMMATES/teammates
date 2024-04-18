@@ -203,7 +203,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackResponseComment expectedComment1 = new FeedbackResponseComment(expectedResponse1, "instr1@teammates.tmt",
                 FeedbackParticipantType.INSTRUCTORS, expectedSection, expectedSection,
                 "Instructor 1 comment to student 1 self feedback", false, false,
-                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(), "instr1@teammates.tmt");
+                new ArrayList<>(), new ArrayList<>(), "instr1@teammates.tmt");
         expectedComment1.setId(actualComment1.getId());
         verifyEquals(expectedComment1, actualComment1);
     }

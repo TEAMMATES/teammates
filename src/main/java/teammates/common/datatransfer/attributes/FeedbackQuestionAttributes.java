@@ -512,7 +512,7 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
     /**
      * A Builder class for {@link FeedbackQuestionAttributes}.
      */
-    public static class Builder extends BasicBuilder<FeedbackQuestionAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<FeedbackQuestionAttributes, Builder> {
         private final FeedbackQuestionAttributes feedbackQuestionAttributes;
 
         private Builder() {
@@ -548,7 +548,7 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
     /**
      * Helper class to specific the fields to update in {@link FeedbackQuestionAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String feedbackQuestionId;
 
         private UpdateOption<FeedbackQuestionDetails> questionDetailsOption = UpdateOption.empty();
@@ -590,7 +590,7 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(String feedbackQuestionId) {
                 super(new UpdateOptions(feedbackQuestionId));

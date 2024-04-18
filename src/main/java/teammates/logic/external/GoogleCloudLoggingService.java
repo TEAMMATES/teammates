@@ -298,7 +298,7 @@ public class GoogleCloudLoggingService implements LogService {
     /**
      * Contains params to be used for the searching of logs.
      */
-    private static class LogSearchParams {
+    private static final class LogSearchParams {
         private final List<String> logName = new ArrayList<>();
         private String resourceType;
         private QueryLogsParams queryLogsParams;
