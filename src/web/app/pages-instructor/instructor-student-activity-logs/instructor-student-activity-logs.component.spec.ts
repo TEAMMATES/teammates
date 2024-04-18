@@ -145,9 +145,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      studentEmail: 'doejohn@email.com',
+      selectedStudent: { studentEmail: 'doejohn@email.com', studentId: undefined },
       logType: 'session access',
-      feedbackSessionName: '',
+      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
       showActions: false,
       showInactions: false,
     };
@@ -232,9 +232,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      studentEmail: testStudent.email,
+      selectedStudent: { studentEmail: testStudent.email, studentId: '' },
       logType: 'submission',
-      feedbackSessionName: '',
+      selectedSession: { feedbackSessionName: '', sessionId: '' },
       showActions: true,
       showInactions: false,
     };
@@ -261,6 +261,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
       studentEmail: testStudent.email,
       sessionName: '',
       logType: 'submission',
+      studentId: '',
+      sessionId: '',
     });
 
     expect(component.searchResults.length).toEqual(2);

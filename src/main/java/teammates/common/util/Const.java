@@ -45,6 +45,9 @@ public final class Const {
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
 
+    public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
+    public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
+
     public static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
@@ -125,6 +128,8 @@ public final class Const {
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
         public static final String IS_INSTRUCTOR = "isinstructor";
 
+        public static final String FEEDBACK_SESSION_ID = "fsid";
+
         public static final String ACCOUNT_REQUEST_ID = "id";
         public static final String ACCOUNT_REQUEST_STATUS = "status";
 
@@ -149,6 +154,7 @@ public final class Const {
 
         public static final String PREVIEWAS = "previewas";
 
+        public static final String STUDENT_SQL_ID = "studentid";
         public static final String STUDENT_ID = "googleid";
         public static final String INVITER_ID = "invitergoogleid";
 
@@ -410,6 +416,8 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
         public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
                 URI_PREFIX + "/calculateUsageStatistics";
+        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_PROCESSING =
+                URI_PREFIX + "/updateFeedbackSessionLogs";
     }
 
     /**
