@@ -19,6 +19,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
@@ -91,7 +92,8 @@ public final class HibernateUtil {
             FeedbackRankRecipientsResponse.class,
             FeedbackRubricResponse.class,
             FeedbackTextResponse.class,
-            FeedbackResponseComment.class);
+            FeedbackResponseComment.class,
+            FeedbackSessionLog.class);
 
     private HibernateUtil() {
         // Utility class
@@ -280,6 +282,16 @@ public final class HibernateUtil {
      */
     public static <T> void executeDelete(CriteriaDelete<T> cd) {
         HibernateUtil.getCurrentSession().createMutationQuery(cd).executeUpdate();
+    }
+
+    /**
+     * Return a reference to the persistent instance with the given class and
+     * identifier,making the assumption that the instance is still persistent in the
+     * database.
+     * @see Session#getReference(Class, Object)
+     */
+    public static <T> T getReference(Class<T> entityType, Object id) {
+        return HibernateUtil.getCurrentSession().getReference(entityType, id);
     }
 
 }
