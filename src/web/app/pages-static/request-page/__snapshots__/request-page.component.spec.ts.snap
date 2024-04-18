@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RequestPageComponent should render correctly after form is submitted 1`] = `
+<tm-request-page
+  accountRequestFormUrl="null"
+  isDeclarationDone="false"
+  sanitizer={[Function _DomSanitizerImpl]}
+  submittedFormData={[Function Object]}
+>
+  <h1
+    class="color-orange"
+  >
+     Request for an Instructor Account
+  </h1><div
+    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
+  >
+    <div>
+      <p>
+         Your request has been submitted successfully: 
+      </p>
+      <table
+        class="table table-bordered my-3"
+      >
+        <tbody>
+          <tr>
+            <th
+              class="col-3"
+              scope="row"
+            >
+              Full Name
+            </th>
+            <td>
+              Jane Smith
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              Institution
+            </th>
+            <td>
+              University of Example
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              Country
+            </th>
+            <td>
+              Example Republic
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              Email
+            </th>
+            <td>
+              js@exampleu.edu
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              Comments
+            </th>
+            <td>
+              <span
+                class="empty-field-placeholder"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+         We have sent an acknowledgement email to your email address 
+        <b>
+          js@exampleu.edu
+        </b>
+        . Please check your email inbox or spam folder. If you do not receive the acknowledgement email within 1 hour, please 
+        <a
+          tmrouterlink="/web/front/contact"
+        >
+          contact
+        </a>
+         us. 
+      </p>
+    </div>
+  </div>
+</tm-request-page>
+`;
+
+exports[`RequestPageComponent should render correctly after instructor declaration is done 1`] = `
+<tm-request-page
+  accountRequestFormUrl="null"
+  isDeclarationDone={[Function Boolean]}
+  sanitizer={[Function _DomSanitizerImpl]}
+  submittedFormData="null"
+>
+  <h1
+    class="color-orange"
+  >
+     Request for an Instructor Account
+  </h1><div
+    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
+  >
+    <div>
+      <p>
+         Request for an instructor account using this form if you are an instructor and want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students. 
+      </p>
+      <hr />
+      <div>
+        <tm-instructor-request-form />
+      </div>
+      <hr />
+    </div>
+  </div>
+</tm-request-page>
+`;
+
+exports[`RequestPageComponent should render correctly before instructor declaration is done 1`] = `
+<tm-request-page
+  accountRequestFormUrl="null"
+  isDeclarationDone="false"
+  sanitizer={[Function _DomSanitizerImpl]}
+  submittedFormData="null"
+>
+  <h1
+    class="color-orange"
+  >
+     Request for an Instructor Account
+  </h1><div
+    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
+  >
+    <div>
+      <p>
+         Request for an instructor account using this form if you are an instructor and want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students. 
+      </p>
+      <hr />
+      <div>
+        <p>
+           Note: 
+          <b>
+            Students should not use this form to request for TEAMMATES accounts
+          </b>
+          , as students do not need accounts to use TEAMMATES. Instead, TEAMMATES will email students (who have been added to TEAMMATES by a course instructor) an access link when there is a TEAMMATES session available for them to access. 
+        </p>
+        <a
+          class="btn btn-secondary"
+          tmrouterlink="/web/front/home"
+          type="button"
+        >
+          Back to home page
+        </a>
+        <button
+          class="btn btn-primary ms-3"
+          id="btn-am-instructor"
+          type="button"
+        >
+          I am an instructor
+        </button>
+      </div>
+      <hr />
+    </div>
+  </div>
+</tm-request-page>
+`;
