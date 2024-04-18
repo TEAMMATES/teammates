@@ -2,7 +2,7 @@ package teammates.ui.request;
 
 import java.util.Objects;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.util.SanitizationHelper;
 

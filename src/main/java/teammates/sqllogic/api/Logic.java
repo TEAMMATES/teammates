@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;

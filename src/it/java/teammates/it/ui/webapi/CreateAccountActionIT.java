@@ -4,6 +4,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 
+import jakarta.transaction.Transactional;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -22,8 +24,6 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
-
-import jakarta.transaction.Transactional;
 
 /**
  * SUT: {@link CreateAccountAction}.
