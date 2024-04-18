@@ -294,9 +294,12 @@ describe('AccountRequestTableComponent', () => {
         component.accountRequests = accountRequestResults;
         fixture.detectChanges();
 
-        const modalSpy = jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-          return createMockNgbModalRef({});
-        });
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+        };
+
+        const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
         const editButton: any = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
         editButton.click();
@@ -381,9 +384,12 @@ describe('AccountRequestTableComponent', () => {
         component.accountRequests = accountRequestResults;
         fixture.detectChanges();
 
-        jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-          return createMockNgbModalRef({});
-        });
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+        };
+
+        jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
         jest.spyOn(accountService, 'editAccountRequest').mockReturnValue(throwError(() => ({
           error: {
@@ -410,9 +416,12 @@ describe('AccountRequestTableComponent', () => {
         component.accountRequests = accountRequestResults;
         fixture.detectChanges();
 
-        const modalSpy = jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-          return createMockNgbModalRef({});
-        });
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+        };
+
+        const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
         const editedAccountRequest : AccountRequest = {
           id: 'id',
