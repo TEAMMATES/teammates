@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminSearchPageComponent } from './admin-search-page.component';
+import {
+  AccountRequestTableModule,
+} from '../../components/account-requests-table/account-request-table.module';
 import { Pipes } from '../../pipes/pipes.module';
 
 const routes: Routes = [
@@ -27,6 +30,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     NgbTooltipModule,
+    AccountRequestTableModule,
     RouterModule.forChild(routes),
     Pipes,
   ],

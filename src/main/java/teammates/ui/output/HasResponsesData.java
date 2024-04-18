@@ -3,7 +3,7 @@ package teammates.ui.output;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * The API output format to represent if there are responses.

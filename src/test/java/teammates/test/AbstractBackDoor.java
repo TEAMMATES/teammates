@@ -838,10 +838,9 @@ public abstract class AbstractBackDoor {
     /**
      * Gets an account request from the database.
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+    public AccountRequestAttributes getAccountRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -858,10 +857,9 @@ public abstract class AbstractBackDoor {
     /**
      * Gets registration key of an account request from the database.
      */
-    public String getRegKeyForAccountRequest(String email, String institute) {
+    public String getRegKeyForAccountRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -874,10 +872,9 @@ public abstract class AbstractBackDoor {
     /**
      * Deletes an account request from the database.
      */
-    public void deleteAccountRequest(String email, String institute) {
+    public void deleteAccountRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
         executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
     }
 

@@ -88,6 +88,16 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets a feedback session reference.
+     *
+     * @return Returns a proxy for the feedback session.
+     */
+    public FeedbackSession getFeedbackSessionReference(UUID id) {
+        assert id != null;
+        return fsDb.getFeedbackSessionReference(id);
+    }
+
+    /**
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
