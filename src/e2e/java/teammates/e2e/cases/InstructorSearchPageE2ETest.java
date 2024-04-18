@@ -25,7 +25,8 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         if (!TestProperties.INCLUDE_SEARCH_TESTS) {
             return;
         }
-
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorSearchPageE2ETest_SqlEntities.json"));
         testData = loadDataBundle("/InstructorSearchPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
@@ -38,7 +39,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
             return;
         }
 
-        String instructorId = testData.accounts.get("instructor1OfCourse1").getGoogleId();
+        String instructorId = sqlTestData.accounts.get("instructor1OfCourse1").getGoogleId();
         AppUrl searchPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE);
 
         InstructorSearchPage searchPage = loginToPage(searchPageUrl, InstructorSearchPage.class, instructorId);

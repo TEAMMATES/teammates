@@ -157,7 +157,7 @@ public final class FeedbackQuestionsLogic {
 
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.STUDENTS));
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.SELF));
-
+        questions.sort(null);
         return questions;
     }
 
@@ -340,7 +340,7 @@ public final class FeedbackQuestionsLogic {
             }
 
             for (Student student : studentList) {
-                optionList.add(student.getName() + " (" + student.getTeam() + ")");
+                optionList.add(student.getName() + " (" + student.getTeam().getName() + ")");
             }
 
             optionList.sort(null);

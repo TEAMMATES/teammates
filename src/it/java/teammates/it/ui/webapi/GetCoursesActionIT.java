@@ -122,6 +122,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         loginAsStudent(student.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
+        courses.getCourses().sort((c1, c2) -> c1.getCourseId().compareTo(c2.getCourseId()));
         assertEquals(3, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
