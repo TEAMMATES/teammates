@@ -646,7 +646,7 @@ public abstract class AbstractBackDoor {
     /**
      * Get soft deleted feedback session from database.
      */
-    public FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName, String instructorId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
         params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
@@ -657,12 +657,18 @@ public abstract class AbstractBackDoor {
         }
 
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
-        FeedbackSessionData feedbackSession = sessionsData.getFeedbackSessions()
+        return sessionsData.getFeedbackSessions()
                 .stream()
                 .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
                 .findFirst()
                 .orElse(null);
+    }
 
+    /**
+     * Get soft deleted feedback session from database.
+     */
+    public FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        FeedbackSessionData feedbackSession = getSoftDeletedSessionData(feedbackSessionName, instructorId);
         if (feedbackSession == null) {
             return null;
         }
@@ -832,10 +838,9 @@ public abstract class AbstractBackDoor {
     /**
      * Gets an account request from the database.
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+    public AccountRequestAttributes getAccountRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -852,10 +857,9 @@ public abstract class AbstractBackDoor {
     /**
      * Gets registration key of an account request from the database.
      */
-    public String getRegKeyForAccountRequest(String email, String institute) {
+    public String getRegKeyForAccountRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -868,10 +872,9 @@ public abstract class AbstractBackDoor {
     /**
      * Deletes an account request from the database.
      */
-    public void deleteAccountRequest(String email, String institute) {
+    public void deleteAccountRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
         executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
     }
 

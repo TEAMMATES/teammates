@@ -1,0 +1,26 @@
+<div class="modal-header bg-warning">
+    <h5 class="modal-title">
+      <div>Reject Account Request for {{ accountRequestName }} With Reason</div>
+    </h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div id="reject-account-request-modal" class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <div>
+        <label><b>Rejection Message Title:</b></label>
+      </div>
+      <div class="form-group">
+        <input id="rejection-reason-title" type="text" class="form-control" rows="5" value="{{ rejectionReasonTitle }}" (input)="rejectionReasonTitle = $event.target.value">
+      </div>
+      <div>
+        <label><b>Rejection Message Body:</b></label>
+      </div>
+      <tm-rich-text-editor id="rejection-reason-body" [richText]="rejectionReasonBody" (richTextChange)="onRejectionReasonBodyChange($event)"></tm-rich-text-editor>
+</div>
+<div class="modal-footer">
+  <button id="btn-cancel-reject-request" type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+  <button id="btn-confirm-reject-request" type="button" class="btn btn-warning" (click)="reject()">
+      Reject
+  </button>
+</div>

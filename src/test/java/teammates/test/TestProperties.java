@@ -11,6 +11,7 @@ import teammates.common.util.StringHelper;
 /**
  * Settings for component tests.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public final class TestProperties {
 
     /** The directory where HTML files for testing email contents are stored. */

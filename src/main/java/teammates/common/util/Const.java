@@ -45,6 +45,11 @@ public final class Const {
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
 
+    public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
+    public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
+
+    public static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
+
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
     public static final int INT_UNINITIALIZED = -9999;
@@ -123,6 +128,11 @@ public final class Const {
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
         public static final String IS_INSTRUCTOR = "isinstructor";
 
+        public static final String FEEDBACK_SESSION_ID = "fsid";
+
+        public static final String ACCOUNT_REQUEST_ID = "id";
+        public static final String ACCOUNT_REQUEST_STATUS = "status";
+
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -144,6 +154,7 @@ public final class Const {
 
         public static final String PREVIEWAS = "previewas";
 
+        public static final String STUDENT_SQL_ID = "studentid";
         public static final String STUDENT_ID = "googleid";
         public static final String INVITER_ID = "invitergoogleid";
 
@@ -313,6 +324,8 @@ public final class Const {
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
+
+        public static final String ACCOUNT_REQUEST_PAGE = FRONT_PAGE + "/request";
     }
 
     /**
@@ -332,7 +345,9 @@ public final class Const {
         public static final String ACCOUNT = URI_PREFIX + "/account";
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
+        public static final String ACCOUNT_REQUESTS = URI_PREFIX + "/account/requests";
         public static final String ACCOUNT_REQUEST_RESET = ACCOUNT_REQUEST + "/reset";
+        public static final String ACCOUNT_REQUEST_REJECTION = ACCOUNT_REQUEST + "/rejection";
         public static final String ACCOUNTS = URI_PREFIX + "/accounts";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
@@ -401,6 +416,8 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
         public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
                 URI_PREFIX + "/calculateUsageStatistics";
+        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_PROCESSING =
+                URI_PREFIX + "/updateFeedbackSessionLogs";
     }
 
     /**

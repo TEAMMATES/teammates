@@ -132,7 +132,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.clickResetAccountRequestButton(accountRequest);
-        assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()).getRegisteredAt());
+        assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()).getRegisteredAt());
 
         ______TS("Typical case: Delete account request successful");
         accountRequest = sqlTestData.accountRequests.get("unregisteredInstructor1");
@@ -141,7 +141,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.clickDeleteAccountRequestButton(accountRequest);
-        assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
+        assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()));
     }
 
     private String getExpectedStudentDetails(StudentAttributes student) {
@@ -193,7 +193,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     @AfterClass
     public void classTeardown() {
         for (AccountRequest request : sqlTestData.accountRequests.values()) {
-            BACKDOOR.deleteAccountRequest(request.getEmail(), request.getInstitute());
+            BACKDOOR.deleteAccountRequest(request.getId());
         }
     }
 

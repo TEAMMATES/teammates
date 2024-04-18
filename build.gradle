@@ -8,10 +8,10 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 apply plugin: "org.liquibase.gradle"
 
-def checkstyleVersion = "10.3.2"
-def pmdVersion = "6.48.0"
-def spotbugsVersion = "4.7.1"
-def jacocoVersion = "0.8.8"
+def checkstyleVersion = "10.15.0"
+def pmdVersion = "7.0.0"
+def spotbugsVersion = "4.8.4"
+def jacocoVersion = "0.8.12"
 
 buildscript {
     repositories {
@@ -21,13 +21,13 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.4.4"
-        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.9"
-        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.36.1070") {
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.8.0"
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.12"
+        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:3.2.1263") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:31.1-jre"
-        classpath "org.liquibase:liquibase-gradle-plugin:2.1.1"
+        classpath "com.google.guava:guava:33.1.0-jre"
+        classpath "org.liquibase:liquibase-gradle-plugin:2.2.1"
     }
 }
 
@@ -37,12 +37,19 @@ configurations {
     liquibaseRuntime.extendsFrom testImplementation
 }
 
+// See https://github.com/checkstyle/checkstyle/issues/14211#issuecomment-1884129948
+configurations.all {
+    resolutionStrategy.capabilitiesResolution.withCapability("com.google.collections:google-collections") {
+        select("com.google.guava:guava:0")
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
 def objectify = "com.googlecode.objectify:objectify:6.0.7"
-def testng = "org.testng:testng:7.6.1"
+def testng = "org.testng:testng:7.10.1"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -52,58 +59,56 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.8.1")
-    implementation(platform("com.google.cloud:google-cloud-bom:0.176.0"))
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
+    implementation(platform("com.google.cloud:google-cloud-bom:0.218.0"))
     implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
-    implementation("com.google.code.gson:gson:2.9.0")
-    implementation("com.google.firebase:firebase-admin:9.1.1")
-    implementation("com.google.guava:guava:31.1-jre")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.firebase:firebase-admin:9.2.0")
+    implementation("com.google.guava:guava:33.1.0-jre")
     implementation(objectify)
-    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20220608.1")
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20240325.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
-    implementation("com.mailjet:mailjet-client:5.2.0")
-    implementation("com.sendgrid:sendgrid-java:4.9.3")
+    implementation("com.mailjet:mailjet-client:5.2.5")
+    implementation("com.sendgrid:sendgrid-java:4.10.2")
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
-    implementation("org.apache.solr:solr-solrj:8.11.1")
-    implementation(platform("org.eclipse.jetty:jetty-bom:10.0.13"))
+    implementation("org.apache.solr:solr-solrj:8.11.3")
+    implementation(platform("org.eclipse.jetty:jetty-bom:11.0.20"))
     implementation("org.eclipse.jetty:jetty-slf4j-impl")
     implementation("org.eclipse.jetty:jetty-server")
     implementation("org.eclipse.jetty:jetty-webapp")
     implementation("org.eclipse.jetty:jetty-annotations")
-    implementation("org.jsoup:jsoup:1.15.2")
-    implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
-    implementation("org.postgresql:postgresql:42.7.2")
-    implementation("org.hibernate:hibernate-hikaricp:6.1.6.Final")
+    implementation("org.jsoup:jsoup:1.17.2")
+    implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
+    implementation("org.postgresql:postgresql:42.7.3")
+    implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
 
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.3.0")
-    testImplementation("com.deque.html.axe-core:selenium:4.6.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.19.1")
+    testImplementation("com.deque.html.axe-core:selenium:4.9.0")
     testImplementation(testng)
-    testImplementation("org.testcontainers:postgresql:1.17.6")
-    testImplementation("org.liquibase:liquibase-core:4.19.0")
-    testImplementation("org.mockito:mockito-core:5.1.1")
+    testImplementation("org.testcontainers:postgresql:1.19.7")
+    testImplementation("org.liquibase:liquibase-core:4.27.0")
+    testImplementation("org.mockito:mockito-core:5.11.0")
     // For supporting authorization code flow locally
-    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
+    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.35.0")
     // For using Gmail API
-    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20220404-1.32.1")
+    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20231218-2.0.0")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.5") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.2") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.5") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.2") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
-    liquibaseRuntime("org.liquibase:liquibase-core:4.19.0")
-    liquibaseRuntime("info.picocli:picocli:4.7.1")
-    liquibaseRuntime("org.postgresql:postgresql:42.7.2")
+    liquibaseRuntime("info.picocli:picocli:4.7.5")
     liquibaseRuntime(sourceSets.main.output)
 }
 
@@ -173,7 +178,7 @@ liquibase {
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     jsonLibrary = "jackson2"
     optionalAnnotations = [
-        "javax.annotation.Nullable"
+        "jakarta.annotation.Nullable"
     ]
     outputFileType = "implementationFile"
     outputKind = "module"
@@ -414,16 +419,16 @@ pmd {
 }
 
 spotbugs {
-    reportLevel = "low"
+    reportLevel = com.github.spotbugs.snom.Confidence.valueOf("LOW")
     toolVersion = spotbugsVersion
     includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
 }
 
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     reports {
-        xml.enabled = false
-        html.enabled = false
-        text.enabled = true
+        xml.required = false
+        html.required = false
+        text.required = true
     }
 }
 
@@ -634,6 +639,8 @@ task e2eTests {
         afterTest afterTestClosure
         if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
+        } else {
+            mustRunAfter "e2eTestTry${id - 1}"
         }
         onlyIf {
             isFirstTry || file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml").exists()
@@ -671,6 +678,8 @@ task e2eTestsSql {
         afterTest afterTestClosure
         if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
+        } else {
+            mustRunAfter "e2eSqlTestTry${id - 1}"
         }
         onlyIf {
             isFirstTry || file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml").exists()
@@ -703,6 +712,8 @@ task axeTests {
         afterTest afterTestClosure
         if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
+        } else {
+            mustRunAfter "axeTestTry${id - 1}"
         }
         onlyIf {
             isFirstTry || file("${buildDir}/reports/axe-test-try-${id - 1}/testng-failed.xml").exists()
