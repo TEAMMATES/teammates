@@ -396,6 +396,13 @@ public abstract class AppPage {
     }
 
     /**
+     * Clear existing text in the editor.
+     */
+    protected void clearRichTextEditor(WebElement editor) {
+        writeToRichTextEditor(editor, "");
+    }
+
+    /**
      * Select the option, if it is not already selected.
      * No action taken if it is already selected.
      */
