@@ -315,9 +315,12 @@ describe('AccountRequestTableComponent', () => {
         component.accountRequests = accountRequestResults;
         fixture.detectChanges();
 
-        const modalSpy = jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-          return createMockNgbModalRef({});
-        });
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+        };
+
+        const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
         const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
         rejectButton.click();
