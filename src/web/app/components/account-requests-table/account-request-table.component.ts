@@ -87,7 +87,7 @@ export class AccountRequestTableComponent {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-    });
+    }, () => {});
   }
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel): void {

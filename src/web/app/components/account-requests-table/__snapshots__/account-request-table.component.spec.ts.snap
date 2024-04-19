@@ -85,7 +85,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
               >
                 <div>
                   <a
-                    href="javascript:;"
                     id="edit-account-request-0"
                   >
                     <i
@@ -98,7 +97,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   placement="top"
                 >
                   <a
-                    href="javascript:;"
                     id="delete-account-request-0"
                   >
                     <i
@@ -108,7 +106,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 </div>
                 <div>
                   <a
-                    href="javascript:;"
                     id="view-account-request-0"
                   >
                     <i
@@ -190,7 +187,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
               >
                 <div>
                   <a
-                    href="javascript:;"
                     id="edit-account-request-1"
                   >
                     <i
@@ -203,7 +199,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   placement="top"
                 >
                   <a
-                    href="javascript:;"
                     id="delete-account-request-1"
                   >
                     <i
@@ -213,7 +208,6 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 </div>
                 <div>
                   <a
-                    href="javascript:;"
                     id="view-account-request-1"
                   >
                     <i
@@ -383,7 +377,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
               >
                 <div>
                   <a
-                    href="javascript:;"
                     id="edit-account-request-0"
                   >
                     <i
@@ -396,7 +389,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   placement="top"
                 >
                   <a
-                    href="javascript:;"
                     id="delete-account-request-0"
                   >
                     <i
@@ -406,7 +398,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <div>
                   <a
-                    href="javascript:;"
                     id="view-account-request-0"
                   >
                     <i
@@ -507,7 +498,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
               >
                 <div>
                   <a
-                    href="javascript:;"
                     id="edit-account-request-1"
                   >
                     <i
@@ -520,7 +510,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   placement="top"
                 >
                   <a
-                    href="javascript:;"
                     id="delete-account-request-1"
                   >
                     <i
@@ -530,7 +519,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <div>
                   <a
-                    href="javascript:;"
                     id="view-account-request-1"
                   >
                     <i
@@ -685,7 +673,6 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               >
                 <div>
                   <a
-                    href="javascript:;"
                     id="edit-account-request-0"
                   >
                     <i
@@ -698,7 +685,6 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                   placement="top"
                 >
                   <a
-                    href="javascript:;"
                     id="delete-account-request-0"
                   >
                     <i
@@ -708,7 +694,6 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                 </div>
                 <div>
                   <a
-                    href="javascript:;"
                     id="view-account-request-0"
                   >
                     <i
