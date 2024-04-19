@@ -676,15 +676,15 @@ public class Logic {
     }
 
     /**
-     * Soft-deletes a specific  session to Recycle Bin.
+     * Soft-deletes a specific session to Recycle Bin.
      */
-    public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
