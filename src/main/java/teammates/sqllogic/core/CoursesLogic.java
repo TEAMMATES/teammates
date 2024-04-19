@@ -7,10 +7,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const.InstructorPermissionRoleNames;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.CoursesDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -58,6 +63,41 @@ public final class CoursesLogic {
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesDb.createCourse(course);
+    }
+
+
+    /**
+     * Creates a course and instructor.
+     *
+     * @return the created course
+     * @throws InvalidParametersException   if the course or instructor is not valid
+     * @throws EntityAlreadyExistsException if the course or instructor already exists in the
+     *                                      database.
+     */
+    public Course createCourseAndInstructorWithTransaction(Account instructorAccount, Course courseToCreate)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+
+        HibernateUtil.beginTransaction();
+
+        Course createdCourse;
+        try {
+            createdCourse = createCourse(courseToCreate);
+
+            InstructorPrivileges privileges = new InstructorPrivileges(
+                InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            Instructor instructor = new Instructor(createdCourse, instructorAccount.getName(), instructorAccount.getEmail(),
+                    true, instructorAccount.getName(), InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                    privileges);
+            instructor.setAccount(instructorAccount);
+            usersLogic.createInstructor(instructor);
+        } catch (EntityAlreadyExistsException | InvalidParametersException e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
+        }
+
+        HibernateUtil.commitTransaction();
+
+        return createdCourse;
     }
 
     /**

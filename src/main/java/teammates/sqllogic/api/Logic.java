@@ -220,6 +220,13 @@ public class Logic {
     }
 
     /**
+     * Gets an account by googleId.
+     */
+    public Account getAccountForGoogleIdWithTransaction(String googleId) {
+        return accountsLogic.getAccountForGoogleIdWithTransaction(googleId);
+    }
+
+    /**
      * Get a list of accounts associated with email provided.
      */
     public List<Account> getAccountsForEmail(String email) {
@@ -362,6 +369,20 @@ public class Logic {
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesLogic.createCourse(course);
     }
+
+    /**
+     * Creates a course and instructor.
+     * @param instructorAccount the account of the instructor creating the course.
+     * @param course the course to create.
+     * @return the created course.
+     * @throws InvalidParametersException if the course or instructor is not valid.
+     * @throws EntityAlreadyExistsException if the course or instructor already exists.
+     */
+    public Course createCourseAndInstructorWithTransaction(Account instructorAccount, Course course)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return coursesLogic.createCourseAndInstructorWithTransaction(instructorAccount, course);
+    }
+
 
     /**
      * Deletes a course by course id.
@@ -875,6 +896,13 @@ public class Logic {
     }
 
     /**
+     * Gets an instructor by associated {@code googleId}.
+     */
+    public Instructor getInstructorByGoogleIdWithTransaction(String courseId, String googleId) {
+        return usersLogic.getInstructorByGoogleIdWithTransaction(courseId, googleId);
+    }
+
+    /**
      * Gets list of instructors by {@code googleId}.
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
@@ -996,6 +1024,13 @@ public class Logic {
      */
     public boolean canInstructorCreateCourse(String googleId, String institute) {
         return usersLogic.canInstructorCreateCourse(googleId, institute);
+    }
+
+    /**
+     * Checks if an instructor with {@code googleId} can create a course with {@code institute}.
+     */
+    public boolean canInstructorCreateCourseWithTransaction(String googleId, String institute) {
+        return usersLogic.canInstructorCreateCourseWithTransaction(googleId, institute);
     }
 
     /**

@@ -20,6 +20,7 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -27,6 +28,7 @@ import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.CourseData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
@@ -240,6 +242,15 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
             e.printStackTrace();
             return null;
         }
+    }
+
+    CourseData getCourse(String courseId) {
+        return BACKDOOR.getCourseData(courseId);
+    }
+
+    @Override
+    protected CourseData getCourse(Course course) {
+        return getCourse(course.getId());
     }
 
     FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {

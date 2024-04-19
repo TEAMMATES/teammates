@@ -22,6 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
@@ -274,6 +275,17 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getInstructorByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Gets an instructor by associated {@code googleId}.
+     */
+    public Instructor getInstructorByGoogleIdWithTransaction(String courseId, String googleId) {
+        HibernateUtil.beginTransaction();
+        Instructor instructor = getInstructorByGoogleId(courseId, googleId);
+        HibernateUtil.commitTransaction();
+
+        return instructor;
     }
 
     /**
@@ -987,6 +999,18 @@ public final class UsersLogic {
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> instructor.getCourse())
                 .anyMatch(course -> institute.equals(course.getInstitute()));
+    }
+
+    /**
+     * Checks if an instructor with {@code googleId} can create a course with
+     * {@code institute}
+     * (ie. has an existing course(s) with the same {@code institute}).
+     */
+    public boolean canInstructorCreateCourseWithTransaction(String googleId, String institute) {
+        HibernateUtil.beginTransaction();
+        boolean canInstructorCreateCourse = canInstructorCreateCourse(googleId, institute);
+        HibernateUtil.commitTransaction();
+        return canInstructorCreateCourse;
     }
 
     /**

@@ -70,6 +70,16 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets an account by googleId.
+     */
+    public Account getAccountForGoogleIdWithTransaction(String googleId) {
+        HibernateUtil.beginTransaction();
+        Account account = getAccountForGoogleId(googleId);
+        HibernateUtil.commitTransaction();
+        return account;
+    }
+
+    /**
      * Gets accounts associated with email.
      */
     public List<Account> getAccountsForEmail(String email) {
