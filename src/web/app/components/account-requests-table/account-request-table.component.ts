@@ -4,6 +4,9 @@ import { AccountRequestTableRowModel } from './account-request-table-model';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
+  RejectWithReasonModalComponentResult,
+} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
+import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
@@ -84,7 +87,7 @@ export class AccountRequestTableComponent {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-    });
+    }, () => {});
   }
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel): void {
@@ -173,9 +176,9 @@ export class AccountRequestTableComponent {
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
 
-    modalRef.result.then(() => {
+    modalRef.result.then((res: RejectWithReasonModalComponentResult) => {
       this.accountService.rejectAccountRequest(accountRequest.id,
-        modalRef.componentInstance.rejectionReasonTitle, modalRef.componentInstance.rejectionReasonBody)
+        res.rejectionReasonTitle, res.rejectionReasonBody)
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.status = resp.status;
