@@ -121,7 +121,7 @@ public final class FeedbackSessionsLogic {
      * @return null if not found.
      */
     public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        return fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
+        return fsDb.getSoftDeletedFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
@@ -291,9 +291,9 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Soft-deletes a specific feedback session to Recycle Bin.
-     * @return the time when the feedback session is moved to the recycle bin
+     * @return the feedback session
      */
-    public Instant moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
 
         return fsDb.softDeleteFeedbackSession(feedbackSessionName, courseId);
