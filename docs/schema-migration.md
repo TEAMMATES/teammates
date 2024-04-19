@@ -31,4 +31,5 @@ Here is a brief description of the activities defined for Liquibase
 5. Generate snapshot of database by running `./gradlew liquibaseSnapshot -PrunList=snapshot`, the snapshot will be output to `liquibase-snapshot.json`
 6. Checkout your branch and repeat steps 2 and 4 to generate the tables found on your branch
 7. Run `./gradlew liquibaseDiffChangeLog -PrunList=diffMain` to generate changeLog to resolve database schema differences
-
+8. Manually add a changeSet to tag the database using `release_number` (See the last changeset in v9.0.0 for reference).
+9. Include the new changelog file in `changelog-root.xml`.
