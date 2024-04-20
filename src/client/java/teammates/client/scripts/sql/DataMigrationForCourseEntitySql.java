@@ -382,12 +382,12 @@ public class DataMigrationForCourseEntitySql extends
             Section giverSection, Section recipientSection) {
         teammates.storage.sqlentity.FeedbackResponse newResponse =
                 teammates.storage.sqlentity.FeedbackResponse.makeResponse(
-                newQuestion,
-                oldResponse.getGiverEmail(),
-                giverSection,
-                oldResponse.getRecipientEmail(),
-                recipientSection,
-                getFeedbackResponseDetails(oldResponse));
+                        newQuestion,
+                        oldResponse.getGiverEmail(),
+                        giverSection,
+                        oldResponse.getRecipientEmail(),
+                        recipientSection,
+                        getFeedbackResponseDetails(oldResponse));
 
         newResponse.setCreatedAt(oldResponse.getCreatedAt());
         newResponse.setUpdatedAt(oldResponse.getUpdatedAt());
