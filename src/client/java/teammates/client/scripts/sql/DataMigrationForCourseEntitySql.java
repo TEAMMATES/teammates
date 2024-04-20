@@ -322,8 +322,8 @@ public class DataMigrationForCourseEntitySql extends
     private teammates.storage.sqlentity.FeedbackQuestion createFeedbackQuestion(
             teammates.storage.sqlentity.FeedbackSession newSession, FeedbackQuestion oldQuestion) {
 
-        teammates.storage.sqlentity.FeedbackQuestion newFeedbackQuestion = teammates.storage.sqlentity.FeedbackQuestion
-                .makeQuestion(
+        teammates.storage.sqlentity.FeedbackQuestion newFeedbackQuestion =
+                teammates.storage.sqlentity.FeedbackQuestion.makeQuestion(
                         newSession,
                         oldQuestion.getQuestionNumber(),
                         oldQuestion.getQuestionDescription(),
@@ -380,14 +380,14 @@ public class DataMigrationForCourseEntitySql extends
     private teammates.storage.sqlentity.FeedbackResponse createFeedbackResponse(
             teammates.storage.sqlentity.FeedbackQuestion newQuestion, FeedbackResponse oldResponse,
             Section giverSection, Section recipientSection) {
-        teammates.storage.sqlentity.FeedbackResponse newResponse = teammates.storage.sqlentity.FeedbackResponse
-                .makeResponse(
-                        newQuestion,
-                        oldResponse.getGiverEmail(),
-                        giverSection,
-                        oldResponse.getRecipientEmail(),
-                        recipientSection,
-                        getFeedbackResponseDetails(oldResponse));
+        teammates.storage.sqlentity.FeedbackResponse newResponse =
+                teammates.storage.sqlentity.FeedbackResponse.makeResponse(
+                newQuestion,
+                oldResponse.getGiverEmail(),
+                giverSection,
+                oldResponse.getRecipientEmail(),
+                recipientSection,
+                getFeedbackResponseDetails(oldResponse));
 
         newResponse.setCreatedAt(oldResponse.getCreatedAt());
         newResponse.setUpdatedAt(oldResponse.getUpdatedAt());
@@ -436,17 +436,17 @@ public class DataMigrationForCourseEntitySql extends
             Section giverSection, Section recipientSection) {
         teammates.storage.sqlentity.FeedbackResponseComment newComment =
                 new teammates.storage.sqlentity.FeedbackResponseComment(
-                    newResponse,
-                    oldComment.getGiverEmail(),
-                    oldComment.getCommentGiverType(),
-                    giverSection,
-                    recipientSection,
-                    oldComment.getCommentText(),
-                    oldComment.getIsVisibilityFollowingFeedbackQuestion(),
-                    oldComment.getIsCommentFromFeedbackParticipant(),
-                    oldComment.getShowCommentTo(),
-                    oldComment.getShowGiverNameTo(),
-                    oldComment.getLastEditorEmail());
+                        newResponse,
+                        oldComment.getGiverEmail(),
+                        oldComment.getCommentGiverType(),
+                        giverSection,
+                        recipientSection,
+                        oldComment.getCommentText(),
+                        oldComment.getIsVisibilityFollowingFeedbackQuestion(),
+                        oldComment.getIsCommentFromFeedbackParticipant(),
+                        oldComment.getShowCommentTo(),
+                        oldComment.getShowGiverNameTo(),
+                        oldComment.getLastEditorEmail());
 
         newComment.setCreatedAt(oldComment.getCreatedAt());
         newComment.setUpdatedAt(oldComment.getLastEditedAt());
@@ -504,6 +504,7 @@ public class DataMigrationForCourseEntitySql extends
         for (DeadlineExtension oldDeadlineExtension : oldDeadlineExtensions) {
             User newUser = userEmailToUserMap.get(oldDeadlineExtension.getUserEmail());
             if (newUser == null) {
+                // #TODO Log error
                 continue;
             }
             migrateDeadlineExtension(oldDeadlineExtension,

@@ -47,7 +47,7 @@ public class VerifyCourseEntityAttributes
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         try {
             return verifyCourse(sqlEntity, datastoreEntity) && verifySectionChain(sqlEntity)
-                    && verifyInstructors(sqlEntity) && verifyDataExtensions(sqlEntity);
+                    && verifyInstructors(sqlEntity) && verifyDeadlineExtensions(sqlEntity);
         } catch (IllegalArgumentException iae) {
             return false;
         }
@@ -164,6 +164,11 @@ public class VerifyCourseEntityAttributes
         List<teammates.storage.sqlentity.Instructor> newInstructors = getNewInstructors(newCourse.getId());
         List<Instructor> oldInstructors = ofy().load().type(Instructor.class).filter("courseId", newCourse.getId())
                 .list();
+
+        if (oldInstructors.size() != newInstructors.size()) {
+            return false;
+        }
+
         newInstructors.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
         oldInstructors.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
         for (int i = 0; i < oldInstructors.size(); i++) {
@@ -199,13 +204,19 @@ public class VerifyCourseEntityAttributes
 
     }
 
-    // Verify DataExtension ----------------------------
-    private boolean verifyDataExtensions(teammates.storage.sqlentity.Course newCourse) {
+    // Verify DeadlineExtensions ----------------------------
+    private boolean verifyDeadlineExtensions(teammates.storage.sqlentity.Course newCourse) {
         List<teammates.storage.sqlentity.DeadlineExtension> newDeadlineExt = getNewDeadlineExt(newCourse.getId());
         List<DeadlineExtension> oldDeadlineExt = ofy().load()
                 .type(DeadlineExtension.class).filter("courseId", newCourse.getId()).list();
+
+        if (oldDeadlineExt.size() != newDeadlineExt.size()) {
+            return false;
+        }
+
         newDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
         oldDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
+
         for (int i = 0; i < oldDeadlineExt.size(); i++) {
             DeadlineExtension oldDeadline = oldDeadlineExt.get(i);
             teammates.storage.sqlentity.DeadlineExtension newDeadline = newDeadlineExt.get(i);
