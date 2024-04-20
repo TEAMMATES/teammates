@@ -49,14 +49,14 @@ public class InstructorCourseStudentDetailsEditPageSql extends AppPage {
     }
 
     public void verifyStudentDetails(Student student) {
-        assertEquals(student.getCourse(), courseId.getText());
+        assertEquals(student.getCourse().getId(), courseId.getText());
         assertEquals(student.getName(), studentNameTextbox.getAttribute("value"));
         if (student.getSection() == null) {
             assertEquals("None", sectionNameTextbox.getAttribute("value"));
         } else {
-            assertEquals(student.getSection(), sectionNameTextbox.getAttribute("value"));
+            assertEquals(student.getSection().getName(), sectionNameTextbox.getAttribute("value"));
         }
-        assertEquals(student.getTeam(), teamNameTextbox.getAttribute("value"));
+        assertEquals(student.getTeam().getName(), teamNameTextbox.getAttribute("value"));
         assertEquals(student.getEmail(), studentEmailTextbox.getAttribute("value"));
         if (student.getComments() != null) {
             assertEquals(student.getComments(), commentsTextbox.getAttribute("value"));
