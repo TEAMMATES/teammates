@@ -70,11 +70,13 @@ export class AccountRequestTableComponent {
     modalRef.result.then((res: EditRequestModalComponentResult) => {
       this.accountService.editAccountRequest(
         accountRequest.id,
-        res.accountRequestName,
-        res.accountRequestEmail,
-        res.accountRequestInstitution,
-        accountRequest.status,
-        res.accountRequestComment)
+          {
+            name: res.accountRequestName,
+            email: res.accountRequestEmail,
+            institute: res.accountRequestInstitution,
+            status: accountRequest.status,
+            comment: res.accountRequestComment
+          })
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.comments = resp.comments ?? '';
