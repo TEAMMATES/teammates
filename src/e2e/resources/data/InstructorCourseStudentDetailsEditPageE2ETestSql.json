@@ -5,6 +5,12 @@
       "googleId": "tm.e2e.ICSDetEdit.instr",
       "name": "Teammates Test",
       "email": "ICSDetEdit.instr@gmail.tmt"
+    },
+    "José Gómez": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.ICSDetEdit.jose.tmms",
+      "name": "José Gómez",
+      "email": "ICSDetEdit.jose.tmms@gmail.tmt"
     }
   },
   "accountRequests": {},
@@ -52,7 +58,6 @@
   "instructors": {
     "ICSDetEdit.instr": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "courseId": "tm.e2e.ICSDetEdit.CS2104",
       "course": {
         "id": "tm.e2e.ICSDetEdit.CS2104"
       },
@@ -83,7 +88,9 @@
   "students": {
     "ICSDetEdit.jose.tmms": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "courseId": "tm.e2e.ICSDetEdit.CS2104",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
       "course": {
         "id": "tm.e2e.ICSDetEdit.CS2104"
       },
@@ -96,7 +103,6 @@
     },
     "ICSDetEdit.benny.c": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "courseId": "tm.e2e.ICSDetEdit.CS2104",
       "course": {
         "id": "tm.e2e.ICSDetEdit.CS2104"
       },
