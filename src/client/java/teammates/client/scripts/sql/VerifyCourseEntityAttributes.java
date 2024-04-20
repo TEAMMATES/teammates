@@ -176,7 +176,6 @@ public class VerifyCourseEntityAttributes
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     private boolean verifyInstructor(Instructor oldInstructor,
             teammates.storage.sqlentity.Instructor newInstructor) {
         InstructorPrivileges oldPrivileges;

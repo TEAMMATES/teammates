@@ -97,9 +97,8 @@ public class DataMigrationForCourseEntitySql extends
     private void migrateCourseEntity(teammates.storage.sqlentity.Course newCourse) {
         Map<String, User> userEmailToUserMap = new HashMap<>();
         Map<String, Section> sectionNameToSectionMap = migrateSectionChain(newCourse, userEmailToUserMap);
-        Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap = migrateFeedbackChain(
-                newCourse,
-                sectionNameToSectionMap);
+        Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
+                migrateFeedbackChain(newCourse, sectionNameToSectionMap);
         migrateInstructorEntities(newCourse, userEmailToUserMap);
         migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, userEmailToUserMap);
     }
@@ -195,7 +194,8 @@ public class DataMigrationForCourseEntitySql extends
             teammates.storage.sqlentity.Course newCourse,
             Map<String, Section> sectionNameToSectionMap) {
 
-        HashMap<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap = new HashMap<>();
+        Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
+                new HashMap<>();
 
         List<FeedbackSession> oldSessions = ofy().load().type(FeedbackSession.class)
                 .filter("courseId", newCourse.getId()).list();
@@ -343,37 +343,37 @@ public class DataMigrationForCourseEntitySql extends
 
     private FeedbackQuestionDetails getFeedbackQuestionDetails(FeedbackQuestion oldQuestion) {
         switch (oldQuestion.getQuestionType()) {
-            case MCQ:
-                return new FeedbackMcqQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case MSQ:
-                return new FeedbackMsqQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case TEXT:
-                return new FeedbackTextQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case RUBRIC:
-                return new FeedbackRubricQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case CONTRIB:
-                return new FeedbackContributionQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case CONSTSUM:
-            case CONSTSUM_RECIPIENTS:
-            case CONSTSUM_OPTIONS:
-                return new FeedbackConstantSumQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case NUMSCALE:
-                return new FeedbackNumericalScaleQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case RANK_OPTIONS:
-                return new FeedbackRankOptionsQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case RANK_RECIPIENTS:
-                return new FeedbackRankRecipientsQuestionDetailsConverter()
-                        .convertToEntityAttribute(oldQuestion.getQuestionText());
-            default:
-                throw new IllegalArgumentException("Invalid question type");
+        case MCQ:
+            return new FeedbackMcqQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case MSQ:
+            return new FeedbackMsqQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case TEXT:
+            return new FeedbackTextQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case RUBRIC:
+            return new FeedbackRubricQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case CONTRIB:
+            return new FeedbackContributionQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case CONSTSUM:
+        case CONSTSUM_RECIPIENTS:
+        case CONSTSUM_OPTIONS:
+            return new FeedbackConstantSumQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case NUMSCALE:
+            return new FeedbackNumericalScaleQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case RANK_OPTIONS:
+            return new FeedbackRankOptionsQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case RANK_RECIPIENTS:
+            return new FeedbackRankRecipientsQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+        default:
+            throw new IllegalArgumentException("Invalid question type");
         }
     }
 
@@ -397,55 +397,56 @@ public class DataMigrationForCourseEntitySql extends
 
     private FeedbackResponseDetails getFeedbackResponseDetails(FeedbackResponse oldResponse) {
         switch (oldResponse.getFeedbackQuestionType()) {
-            case MCQ:
-                return new FeedbackTextResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case MSQ:
-                return new FeedbackMsqResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case TEXT:
-                return new FeedbackTextResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case RUBRIC:
-                return new FeedbackRubricResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case CONTRIB:
-                return new FeedbackContributionResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case CONSTSUM:
-            case CONSTSUM_RECIPIENTS:
-            case CONSTSUM_OPTIONS:
-                return new FeedbackConstantSumResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case NUMSCALE:
-                return new FeedbackNumericalScaleResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case RANK_OPTIONS:
-                return new FeedbackRankOptionsResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            case RANK_RECIPIENTS:
-                return new FeedbackRankRecipientsResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
-            default:
-                throw new IllegalArgumentException("Invalid response type");
+        case MCQ:
+            return new FeedbackTextResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case MSQ:
+            return new FeedbackMsqResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case TEXT:
+            return new FeedbackTextResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case RUBRIC:
+            return new FeedbackRubricResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case CONTRIB:
+            return new FeedbackContributionResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case CONSTSUM:
+        case CONSTSUM_RECIPIENTS:
+        case CONSTSUM_OPTIONS:
+            return new FeedbackConstantSumResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case NUMSCALE:
+            return new FeedbackNumericalScaleResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case RANK_OPTIONS:
+            return new FeedbackRankOptionsResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        case RANK_RECIPIENTS:
+            return new FeedbackRankRecipientsResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+        default:
+            throw new IllegalArgumentException("Invalid response type");
         }
     }
 
     private teammates.storage.sqlentity.FeedbackResponseComment createFeedbackResponseComment(
             teammates.storage.sqlentity.FeedbackResponse newResponse, FeedbackResponseComment oldComment,
             Section giverSection, Section recipientSection) {
-        teammates.storage.sqlentity.FeedbackResponseComment newComment = new teammates.storage.sqlentity.FeedbackResponseComment(
-                newResponse,
-                oldComment.getGiverEmail(),
-                oldComment.getCommentGiverType(),
-                giverSection,
-                recipientSection,
-                oldComment.getCommentText(),
-                oldComment.getIsVisibilityFollowingFeedbackQuestion(),
-                oldComment.getIsCommentFromFeedbackParticipant(),
-                oldComment.getShowCommentTo(),
-                oldComment.getShowGiverNameTo(),
-                oldComment.getLastEditorEmail());
+        teammates.storage.sqlentity.FeedbackResponseComment newComment =
+                new teammates.storage.sqlentity.FeedbackResponseComment(
+                    newResponse,
+                    oldComment.getGiverEmail(),
+                    oldComment.getCommentGiverType(),
+                    giverSection,
+                    recipientSection,
+                    oldComment.getCommentText(),
+                    oldComment.getIsVisibilityFollowingFeedbackQuestion(),
+                    oldComment.getIsCommentFromFeedbackParticipant(),
+                    oldComment.getShowCommentTo(),
+                    oldComment.getShowGiverNameTo(),
+                    oldComment.getLastEditorEmail());
 
         newComment.setCreatedAt(oldComment.getCreatedAt());
         newComment.setUpdatedAt(oldComment.getLastEditedAt());
@@ -505,25 +506,26 @@ public class DataMigrationForCourseEntitySql extends
             if (newUser == null) {
                 continue;
             }
-            migrateDeadlineExtension(newCourse, oldDeadlineExtension,
+            migrateDeadlineExtension(oldDeadlineExtension,
                     feedbackSessionNameToFeedbackSessionMap.get(oldDeadlineExtension.getFeedbackSessionName()),
                     newUser);
         }
     }
 
-    private void migrateDeadlineExtension(teammates.storage.sqlentity.Course newCourse,
-            DeadlineExtension oldDeadlineExtension, teammates.storage.sqlentity.FeedbackSession feedbackSession,
-            User newUser) {
+    private void migrateDeadlineExtension(DeadlineExtension oldDeadlineExtension,
+                                          teammates.storage.sqlentity.FeedbackSession feedbackSession,
+                                          User newUser) {
 
-        teammates.storage.sqlentity.DeadlineExtension newDeadlineExtension = new teammates.storage.sqlentity.DeadlineExtension(
-                newUser,
-                feedbackSession,
-                oldDeadlineExtension.getEndTime());
+        teammates.storage.sqlentity.DeadlineExtension newDeadlineExtension =
+                new teammates.storage.sqlentity.DeadlineExtension(
+                    newUser,
+                    feedbackSession,
+                    oldDeadlineExtension.getEndTime());
 
         newDeadlineExtension.setCreatedAt(oldDeadlineExtension.getCreatedAt());
         newDeadlineExtension.setUpdatedAt(oldDeadlineExtension.getUpdatedAt());
         newDeadlineExtension.setClosingSoonEmailSent(oldDeadlineExtension.getSentClosingEmail());
-        
+
         saveEntityDeferred(newDeadlineExtension);
     }
 
