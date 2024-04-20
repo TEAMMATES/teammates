@@ -118,20 +118,11 @@ export class AccountService {
   /**
    * Edits an account request by calling API.
    */
-  editAccountRequest(id: string, name: string, email: string, institute: string,
-    status: AccountRequestStatus, comments: string)
+  editAccountRequest(id: string, accountReqUpdateRequest: AccountRequestUpdateRequest)
   : Observable<AccountRequest> {
     const paramMap: Record<string, string> = {
       id,
     };
-    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
-      name,
-      email,
-      institute,
-      status,
-      comments,
-    };
-
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, accountReqUpdateRequest);
   }
 
