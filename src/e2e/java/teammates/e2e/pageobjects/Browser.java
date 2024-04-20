@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class Browser {
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
-    private final ArrayDeque<String> windowHandles = new ArrayDeque<>();
+    private final Deque<String> windowHandles = new ArrayDeque<>();
 
     public Browser() {
         this.driver = createWebDriver();

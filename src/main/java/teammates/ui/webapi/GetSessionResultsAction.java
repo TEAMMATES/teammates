@@ -13,6 +13,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
@@ -126,7 +127,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         if (isCourseMigrated(courseId)) {
             if (questionId != null) {
                 UUID questionUuid = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-                executeWithSql(courseId, feedbackSessionName, questionUuid,
+                return executeWithSql(courseId, feedbackSessionName, questionUuid,
                         selectedSection, fetchType, intent, isPreviewResults);
             }
             return executeWithSql(courseId, feedbackSessionName, null, selectedSection,
@@ -195,14 +196,14 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
-            instructor = getPossiblyUnregisteredSqlInstructor(courseId);
+            instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
             bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, instructor.getEmail(),
                     true, questionUuid, isPreviewResults);
 
             // Build a fake student object, as the results will be displayed as if they are displayed to a student
             student = new Student(instructor.getCourse(), instructor.getName(), instructor.getEmail(), "");
-            student.setTeam(instructor.getTeam());
+            student.setTeam(new Team(null, Const.USER_TEAM_FOR_INSTRUCTOR));
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case STUDENT_RESULT:

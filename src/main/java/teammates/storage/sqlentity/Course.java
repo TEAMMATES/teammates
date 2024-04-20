@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 
 /**
  * Represents a course.

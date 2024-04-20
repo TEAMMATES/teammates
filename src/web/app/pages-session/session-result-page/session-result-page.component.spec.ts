@@ -291,7 +291,7 @@ describe('SessionResultPageComponent', () => {
     jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     jest.spyOn(studentService, 'getStudent').mockReturnValue(of({
       name: 'student-name',
-      email: '',
+      email: 'student@tmt.tmt',
       courseId: '',
       sectionName: '',
       teamName: '',

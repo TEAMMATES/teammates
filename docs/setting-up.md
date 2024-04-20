@@ -45,7 +45,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 These tools are necessary regardless of whether you are developing front-end or back-end:
 
 1. Install Java JDK 11.
-   * Alternatively, it is possible to use JDK 17, as long as newer language features are not used.
+   * Alternatively, it is possible to use JDK 17 or JDK 21, as long as newer language features are not used.
 
 If you want to develop front-end, you need to install the following:
 
