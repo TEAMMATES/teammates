@@ -32,6 +32,6 @@
         <dropUniqueConstraint constraintName="Unique name and institute" tableName="account_requests"/>
     </changeSet>
     <changeSet author="ziqing" id="1713527659740-5">
-        <tagDatabase tag="v9.0.0beta.5"/>
+        <tagDatabase tag="v9.0.0-beta.5"/>
     </changeSet>
 </databaseChangeLog>
