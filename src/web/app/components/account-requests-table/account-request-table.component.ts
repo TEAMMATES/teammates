@@ -3,6 +3,7 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
+import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import {
   RejectWithReasonModalComponentResult,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
@@ -76,7 +77,7 @@ export class AccountRequestTableComponent {
             institute: res.accountRequestInstitution,
             status: accountRequest.status,
             comment: res.accountRequestComment
-          })
+          } as AccountRequestUpdateRequest)
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.comments = resp.comments ?? '';
