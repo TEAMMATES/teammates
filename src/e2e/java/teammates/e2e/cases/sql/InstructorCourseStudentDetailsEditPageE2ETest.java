@@ -7,7 +7,6 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 
@@ -43,10 +42,9 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         editPage.verifyStudentDetails(student);
 
         ______TS("edit student details");
-        Section editedSection = new Section(student.getCourse(), "edited section");
-        Team editedTeam = new Team(editedSection, "edited team");
+        Team otherTeam = testData.teams.get("tm.e2e.ICSDetEdit.CS2104-SectionB-Team100");
         student.setName("edited name");
-        student.setTeam(editedTeam);
+        student.setTeam(otherTeam);
         student.setComments("edited comment");
         editPage.editStudentDetails(student);
 

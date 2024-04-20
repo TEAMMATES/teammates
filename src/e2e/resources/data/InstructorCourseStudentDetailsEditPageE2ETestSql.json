@@ -23,6 +23,13 @@
         "id": "tm.e2e.ICSDetEdit.CS2104"
       },
       "name": "Section A"
+    },
+    "tm.e2e.ICSDetEdit.CS2104-SectionB": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "tm.e2e.ICSDetEdit.CS2104"
+      },
+      "name": "Section B"
     }
   },
   "teams": {
@@ -32,6 +39,13 @@
         "id": "00000000-0000-4000-8000-000000000201"
       },
       "name": "Team 1"
+    },
+    "tm.e2e.ICSDetEdit.CS2104-SectionB-Team100": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "name": "Team 100"
     }
   },
   "deadlineExtensions": {},
@@ -101,4 +115,3 @@
   "notifications": {},
   "readNotifications": {}
 }
-  
