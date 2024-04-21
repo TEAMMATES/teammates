@@ -20,6 +20,8 @@
         <exclude name="GuardLogStatement"/>
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
         <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
+        <exclude name="LooseCoupling" />
         <exclude name="UseVarargs"/>
 
         <!-- Not relevant as we use TestNG -->
@@ -31,11 +33,13 @@
         <!-- Handled by CheckStyle -->
         <exclude name="DefaultLabelNotLastInSwitchStmt"/>
         <exclude name="OneDeclarationPerLine"/>
-        <exclude name="UnusedImports"/>
 
         <!-- Enforced for production code only -->
         <exclude name="AvoidPrintStackTrace"/>
         <exclude name="SystemPrintln"/>
+
+        <!-- Rule is buggy and has too many false positives -->
+        <exclude name="UnusedAssignment"/>
     </rule>
 
     <!--
@@ -62,6 +66,7 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryReturn"/>
+    <rule ref="category/java/codestyle.xml/UnnecessarySemicolon"/>
     <rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis"/>
 
@@ -71,9 +76,7 @@
         <exclude name="CouplingBetweenObjects"/>
         <exclude name="CyclomaticComplexity"/>
         <exclude name="DataClass"/>
-        <exclude name="ExcessiveClassLength"/>
         <exclude name="ExcessiveImports"/>
-        <exclude name="ExcessiveMethodLength"/>
         <exclude name="ExcessiveParameterList"/>
         <exclude name="ExcessivePublicCount"/>
         <exclude name="GodClass"/>
@@ -94,6 +97,9 @@
         <!-- Enforced for production code only -->
         <exclude name="AvoidThrowingRawExceptionTypes"/>
         <exclude name="SignatureDeclareThrowsException"/>
+
+        <!-- Rule is buggy and has too many false positives -->
+        <exclude name="SimplifyBooleanReturns"/>
     </rule>
 
     <!--
@@ -130,11 +136,9 @@
 
         <!-- Handled by CheckStyle -->
         <exclude name="DontImportSun"/>
-        <exclude name="ImportFromSamePackage"/>
 
         <!-- Prefer Checkstyle's which allows commented empty block -->
         <exclude name="EmptyCatchBlock"/>
-        <exclude name="EmptyIfStmt"/>
 
         <!-- Finalizer rules; irrelevant -->
         <exclude name="AvoidCallingFinalize"/>
@@ -148,7 +152,6 @@
         <exclude name="CloneMethodMustBePublic"/>
         <exclude name="CloneMethodMustImplementCloneable"/>
         <exclude name="CloneMethodReturnTypeMustMatchClassName"/>
-        <exclude name="CloneThrowsCloneNotSupportedException"/>
         <exclude name="ProperCloneImplementation"/>
 
         <!-- Android rules; irrelevant -->
@@ -157,7 +160,7 @@
         <exclude name="DoNotHardCodeSDCard"/>
 
         <!-- Java Beans rules; irrelevant -->
-        <exclude name="BeanMembersShouldSerialize"/>
+        <exclude name="NonSerializableClass"/>
         <exclude name="MissingSerialVersionUID"/>
         <exclude name="StaticEJBFieldShouldBeFinal"/>
 
@@ -177,10 +180,12 @@
 
     <rule ref="category/java/performance.xml">
         <!-- Inevitably occur -->
+        <exclude name="AvoidArrayLoops"/>
         <exclude name="AvoidInstantiatingObjectsInLoops"/>
 
         <!-- Not worth the benefit -->
         <exclude name="InefficientEmptyStringCheck"/>
+        <exclude name="InsufficientStringBufferDeclaration"/>
     </rule>
 
     <rule ref="category/java/security.xml"/>

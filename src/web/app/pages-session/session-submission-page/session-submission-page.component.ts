@@ -127,6 +127,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   ungroupableQuestions: Set<number> = new Set();
   ungroupableQuestionsSorted: number[] = [];
 
+  feedbackSessionId: string | undefined = '';
+  studentId: string | undefined = '';
+
   private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
@@ -322,21 +325,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.moderatedPerson || this.previewAsPerson,
             this.regKey,
         ).subscribe((student: Student) => {
+          this.studentId = student.studentId;
           this.personName = student.name;
           this.personEmail = student.email;
-
-          this.logService.createFeedbackSessionLog({
-            courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
-            studentEmail: this.personEmail,
-            logType: FeedbackSessionLogType.ACCESS,
-          }).subscribe({
-            next: () => {},
-            error: () => {
-              this.statusMessageService.showWarningToast('Failed to log feedback session access');
-            },
-          });
-
+          this.logStudentAccess();
         });
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
@@ -381,6 +373,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }))
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
+          this.feedbackSessionId = feedbackSession.feedbackSessionId;
           this.feedbackSessionInstructions = feedbackSession.instructions;
           this.formattedSessionOpeningTime = this.timezoneService
               .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, TIME_FORMAT);
@@ -389,6 +382,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
           this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
           this.feedbackSessionTimezone = feedbackSession.timeZone;
+
+          this.logStudentAccess();
 
           // don't show alert modal in moderation
           if (!this.moderatedPerson) {
@@ -761,12 +756,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       feedbackSessionName: this.feedbackSessionName,
       studentEmail: this.personEmail,
       logType: FeedbackSessionLogType.SUBMISSION,
-    }).subscribe({
-      next: () => {},
-      error: () => {
-        this.statusMessageService.showWarningToast('Failed to log feedback session submission');
-      },
-    });
+      feedbackSessionId: this.feedbackSessionId,
+      studentId: this.studentId,
+    }).subscribe();
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
@@ -1137,5 +1129,28 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
 
     return recipient ? recipient.recipientName : 'Unknown';
+  }
+
+  /**
+   * Logs student activity after student/session details have been fetched.
+   */
+  logStudentAccess(): void {
+    if (this.intent !== Intent.STUDENT_SUBMISSION) {
+      return;
+    }
+
+    // dummy vars to check that both student and session has been loaded
+    if (!this.personEmail || !this.feedbackSessionTimezone) {
+      return;
+    }
+
+    this.logService.createFeedbackSessionLog({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+      studentEmail: this.personEmail,
+      logType: FeedbackSessionLogType.ACCESS,
+      feedbackSessionId: this.feedbackSessionId,
+      studentId: this.studentId,
+    }).subscribe();
   }
 }

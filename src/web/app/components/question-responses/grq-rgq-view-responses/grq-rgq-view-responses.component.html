@@ -50,7 +50,7 @@
       </div>
       <div class="card-header-btn-toolbar">
         <tm-response-moderation-button class="btn-margin-right" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
-                                       [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY"></tm-response-moderation-button>
+                                       [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY" (click)="$event.stopPropagation()"></tm-response-moderation-button>
         <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
     </h6>

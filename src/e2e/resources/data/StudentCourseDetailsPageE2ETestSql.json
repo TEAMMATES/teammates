@@ -1,0 +1,152 @@
+{
+  "accounts": {
+    "SCDet.instr": {
+      "googleId": "tm.e2e.SCDet.instr",
+      "name": "Instructor",
+      "email": "tmms.test@gmail.tmt",
+      "id": "00000000-0000-4000-8000-000000000001"
+    },
+    "SCDet.alice": {
+      "googleId": "tm.e2e.SCDet.alice",
+      "email": "SCDet.alice@gmail.tmt",
+      "name": "Alice Betsy",
+      "id": "00000000-0000-4000-8000-000000000002"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "SCDet.CS2104": {
+      "id": "tm.e2e.SCDet.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2012-04-02T11:00:00Z"
+    }
+  },
+  "sections": {
+    "tm.e2e.SCDet.CS2104-None": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.SCDet.CS2104"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "tm.e2e.SCDet.CS2104-None-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "SCDet.instr": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000501",
+      "courseId": "tm.e2e.SCDet.CS2104",
+      "course": {
+        "id": "tm.e2e.SCDet.CS2104"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "SCDet.instr@gmail.tmt"
+    },
+    "SCDet.instr2": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000502",
+      "courseId": "tm.e2e.SCDet.CS2104",
+      "course": {
+        "id": "tm.e2e.SCDet.CS2104"
+      },
+      "name": "Teammates Test 2",
+      "email": "SCDet.instr2@gmail.tmt"
+    }
+  },
+  "students": {
+    "SCDet.alice": {
+      "comments": "This student's name is Alice Betsy",
+      "id": "00000000-0000-4000-8000-000000000601",
+      "courseId": "tm.e2e.SCDet.CS2104",
+      "course": {
+        "id": "tm.e2e.SCDet.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "name": "Alice Betsy",
+      "email": "SCDet.alice@gmail.tmt"
+    },
+    "SCDet.benny": {
+      "comments": "This student's name is Benny Charles",
+      "id": "00000000-0000-4000-8000-000000000602",
+      "courseId": "tm.e2e.SCDet.CS2104",
+      "course": {
+        "id": "tm.e2e.SCDet.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "Benny Charles",
+      "email": "SCDet.benny@gmail.tmt"
+    },
+    "SCDet.charlie": {
+      "comments": "This student's name is Charlie Davis",
+      "id": "00000000-0000-4000-8000-000000000603",
+      "courseId": "tm.e2e.SCDet.CS2104",
+      "course": {
+        "id": "tm.e2e.SCDet.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "Charlie Davis",
+      "email": "SCDet.charlie@gmail.tmt"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {},
+  "readNotifications": {}
+}

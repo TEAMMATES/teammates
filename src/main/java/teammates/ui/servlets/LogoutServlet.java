@@ -2,9 +2,9 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
@@ -28,6 +28,8 @@ public class LogoutServlet extends AuthServlet {
         if (frontendUrl == null) {
             frontendUrl = "";
         }
+        // Prevent HTTP response splitting
+        frontendUrl = resp.encodeRedirectURL(frontendUrl.replace("\r\n", ""));
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to home page after logging out");
         resp.sendRedirect(frontendUrl + "/web");
     }

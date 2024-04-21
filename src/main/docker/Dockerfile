@@ -1,4 +1,4 @@
-FROM openjdk:11-jre
+FROM amazoncorretto:11-alpine-jdk
 
 COPY dist .
 COPY WEB-INF WEB-INF

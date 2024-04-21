@@ -8,6 +8,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -62,7 +63,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         AccountRequest actualAccountRequest = dataBundle.accountRequests.get("instructor1");
         AccountRequest expectedAccountRequest = new AccountRequest("instr1@teammates.tmt", "Instructor 1",
-                "TEAMMATES Test Institute 1");
+                "TEAMMATES Test Institute 1", AccountRequestStatus.REGISTERED, "These are some comments.");
         expectedAccountRequest.setId(actualAccountRequest.getId());
         expectedAccountRequest.setRegisteredAt(Instant.parse("2015-02-14T00:00:00Z"));
         expectedAccountRequest.setRegistrationKey(actualAccountRequest.getRegistrationKey());
@@ -202,7 +203,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackResponseComment expectedComment1 = new FeedbackResponseComment(expectedResponse1, "instr1@teammates.tmt",
                 FeedbackParticipantType.INSTRUCTORS, expectedSection, expectedSection,
                 "Instructor 1 comment to student 1 self feedback", false, false,
-                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(), "instr1@teammates.tmt");
+                new ArrayList<>(), new ArrayList<>(), "instr1@teammates.tmt");
         expectedComment1.setId(actualComment1.getId());
         verifyEquals(expectedComment1, actualComment1);
     }

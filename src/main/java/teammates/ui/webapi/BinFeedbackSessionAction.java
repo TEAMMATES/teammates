@@ -43,13 +43,11 @@ class BinFeedbackSessionAction extends Action {
 
         if (isCourseMigrated(courseId)) {
             try {
-                sqlLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+                FeedbackSession fs = sqlLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+                return new JsonResult(new FeedbackSessionData(fs));
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
-
-            FeedbackSession recycleBinFs = sqlLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-            return new JsonResult(new FeedbackSessionData(recycleBinFs));
         } else {
             return oldFeedbackSession(courseId, feedbackSessionName);
         }
