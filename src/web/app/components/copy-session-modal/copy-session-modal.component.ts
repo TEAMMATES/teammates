@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'; 
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { WhitespaceValidator } from './whitespace-validator';
 import { Course } from '../../../types/api-output';
@@ -29,9 +29,9 @@ export class CopySessionModalComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
-  form = new FormGroup({  
-    newFeedbackSessionName: new FormControl('', [Validators.required, WhitespaceValidator.cannotContainWhitespace]),  
-  });  
+  form = new FormGroup({
+    newFeedbackSessionName: new FormControl('', [Validators.required, WhitespaceValidator.cannotContainWhitespace]),
+  });
 
   /**
    * Fires the copy event.
@@ -56,6 +56,7 @@ export class CopySessionModalComponent {
   }
   /**
    * Checks whether the Feedback Session name entered by user is whitespace or not
+   *
    * @param newFeedbackSessionName a string variable
    * @returns boolean
    */
