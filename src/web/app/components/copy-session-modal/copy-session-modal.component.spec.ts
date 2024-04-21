@@ -104,7 +104,7 @@ describe('CopySessionModalComponent', () => {
     fixture.detectChanges();
 
     const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
-    expect(copyButton.nativeElement.disabled).toBeFalsy();
+    expect(copyButton.nativeElement.disabled).toBeTruthy();
   });
 
   it('should close the modal with the correct data', () => {

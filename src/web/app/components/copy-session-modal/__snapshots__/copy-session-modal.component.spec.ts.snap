@@ -145,7 +145,6 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           />
           <div
             class="invalid-field"
-            hidden=""
           >
             <i
               aria-hidden="true"

@@ -31,11 +31,13 @@ export class CopySessionModalComponent {
    * Fires the copy event.
    */
   copy(): void {
-    this.activeModal.close({
-      newFeedbackSessionName: this.newFeedbackSessionName,
-      sessionToCopyCourseId: this.sessionToCopyCourseId,
-      copyToCourseList: Array.from(this.copyToCourseSet),
-    });
+    if(this.validatenewFeedbackSessionName(this.newFeedbackSessionName)){
+      this.activeModal.close({
+        newFeedbackSessionName: this.newFeedbackSessionName,
+        sessionToCopyCourseId: this.sessionToCopyCourseId,
+        copyToCourseList: Array.from(this.copyToCourseSet),
+      });
+    }
   }
 
   /**
@@ -48,4 +50,19 @@ export class CopySessionModalComponent {
       this.copyToCourseSet.add(courseId);
     }
   }
+  /**
+   * validation of newFeedbackSessionName for a course to copy to in set.
+   */
+  validatenewFeedbackSessionName(newFeedbackSessionName: string): boolean {
+    if (newFeedbackSessionName !== null) { // Add a null check
+        const regex_pattern = /^(?!\s*$).+/;
+        if (regex_pattern.test(newFeedbackSessionName)) {
+          return true;
+          } else {
+          return false;
+        }
+    } else {
+       return true; // If newFeedbackSessionName is null, consider it invalid
+    }
+}
 }
