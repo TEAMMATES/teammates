@@ -81,7 +81,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showRecipientNameTo;
 
-    @UpdateTimestamp
+    // @UpdateTimestamp
     @Column
     private Instant updatedAt;
 
