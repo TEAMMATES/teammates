@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { FormGroup, FormControl, Validators} from '@angular/forms';  
+import { WhitespaceValidator } from './whitespace-validator';
 
 /**
  * Copy current session modal.
