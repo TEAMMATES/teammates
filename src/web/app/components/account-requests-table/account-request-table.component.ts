@@ -72,11 +72,12 @@ export class AccountRequestTableComponent {
       this.accountService.editAccountRequest(
         accountRequest.id,
         <AccountRequestUpdateRequest>({
-        name :res.accountRequestName,
-        email :res.accountRequestEmail,
-        institute :res.accountRequestInstitution,
-        status :accountRequest.status,
-        comments :res.accountRequestComment})
+            name: res.accountRequestName,
+            email: res.accountRequestEmail,
+            institute: res.accountRequestInstitution,
+            status: accountRequest.status,
+            comments: res.accountRequestComment,
+        }),
       )
       .subscribe({
         next: (resp: AccountRequest) => {
