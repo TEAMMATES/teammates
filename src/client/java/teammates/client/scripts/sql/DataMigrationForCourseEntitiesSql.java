@@ -24,6 +24,7 @@ import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.BaseEntity;
@@ -54,6 +55,8 @@ public class DataMigrationForCourseEntitiesSql extends DatastoreClient {
     AtomicLong numberOfAffectedEntities;
     AtomicLong numberOfScannedKey;
     AtomicLong numberOfUpdatedEntities;
+
+    private CoursesLogic coursesLogic = CoursesLogic.inst();
 
     public DataMigrationForCourseEntitiesSql() {
         numberOfAffectedEntities = new AtomicLong();
@@ -245,8 +248,8 @@ public class DataMigrationForCourseEntitiesSql extends DatastoreClient {
      * Deletes the course and its related entities from sql database.
      */
     private void deleteCourseCascade(Course oldCourse) {
-        // TODO: Implement deleteCourseCascase
         log("delete course id: " + oldCourse.getUniqueId());
+        coursesLogic.deleteCourseCascade(oldCourse.getUniqueId());
     }
 
     /**
