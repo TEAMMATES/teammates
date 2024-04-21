@@ -27,6 +27,10 @@ export class CopySessionModalComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
+  form = new FormGroup({  
+    newFeedbackSessionName: new FormControl('', [Validators.required, WhitespaceValidator.cannotContainWhitespace]),  
+  });  
+
   /**
    * Fires the copy event.
    */
@@ -47,5 +51,13 @@ export class CopySessionModalComponent {
     } else {
       this.copyToCourseSet.add(courseId);
     }
+  }
+  /**
+   * Checks whether the Feedback Session name entered by user is whitespace or not
+   * @param newFeedbackSessionName a string variable
+   * @returns boolean
+   */
+  noWhitespace(newFeedbackSessionName: string): boolean {
+    return (!(newFeedbackSessionName.trim().length === 0 && newFeedbackSessionName !== ''));
   }
 }
