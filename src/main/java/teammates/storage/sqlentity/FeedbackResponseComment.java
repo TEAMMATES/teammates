@@ -69,7 +69,7 @@ public class FeedbackResponseComment extends BaseEntity {
     @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showGiverNameTo;
 
-    @UpdateTimestamp
+    // @UpdateTimestamp
     private Instant updatedAt;
 
     @Column(nullable = false)

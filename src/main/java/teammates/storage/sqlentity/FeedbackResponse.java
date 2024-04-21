@@ -61,7 +61,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "recipientSectionId")
     private Section recipientSection;
 
-    @UpdateTimestamp
+    // @UpdateTimestamp
     private Instant updatedAt;
 
     protected FeedbackResponse() {

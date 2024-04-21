@@ -101,7 +101,7 @@ public class FeedbackSession extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
 
-    @UpdateTimestamp
+    // @UpdateTimestamp
     private Instant updatedAt;
 
     private Instant deletedAt;

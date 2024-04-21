@@ -15,6 +15,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Team;
 // CHECKSTYLE.ON:ImportOrder
 
 /**
@@ -84,6 +85,7 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
     private void verifyNewEntities() {
         List<CourseStudent> students = ofy().load().type(CourseStudent.class).order("courseId").list();
         verifySectionEntities(students);
+        verifyTeamEntities(students);
     }
 
     private void verifySectionEntities(List<CourseStudent> students) {
@@ -92,5 +94,13 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
         Long postgresEntityCount = countPostgresEntities(Section.class);
 
         printEntityVerification("Section", objectifyEntityCount, postgresEntityCount);
+    }
+
+    private void verifyTeamEntities(List<CourseStudent> students) {
+        int objectifyEntityCount = (int) students.stream().map(stu -> stu.getTeamName() + stu.getCourseId())
+                .distinct().count();
+        Long postgresEntityCount = countPostgresEntities(Team.class);
+
+        printEntityVerification("Team", objectifyEntityCount, postgresEntityCount);
     }
 }
