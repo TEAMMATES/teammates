@@ -1,0 +1,159 @@
+{
+  "accounts": {
+    "SCJoinConf.instr": {
+      "googleId": "tm.e2e.SCJoinConf.instr",
+      "name": "Teammates Test",
+      "email": "SCJoinConf.instr@gmail.tmt",
+      "id": "00000000-0000-4000-8000-000000000001"
+    },
+    "alice.tmms": {
+      "googleId": "tm.e2e.SCJoinConf.alice",
+      "name": "Alice B",
+      "email": "SCJoinConf.alice@gmail.tmt",
+      "id": "00000000-0000-4000-8000-000000000002"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "SCJoinConf.CS2104": {
+      "id": "tm.e2e.SCJoinConf.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SCJoinConf.CS1101": {
+      "id": "tm.e2e.SCJoinConf.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "sections": {
+    "tm.e2e.SCJoinConf.CS2104-None": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.SCJoinConf.CS2104"
+      },
+      "name": "None"
+    },
+    "tm.e2e.SCJoinConf.CS1101-None": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "tm.e2e.SCJoinConf.CS1101"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "tm.e2e.SCJoinConf.CS2104-None-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.SCJoinConf.CS1101-None-Team1": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "name": "Team 1"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "SCJoinConf.instr.CS2104": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000501",
+      "course": {
+        "id": "tm.e2e.SCJoinConf.CS2104"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "SCJoinConf.instr@gmail.tmt"
+    },
+    "SCJoinConf.instr.CS1101": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "courseId": "tm.e2e.SCJoinConf.CS1101",
+      "course": {
+        "id": "tm.e2e.SCJoinConf.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "SCJoinConf.instr@gmail.tmt"
+    }
+  },
+  "students": {
+    "alice.tmms@SCJoinConf.CS2104": {
+      "comments": "This student's name is Amy Betsy",
+      "id": "00000000-0000-4000-8000-000000000601",
+      "courseId": "tm.e2e.SCJoinConf.CS2104",
+      "course": {
+        "id": "tm.e2e.SCJoinConf.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "Amy Betsy",
+      "email": "SCJoinConf.alice@gmail.tmt"
+    },
+    "alice.tmms@SCJoinConf.CS1101": {
+      "comments": "This student's name is Amy Betsy",
+      "id": "00000000-0000-4000-8000-000000000602",
+      "courseId": "tm.e2e.SCJoinConf.CS1101",
+      "course": {
+        "id": "tm.e2e.SCJoinConf.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "Amy Betsy",
+      "email": "SCJoinConf.alice@gmail.tmt"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {},
+  "readNotifications": {}
+}

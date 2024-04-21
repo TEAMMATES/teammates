@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="ziqing (generated)" id="1713527659740-1">
+        <createTable tableName="feedback_session_logs">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feedback_session_logs_pkey"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="feedback_session_log_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="session_id" type="UUID"/>
+            <column name="student_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ziqing (generated)" id="1713527659740-2">
+        <addColumn tableName="account_requests">
+            <column name="comments" type="text"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ziqing (generated)" id="1713527659740-3">
+        <addColumn tableName="account_requests">
+            <column name="status" type="varchar(255 BYTE)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ziqing (generated)" id="1713527659740-4">
+        <dropUniqueConstraint constraintName="Unique name and institute" tableName="account_requests"/>
+    </changeSet>
+    <changeSet author="ziqing" id="1713527659740-5">
+        <tagDatabase tag="v9.0.0-beta.5"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,4 +1,4 @@
-import { ApiConst } from './api-const';
+import { ApiConst, ApiStringConst } from './api-const';
 import { FeedbackQuestionType } from './api-output';
 import {
   DEFAULT_INSTRUCTOR_PRIVILEGE,
@@ -66,6 +66,12 @@ describe('Constants', () => {
     expect(typeof ApiConst.RANK_OPTIONS_ANSWER_NOT_SUBMITTED).toEqual('number');
     expect(typeof ApiConst.RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED).toEqual('number');
     expect(typeof ApiConst.NO_VALUE).toEqual('number');
+  });
+
+  // Here we test that the constants are strings
+  it('should generate string constants correctly', () => {
+    expect(typeof ApiStringConst.EMAIL_REGEX).toEqual('string');
+    expect(() => new RegExp(ApiStringConst.EMAIL_REGEX)).not.toThrow();
   });
 
   // Here we test that:

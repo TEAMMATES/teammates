@@ -1,8 +1,8 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.List;
 
@@ -41,9 +41,9 @@ public class AdminSearchPage extends AppPage {
 
     private static final int ACCOUNT_REQUEST_COL_NAME = 1;
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
-    private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 3;
-    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 4;
-    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 5;
+    private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
+    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 5;
+    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 6;
 
     private static final String EXPANDED_ROWS_HEADER_EMAIL = "Email";
     private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
@@ -370,7 +370,7 @@ public class AdminSearchPage extends AppPage {
     public WebElement getAccountRequestRow(AccountRequestAttributes accountRequest) {
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-account-request tbody tr"));
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
@@ -386,7 +386,7 @@ public class AdminSearchPage extends AppPage {
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-account-request tbody tr"));
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
@@ -437,6 +437,111 @@ public class AdminSearchPage extends AppPage {
         deleteButton.click();
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
+    }
+
+    public void clickApproveAccountRequestButton(AccountRequest accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        waitForElementPresence(By.cssSelector("[id^='approve-account-request-']"));
+        WebElement approveButton = accountRequestRow.findElement(By.cssSelector("[id^='approve-account-request-']"));
+        waitForElementToBeClickable(approveButton);
+        approveButton.click();
+        waitForPageToLoad();
+    }
+
+    public void clickRejectAccountRequestButton(AccountRequest accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement rejectButton = accountRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+        rejectButton.click();
+        waitForPageToLoad();
+        WebElement rejectWithoutReasonButton = browser.driver.findElement(By.cssSelector("[id^='reject-request-']"));
+        rejectWithoutReasonButton.click();
+        waitForPageToLoad();
+    }
+
+    public void clickRejectAccountRequestWithReasonButton(AccountRequest accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement rejectButton = accountRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+        rejectButton.click();
+        waitForPageToLoad();
+        WebElement rejectWithReasonButton = browser.driver.findElement(By.cssSelector("[id^='reject-request-with-reason']"));
+        waitForElementToBeClickable(rejectWithReasonButton);
+        rejectWithReasonButton.click();
+        waitForPageToLoad();
+        waitForElementPresence(By.cssSelector("tm-reject-with-reason-modal"));
+    }
+
+    public void fillInRejectionModalTitle(String title) {
+        WebElement rejectionModal = browser.driver.findElement(By.cssSelector("tm-reject-with-reason-modal"));
+        WebElement titleInput = rejectionModal.findElement(By.cssSelector("[id^='rejection-reason-title']"));
+        titleInput.clear();
+        titleInput.sendKeys(title);
+    }
+
+    public void fillInRejectionModalBody(String body) {
+        WebElement rejectionModal = browser.driver.findElement(By.cssSelector("tm-reject-with-reason-modal"));
+        WebElement bodyInput = rejectionModal.findElement(By.cssSelector("tm-rich-text-editor"));
+        clearRichTextEditor(bodyInput);
+        writeToRichTextEditor(bodyInput, body);
+    }
+
+    public void clickConfirmRejectAccountRequest() {
+        WebElement rejectionModal = browser.driver.findElement(By.cssSelector("tm-reject-with-reason-modal"));
+        WebElement clickReject = rejectionModal.findElement(By.cssSelector("[id^='btn-confirm-reject-request']"));
+        clickReject.click();
+        waitForPageToLoad();
+    }
+
+    public void closeRejectionModal() {
+        WebElement rejectionModal = browser.driver.findElement(By.cssSelector("tm-reject-with-reason-modal"));
+        WebElement clickCancel = rejectionModal.findElement(By.cssSelector("[id^='btn-cancel-reject-request']"));
+        clickCancel.click();
+        waitForPageToLoad();
+    }
+
+    public void clickEditAccountRequestButton(AccountRequest accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement editButton = accountRequestRow.findElement(By.cssSelector("[id^='edit-account-request-']"));
+        editButton.click();
+        waitForElementPresence(By.cssSelector("tm-edit-request-modal"));
+    }
+
+    public void fillInEditModalFields(String name, String email, String institute, String comments) {
+        waitForElementPresence(By.cssSelector("tm-edit-request-modal"));
+
+        WebElement editModal = browser.driver.findElement(By.cssSelector("tm-edit-request-modal"));
+        WebElement nameInput = editModal.findElement(By.cssSelector("[id^='request-name']"));
+        nameInput.clear();
+        nameInput.sendKeys(name);
+
+        WebElement emailInput = editModal.findElement(By.cssSelector("[id^='request-email']"));
+        emailInput.clear();
+        emailInput.sendKeys(email);
+
+        WebElement instituteInput = editModal.findElement(By.cssSelector("[id^='request-institution']"));
+        instituteInput.clear();
+        instituteInput.sendKeys(institute);
+
+        WebElement commentsInput = editModal.findElement(By.cssSelector("[id^='request-comments']"));
+        commentsInput.clear();
+        commentsInput.sendKeys(comments);
+    }
+
+    public void clickSaveEditAccountRequestButton() {
+        WebElement editModal = browser.driver.findElement(By.cssSelector("tm-edit-request-modal"));
+        WebElement saveButton = editModal.findElement(By.cssSelector("[id^='btn-confirm-edit-request']"));
+        saveButton.click();
+        waitForPageToLoad();
+    }
+
+    public void clickViewAccountRequestAndVerifyCommentsButton(AccountRequest accountRequest, String comments) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement viewCommentsButton = accountRequestRow.findElement(By.cssSelector("[id^='view-account-request-']"));
+        viewCommentsButton.click();
+        waitForElementVisibility(By.className("modal-btn-ok"));
+        WebElement modal = browser.driver.findElement(By.className("modal-body"));
+        String actualComments = modal.findElement(By.tagName("div")).getText();
+        assertEquals("Comment: " + comments, actualComments);
+        waitForConfirmationModalAndClickOk();
     }
 
     public void clickResetAccountRequestButton(AccountRequestAttributes accountRequest) {

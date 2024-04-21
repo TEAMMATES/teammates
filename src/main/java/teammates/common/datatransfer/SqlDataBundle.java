@@ -11,6 +11,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
@@ -37,6 +38,7 @@ public class SqlDataBundle {
     public Map<String, FeedbackQuestion> feedbackQuestions = new LinkedHashMap<>();
     public Map<String, FeedbackResponse> feedbackResponses = new LinkedHashMap<>();
     public Map<String, FeedbackResponseComment> feedbackResponseComments = new LinkedHashMap<>();
+    public Map<String, FeedbackSessionLog> feedbackSessionLogs = new LinkedHashMap<>();
     public Map<String, Notification> notifications = new LinkedHashMap<>();
     public Map<String, ReadNotification> readNotifications = new LinkedHashMap<>();
 }
