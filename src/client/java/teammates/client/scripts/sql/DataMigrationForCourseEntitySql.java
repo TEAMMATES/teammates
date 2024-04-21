@@ -2,6 +2,7 @@ package teammates.client.scripts.sql;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,15 @@ import java.util.stream.Collectors;
 
 import com.googlecode.objectify.cmd.Query;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
@@ -23,6 +28,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -101,6 +107,7 @@ public class DataMigrationForCourseEntitySql extends
                 migrateFeedbackChain(newCourse, sectionNameToSectionMap);
         migrateInstructorEntities(newCourse, userEmailToUserMap);
         migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, userEmailToUserMap);
+        migrateUserAccounts(newCourse, userEmailToUserMap);
     }
 
     // methods for migrate section chain ----------------------------------------------------------------------------------
@@ -490,6 +497,7 @@ public class DataMigrationForCourseEntitySql extends
         newInstructor.setUpdatedAt(oldInstructor.getUpdatedAt());
         newInstructor.setRegKey(oldInstructor.getRegistrationKey());
 
+
         saveEntityDeferred(newInstructor);
         return newInstructor;
     }
@@ -530,4 +538,29 @@ public class DataMigrationForCourseEntitySql extends
         saveEntityDeferred(newDeadlineExtension);
     }
 
+    private void migrateUserAccounts(teammates.storage.sqlentity.Course newCourse, Map<String, User> userEmailToUserMap) {
+        List<Account> newAccounts = getAllAccounts(new ArrayList<String>(userEmailToUserMap.keySet()));
+        if (newAccounts.size() != userEmailToUserMap.size()) {
+            // #TODO Log error
+        }
+        for (Account account: newAccounts) {
+            User newUser = userEmailToUserMap.get(account.getEmail());
+            if (newUser == null) {
+                // #TODO Log error
+                continue;
+            }
+            newUser.setAccount(account);
+        }
+    }
+
+    private List<Account> getAllAccounts(List<String> userEmailList) {
+        HibernateUtil.beginTransaction();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Account> cr = cb.createQuery(Account.class);
+        Root<Account> courseRoot = cr.from(Account.class);
+        cr.select(courseRoot).where(cb.in(courseRoot.get("email")).value(userEmailList));
+        List<Account> newAccounts = HibernateUtil.createQuery(cr).getResultList();
+        HibernateUtil.commitTransaction();
+        return newAccounts;
+    }
 }
