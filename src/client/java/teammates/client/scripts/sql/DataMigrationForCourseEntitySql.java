@@ -25,7 +25,6 @@ import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.BaseEntity;
@@ -79,8 +78,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     AtomicLong numberOfScannedKey;
     AtomicLong numberOfUpdatedEntities;
 
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
-
     public DataMigrationForCourseEntitySql() {
         numberOfAffectedEntities = new AtomicLong();
         numberOfScannedKey = new AtomicLong();
@@ -113,17 +110,19 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
      * Migrates the course and all related entity.
      */
     protected void migrateCourse(Course oldCourse) throws Exception {
+        log("Start migrating course with id: " + oldCourse.getUniqueId());
         teammates.storage.sqlentity.Course newCourse = createCourse(oldCourse);
 
         migrateCourseEntity(newCourse);
-        // flushEntitiesSavingBuffer();
+        flushEntitiesSavingBuffer();
         // verifyCourseEntity(newCourse);
         // markOldCourseAsMigrated(courseId)
+        log("Finish migrating course with id: " + oldCourse.getUniqueId());
     }
 
     private void migrateCourseEntity(teammates.storage.sqlentity.Course newCourse) {
         Map<String, Section> sectionNameToSectionMap = migrateSectionChain(newCourse);
-        migrateFeedbackChain(newCourse, sectionNameToSectionMap);
+        // migrateFeedbackChain(newCourse, sectionNameToSectionMap);
     }
 
     // methods for migrate section chain ----------------------------------------------------------------------------------
@@ -528,8 +527,20 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
      * Deletes the course and its related entities from sql database.
      */
     private void deleteCourseCascade(Course oldCourse) {
-        log("delete course id: " + oldCourse.getUniqueId());
-        coursesLogic.deleteCourseCascade(oldCourse.getUniqueId());
+        String courseId = oldCourse.getUniqueId();
+        
+        HibernateUtil.beginTransaction();
+        teammates.storage.sqlentity.Course newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class, courseId);
+        if (newCourse == null) {
+            HibernateUtil.commitTransaction();
+            return;
+        }
+
+        log("delete dangling course with id: " + courseId);
+        HibernateUtil.remove(newCourse);
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+        HibernateUtil.commitTransaction();
     }
 
     /**
