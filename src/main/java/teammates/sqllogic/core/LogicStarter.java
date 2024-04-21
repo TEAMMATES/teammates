@@ -1,7 +1,7 @@
 package teammates.sqllogic.core;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
 import teammates.storage.sqlapi.AccountRequestsDb;
@@ -11,6 +11,7 @@ import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
+import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlapi.UsageStatisticsDb;
@@ -33,6 +34,7 @@ public class LogicStarter implements ServletContextListener {
         DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
         DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
         FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -44,10 +46,11 @@ public class LogicStarter implements ServletContextListener {
         accountsLogic.initLogicDependencies(AccountsDb.inst(), notificationsLogic, usersLogic, coursesLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic, usersLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, accountRequestsLogic, coursesLogic,
-                deadlineExtensionsLogic, fsLogic, fqLogic, frLogic, frcLogic,
+                deadlineExtensionsLogic, fsLogic, fslLogic, fqLogic, frLogic, frcLogic,
                 notificationsLogic, usersLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic);
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic, usersLogic);
+        fslLogic.initLogicDependencies(FeedbackSessionLogsDb.inst());
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, frcLogic);
         frcLogic.initLogicDependencies(FeedbackResponseCommentsDb.inst());
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic, fsLogic);

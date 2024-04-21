@@ -2,7 +2,7 @@ package teammates.common.datatransfer.logs;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Contains specific structure and processing logic for exception log.

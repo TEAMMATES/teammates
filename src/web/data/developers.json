@@ -212,12 +212,12 @@
       "username": "andremralves"
     },
     {
-      "name": "Andy Daehn",
-      "username": "andydaehn"
-    },
-    {
       "name": "Andy",
       "username": "Andy-W-Developer"
+    },
+    {
+      "name": "Andy Daehn",
+      "username": "andydaehn"
     },
     {
       "multiple": true,
@@ -456,11 +456,6 @@
     },
     {
       "multiple": true,
-      "name": "Ching Ming Yuan",
-      "username": "mingyuanc"
-    },
-    {
-      "multiple": true,
       "name": "Chloe Stapleton",
       "username": "stapletonce"
     },
@@ -614,11 +609,6 @@
       "username": "pandilladivya"
     },
     {
-      "multiple": true,
-      "name": "Dominic Berzin",
-      "username": "domoberzin"
-    },
-    {
       "name": "Dominik Leszczenko",
       "username": "k4iz3n1994"
     },
@@ -658,6 +648,10 @@
     },
     {
       "username": "Emp923"
+    },
+    {
+      "name": "",
+      "username": "eraldprifti03"
     },
     {
       "name": "Eric Liu",
@@ -2259,11 +2253,6 @@
       "username": "hoangphuoc25"
     },
     {
-      "multiple": true,
-      "name": "Tye Jia Jun, Marques",
-      "username": "marquestye"
-    },
-    {
       "username": "u6867511"
     },
     {
@@ -2370,11 +2359,6 @@
     },
     {
       "multiple": true,
-      "name": "Xenos Fiorenzo Anong",
-      "username": "xenosf"
-    },
-    {
-      "multiple": true,
       "name": "Xia Lu"
     },
     {
@@ -2425,11 +2409,6 @@
     {
       "multiple": true,
       "name": "Yen Zi Shyun"
-    },
-    {
-      "multiple": true,
-      "name": "Yeo Di Sheng",
-      "username": "dishenggg"
     },
     {
       "name": "Yi Chen",
@@ -2509,16 +2488,41 @@
     },
     {
       "multiple": true,
-      "name": "Zhu Yuanxi",
-      "username": "yuanxi1"
-    },
-    {
-      "multiple": true,
       "name": "Zong Xun",
       "username": "Zxun2"
     }
   ],
   "committers": [
+    {
+      "name": "Ching Ming Yuan",
+      "username": "mingyuanc",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Dominic Berzin",
+      "username": "domoberzin",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Tye Jia Jun, Marques",
+      "username": "marquestye",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Xenos Fiorenzo Anong",
+      "username": "xenosf",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Yeo Di Sheng",
+      "username": "dishenggg",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Zhu Yuanxi",
+      "username": "yuanxi1",
+      "startPeriod": "Jan 2024"
+    },
     {
       "name": "Jason Qiu",
       "username": "jasonqiu212",

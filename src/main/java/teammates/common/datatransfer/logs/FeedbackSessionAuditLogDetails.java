@@ -1,6 +1,6 @@
 package teammates.common.datatransfer.logs;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Contains specific structure and processing logic for feedback session audit log.
@@ -10,7 +10,11 @@ public class FeedbackSessionAuditLogDetails extends LogDetails {
     @Nullable
     private String courseId;
     @Nullable
+    private String feedbackSessionId;
+    @Nullable
     private String feedbackSessionName;
+    @Nullable
+    private String studentId;
     @Nullable
     private String studentEmail;
     private String accessType;
@@ -51,11 +55,29 @@ public class FeedbackSessionAuditLogDetails extends LogDetails {
         this.accessType = accessType;
     }
 
+    public String getFeedbackSessionId() {
+        return feedbackSessionId;
+    }
+
+    public void setFeedbackSessionId(String feedbackSessionId) {
+        this.feedbackSessionId = feedbackSessionId;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
     @Override
     public void hideSensitiveInformation() {
         courseId = null;
         feedbackSessionName = null;
         studentEmail = null;
+        studentId = null;
+        feedbackSessionId = null;
     }
 
 }
