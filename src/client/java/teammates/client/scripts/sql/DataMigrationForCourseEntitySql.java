@@ -11,6 +11,7 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.FeedbackQuestion;
@@ -199,8 +200,7 @@ public class DataMigrationForCourseEntitySql extends
 
         Map<String, List<FeedbackResponse>> questionIdToResponsesMap;
         Query<FeedbackResponse> responsesInSession = ofy().load().type(FeedbackResponse.class)
-                .filter("courseId", newCourse.getId())
-                .filter("feedbackSessionName", oldSession.getFeedbackSessionName());
+                .filter("courseId", oldSession.getCourseId());
         if (responsesInSession.count() <= MAX_RESPONSE_COUNT) {
             questionIdToResponsesMap = responsesInSession.list().stream()
                     .collect(Collectors.groupingBy(FeedbackResponse::getFeedbackQuestionId));
@@ -223,8 +223,6 @@ public class DataMigrationForCourseEntitySql extends
 
         Map<String, List<FeedbackResponseComment>> responseIdToCommentsMap = ofy().load()
                 .type(FeedbackResponseComment.class)
-                .filter("courseId", newSession.getCourse().getId())
-                .filter("feedbackSessionName", newSession.getName())
                 .filter("feedbackQuestionId", oldQuestion.getId()).list().stream()
                 .collect(Collectors.groupingBy(FeedbackResponseComment::getFeedbackResponseId));
 
@@ -234,8 +232,6 @@ public class DataMigrationForCourseEntitySql extends
             oldResponses = questionIdToResponsesMap.get(oldQuestion.getId());
         } else {
             oldResponses = ofy().load().type(FeedbackResponse.class)
-                    .filter("courseId", newSession.getCourse().getId())
-                    .filter("feedbackSessionName", newSession.getName())
                     .filter("feedbackQuestionId", oldQuestion.getId()).list();
         }
         for (FeedbackResponse oldResponse : oldResponses) {
@@ -317,7 +313,7 @@ public class DataMigrationForCourseEntitySql extends
         return newFeedbackQuestion;
     }
 
-    private FeedbackQuestionDetails getFeedbackQuestionDetails(FeedbackQuestion oldQuestion) {
+    public static FeedbackQuestionDetails getFeedbackQuestionDetails(FeedbackQuestion oldQuestion) {
         switch (oldQuestion.getQuestionType()) {
             case MCQ:
                 return new FeedbackMcqQuestionDetailsConverter()
@@ -371,7 +367,7 @@ public class DataMigrationForCourseEntitySql extends
         return newResponse;
     }
 
-    private FeedbackResponseDetails getFeedbackResponseDetails(FeedbackResponse oldResponse) {
+    public static FeedbackResponseDetails getFeedbackResponseDetails(FeedbackResponse oldResponse) {
         switch(oldResponse.getFeedbackQuestionType()) {
             case MCQ:
                 return new FeedbackTextResponseDetailsConverter()
@@ -380,8 +376,9 @@ public class DataMigrationForCourseEntitySql extends
                 return new FeedbackMsqResponseDetailsConverter()
                         .convertToEntityAttribute(oldResponse.getAnswer());
             case TEXT:
-                return new FeedbackTextResponseDetailsConverter()
-                        .convertToEntityAttribute(oldResponse.getAnswer());
+                // Response details for TEXT questions are not stored as json.
+                // Refer to FeedbackResponseDetails#getJsonString
+                return new FeedbackTextResponseDetails(oldResponse.getAnswer());
             case RUBRIC:
                 return new FeedbackRubricResponseDetailsConverter()
                         .convertToEntityAttribute(oldResponse.getAnswer());
