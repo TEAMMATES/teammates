@@ -37,7 +37,7 @@ import teammates.test.FileHelper;
  * Data migration class for course entity.
  */
 @SuppressWarnings("PMD")
-public class DataMigrationForCourseEntitiesSql extends DatastoreClient {
+public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
@@ -58,7 +58,7 @@ public class DataMigrationForCourseEntitiesSql extends DatastoreClient {
 
     private CoursesLogic coursesLogic = CoursesLogic.inst();
 
-    public DataMigrationForCourseEntitiesSql() {
+    public DataMigrationForCourseEntitySql() {
         numberOfAffectedEntities = new AtomicLong();
         numberOfScannedKey = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
@@ -73,7 +73,7 @@ public class DataMigrationForCourseEntitiesSql extends DatastoreClient {
     }
 
     public static void main(String[] args) {
-        new DataMigrationForCourseEntitiesSql().doOperationRemotely();
+        new DataMigrationForCourseEntitySql().doOperationRemotely();
     }
 
     protected Query<Course> getFilterQuery() {
