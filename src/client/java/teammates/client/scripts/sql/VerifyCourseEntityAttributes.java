@@ -1,5 +1,6 @@
 package teammates.client.scripts.sql;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -8,8 +9,13 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.Instructor;
 import teammates.storage.sqlentity.Section;
@@ -46,8 +52,11 @@ public class VerifyCourseEntityAttributes
     @Override
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         try {
-            return verifyCourse(sqlEntity, datastoreEntity) && verifySectionChain(sqlEntity)
-                    && verifyInstructors(sqlEntity) && verifyDeadlineExtensions(sqlEntity);
+            return verifyCourse(sqlEntity, datastoreEntity)
+                    && verifySectionChain(sqlEntity)
+                    && verifyFeedbackChain(sqlEntity)
+                    && verifyInstructors(sqlEntity)
+                    && verifyDeadlineExtensions(sqlEntity);
         } catch (IllegalArgumentException iae) {
             return false;
         }
@@ -63,7 +72,9 @@ public class VerifyCourseEntityAttributes
                         : sqlEntity.getDeletedAt().equals(datastoreEntity.getDeletedAt());
     }
 
-    // Verify Section chain ----------------------------
+    // methods for verify section chain  -----------------------------------------------------------------------------------
+    // entities: Section, Team, Student
+
     private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
         // Get old and new students
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
@@ -160,6 +171,173 @@ public class VerifyCourseEntityAttributes
                 && newStudent.getGoogleId().equals(oldStudent.getGoogleId());
     }
 
+    // methods for verify feedback chain -----------------------------------------------------------------------------------
+    // entities: FeedbackSession, FeedbackQuestion, FeedbackResponse, FeedbackResponseComment
+
+    private boolean verifyFeedbackChain(teammates.storage.sqlentity.Course newCourse) {
+        List<teammates.storage.sqlentity.FeedbackSession> newSessions = newCourse.getFeedbackSessions();
+        List<FeedbackSession> oldSessions = ofy().load().type(FeedbackSession.class)
+                .filter("courseId", newCourse.getId()).list();
+
+        if (newSessions.size() != oldSessions.size()) {
+            log(String.format("Mismatched session counts for course id: %s", newCourse.getId()));
+            return false;
+        }
+
+        Map<String, FeedbackSession> sessionNameToOldSessionMap = oldSessions.stream()
+                .collect(Collectors.toMap(FeedbackSession::getFeedbackSessionName, session -> session));
+
+        return newSessions.stream().allMatch(newSession -> {
+            FeedbackSession oldSession = sessionNameToOldSessionMap.get(newSession.getName());
+            return verifyFeedbackSession(oldSession, newSession);
+        });
+    }
+
+    private boolean verifyFeedbackSession(FeedbackSession oldSession, teammates.storage.sqlentity.FeedbackSession newSession) {
+        boolean doFieldsMatch = newSession.getCourse().getId().equals(oldSession.getCourseId())
+                && newSession.getName().equals(oldSession.getFeedbackSessionName())
+                && newSession.getCreatorEmail().equals(oldSession.getCreatorEmail())
+                && newSession.getInstructions().equals(SanitizationHelper.sanitizeForRichText(oldSession.getInstructions()))
+                && newSession.getStartTime().equals(oldSession.getStartTime())
+                && newSession.getEndTime().equals(oldSession.getEndTime())
+                && newSession.getSessionVisibleFromTime().equals(oldSession.getSessionVisibleFromTime())
+                && newSession.getResultsVisibleFromTime().equals(oldSession.getResultsVisibleFromTime())
+                && newSession.getGracePeriod().equals(Duration.ofMinutes(oldSession.getGracePeriod()))
+                && newSession.isOpeningEmailEnabled() == oldSession.isOpeningEmailEnabled()
+                && newSession.isClosingEmailEnabled() == oldSession.isClosingEmailEnabled()
+                && newSession.isOpenEmailSent() == oldSession.isSentOpenEmail()
+                && newSession.isOpeningSoonEmailSent() == oldSession.isSentOpeningSoonEmail()
+                && newSession.isClosedEmailSent() == oldSession.isSentClosedEmail()
+                && newSession.isClosingSoonEmailSent() == oldSession.isSentClosingEmail()
+                && newSession.isPublishedEmailSent() == oldSession.isSentPublishedEmail()
+                && newSession.getCreatedAt().equals(oldSession.getCreatedTime())
+                && (newSession.getDeletedAt() == oldSession.getDeletedTime()
+                        || newSession.getDeletedAt().equals(oldSession.getDeletedTime()));
+        if (!doFieldsMatch) {
+            log(String.format("Mismatched fields for session: %s, course id: %s",
+                    oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
+            return false;
+        }
+
+        List<teammates.storage.sqlentity.FeedbackQuestion> newQuestions = newSession.getFeedbackQuestions();
+        List<FeedbackQuestion> oldQuestions = ofy().load().type(FeedbackQuestion.class)
+                .filter("courseId", newSession.getCourse().getId())
+                .filter("feedbackSessionName", newSession.getName()).list();
+
+        if (newQuestions.size() != oldQuestions.size()) {
+            log(String.format("Mismatched question counts for session: %s, course id: %s",
+                    oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
+            return false;
+        }
+
+        Map<Integer, FeedbackQuestion> questionNumberToOldQuestionMap = oldQuestions.stream()
+                .collect(Collectors.toMap(FeedbackQuestion::getQuestionNumber, question -> question));
+
+        return newQuestions.stream().allMatch(newQuestion -> {
+            FeedbackQuestion oldQuestion = questionNumberToOldQuestionMap.get(newQuestion.getQuestionNumber());
+            return verifyFeedbackQuestion(oldQuestion, newQuestion);
+        });
+    }
+
+    private boolean verifyFeedbackQuestion(FeedbackQuestion oldQuestion,
+            teammates.storage.sqlentity.FeedbackQuestion newQuestion) {
+        boolean doFieldsMatch = newQuestion.getQuestionNumber() == oldQuestion.getQuestionNumber()
+                && newQuestion.getDescription().equals(oldQuestion.getQuestionDescription())
+                && newQuestion.getGiverType().equals(oldQuestion.getGiverType())
+                && newQuestion.getRecipientType().equals(oldQuestion.getRecipientType())
+                && newQuestion.getNumOfEntitiesToGiveFeedbackTo().equals(oldQuestion.getNumberOfEntitiesToGiveFeedbackTo())
+                && newQuestion.getShowResponsesTo().equals(oldQuestion.getShowResponsesTo())
+                && newQuestion.getShowGiverNameTo().equals(oldQuestion.getShowGiverNameTo())
+                && newQuestion.getShowRecipientNameTo().equals(oldQuestion.getShowRecipientNameTo())
+                && newQuestion.getQuestionDetailsCopy().getJsonString().equals(oldQuestion.getQuestionText())
+                && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt())
+                && newQuestion.getUpdatedAt().equals(oldQuestion.getUpdatedAt());
+        if (!doFieldsMatch) {
+            log(String.format("Mismatched fields for question %s, session: %s, course id: %s",
+                    oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
+            return false;
+        }
+
+        List<teammates.storage.sqlentity.FeedbackResponse> newResponses = newQuestion.getFeedbackResponses();
+        List<FeedbackResponse> oldResponses = ofy().load().type(FeedbackResponse.class)
+                .filter("feedbackQuestionId", oldQuestion.getId()).list();
+
+        if (newResponses.size() != oldResponses.size()) {
+            log(String.format("Mismatched response counts for question %s, session: %s, course id: %s",
+                    oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
+            return false;
+        }
+
+        Map<String, FeedbackResponse> responseIdToOldResponseMap = oldResponses.stream()
+                .collect(Collectors.toMap(FeedbackResponse::getId, response -> response));
+
+        return newResponses.stream().allMatch(newResponse -> {
+            String oldResponseId = FeedbackResponse.generateId(oldQuestion.getId(), newResponse.getGiver(),
+                    newResponse.getRecipient());
+            FeedbackResponse oldResponse = responseIdToOldResponseMap.get(oldResponseId);
+            return verifyFeedbackResponse(oldResponse, newResponse);
+        });
+    }
+
+    private boolean verifyFeedbackResponse(FeedbackResponse oldResponse,
+            teammates.storage.sqlentity.FeedbackResponse newResponse) {
+        boolean allFieldsMatch = newResponse.getGiver().equals(oldResponse.getGiverEmail())
+                && newResponse.getGiverSection().getCourse().getId().equals(oldResponse.getCourseId())
+                && newResponse.getGiverSectionName().equals(oldResponse.getGiverSection())
+                && newResponse.getRecipient().equals(oldResponse.getRecipientEmail())
+                && newResponse.getRecipientSectionName().equals(oldResponse.getRecipientSection())
+                && newResponse.getCreatedAt().equals(oldResponse.getCreatedAt())
+                && newResponse.getUpdatedAt().equals(oldResponse.getUpdatedAt())
+                && newResponse.getFeedbackResponseDetailsCopy().getJsonString().equals(oldResponse.getAnswer());
+        if (!allFieldsMatch) {
+            log(String.format("Mismatched fields for response %s, question %s, session: %s, course id: %s",
+                    oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
+                    oldResponse.getCourseId()));
+            return false;
+        }
+
+        List<teammates.storage.sqlentity.FeedbackResponseComment> newComments = newResponse.getFeedbackResponseComments();
+        List<FeedbackResponseComment> oldComments = ofy().load()
+                .type(teammates.storage.entity.FeedbackResponseComment.class)
+                .filter("feedbackResponseId", oldResponse.getId()).list();
+
+        if (newComments.size() != oldComments.size()) {
+            log(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
+                    oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
+                    oldResponse.getCourseId()));
+            return false;
+        }
+
+        boolean allCommentFieldsMatch = oldComments.stream().allMatch(oldComment -> newComments.stream()
+                .anyMatch(newComment -> verifyFeedbackResponseComment(oldComment, newComment)));
+        if (!allCommentFieldsMatch) {
+            log(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
+                    oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
+                    oldResponse.getCourseId()));
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean verifyFeedbackResponseComment(FeedbackResponseComment oldComment,
+            teammates.storage.sqlentity.FeedbackResponseComment newComment) {
+        return newComment.getGiver().equals(oldComment.getGiverEmail())
+                && newComment.getCommentText().equals(oldComment.getCommentText())
+                && newComment.getGiverType().equals(oldComment.getCommentGiverType())
+                && newComment.getGiverSection().getCourse().getId().equals(oldComment.getCourseId())
+                && newComment.getGiverSection().getName().equals(oldComment.getGiverSection())
+                && newComment.getRecipientSection().getName().equals(oldComment.getReceiverSection())
+                && newComment.getIsVisibilityFollowingFeedbackQuestion()
+                        == oldComment.getIsVisibilityFollowingFeedbackQuestion()
+                && newComment.getIsCommentFromFeedbackParticipant() == oldComment.getIsCommentFromFeedbackParticipant()
+                && newComment.getShowCommentTo().equals(oldComment.getShowCommentTo())
+                && newComment.getShowGiverNameTo().equals(oldComment.getShowGiverNameTo())
+                && newComment.getCreatedAt().equals(oldComment.getCreatedAt())
+                && newComment.getUpdatedAt().equals(oldComment.getLastEditedAt())
+                && newComment.getLastEditorEmail().equals(oldComment.getLastEditorEmail());
+    }
+
     // Verify Instructor ----------------------------
     private boolean verifyInstructors(teammates.storage.sqlentity.Course newCourse) {
         List<teammates.storage.sqlentity.Instructor> newInstructors = getNewInstructors(newCourse.getId());
@@ -241,40 +419,34 @@ public class VerifyCourseEntityAttributes
 
     // Verify Get methods ----------------------------
     private List<Student> getNewStudents(String courseId) {
-        HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.Student> cr = cb
                 .createQuery(teammates.storage.sqlentity.Student.class);
         Root<teammates.storage.sqlentity.Student> studentRoot = cr.from(teammates.storage.sqlentity.Student.class);
         cr.select(studentRoot).where(cb.equal(studentRoot.get("courseId"), courseId));
         List<Student> newStudents = HibernateUtil.createQuery(cr).getResultList();
-        HibernateUtil.commitTransaction();
         return newStudents;
     }
 
     private List<teammates.storage.sqlentity.Instructor> getNewInstructors(String courseId) {
-        HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.Instructor> cr = cb
                 .createQuery(teammates.storage.sqlentity.Instructor.class);
         Root<teammates.storage.sqlentity.Instructor> instructorRoot = cr.from(teammates.storage.sqlentity.Instructor.class);
         cr.select(instructorRoot).where(cb.equal(instructorRoot.get("courseId"), courseId));
         List<teammates.storage.sqlentity.Instructor> newInstructors = HibernateUtil.createQuery(cr).getResultList();
-        HibernateUtil.commitTransaction();
         return newInstructors;
     }
 
     private List<teammates.storage.sqlentity.DeadlineExtension> getNewDeadlineExtensions(String courseId) {
-        HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.DeadlineExtension> cr = cb
                 .createQuery(teammates.storage.sqlentity.DeadlineExtension.class);
         Root<teammates.storage.sqlentity.DeadlineExtension> deadlineExtensionsRoot = cr
                 .from(teammates.storage.sqlentity.DeadlineExtension.class);
-        cr.select(deadlineExtensionsRoot).where(cb.equal(deadlineExtensionsRoot.get("courseId"), courseId));
+        cr.select(deadlineExtensionsRoot).where(cb.equal(deadlineExtensionsRoot.get("user").get("courseId"), courseId));
         List<teammates.storage.sqlentity.DeadlineExtension> newDeadlineExt = HibernateUtil.createQuery(cr)
                 .getResultList();
-        HibernateUtil.commitTransaction();
         return newDeadlineExt;
     }
 }
