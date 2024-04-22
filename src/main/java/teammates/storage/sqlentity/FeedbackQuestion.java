@@ -40,11 +40,10 @@ import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
  * Represents a feedback question.
  */
 @Entity
-@Table(name = "FeedbackQuestions",
-        uniqueConstraints = {
-            @UniqueConstraint(name = "Unique question number per session",
+@Table(name = "FeedbackQuestions", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique question number per session",
             columnNames = { "questionNumber", "sessionId" }),
-        })
+})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class FeedbackQuestion extends BaseEntity implements Comparable<FeedbackQuestion> {
     @Id

@@ -27,10 +27,9 @@ import teammates.common.util.SanitizationHelper;
  * Represents a Section.
  */
 @Entity
-@Table(name = "Sections",
-        uniqueConstraints = {
-            @UniqueConstraint(name = "Unique section name per course", columnNames = { "name", "courseId" }),
-        })
+@Table(name = "Sections", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique section name per course", columnNames = { "name", "courseId" }),
+})
 public class Section extends BaseEntity {
     @Id
     private UUID id;
