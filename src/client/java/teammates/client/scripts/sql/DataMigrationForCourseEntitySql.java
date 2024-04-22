@@ -32,7 +32,6 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.storage.sqlentity.Account;
