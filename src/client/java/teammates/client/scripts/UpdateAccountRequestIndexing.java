@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Root;
 import teammates.client.util.BackDoor;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 
@@ -48,26 +49,33 @@ public class UpdateAccountRequestIndexing {
         List<AccountRequest> accountRequests = query.getResultList();
         HibernateUtil.commitTransaction();
 
+        SqlDataBundle dataBundle = new SqlDataBundle();
+        dataBundle.accountRequests = new HashMap<>();
         int batchSize = 100;
         int currentBatchSize = 0;
 
-        for (AccountRequest accountRequest : accountRequests) {
-            try {
-                SqlDataBundle dataBundle = new SqlDataBundle();
-                dataBundle.accountRequests = new HashMap<>();
-                dataBundle.accountRequests.put(accountRequest.getId().toString(), accountRequest);
+        for (int i = 0; i < accountRequests.size(); i++) {
+            AccountRequest accountRequest = accountRequests.get(i);
+            dataBundle.accountRequests.put(accountRequest.getId().toString(), accountRequest);
+            currentBatchSize++;
 
-                currentBatchSize++;
-
-                if (currentBatchSize == batchSize) {
-                    BackDoor.getInstance().putSqlDocuments(dataBundle);
-                    dataBundle.accountRequests.clear();
-                    currentBatchSize = 0;
-                }
-            } catch (Exception e) {
-                System.out.println("Failed to index account request with ID: " + accountRequest.getId());
-                e.printStackTrace();
+            if (currentBatchSize == batchSize || i == accountRequests.size() - 1) {
+                insertDocs(dataBundle);
+                dataBundle.accountRequests.clear();
+                currentBatchSize = 0;
             }
+        }
+    }
+
+    /**
+     * Inserts the document.
+     */
+    public void insertDocs(SqlDataBundle dataBundle) {
+        try {
+            BackDoor.getInstance().putSqlDocuments(dataBundle);
+        } catch (HttpRequestFailedException e) {
+            System.out.println("Error occurred while inserting documents: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
