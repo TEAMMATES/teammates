@@ -91,12 +91,18 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     AtomicLong numberOfScannedKey;
     AtomicLong numberOfUpdatedEntities;
 
+    private static final int MAX_RESPONSE_COUNT = -1;
+
+    private VerifyCourseEntityAttributes verifier;
+
     public DataMigrationForCourseEntitySql() {
         numberOfAffectedEntities = new AtomicLong();
         numberOfScannedKey = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
 
         entitiesSavingBuffer = new ArrayList<>();
+    
+        verifier = new VerifyCourseEntityAttributes();
 
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
         String username = ClientProperties.SCRIPT_API_NAME;
@@ -104,8 +110,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         HibernateUtil.buildSessionFactory(connectionUrl, username, password);
     }
-
-    private static final int MAX_RESPONSE_COUNT = -1;
 
     public static void main(String[] args) {
         new DataMigrationForCourseEntitySql().doOperationRemotely();
@@ -128,8 +132,14 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         migrateCourseEntity(newCourse);
         flushEntitiesSavingBuffer();
-        // verifyCourseEntity(newCourse);
-        // markOldCourseAsMigrated(courseId)
+
+        if (!verifier.equals(newCourse, oldCourse)) {
+            logError("Verification failed for course with id: " + oldCourse.getUniqueId());
+            return;
+        }
+
+        // TODO: markOldCourseAsMigrated(courseId)
+
         log("Finish migrating course with id: " + oldCourse.getUniqueId());
     }
 
@@ -148,6 +158,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private Map<String, teammates.storage.sqlentity.Section> migrateSectionChain(
             teammates.storage.sqlentity.Course newCourse, Map<String, User> userEmailToUserMap) {
+        log("Migrating section chain");
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
                 .list();
         Map<String, teammates.storage.sqlentity.Section> sections = new HashMap<>();
@@ -184,6 +195,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         for (CourseStudent oldStudent : studentsInTeam) {
             teammates.storage.sqlentity.Student newStudent = createStudent(newCourse, newTeam, oldStudent);
             userEmailToUserMap.put(oldStudent.getEmail(), newStudent);
+            saveEntityDeferred(newStudent);
         }
     }
 
@@ -234,7 +246,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     private Map<String, teammates.storage.sqlentity.FeedbackSession> migrateFeedbackChain(
             teammates.storage.sqlentity.Course newCourse,
             Map<String, Section> sectionNameToSectionMap) {
-
+        log("Migrating feedback chain");
         Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
                 new HashMap<>();
 
@@ -535,6 +547,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     private void migrateDeadlineExtensionEntities(teammates.storage.sqlentity.Course newCourse,
             Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap,
             Map<String, User> userEmailToUserMap) {
+        log("Migrating deadline extension");
         List<DeadlineExtension> oldDeadlineExtensions = ofy().load().type(DeadlineExtension.class)
                 .filter("courseId", newCourse.getId())
                 .list();
@@ -542,7 +555,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         for (DeadlineExtension oldDeadlineExtension : oldDeadlineExtensions) {
             User newUser = userEmailToUserMap.get(oldDeadlineExtension.getUserEmail());
             if (newUser == null) {
-                log("User not found for deadline extension: " + oldDeadlineExtension.getUserEmail());
+                logError("User not found for deadline extension: " + oldDeadlineExtension.getUserEmail());
                 continue;
             }
             migrateDeadlineExtension(oldDeadlineExtension,

@@ -52,11 +52,14 @@ public class VerifyCourseEntityAttributes
     @Override
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         try {
-            return verifyCourse(sqlEntity, datastoreEntity)
+            HibernateUtil.beginTransaction();
+            boolean result = verifyCourse(sqlEntity, datastoreEntity)
                     && verifySectionChain(sqlEntity)
                     && verifyFeedbackChain(sqlEntity)
                     && verifyInstructors(sqlEntity)
                     && verifyDeadlineExtensions(sqlEntity);
+            HibernateUtil.commitTransaction();
+            return result;
         } catch (IllegalArgumentException iae) {
             return false;
         }
