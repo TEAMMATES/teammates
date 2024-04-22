@@ -540,7 +540,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         for (DeadlineExtension oldDeadlineExtension : oldDeadlineExtensions) {
             User newUser = userEmailToUserMap.get(oldDeadlineExtension.getUserEmail());
             if (newUser == null) {
-                // #TODO Log error
+                log("User not found for deadline extension: " + oldDeadlineExtension.getUserEmail());
                 continue;
             }
             migrateDeadlineExtension(oldDeadlineExtension,
@@ -569,12 +569,12 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     private void migrateUserAccounts(teammates.storage.sqlentity.Course newCourse, Map<String, User> userEmailToUserMap) {
         List<Account> newAccounts = getAllAccounts(new ArrayList<String>(userEmailToUserMap.keySet()));
         if (newAccounts.size() != userEmailToUserMap.size()) {
-            // #TODO Log error
+            log("Mismatch in number of accounts: " + newAccounts.size() + " vs " + userEmailToUserMap.size());
         }
         for (Account account: newAccounts) {
             User newUser = userEmailToUserMap.get(account.getEmail());
             if (newUser == null) {
-                // #TODO Log error
+                log("User not found for account: " + account.getEmail());
                 continue;
             }
             newUser.setAccount(account);
