@@ -138,8 +138,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
                 migrateFeedbackChain(newCourse, sectionNameToSectionMap);
         migrateInstructorEntities(newCourse, userEmailToUserMap);
-        migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, userEmailToUserMap);
         migrateUserAccounts(newCourse, userEmailToUserMap);
+        migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, userEmailToUserMap);
     }
 
     // methods for migrate section chain ----------------------------------------------------------------------------------
