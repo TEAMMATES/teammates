@@ -55,8 +55,8 @@ public class VerifyCourseEntityAttributes
             return verifyCourse(sqlEntity, datastoreEntity)
                     && verifySectionChain(sqlEntity)
                     && verifyFeedbackChain(sqlEntity)
-                    && verifyInstructors(sqlEntity);
-                    // && verifyDeadlineExtensions(sqlEntity);
+                    && verifyInstructors(sqlEntity)
+                    && verifyDeadlineExtensions(sqlEntity);
         } catch (IllegalArgumentException iae) {
             return false;
         }
@@ -417,40 +417,34 @@ public class VerifyCourseEntityAttributes
 
     // Verify Get methods ----------------------------
     private List<Student> getNewStudents(String courseId) {
-        // HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.Student> cr = cb
                 .createQuery(teammates.storage.sqlentity.Student.class);
         Root<teammates.storage.sqlentity.Student> studentRoot = cr.from(teammates.storage.sqlentity.Student.class);
         cr.select(studentRoot).where(cb.equal(studentRoot.get("courseId"), courseId));
         List<Student> newStudents = HibernateUtil.createQuery(cr).getResultList();
-        // HibernateUtil.commitTransaction();
         return newStudents;
     }
 
     private List<teammates.storage.sqlentity.Instructor> getNewInstructors(String courseId) {
-        // HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.Instructor> cr = cb
                 .createQuery(teammates.storage.sqlentity.Instructor.class);
         Root<teammates.storage.sqlentity.Instructor> instructorRoot = cr.from(teammates.storage.sqlentity.Instructor.class);
         cr.select(instructorRoot).where(cb.equal(instructorRoot.get("courseId"), courseId));
         List<teammates.storage.sqlentity.Instructor> newInstructors = HibernateUtil.createQuery(cr).getResultList();
-        // HibernateUtil.commitTransaction();
         return newInstructors;
     }
 
     private List<teammates.storage.sqlentity.DeadlineExtension> getNewDeadlineExtensions(String courseId) {
-        // HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.DeadlineExtension> cr = cb
                 .createQuery(teammates.storage.sqlentity.DeadlineExtension.class);
         Root<teammates.storage.sqlentity.DeadlineExtension> deadlineExtensionsRoot = cr
                 .from(teammates.storage.sqlentity.DeadlineExtension.class);
-        cr.select(deadlineExtensionsRoot).where(cb.equal(deadlineExtensionsRoot.get("courseId"), courseId));
+        cr.select(deadlineExtensionsRoot).where(cb.equal(deadlineExtensionsRoot.get("user").get("courseId"), courseId));
         List<teammates.storage.sqlentity.DeadlineExtension> newDeadlineExt = HibernateUtil.createQuery(cr)
                 .getResultList();
-        // HibernateUtil.commitTransaction();
         return newDeadlineExt;
     }
 }
