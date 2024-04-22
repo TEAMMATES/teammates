@@ -32,6 +32,14 @@ public class CreateAccountRequestAction extends Action {
     public JsonResult execute()
             throws InvalidHttpRequestBodyException, InvalidOperationException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
+        
+        if (userInfo == null || !userInfo.isAdmin) {
+            String userCaptchaResponse = createRequest.getCaptchaResponse();
+            if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
+                throw new InvalidHttpRequestBodyException("Something went wrong with "
+                        + "the reCAPTCHA verification. Please try again.");
+            }
+        }
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();

@@ -6,6 +6,7 @@ import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import { FormValidator } from '../../../../types/form-validator';
 import { ErrorMessageOutput } from '../../../error-message-output';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'tm-instructor-request-form',
@@ -15,12 +16,19 @@ import { ErrorMessageOutput } from '../../../error-message-output';
 export class InstructorRequestFormComponent {
 
   constructor(private accountService: AccountService) {}
-
+  
   // Create members to be accessed in template
   readonly STUDENT_NAME_MAX_LENGTH = FormValidator.STUDENT_NAME_MAX_LENGTH;
   readonly INSTITUTION_NAME_MAX_LENGTH = FormValidator.INSTITUTION_NAME_MAX_LENGTH;
   readonly COUNTRY_NAME_MAX_LENGTH = FormValidator.COUNTRY_NAME_MAX_LENGTH;
   readonly EMAIL_MAX_LENGTH = FormValidator.EMAIL_MAX_LENGTH;
+
+  // Captcha
+  readonly captchaSiteKey: string = environment.captchaSiteKey;
+  isCaptchaSuccessful: boolean = false;
+  captchaResponse?: string;
+  size: 'compact' | 'normal' = 'normal';
+  lang: string = 'en';
 
   arf = new FormGroup({
     name: new FormControl('', [
@@ -79,12 +87,25 @@ export class InstructorRequestFormComponent {
     return str;
   }
 
+  /**
+   * Handles successful completion of reCAPTCHA challenge.
+   *
+   * @param captchaResponse user's reCAPTCHA response token.
+   */
+  handleCaptchaSuccess(captchaResponse: string): void {
+    this.isCaptchaSuccessful = true;
+    this.captchaResponse = captchaResponse;
+  }
+
+  /**
+   * Handles form submission.
+   */
   onSubmit(): void {
     this.hasSubmitAttempt = true;
     this.isLoading = true;
     this.serverErrorMessage = '';
 
-    if (this.arf.invalid) {
+    if (this.arf.invalid || (this.captchaSiteKey && !this.captchaResponse)) {
       this.isLoading = false;
       // Do not submit form
       return;
@@ -103,6 +124,7 @@ export class InstructorRequestFormComponent {
       instructorEmail: email,
       instructorName: name,
       instructorInstitution: combinedInstitution,
+      captchaResponse: this.captchaSiteKey ? this.captchaResponse! : '',
     };
 
     if (comments) {
