@@ -51,7 +51,7 @@ public class VerifyTeamAttributes
             Set<String> oldTeamNames = sectionNameToTeamNamesMap.get(section.getName());
             Set<String> newTeamNames = new HashSet<>(
                     section.getTeams().stream().map(Team::getName).collect(Collectors.toList()));
-            
+
             return section.getTeams().size() == newTeamNames.size()
                     && newTeamNames.equals(oldTeamNames);
         }).allMatch(b -> true);

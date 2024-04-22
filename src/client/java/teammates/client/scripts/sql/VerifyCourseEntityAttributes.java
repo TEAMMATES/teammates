@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
@@ -13,6 +16,8 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -24,7 +29,7 @@ import jakarta.persistence.criteria.Root;
 /**
  * Class for verifying account attributes.
  */
-@SuppressWarnings("PMD")
+@SuppressWarnings({ "PMD", "deprecation" })
 public class VerifyCourseEntityAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Course, teammates.storage.sqlentity.Course> {
 
@@ -47,8 +52,11 @@ public class VerifyCourseEntityAttributes
     @Override
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         try {
-            return verifyCourse(sqlEntity, datastoreEntity) && verifySectionChain(sqlEntity)
-                    && verifyFeedbackChain(sqlEntity);
+            return verifyCourse(sqlEntity, datastoreEntity)
+                    && verifySectionChain(sqlEntity)
+                    && verifyFeedbackChain(sqlEntity)
+                    && verifyInstructors(sqlEntity);
+                    // && verifyDeadlineExtensions(sqlEntity);
         } catch (IllegalArgumentException iae) {
             return false;
         }
@@ -94,8 +102,8 @@ public class VerifyCourseEntityAttributes
             // If either of the sectionStudent is null,
             // then section is not present in the corresponding datastore or sql
             // which means a possible migration error
-            boolean isSectionNamePresent = oldSectionStudents != null && newSectionStudents != null;
-            if (!isSectionNamePresent) {
+            boolean sectionNameNotPresent = oldSectionStudents == null || newSectionStudents == null;
+            if (sectionNameNotPresent) {
                 return false;
             }
 
@@ -127,8 +135,8 @@ public class VerifyCourseEntityAttributes
             // If either of the teamStudent is null,
             // then team is not present in the corresponding datastore or sql
             // which means a possible migration error
-            boolean isTeamNamePresent = oldTeamStudents != null && newTeamStudents != null;
-            if (!isTeamNamePresent) {
+            boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
+            if (teamNameNotPresent) {
                 return false;
             }
             return verifyStudents(oldTeamStudents, newTeamStudents);
@@ -160,19 +168,6 @@ public class VerifyCourseEntityAttributes
                 && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt())
                 && newStudent.getCreatedAt().equals(oldStudent.getCreatedAt())
                 && newStudent.getRegKey().equals(oldStudent.getRegistrationKey());
-
-    }
-
-    private List<Student> getNewStudents(String courseId) {
-        // HibernateUtil.beginTransaction();
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<teammates.storage.sqlentity.Student> cr = cb
-                .createQuery(teammates.storage.sqlentity.Student.class);
-        Root<teammates.storage.sqlentity.Student> courseRoot = cr.from(teammates.storage.sqlentity.Student.class);
-        cr.select(courseRoot).where(cb.equal(courseRoot.get("courseId"), courseId));
-        List<Student> newStudents = HibernateUtil.createQuery(cr).getResultList();
-        // HibernateUtil.commitTransaction();
-        return newStudents;
     }
 
     // methods for verify feedback chain -----------------------------------------------------------------------------------
@@ -340,5 +335,122 @@ public class VerifyCourseEntityAttributes
                 && newComment.getCreatedAt().equals(oldComment.getCreatedAt())
                 && newComment.getUpdatedAt().equals(oldComment.getLastEditedAt())
                 && newComment.getLastEditorEmail().equals(oldComment.getLastEditorEmail());
+    }
+
+    // Verify Instructor ----------------------------
+    private boolean verifyInstructors(teammates.storage.sqlentity.Course newCourse) {
+        List<teammates.storage.sqlentity.Instructor> newInstructors = getNewInstructors(newCourse.getId());
+        List<Instructor> oldInstructors = ofy().load().type(Instructor.class).filter("courseId", newCourse.getId())
+                .list();
+
+        if (oldInstructors.size() != newInstructors.size()) {
+            return false;
+        }
+
+        newInstructors.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+        oldInstructors.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+        for (int i = 0; i < oldInstructors.size(); i++) {
+            Instructor oldInstructor = oldInstructors.get(i);
+            teammates.storage.sqlentity.Instructor newInstructor = newInstructors.get(i);
+            if (!verifyInstructor(oldInstructor, newInstructor)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean verifyInstructor(Instructor oldInstructor,
+            teammates.storage.sqlentity.Instructor newInstructor) {
+        InstructorPrivileges oldPrivileges;
+        if (oldInstructor.getInstructorPrivilegesAsText() == null) {
+            oldPrivileges = new InstructorPrivileges(oldInstructor.getRole());
+        } else {
+            InstructorPrivilegesLegacy privilegesLegacy = JsonUtils
+                    .fromJson(oldInstructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
+            oldPrivileges = new InstructorPrivileges(privilegesLegacy);
+        }
+
+        return newInstructor.getName().equals(oldInstructor.getName())
+                && newInstructor.getEmail().equals(oldInstructor.getEmail())
+                && newInstructor.getRole().getRoleName().equals(oldInstructor.getRole())
+                && newInstructor.getRegKey().equals(oldInstructor.getRegistrationKey())
+                && newInstructor.getDisplayName().equals(oldInstructor.getDisplayedName())
+                && newInstructor.getPrivileges().equals(oldPrivileges)
+                && newInstructor.isDisplayedToStudents() == oldInstructor.isDisplayedToStudents()
+                && newInstructor.getCreatedAt().equals(oldInstructor.getCreatedAt())
+                && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt());
+
+    }
+
+    // Verify DeadlineExtensions ----------------------------
+    private boolean verifyDeadlineExtensions(teammates.storage.sqlentity.Course newCourse) {
+        List<teammates.storage.sqlentity.DeadlineExtension> newDeadlineExt = getNewDeadlineExtensions(newCourse.getId());
+        List<DeadlineExtension> oldDeadlineExt = ofy().load()
+                .type(DeadlineExtension.class).filter("courseId", newCourse.getId()).list();
+
+        if (oldDeadlineExt.size() != newDeadlineExt.size()) {
+            return false;
+        }
+
+        newDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
+        oldDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
+
+        for (int i = 0; i < oldDeadlineExt.size(); i++) {
+            DeadlineExtension oldDeadline = oldDeadlineExt.get(i);
+            teammates.storage.sqlentity.DeadlineExtension newDeadline = newDeadlineExt.get(i);
+            if (!verifyDeadlineExtension(oldDeadline, newDeadline)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean verifyDeadlineExtension(DeadlineExtension oldDeadline,
+            teammates.storage.sqlentity.DeadlineExtension newDeadline) {
+        return newDeadline.getFeedbackSession().getName().equals(oldDeadline.getFeedbackSessionName())
+                && newDeadline.getUser().getEmail().equals(oldDeadline.getUserEmail())
+                && newDeadline.getEndTime().equals(oldDeadline.getEndTime())
+                && newDeadline.isClosingSoonEmailSent() == oldDeadline.getSentClosingEmail()
+                && newDeadline.getUpdatedAt().equals(oldDeadline.getUpdatedAt())
+                && newDeadline.getCreatedAt().equals(oldDeadline.getCreatedAt());
+    }
+
+    // Verify Get methods ----------------------------
+    private List<Student> getNewStudents(String courseId) {
+        // HibernateUtil.beginTransaction();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Student> cr = cb
+                .createQuery(teammates.storage.sqlentity.Student.class);
+        Root<teammates.storage.sqlentity.Student> studentRoot = cr.from(teammates.storage.sqlentity.Student.class);
+        cr.select(studentRoot).where(cb.equal(studentRoot.get("courseId"), courseId));
+        List<Student> newStudents = HibernateUtil.createQuery(cr).getResultList();
+        // HibernateUtil.commitTransaction();
+        return newStudents;
+    }
+
+    private List<teammates.storage.sqlentity.Instructor> getNewInstructors(String courseId) {
+        // HibernateUtil.beginTransaction();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Instructor> cr = cb
+                .createQuery(teammates.storage.sqlentity.Instructor.class);
+        Root<teammates.storage.sqlentity.Instructor> instructorRoot = cr.from(teammates.storage.sqlentity.Instructor.class);
+        cr.select(instructorRoot).where(cb.equal(instructorRoot.get("courseId"), courseId));
+        List<teammates.storage.sqlentity.Instructor> newInstructors = HibernateUtil.createQuery(cr).getResultList();
+        // HibernateUtil.commitTransaction();
+        return newInstructors;
+    }
+
+    private List<teammates.storage.sqlentity.DeadlineExtension> getNewDeadlineExtensions(String courseId) {
+        // HibernateUtil.beginTransaction();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.DeadlineExtension> cr = cb
+                .createQuery(teammates.storage.sqlentity.DeadlineExtension.class);
+        Root<teammates.storage.sqlentity.DeadlineExtension> deadlineExtensionsRoot = cr
+                .from(teammates.storage.sqlentity.DeadlineExtension.class);
+        cr.select(deadlineExtensionsRoot).where(cb.equal(deadlineExtensionsRoot.get("courseId"), courseId));
+        List<teammates.storage.sqlentity.DeadlineExtension> newDeadlineExt = HibernateUtil.createQuery(cr)
+                .getResultList();
+        // HibernateUtil.commitTransaction();
+        return newDeadlineExt;
     }
 }
