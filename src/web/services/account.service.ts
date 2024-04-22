@@ -118,8 +118,7 @@ export class AccountService {
   /**
    * Edits an account request by calling API.
    */
-  editAccountRequest(id: string, accountReqUpdateRequest: AccountRequestUpdateRequest)
-  : Observable<AccountRequest> {
+  editAccountRequest(id: string, accountReqUpdateRequest: AccountRequestUpdateRequest): Observable<AccountRequest> {
     const paramMap: Record<string, string> = {
       id,
     };
