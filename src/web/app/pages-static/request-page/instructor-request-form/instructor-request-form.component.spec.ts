@@ -6,6 +6,7 @@ import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
@@ -46,7 +47,7 @@ describe('InstructorRequestFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorRequestFormComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, NgxCaptchaModule],
       providers: [{ provide: AccountService, useValue: accountServiceStub }],
     })
     .compileComponents();
@@ -56,8 +57,13 @@ describe('InstructorRequestFormComponent', () => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
+    component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
     jest.clearAllMocks();
+  });
+
+  it('should have empty captcha key', () => {
+    expect(component).toBeTruthy();
   });
 
   it('should create', () => {

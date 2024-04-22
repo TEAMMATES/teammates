@@ -106,7 +106,6 @@
   </div>
   <br>
   <div *ngIf="captchaSiteKey !== ''" class="form-group">
-
     <ngx-recaptcha2 #captchaElem
                     [siteKey]="captchaSiteKey"
                     (success)="handleCaptchaSuccess($event)"
@@ -120,8 +119,8 @@
       class="invalid-feedback">
       Please complete the captcha verification.
     </div>
+    <br>
   </div>
-  <br>
   <ngb-alert type="danger" [dismissible]="false" *ngIf="hasSubmitAttempt && arf.invalid" class="error-box">
     <strong>There was a problem with your submission.</strong> Please check and fix the errors above and submit again.
   </ngb-alert>

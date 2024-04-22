@@ -24,7 +24,7 @@ export class InstructorRequestFormComponent {
   readonly EMAIL_MAX_LENGTH = FormValidator.EMAIL_MAX_LENGTH;
 
   // Captcha
-  readonly captchaSiteKey: string = environment.captchaSiteKey;
+  captchaSiteKey: string = environment.captchaSiteKey;
   isCaptchaSuccessful: boolean = false;
   captchaResponse?: string;
   size: 'compact' | 'normal' = 'normal';
@@ -52,6 +52,7 @@ export class InstructorRequestFormComponent {
       Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH),
     ]),
     comments: new FormControl(''),
+    recaptcha: new FormControl(''),
   }, { updateOn: 'submit' });
 
   // Create members for easier access of arf controls
