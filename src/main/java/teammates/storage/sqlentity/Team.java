@@ -23,10 +23,7 @@ import teammates.common.util.FieldValidator;
  * Represents a Team.
  */
 @Entity
-@Table(name = "Teams",
-        uniqueConstraints = {
-            @UniqueConstraint(name = "Unique team name per course", columnNames = { "name", "courseId" }),
-        })
+@Table(name = "Teams")
 public class Team extends BaseEntity {
     @Id
     private UUID id;
