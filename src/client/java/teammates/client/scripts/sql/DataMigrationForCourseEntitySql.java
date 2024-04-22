@@ -21,19 +21,21 @@ import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import teammates.client.connector.DatastoreClient;
+import teammates.client.util.ClientProperties;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Const;
-import teammates.client.connector.DatastoreClient;
-import teammates.client.util.ClientProperties;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Section;
@@ -142,6 +144,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     // methods for migrate section chain ----------------------------------------------------------------------------------
+    // entities: Section, Team, Student
 
     private Map<String, teammates.storage.sqlentity.Section> migrateSectionChain(
             teammates.storage.sqlentity.Course newCourse, Map<String, User> userEmailToUserMap) {
@@ -226,6 +229,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     // methods for migrate feedback chain ---------------------------------------------------------------------------------
+    // entities: FeedbackSession, FeedbackQuestion, FeedbackResponse, FeedbackResponseComment
 
     private Map<String, teammates.storage.sqlentity.FeedbackSession> migrateFeedbackChain(
             teammates.storage.sqlentity.Course newCourse,
@@ -258,7 +262,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         Map<String, List<FeedbackResponse>> questionIdToResponsesMap;
         Query<FeedbackResponse> responsesInSession = ofy().load().type(FeedbackResponse.class)
-                .filter("courseId", newCourse.getId())
+                .filter("courseId", oldSession.getCourseId())
                 .filter("feedbackSessionName", oldSession.getFeedbackSessionName());
         if (responsesInSession.count() <= MAX_RESPONSE_COUNT) {
             questionIdToResponsesMap = responsesInSession.list().stream()
@@ -284,8 +288,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         Map<String, List<FeedbackResponseComment>> responseIdToCommentsMap = ofy().load()
                 .type(FeedbackResponseComment.class)
-                .filter("courseId", newSession.getCourse().getId())
-                .filter("feedbackSessionName", newSession.getName())
                 .filter("feedbackQuestionId", oldQuestion.getId()).list().stream()
                 .collect(Collectors.groupingBy(FeedbackResponseComment::getFeedbackResponseId));
 
@@ -295,8 +297,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             oldResponses = questionIdToResponsesMap.get(oldQuestion.getId());
         } else {
             oldResponses = ofy().load().type(FeedbackResponse.class)
-                    .filter("courseId", newSession.getCourse().getId())
-                    .filter("feedbackSessionName", newSession.getName())
                     .filter("feedbackQuestionId", oldQuestion.getId()).list();
         }
         for (FeedbackResponse oldResponse : oldResponses) {
@@ -441,8 +441,9 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             return new FeedbackMsqResponseDetailsConverter()
                     .convertToEntityAttribute(oldResponse.getAnswer());
         case TEXT:
-            return new FeedbackTextResponseDetailsConverter()
-                    .convertToEntityAttribute(oldResponse.getAnswer());
+            // Response details for TEXT questions are not stored as json.
+            // Refer to FeedbackResponseDetails#getJsonString
+            return new FeedbackTextResponseDetails(oldResponse.getAnswer());
         case RUBRIC:
             return new FeedbackRubricResponseDetailsConverter()
                     .convertToEntityAttribute(oldResponse.getAnswer());
@@ -492,6 +493,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     // methods for misc migration methods ---------------------------------------------------------------------------------
+    // entities: Instructor, DeadlineExtension
 
     private void migrateInstructorEntities(teammates.storage.sqlentity.Course newCourse,
             Map<String, User> userEmailToUserMap) {

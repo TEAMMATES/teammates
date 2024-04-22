@@ -19,9 +19,13 @@ import com.googlecode.objectify.util.Closeable;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.scripts.GenerateUsageStatisticsObjects;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
@@ -31,6 +35,9 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Notification;
 import teammates.test.FileHelper;
@@ -46,6 +53,9 @@ public class SeedDb extends DatastoreClient {
     private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
     private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 3;
+    private static final int MAX_QUESTION_PER_COURSE = 6;
+    private static final int MAX_RESPONSES_PER_QUESTION = 10;
+    private static final int MAX_COMMENTS_PER_RESPONSE = 2;
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
 
@@ -125,11 +135,12 @@ public class SeedDb extends DatastoreClient {
                         (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
             }
 
-            String courseId = UUID.randomUUID().toString();
+            String courseId = String.format("Course ID %s", i);
             try {
                 seedCourseWithCourseId(i, courseId);
                 seedStudents(i, courseId);
-                seedFeedbackSession(courseId);
+                seedFeedbackSession(i, courseId);
+                seedFeedbackQuestions(i, courseId);
             } catch (Exception e) {
                 log(e.toString());
             }
@@ -192,11 +203,13 @@ public class SeedDb extends DatastoreClient {
         }
     }
 
-    private void seedFeedbackSession(String courseId) {
+    private void seedFeedbackSession(int courseNumber, String courseId) {
         Random rand = new Random();
+
+        log("Seeding feedback chain for course " + courseNumber);
         for (int i = 0; i < MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE; i++) {
             try {
-                String feedbackSessionName = String.format("Feedback Session %s", i);
+                String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
                 String feedbackSessionCreatorEmail = String.format("Creator Email %s", i);
                 String feedbackSessionInstructions = String.format("Instructions %s", i);
                 String timezone = String.format("Time Zone %s", i);
@@ -220,6 +233,103 @@ public class SeedDb extends DatastoreClient {
             } catch (Exception e) {
                 log(e.toString());
             }
+        }
+    }
+
+    private void seedFeedbackQuestions(int courseNumber, String courseId) {
+        assert MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE <= MAX_QUESTION_PER_COURSE;
+
+        int currSession = -1;
+        for (int i = 0; i < MAX_QUESTION_PER_COURSE; i++) {
+
+            if (i % (MAX_QUESTION_PER_COURSE / MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE) == 0) {
+                currSession++;
+            }
+
+            String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, currSession);
+            String questionDescription = String.format("Course %s Session %s Question %s Description",
+                    courseNumber, currSession, i);
+            String questionText = new FeedbackTextQuestionDetails(
+                    String.format("Session %s Question %s Text", currSession, i)).getJsonString();
+            int questionNumber = i;
+            FeedbackQuestionType feedbackQuestionType = FeedbackQuestionType.TEXT;
+            FeedbackParticipantType giverType = FeedbackParticipantType.STUDENTS;
+            FeedbackParticipantType recipientType = FeedbackParticipantType.INSTRUCTORS;
+            int numberOfEntitiesToGiveFeedbackTo = 1;
+
+            FeedbackQuestion feedbackQuestion = new FeedbackQuestion(feedbackSessionName, courseId,
+                    questionText, questionDescription, questionNumber, feedbackQuestionType, giverType, recipientType,
+                    numberOfEntitiesToGiveFeedbackTo, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            feedbackQuestion.setCreatedAt(getRandomInstant());
+            feedbackQuestion.setLastUpdate(getRandomInstant());
+
+            ofy().save().entities(feedbackQuestion).now();
+
+            String feedbackQuestionId = feedbackQuestion.getId();
+            assert feedbackQuestionId != null;
+            seedFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);
+        }
+    }
+
+    private void seedFeedbackResponses(int courseNumber, String courseId, String feedbackQuestionId,
+            FeedbackQuestionType feedbackQuestionType){
+        int currGiverSection = -1;
+        int currRecipientSection = 0;
+
+        for (int i = 0; i < MAX_RESPONSES_PER_QUESTION; i++) {
+
+            currGiverSection = (currGiverSection + 1) % MAX_SECTION_PER_COURSE;
+            currRecipientSection = (currRecipientSection + 1) % MAX_SECTION_PER_COURSE;
+
+            String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
+            String giverEmail = String.format("Giver Email %s", i);
+            String giverSection = String.format("Course %s Section %s", courseNumber, currGiverSection);
+            String recipient = String.format("Recipient %s", i);
+            String recipientSection = String.format("Course %s Section %s", courseNumber, currRecipientSection);
+            String answer = new FeedbackTextResponseDetails(
+                    String.format("Response %s for Question Id: %s", i, feedbackQuestionId)).getJsonString();
+
+            FeedbackResponse feedbackResponse = new FeedbackResponse(feedbackSessionName, courseId, feedbackQuestionId,
+                    feedbackQuestionType, giverEmail, giverSection, recipient, recipientSection, answer);
+            feedbackResponse.setCreatedAt(getRandomInstant());
+            feedbackResponse.setLastUpdate(getRandomInstant());
+
+            ofy().save().entities(feedbackResponse).now();
+
+            String feedbackResponseId = feedbackResponse.getId();
+            assert feedbackResponseId != null;
+            seedFeedbackResponseComments(courseNumber, courseId, feedbackQuestionId, feedbackResponseId, giverSection,
+                    recipientSection);
+        }
+    }
+
+    private void seedFeedbackResponseComments(int courseNumber, String courseId, String feedbackQuestionId, String feedbackResponseId,
+            String giverSection, String receiverSection) {
+        Random rand = new Random();
+
+        int currGiverSection = -1;
+        int currRecipientSection = 0;
+
+        for (int i = 0; i < MAX_COMMENTS_PER_RESPONSE; i++) {
+
+            currGiverSection = (currGiverSection + 1) % MAX_SECTION_PER_COURSE;
+            currRecipientSection = (currRecipientSection + 1) % MAX_SECTION_PER_COURSE;
+
+            String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
+            String giverEmail = String.format("Giver Email %s", i);
+            FeedbackParticipantType commentGiverType = FeedbackParticipantType.STUDENTS;
+            Instant createdAt = getRandomInstant();
+            String commentText = String.format("Comment %s for Response Id: %s", i, feedbackResponseId);
+            String lastEditorEmail = String.format("Last Editor Email %s", i);
+            Instant lastEditedAt = getRandomInstant();
+
+            FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(courseId,
+                    feedbackSessionName, feedbackQuestionId, giverEmail, commentGiverType, feedbackResponseId,
+                    createdAt, commentText, giverSection, receiverSection, new ArrayList<>(), new ArrayList<>(),
+                    lastEditorEmail, lastEditedAt, rand.nextBoolean(), rand.nextBoolean());
+            feedbackResponseComment.setCreatedAt(createdAt);
+
+            ofy().save().entities(feedbackResponseComment).now();
         }
     }
 
