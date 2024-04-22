@@ -65,6 +65,7 @@ public class VerifyCourseEntityAttributes
     }
 
     // methods for verify section chain  -----------------------------------------------------------------------------------
+    // entities: Section, Team, Student
 
     private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
         // Get old and new students
@@ -175,6 +176,7 @@ public class VerifyCourseEntityAttributes
     }
 
     // methods for verify feedback chain -----------------------------------------------------------------------------------
+    // entities: FeedbackSession, FeedbackQuestion, FeedbackResponse, FeedbackResponseComment
 
     private boolean verifyFeedbackChain(teammates.storage.sqlentity.Course newCourse) {
         List<teammates.storage.sqlentity.FeedbackSession> newSessions = newCourse.getFeedbackSessions();
@@ -241,7 +243,8 @@ public class VerifyCourseEntityAttributes
         });
     }
 
-    private boolean verifyFeedbackQuestion(FeedbackQuestion oldQuestion, teammates.storage.sqlentity.FeedbackQuestion newQuestion) {
+    private boolean verifyFeedbackQuestion(FeedbackQuestion oldQuestion,
+            teammates.storage.sqlentity.FeedbackQuestion newQuestion) {
         boolean doFieldsMatch = newQuestion.getQuestionNumber() == oldQuestion.getQuestionNumber()
                 && newQuestion.getDescription().equals(oldQuestion.getQuestionDescription())
                 && newQuestion.getGiverType().equals(oldQuestion.getGiverType())
@@ -250,8 +253,7 @@ public class VerifyCourseEntityAttributes
                 && newQuestion.getShowResponsesTo().equals(oldQuestion.getShowResponsesTo())
                 && newQuestion.getShowGiverNameTo().equals(oldQuestion.getShowGiverNameTo())
                 && newQuestion.getShowRecipientNameTo().equals(oldQuestion.getShowRecipientNameTo())
-                && newQuestion.getQuestionDetailsCopy()
-                        .equals(DataMigrationForCourseEntitySql.getFeedbackQuestionDetails(oldQuestion))
+                && newQuestion.getQuestionDetailsCopy().getJsonString().equals(oldQuestion.getQuestionText())
                 && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt())
                 && newQuestion.getUpdatedAt().equals(oldQuestion.getUpdatedAt());
         if (!doFieldsMatch) {
@@ -281,7 +283,8 @@ public class VerifyCourseEntityAttributes
         });
     }
 
-    private boolean verifyFeedbackResponse(FeedbackResponse oldResponse, teammates.storage.sqlentity.FeedbackResponse newResponse) {
+    private boolean verifyFeedbackResponse(FeedbackResponse oldResponse,
+            teammates.storage.sqlentity.FeedbackResponse newResponse) {
         boolean allFieldsMatch = newResponse.getGiver().equals(oldResponse.getGiverEmail())
                 && newResponse.getGiverSection().getCourse().getId().equals(oldResponse.getCourseId())
                 && newResponse.getGiverSectionName().equals(oldResponse.getGiverSection())
@@ -301,7 +304,7 @@ public class VerifyCourseEntityAttributes
         List<FeedbackResponseComment> oldComments = ofy().load()
                 .type(teammates.storage.entity.FeedbackResponseComment.class)
                 .filter("feedbackResponseId", oldResponse.getId()).list();
-        
+
         if (newComments.size() != oldComments.size()) {
             log(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
@@ -316,12 +319,13 @@ public class VerifyCourseEntityAttributes
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
-        } 
+        }
 
         return true;
     }
 
-    private boolean verifyFeedbackResponseComment(FeedbackResponseComment oldComment, teammates.storage.sqlentity.FeedbackResponseComment newComment) {
+    private boolean verifyFeedbackResponseComment(FeedbackResponseComment oldComment,
+            teammates.storage.sqlentity.FeedbackResponseComment newComment) {
         return newComment.getGiver().equals(oldComment.getGiverEmail())
                 && newComment.getCommentText().equals(oldComment.getCommentText())
                 && newComment.getGiverType().equals(oldComment.getCommentGiverType())
