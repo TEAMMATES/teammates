@@ -37,11 +37,14 @@ public class Course extends BaseEntity {
     @Column(nullable = false)
     private String institute;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     private List<FeedbackSession> feedbackSessions = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Section> sections = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
+    private List<User> users = new ArrayList<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
