@@ -309,13 +309,20 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        return oldComments.stream().allMatch(oldComment -> newComments.stream()
+        boolean allCommentFieldsMatch = oldComments.stream().allMatch(oldComment -> newComments.stream()
                 .anyMatch(newComment -> verifyFeedbackResponseComment(oldComment, newComment)));
+        if (!allCommentFieldsMatch) {
+            log(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
+                    oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
+                    oldResponse.getCourseId()));
+            return false;
+        } 
+
+        return true;
     }
 
     private boolean verifyFeedbackResponseComment(FeedbackResponseComment oldComment, teammates.storage.sqlentity.FeedbackResponseComment newComment) {
-        boolean allFieldsMatch = 
-                newComment.getGiver().equals(oldComment.getGiverEmail())
+        return newComment.getGiver().equals(oldComment.getGiverEmail())
                 && newComment.getCommentText().equals(oldComment.getCommentText())
                 && newComment.getGiverType().equals(oldComment.getCommentGiverType())
                 && newComment.getGiverSection().getCourse().getId().equals(oldComment.getCourseId())
@@ -329,14 +336,5 @@ public class VerifyCourseEntityAttributes
                 && newComment.getCreatedAt().equals(oldComment.getCreatedAt())
                 && newComment.getUpdatedAt().equals(oldComment.getLastEditedAt())
                 && newComment.getLastEditorEmail().equals(oldComment.getLastEditorEmail());
-
-        if (allFieldsMatch) {
-            return true;
-        } else {
-            log(String.format("Mismatched fields for comment %s, response %s, question %s, session: %s, course id: %s",
-                    oldComment.getFeedbackResponseCommentId(), oldComment.getFeedbackResponseId(), oldComment.getFeedbackQuestionId(),
-                    oldComment.getFeedbackSessionName(), oldComment.getCourseId()));
-            return false;
-        }
     }
 }
