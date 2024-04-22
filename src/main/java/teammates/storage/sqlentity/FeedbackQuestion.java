@@ -19,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -39,7 +40,11 @@ import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
  * Represents a feedback question.
  */
 @Entity
-@Table(name = "FeedbackQuestions")
+@Table(name = "FeedbackQuestions",
+        uniqueConstraints = {
+            @UniqueConstraint(name = "Unique question number per session",
+            columnNames = { "questionNumber", "sessionId" }),
+        })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class FeedbackQuestion extends BaseEntity implements Comparable<FeedbackQuestion> {
     @Id
@@ -55,7 +60,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @Column(nullable = false)
     private Integer questionNumber;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 2000)
     private String description;
 
     @Column(nullable = false)

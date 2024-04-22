@@ -18,7 +18,7 @@ import teammates.common.util.SanitizationHelper;
 @Entity
 @Table(name = "Students")
 public class Student extends User {
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     private String comments;
 
     protected Student() {
