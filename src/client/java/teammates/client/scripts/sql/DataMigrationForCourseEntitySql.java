@@ -30,6 +30,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.BaseEntity;
@@ -329,7 +330,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 oldSession.getFeedbackSessionName(),
                 newCourse,
                 oldSession.getCreatorEmail(),
-                oldSession.getInstructions(),
+                SanitizationHelper.sanitizeForRichText(oldSession.getInstructions()),
                 oldSession.getStartTime(),
                 oldSession.getEndTime(),
                 oldSession.getSessionVisibleFromTime(),
