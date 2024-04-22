@@ -60,8 +60,6 @@ public class UpdateAccountRequestIndexing {
                 dataBundle.accountRequests.put(accountRequest.getId().toString(), accountRequest);
             }
 
-            System.out.println("Inserting " + accountRequests.size() + " account requests");
-
             insertDocs(dataBundle);
             firstResult += batchSize;
         } while (!accountRequests.isEmpty());
