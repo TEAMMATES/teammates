@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -109,8 +110,8 @@ public class SeedDb extends DatastoreClient {
 
         String[] args = {};
 
-        Set<String> notificationsUuidSeen = new HashSet<String>();
-        ArrayList<String> notificationUuids = new ArrayList<>();
+        Set<String> notificationsUuidSeen = new HashSet<>();
+        List<String> notificationUuids = new ArrayList<>();
         Map<String, Instant> notificationEndTimes = new HashMap<>();
 
         Random rand = new Random();

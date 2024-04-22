@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-1">
+        <createTable tableName="users">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="course_id" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="reg_key" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="account_id" type="UUID" />
+            <column name="team_id" type="UUID" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-2">
+        <createTable tableName="account_requests">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="account_requests_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="email" type="VARCHAR(255)" />
+            <column name="institute" type="VARCHAR(255)" />
+            <column name="name" type="VARCHAR(255)" />
+            <column name="registered_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="registration_key" type="VARCHAR(255)" />
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-3">
+        <createTable tableName="accounts">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="accounts_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="google_id" type="VARCHAR(255)" />
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-4">
+        <createTable tableName="feedback_sessions">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="feedback_sessions_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="creator_email" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="grace_period" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="instructions" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_closed_email_sent" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_closing_email_enabled" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_closing_soon_email_sent" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_open_email_sent" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_opening_email_enabled" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_opening_soon_email_sent" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_published_email_enabled" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_published_email_sent" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="results_visible_from_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="session_visible_from_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="course_id" type="VARCHAR(255)" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-5">
+        <addUniqueConstraint columnNames="email, course_id"
+            constraintName="Unique email and courseId" tableName="users" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-6">
+        <addUniqueConstraint columnNames="email, institute"
+            constraintName="Unique name and institute" tableName="account_requests" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-7">
+        <addUniqueConstraint columnNames="registration_key" constraintName="Unique registration key"
+            tableName="account_requests" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-8">
+        <addUniqueConstraint columnNames="google_id" constraintName="uk_22fvt0prnafepjuqjhs2da68e"
+            tableName="accounts" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-9">
+        <addUniqueConstraint columnNames="course_id, name"
+            constraintName="uknx1xa16fkalq27ecc0x53n40f" tableName="feedback_sessions" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-10">
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50"
+            maxValue="9223372036854775807" minValue="1"
+            sequenceName="feedback_response_comments_seq" startValue="1" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-11">
+        <createTable tableName="courses">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="courses_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="institute" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="time_zone" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-12">
+        <createTable tableName="deadline_extensions">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="deadline_extensions_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_closing_soon_email_sent" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="session_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-13">
+        <createTable tableName="feedback_questions">
+            <column name="dtype" type="VARCHAR(31)">
+                <constraints nullable="false" />
+            </column>
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="feedback_questions_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="description" type="VARCHAR(255)" />
+            <column name="giver_type" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="num_of_entities_to_give_feedback_to" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="question_number" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="recipient_type" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="show_giver_name_to" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="show_recipient_name_to" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="show_responses_to" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="question_details" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="session_id" type="UUID" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-14">
+        <createTable tableName="feedback_response_comments">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="feedback_response_comments_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="comment_text" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="giver" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="giver_type" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_comment_from_feedback_participant" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_visibility_following_feedback_question" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_editor_email" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="show_comment_to" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="show_giver_name_to" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="response_id" type="UUID" />
+            <column name="giver_section_id" type="UUID" />
+            <column name="recipient_section_id" type="UUID" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-15">
+        <createTable tableName="feedback_responses">
+            <column name="dtype" type="VARCHAR(31)">
+                <constraints nullable="false" />
+            </column>
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="feedback_responses_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="giver" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="recipient" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="answer" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="question_id" type="UUID" />
+            <column name="giver_section_id" type="UUID" />
+            <column name="recipient_section_id" type="UUID" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-16">
+        <createTable tableName="instructors">
+            <column name="display_name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_displayed_to_students" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="privileges" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="role" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="instructors_pkey" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-17">
+        <createTable tableName="notifications">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="notifications_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="message" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="shown" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="style" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="target_user" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-18">
+        <createTable tableName="read_notifications">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="read_notifications_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="account_id" type="UUID" />
+            <column name="notification_id" type="UUID" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-19">
+        <createTable tableName="sections">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="sections_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="course_id" type="VARCHAR(255)" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-20">
+        <createTable tableName="students">
+            <column name="comments" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="students_pkey" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-21">
+        <createTable tableName="teams">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="teams_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="section_id" type="UUID" />
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-22">
+        <createTable tableName="usage_statistics">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="usage_statistics_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="num_account_requests" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="num_courses" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="num_emails" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="num_instructors" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="num_responses" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="num_students" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="num_submissions" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="time_period" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-23">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="instructors"
+            constraintName="fk2v0plxm15s3gc28p34856j2t7" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="users" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-24">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="deadline_extensions"
+            constraintName="fk41wmupob1x2gfup53prgathfg" deferrable="false"
+            initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="users" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-25">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="sections"
+            constraintName="fk7ty9cevpq04d90ohtso1q8312" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="courses" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-26">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="students"
+            constraintName="fk7xqmtv7r2eb5axni3jm0a80su" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="users" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-27">
+        <addForeignKeyConstraint baseColumnNames="session_id" baseTableName="feedback_questions"
+            constraintName="fk8ca7x73sh6f29r26sk226t65i" deferrable="false"
+            initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="feedback_sessions" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-28">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="users"
+            constraintName="fk94cc4mtujq4nljbmtf8ijqf4r" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="courses" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-29">
+        <addForeignKeyConstraint baseColumnNames="section_id" baseTableName="teams"
+            constraintName="fkd1h70v57s3ehpquw083fa1ov" deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id"
+            referencedTableName="sections" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-30">
+        <addForeignKeyConstraint baseColumnNames="team_id" baseTableName="users"
+            constraintName="fkfjws1rdruab2bqg7qipoqf65r" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="teams" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-31">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="users"
+            constraintName="fkfm8rm8ks0kgj4fhlmmljkj17x" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="accounts" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-32">
+        <addForeignKeyConstraint baseColumnNames="response_id"
+            baseTableName="feedback_response_comments" constraintName="fkh13gpp71ocp554jo4rfpoddny"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="feedback_responses" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-33">
+        <addForeignKeyConstraint baseColumnNames="notification_id"
+            baseTableName="read_notifications" constraintName="fkixesv135gg19mb3ggagnbt417"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="notifications" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-34">
+        <addForeignKeyConstraint baseColumnNames="recipient_section_id"
+            baseTableName="feedback_responses" constraintName="fkk8en84qccfcpkjsj7o11ludkl"
+            deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="sections" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-35">
+        <addForeignKeyConstraint baseColumnNames="recipient_section_id"
+            baseTableName="feedback_response_comments" constraintName="fkkajx0y4ejp1pavxw5s958xkni"
+            deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="sections" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-36">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="read_notifications"
+            constraintName="fkn2705bbw66x0oqvijwr67evld" deferrable="false"
+            initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="accounts" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-37">
+        <addForeignKeyConstraint baseColumnNames="giver_section_id"
+            baseTableName="feedback_responses" constraintName="fknwkhxqbth7aawv49gyt7r39uy"
+            deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="sections" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-38">
+        <addForeignKeyConstraint baseColumnNames="giver_section_id"
+            baseTableName="feedback_response_comments" constraintName="fkp30dvd56oatecs7ra5p1k7ife"
+            deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="sections" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-39">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="feedback_sessions"
+            constraintName="fkps2v457frlaaddf272oc18uxd" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="courses" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-40">
+        <addForeignKeyConstraint baseColumnNames="session_id" baseTableName="deadline_extensions"
+            constraintName="fkr994i0bv5oxepfcrs93lg4efd" deferrable="false"
+            initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="feedback_sessions" validate="true" />
+    </changeSet>
+    <changeSet author="NicolasCwy (generated)" id="1711160431792-41">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="feedback_responses"
+            constraintName="fksj5g8bgffopcarvqp3onlutvc" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="feedback_questions" validate="true" />
+    </changeSet>
+    <changeSet  author="NicolasCwy"  id="1711160431792-42">
+        <tagDatabase  tag="v9.0.0"/>
+    </changeSet>
+</databaseChangeLog>

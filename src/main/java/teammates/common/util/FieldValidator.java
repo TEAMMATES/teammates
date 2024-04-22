@@ -46,7 +46,7 @@ public final class FieldValidator {
     public static final int SECTION_NAME_MAX_LENGTH = 60;
 
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
-    public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
+    public static final int INSTITUTE_NAME_MAX_LENGTH = 128;
 
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";

@@ -3,6 +3,7 @@ package teammates.client.scripts.sql;
 // CHECKSTYLE.OFF:ImportOrder
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import jakarta.persistence.criteria.CriteriaDelete;
 
 import teammates.common.util.HibernateUtil;
@@ -57,7 +58,9 @@ public class DataMigrationForAccountRequestSql
         AccountRequest newEntity = new AccountRequest(
                 oldEntity.getEmail(),
                 oldEntity.getName(),
-                oldEntity.getInstitute());
+                oldEntity.getInstitute(),
+                AccountRequestStatus.APPROVED,
+                null);
 
         // set registration key to the old value if exists
         if (oldEntity.getRegistrationKey() != null) {

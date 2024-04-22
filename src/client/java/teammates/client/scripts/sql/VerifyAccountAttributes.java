@@ -92,7 +92,7 @@ public class VerifyAccountAttributes
         // Map<String, Instant> datastoreReadNotifications = datastoreEntity.getReadNotifications();
         // List<ReadNotification> sqlReadNotifications = sqlEntity.getReadNotifications();
 
-        // List<Instant> datastoreEndTimes = new ArrayList<Instant>(datastoreReadNotifications.values());
+        // List<Instant> datastoreEndTimes = new ArrayList<>(datastoreReadNotifications.values());
         // Collections.sort(datastoreEndTimes);
 
         // List<Instant> sqlEndTimes = new ArrayList<>();

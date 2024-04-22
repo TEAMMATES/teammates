@@ -101,7 +101,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         FeedbackResponseComment newFrc = new FeedbackResponseComment(
                 fr, "", FeedbackParticipantType.INSTRUCTORS, s, s, "",
                 false, false,
-                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(), sqli);
+                new ArrayList<>(), new ArrayList<>(), sqli);
 
         frcDb.createFeedbackResponseComment(newFrc);
 

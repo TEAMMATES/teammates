@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.FieldValidator;
@@ -136,7 +136,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         // the validations below are only for constSumOptions
         int totalPoints = pointsPerOption ? points * constSumOptions.size() : points;
-        double evenPointDistribution = ((double) totalPoints) / ((double) constSumOptions.size());
+        double evenPointDistribution = 1.0d * totalPoints / constSumOptions.size();
 
         if (minPoint != null) {
             commonBoundaryValidation(errors, minPoint, totalPoints, MIN_POINT_STRING);

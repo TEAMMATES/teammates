@@ -1,0 +1,147 @@
+{
+    "accounts": {
+        "instructor1OfCourse1": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "googleId": "tm.e2e.ASearch.instr1",
+          "name": "Instructor1 of Course1",
+          "email": "ASearch.instructor1@gmail.tmt"
+        },
+        "instructor2OfCourse1": {
+          "id": "00000000-0000-4000-8000-000000000002",
+          "googleId": "tm.e2e.ASearch.instr2",
+          "name": "Instructor2 of Course1",
+          "email": "ASearch.instructor2@gmail.tmt"
+        },
+        "student1InCourse1": {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "googleId": "tm.e2e.ASearch.student1",
+          "name": "Student1 in course1",
+          "email": "ASearch.student@gmail.tmt"
+        }
+      },
+      "accountRequests": {
+        "instructor1OfCourse1": {
+          "name": "Instructor1 of Course1",
+          "email": "ASearch.instructor1@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 1",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "registeredAt": "1970-02-14T00:00:00Z"
+        },
+        "instructor2OfCourse1": {
+          "name": "Instructor2 of Course1",
+          "email": "ASearch.instructor2@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 1",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "registeredAt": "1970-02-14T00:00:00Z"
+        },
+        "unregisteredInstructor1": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor1@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 1",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor2": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor2@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 2",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor3": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor3@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 3",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor4": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor4@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 4",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor5": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor5@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 5",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        }
+      },
+    "courses": {
+        "typicalCourse1": {
+        "createdAt": "2012-04-01T23:59:00Z",
+        "id": "00000000-0000-4000-8000-000000000303",
+        "name": "ASearch Course 1",
+        "institute": "TEAMMATES Test Institute 0",
+        "timeZone": "Africa/Johannesburg"
+        }
+    },
+    "sections": {
+        "section1InCourse1": {
+        "id": "00000000-0000-4000-8000-000000000201",
+        "course": {
+            "id": "00000000-0000-4000-8000-000000000303"
+        },
+        "name": "Section 1"
+        }
+    },
+    "teams": {
+        "team1InCourse1": {
+        "id": "00000000-0000-4000-8000-000000000301",
+        "section": {
+            "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "name": "Team 1"
+        }
+    },
+    "instructors": {
+        "instructor1OfCourse1": {
+        "id": "00000000-0000-4000-8000-000000000501",
+        "account": {
+            "id": "00000000-0000-4000-8000-000000000001"
+        },
+        "course": {
+            "id": "00000000-0000-4000-8000-000000000303"
+        },
+        "name": "Instructor1 of ASearch Course1",
+        "email": "ASearch.instructor@gmail.tmt",
+        "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+        "isDisplayedToStudents": true,
+        "displayName": "Instructor",
+        "privileges": {
+            "courseLevel": {
+            "canModifyCourse": true,
+            "canModifyInstructor": true,
+            "canModifySession": true,
+            "canModifyStudent": true,
+            "canViewStudentInSections": true,
+            "canViewSessionInSections": true,
+            "canSubmitSessionInSections": true,
+            "canModifySessionCommentsInSections": true
+            },
+            "sectionLevel": {},
+            "sessionLevel": {}
+        }
+        }
+    },
+    "students": {
+        "student1InCourse1": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "account": {
+            "id": "00000000-0000-4000-8000-000000000003"
+        },
+        "course": {
+            "id": "00000000-0000-4000-8000-000000000303"
+        },
+        "team": {
+            "id": "00000000-0000-4000-8000-000000000301"
+        },
+        "email": "ASearch.student@gmail.tmt",
+        "name": "Student1 In ASearch Course1",
+        "comments": "comment for student1Course1"
+        }
+    }
+}

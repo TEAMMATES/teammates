@@ -69,7 +69,7 @@ public final class LNPSpecification {
     /**
      * A builder class for {@link LNPSpecification}.
      */
-    public static class Builder {
+    public static final class Builder {
 
         private LNPSpecification specification;
 

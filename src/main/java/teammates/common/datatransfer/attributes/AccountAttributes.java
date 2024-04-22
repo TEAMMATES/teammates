@@ -185,7 +185,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
     /**
      * A builder class for {@link AccountAttributes}.
      */
-    public static class Builder extends BasicBuilder<AccountAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<AccountAttributes, Builder> {
 
         private AccountAttributes accountAttributes;
 
@@ -221,7 +221,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
     /**
      * Helper class to specify the fields to update in {@link AccountAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String googleId;
 
         private UpdateOption<Map<String, Instant>> readNotificationsOption = UpdateOption.empty();
@@ -249,7 +249,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(String googleId) {
                 super(new UpdateOptions(googleId));
