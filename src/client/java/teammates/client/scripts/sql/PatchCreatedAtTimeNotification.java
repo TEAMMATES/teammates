@@ -28,11 +28,8 @@ import teammates.test.FileHelper;
 
 // CHECKSTYLE.ON:ImportOrder
 /**
- * Patch Migration Script for Usage Statistics
- * Batch select datastore usage statistics, and then batch select SQL entities
- * with the same start timestamps.
- * Compare the size of the two list, if is not equal, find the missing one in
- * SQL and migrate it.
+ * Patch createdAt attribute for Notification
+ * Assumes that the notification was previously migrated using DataMigrationForNotificationSql.java
  */
 @SuppressWarnings("PMD")
 public class PatchCreatedAtTimeNotification extends DatastoreClient {
@@ -75,7 +72,7 @@ public class PatchCreatedAtTimeNotification extends DatastoreClient {
      * Returns the log prefix.
      */
     protected String getLogPrefix() {
-        return String.format("Usage Statistics Patch Migration:");
+        return String.format("Notification Patch Migration:");
     }
 
     private boolean isPreview() {
@@ -105,7 +102,7 @@ public class PatchCreatedAtTimeNotification extends DatastoreClient {
                 migrateEntity(entity);
             }
         } catch (Exception e) {
-            logError("Problem migrating usage stats " + entity);
+            logError("Problem patching usage stats " + entity);
             logError(e.getMessage());
         }
     }
