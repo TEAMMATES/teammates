@@ -1,6 +1,5 @@
 package teammates.client.scripts;
 
-import java.util.HashMap;
 import java.util.List;
 
 import jakarta.persistence.TypedQuery;
@@ -40,31 +39,34 @@ public class UpdateAccountRequestIndexing {
      * Updates the indexing for all account requests using the backdoor and batch processing.
      */
     public void updateAccountRequestIndexing() {
+        int batchSize = 100;
+        int firstResult = 0;
         HibernateUtil.beginTransaction();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root);
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
-        List<AccountRequest> accountRequests = query.getResultList();
-        HibernateUtil.commitTransaction();
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr)
+                .setMaxResults(batchSize);
 
-        SqlDataBundle dataBundle = new SqlDataBundle();
-        dataBundle.accountRequests = new HashMap<>();
-        int batchSize = 100;
-        int currentBatchSize = 0;
+        List<AccountRequest> accountRequests;
 
-        for (int i = 0; i < accountRequests.size(); i++) {
-            AccountRequest accountRequest = accountRequests.get(i);
-            dataBundle.accountRequests.put(accountRequest.getId().toString(), accountRequest);
-            currentBatchSize++;
+        do {
+            query.setFirstResult(firstResult);
+            accountRequests = query.getResultList();
+            SqlDataBundle dataBundle = new SqlDataBundle();
 
-            if (currentBatchSize == batchSize || i == accountRequests.size() - 1) {
-                insertDocs(dataBundle);
-                dataBundle.accountRequests.clear();
-                currentBatchSize = 0;
+            for (AccountRequest accountRequest : accountRequests) {
+                dataBundle.accountRequests.put(accountRequest.getId().toString(), accountRequest);
             }
-        }
+
+            System.out.println("Inserting " + accountRequests.size() + " account requests");
+
+            insertDocs(dataBundle);
+            firstResult += batchSize;
+        } while (!accountRequests.isEmpty());
+
+        HibernateUtil.commitTransaction();
     }
 
     /**
