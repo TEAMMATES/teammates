@@ -45,9 +45,9 @@ public class UpdateAccountRequestIndexing {
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root);
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        List<AccountRequest> accountRequests = query.getResultList();
         HibernateUtil.commitTransaction();
 
-        List<AccountRequest> accountRequests = query.getResultList();
         int batchSize = 100;
         int currentBatchSize = 0;
 
