@@ -167,7 +167,8 @@ public class VerifyCourseEntityAttributes
                 && newStudent.getComments().equals(oldStudent.getComments())
                 && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt())
                 && newStudent.getCreatedAt().equals(oldStudent.getCreatedAt())
-                && newStudent.getRegKey().equals(oldStudent.getRegistrationKey());
+                && newStudent.getRegKey().equals(oldStudent.getRegistrationKey())
+                && newStudent.getGoogleId().equals(oldStudent.getGoogleId());
     }
 
     // methods for verify feedback chain -----------------------------------------------------------------------------------
@@ -378,7 +379,8 @@ public class VerifyCourseEntityAttributes
                 && newInstructor.getPrivileges().equals(oldPrivileges)
                 && newInstructor.isDisplayedToStudents() == oldInstructor.isDisplayedToStudents()
                 && newInstructor.getCreatedAt().equals(oldInstructor.getCreatedAt())
-                && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt());
+                && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt())
+                && newInstructor.getGoogleId().equals(oldInstructor.getGoogleId());
 
     }
 

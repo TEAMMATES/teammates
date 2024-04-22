@@ -21,6 +21,10 @@ import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -29,10 +33,11 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -135,6 +140,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
                 migrateFeedbackChain(newCourse, sectionNameToSectionMap);
         migrateInstructorEntities(newCourse, userEmailToUserMap);
+        migrateUserAccounts(newCourse, userEmailToUserMap);
         migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, userEmailToUserMap);
     }
 
@@ -178,7 +184,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             List<CourseStudent> studentsInTeam, Map<String, User> userEmailToUserMap) {
         for (CourseStudent oldStudent : studentsInTeam) {
             teammates.storage.sqlentity.Student newStudent = createStudent(newCourse, newTeam, oldStudent);
-            saveEntityDeferred(newStudent);
             userEmailToUserMap.put(oldStudent.getEmail(), newStudent);
         }
     }
@@ -525,7 +530,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         newInstructor.setUpdatedAt(oldInstructor.getUpdatedAt());
         newInstructor.setRegKey(oldInstructor.getRegistrationKey());
 
-        saveEntityDeferred(newInstructor);
         return newInstructor;
     }
 
@@ -539,7 +543,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         for (DeadlineExtension oldDeadlineExtension : oldDeadlineExtensions) {
             User newUser = userEmailToUserMap.get(oldDeadlineExtension.getUserEmail());
             if (newUser == null) {
-                // #TODO Log error
+                log("User not found for deadline extension: " + oldDeadlineExtension.getUserEmail());
                 continue;
             }
             migrateDeadlineExtension(oldDeadlineExtension,
@@ -565,6 +569,33 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         saveEntityDeferred(newDeadlineExtension);
     }
 
+    private void migrateUserAccounts(teammates.storage.sqlentity.Course newCourse, Map<String, User> userEmailToUserMap) {
+        List<Account> newAccounts = getAllAccounts(new ArrayList<String>(userEmailToUserMap.keySet()));
+        if (newAccounts.size() != userEmailToUserMap.size()) {
+            log("Mismatch in number of accounts: " + newAccounts.size() + " vs " + userEmailToUserMap.size());
+        }
+        for (Account account: newAccounts) {
+            User newUser = userEmailToUserMap.get(account.getEmail());
+            if (newUser == null) {
+                log("User not found for account: " + account.getEmail());
+                continue;
+            }
+            newUser.setAccount(account);
+            saveEntityDeferred(account);
+        }
+    }
+
+    private List<Account> getAllAccounts(List<String> userEmailList) {
+        HibernateUtil.beginTransaction();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Account> cr = cb.createQuery(Account.class);
+        Root<Account> courseRoot = cr.from(Account.class);
+        cr.select(courseRoot).where(cb.in(courseRoot.get("email")).value(userEmailList));
+        List<Account> newAccounts = HibernateUtil.createQuery(cr).getResultList();
+        HibernateUtil.commitTransaction();
+        return newAccounts;
+    }
+    
     @Override
     protected void doOperation() {
         log("Running " + getClass().getSimpleName() + "...");
