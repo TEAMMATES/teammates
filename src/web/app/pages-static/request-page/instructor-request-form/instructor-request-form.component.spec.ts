@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { NgxCaptchaModule } from 'ngx-captcha';
 import { Observable, first } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
-import { NgxCaptchaModule } from 'ngx-captcha';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
