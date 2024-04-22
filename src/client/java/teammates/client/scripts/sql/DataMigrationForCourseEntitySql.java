@@ -181,7 +181,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             List<CourseStudent> studentsInTeam, Map<String, User> userEmailToUserMap) {
         for (CourseStudent oldStudent : studentsInTeam) {
             teammates.storage.sqlentity.Student newStudent = createStudent(newCourse, newTeam, oldStudent);
-            saveEntityDeferred(newStudent);
             userEmailToUserMap.put(oldStudent.getEmail(), newStudent);
         }
     }
@@ -529,8 +528,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         newInstructor.setUpdatedAt(oldInstructor.getUpdatedAt());
         newInstructor.setRegKey(oldInstructor.getRegistrationKey());
 
-
-        saveEntityDeferred(newInstructor);
         return newInstructor;
     }
 
@@ -582,6 +579,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 continue;
             }
             newUser.setAccount(account);
+            saveEntityDeferred(account);
         }
     }
 
