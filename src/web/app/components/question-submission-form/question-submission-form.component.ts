@@ -58,6 +58,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
+  searchTerm: string = '';
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -303,6 +304,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.model.recipientList.sort(this.compareByName);
     this.updateSubmissionFormIndexes();
   }
+
+  get filteredRecipients(): FeedbackResponseRecipient[] {
+    return this.model.recipientList.filter(recipient =>
+      recipient.recipientName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }  
 
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {

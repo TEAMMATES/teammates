@@ -75,7 +75,7 @@
                         [disabled]="isFormsDisabled"
                         [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i">
                   <option value=""></option>
-                  <ng-container *ngFor="let recipient of model.recipientList">
+                  <ng-container *ngFor="let recipient of filteredRecipients">
                     <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
                   </ng-container>
                 </select>
