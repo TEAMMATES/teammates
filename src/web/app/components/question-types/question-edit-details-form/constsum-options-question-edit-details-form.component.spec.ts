@@ -36,7 +36,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should prevent alphabetical character inputs in onIntegerInput', () => {
+  it('onIntegerInput: should prevent alphabetical character inputs when input is entered', () => {
     const event = new KeyboardEvent('keypress', {
       key: 'b',
     });
@@ -46,7 +46,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(eventSpy).toHaveBeenCalled();
   });
 
-  it('should prevent decimal point inputs in onIntegerInput', () => {
+  it('onIntegerInput: should prevent decimal point inputs when input is entered', () => {
     const event = new KeyboardEvent('keypress', {
       key: '.',
     });
@@ -56,7 +56,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(eventSpy).toHaveBeenCalled();
   });
 
-  it('should allow digit inputs in onIntegerInput', () => {
+  it('onIntegerInput: should allow digit inputs when input is entered', () => {
     const event = new KeyboardEvent('keypress', {
       key: '7',
     });
@@ -66,7 +66,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(eventSpy).not.toHaveBeenCalled();
   });
 
-  it('should allow number input with less than or equal to 9 digits', () => {
+  it('restrictIntegerInputLength: should allow number input with less than or equal to 9 digits when a number is inputted', () => {
     const inputElement = fixture.debugElement.query(By.css('#max-point')).nativeElement as HTMLInputElement;
     const inputEvent = new InputEvent('input');
     inputElement.dispatchEvent(inputEvent);
@@ -75,7 +75,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect((inputEvent.target as HTMLInputElement).value).toEqual('12345');
   });
 
-  it('should restrict number input with more than 9 digits to 9 digits', () => {
+  it('restrictIntegerInputLength: should restrict number input with more than 9 digits to 9 digits when a number is inputted', () => {
     const inputElement = fixture.debugElement.query(By.css('#max-point')).nativeElement as HTMLInputElement;
     const inputEvent = new InputEvent('input');
     inputElement.dispatchEvent(inputEvent);
@@ -85,9 +85,9 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
   });
 
   it('increaseNumberOfConstsumOptions: should increase the number of constSumOptions by 1 and add an empty string as the new option when wanting to increase constSumOptions', () => {
-    component.model = { ...component.model, constSumOptions: ['Options 1'] };
+    const initialOptions = ['Option 1'];
+    component.model = { ...component.model, constSumOptions: initialOptions };
     fixture.detectChanges();
-    const initialLength = component.model.constSumOptions.length;
     component.increaseNumberOfConstsumOptions();
     fixture.detectChanges();
     expect(component.model.constSumOptions.length).toBe(initialLength + 1, 'Number of options did not increase by 1');
@@ -96,8 +96,6 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
 
   it('onConstsumOptionDropped: should reorder constSumOptions when an option is dragged and dropped', () => {
     component.model = { ...component.model, constSumOptions: ['Option 1', 'Option 2', 'Option 3'] };
-    component.isEditable = true;
-    fixture.detectChanges();
 
     const dragDropEvent: CdkDragDrop<string[]> = {
       previousIndex: 0,
@@ -117,8 +115,6 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
 
   it('onConstsumOptionDropped: should not reorder constSumOptions when the component is not editable', () => {
     component.model = { ...component.model, constSumOptions: ['Option 1', 'Option 2', 'Option 3'] };
-    component.isEditable = false;
-    fixture.detectChanges();
 
     const dragDropEvent: CdkDragDrop<string[]> = {
       previousIndex: 0,
