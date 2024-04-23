@@ -6,11 +6,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import com.google.cloud.datastore.BaseEntity;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -47,7 +49,7 @@ import teammates.test.FileHelper;
  */
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
-
+    private static final int MAX_FLUSH_SIZE = 200;
     private static final int MAX_ENTITY_SIZE = 10000;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_TEAM_PER_SECTION = 10;
@@ -127,6 +129,19 @@ public class SeedDb extends DatastoreClient {
         GenerateUsageStatisticsObjects.main(args);
     }
 
+    protected void saveEntityDeferred(List<teammates.storage.entity.BaseEntity> buffer, teammates.storage.entity.BaseEntity entity) {
+        buffer.add(entity);
+        if (buffer.size() == MAX_FLUSH_SIZE) {
+            log("Flushing entities...");
+            flushEntityBuffer(buffer);
+        }
+    }
+
+    protected void flushEntityBuffer(List<teammates.storage.entity.BaseEntity> buffer) {
+        ofy().save().entities(buffer).now();
+        buffer.clear();
+    }
+
     private void seedCourseAndRelatedEntities() {
         log("Seeding courses");
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
@@ -167,6 +182,8 @@ public class SeedDb extends DatastoreClient {
         log("Seeding students for course " + courseNumber);
         int currSection = -1;
         int currTeam = -1;
+
+        List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_STUDENT_PER_COURSE; i++) {
 
             if (i % (MAX_STUDENT_PER_COURSE / MAX_SECTION_PER_COURSE) == 0) {
@@ -194,19 +211,20 @@ public class SeedDb extends DatastoreClient {
                 student.setCreatedAt(getRandomInstant());
                 student.setLastUpdate(rand.nextInt(3) > 1 ? null : getRandomInstant());
                 student.setRegistrationKey(studentRegistrationKey);
-
-                ofy().save().entities(student).now();
+                
+                saveEntityDeferred(buffer, student);
             } catch (Exception e) {
                 log(e.toString());
             }
-
         }
+        flushEntityBuffer(buffer);
     }
 
     private void seedFeedbackSession(int courseNumber, String courseId) {
         Random rand = new Random();
 
         log("Seeding feedback chain for course " + courseNumber);
+        List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE; i++) {
             try {
                 String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
@@ -229,17 +247,19 @@ public class SeedDb extends DatastoreClient {
                         rand.nextBoolean(), rand.nextBoolean(), rand.nextBoolean(), rand.nextBoolean(),
                         new HashMap<String, Instant>(), new HashMap<String, Instant>());
 
-                ofy().save().entities(feedbackSession).now();
+                saveEntityDeferred(buffer, feedbackSession);
             } catch (Exception e) {
                 log(e.toString());
             }
         }
+        flushEntityBuffer(buffer);
     }
 
     private void seedFeedbackQuestions(int courseNumber, String courseId) {
         assert MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE <= MAX_QUESTION_PER_COURSE;
 
         int currSession = -1;
+        List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_QUESTION_PER_COURSE; i++) {
 
             if (i % (MAX_QUESTION_PER_COURSE / MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE) == 0) {
@@ -263,12 +283,13 @@ public class SeedDb extends DatastoreClient {
             feedbackQuestion.setCreatedAt(getRandomInstant());
             feedbackQuestion.setLastUpdate(getRandomInstant());
 
-            ofy().save().entities(feedbackQuestion).now();
+            saveEntityDeferred(buffer, feedbackQuestion);
 
             String feedbackQuestionId = feedbackQuestion.getId();
             assert feedbackQuestionId != null;
             seedFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);
         }
+        flushEntityBuffer(buffer);
     }
 
     private void seedFeedbackResponses(int courseNumber, String courseId, String feedbackQuestionId,
@@ -276,6 +297,7 @@ public class SeedDb extends DatastoreClient {
         int currGiverSection = -1;
         int currRecipientSection = 0;
 
+        List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_RESPONSES_PER_QUESTION; i++) {
 
             currGiverSection = (currGiverSection + 1) % MAX_SECTION_PER_COURSE;
@@ -294,13 +316,14 @@ public class SeedDb extends DatastoreClient {
             feedbackResponse.setCreatedAt(getRandomInstant());
             feedbackResponse.setLastUpdate(getRandomInstant());
 
-            ofy().save().entities(feedbackResponse).now();
+            saveEntityDeferred(buffer, feedbackResponse);
 
             String feedbackResponseId = feedbackResponse.getId();
             assert feedbackResponseId != null;
             seedFeedbackResponseComments(courseNumber, courseId, feedbackQuestionId, feedbackResponseId, giverSection,
                     recipientSection);
         }
+        flushEntityBuffer(buffer);
     }
 
     private void seedFeedbackResponseComments(int courseNumber, String courseId, String feedbackQuestionId, String feedbackResponseId,
@@ -310,6 +333,7 @@ public class SeedDb extends DatastoreClient {
         int currGiverSection = -1;
         int currRecipientSection = 0;
 
+        List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_COMMENTS_PER_RESPONSE; i++) {
 
             currGiverSection = (currGiverSection + 1) % MAX_SECTION_PER_COURSE;
@@ -329,8 +353,9 @@ public class SeedDb extends DatastoreClient {
                     lastEditorEmail, lastEditedAt, rand.nextBoolean(), rand.nextBoolean());
             feedbackResponseComment.setCreatedAt(createdAt);
 
-            ofy().save().entities(feedbackResponseComment).now();
+            saveEntityDeferred(buffer, feedbackResponseComment);
         }
+        flushEntityBuffer(buffer);
     }
 
     private void seedNotificationAccountAndAccountRequest(int constReadNotificationSize, int constNotificationSize) {
@@ -343,6 +368,7 @@ public class SeedDb extends DatastoreClient {
 
         Random rand = new Random();
 
+        List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int j = 0; j < constNotificationSize; j++) {
             UUID notificationUuid = UUID.randomUUID();
             while (notificationsUuidSeen.contains(notificationUuid.toString())) {
@@ -366,7 +392,7 @@ public class SeedDb extends DatastoreClient {
                     getRandomInstant(),
                     getRandomInstant());
             try {
-                ofy().save().entities(notification).now();
+                saveEntityDeferred(buffer, notification);
                 notificationEndTimes.put(notificationUuid.toString(), notification.getEndTime());
             } catch (Exception e) {
                 log(e.toString());
@@ -403,12 +429,13 @@ public class SeedDb extends DatastoreClient {
                 Account account = new Account(accountGoogleId, accountName,
                         accountEmail, readNotificationsToCreate, false);
 
-                ofy().save().entities(account).now();
-                ofy().save().entities(accountRequest).now();
+                saveEntityDeferred(buffer, account);
+                saveEntityDeferred(buffer, accountRequest);
             } catch (Exception e) {
                 log(e.toString());
             }
         }
+        flushEntityBuffer(buffer);
     }
 
     private void log(String logLine) {
