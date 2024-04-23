@@ -53,13 +53,34 @@ public class VerifyCourseEntityAttributes
     public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         try {
             HibernateUtil.beginTransaction();
-            boolean result = verifyCourse(sqlEntity, datastoreEntity)
-                    && verifySectionChain(sqlEntity)
-                    && verifyFeedbackChain(sqlEntity)
-                    && verifyInstructors(sqlEntity)
-                    && verifyDeadlineExtensions(sqlEntity);
+            boolean isEqual = true;
+            if (!verifyCourse(sqlEntity, datastoreEntity)) {
+                log("Failed course verification");
+                isEqual = false;
+            }
+
+            if (!verifySectionChain(sqlEntity)) {
+                log("Failed section chain verification");
+                isEqual = false;
+            }
+
+            if (!verifyFeedbackChain(sqlEntity)) {
+                log("Failed feedback chain verification"); 
+                isEqual = false;
+            }
+
+            if (!verifyInstructors(sqlEntity)) {
+                log("Failed instructor verification");
+                isEqual = false;
+            }
+
+            if (!verifyDeadlineExtensions(sqlEntity)) {
+                log("Failed deadline extension verification");
+                isEqual = false;
+            }
+
             HibernateUtil.commitTransaction();
-            return result;
+            return isEqual;
         } catch (IllegalArgumentException iae) {
             return false;
         }
@@ -90,15 +111,18 @@ public class VerifyCourseEntityAttributes
         Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
                 .collect(Collectors.groupingBy(Student::getSectionName));
 
-        List<Section> newSection = newCourse.getSections();
+        List<Section> newSections = newCourse.getSections();
 
-        boolean isNotSectionsCountEqual = newSection.size() != sectionToOldStuMap.size()
-                || newSection.size() != sectionToNewStuMap.size();
+        boolean isNotSectionsCountEqual = newSections.size() != sectionToOldStuMap.size()
+                || newSections.size() != sectionToNewStuMap.size();
         if (isNotSectionsCountEqual) {
+            log(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
+                sectionToOldStuMap.size(), sectionToNewStuMap.size()));
+            log("Section chain - section count not equal");
             return false;
         }
 
-        return newSection.stream().allMatch(section -> {
+        return newSections.stream().allMatch(section -> {
             List<CourseStudent> oldSectionStudents = sectionToOldStuMap.get(section.getName());
             List<Student> newSectionStudents = sectionToNewStuMap.get(section.getName());
 
@@ -107,6 +131,7 @@ public class VerifyCourseEntityAttributes
             // which means a possible migration error
             boolean sectionNameNotPresent = oldSectionStudents == null || newSectionStudents == null;
             if (sectionNameNotPresent) {
+                log("Section chain - section name not present");
                 return false;
             }
 
@@ -128,6 +153,7 @@ public class VerifyCourseEntityAttributes
         boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
                 || newTeams.size() != teamNameToOldStuMap.size();
         if (isNotTeamCountEqual) {
+            log("Section chain - team count not equal");
             return false;
         }
 
@@ -140,6 +166,7 @@ public class VerifyCourseEntityAttributes
             // which means a possible migration error
             boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
             if (teamNameNotPresent) {
+                log("Section chain - team name not present");
                 return false;
             }
             return verifyStudents(oldTeamStudents, newTeamStudents);
@@ -149,6 +176,7 @@ public class VerifyCourseEntityAttributes
     private boolean verifyStudents(
             List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {
         if (oldTeamStudents.size() != newTeamStudents.size()) {
+            log("Section chain - number of students not equal");
             return false;
         }
         oldTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
@@ -157,6 +185,7 @@ public class VerifyCourseEntityAttributes
             CourseStudent oldStudent = oldTeamStudents.get(i);
             Student newStudent = newTeamStudents.get(i);
             if (!verifyStudent(oldStudent, newStudent)) {
+                log("Section chain - student failed attribute comparison");
                 return false;
             }
         }
@@ -348,6 +377,7 @@ public class VerifyCourseEntityAttributes
                 .list();
 
         if (oldInstructors.size() != newInstructors.size()) {
+            log("Feedback chain - Instructor counts not equal");
             return false;
         }
 
@@ -357,6 +387,7 @@ public class VerifyCourseEntityAttributes
             Instructor oldInstructor = oldInstructors.get(i);
             teammates.storage.sqlentity.Instructor newInstructor = newInstructors.get(i);
             if (!verifyInstructor(oldInstructor, newInstructor)) {
+                log("Feedback chain - Instructor attributes failed comparison");
                 return false;
             }
         }
@@ -394,6 +425,8 @@ public class VerifyCourseEntityAttributes
                 .type(DeadlineExtension.class).filter("courseId", newCourse.getId()).list();
 
         if (oldDeadlineExt.size() != newDeadlineExt.size()) {
+            log("Deadline extension size not equal");
+
             return false;
         }
 
@@ -404,6 +437,7 @@ public class VerifyCourseEntityAttributes
             DeadlineExtension oldDeadline = oldDeadlineExt.get(i);
             teammates.storage.sqlentity.DeadlineExtension newDeadline = newDeadlineExt.get(i);
             if (!verifyDeadlineExtension(oldDeadline, newDeadline)) {
+                log("Deadline extension failed comparison");
                 return false;
             }
         }
