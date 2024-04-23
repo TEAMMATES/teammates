@@ -56,6 +56,7 @@ public class SeedDb extends DatastoreClient {
     private static final int MAX_QUESTION_PER_COURSE = 6;
     private static final int MAX_RESPONSES_PER_QUESTION = 10;
     private static final int MAX_COMMENTS_PER_RESPONSE = 2;
+    private Random rand = new Random();
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
 
@@ -121,7 +122,7 @@ public class SeedDb extends DatastoreClient {
     protected void persistAdditionalData() {
         String[] args = {};
         // Each account will have this amount of read notifications
-        seedNotificationAccountAndAccountRequest(5, 1000);
+        seedNotificationAndAccountRequest(5, 1000);
         seedCourseAndRelatedEntities();
 
         GenerateUsageStatisticsObjects.main(args);
@@ -305,8 +306,6 @@ public class SeedDb extends DatastoreClient {
 
     private void seedFeedbackResponseComments(int courseNumber, String courseId, String feedbackQuestionId, String feedbackResponseId,
             String giverSection, String receiverSection) {
-        Random rand = new Random();
-
         int currGiverSection = -1;
         int currRecipientSection = 0;
 
@@ -333,15 +332,13 @@ public class SeedDb extends DatastoreClient {
         }
     }
 
-    private void seedNotificationAccountAndAccountRequest(int constReadNotificationSize, int constNotificationSize) {
+    private void seedNotificationAndAccountRequest(int constReadNotificationSize, int constNotificationSize) {
         assert constNotificationSize >= constReadNotificationSize;
         log("Seeding Notifications, Account and Account Request");
 
         Set<String> notificationsUuidSeen = new HashSet<String>();
         ArrayList<String> notificationUuids = new ArrayList<>();
         Map<String, Instant> notificationEndTimes = new HashMap<>();
-
-        Random rand = new Random();
 
         for (int j = 0; j < constNotificationSize; j++) {
             UUID notificationUuid = UUID.randomUUID();
@@ -387,7 +384,25 @@ public class SeedDb extends DatastoreClient {
                 AccountRequest accountRequest = AccountRequestAttributes
                         .builder(accountRequestEmail, accountRequestInstitute, accountRequestName)
                         .withRegisteredAt(Instant.now()).build().toEntity();
+                seedAccount(constReadNotificationSize, constNotificationSize, notificationUuids, notificationEndTimes);
 
+                ofy().save().entities(accountRequest).now();
+            } catch (Exception e) {
+                log(e.toString());
+            }
+        }
+    }
+
+    
+    private void seedAccount(int constReadNotificationSize, int constNotificationSize,
+            ArrayList<String> notificationUuids, Map<String, Instant> notificationEndTimes) {
+        for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
+            if (i % (MAX_ENTITY_SIZE / 5) == 0) {
+                log(String.format("Seeded %d %% of new sets of entities",
+                        (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
+            }
+
+            try {
                 String accountGoogleId = String.format("Account Google ID %s", i);
                 String accountName = String.format("Account name %s", i);
                 String accountEmail = String.format("Account email %s", i);
@@ -404,7 +419,6 @@ public class SeedDb extends DatastoreClient {
                         accountEmail, readNotificationsToCreate, false);
 
                 ofy().save().entities(account).now();
-                ofy().save().entities(accountRequest).now();
             } catch (Exception e) {
                 log(e.toString());
             }
