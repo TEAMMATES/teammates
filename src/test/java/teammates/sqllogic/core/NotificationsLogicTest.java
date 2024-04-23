@@ -1,6 +1,8 @@
 package teammates.sqllogic.core;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,13 +10,17 @@ import static org.mockito.Mockito.when;
 import java.time.Instant;
 import java.util.UUID;
 
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
 import teammates.test.BaseTestCase;
@@ -28,10 +34,49 @@ public class NotificationsLogicTest extends BaseTestCase {
 
     private NotificationsDb notificationsDb;
 
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
+
     @BeforeMethod
     public void setUpMethod() {
         notificationsDb = mock(NotificationsDb.class);
         notificationsLogic.initLogicDependencies(notificationsDb);
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterMethod
+    public void tearDownMethod() {
+        mockHibernateUtil.close();
+    }
+
+    @Test
+    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException()
+            throws EntityAlreadyExistsException {
+        Notification invalidNotification = new Notification(Instant.parse("2011-02-01T00:00:00Z"),
+                Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        verify(notificationsDb, never()).createNotification(invalidNotification);
+    }
+
+    @Test
+    public void testCreateNotification_emptyTitle_throwsInvalidParametersException() throws EntityAlreadyExistsException {
+        Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "", "<p>Deprecation happens in three minutes</p>");
+
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        verify(notificationsDb, never()).createNotification(invalidNotification);
+    }
+
+    @Test
+    public void testCreateNotification_emptyMessage_throwsInvalidParametersException() throws EntityAlreadyExistsException {
+        Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "");
+
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        verify(notificationsDb, never()).createNotification(invalidNotification);
     }
 
     @Test

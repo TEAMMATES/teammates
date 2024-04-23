@@ -20,7 +20,7 @@ class EntitiesDb {
         assert entity != null;
 
         T newEntity = HibernateUtil.merge(entity);
-        log.info("Entity saved: " + entity.toString());
+        log.info("Entity saved: " + newEntity.toString());
         return newEntity;
     }
 
