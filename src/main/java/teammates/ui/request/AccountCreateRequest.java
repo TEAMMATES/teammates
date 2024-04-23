@@ -38,7 +38,7 @@ public class AccountCreateRequest extends BasicRequest {
     }
 
     public String getCaptchaResponse() {
-        return this.instructorComments;
+        return this.captchaResponse;
     }
 
     public void setInstructorName(String name) {
