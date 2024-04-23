@@ -8,15 +8,19 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
   STUDENT_NAME_MAX_LENGTH={[Function Number]}
   accountService={[Function Object]}
   arf={[Function FormGroup]}
+  captchaSiteKey=""
   comments={[Function FormControl2]}
   country={[Function FormControl2]}
   email={[Function FormControl2]}
   hasSubmitAttempt="false"
   institution={[Function FormControl2]}
+  isCaptchaSuccessful="false"
   isLoading="false"
+  lang={[Function String]}
   name={[Function FormControl2]}
   requestSubmissionEvent={[Function EventEmitter_]}
   serverErrorMessage=""
+  size={[Function String]}
 >
   <p
     aria-hidden="true"

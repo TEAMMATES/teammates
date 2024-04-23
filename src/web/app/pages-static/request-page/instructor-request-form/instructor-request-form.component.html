@@ -105,6 +105,22 @@
       [attr.aria-invalid]="comments.invalid"></textarea>
   </div>
   <br>
+  <div *ngIf="captchaSiteKey !== ''" class="form-group">
+    <ngx-recaptcha2 #captchaElem
+                    [siteKey]="captchaSiteKey"
+                    (success)="handleCaptchaSuccess($event)"
+                    [useGlobalDomain]="false"
+                    [size]="size"
+                    [hl]="lang"
+                    formControlName="recaptcha"
+                    class="{{!isCaptchaSuccessful ? ' is-invalid' : ''}}">
+    </ngx-recaptcha2>
+    <div *ngIf="!isCaptchaSuccessful && hasSubmitAttempt" role="alert" tabindex="0"
+      class="invalid-feedback">
+      Please complete the CAPTCHA verification.
+    </div>
+    <br>
+  </div>
   <ngb-alert type="danger" [dismissible]="false" *ngIf="hasSubmitAttempt && arf.invalid" class="error-box">
     <strong>There was a problem with your submission.</strong> Please check and fix the errors above and submit again.
   </ngb-alert>
