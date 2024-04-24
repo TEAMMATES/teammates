@@ -72,13 +72,14 @@ import teammates.test.FileHelper;
 /**
  */
 @SuppressWarnings({ "PMD", "deprecation" })
-public class DataMigrationForCourseEntitySql extends DatastoreClient {
+public class DataMigrationForCourseEntitySql50Newest extends DatastoreClient {
 
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
     private static final int BATCH_SIZE = 100;
 
     private static final int MAX_BUFFER_SIZE = 1000;
+    private static final AtomicLong NUMBER_TO_MIGRATE = new AtomicLong(50);
 
     private List<BaseEntity> entitiesSavingBuffer;
 
@@ -95,7 +96,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private VerifyCourseEntityAttributes verifier;
 
-    public DataMigrationForCourseEntitySql() {
+    public DataMigrationForCourseEntitySql50Newest() {
         numberOfAffectedEntities = new AtomicLong();
         numberOfScannedKey = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
@@ -112,11 +113,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     public static void main(String[] args) {
-        new DataMigrationForCourseEntitySql().doOperationRemotely();
+        new DataMigrationForCourseEntitySql50Newest().doOperationRemotely();
     }
 
     protected Query<Course> getFilterQuery() {
-        return ofy().load().type(teammates.storage.entity.Course.class);
+        return ofy().load().type(teammates.storage.entity.Course.class)
+            .filter("isMigrated", false)
+            .order("-createdAt");
     }
 
     protected boolean isPreview() {
@@ -682,6 +685,10 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 savePositionOfCursorToFile(cursor);
 
                 currentOldCourse = iterator.hasNext() ? (Course) iterator.next() : null;
+            }
+            
+            if (numberOfScannedKey == NUMBER_TO_MIGRATE) {
+                shouldContinue = false;
             }
 
             if (shouldContinue) {
