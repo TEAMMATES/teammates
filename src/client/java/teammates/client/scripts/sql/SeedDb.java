@@ -470,21 +470,6 @@ public class SeedDb extends DatastoreClient {
         return account;
     }
 
-    /**
-     * Clears all entities in the data store if re-seeding is needed.
-     */
-    private void clearDataStore() {
-        ofy().delete().entities(ofy().load().type(Account.class).list()).now();
-        ofy().delete().entities(ofy().load().type(AccountRequest.class).list()).now();
-        ofy().delete().entities(ofy().load().type(Course.class).list()).now();
-        ofy().delete().entities(ofy().load().type(CourseStudent.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackQuestion.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackResponse.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackResponseComment.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackSession.class).list()).now();
-        ofy().delete().entities(ofy().load().type(Notification.class).list()).now();
-        log("Finish deleting all entities");
-    }
     
     private void log(String logLine) {
         System.out.println(String.format("Seeding database: %s", logLine));
@@ -497,7 +482,6 @@ public class SeedDb extends DatastoreClient {
         // Persisting basic data bundle
         DataBundle dataBundle = getTypicalDataBundle();
         try {
-            clearDataStore();
             // logic.persistDataBundle(dataBundle);
             persistAdditionalData();
         } catch (Exception e) {
