@@ -21,12 +21,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
  * Represents a Section.
  */
 @Entity
-@Table(name = "Sections")
+@Table(name = "Sections", uniqueConstraints = {
+    @UniqueConstraint(name = "Unique section name per course", columnNames = { "name", "courseId" }),
+})
 public class Section extends BaseEntity {
     @Id
     private UUID id;
