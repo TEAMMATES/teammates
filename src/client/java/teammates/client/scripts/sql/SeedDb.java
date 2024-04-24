@@ -210,7 +210,7 @@ public class SeedDb extends DatastoreClient {
             }
 
             try {
-                String studentEmail = String.format("Course %s Student %s Email ", courseNumber, i);
+                String studentEmail = String.format("Course %s Student %s Email", courseNumber, i);
                 String studentName = String.format("Student %s in Course %s", i, courseNumber);
                 String studentGoogleId = null;
                 String studentComments = String.format("Comments for student %s in course %s", i, courseNumber);
