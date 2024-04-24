@@ -177,7 +177,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     let emittedRecord: Record<string, CommentTableModel> | undefined;
     testEventEmission(component.instructorCommentTableModelChange, (record) => { emittedRecord = record; });
 
-    const testRecord: Record<string, CommentTableModel> = { testID4: commentTableModel };
+    const testRecord: Record<string, CommentTableModel> = { responseId: commentTableModel };
 
     component.triggerModelChangeForSingleResponse('testID4', commentTableModel);
     expect(emittedRecord).toStrictEqual(testRecord);
