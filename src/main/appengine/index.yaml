@@ -93,3 +93,15 @@ indexes:
     name: targetUser
   - direction: asc
     name: endTime
+- kind: Course
+  properties:
+  - direction: asc
+    name: isMigrated
+  - direction: asc
+    name: createdAt
+- kind: Course
+  properties:
+  - direction: asc
+    name: isMigrated
+  - direction: desc
+    name: createdAt
