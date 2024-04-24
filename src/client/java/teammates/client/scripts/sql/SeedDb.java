@@ -133,8 +133,8 @@ public class SeedDb extends DatastoreClient {
         assert NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE;
         log("Seeding Notifications, Account and Account Request");
 
-        seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
-        seedAccountRequests();
+        // seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
+        // seedAccountRequests();
 
         log("Seeding courses");
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
@@ -154,7 +154,7 @@ public class SeedDb extends DatastoreClient {
             }
         }
 
-        GenerateUsageStatisticsObjects.main(args);
+        // GenerateUsageStatisticsObjects.main(args);
     }
 
     private void seedCourseWithCourseId(int i, String courseId) {
@@ -186,34 +186,32 @@ public class SeedDb extends DatastoreClient {
                 currTeam++;
             }
 
-            int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
             try {
                 String studentEmail = String.format("Course %s Student %s Email ", courseNumber, i);
                 String studentName = String.format("Student %s in Course %s", i, courseNumber);
-                String studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
+                String studentGoogleId = null;
                 String studentComments = String.format("Comments for student %s in course %s", i, courseNumber);
                 String studentTeamName = String.format("Course %s Section %s Team %s", courseNumber, currSection, currTeam);
                 String studentSectionName = String.format("Course %s Section %s", courseNumber, currSection);
                 String studentRegistrationKey = String.format("Student %s in Course %s Registration Key", i,
                         courseNumber);
+                
+                if (rand.nextDouble() >= PERCENTAGE_STUDENTS_WITH_ACCOUNT) {
+                    int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
+                    studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
+                    Account account = seedAccount(studentGoogleId, studentName, studentEmail);
+                    googleIdToAccountForStudentsMap.put(studentGoogleId, account);
+                }
 
                 CourseStudent student = new CourseStudent(studentEmail, studentName, studentGoogleId, studentComments,
-                        courseId, studentTeamName, studentSectionName);
+                courseId, studentTeamName, studentSectionName);
                 student.setCreatedAt(getRandomInstant());
                 student.setLastUpdate(rand.nextInt(3) > 1 ? null : getRandomInstant());
                 student.setRegistrationKey(studentRegistrationKey);
 
-                if (rand.nextDouble() >= PERCENTAGE_STUDENTS_WITH_ACCOUNT || googleIdToAccountForStudentsMap.containsKey(studentGoogleId)) {
-                    Account account = googleIdToAccountForStudentsMap.getOrDefault(studentGoogleId, null);
-                    if (account == null) {
-                        account = seedAccount(studentGoogleId, studentName, studentEmail);
-                        googleIdToAccountForStudentsMap.put(studentGoogleId, account);
-                    }
-                }
-
                 ofy().save().entities(student).now();
             } catch (Exception e) {
-                log(e.toString());
+                log("Students " + e.toString());
             }
 
         }
@@ -247,7 +245,7 @@ public class SeedDb extends DatastoreClient {
 
                 ofy().save().entities(feedbackSession).now();
             } catch (Exception e) {
-                log(e.toString());
+                log("Feedback session " + e.toString());
             }
         }
     }
@@ -400,7 +398,6 @@ public class SeedDb extends DatastoreClient {
             }
         }
     }
-
     
     private Account seedAccount(String googleId, String accountName, String email) {
         Map<String, Instant> readNotificationsToCreate = new HashMap<>();
@@ -430,7 +427,7 @@ public class SeedDb extends DatastoreClient {
         // Persisting basic data bundle
         DataBundle dataBundle = getTypicalDataBundle();
         try {
-            logic.persistDataBundle(dataBundle);
+            // logic.persistDataBundle(dataBundle);
             persistAdditionalData();
         } catch (Exception e) {
             e.printStackTrace();
