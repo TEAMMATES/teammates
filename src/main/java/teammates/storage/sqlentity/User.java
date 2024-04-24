@@ -22,9 +22,7 @@ import jakarta.persistence.UniqueConstraint;
  * Represents a User.
  */
 @Entity
-@Table(name = "Users", uniqueConstraints = {
-        @UniqueConstraint(name = "Unique email and courseId", columnNames = { "email", "courseId" })
-})
+@Table(name = "Users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User extends BaseEntity {
     @Id
