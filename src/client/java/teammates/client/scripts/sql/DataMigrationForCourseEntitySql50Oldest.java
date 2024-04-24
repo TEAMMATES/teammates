@@ -92,7 +92,7 @@ public class DataMigrationForCourseEntitySql50Oldest extends DatastoreClient {
     AtomicLong numberOfScannedKey;
     AtomicLong numberOfUpdatedEntities;
 
-    private static final int MAX_RESPONSE_COUNT = 10000;
+    private static final int MAX_RESPONSE_COUNT = -1;
 
     private VerifyCourseEntityAttributes verifier;
 
@@ -323,6 +323,7 @@ public class DataMigrationForCourseEntitySql50Oldest extends DatastoreClient {
             oldResponses = ofy().load().type(FeedbackResponse.class)
                     .filter("feedbackQuestionId", oldQuestion.getId()).list();
         }
+        log(String.format("Feedback question %d has %d responses associated with it", oldQuestion.getQuestionNumber(), oldResponses.size()));
         for (FeedbackResponse oldResponse : oldResponses) {
             Section newGiverSection = sectionNameToSectionMap.get(oldResponse.getGiverSection());
             Section newRecipientSection = sectionNameToSectionMap.get(oldResponse.getRecipientSection());

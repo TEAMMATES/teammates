@@ -306,7 +306,8 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackQuestionId", oldQuestion.getId()).list();
 
         if (newResponses.size() != oldResponses.size()) {
-            log(String.format("Mismatched response counts for question %s, session: %s, course id: %s",
+            log(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
+                    newResponses.size(), oldResponses.size(),
                     oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
             return false;
         }

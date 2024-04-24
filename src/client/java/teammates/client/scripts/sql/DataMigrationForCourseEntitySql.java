@@ -91,7 +91,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     AtomicLong numberOfScannedKey;
     AtomicLong numberOfUpdatedEntities;
 
-    private static final int MAX_RESPONSE_COUNT = 10000;
+    private static final int MAX_RESPONSE_COUNT = -1;
 
     private VerifyCourseEntityAttributes verifier;
 
