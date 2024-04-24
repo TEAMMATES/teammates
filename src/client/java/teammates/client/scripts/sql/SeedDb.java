@@ -129,13 +129,13 @@ public class SeedDb extends DatastoreClient {
      * Persists additional data.
      */
     protected void persistAdditionalData() {
-        String[] args = {};
         // Each account will have this amount of read notifications
         assert NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE;
         log("Seeding Notifications, Account and Account Request");
 
-        // seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
-        // seedAccountRequests();
+        seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
+        seedAccountRequests();
+
         log("Seeding courses");
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
             if (i % (MAX_ENTITY_SIZE / 5) == 0) {
