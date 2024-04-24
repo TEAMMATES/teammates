@@ -49,7 +49,7 @@ import teammates.test.FileHelper;
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
     private static final int MAX_FLUSH_SIZE = 200;
-    private static final int MAX_ENTITY_SIZE = 5000;
+    private static final int MAX_ENTITY_SIZE = 100;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
@@ -396,18 +396,11 @@ public class SeedDb extends DatastoreClient {
         return listOfCreatedFeedbackComments;
     }
 
-    private void seedNotificationAccountAndAccountRequest(int constReadNotificationSize, int constNotificationSize) {
-        assert constNotificationSize >= constReadNotificationSize;
-        log("Seeding Notifications, Account and Account Request");
-
-        Set<String> notificationsUuidSeen = new HashSet<String>();
-        ArrayList<String> notificationUuids = new ArrayList<>();
-        Map<String, Instant> notificationEndTimes = new HashMap<>();
-
-        Random rand = new Random();
+    private void seedNotifications(ArrayList<String> notificationUuids,
+            Set<String> notificationsUuidSeen, Map<String, Instant> notificationEndTimes) {
 
         List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
-        for (int j = 0; j < constNotificationSize; j++) {
+        for (int j = 0; j < NOTIFICATION_SIZE; j++) {
             UUID notificationUuid = UUID.randomUUID();
             while (notificationsUuidSeen.contains(notificationUuid.toString())) {
                 notificationUuid = UUID.randomUUID();
@@ -437,8 +430,10 @@ public class SeedDb extends DatastoreClient {
             }
         }
         flushEntityBuffer(buffer);
+    }
 
     private void seedAccountRequests() {
+        List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
             if (i % (MAX_ENTITY_SIZE / 5) == 0) {
                 log(String.format("Seeded %d %% of account requests",
