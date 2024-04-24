@@ -161,7 +161,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     component.onConstsumOptionEntered(updatedOption, 1);
     fixture.detectChanges();
 
-    expect(component.model.constSumOptions[1].toBe(updatedOption, 'The constSumOption was not updated correctly');
+    expect(component.model.constSumOptions[1].toBe(updatedOption, 'The constSumOption was not updated correctly'));
     expect(component.model.constSumOptions).toEqual(['Option 1', updatedOption, 'Option 3'], 'The constSumOptions array did not update correctly');
   });
 
