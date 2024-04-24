@@ -212,7 +212,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
      * @param logLine the line to log
      */
     protected void log(String logLine) {
-        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
+        System.out.println(String.format("[ERROR IN VALIDATION] %s %s", getLogPrefix(), logLine));
     }
 
     /**

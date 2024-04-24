@@ -38,6 +38,9 @@ public class Section extends BaseEntity {
     @JoinColumn(name = "courseId")
     private Course course;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String courseId;
+
     @Column(nullable = false)
     private String name;
 
