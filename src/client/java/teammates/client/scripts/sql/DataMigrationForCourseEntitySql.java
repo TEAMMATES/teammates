@@ -520,7 +520,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             Instructor newInstructor = migrateInstructor(newCourse, oldInstructor);
             emailToInstructorMap.put(newInstructor.getEmail(), newInstructor);
             if (oldInstructor.getGoogleId() != null) {
-                userGoogleIdToUserMap.put(oldInstructor.getEmail(), newInstructor);
+                userGoogleIdToUserMap.put(oldInstructor.getGoogleId(), newInstructor);
             }
         }
     }
