@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
@@ -41,6 +43,7 @@ public final class DataBundleLogic {
     private CoursesLogic coursesLogic;
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
     private FeedbackSessionsLogic fsLogic;
+    private FeedbackSessionLogsLogic fslLogic;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
     private FeedbackResponseCommentsLogic frcLogic;
@@ -56,16 +59,15 @@ public final class DataBundleLogic {
     }
 
     void initLogicDependencies(AccountsLogic accountsLogic, AccountRequestsLogic accountRequestsLogic,
-            CoursesLogic coursesLogic,
-            DeadlineExtensionsLogic deadlineExtensionsLogic, FeedbackSessionsLogic fsLogic,
-            FeedbackQuestionsLogic fqLogic, FeedbackResponsesLogic frLogic,
-            FeedbackResponseCommentsLogic frcLogic,
-            NotificationsLogic notificationsLogic, UsersLogic usersLogic) {
+            CoursesLogic coursesLogic, DeadlineExtensionsLogic deadlineExtensionsLogic, FeedbackSessionsLogic fsLogic,
+            FeedbackSessionLogsLogic fslLogic, FeedbackQuestionsLogic fqLogic, FeedbackResponsesLogic frLogic,
+            FeedbackResponseCommentsLogic frcLogic, NotificationsLogic notificationsLogic, UsersLogic usersLogic) {
         this.accountsLogic = accountsLogic;
         this.accountRequestsLogic = accountRequestsLogic;
         this.coursesLogic = coursesLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
         this.fsLogic = fsLogic;
+        this.fslLogic = fslLogic;
         this.fqLogic = fqLogic;
         this.frLogic = frLogic;
         this.frcLogic = frcLogic;
@@ -97,6 +99,7 @@ public final class DataBundleLogic {
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
@@ -215,6 +218,14 @@ public final class DataBundleLogic {
             student.generateNewRegistrationKey();
         }
 
+        for (FeedbackSessionLog log : sessionLogs) {
+            log.setId(UUID.randomUUID());
+            FeedbackSession fs = sessionsMap.get(log.getFeedbackSession().getId());
+            log.setFeedbackSession(fs);
+            Student student = (Student) usersMap.get(log.getStudent().getId());
+            log.setStudent(student);
+        }
+
         for (Notification notification : notifications) {
             UUID placeholderId = notification.getId();
             notification.setId(UUID.randomUUID());
@@ -264,6 +275,7 @@ public final class DataBundleLogic {
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
@@ -320,6 +332,8 @@ public final class DataBundleLogic {
             usersLogic.createStudent(student);
         }
 
+        fslLogic.createFeedbackSessionLogs(new ArrayList<>(sessionLogs));
+
         for (ReadNotification readNotification : readNotifications) {
             accountsLogic.updateReadNotifications(readNotification.getAccount().getGoogleId(),
                     readNotification.getNotification().getId(), readNotification.getNotification().getEndTime());
@@ -351,7 +365,7 @@ public final class DataBundleLogic {
             accountsLogic.deleteAccount(account.getGoogleId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
-            accountRequestsLogic.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+            accountRequestsLogic.deleteAccountRequest(accountRequest.getId());
         });
     }
 

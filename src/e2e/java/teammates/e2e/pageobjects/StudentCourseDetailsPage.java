@@ -1,6 +1,6 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Page Object Model for student course details page.
@@ -59,11 +62,26 @@ public class StudentCourseDetailsPage extends AppPage {
         assertEquals(courseDetails.getInstitute(), courseInstituteField.getText());
     }
 
+    public void verifyCourseDetails(Course courseDetails) {
+        assertEquals(courseDetails.getName(), courseNameField.getText());
+        assertEquals(courseDetails.getId(), courseIdField.getText());
+        assertEquals(courseDetails.getInstitute(), courseInstituteField.getText());
+    }
+
     public void verifyInstructorsDetails(InstructorAttributes[] instructorDetails) {
         String[] actualInstructors = instructorsList.getText().split(TestProperties.LINE_SEPARATOR);
         for (int i = 0; i < instructorDetails.length; i++) {
             InstructorAttributes expected = instructorDetails[i];
             assertEquals(expected.getDisplayedName() + ": " + expected.getName() + " (" + expected.getEmail() + ")",
+                    actualInstructors[i]);
+        }
+    }
+
+    public void verifyInstructorsDetails(Instructor[] instructorDetails) {
+        String[] actualInstructors = instructorsList.getText().split(TestProperties.LINE_SEPARATOR);
+        for (int i = 0; i < instructorDetails.length; i++) {
+            Instructor expected = instructorDetails[i];
+            assertEquals(expected.getDisplayName() + ": " + expected.getName() + " (" + expected.getEmail() + ")",
                     actualInstructors[i]);
         }
     }
@@ -75,7 +93,28 @@ public class StudentCourseDetailsPage extends AppPage {
         assertEquals(studentDetails.getEmail(), studentEmailField.getText());
     }
 
+    public void verifyStudentDetails(Student studentDetails) {
+        assertEquals(studentDetails.getName(), studentNameField.getText());
+        assertEquals(studentDetails.getSectionName(), studentSectionField.getText());
+        assertEquals(studentDetails.getTeamName(), studentTeamField.getText());
+        assertEquals(studentDetails.getEmail(), studentEmailField.getText());
+    }
+
     public void verifyTeammatesDetails(StudentAttributes[] teammates) {
+        int numTables = teammates.length;
+
+        for (int i = 0; i < numTables; i++) {
+            List<String> profileItems = new ArrayList<>();
+            profileItems.add("Name: " + teammates[i].getName());
+            profileItems.add("Email: " + teammates[i].getEmail());
+
+            WebElement actualProfile = browser.driver.findElement(By.id("teammates-details-" + i));
+            assertEquals(profileItems.stream().collect(Collectors.joining(TestProperties.LINE_SEPARATOR)),
+                    actualProfile.getText());
+        }
+    }
+
+    public void verifyTeammatesDetails(Student[] teammates) {
         int numTables = teammates.length;
 
         for (int i = 0; i < numTables; i++) {

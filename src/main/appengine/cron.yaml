@@ -1,4 +1,4 @@
-# Reference: https://cloud.google.com/appengine/docs/standard/java11/scheduling-jobs-with-cron-yaml
+# Reference: https://cloud.google.com/appengine/docs/standard/scheduling-jobs-with-cron-yaml
 
 cron:
 - url: '/auto/feedbackSessionOpeningReminders'
@@ -33,3 +33,7 @@ cron:
   schedule: 'every 5 minutes synchronized'
   timezone: 'Asia/Singapore'
   description: 'Compile severe logs and sends out email notifications.'
+- url: '/auto/updateFeedbackSessionLogs'
+  schedule: 'every 15 minutes from 00:01 to 23:59'
+  timezone: 'Asia/Singapore'
+  description: 'Process feedback session activity logs from logging service and store in the database.'
