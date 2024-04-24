@@ -446,8 +446,7 @@ public class SeedDb extends DatastoreClient {
                 AccountRequest accountRequest = AccountRequestAttributes
                         .builder(accountRequestEmail, accountRequestInstitute, accountRequestName)
                         .withRegisteredAt(Instant.now()).build().toEntity();
-
-                ofy().save().entities(accountRequest).now();
+                saveEntityDeferred(buffer, accountRequest);
             } catch (Exception e) {
                 log("Account and account request" + e.toString());
             }
