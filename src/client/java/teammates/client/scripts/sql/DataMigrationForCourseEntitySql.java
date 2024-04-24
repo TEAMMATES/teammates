@@ -569,13 +569,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             if (oldDeadlineExtension.getIsInstructor()) {
                 user = emailToInstructorMap.get(userEmail);
                 if (user == null) {
-                    logError("Instructor not found for deadline extension: " + oldDeadlineExtension.getUserEmail());
+                    logError("Instructor not found for deadline extension: " + oldDeadlineExtension);
                     continue;
                 }
             } else {
                 user = emailToStudentMap.get(userEmail);
                 if (user == null) {
-                    logError("Student not found for deadline extension: " + oldDeadlineExtension.getUserEmail());
+                    logError("Student not found for deadline extension: " + oldDeadlineExtension);
                     continue;
                 }
             }
