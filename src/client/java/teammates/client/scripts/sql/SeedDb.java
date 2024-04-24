@@ -540,24 +540,6 @@ public class SeedDb extends DatastoreClient {
             ofy().save().entities(de).now();
         }
     }
-
-    /**
-     * Clears all entities in the data store if re-seeding is needed.
-     */
-    private void clearDataStore() {
-        ofy().delete().entities(ofy().load().type(Account.class).list()).now();
-        ofy().delete().entities(ofy().load().type(AccountRequest.class).list()).now();
-        ofy().delete().entities(ofy().load().type(Course.class).list()).now();
-        ofy().delete().entities(ofy().load().type(CourseStudent.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackQuestion.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackResponse.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackResponseComment.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackSession.class).list()).now();
-        ofy().delete().entities(ofy().load().type(Notification.class).list()).now();
-        ofy().delete().entities(ofy().load().type(Instructor.class).list()).now();
-        ofy().delete().entities(ofy().load().type(DeadlineExtension.class).list()).now();
-        log("Finish deleting all entities");
-    }
     
     private void log(String logLine) {
         System.out.println(String.format("Seeding database: %s", logLine));
@@ -570,7 +552,6 @@ public class SeedDb extends DatastoreClient {
         // Persisting basic data bundle
         DataBundle dataBundle = getTypicalDataBundle();
         try {
-            clearDataStore();
             // logic.persistDataBundle(dataBundle);
             persistAdditionalData();
         } catch (Exception e) {
@@ -585,7 +566,7 @@ public class SeedDb extends DatastoreClient {
     @Override
     protected void doOperation() {
         try {
-            clearDataStore();
+            // clearDataStore();
             // LogicStarter.initializeDependencies();
             this.persistData();
         } catch (Exception e) {
