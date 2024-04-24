@@ -136,21 +136,6 @@ public class SeedDb extends DatastoreClient {
 
         // seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
         // seedAccountRequests();
-
-    protected void saveEntityDeferred(List<teammates.storage.entity.BaseEntity> buffer, teammates.storage.entity.BaseEntity entity) {
-        buffer.add(entity);
-        if (buffer.size() == MAX_FLUSH_SIZE) {
-            log("Flushing entities...");
-            flushEntityBuffer(buffer);
-        }
-    }
-
-    protected void flushEntityBuffer(List<teammates.storage.entity.BaseEntity> buffer) {
-        ofy().save().entities(buffer).now();
-        buffer.clear();
-    }
-
-    private void seedCourseAndRelatedEntities() {
         log("Seeding courses");
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
             if (i % (MAX_ENTITY_SIZE / 5) == 0) {
@@ -170,6 +155,19 @@ public class SeedDb extends DatastoreClient {
         }
 
         // GenerateUsageStatisticsObjects.main(args);
+    }
+
+    protected void saveEntityDeferred(List<teammates.storage.entity.BaseEntity> buffer, teammates.storage.entity.BaseEntity entity) {
+        buffer.add(entity);
+        if (buffer.size() == MAX_FLUSH_SIZE) {
+            log("Flushing entities...");
+            flushEntityBuffer(buffer);
+        }
+    }
+
+    protected void flushEntityBuffer(List<teammates.storage.entity.BaseEntity> buffer) {
+        ofy().save().entities(buffer).now();
+        buffer.clear();
     }
 
     private void seedCourseWithCourseId(int i, String courseId) {
@@ -216,7 +214,9 @@ public class SeedDb extends DatastoreClient {
                 if (rand.nextDouble() >= PERCENTAGE_STUDENTS_WITH_ACCOUNT) {
                     int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
                     studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
-                    Account account = seedAccount(studentGoogleId, studentName, studentEmail);
+                    Account account = createAccount(studentGoogleId, studentName, studentEmail);
+
+                    saveEntityDeferred(buffer, account);
                     googleIdToAccountForStudentsMap.put(studentGoogleId, account);
                 }
 
@@ -455,6 +455,21 @@ public class SeedDb extends DatastoreClient {
         flushEntityBuffer(buffer);
     }
 
+    private Account createAccount(String googleId, String accountName, String email) {
+        Map<String, Instant> readNotificationsToCreate = new HashMap<>();
+        for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
+            int randIndex = rand.nextInt(NOTIFICATION_SIZE);
+            String notificationUuid = notificationUuids.get(randIndex);
+            assert notificationEndTimes.get(notificationUuid) != null;
+            readNotificationsToCreate.put(notificationUuid, notificationEndTimes.get(notificationUuid));
+        }
+
+        Account account = new Account(googleId, accountName,
+                email, readNotificationsToCreate, false);
+
+        return account;
+    }
+
     /**
      * Clears all entities in the data store if re-seeding is needed.
      */
@@ -471,23 +486,6 @@ public class SeedDb extends DatastoreClient {
         log("Finish deleting all entities");
     }
     
-    private Account seedAccount(String googleId, String accountName, String email) {
-        Map<String, Instant> readNotificationsToCreate = new HashMap<>();
-
-        for (int j = 0; j < READ_NOTIFICATION_SIZE; j++) {
-            int randIndex = rand.nextInt(NOTIFICATION_SIZE);
-            String notificationUuid = notificationUuids.get(randIndex);
-            assert notificationEndTimes.get(notificationUuid) != null;
-            readNotificationsToCreate.put(notificationUuid, notificationEndTimes.get(notificationUuid));
-        }
-
-        Account account = new Account(googleId, accountName,
-                email, readNotificationsToCreate, false);
-
-        ofy().save().entities(account).now();
-        return account;
-    }
-
     private void log(String logLine) {
         System.out.println(String.format("Seeding database: %s", logLine));
     }
