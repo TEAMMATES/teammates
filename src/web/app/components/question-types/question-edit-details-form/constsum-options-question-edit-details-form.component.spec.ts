@@ -85,13 +85,14 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
   });
 
   it('increaseNumberOfConstsumOptions: should increase the number of constSumOptions by 1 and add an empty string as the new option when wanting to increase constSumOptions', () => {
+    const initialLength = component.model.constSumOptions.length;
     const initialOptions = ['Option 1'];
     component.model = { ...component.model, constSumOptions: initialOptions };
     fixture.detectChanges();
     component.increaseNumberOfConstsumOptions();
     fixture.detectChanges();
-    expect(component.model.constSumOptions.length).toBe(initialLength + 1, 'Number of options did not increase by 1');
-    expect(component.model.constSumOptions[component.model.constSumOptions.length - 1]).toBe('', 'The new option is not an empty string');
+    expect(component.model.constSumOptions.length).toBe(initialLength + 1);
+    expect(component.model.constSumOptions[component.model.constSumOptions.length - 1]).toBe('');
   });
 
   it('onConstsumOptionDeleted: should not delete a constSumOption if doing so leaves fewer than 2 options', () => {
@@ -122,7 +123,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     component.onConstsumOptionEntered(updatedOption, 1);
     fixture.detectChanges();
 
-    expect(component.model.constSumOptions[1]).toBe(updatedOption, 'The constSumOption was not updated correctly');
+    expect(component.model.constSumOptions[1]).toBe(updatedOption);
     expect(component.model.constSumOptions).toEqual(['Option 1', updatedOption, 'Option 3']);
   });
 
