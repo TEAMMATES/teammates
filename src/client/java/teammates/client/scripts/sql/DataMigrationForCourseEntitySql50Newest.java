@@ -323,6 +323,13 @@ public class DataMigrationForCourseEntitySql50Newest extends DatastoreClient {
             oldResponses = ofy().load().type(FeedbackResponse.class)
                     .filter("feedbackQuestionId", oldQuestion.getId()).list();
         }
+        
+        if (oldResponses == null || oldResponses.size() == 0) {
+            log(String.format("No responses found for question %s %s in course %s", oldQuestion.getId(), oldQuestion.getQuestionNumber(), newSession.getCourse().getId()));
+            return;
+        }
+
+
         for (FeedbackResponse oldResponse : oldResponses) {
             Section newGiverSection = sectionNameToSectionMap.get(oldResponse.getGiverSection());
             Section newRecipientSection = sectionNameToSectionMap.get(oldResponse.getRecipientSection());
@@ -340,6 +347,11 @@ public class DataMigrationForCourseEntitySql50Newest extends DatastoreClient {
 
         // cascade migrate response comments
         List<FeedbackResponseComment> oldComments = responseIdToCommentsMap.get(oldResponse.getId());
+        if (oldComments == null) {
+            log(String.format("No comments found for response %s in course %s", oldResponse.getId(), oldResponse.getCourseId()));
+            return;
+        }
+
         for (FeedbackResponseComment oldComment : oldComments) {
             migrateFeedbackResponseComment(newResponse, oldComment, newGiverSection, newRecipientSection);
         }
