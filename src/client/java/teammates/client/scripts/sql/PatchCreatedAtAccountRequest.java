@@ -119,15 +119,18 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
 
         cr.select(root).where(cb.equal(root.get("institute"), oldEntity.getInstitute()))
             .where(cb.equal(root.get("email"), oldEntity.getEmail()))
-            .where(cb.equal(root.get("name"), oldEntity.getName()));
+            .where(cb.equal(root.get("name"), oldEntity.getName()))
+            .where(cb.equal(root.get("registrationKey"), oldEntity.getRegistrationKey()));
 
         List<teammates.storage.sqlentity.AccountRequest> matchingAccounts = HibernateUtil.createQuery(cr).getResultList();
         
-        if (matchingAccounts.size() > 1) {
-            throw new Error("More than one matching account request found");
-        } else if (matchingAccounts.size() == 0){
+        if (matchingAccounts.size() == 0){
             throw new Error("No matching account found");
         }
+    
+        if (matchingAccounts.size() > 1) {
+            throw new Error("More than one matching account request found");
+        } 
 
         // Get first items since there is guaranteed to be one
         teammates.storage.sqlentity.AccountRequest newAccountReq = matchingAccounts.get(0);
