@@ -496,7 +496,7 @@ public class SeedDb extends DatastoreClient {
     @Override
     protected void doOperation() {
         try {
-            clearDataStore();
+            // clearDataStore();
             // LogicStarter.initializeDependencies();
             this.persistData();
         } catch (Exception e) {
