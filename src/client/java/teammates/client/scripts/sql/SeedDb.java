@@ -28,6 +28,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
@@ -36,10 +37,12 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.test.FileHelper;
 
@@ -49,7 +52,7 @@ import teammates.test.FileHelper;
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
     private static final int MAX_FLUSH_SIZE = 200;
-    private static final int MAX_ENTITY_SIZE = 100;
+    private static final int MAX_ENTITY_SIZE = 10;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
@@ -59,7 +62,11 @@ public class SeedDb extends DatastoreClient {
     private static final int MAX_COMMENTS_PER_RESPONSE = 2;
     private static final int NOTIFICATION_SIZE = 1000;
     private static final int READ_NOTIFICATION_SIZE = 5;
-    private static final double PERCENTAGE_STUDENTS_WITH_ACCOUNT = 0.5;
+    private static final double PERCENTAGE_STUDENTS_WITH_ACCOUNT = 0.1;
+    private static final int MAX_INSTRUCTOR_PER_COURSE = 3;
+    private static final double PERCENTAGE_INSTRUCTORS_WITH_ACCOUNT = 0.5;
+    private static final int DEADLINE_EXTENSION_FREQ = 5;
+
     private Random rand = new Random();
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
@@ -149,6 +156,7 @@ public class SeedDb extends DatastoreClient {
                 seedStudents(i, courseId);
                 seedFeedbackSession(i, courseId);
                 seedFeedbackQuestions(i, courseId);
+                seedInstructors(i, courseId);
             } catch (Exception e) {
                 log(e.toString());
             }
@@ -177,7 +185,7 @@ public class SeedDb extends DatastoreClient {
         String courseTimeZone = String.format("Time Zone %s", i);
         Course course = new Course(courseId, courseName, courseTimeZone, courseInstitute,
                 getRandomInstant(),
-                rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
+                rand.nextInt(4) > 0 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
                 false);
         ofy().save().entities(course).now();
     }
@@ -211,11 +219,10 @@ public class SeedDb extends DatastoreClient {
                 String studentRegistrationKey = String.format("Student %s in Course %s Registration Key", i,
                         courseNumber);
                 
-                if (rand.nextDouble() >= PERCENTAGE_STUDENTS_WITH_ACCOUNT) {
+                if (rand.nextDouble() <= PERCENTAGE_STUDENTS_WITH_ACCOUNT) {
                     int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
                     studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
                     Account account = createAccount(studentGoogleId, studentName, studentEmail);
-
                     saveEntityDeferred(buffer, account);
                     googleIdToAccountForStudentsMap.put(studentGoogleId, account);
                 }
@@ -223,10 +230,14 @@ public class SeedDb extends DatastoreClient {
                 CourseStudent student = new CourseStudent(studentEmail, studentName, studentGoogleId, studentComments,
                 courseId, studentTeamName, studentSectionName);
                 student.setCreatedAt(getRandomInstant());
-                student.setLastUpdate(rand.nextInt(3) > 1 ? null : getRandomInstant());
+                student.setLastUpdate(rand.nextInt(4) > 0 ? null : getRandomInstant());
                 student.setRegistrationKey(studentRegistrationKey);
                 
                 saveEntityDeferred(buffer, student);
+
+                if (i % DEADLINE_EXTENSION_FREQ == 0) { // every n-th student has deadline extensions
+                    seedDeadlineExtensions(courseNumber, courseId, studentEmail, false);
+                }
             } catch (Exception e) {
                 log("Students " + e.toString());
             }
@@ -253,7 +264,7 @@ public class SeedDb extends DatastoreClient {
 
                 FeedbackSession feedbackSession = new FeedbackSession(feedbackSessionName, courseId,
                         feedbackSessionCreatorEmail, feedbackSessionInstructions, getRandomInstant(),
-                        rand.nextInt(3) > 1 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
+                        rand.nextInt(4) > 0 ? null : getRandomInstant(), // set deletedAt randomly at 25% chance
                         feedbackSessionStartTime, feedbackSessionEndTime,
                         feedbackSessionSessionVisibleFromTime, feedbackSessionResultsVisibleFromTime,
                         timezone, feedbackSessionGracePeriod,
@@ -287,9 +298,16 @@ public class SeedDb extends DatastoreClient {
                         String.format("Session %s Question %s Text", currSession, i)).getJsonString();
                 int questionNumber = i;
                 FeedbackQuestionType feedbackQuestionType = FeedbackQuestionType.TEXT;
-                FeedbackParticipantType giverType = FeedbackParticipantType.STUDENTS;
-                FeedbackParticipantType recipientType = FeedbackParticipantType.INSTRUCTORS;
                 int numberOfEntitiesToGiveFeedbackTo = 1;
+                FeedbackParticipantType giverType;
+                FeedbackParticipantType recipientType;
+                if (currSession % 2 == 0) {
+                    giverType = FeedbackParticipantType.STUDENTS;
+                    recipientType = FeedbackParticipantType.INSTRUCTORS;
+                } else {
+                    giverType = FeedbackParticipantType.INSTRUCTORS;
+                    recipientType = FeedbackParticipantType.STUDENTS;
+                }
     
                 FeedbackQuestion feedbackQuestion = new FeedbackQuestion(feedbackSessionName, courseId,
                         questionText, questionDescription, questionNumber, feedbackQuestionType, giverType, recipientType,
@@ -470,6 +488,59 @@ public class SeedDb extends DatastoreClient {
         return account;
     }
 
+    private void seedInstructors(int courseNumber, String courseId) {
+        Random rand = new Random();
+
+        log("Seeding instructors for course " + courseNumber);
+        for (int i = 0; i < MAX_INSTRUCTOR_PER_COURSE; i++) {
+            String instructorGoogleId = null;
+            String instructorName = String.format("Course %s Instructor &s", courseNumber, i);
+            String instructorEmail = String.format("Course %s Instructor %s Email", courseNumber, i);
+            String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+            String displayedName = String.format("Display Name %s", i);
+            String instructorRegistrationKey = String.format("Course %s Instructor %s Registration Key", i, courseNumber);
+            String instructorPrivilegesAsText = null; // not sure about legacy instructor privileges
+
+            if (rand.nextDouble() <= PERCENTAGE_INSTRUCTORS_WITH_ACCOUNT) {
+                int googleIdNumber = courseNumber * MAX_INSTRUCTOR_PER_COURSE + i
+                        + MAX_ENTITY_SIZE * MAX_STUDENT_PER_COURSE; // to avoid clashes with students
+                instructorGoogleId = String.format("Account Google ID %s", googleIdNumber);
+                Account account = createAccount(instructorGoogleId, instructorName, instructorEmail);
+                ofy().save().entities(account).now();
+            }
+
+            Instructor instructor = new Instructor(instructorGoogleId, courseId, rand.nextBoolean(), instructorName,
+                    instructorEmail, role, rand.nextBoolean(), displayedName, instructorPrivilegesAsText);
+            instructor.setCreatedAt(getRandomInstant());
+            instructor.setLastUpdate(rand.nextInt(4) > 0 ? null : getRandomInstant());
+            instructor.setRegistrationKey(instructorRegistrationKey);
+
+            ofy().save().entities(instructor).now();
+
+            if (i % DEADLINE_EXTENSION_FREQ == 0) { // every n-th instructor has deadline extensions
+                seedDeadlineExtensions(courseNumber, courseId, instructorEmail, true);
+            }
+        }
+    }
+
+    private void seedDeadlineExtensions(int courseNumber, String courseId, String userEmail, boolean isInstructor) {
+        Random rand = new Random();
+
+        int i = isInstructor ? 1 : 0; // matches if session's questions' giverType are students or instructors
+        for (; i < MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE; i+=2) {
+            String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
+            boolean sentClosingEmail = rand.nextBoolean();
+            Instant endTime = getRandomInstant();
+
+            DeadlineExtension de = new DeadlineExtension(courseId, feedbackSessionName, userEmail,
+                    isInstructor, sentClosingEmail, endTime);
+            de.setCreatedAt(getRandomInstant());
+            de.setUpdatedAt(getRandomInstant());
+
+            ofy().save().entities(de).now();
+        }
+    }
+
     /**
      * Clears all entities in the data store if re-seeding is needed.
      */
@@ -483,6 +554,8 @@ public class SeedDb extends DatastoreClient {
         ofy().delete().entities(ofy().load().type(FeedbackResponseComment.class).list()).now();
         ofy().delete().entities(ofy().load().type(FeedbackSession.class).list()).now();
         ofy().delete().entities(ofy().load().type(Notification.class).list()).now();
+        ofy().delete().entities(ofy().load().type(Instructor.class).list()).now();
+        ofy().delete().entities(ofy().load().type(DeadlineExtension.class).list()).now();
         log("Finish deleting all entities");
     }
     

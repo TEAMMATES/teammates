@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.hibernate.Hibernate;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.HibernateUtil;
@@ -427,8 +425,8 @@ public class VerifyCourseEntityAttributes
                 && newInstructor.isDisplayedToStudents() == oldInstructor.isDisplayedToStudents()
                 && newInstructor.getCreatedAt().equals(oldInstructor.getCreatedAt())
                 && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt())
-                && newInstructor.getGoogleId().equals(oldInstructor.getGoogleId());
-
+                && (newInstructor.getGoogleId() == null ? newInstructor.getGoogleId() == oldInstructor.getGoogleId() :
+                    newInstructor.getGoogleId().equals(oldInstructor.getGoogleId()));
     }
 
     // Verify DeadlineExtensions ----------------------------
