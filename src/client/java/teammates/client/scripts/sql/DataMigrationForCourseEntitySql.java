@@ -218,16 +218,15 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private teammates.storage.sqlentity.Section createSection(teammates.storage.sqlentity.Course newCourse,
             String sectionName) {
-        // if (sectionName.equals(Const.DEFAULT_SECTION)) {
-        // return Const.DEFAULT_SQL_SECTION;
-        // }
-        Section newSection = new Section(newCourse, sectionName);
+        String truncatedName = truncateToLength255(sectionName);
+        Section newSection = new Section(newCourse, truncatedName);
         newSection.setCreatedAt(Instant.now());
         return newSection;
     }
 
     private teammates.storage.sqlentity.Team createTeam(teammates.storage.sqlentity.Section section, String teamName) {
-        Team newTeam = new teammates.storage.sqlentity.Team(section, teamName);
+        String truncatedTeamName = truncateToLength255(teamName);
+        Team newTeam = new teammates.storage.sqlentity.Team(section, truncatedTeamName);
         newTeam.setCreatedAt(Instant.now());
         return newTeam;
     }
@@ -235,8 +234,11 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     private Student migrateStudent(teammates.storage.sqlentity.Course newCourse,
             teammates.storage.sqlentity.Team newTeam,
             CourseStudent oldStudent) {
-        Student newStudent = new Student(newCourse, oldStudent.getName(), oldStudent.getEmail(),
-                oldStudent.getComments(), newTeam);
+        String truncatedStudentName = truncateToLength255(oldStudent.getName());
+        String truncatedComments = truncateToLength2000(oldStudent.getComments());
+
+        Student newStudent = new Student(newCourse, truncatedStudentName, oldStudent.getEmail(),
+            truncatedComments, newTeam);
         newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
         newStudent.setRegKey(oldStudent.getRegistrationKey());
         newStudent.setCreatedAt(oldStudent.getCreatedAt());
@@ -347,11 +349,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private teammates.storage.sqlentity.FeedbackSession createFeedbackSession(teammates.storage.sqlentity.Course newCourse,
             FeedbackSession oldSession) {
+        String truncatedSessionInstructions = truncateToLength2000(oldSession.getInstructions());
+            
         teammates.storage.sqlentity.FeedbackSession newSession = new teammates.storage.sqlentity.FeedbackSession(
                 oldSession.getFeedbackSessionName(),
                 newCourse,
                 oldSession.getCreatorEmail(),
-                oldSession.getInstructions(),
+                truncatedSessionInstructions,
                 oldSession.getStartTime(),
                 oldSession.getEndTime(),
                 oldSession.getSessionVisibleFromTime(),
@@ -489,6 +493,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     private teammates.storage.sqlentity.FeedbackResponseComment createFeedbackResponseComment(
             teammates.storage.sqlentity.FeedbackResponse newResponse, FeedbackResponseComment oldComment,
             Section giverSection, Section recipientSection) {
+        String truncatedCommentText = truncateToLength2000(oldComment.getCommentText());
+
         teammates.storage.sqlentity.FeedbackResponseComment newComment =
                 new teammates.storage.sqlentity.FeedbackResponseComment(
                         newResponse,
@@ -496,7 +502,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                         oldComment.getCommentGiverType(),
                         giverSection,
                         recipientSection,
-                        oldComment.getCommentText(),
+                        truncatedCommentText,
                         oldComment.getIsVisibilityFollowingFeedbackQuestion(),
                         oldComment.getIsCommentFromFeedbackParticipant(),
                         oldComment.getShowCommentTo(),
@@ -536,12 +542,15 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             newPrivileges = new InstructorPrivileges(privilegesLegacy);
         }
 
-        Instructor newInstructor = new Instructor(
+        String truncatedInstructorName = truncateToLength255(oldInstructor.getName());
+        String truncatedDisplayName = truncateToLength255(oldInstructor.getDisplayedName());
+
+        teammates.storage.sqlentity.Instructor newInstructor = new teammates.storage.sqlentity.Instructor(
                 newCourse,
-                oldInstructor.getName(),
+                truncatedInstructorName,
                 oldInstructor.getEmail(),
                 oldInstructor.isDisplayedToStudents(),
-                oldInstructor.getDisplayedName(),
+                truncatedDisplayName,
                 InstructorPermissionRole.getEnum(oldInstructor.getRole()),
                 newPrivileges);
 
@@ -786,6 +795,27 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");
         }
         entitiesSavingBuffer.clear();
+    }
+
+    /**
+     * Truncates a string to a maximum length.
+     */
+    protected String truncate(String str, int maxLength) {
+        return str.length() > maxLength ? str.substring(0, maxLength) : str;
+    }
+
+    /**
+     * Truncates to a length of 255.
+     */
+    protected String truncateToLength255(String str) {
+        return truncate(str, 255);
+    }
+
+    /**
+     * Truncates to a length of 2000.
+     */
+    protected String truncateToLength2000(String str) {
+        return truncate(str, 2000);
     }
 
     /**
