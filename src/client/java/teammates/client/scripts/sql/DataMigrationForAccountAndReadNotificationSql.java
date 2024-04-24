@@ -101,7 +101,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
      * Returns whether the account has been migrated.
      */
     protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
-        return !entity.isMigrated();
+        return true;
     }
 
     /**
