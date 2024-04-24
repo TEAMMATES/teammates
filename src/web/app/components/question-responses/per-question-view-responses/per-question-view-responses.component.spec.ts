@@ -8,6 +8,7 @@ import {
 import SpyInstance = jest.SpyInstance;
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import testEventEmission from '../../../../test-helpers/test-event-emitter';
 import {
   CommentVisibilityType, FeedbackParticipantType, FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -21,7 +22,6 @@ import { CommentTableModel } from '../../comment-box/comment-table/comment-table
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
-import testEventEmission from '../../../../test-helpers/test-event-emitter';
 
 describe('PerQuestionViewResponsesComponent', () => {
   let component: PerQuestionViewResponsesComponent;
@@ -149,7 +149,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     let emittedID: string | undefined;
     let emittedIndex: number | undefined;
     testEventEmission(component.deleteCommentEvent, (val) => { emittedID = val.responseId; emittedIndex = val.index; });
-    
+
     component.triggerDeleteCommentEvent('testID', 5);
     expect(emittedID).toBe('testID');
     expect(emittedIndex).toBe(5);
@@ -159,7 +159,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     let emittedID: string | undefined;
     let emittedIndex: number | undefined;
     testEventEmission(component.updateCommentEvent, (val) => { emittedID = val.responseId; emittedIndex = val.index; });
-    
+
     component.triggerUpdateCommentEvent('testID2', 6);
     expect(emittedID).toBe('testID2');
     expect(emittedIndex).toBe(6);
@@ -168,16 +168,16 @@ describe('PerQuestionViewResponsesComponent', () => {
   it('triggerSaveNewCommentEvent: should emit correct responseID to saveNewCommentEvent', () => {
     let emittedID: string | undefined;
     testEventEmission(component.saveNewCommentEvent, (responseId) => { emittedID = responseId; });
-    
+
     component.triggerSaveNewCommentEvent('testID3');
     expect(emittedID).toBe('testID3');
   });
 
-  it('triggerModelChangeForSingleResponse: should emit correct instructorCommentTableModel Record to instructorCommentTableModelChange', () => {
+  it('triggerModelChangeForSingleResponse: should emit correct Record to instructorCommentTableModelChange', () => {
     let emittedRecord: Record<string, CommentTableModel> | undefined;
     testEventEmission(component.instructorCommentTableModelChange, (record) => { emittedRecord = record; });
 
-    let testRecord: Record<string, CommentTableModel> = {'testID4': commentTableModel};
+    const testRecord: Record<string, CommentTableModel> = { testID4: commentTableModel };
 
     component.triggerModelChangeForSingleResponse('testID4', commentTableModel);
     expect(emittedRecord).toStrictEqual(testRecord);
@@ -187,7 +187,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     let emittedRecord: Record<string, CommentTableModel> | undefined;
     testEventEmission(component.instructorCommentTableModelChange, (record) => { emittedRecord = record; });
 
-    let testRecord: Record<string, CommentTableModel> = {};
+    const testRecord: Record<string, CommentTableModel> = {};
 
     component.triggerModelChange(testRecord);
     expect(emittedRecord).toStrictEqual(testRecord);
