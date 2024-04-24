@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
+
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.HibernateUtil;
@@ -50,31 +52,32 @@ public class VerifyCourseEntityAttributes
 
     // Used for sql data migration
     @Override
-    public boolean equals(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
+    public boolean equals(teammates.storage.sqlentity.Course newCourse, Course oldCourse) {
         try {
             HibernateUtil.beginTransaction();
+            newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class, newCourse.getId());
             boolean isEqual = true;
-            if (!verifyCourse(sqlEntity, datastoreEntity)) {
+            if (!verifyCourse(newCourse, oldCourse)) {
                 log("Failed course verification");
                 isEqual = false;
             }
 
-            if (!verifySectionChain(sqlEntity)) {
+            if (!verifySectionChain(newCourse)) {
                 log("Failed section chain verification");
                 isEqual = false;
             }
 
-            if (!verifyFeedbackChain(sqlEntity)) {
+            if (!verifyFeedbackChain(newCourse)) {
                 log("Failed feedback chain verification"); 
                 isEqual = false;
             }
 
-            if (!verifyInstructors(sqlEntity)) {
+            if (!verifyInstructors(newCourse)) {
                 log("Failed instructor verification");
                 isEqual = false;
             }
 
-            if (!verifyDeadlineExtensions(sqlEntity)) {
+            if (!verifyDeadlineExtensions(newCourse)) {
                 log("Failed deadline extension verification");
                 isEqual = false;
             }
@@ -82,6 +85,9 @@ public class VerifyCourseEntityAttributes
             HibernateUtil.commitTransaction();
             return isEqual;
         } catch (IllegalArgumentException iae) {
+            iae.printStackTrace();
+            log("ERROR, IllegalArgumentException " + iae.getMessage());
+            HibernateUtil.commitTransaction();
             return false;
         }
     }
@@ -111,7 +117,7 @@ public class VerifyCourseEntityAttributes
         Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
                 .collect(Collectors.groupingBy(Student::getSectionName));
 
-        List<Section> newSections = newCourse.getSections();
+        List<Section> newSections = getNewSections(newCourse.getId());
 
         boolean isNotSectionsCountEqual = newSections.size() != sectionToOldStuMap.size()
                 || newSections.size() != sectionToNewStuMap.size();
@@ -185,7 +191,7 @@ public class VerifyCourseEntityAttributes
             CourseStudent oldStudent = oldTeamStudents.get(i);
             Student newStudent = newTeamStudents.get(i);
             if (!verifyStudent(oldStudent, newStudent)) {
-                log("Section chain - student failed attribute comparison");
+                log("Section chain - student failed attribute comparison. Old:" + oldStudent + " New:" + newStudent);
                 return false;
             }
         }
@@ -194,13 +200,20 @@ public class VerifyCourseEntityAttributes
 
     private boolean verifyStudent(CourseStudent oldStudent,
             Student newStudent) {
+        if (!(newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
+        newStudent.getGoogleId().equals(oldStudent.getGoogleId()))) {
+            log("Mismatch in google ids " + newStudent.getGoogleId() + "  " + oldStudent.getGoogleId());
+        }
+
         return newStudent.getName().equals(oldStudent.getName())
                 && newStudent.getEmail().equals(oldStudent.getEmail())
                 && newStudent.getComments().equals(oldStudent.getComments())
                 && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt())
                 && newStudent.getCreatedAt().equals(oldStudent.getCreatedAt())
                 && newStudent.getRegKey().equals(oldStudent.getRegistrationKey())
-                && newStudent.getGoogleId().equals(oldStudent.getGoogleId());
+                && (newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
+                    newStudent.getGoogleId().equals(oldStudent.getGoogleId())
+                );
     }
 
     // methods for verify feedback chain -----------------------------------------------------------------------------------
@@ -212,7 +225,7 @@ public class VerifyCourseEntityAttributes
                 .filter("courseId", newCourse.getId()).list();
 
         if (newSessions.size() != oldSessions.size()) {
-            log(String.format("Mismatched session counts for course id: %s", newCourse.getId()));
+            log(String.format("Mismatched session counts for course id: %s. Old size: %d, New size: %d", newCourse.getId(), newSessions.size(), oldSessions.size()));
             return false;
         }
 
@@ -463,6 +476,16 @@ public class VerifyCourseEntityAttributes
         cr.select(studentRoot).where(cb.equal(studentRoot.get("courseId"), courseId));
         List<Student> newStudents = HibernateUtil.createQuery(cr).getResultList();
         return newStudents;
+    }
+
+    private List<Section> getNewSections(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Section> cr = cb
+                .createQuery(teammates.storage.sqlentity.Section.class);
+        Root<teammates.storage.sqlentity.Section> sectionRoot = cr.from(teammates.storage.sqlentity.Section.class);
+        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("courseId"), courseId));
+        List<Section> newSections = HibernateUtil.createQuery(cr).getResultList();
+        return newSections;
     }
 
     private List<teammates.storage.sqlentity.Instructor> getNewInstructors(String courseId) {

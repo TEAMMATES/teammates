@@ -163,6 +163,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         log("Migrating section chain");
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
                 .list();
+
         Map<String, teammates.storage.sqlentity.Section> sections = new HashMap<>();
         Map<String, List<CourseStudent>> sectionToStuMap = oldStudents.stream()
                 .collect(Collectors.groupingBy(CourseStudent::getSectionName));
@@ -239,6 +240,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         Student newStudent = new Student(newCourse, truncatedStudentName, oldStudent.getEmail(),
             truncatedComments, newTeam);
+        
         newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
         newStudent.setRegKey(oldStudent.getRegistrationKey());
         newStudent.setCreatedAt(oldStudent.getCreatedAt());
@@ -621,6 +623,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 log("User not found for account: " + account.getGoogleId());
                 continue;
             }
+            newUser.setGoogleId(account.getGoogleId());
             newUser.setAccount(account);
             saveEntityDeferred(newUser);
         }
@@ -761,6 +764,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             }
         } catch (Exception e) {
             logError("Problem migrating entity " + entity);
+            e.printStackTrace();
             logError(e.getMessage());
         }
     }
