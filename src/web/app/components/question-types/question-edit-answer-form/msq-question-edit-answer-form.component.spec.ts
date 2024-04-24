@@ -31,7 +31,7 @@ describe('MsqQuestionEditAnswerFormComponent', () => {
   it('updateNoneOfTheAbove: should update answers based on isNoneOfTheAboveEnabled', () => {
     const component = new MsqQuestionEditAnswerFormComponent();
     component.responseDetails = {
-      answers: ['A', 'B', 'C']
+      answers: ['A', 'B', 'C'],
     };
 
     // Simulate isNoneOfTheAboveEnabled being false
@@ -41,7 +41,7 @@ describe('MsqQuestionEditAnswerFormComponent', () => {
 
     // Simulate isNoneOfTheAboveEnabled being true
     component.responseDetails = {
-      answers: ['A', 'B', 'C']
+      answers: ['A', 'B', 'C'],
     };
 
     component.updateNoneOfTheAbove();
