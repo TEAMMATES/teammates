@@ -306,10 +306,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   get filteredRecipients(): FeedbackResponseRecipient[] {
-    return this.model.recipientList.filter(recipient =>
-      recipient.recipientName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    return this.model.recipientList.filter((recipient) =>
+      recipient.recipientName.toLowerCase().includes(this.searchTerm.toLowerCase()),
     );
-  }  
+  }
 
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
