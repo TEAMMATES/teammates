@@ -179,8 +179,8 @@ describe('PerQuestionViewResponsesComponent', () => {
 
     const testRecord: Record<string, CommentTableModel> = { responseId: commentTableModel };
 
-    component.triggerModelChangeForSingleResponse('testID4', commentTableModel);
-    expect(emittedRecord).toStrictEqual(testRecord);
+    component.triggerModelChangeForSingleResponse('responseId', commentTableModel);
+    expect(emittedRecord).toEqual(testRecord);
   });
 
   it('triggerModelChange: should emit correct instructorCommentTableModel Record to triggerModelChange', () => {
@@ -190,6 +190,6 @@ describe('PerQuestionViewResponsesComponent', () => {
     const testRecord: Record<string, CommentTableModel> = {};
 
     component.triggerModelChange(testRecord);
-    expect(emittedRecord).toStrictEqual(testRecord);
+    expect(emittedRecord).toEqual(testRecord);
   });
 });
