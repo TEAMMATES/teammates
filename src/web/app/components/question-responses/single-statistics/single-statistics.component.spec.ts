@@ -3,13 +3,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SingleStatisticsComponent } from './single-statistics.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
+  FeedbackQuestionType,
+} from '../../../../types/api-output';
+import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { QuestionStatisticsModule } from '../../question-types/question-statistics/question-statistics.module';
-import {
-  FeedbackQuestionType,
-} from '../../../../types/api-output';
-
 
 describe('SingleStatisticsComponent', () => {
   let component: SingleStatisticsComponent;
@@ -37,7 +36,7 @@ describe('SingleStatisticsComponent', () => {
   describe('filterResponses', () => {
     let feedbackResponsesService: FeedbackResponsesService;
     beforeEach(() => {
-      feedbackResponsesService = jest.fn('FeedbackResponsesService', 
+      feedbackResponsesService = jest.fn('FeedbackResponsesService',
       ['isFeedbackResponsesDisplayedOnSection']);
       component = new SingleStatisticsComponent(feedbackResponsesService);
     });
@@ -45,19 +44,23 @@ describe('SingleStatisticsComponent', () => {
       component.responses = [
         {
           isMissingResponse: true, recipient: 'You', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'},
+         giverSection: '000'
+        },
         {
           isMissingResponse: false, recipient: 'You', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'},
+         giverSection: '000'
+        },
         {
           isMissingResponse: true, recipient: 'Someone else', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'},
+         giverSection: '000'
+        },
         {
           isMissingResponse: false, recipient: 'Someone else', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'},
+         giverSection: '000'
+        },
       ];
 
-      component.question = {questionType: FeedbackQuestionType.CONSTSUM};
+      component.question = { questionType: FeedbackQuestionType.CONSTSUM };
 
       component.section = 'example section';
       component.sectionType = InstructorSessionResultSectionType.EITHER;
@@ -70,8 +73,8 @@ describe('SingleStatisticsComponent', () => {
 
       // Check if responsesToUse is filtered correctly
       expect(component.responsesToUse).toEqual([
-        {isMissingResponse: false, recipient: 'You'},
-        {isMissingResponse: false, recipient: 'Someone else'},
+        { isMissingResponse: false, recipient: 'You' },
+        { isMissingResponse: false, recipient: 'Someone else' },
       ]);
     });
   });
