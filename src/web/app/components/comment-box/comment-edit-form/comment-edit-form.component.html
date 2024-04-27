@@ -47,10 +47,10 @@
                        placeholderText="Enter your comment here" [isDisabled]="isDisabled"></tm-rich-text-editor>
 </div>
 
-<button type="button" class="btn btn-success btn-sm float-end btn-margin-left"
-        (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
-  {{ mode === CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
-
 <button type="button" class="btn btn-light btn-sm float-end"
         (click)="triggerCloseCommentBoxEvent()" *ngIf="!shouldHideClosingButton" [disabled]="isDisabled"><i class="fas fa-times"></i>
   Cancel</button>
+
+<button type="button" class="btn btn-success btn-sm float-end btn-margin-left"
+        (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
+  {{ mode === CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
