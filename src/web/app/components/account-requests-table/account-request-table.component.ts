@@ -13,6 +13,7 @@ import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
+import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -70,11 +71,14 @@ export class AccountRequestTableComponent {
     modalRef.result.then((res: EditRequestModalComponentResult) => {
       this.accountService.editAccountRequest(
         accountRequest.id,
-        res.accountRequestName,
-        res.accountRequestEmail,
-        res.accountRequestInstitution,
-        accountRequest.status,
-        res.accountRequestComment)
+        <AccountRequestUpdateRequest>({
+            name: res.accountRequestName,
+            email: res.accountRequestEmail,
+            institute: res.accountRequestInstitution,
+            status: accountRequest.status,
+            comments: res.accountRequestComment,
+        }),
+      )
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.comments = resp.comments ?? '';
