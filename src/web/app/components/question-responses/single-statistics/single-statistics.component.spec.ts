@@ -43,20 +43,35 @@ describe('SingleStatisticsComponent', () => {
     it('should filter responses correctly', () => {
       component.responses = [
         {
-          isMissingResponse: true, recipient: 'You', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'
+          isMissingResponse: true, 
+          recipient: 'You', 
+          responseId: '0000', 
+          giver: '0000', 
+          giverTeam: '0000',
+          giverSection: '000'
         },
         {
-          isMissingResponse: false, recipient: 'You', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'
+          isMissingResponse: false, 
+          recipient: 'You', 
+          responseId: '0000', 
+          giver: '0000', 
+          giverTeam: '0000',
+          giverSection: '000'
         },
         {
-          isMissingResponse: true, recipient: 'Someone else', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'
+          isMissingResponse: true, 
+          recipient: 'Someone else', 
+          responseId: '0000', giver: '0000', 
+          giverTeam: '0000',
+          giverSection: '000'
         },
         {
-          isMissingResponse: false, recipient: 'Someone else', responseId: '0000', giver: '0000', giverTeam: '0000',
-         giverSection: '000'
+          isMissingResponse: false, 
+          recipient: 'Someone else', 
+          responseId: '0000', 
+          giver: '0000', 
+          giverTeam: '0000',
+          giverSection: '000'
         },
       ];
 
