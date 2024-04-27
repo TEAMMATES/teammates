@@ -61,7 +61,8 @@ describe('SingleStatisticsComponent', () => {
         {
           isMissingResponse: true,
           recipient: 'Someone else',
-          responseId: '0000', giver: '0000',
+          responseId: '0000',
+          giver: '0000',
           giverTeam: '0000',
           giverSection: '000',
         },
