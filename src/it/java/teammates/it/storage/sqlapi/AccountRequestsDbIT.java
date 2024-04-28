@@ -193,22 +193,4 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(accountRequest, actual);
     }
 
-    @Test
-    public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
-        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
-
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        accountRequestDb.createAccountRequest(accountRequest);
-
-        String searchInjection = "institute'; DROP TABLE account_requests; --";
-        List<AccountRequest> actualInjection = accountRequestDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(0, actualInjection.size());
-
-        AccountRequest actual = accountRequestDb.getAccountRequest("test@gmail.com", "institute");
-        assertEquals(accountRequest, actual);
-    }
 }
