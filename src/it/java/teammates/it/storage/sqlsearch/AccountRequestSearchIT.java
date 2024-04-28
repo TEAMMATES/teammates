@@ -6,6 +6,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
@@ -14,7 +15,6 @@ import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.AssertHelper;
 import teammates.test.TestProperties;
-import teammates.common.datatransfer.AccountRequestStatus;
 
 /**
  * SUT: {@link AccountRequestsDb},
@@ -171,8 +171,8 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
             return;
         }
 
-        AccountRequest accountRequest = 
-            new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestsDb.createAccountRequest(accountRequest);
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";
