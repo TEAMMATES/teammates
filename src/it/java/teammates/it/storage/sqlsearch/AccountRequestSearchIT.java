@@ -14,6 +14,7 @@ import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.AssertHelper;
 import teammates.test.TestProperties;
+import teammates.common.datatransfer.AccountRequestStatus;
 
 /**
  * SUT: {@link AccountRequestsDb},
@@ -171,13 +172,13 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         }
 
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        accountRequestDb.createAccountRequest(accountRequest);
+        accountRequestsDb.createAccountRequest(accountRequest);
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";
         List<AccountRequest> actualInjection = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(typicalBundle.accountRequests.size(), actualInjection.size());
+        assertEquals(typicalBundle.accountRequests, actualInjection.size());
 
-        AccountRequest actual = accountRequestsDb.getAccountRequest("test@gmail.com", "institute");
+        AccountRequest actual = accountRequestsDb.getAccountRequest(accountRequest.getId());
         assertEquals(accountRequest, actual);
     }
 
