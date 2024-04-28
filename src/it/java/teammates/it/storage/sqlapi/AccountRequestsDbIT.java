@@ -197,6 +197,10 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
         ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
 
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         accountRequestDb.createAccountRequest(accountRequest);
 
