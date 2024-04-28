@@ -162,6 +162,25 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
                 () -> accountRequestsDb.searchAccountRequestsInWholeSystem("anything"));
     }
 
+    @Test
+    public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
+        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
+
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        accountRequestsDb.createAccountRequest(accountRequest);
+
+        String searchInjection = "institute'; DROP TABLE account_requests; --";
+        List<AccountRequest> actualInjection = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
+        assertEquals(typicalBundle.accountRequests.size(), actualInjection.size());
+
+        AccountRequest actual = accountRequestsDb.getAccountRequest("test@gmail.com", "institute");
+        assertEquals(accountRequest, actual);
+    }
+
     /**
      * Verifies that search results match with expected output.
      *

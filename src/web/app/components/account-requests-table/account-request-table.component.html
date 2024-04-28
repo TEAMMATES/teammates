@@ -52,17 +52,17 @@
             <td class="align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center gap-2">
                 <div>
-                  <a id="edit-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); editAccountRequest(accountRequest);">
+                  <a id="edit-account-request-{{i}}" (click)="$event.stopPropagation(); editAccountRequest(accountRequest);">
                     <i class="fa-solid fa-pen"></i>
                   </a>
                 </div>
               <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'" placement="top">
-                <a id="delete-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)">
+                <a id="delete-account-request-{{i}}" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)">
                   <i class="fa-solid fa-trash"></i>
                 </a>
               </div>
               <div>
-                <a id="view-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)">
+                <a id="view-account-request-{{i}}" (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)">
                     <i class="fa-solid fa-eye"></i>
                 </a>
               </div>

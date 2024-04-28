@@ -4,12 +4,16 @@ import { AccountRequestTableRowModel } from './account-request-table-model';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
+  RejectWithReasonModalComponentResult,
+} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
+import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
+import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -67,11 +71,14 @@ export class AccountRequestTableComponent {
     modalRef.result.then((res: EditRequestModalComponentResult) => {
       this.accountService.editAccountRequest(
         accountRequest.id,
-        res.accountRequestName,
-        res.accountRequestEmail,
-        res.accountRequestInstitution,
-        accountRequest.status,
-        res.accountRequestComment)
+        <AccountRequestUpdateRequest>({
+            name: res.accountRequestName,
+            email: res.accountRequestEmail,
+            institute: res.accountRequestInstitution,
+            status: accountRequest.status,
+            comments: res.accountRequestComment,
+        }),
+      )
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.comments = resp.comments ?? '';
@@ -84,7 +91,7 @@ export class AccountRequestTableComponent {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-    });
+    }, () => {});
   }
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel): void {
@@ -173,9 +180,9 @@ export class AccountRequestTableComponent {
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
 
-    modalRef.result.then(() => {
+    modalRef.result.then((res: RejectWithReasonModalComponentResult) => {
       this.accountService.rejectAccountRequest(accountRequest.id,
-        modalRef.componentInstance.rejectionReasonTitle, modalRef.componentInstance.rejectionReasonBody)
+        res.rejectionReasonTitle, res.rejectionReasonBody)
       .subscribe({
         next: (resp: AccountRequest) => {
           accountRequest.status = resp.status;
