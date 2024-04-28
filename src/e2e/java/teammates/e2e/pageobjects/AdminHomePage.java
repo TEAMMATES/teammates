@@ -1,5 +1,7 @@
 package teammates.e2e.pageobjects;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -12,6 +14,9 @@ import teammates.test.ThreadHelper;
  * Represents the admin home page of the website.
  */
 public class AdminHomePage extends AppPage {
+    private static final int ACCOUNT_REQUEST_COL_NAME = 1;
+    private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
+    private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
 
     @FindBy(id = "instructor-details-single-line")
     private WebElement detailsSingleLineTextBox;
@@ -94,5 +99,30 @@ public class AdminHomePage extends AppPage {
         ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
         List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
         clickDismissModalButtonAndWaitForModalHidden(okButtons.get(1)); // Second modal is confirmation modal
+    }
+
+    public String removeSpanFromText(String text) {
+        return text.replace("<span class=\"highlighted-text\">", "").replace("</span>", "");
+    }
+
+    public WebElement getAccountRequestRow(String name, String email, String institute) {
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_NAME - 1)
+                    .getAttribute("innerHTML")).contains(name)
+                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
+                    .getAttribute("innerHTML")).contains(email)
+                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
+                    .getAttribute("innerHTML")).contains(institute)) {
+                return row;
+            }
+        }
+        return null;
+    }
+
+    public void verifyInstructorInAccountRequestTable(String name, String email, String institute) {
+        WebElement row = getAccountRequestRow(name, email, institute);
+        assertNotNull(row);
     }
 }

@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.SearchServiceException;
@@ -13,10 +15,16 @@ public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
 
     @Override
     public ActionResult execute() {
-        String email = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTION);
+        String id = getNonNullRequestParamValue(ParamsNames.ACCOUNT_REQUEST_ID);
+        UUID accountRequestId;
 
-        AccountRequest accRequest = sqlLogic.getAccountRequest(email, institute);
+        try {
+            accountRequestId = UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(e.getMessage(), e);
+        }
+
+        AccountRequest accRequest = sqlLogic.getAccountRequest(accountRequestId);
 
         try {
             sqlLogic.putAccountRequestDocument(accRequest);

@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResultFetchType;
@@ -344,7 +344,7 @@ public final class FeedbackResponsesLogic {
      */
     private void makeRankRecipientQuestionResponsesConsistent(
             FeedbackQuestion question, SqlCourseRoster roster) {
-        assert !question.getQuestionDetailsCopy().getQuestionType()
+        assert question.getQuestionDetailsCopy().getQuestionType()
                 .equals(FeedbackQuestionType.RANK_RECIPIENTS);
 
         FeedbackParticipantType giverType = question.getGiverType();
@@ -593,7 +593,7 @@ public final class FeedbackResponsesLogic {
         Set<String> studentsEmailInTeam = new HashSet<>();
         if (student != null) {
             for (Student studentInTeam
-                    : roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList())) {
+                    : roster.getTeamToMembersTable().getOrDefault(student.getTeam().getName(), Collections.emptyList())) {
                 studentsEmailInTeam.add(studentInTeam.getEmail());
             }
         }

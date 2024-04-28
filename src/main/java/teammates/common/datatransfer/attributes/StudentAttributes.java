@@ -323,7 +323,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
     /**
      * A builder class for {@link StudentAttributes}.
      */
-    public static class Builder extends BasicBuilder<StudentAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<StudentAttributes, Builder> {
 
         private final StudentAttributes studentAttributes;
 
@@ -345,7 +345,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
     /**
      * Helper class to specify the fields to update in {@link StudentAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String courseId;
         private String email;
 
@@ -389,7 +389,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(String courseId, String email) {
                 super(new UpdateOptions(courseId, email));

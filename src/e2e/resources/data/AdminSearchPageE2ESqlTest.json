@@ -38,7 +38,36 @@
           "name": "Typical Instructor Name",
           "email": "ASearch.unregisteredinstructor1@gmail.tmt",
           "institute": "TEAMMATES Test Institute 1",
-          "createdAt": "2011-01-01T00:00:00Z"
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor2": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor2@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 2",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor3": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor3@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 3",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor4": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor4@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 4",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
+        },
+        "unregisteredInstructor5": {
+          "name": "Typical Instructor Name",
+          "email": "ASearch.unregisteredinstructor5@gmail.tmt",
+          "institute": "TEAMMATES Test Institute 5",
+          "createdAt": "2011-01-01T00:00:00Z",
+          "status": "PENDING"
         }
       },
     "courses": {
