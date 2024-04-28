@@ -170,8 +170,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
             return;
         }
 
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";
