@@ -171,12 +171,13 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
             return;
         }
 
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = 
+            new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestsDb.createAccountRequest(accountRequest);
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";
         List<AccountRequest> actualInjection = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(typicalBundle.accountRequests, actualInjection.size());
+        assertEquals(typicalBundle.accountRequests.size(), actualInjection.size());
 
         AccountRequest actual = accountRequestsDb.getAccountRequest(accountRequest.getId());
         assertEquals(accountRequest, actual);
