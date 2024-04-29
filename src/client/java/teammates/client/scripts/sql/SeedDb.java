@@ -61,8 +61,8 @@ public class SeedDb extends DatastoreClient {
     private static final int MAX_QUESTION_PER_COURSE = 6;
     private static final int MAX_RESPONSES_PER_QUESTION = 10;
     private static final int MAX_COMMENTS_PER_RESPONSE = 2;
-    private static final int NOTIFICATION_SIZE = 1000;
-    private static final int READ_NOTIFICATION_SIZE = 5;
+    private static final int NOTIFICATION_SIZE = 0;
+    private static final int READ_NOTIFICATION_SIZE = 0;
     private static final double PERCENTAGE_STUDENTS_WITH_ACCOUNT = 0.1;
     private static final int MAX_INSTRUCTOR_PER_COURSE = 3;
     private static final double PERCENTAGE_INSTRUCTORS_WITH_ACCOUNT = 0.5;
@@ -141,9 +141,9 @@ public class SeedDb extends DatastoreClient {
     protected void persistAdditionalData() {
         // Each account will have this amount of read notifications
         assert NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE;
-        log("Seeding Notifications, Account and Account Request");
+        log("Seeding Notifications and Account Request");
 
-        // seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
+        seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
         seedAccountRequests();
 
         log("Seeding courses");
@@ -156,7 +156,7 @@ public class SeedDb extends DatastoreClient {
             String courseId = String.format("Course-ID-%s", i);
             try {
                 seedCourseWithCourseId(i, courseId);
-                // seedStudents(i, courseId);
+                seedStudents(i, courseId);
                 // seedFeedbackSession(i, courseId);
                 // seedFeedbackQuestions(i, courseId);
                 // seedInstructors(i, courseId);
