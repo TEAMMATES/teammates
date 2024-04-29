@@ -20,7 +20,7 @@ public class Logger {
      * Returns the prefix for the log line.
      */
     private String getLogPrefix() {
-        return String.format("%s Migrating:", logPrefix);
+        return String.format("%s", logPrefix);
     }
 
     /**

@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -62,6 +63,10 @@ public class VerifyCourseEntityAttributes
             
             HibernateUtil.beginTransaction();
             isEqual = isEqual && verifySections(courseId);
+            HibernateUtil.commitTransaction();
+
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyTeams(courseId);
             HibernateUtil.commitTransaction();
             
 
@@ -139,16 +144,88 @@ public class VerifyCourseEntityAttributes
             newSectionNames.add(newSection.getName());;
         }
 
-        boolean isNotSectionsCountEqual = newSectionNames.size() != oldSectionNames.size()
-                || newSectionNames.size() != oldSectionNames.size();
-        if (isNotSectionsCountEqual) {
-            logValidationError(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
-            oldSectionNames.size(), newSectionNames.size()));
-            logValidationError("Section chain - section count not equal");
+        boolean isSectionsCountEqual = newSectionNames.size() == oldSectionNames.size();
+        if (!isSectionsCountEqual) {
+            logValidationError(String.format("Section chain - section count not equal (%d but expected %d)", newSectionNames.size(),
+                oldSectionNames.size()));
             return false;
         }
 
         return newSectionNames.equals(oldSectionNames);
+    }
+
+    // private boolean verifyTeams(Section newSection,
+    //         Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
+
+    //     List<Team> newTeams = newSection.getTeams();
+
+    //     boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
+    //             || newTeams.size() != teamNameToOldStuMap.size();
+    //     if (isNotTeamCountEqual) {
+    //         logValidationError("Section chain - team count not equal");
+    //         return false;
+    //     }
+
+    //     return newTeams.stream().allMatch(team -> {
+    //         List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
+    //         List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
+
+    //         // If either of the teamStudent is null,
+    //         // then team is not present in the corresponding datastore or sql
+    //         // which means a possible migration error
+    //         boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
+    //         if (teamNameNotPresent) {
+    //             logValidationError("Section chain - team name not present");
+    //             return false;
+    //         }
+    //         return verifyStudents(oldTeamStudents, newTeamStudents);
+    //     });
+    // }
+
+    private boolean verifyTeams(String courseId) {
+       // Assume that team names are unique within a section but not unique among all sections
+
+        // get all datastore students related to course
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
+                .list();
+
+        // get all teams related to sections
+        int numberOldTeams = 0;
+        Map<String, HashSet<String>> oldSectionToTeamHashSet = new HashMap<String, HashSet<String>>();
+        for (CourseStudent student : oldStudents) {
+            String sectionName = student.getSectionName();
+            oldSectionToTeamHashSet.putIfAbsent(sectionName, new HashSet<>());
+            HashSet<String> teamHashSet = oldSectionToTeamHashSet.get(sectionName);
+            boolean addedToSet = teamHashSet.add(student.getTeamName());
+            if (addedToSet) {
+                numberOldTeams += 1;
+            }
+        }
+
+        // map team to section
+        int numberNewTeams = 0;
+        Map<String, HashSet<String>> newSectionToTeamHashSet = new HashMap<String, HashSet<String>>();
+        List<Section> newSections = getNewSections(courseId);
+        for (Section newSection : newSections) {
+            String sectionName = newSection.getName();
+            HashSet<String> teamHashSet = new HashSet<>();
+            for (Team newTeam : newSection.getTeams()) {
+                boolean addedToSet = teamHashSet.add(newTeam.getName());
+                if (addedToSet) {
+                    numberNewTeams += 1;
+                }
+            }
+            newSectionToTeamHashSet.put(sectionName, teamHashSet);
+        }
+
+        boolean isTeamCountEqual = numberNewTeams == numberOldTeams;
+        if (!isTeamCountEqual) {
+            logValidationError(String.format("Section chain - team count not equal (%d but expected %d)", numberNewTeams, 
+                numberOldTeams));
+            return false;
+        }
+
+        return newSectionToTeamHashSet.equals(oldSectionToTeamHashSet);
     }
 
     // private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
@@ -196,33 +273,33 @@ public class VerifyCourseEntityAttributes
 
     // }
 
-    private boolean verifyTeams(Section newSection,
-            Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
+    // private boolean verifyTeams(Section newSection,
+    //         Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
 
-        List<Team> newTeams = newSection.getTeams();
+    //     List<Team> newTeams = newSection.getTeams();
 
-        boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
-                || newTeams.size() != teamNameToOldStuMap.size();
-        if (isNotTeamCountEqual) {
-            logValidationError("Section chain - team count not equal");
-            return false;
-        }
+    //     boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
+    //             || newTeams.size() != teamNameToOldStuMap.size();
+    //     if (isNotTeamCountEqual) {
+    //         logValidationError("Section chain - team count not equal");
+    //         return false;
+    //     }
 
-        return newTeams.stream().allMatch(team -> {
-            List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
-            List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
+    //     return newTeams.stream().allMatch(team -> {
+    //         List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
+    //         List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
 
-            // If either of the teamStudent is null,
-            // then team is not present in the corresponding datastore or sql
-            // which means a possible migration error
-            boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
-            if (teamNameNotPresent) {
-                logValidationError("Section chain - team name not present");
-                return false;
-            }
-            return verifyStudents(oldTeamStudents, newTeamStudents);
-        });
-    }
+    //         // If either of the teamStudent is null,
+    //         // then team is not present in the corresponding datastore or sql
+    //         // which means a possible migration error
+    //         boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
+    //         if (teamNameNotPresent) {
+    //             logValidationError("Section chain - team name not present");
+    //             return false;
+    //         }
+    //         return verifyStudents(oldTeamStudents, newTeamStudents);
+    //     });
+    // }
 
     private boolean verifyStudents(
             List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {

@@ -2,17 +2,14 @@ package teammates.client.scripts.sql;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -40,9 +37,9 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
@@ -82,6 +79,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private List<BaseEntity> entitiesSavingBuffer;
 
+    private Logger logger;
+
     // Creates the folder that will contain the stored log.
     static {
         new File(BASE_LOG_URI).mkdir();
@@ -101,6 +100,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         numberOfUpdatedEntities = new AtomicLong();
 
         entitiesSavingBuffer = new ArrayList<>();
+        
+        logger = new Logger("Course Chain Migration:");
     
         verifier = new VerifyCourseEntityAttributes();
 
@@ -115,8 +116,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         new DataMigrationForCourseEntitySql().doOperationRemotely();
     }
 
-    protected Query<Course> getFilterQuery() {
-        return ofy().load().type(Course.class);
+    protected Query<teammates.storage.entity.Course> getFilterQuery() {
+        return ofy().load().type(teammates.storage.entity.Course.class);
     }
 
     protected boolean isPreview() {
@@ -126,7 +127,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     /**
      * Migrates the course and all related entity.
      */
-    protected void migrateCourse(Course oldCourse) throws Exception {
+    protected void migrateCourse(teammates.storage.entity.Course oldCourse) throws Exception {
         log("Start migrating course with id: " + oldCourse.getUniqueId());
         String courseId = migrateCourseEntity(oldCourse);
         migrateCourseDependencies(courseId);
@@ -136,14 +137,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         // the inherited interface of verifier
 
         HibernateUtil.beginTransaction();
-        teammates.storage.sqlentity.Course newCourse = getCourse(courseId);
+        Course newCourse = getCourse(courseId);
         HibernateUtil.commitTransaction();
 
         log(String.format("Verifying %s", courseId));
 
         if (!verifier.equals(newCourse, oldCourse)) {
-            logError("Verification failed for course with id: " + oldCourse.getUniqueId());
-            return;
+            throw new Exception("Verification failed for course with id: " + oldCourse.getUniqueId());
         }
 
         // TODO: markOldCourseAsMigrated(courseId)
@@ -166,20 +166,21 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     // methods for migrate section chain ----------------------------------------------------------------------------------
     // entities: Section, Team, Student
 
-    private Map<String, teammates.storage.sqlentity.Section> migrateSectionChain(
+    private Map<String, Section> migrateSectionChain(
             String courseId, Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
         log(String.format("Migrating section chain for %s", courseId));
         
         migrateSections(courseId);
+        migrateTeams(courseId);
 
-        Map<String, teammates.storage.sqlentity.Section> sections = new HashMap<>();
+        Map<String, Section> sections = new HashMap<>();
         // Map<String, List<CourseStudent>> sectionToStuMap = oldStudents.stream()
         //         .collect(Collectors.groupingBy(CourseStudent::getSectionName));
 
         // for (Map.Entry<String, List<CourseStudent>> entry : sectionToStuMap.entrySet()) {
         //     String sectionName = entry.getKey();
         //     List<CourseStudent> stuList = entry.getValue();
-        //     // teammates.storage.sqlentity.Section newSection = createSection(newCourse, sectionName);
+        //     // Section newSection = createSection(newCourse, sectionName);
         //     sections.put(sectionName, newSection);
         //     saveEntityDeferred(newSection);
         //     // migrateTeams(newCourse, newSection, stuList, userGoogleIdToUserMap, emailToStudentMap);
@@ -187,21 +188,21 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return sections;
     }
 
-    private void migrateTeams(teammates.storage.sqlentity.Course newCourse,
-            teammates.storage.sqlentity.Section newSection, List<CourseStudent> studentsInSection,
-            Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
-        Map<String, List<CourseStudent>> teamNameToStuMap = studentsInSection.stream()
-                .collect(Collectors.groupingBy(CourseStudent::getTeamName));
-        for (Map.Entry<String, List<CourseStudent>> entry : teamNameToStuMap.entrySet()) {
-            String teamName = entry.getKey();
-            List<CourseStudent> stuList = entry.getValue();
-            teammates.storage.sqlentity.Team newTeam = createTeam(newSection, teamName);
-            saveEntityDeferred(newTeam);
-            migrateStudents(newCourse, newTeam, stuList, userGoogleIdToUserMap, emailToStudentMap);
-        }
-    }
+    // private void migrateTeams(Course newCourse,
+    //         Section newSection, List<CourseStudent> studentsInSection,
+    //         Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
+    //     Map<String, List<CourseStudent>> teamNameToStuMap = studentsInSection.stream()
+    //             .collect(Collectors.groupingBy(CourseStudent::getTeamName));
+    //     for (Map.Entry<String, List<CourseStudent>> entry : teamNameToStuMap.entrySet()) {
+    //         String teamName = entry.getKey();
+    //         List<CourseStudent> stuList = entry.getValue();
+    //         teammates.storage.sqlentity.Team newTeam = createTeam(newSection, teamName);
+    //         saveEntityDeferred(newTeam);
+    //         migrateStudents(newCourse, newTeam, stuList, userGoogleIdToUserMap, emailToStudentMap);
+    //     }
+    // }
 
-    private void migrateStudents(teammates.storage.sqlentity.Course newCourse, teammates.storage.sqlentity.Team newTeam,
+    private void migrateStudents(Course newCourse, teammates.storage.sqlentity.Team newTeam,
             List<CourseStudent> studentsInTeam, Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
         for (CourseStudent oldStudent : studentsInTeam) {
             teammates.storage.sqlentity.Student newStudent = migrateStudent(newCourse, newTeam, oldStudent);
@@ -212,8 +213,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         }
     }
 
-    private String migrateCourseEntity(Course oldCourse) {
-        teammates.storage.sqlentity.Course newCourse = new teammates.storage.sqlentity.Course(
+    private String migrateCourseEntity(teammates.storage.entity.Course oldCourse) {
+        Course newCourse = new Course(
                 oldCourse.getUniqueId(),
                 oldCourse.getName(),
                 oldCourse.getTimeZone(),
@@ -234,18 +235,18 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
             .list();
 
-        teammates.storage.sqlentity.Course newCourse = getCourse(courseId);
+        Course newCourse = getCourse(courseId);
         
         List<String> sectionNames = oldStudents.stream().map(student -> student.getSectionName()).distinct().toList();
 
         for (String sectionName : sectionNames) {
-            teammates.storage.sqlentity.Section newSection = createSection(newCourse, sectionName);
+            Section newSection = createSection(newCourse, sectionName);
             HibernateUtil.persist(newSection);
         }
         HibernateUtil.commitTransaction();
     }
 
-    private teammates.storage.sqlentity.Section createSection(teammates.storage.sqlentity.Course newCourse,
+    private Section createSection(Course newCourse,
             String sectionName) {
         String truncatedName = truncateToLength255(sectionName);
         Section newSection = new Section(newCourse, truncatedName);
@@ -253,14 +254,54 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return newSection;
     }
 
-    private teammates.storage.sqlentity.Team createTeam(teammates.storage.sqlentity.Section section, String teamName) {
+    private Section getSection(String courseId, String sectionName)  {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
+        Root<Section> sectionRoot = cr.from(Section.class);
+        cr.where(cb.and(cb.equal(sectionRoot.get("course").get("id"), courseId), 
+            cb.equal(sectionRoot.get("name"), sectionName)));
+
+        return HibernateUtil.createQuery(cr).getSingleResult();
+    }
+
+    private void migrateTeams(String courseId) {
+        HibernateUtil.beginTransaction();
+
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
+            .list();
+
+        // Assume that team names are unique within a section but not unique among all sections
+        Map<String, HashSet<String>> oldSectionToTeamHashSet = new HashMap<String, HashSet<String>>();
+        for (CourseStudent student : oldStudents) {
+            String sectionName = student.getSectionName();
+            oldSectionToTeamHashSet.putIfAbsent(sectionName, new HashSet<>());
+            HashSet<String> teamHashSet = oldSectionToTeamHashSet.get(sectionName);
+            teamHashSet.add(student.getTeamName());
+        }
+
+        for (Entry<String, HashSet<String>> entrySet : oldSectionToTeamHashSet.entrySet()) {
+            String oldSectionName = entrySet.getKey();
+            HashSet<String> oldTeams = entrySet.getValue();
+            Section newSection = getSection(courseId, oldSectionName);
+            for (String teamName : oldTeams) {
+                Team newTeam = createTeam(newSection, teamName);
+                HibernateUtil.persist(newTeam);
+            }
+        }
+
+        HibernateUtil.commitTransaction();
+    }
+
+
+
+    private teammates.storage.sqlentity.Team createTeam(Section section, String teamName) {
         String truncatedTeamName = truncateToLength255(teamName);
         Team newTeam = new teammates.storage.sqlentity.Team(section, truncatedTeamName);
         newTeam.setCreatedAt(Instant.now());
         return newTeam;
     }
 
-    private Student migrateStudent(teammates.storage.sqlentity.Course newCourse,
+    private Student migrateStudent(Course newCourse,
             teammates.storage.sqlentity.Team newTeam,
             CourseStudent oldStudent) {
         String truncatedStudentName = truncateToLength255(oldStudent.getName());
@@ -281,7 +322,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     // entities: FeedbackSession, FeedbackQuestion, FeedbackResponse, FeedbackResponseComment
 
     private Map<String, teammates.storage.sqlentity.FeedbackSession> migrateFeedbackChain(
-            teammates.storage.sqlentity.Course newCourse,
+            Course newCourse,
             Map<String, Section> sectionNameToSectionMap) {
         log("Migrating feedback chain");
         Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
@@ -303,7 +344,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     private teammates.storage.sqlentity.FeedbackSession migrateFeedbackSession(
-            teammates.storage.sqlentity.Course newCourse, FeedbackSession oldSession,
+            Course newCourse, FeedbackSession oldSession,
             Map<String, List<FeedbackQuestion>> sessionNameToQuestionsMap,
             Map<String, Section> sectionNameToSectionMap) {
         teammates.storage.sqlentity.FeedbackSession newSession = createFeedbackSession(newCourse, oldSession);
@@ -377,7 +418,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         saveEntityDeferred(newComment);
     }
 
-    private teammates.storage.sqlentity.FeedbackSession createFeedbackSession(teammates.storage.sqlentity.Course newCourse,
+    private teammates.storage.sqlentity.FeedbackSession createFeedbackSession(Course newCourse,
             FeedbackSession oldSession) {
         String truncatedSessionInstructions = truncateToLength2000(oldSession.getInstructions());
             
@@ -548,7 +589,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     // methods for misc migration methods ---------------------------------------------------------------------------------
     // entities: Instructor, DeadlineExtension
 
-    private void migrateInstructorEntities(teammates.storage.sqlentity.Course newCourse,
+    private void migrateInstructorEntities(Course newCourse,
             Map<String, User> userGoogleIdToUserMap, Map<String, Instructor> emailToInstructorMap) {
         List<teammates.storage.entity.Instructor> oldInstructors = ofy().load().type(teammates.storage.entity.Instructor.class).filter("courseId", newCourse.getId())
                 .list();
@@ -561,7 +602,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         }
     }
 
-    private Instructor migrateInstructor(teammates.storage.sqlentity.Course newCourse,
+    private Instructor migrateInstructor(Course newCourse,
             teammates.storage.entity.Instructor oldInstructor) {
         InstructorPrivileges newPrivileges;
         if (oldInstructor.getInstructorPrivilegesAsText() == null) {
@@ -592,7 +633,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return newInstructor;
     }
 
-    private void migrateDeadlineExtensionEntities(teammates.storage.sqlentity.Course newCourse,
+    private void migrateDeadlineExtensionEntities(Course newCourse,
             Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap,
             Map<String, Instructor> emailToInstructorMap, Map<String, Student> emailToStudentMap) {
         log("Migrating deadline extension");
@@ -640,7 +681,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     // Associate account to users(students and instructors) who have the same matching google id
-    private void migrateUserAccounts(teammates.storage.sqlentity.Course newCourse, Map<String, User> userGoogleIdToUserMap) {
+    private void migrateUserAccounts(Course newCourse, Map<String, User> userGoogleIdToUserMap) {
         List<Account> newAccounts = getAllAccounts(new ArrayList<String>(userGoogleIdToUserMap.keySet()));
         if (newAccounts.size() != userGoogleIdToUserMap.size()) {
             log("Mismatch in number of accounts: " + newAccounts.size() + " vs " + userGoogleIdToUserMap.size());
@@ -668,8 +709,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return newAccounts;
     }
 
-    private teammates.storage.sqlentity.Course getCourse(String courseId) {
-        return HibernateUtil.get(teammates.storage.sqlentity.Course.class, courseId);
+    private Course getCourse(String courseId) {
+        return HibernateUtil.get(Course.class, courseId);
     }
     
     @Override
@@ -687,33 +728,44 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
-            Query<Course> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
+            Query<teammates.storage.entity.Course> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
             if (cursor != null) {
                 filterQueryKeys = filterQueryKeys.startAt(cursor);
             }
 
             QueryResults<?> iterator = filterQueryKeys.iterator();
 
-            Course currentOldCourse = null;
+            teammates.storage.entity.Course currentOldCourse = null;
             // Cascade delete the course if it is not fully migrated.
             if (iterator.hasNext()) {
-                currentOldCourse = (Course) iterator.next();
+                currentOldCourse = (teammates.storage.entity.Course) iterator.next();
                 if (currentOldCourse.isMigrated()) {
-                    currentOldCourse = (Course) iterator.next();
+                    currentOldCourse = (teammates.storage.entity.Course) iterator.next();
                 } else {
                     deleteCourseCascade(currentOldCourse);
                 }
             }
+            
 
             while (currentOldCourse != null) {
                 shouldContinue = true;
-                doMigration(currentOldCourse);
+                try {
+                    doMigration(currentOldCourse);
+                } catch (Exception e) {
+                    numberOfScannedKey.incrementAndGet();
+                    logError(e.getMessage());
+                    log("Total number of course entities scanned: " + numberOfScannedKey.get());
+                    log("Number of affected course entities: " + numberOfAffectedEntities.get());
+                    log("Number of updated course entities: " + numberOfUpdatedEntities.get());
+                    e.printStackTrace();
+                    return;
+                }
                 numberOfScannedKey.incrementAndGet();
 
                 cursor = iterator.getCursorAfter();
                 savePositionOfCursorToFile(cursor);
 
-                currentOldCourse = iterator.hasNext() ? (Course) iterator.next() : null;
+                currentOldCourse = iterator.hasNext() ? (teammates.storage.entity.Course) iterator.next() : null;
             }
 
             if (shouldContinue) {
@@ -734,11 +786,11 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     /**
      * Deletes the course and its related entities from sql database.
      */
-    private void deleteCourseCascade(Course oldCourse) {
+    private void deleteCourseCascade(teammates.storage.entity.Course oldCourse) {
         String courseId = oldCourse.getUniqueId();
         
         HibernateUtil.beginTransaction();
-        teammates.storage.sqlentity.Course newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class, courseId);
+        Course newCourse = HibernateUtil.get(Course.class, courseId);
         if (newCourse == null) {
             HibernateUtil.commitTransaction();
             return;
@@ -787,17 +839,11 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     /**
      * Migrates the entity and counts the statistics.
      */
-    private void doMigration(Course entity) {
-        try {
-            numberOfAffectedEntities.incrementAndGet();
-            if (!isPreview()) {
-                migrateCourse(entity);
-                numberOfUpdatedEntities.incrementAndGet();
-            }
-        } catch (Exception e) {
-            logError("Problem migrating entity " + entity);
-            e.printStackTrace();
-            logError(e.getMessage());
+    private void doMigration(teammates.storage.entity.Course entity) throws Exception {
+        numberOfAffectedEntities.incrementAndGet();
+        if (!isPreview()) {
+            migrateCourse(entity);
+            numberOfUpdatedEntities.incrementAndGet();
         }
     }
 
@@ -858,31 +904,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
      * Logs a comment.
      */
     protected void log(String logLine) {
-        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
-
-        Path logPath = Paths.get(BASE_LOG_URI + this.getClass().getSimpleName() + ".log");
-        try (OutputStream logFile = Files.newOutputStream(logPath,
-                StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-            logFile.write((logLine + System.lineSeparator()).getBytes(Const.ENCODING));
-        } catch (Exception e) {
-            System.err.println("Error writing log line: " + logLine);
-            System.err.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Returns the log prefix.
-     */
-    protected String getLogPrefix() {
-        return String.format("Migrating Course chains:");
+        logger.log(logLine);
     }
 
     /**
      * Logs an error and persists it to the disk.
      */
     protected void logError(String logLine) {
-        System.err.println(logLine);
-
-        log("[ERROR]" + logLine);
+        logger.log("[ERROR]" + logLine);
     }
 }
