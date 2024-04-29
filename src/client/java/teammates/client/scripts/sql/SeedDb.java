@@ -52,7 +52,8 @@ import teammates.test.FileHelper;
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
     private static final int MAX_FLUSH_SIZE = 200;
-    private static final int MAX_ENTITY_SIZE = 10;
+    private static final int MAX_ENTITY_SIZE = 1000;
+    private static final int MAX_NUM_COURSES = 10;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
@@ -144,19 +145,19 @@ public class SeedDb extends DatastoreClient {
         seedAccountRequests();
 
         log("Seeding courses");
-        for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
-            if (i % (MAX_ENTITY_SIZE / 5) == 0) {
+        for (int i = 0; i < MAX_NUM_COURSES; i++) {
+            if (i % (MAX_NUM_COURSES / 5) == 0) {
                 log(String.format("Seeded %d %% of new sets of entities",
-                        (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
+                        (int) (100 * ((float) i / (float) MAX_NUM_COURSES))));
             }
 
-            String courseId = String.format("Course ID %s", i);
+            String courseId = String.format("Course-ID-%s", i);
             try {
                 seedCourseWithCourseId(i, courseId);
-                seedStudents(i, courseId);
-                seedFeedbackSession(i, courseId);
-                seedFeedbackQuestions(i, courseId);
-                seedInstructors(i, courseId);
+                // seedStudents(i, courseId);
+                // seedFeedbackSession(i, courseId);
+                // seedFeedbackQuestions(i, courseId);
+                // seedInstructors(i, courseId);
             } catch (Exception e) {
                 log(e.toString());
             }
@@ -179,7 +180,6 @@ public class SeedDb extends DatastoreClient {
     }
 
     private void seedCourseWithCourseId(int i, String courseId) {
-        Random rand = new Random();
         String courseName = String.format("Course %s", i);
         String courseInstitute = String.format("Institute %s", i);
         String courseTimeZone = String.format("Time Zone %s", i);
