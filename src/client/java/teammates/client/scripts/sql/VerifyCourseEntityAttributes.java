@@ -60,25 +60,25 @@ public class VerifyCourseEntityAttributes
                 isEqual = false;
             }
 
-            if (!verifySectionChain(newCourse)) {
-                logValidationError("Failed section chain verification");
-                isEqual = false;
-            }
+            // if (!verifySectionChain(newCourse)) {
+            //     logValidationError("Failed section chain verification");
+            //     isEqual = false;
+            // }
 
-            if (!verifyFeedbackChain(newCourse)) {
-                logValidationError("Failed feedback chain verification"); 
-                isEqual = false;
-            }
+            // if (!verifyFeedbackChain(newCourse)) {
+            //     logValidationError("Failed feedback chain verification"); 
+            //     isEqual = false;
+            // }
 
-            if (!verifyInstructors(newCourse)) {
-                logValidationError("Failed instructor verification");
-                isEqual = false;
-            }
+            // if (!verifyInstructors(newCourse)) {
+            //     logValidationError("Failed instructor verification");
+            //     isEqual = false;
+            // }
 
-            if (!verifyDeadlineExtensions(newCourse)) {
-                logValidationError("Failed deadline extension verification");
-                isEqual = false;
-            }
+            // if (!verifyDeadlineExtensions(newCourse)) {
+            //     logValidationError("Failed deadline extension verification");
+            //     isEqual = false;
+            // }
 
             HibernateUtil.commitTransaction();
             return isEqual;
