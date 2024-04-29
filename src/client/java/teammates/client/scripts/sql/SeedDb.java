@@ -143,7 +143,7 @@ public class SeedDb extends DatastoreClient {
         assert NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE;
         log("Seeding Notifications, Account and Account Request");
 
-        seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
+        // seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
         seedAccountRequests();
 
         log("Seeding courses");
