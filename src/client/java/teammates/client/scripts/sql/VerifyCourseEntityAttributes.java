@@ -56,27 +56,27 @@ public class VerifyCourseEntityAttributes
             newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class, newCourse.getId());
             boolean isEqual = true;
             if (!verifyCourse(newCourse, oldCourse)) {
-                log("Failed course verification");
+                logValidationError("Failed course verification");
                 isEqual = false;
             }
 
             if (!verifySectionChain(newCourse)) {
-                log("Failed section chain verification");
+                logValidationError("Failed section chain verification");
                 isEqual = false;
             }
 
             if (!verifyFeedbackChain(newCourse)) {
-                log("Failed feedback chain verification"); 
+                logValidationError("Failed feedback chain verification"); 
                 isEqual = false;
             }
 
             if (!verifyInstructors(newCourse)) {
-                log("Failed instructor verification");
+                logValidationError("Failed instructor verification");
                 isEqual = false;
             }
 
             if (!verifyDeadlineExtensions(newCourse)) {
-                log("Failed deadline extension verification");
+                logValidationError("Failed deadline extension verification");
                 isEqual = false;
             }
 
@@ -84,7 +84,7 @@ public class VerifyCourseEntityAttributes
             return isEqual;
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
-            log("ERROR, IllegalArgumentException " + iae.getMessage());
+            logValidationError("ERROR, IllegalArgumentException " + iae.getMessage());
             HibernateUtil.commitTransaction();
             return false;
         }
@@ -120,9 +120,9 @@ public class VerifyCourseEntityAttributes
         boolean isNotSectionsCountEqual = newSections.size() != sectionToOldStuMap.size()
                 || newSections.size() != sectionToNewStuMap.size();
         if (isNotSectionsCountEqual) {
-            log(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
+            logValidationError(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
                 sectionToOldStuMap.size(), sectionToNewStuMap.size()));
-            log("Section chain - section count not equal");
+            logValidationError("Section chain - section count not equal");
             return false;
         }
 
@@ -135,7 +135,7 @@ public class VerifyCourseEntityAttributes
             // which means a possible migration error
             boolean sectionNameNotPresent = oldSectionStudents == null || newSectionStudents == null;
             if (sectionNameNotPresent) {
-                log("Section chain - section name not present");
+                logValidationError("Section chain - section name not present");
                 return false;
             }
 
@@ -157,7 +157,7 @@ public class VerifyCourseEntityAttributes
         boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
                 || newTeams.size() != teamNameToOldStuMap.size();
         if (isNotTeamCountEqual) {
-            log("Section chain - team count not equal");
+            logValidationError("Section chain - team count not equal");
             return false;
         }
 
@@ -170,7 +170,7 @@ public class VerifyCourseEntityAttributes
             // which means a possible migration error
             boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
             if (teamNameNotPresent) {
-                log("Section chain - team name not present");
+                logValidationError("Section chain - team name not present");
                 return false;
             }
             return verifyStudents(oldTeamStudents, newTeamStudents);
@@ -180,7 +180,7 @@ public class VerifyCourseEntityAttributes
     private boolean verifyStudents(
             List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {
         if (oldTeamStudents.size() != newTeamStudents.size()) {
-            log("Section chain - number of students not equal");
+            logValidationError("Section chain - number of students not equal");
             return false;
         }
         oldTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
@@ -189,7 +189,7 @@ public class VerifyCourseEntityAttributes
             CourseStudent oldStudent = oldTeamStudents.get(i);
             Student newStudent = newTeamStudents.get(i);
             if (!verifyStudent(oldStudent, newStudent)) {
-                log("Section chain - student failed attribute comparison. Old:" + oldStudent + " New:" + newStudent);
+                logValidationError("Section chain - student failed attribute comparison. Old:" + oldStudent + " New:" + newStudent);
                 return false;
             }
         }
@@ -200,7 +200,7 @@ public class VerifyCourseEntityAttributes
             Student newStudent) {
         if (!(newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
         newStudent.getGoogleId().equals(oldStudent.getGoogleId()))) {
-            log("Mismatch in google ids " + newStudent.getGoogleId() + "  " + oldStudent.getGoogleId());
+            logValidationError("Mismatch in google ids " + newStudent.getGoogleId() + "  " + oldStudent.getGoogleId());
         }
 
         return newStudent.getName().equals(oldStudent.getName())
@@ -223,7 +223,7 @@ public class VerifyCourseEntityAttributes
                 .filter("courseId", newCourse.getId()).list();
 
         if (newSessions.size() != oldSessions.size()) {
-            log(String.format("Mismatched session counts for course id: %s. Old size: %d, New size: %d", newCourse.getId(), newSessions.size(), oldSessions.size()));
+            logValidationError(String.format("Mismatched session counts for course id: %s. Old size: %d, New size: %d", newCourse.getId(), newSessions.size(), oldSessions.size()));
             return false;
         }
 
@@ -257,7 +257,7 @@ public class VerifyCourseEntityAttributes
                 && (newSession.getDeletedAt() == oldSession.getDeletedTime()
                         || newSession.getDeletedAt().equals(oldSession.getDeletedTime()));
         if (!doFieldsMatch) {
-            log(String.format("Mismatched fields for session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for session: %s, course id: %s",
                     oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
             return false;
         }
@@ -268,7 +268,7 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackSessionName", newSession.getName()).list();
 
         if (newQuestions.size() != oldQuestions.size()) {
-            log(String.format("Mismatched question counts for session: %s, course id: %s",
+            logValidationError(String.format("Mismatched question counts for session: %s, course id: %s",
                     oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
             return false;
         }
@@ -296,7 +296,7 @@ public class VerifyCourseEntityAttributes
                 && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt())
                 && newQuestion.getUpdatedAt().equals(oldQuestion.getUpdatedAt());
         if (!doFieldsMatch) {
-            log(String.format("Mismatched fields for question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for question %s, session: %s, course id: %s",
                     oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
             return false;
         }
@@ -306,7 +306,7 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackQuestionId", oldQuestion.getId()).list();
 
         if (newResponses.size() != oldResponses.size()) {
-            log(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
                     newResponses.size(), oldResponses.size(),
                     oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
             return false;
@@ -334,7 +334,7 @@ public class VerifyCourseEntityAttributes
                 && newResponse.getUpdatedAt().equals(oldResponse.getUpdatedAt())
                 && newResponse.getFeedbackResponseDetailsCopy().getJsonString().equals(oldResponse.getAnswer());
         if (!allFieldsMatch) {
-            log(String.format("Mismatched fields for response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -346,7 +346,7 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackResponseId", oldResponse.getId()).list();
 
         if (newComments.size() != oldComments.size()) {
-            log(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -355,7 +355,7 @@ public class VerifyCourseEntityAttributes
         boolean allCommentFieldsMatch = oldComments.stream().allMatch(oldComment -> newComments.stream()
                 .anyMatch(newComment -> verifyFeedbackResponseComment(oldComment, newComment)));
         if (!allCommentFieldsMatch) {
-            log(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -389,7 +389,7 @@ public class VerifyCourseEntityAttributes
                 .list();
 
         if (oldInstructors.size() != newInstructors.size()) {
-            log("Feedback chain - Instructor counts not equal");
+            logValidationError("Feedback chain - Instructor counts not equal");
             return false;
         }
 
@@ -399,7 +399,7 @@ public class VerifyCourseEntityAttributes
             Instructor oldInstructor = oldInstructors.get(i);
             teammates.storage.sqlentity.Instructor newInstructor = newInstructors.get(i);
             if (!verifyInstructor(oldInstructor, newInstructor)) {
-                log("Feedback chain - Instructor attributes failed comparison");
+                logValidationError("Feedback chain - Instructor attributes failed comparison");
                 return false;
             }
         }
@@ -437,7 +437,7 @@ public class VerifyCourseEntityAttributes
                 .type(DeadlineExtension.class).filter("courseId", newCourse.getId()).list();
 
         if (oldDeadlineExt.size() != newDeadlineExt.size()) {
-            log("Deadline extension size not equal");
+            logValidationError("Deadline extension size not equal");
 
             return false;
         }
@@ -449,7 +449,7 @@ public class VerifyCourseEntityAttributes
             DeadlineExtension oldDeadline = oldDeadlineExt.get(i);
             teammates.storage.sqlentity.DeadlineExtension newDeadline = newDeadlineExt.get(i);
             if (!verifyDeadlineExtension(oldDeadline, newDeadline)) {
-                log("Deadline extension failed comparison");
+                logValidationError("Deadline extension failed comparison");
                 return false;
             }
         }
