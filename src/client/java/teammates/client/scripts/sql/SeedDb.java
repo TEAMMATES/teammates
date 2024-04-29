@@ -53,6 +53,7 @@ import teammates.test.FileHelper;
 public class SeedDb extends DatastoreClient {
     private static final int MAX_FLUSH_SIZE = 200;
     private static final int MAX_ENTITY_SIZE = 100;
+    private static final int MAX_ACCOUNT_REQUESTS = 0;
     private static final int MAX_NUM_COURSES = 2;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_TEAM_PER_SECTION = 10;
@@ -454,10 +455,10 @@ public class SeedDb extends DatastoreClient {
 
     private void seedAccountRequests() {
         List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
-        for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
-            if (MAX_ENTITY_SIZE >= logStep && i % (MAX_ENTITY_SIZE / logStep) == 0) {
+        for (int i = 0; i < MAX_ACCOUNT_REQUESTS; i++) {
+            if (MAX_ACCOUNT_REQUESTS >= logStep && i % (MAX_ACCOUNT_REQUESTS / logStep) == 0) {
                 log(String.format("Seeded %d %% of account requests",
-                        (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
+                        (int) (100 * ((float) i / (float) MAX_ACCOUNT_REQUESTS))));
             }
             try {
                 String accountRequestName = String.format("Account Request %s", i);
