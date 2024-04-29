@@ -116,7 +116,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     protected Query<Course> getFilterQuery() {
-        return ofy().load().type(teammates.storage.entity.Course.class);
+        return ofy().load().type(Course.class);
     }
 
     protected boolean isPreview() {
@@ -128,10 +128,18 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
      */
     protected void migrateCourse(Course oldCourse) throws Exception {
         log("Start migrating course with id: " + oldCourse.getUniqueId());
-        teammates.storage.sqlentity.Course newCourse = createCourse(oldCourse);
-
-        migrateCourseEntity(newCourse);
+        String courseId = migrateCourseEntity(oldCourse);
+        migrateCourseDependencies(courseId);
         flushEntitiesSavingBuffer();
+
+        // Refetch course - this is not needed but done to get around
+        // the inherited interface of verifier
+
+        HibernateUtil.beginTransaction();
+        teammates.storage.sqlentity.Course newCourse = getCourse(courseId);
+        HibernateUtil.commitTransaction();
+
+        log(String.format("Verifying %s", courseId));
 
         if (!verifier.equals(newCourse, oldCourse)) {
             logError("Verification failed for course with id: " + oldCourse.getUniqueId());
@@ -143,39 +151,39 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         log("Finish migrating course with id: " + oldCourse.getUniqueId());
     }
 
-    private void migrateCourseEntity(teammates.storage.sqlentity.Course newCourse) {
+    private void migrateCourseDependencies(String newCourseId) {
         Map<String, User> userGoogleIdToUserMap = new HashMap<>();
-        Map<String, Instructor> emailToInstructorMap = new HashMap<>();
+        // Map<String, Instructor> emailToInstructorMap = new HashMap<>();
         Map<String, Student> emailToStudentMap = new HashMap<>();
-        Map<String, Section> sectionNameToSectionMap = migrateSectionChain(newCourse, userGoogleIdToUserMap, emailToStudentMap);
-        Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
-                migrateFeedbackChain(newCourse, sectionNameToSectionMap);
-        migrateInstructorEntities(newCourse, userGoogleIdToUserMap, emailToInstructorMap);
-        migrateUserAccounts(newCourse, userGoogleIdToUserMap);
-        migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, emailToInstructorMap, emailToStudentMap);
+        Map<String, Section> sectionNameToSectionMap = migrateSectionChain(newCourseId, userGoogleIdToUserMap, emailToStudentMap);
+        // Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
+                // migrateFeedbackChain(newCourse, sectionNameToSectionMap);
+        // migrateInstructorEntities(newCourse, userGoogleIdToUserMap, emailToInstructorMap);
+        // migrateUserAccounts(newCourse, userGoogleIdToUserMap);
+        // migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, emailToInstructorMap, emailToStudentMap);
     }
 
     // methods for migrate section chain ----------------------------------------------------------------------------------
     // entities: Section, Team, Student
 
     private Map<String, teammates.storage.sqlentity.Section> migrateSectionChain(
-            teammates.storage.sqlentity.Course newCourse, Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
-        log("Migrating section chain");
-        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
-                .list();
+            String courseId, Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
+        log(String.format("Migrating section chain for %s", courseId));
+        
+        migrateSections(courseId);
 
         Map<String, teammates.storage.sqlentity.Section> sections = new HashMap<>();
-        Map<String, List<CourseStudent>> sectionToStuMap = oldStudents.stream()
-                .collect(Collectors.groupingBy(CourseStudent::getSectionName));
+        // Map<String, List<CourseStudent>> sectionToStuMap = oldStudents.stream()
+        //         .collect(Collectors.groupingBy(CourseStudent::getSectionName));
 
-        for (Map.Entry<String, List<CourseStudent>> entry : sectionToStuMap.entrySet()) {
-            String sectionName = entry.getKey();
-            List<CourseStudent> stuList = entry.getValue();
-            teammates.storage.sqlentity.Section newSection = createSection(newCourse, sectionName);
-            sections.put(sectionName, newSection);
-            saveEntityDeferred(newSection);
-            migrateTeams(newCourse, newSection, stuList, userGoogleIdToUserMap, emailToStudentMap);
-        }
+        // for (Map.Entry<String, List<CourseStudent>> entry : sectionToStuMap.entrySet()) {
+        //     String sectionName = entry.getKey();
+        //     List<CourseStudent> stuList = entry.getValue();
+        //     // teammates.storage.sqlentity.Section newSection = createSection(newCourse, sectionName);
+        //     sections.put(sectionName, newSection);
+        //     saveEntityDeferred(newSection);
+        //     // migrateTeams(newCourse, newSection, stuList, userGoogleIdToUserMap, emailToStudentMap);
+        // }
         return sections;
     }
 
@@ -204,7 +212,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         }
     }
 
-    private teammates.storage.sqlentity.Course createCourse(Course oldCourse) {
+    private String migrateCourseEntity(Course oldCourse) {
         teammates.storage.sqlentity.Course newCourse = new teammates.storage.sqlentity.Course(
                 oldCourse.getUniqueId(),
                 oldCourse.getName(),
@@ -213,8 +221,28 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         newCourse.setDeletedAt(oldCourse.getDeletedAt());
         newCourse.setCreatedAt(oldCourse.getCreatedAt());
 
-        saveEntityDeferred(newCourse);
-        return newCourse;
+        HibernateUtil.beginTransaction();
+        HibernateUtil.persist(newCourse);
+        HibernateUtil.commitTransaction();
+        return newCourse.getId();
+    }
+
+    private void migrateSections(String courseId) {
+        log(String.format("Migrating Sections for course %s", courseId));
+        HibernateUtil.beginTransaction();
+
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
+            .list();
+
+        teammates.storage.sqlentity.Course newCourse = getCourse(courseId);
+        
+        List<String> sectionNames = oldStudents.stream().map(student -> student.getSectionName()).distinct().toList();
+
+        for (String sectionName : sectionNames) {
+            teammates.storage.sqlentity.Section newSection = createSection(newCourse, sectionName);
+            HibernateUtil.persist(newSection);
+        }
+        HibernateUtil.commitTransaction();
     }
 
     private teammates.storage.sqlentity.Section createSection(teammates.storage.sqlentity.Course newCourse,
@@ -638,6 +666,10 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         List<Account> newAccounts = HibernateUtil.createQuery(cr).getResultList();
         HibernateUtil.commitTransaction();
         return newAccounts;
+    }
+
+    private teammates.storage.sqlentity.Course getCourse(String courseId) {
+        return HibernateUtil.get(teammates.storage.sqlentity.Course.class, courseId);
     }
     
     @Override

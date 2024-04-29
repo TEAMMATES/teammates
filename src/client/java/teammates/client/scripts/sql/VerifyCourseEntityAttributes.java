@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.HashSet;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
@@ -51,14 +52,18 @@ public class VerifyCourseEntityAttributes
     // Used for sql data migration
     @Override
     public boolean equals(teammates.storage.sqlentity.Course newCourse, Course oldCourse) {
+        // Refetch course to ensure that the information is upto date
+        String courseId = newCourse.getId();
         try {
-            HibernateUtil.beginTransaction();
-            newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class, newCourse.getId());
             boolean isEqual = true;
-            if (!verifyCourse(newCourse, oldCourse)) {
-                logValidationError("Failed course verification");
-                isEqual = false;
-            }
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyCourse(courseId, oldCourse);
+            HibernateUtil.commitTransaction();
+            
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifySections(courseId);
+            HibernateUtil.commitTransaction();
+            
 
             // if (!verifySectionChain(newCourse)) {
             //     logValidationError("Failed section chain verification");
@@ -80,7 +85,6 @@ public class VerifyCourseEntityAttributes
             //     isEqual = false;
             // }
 
-            HibernateUtil.commitTransaction();
             return isEqual;
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
@@ -90,7 +94,21 @@ public class VerifyCourseEntityAttributes
         }
     }
 
-    private boolean verifyCourse(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
+    private teammates.storage.sqlentity.Course getCourse(String courseId) {
+        return HibernateUtil.get(teammates.storage.sqlentity.Course.class, courseId);
+    }
+
+    private boolean verifyCourse(String courseId, Course oldCourse) {
+        teammates.storage.sqlentity.Course newCourse = getCourse(courseId);
+        boolean isEqual = true;
+        if (!verifyCourseEntityAttributes(newCourse, oldCourse)) {
+            logValidationError("Failed course verification");
+            isEqual = false;
+        }
+        return isEqual;
+    }
+
+    private boolean verifyCourseEntityAttributes(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
         return sqlEntity.getId().equals(datastoreEntity.getUniqueId())
                 && sqlEntity.getName().equals(datastoreEntity.getName())
                 && sqlEntity.getTimeZone().equals(datastoreEntity.getTimeZone())
@@ -103,51 +121,80 @@ public class VerifyCourseEntityAttributes
     // methods for verify section chain  -----------------------------------------------------------------------------------
     // entities: Section, Team, Student
 
-    private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
-        // Get old and new students
-        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
+    private boolean verifySections(String courseId) {
+        // Get datastore sections
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
                 .list();
-        List<Student> newStudents = getNewStudents(newCourse.getId());
 
-        // Group students by section
-        Map<String, List<CourseStudent>> sectionToOldStuMap = oldStudents.stream()
-                .collect(Collectors.groupingBy(CourseStudent::getSectionName));
-        Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
-                .collect(Collectors.groupingBy(Student::getSectionName));
+        List<Section> newSections = getNewSections(courseId);
 
-        List<Section> newSections = getNewSections(newCourse.getId());
+        HashSet<String> oldSectionNames = new HashSet<String>();
+        HashSet<String> newSectionNames = new HashSet<String>();
 
-        boolean isNotSectionsCountEqual = newSections.size() != sectionToOldStuMap.size()
-                || newSections.size() != sectionToNewStuMap.size();
+        for (CourseStudent oldStudent : oldStudents) {
+            oldSectionNames.add(oldStudent.getSectionName());
+        }
+
+        for (Section newSection : newSections) {
+            newSectionNames.add(newSection.getName());;
+        }
+
+        boolean isNotSectionsCountEqual = newSectionNames.size() != oldSectionNames.size()
+                || newSectionNames.size() != oldSectionNames.size();
         if (isNotSectionsCountEqual) {
             logValidationError(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
-                sectionToOldStuMap.size(), sectionToNewStuMap.size()));
+            oldSectionNames.size(), newSectionNames.size()));
             logValidationError("Section chain - section count not equal");
             return false;
         }
 
-        return newSections.stream().allMatch(section -> {
-            List<CourseStudent> oldSectionStudents = sectionToOldStuMap.get(section.getName());
-            List<Student> newSectionStudents = sectionToNewStuMap.get(section.getName());
-
-            // If either of the sectionStudent is null,
-            // then section is not present in the corresponding datastore or sql
-            // which means a possible migration error
-            boolean sectionNameNotPresent = oldSectionStudents == null || newSectionStudents == null;
-            if (sectionNameNotPresent) {
-                logValidationError("Section chain - section name not present");
-                return false;
-            }
-
-            // Group students by team
-            Map<String, List<CourseStudent>> teamNameToOldStuMap = oldSectionStudents.stream()
-                    .collect(Collectors.groupingBy(CourseStudent::getTeamName));
-            Map<String, List<Student>> teamNameToNewStuMap = newSectionStudents.stream()
-                    .collect(Collectors.groupingBy(Student::getTeamName));
-            return verifyTeams(section, teamNameToOldStuMap, teamNameToNewStuMap);
-        });
-
+        return newSectionNames.equals(oldSectionNames);
     }
+
+    // private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
+    //     // Get old and new students
+        
+    //     List<Student> newStudents = getNewStudents(newCourse.getId());
+
+    //     // Group students by section
+    //     Map<String, List<CourseStudent>> sectionToOldStuMap = oldStudents.stream()
+    //             .collect(Collectors.groupingBy(CourseStudent::getSectionName));
+    //     Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
+    //             .collect(Collectors.groupingBy(Student::getSectionName));
+
+    //     List<Section> newSections = getNewSections(newCourse.getId());
+
+    //     boolean isNotSectionsCountEqual = newSections.size() != sectionToOldStuMap.size()
+    //             || newSections.size() != sectionToNewStuMap.size();
+    //     if (isNotSectionsCountEqual) {
+    //         logValidationError(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
+    //             sectionToOldStuMap.size(), sectionToNewStuMap.size()));
+    //         logValidationError("Section chain - section count not equal");
+    //         return false;
+    //     }
+
+    //     return newSections.stream().allMatch(section -> {
+    //         List<CourseStudent> oldSectionStudents = sectionToOldStuMap.get(section.getName());
+    //         List<Student> newSectionStudents = sectionToNewStuMap.get(section.getName());
+
+    //         // If either of the sectionStudent is null,
+    //         // then section is not present in the corresponding datastore or sql
+    //         // which means a possible migration error
+    //         boolean sectionNameNotPresent = oldSectionStudents == null || newSectionStudents == null;
+    //         if (sectionNameNotPresent) {
+    //             logValidationError("Section chain - section name not present");
+    //             return false;
+    //         }
+
+    //         // Group students by team
+    //         Map<String, List<CourseStudent>> teamNameToOldStuMap = oldSectionStudents.stream()
+    //                 .collect(Collectors.groupingBy(CourseStudent::getTeamName));
+    //         Map<String, List<Student>> teamNameToNewStuMap = newSectionStudents.stream()
+    //                 .collect(Collectors.groupingBy(Student::getTeamName));
+    //         return verifyTeams(section, teamNameToOldStuMap, teamNameToNewStuMap);
+    //     });
+
+    // }
 
     private boolean verifyTeams(Section newSection,
             Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
