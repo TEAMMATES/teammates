@@ -52,8 +52,8 @@ import teammates.test.FileHelper;
 @SuppressWarnings("PMD")
 public class SeedDb extends DatastoreClient {
     private static final int MAX_FLUSH_SIZE = 200;
-    private static final int MAX_ENTITY_SIZE = 1000;
-    private static final int MAX_NUM_COURSES = 10;
+    private static final int MAX_ENTITY_SIZE = 100;
+    private static final int MAX_NUM_COURSES = 2;
     private static final int MAX_STUDENT_PER_COURSE = 100;
     private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
@@ -68,6 +68,8 @@ public class SeedDb extends DatastoreClient {
     private static final double PERCENTAGE_INSTRUCTORS_WITH_ACCOUNT = 0.5;
     private static final int DEADLINE_EXTENSION_FREQ = 5;
 
+    // chunks to divide entities. Used to determine how many entities are processed before logging
+    private static final int logStep = 5;
     private Random rand = new Random();
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
@@ -146,7 +148,7 @@ public class SeedDb extends DatastoreClient {
 
         log("Seeding courses");
         for (int i = 0; i < MAX_NUM_COURSES; i++) {
-            if (i % (MAX_NUM_COURSES / 5) == 0) {
+            if (MAX_NUM_COURSES >= logStep && i % (MAX_NUM_COURSES / logStep) == 0) {
                 log(String.format("Seeded %d %% of new sets of entities",
                         (int) (100 * ((float) i / (float) MAX_NUM_COURSES))));
             }
@@ -453,7 +455,7 @@ public class SeedDb extends DatastoreClient {
     private void seedAccountRequests() {
         List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_ENTITY_SIZE; i++) {
-            if (i % (MAX_ENTITY_SIZE / 5) == 0) {
+            if (MAX_ENTITY_SIZE >= logStep && i % (MAX_ENTITY_SIZE / logStep) == 0) {
                 log(String.format("Seeded %d %% of account requests",
                         (int) (100 * ((float) i / (float) MAX_ENTITY_SIZE))));
             }
