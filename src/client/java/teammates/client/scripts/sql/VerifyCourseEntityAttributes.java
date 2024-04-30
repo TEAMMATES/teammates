@@ -69,9 +69,9 @@ public class VerifyCourseEntityAttributes
             isEqual = isEqual && verifyTeams(courseId);
             HibernateUtil.commitTransaction();
 
-            // HibernateUtil.beginTransaction();
-            // isEqual = isEqual && verifyStudents(courseId);
-            // HibernateUtil.commitTransaction();
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyStudents(courseId);
+            HibernateUtil.commitTransaction();
 
             // if (!verifySectionChain(newCourse)) {
             //     logValidationError("Failed section chain verification");
@@ -154,7 +154,11 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        return newSectionNames.equals(oldSectionNames);
+        if (!newSectionNames.equals(oldSectionNames)) {
+            logValidationError(String.format("Section chain - section attributes are not equal"));
+            return false;
+        }
+        return true;
     }
 
     // private boolean verifyTeams(Section newSection,
@@ -228,12 +232,27 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        return newSectionToTeamHashSet.equals(oldSectionToTeamHashSet);
+        if (!newSectionToTeamHashSet.equals(oldSectionToTeamHashSet)) {
+            logValidationError(String.format("Section chain - team attributes are not equal"));
+            return false;
+        }
+        return true;
     }
 
-    // private boolean verifyStudents(String courseId) {
+    private boolean verifyStudents(String courseId) {
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
+            .list();
 
-    // }
+        Map<String, Student> studentIdToStudentMap = new HashMap<String, Student>();
+
+        for (CourseStudent oldStudent : oldStudents) {
+            Student newStudent = studentIdToStudentMap.get(oldStudent.getUniqueId());
+            if (!verifyStudent(oldStudent, newStudent)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
     //     // Get old and new students
@@ -334,9 +353,10 @@ public class VerifyCourseEntityAttributes
         if (!(newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
         newStudent.getGoogleId().equals(oldStudent.getGoogleId()))) {
             logValidationError("Mismatch in google ids " + newStudent.getGoogleId() + "  " + oldStudent.getGoogleId());
+            return false;
         }
 
-        return newStudent.getName().equals(oldStudent.getName())
+        boolean attributesAreEqual = newStudent.getName().equals(oldStudent.getName())
                 && newStudent.getEmail().equals(oldStudent.getEmail())
                 && newStudent.getComments().equals(oldStudent.getComments())
                 && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt())
@@ -345,6 +365,13 @@ public class VerifyCourseEntityAttributes
                 && (newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
                     newStudent.getGoogleId().equals(oldStudent.getGoogleId())
                 );
+
+        if (!attributesAreEqual) {
+            logValidationError(String.format("Section chain - student attributes are not equal"));
+            return false;
+        }
+
+        return true;
     }
 
     // methods for verify feedback chain -----------------------------------------------------------------------------------

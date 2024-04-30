@@ -172,6 +172,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         
         migrateSections(courseId);
         migrateTeams(courseId);
+        migrateStudents(courseId);
 
         Map<String, Section> sections = new HashMap<>();
         // Map<String, List<CourseStudent>> sectionToStuMap = oldStudents.stream()
@@ -202,16 +203,16 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     //     }
     // }
 
-    private void migrateStudents(Course newCourse, teammates.storage.sqlentity.Team newTeam,
-            List<CourseStudent> studentsInTeam, Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
-        for (CourseStudent oldStudent : studentsInTeam) {
-            teammates.storage.sqlentity.Student newStudent = migrateStudent(newCourse, newTeam, oldStudent);
-            emailToStudentMap.put(newStudent.getEmail(), newStudent);
-            if (oldStudent.getGoogleId() != null) {
-                userGoogleIdToUserMap.put(oldStudent.getGoogleId(), newStudent);
-            }
-        }
-    }
+    // private void migrateStudents(Course newCourse, teammates.storage.sqlentity.Team newTeam,
+    //         List<CourseStudent> studentsInTeam, Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
+    //     for (CourseStudent oldStudent : studentsInTeam) {
+    //         teammates.storage.sqlentity.Student newStudent = migrateStudent(newCourse, newTeam, oldStudent);
+    //         emailToStudentMap.put(newStudent.getEmail(), newStudent);
+    //         if (oldStudent.getGoogleId() != null) {
+    //             userGoogleIdToUserMap.put(oldStudent.getGoogleId(), newStudent);
+    //         }
+    //     }
+    // }
 
     private String migrateCourseEntity(teammates.storage.entity.Course oldCourse) {
         Course newCourse = new Course(
@@ -246,24 +247,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         HibernateUtil.commitTransaction();
     }
 
-    private Section createSection(Course newCourse,
-            String sectionName) {
-        String truncatedName = truncateToLength255(sectionName);
-        Section newSection = new Section(newCourse, truncatedName);
-        newSection.setCreatedAt(Instant.now());
-        return newSection;
-    }
-
-    private Section getSection(String courseId, String sectionName)  {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
-        Root<Section> sectionRoot = cr.from(Section.class);
-        cr.where(cb.and(cb.equal(sectionRoot.get("course").get("id"), courseId), 
-            cb.equal(sectionRoot.get("name"), sectionName)));
-
-        return HibernateUtil.createQuery(cr).getSingleResult();
-    }
-
     private void migrateTeams(String courseId) {
         HibernateUtil.beginTransaction();
 
@@ -292,7 +275,94 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         HibernateUtil.commitTransaction();
     }
 
+    private void migrateStudents(String courseId) {
+        HibernateUtil.beginTransaction();
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
+            .list();
 
+        Course newCourse = getCourse(courseId);
+
+
+        // Get postgres Sections and the names of related teams
+        // Key: Section Name    Value: Team Name
+        Map<String, HashSet<String>> sectionToTeamNameMap = new HashMap<String, HashSet<String>>();
+        List<Section> newSections = getSections(courseId);
+        for (Section newSection : newSections) {
+            String sectionName = newSection.getName();
+            HashSet<String> teamHashSet = new HashSet<>();
+            for (Team newTeam : newSection.getTeams()) {
+                teamHashSet.add(newTeam.getName());
+            }
+            sectionToTeamNameMap.put(sectionName, teamHashSet);
+        }
+
+        // Get team entities with their relations to the sections
+        // Key: Section Name    Value: Team name - Team Entity Map
+        Map<String, HashMap<String, Team>> newSectionToTeamEntityMap = new HashMap<String, HashMap<String, Team>>();
+        for (Entry<String, HashSet<String>> entry :sectionToTeamNameMap.entrySet()) {
+            String sectionName = entry.getKey();
+            for (String teamName : entry.getValue()) {
+                Team newTeam = getTeam(courseId, sectionName, teamName);
+
+                newSectionToTeamEntityMap.putIfAbsent(sectionName, new HashMap<String, Team>());
+                newSectionToTeamEntityMap.get(sectionName).putIfAbsent(teamName, newTeam);
+            }
+        }
+        
+        
+        for (CourseStudent oldStudent : oldStudents) {
+            Team newTeam = newSectionToTeamEntityMap
+                .get(oldStudent.getSectionName())
+                .get(oldStudent.getTeamName());
+
+            Student newStudent = createStudent(newCourse, newTeam, oldStudent);
+            HibernateUtil.persist(newStudent);
+        }
+        
+
+        HibernateUtil.commitTransaction();
+    }
+
+    private Section createSection(Course newCourse,
+            String sectionName) {
+        String truncatedName = truncateToLength255(sectionName);
+        Section newSection = new Section(newCourse, truncatedName);
+        newSection.setCreatedAt(Instant.now());
+        return newSection;
+    }
+
+    private List<Section> getSections(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Section> cr = cb
+                .createQuery(teammates.storage.sqlentity.Section.class);
+        Root<teammates.storage.sqlentity.Section> sectionRoot = cr.from(teammates.storage.sqlentity.Section.class);
+        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("course").get("id"), courseId));
+        List<Section> newSections = HibernateUtil.createQuery(cr).getResultList();
+        return newSections; 
+    }
+
+    private Section getSection(String courseId, String sectionName)  {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
+        Root<Section> sectionRoot = cr.from(Section.class);
+        cr.where(cb.and(cb.equal(sectionRoot.get("course").get("id"), courseId), 
+            cb.equal(sectionRoot.get("name"), sectionName)));
+
+        return HibernateUtil.createQuery(cr).getSingleResult();
+    }
+
+    private Team getTeam(String courseId, String sectionName, String teamName)  {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
+        Root<Team> teamRoot = cr.from(Team.class);
+        cr.where(cb.and(
+            cb.equal(teamRoot.get("section").get("name"), sectionName), 
+            cb.equal(teamRoot.get("section").get("course").get("id"), courseId),
+            cb.equal(teamRoot.get("name"), teamName)
+        ));
+
+        return HibernateUtil.createQuery(cr).getSingleResult();
+    }
 
     private teammates.storage.sqlentity.Team createTeam(Section section, String teamName) {
         String truncatedTeamName = truncateToLength255(teamName);
@@ -301,7 +371,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return newTeam;
     }
 
-    private Student migrateStudent(Course newCourse,
+    private Student createStudent(Course newCourse,
             teammates.storage.sqlentity.Team newTeam,
             CourseStudent oldStudent) {
         String truncatedStudentName = truncateToLength255(oldStudent.getName());
@@ -310,10 +380,9 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         Student newStudent = new Student(newCourse, truncatedStudentName, oldStudent.getEmail(),
             truncatedComments, newTeam);
         
-        newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
+        // newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
         newStudent.setRegKey(oldStudent.getRegistrationKey());
         newStudent.setCreatedAt(oldStudent.getCreatedAt());
-        saveEntityDeferred(newStudent);
 
         return newStudent;
     }
@@ -442,7 +511,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         newSession.setOpeningSoonEmailSent(oldSession.isSentOpeningSoonEmail());
         newSession.setPublishedEmailSent(oldSession.isSentPublishedEmail());
         newSession.setCreatedAt(oldSession.getCreatedTime());
-        newSession.setUpdatedAt(Instant.now()); // not present in datastore session
+        // newSession.setUpdatedAt(Instant.now()); // not present in datastore session
         newSession.setDeletedAt(oldSession.getDeletedTime());
 
         return newSession;
