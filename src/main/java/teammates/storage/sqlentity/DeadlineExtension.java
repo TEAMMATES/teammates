@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
 
@@ -45,7 +46,7 @@ public class DeadlineExtension extends BaseEntity {
     @Column(nullable = false)
     private boolean isClosingSoonEmailSent;
 
-    // @UpdateTimestamp
+    @UpdateTimestamp
     @Column(nullable = false)
     private Instant updatedAt;
 

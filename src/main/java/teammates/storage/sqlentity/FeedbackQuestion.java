@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.FieldValidator;
@@ -83,7 +85,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showRecipientNameTo;
 
-    // @UpdateTimestamp
+    @UpdateTimestamp
     @Column
     private Instant updatedAt;
 
