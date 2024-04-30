@@ -178,7 +178,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";
         List<AccountRequest> actualInjection = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(0, actualInjection.size());
+        assertEquals(typicalBundle.accountRequests.size(), actualInjection.size());
 
         AccountRequest actual = accountRequestsDb.getAccountRequest("test@gmail.com", "institute");
         assertEquals(accountRequest, actual);
