@@ -54,11 +54,11 @@ public class SeedDb extends DatastoreClient {
     private static final int MAX_FLUSH_SIZE = 200;
     private static final int MAX_ENTITY_SIZE = 100;
     private static final int MAX_ACCOUNT_REQUESTS = 0;
-    private static final int MAX_NUM_COURSES = 2;
-    private static final int MAX_STUDENT_PER_COURSE = 100;
+    private static final int MAX_NUM_COURSES = 10;
+    private static final int MAX_STUDENT_PER_COURSE = 1000;
     private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
-    private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 3;
+    private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 5;
     private static final int MAX_QUESTION_PER_COURSE = 6;
     private static final int MAX_RESPONSES_PER_QUESTION = 10;
     private static final int MAX_COMMENTS_PER_RESPONSE = 2;
@@ -158,7 +158,7 @@ public class SeedDb extends DatastoreClient {
             try {
                 seedCourseWithCourseId(i, courseId);
                 seedStudents(i, courseId);
-                // seedFeedbackSession(i, courseId);
+                seedFeedbackSession(i, courseId);
                 // seedFeedbackQuestions(i, courseId);
                 // seedInstructors(i, courseId);
             } catch (Exception e) {

@@ -40,12 +40,12 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.sqlentity.User;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion.FeedbackConstantSumQuestionDetailsConverter;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion.FeedbackContributionQuestionDetailsConverter;
@@ -155,7 +155,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         Map<String, User> userGoogleIdToUserMap = new HashMap<>();
         // Map<String, Instructor> emailToInstructorMap = new HashMap<>();
         Map<String, Student> emailToStudentMap = new HashMap<>();
-        Map<String, Section> sectionNameToSectionMap = migrateSectionChain(newCourseId, userGoogleIdToUserMap, emailToStudentMap);
+        migrateSectionChain(newCourseId, userGoogleIdToUserMap, emailToStudentMap);
+        migrateFeedbackChain(newCourseId);
         // Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
                 // migrateFeedbackChain(newCourse, sectionNameToSectionMap);
         // migrateInstructorEntities(newCourse, userGoogleIdToUserMap, emailToInstructorMap);
@@ -166,7 +167,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     // methods for migrate section chain ----------------------------------------------------------------------------------
     // entities: Section, Team, Student
 
-    private Map<String, Section> migrateSectionChain(
+    private void migrateSectionChain(
             String courseId, Map<String, User> userGoogleIdToUserMap, Map<String, Student> emailToStudentMap) {
         log(String.format("Migrating section chain for %s", courseId));
         
@@ -186,7 +187,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         //     saveEntityDeferred(newSection);
         //     // migrateTeams(newCourse, newSection, stuList, userGoogleIdToUserMap, emailToStudentMap);
         // }
-        return sections;
     }
 
     // private void migrateTeams(Course newCourse,
@@ -404,53 +404,64 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     // methods for migrate feedback chain ---------------------------------------------------------------------------------
     // entities: FeedbackSession, FeedbackQuestion, FeedbackResponse, FeedbackResponseComment
 
-    private Map<String, teammates.storage.sqlentity.FeedbackSession> migrateFeedbackChain(
-            Course newCourse,
-            Map<String, Section> sectionNameToSectionMap) {
+    private void migrateFeedbackChain(String courseId) {
         log("Migrating feedback chain");
-        Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
-                new HashMap<>();
+        // Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
+        //         new HashMap<>();
 
-        List<FeedbackSession> oldSessions = ofy().load().type(FeedbackSession.class)
-                .filter("courseId", newCourse.getId()).list();
+        migrateFeedbackSessions(courseId);
+        // Map<String, List<FeedbackQuestion>> sessionNameToQuestionsMap = ofy().load().type(FeedbackQuestion.class)
+        //         .filter("courseId", newCourse.getId()).list().stream()
+        //         .collect(Collectors.groupingBy(FeedbackQuestion::getFeedbackSessionName));
 
-        Map<String, List<FeedbackQuestion>> sessionNameToQuestionsMap = ofy().load().type(FeedbackQuestion.class)
-                .filter("courseId", newCourse.getId()).list().stream()
-                .collect(Collectors.groupingBy(FeedbackQuestion::getFeedbackSessionName));
-
-        for (FeedbackSession oldSession : oldSessions) {
-            teammates.storage.sqlentity.FeedbackSession newSession = migrateFeedbackSession(newCourse, oldSession,
-                    sessionNameToQuestionsMap, sectionNameToSectionMap);
-            feedbackSessionNameToFeedbackSessionMap.put(oldSession.getFeedbackSessionName(), newSession);
-        }
-        return feedbackSessionNameToFeedbackSessionMap;
+        // for (FeedbackSession oldSession : oldSessions) {
+        //     teammates.storage.sqlentity.FeedbackSession newSession = migrateFeedbackSession(newCourse, oldSession,
+        //             sessionNameToQuestionsMap, sectionNameToSectionMap);
+        //     feedbackSessionNameToFeedbackSessionMap.put(oldSession.getFeedbackSessionName(), newSession);
+        // }
+        // return feedbackSessionNameToFeedbackSessionMap;
     }
 
-    private teammates.storage.sqlentity.FeedbackSession migrateFeedbackSession(
-            Course newCourse, FeedbackSession oldSession,
-            Map<String, List<FeedbackQuestion>> sessionNameToQuestionsMap,
-            Map<String, Section> sectionNameToSectionMap) {
-        teammates.storage.sqlentity.FeedbackSession newSession = createFeedbackSession(newCourse, oldSession);
-        saveEntityDeferred(newSession);
+    private void migrateFeedbackSessions(String courseId) {
+        HibernateUtil.beginTransaction();
+        List<teammates.storage.entity.FeedbackSession> oldFeedbackSessions = ofy().load().type(teammates.storage.entity.FeedbackSession.class)
+            .filter("courseId", courseId).list();
 
-        Map<String, List<FeedbackResponse>> questionIdToResponsesMap;
-        Query<FeedbackResponse> responsesInSession = ofy().load().type(FeedbackResponse.class)
-                .filter("courseId", oldSession.getCourseId())
-                .filter("feedbackSessionName", oldSession.getFeedbackSessionName());
-        if (responsesInSession.count() <= MAX_RESPONSE_COUNT) {
-            questionIdToResponsesMap = responsesInSession.list().stream()
-                    .collect(Collectors.groupingBy(FeedbackResponse::getFeedbackQuestionId));
-        } else {
-            questionIdToResponsesMap = null;
+        Course newCourse = getCourse(courseId);
+
+        for (teammates.storage.entity.FeedbackSession oldFeedbackSession : oldFeedbackSessions) {
+            FeedbackSession newFeedbackSession = createFeedbackSession(newCourse, oldFeedbackSession);
+            HibernateUtil.persist(newFeedbackSession);
         }
 
-        // cascade migrate questions
-        List<FeedbackQuestion> oldQuestions = sessionNameToQuestionsMap.get(oldSession.getFeedbackSessionName());
-        for (FeedbackQuestion oldQuestion : oldQuestions) {
-            migrateFeedbackQuestion(newSession, oldQuestion, questionIdToResponsesMap, sectionNameToSectionMap);
-        }
-        return newSession;
+        HibernateUtil.commitTransaction();
     }
+
+    // private teammates.storage.sqlentity.FeedbackSession migrateFeedbackSession(
+    //         Course newCourse, FeedbackSession oldSession,
+    //         Map<String, List<FeedbackQuestion>> sessionNameToQuestionsMap,
+    //         Map<String, Section> sectionNameToSectionMap) {
+    //     teammates.storage.sqlentity.FeedbackSession newSession = createFeedbackSession(newCourse, oldSession);
+    //     saveEntityDeferred(newSession);
+
+    //     Map<String, List<FeedbackResponse>> questionIdToResponsesMap;
+    //     Query<FeedbackResponse> responsesInSession = ofy().load().type(FeedbackResponse.class)
+    //             .filter("courseId", oldSession.getCourseId())
+    //             .filter("feedbackSessionName", oldSession.getFeedbackSessionName());
+    //     if (responsesInSession.count() <= MAX_RESPONSE_COUNT) {
+    //         questionIdToResponsesMap = responsesInSession.list().stream()
+    //                 .collect(Collectors.groupingBy(FeedbackResponse::getFeedbackQuestionId));
+    //     } else {
+    //         questionIdToResponsesMap = null;
+    //     }
+
+    //     // cascade migrate questions
+    //     List<FeedbackQuestion> oldQuestions = sessionNameToQuestionsMap.get(oldSession.getFeedbackSessionName());
+    //     for (FeedbackQuestion oldQuestion : oldQuestions) {
+    //         migrateFeedbackQuestion(newSession, oldQuestion, questionIdToResponsesMap, sectionNameToSectionMap);
+    //     }
+    //     return newSession;
+    // }
 
     private void migrateFeedbackQuestion(teammates.storage.sqlentity.FeedbackSession newSession,
             FeedbackQuestion oldQuestion, Map<String, List<FeedbackResponse>> questionIdToResponsesMap,
@@ -501,8 +512,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         saveEntityDeferred(newComment);
     }
 
-    private teammates.storage.sqlentity.FeedbackSession createFeedbackSession(Course newCourse,
-            FeedbackSession oldSession) {
+    private FeedbackSession createFeedbackSession(Course newCourse,
+            teammates.storage.entity.FeedbackSession oldSession) {
         String truncatedSessionInstructions = truncateToLength2000(oldSession.getInstructions());
             
         teammates.storage.sqlentity.FeedbackSession newSession = new teammates.storage.sqlentity.FeedbackSession(
