@@ -68,7 +68,10 @@ public class VerifyCourseEntityAttributes
             HibernateUtil.beginTransaction();
             isEqual = isEqual && verifyTeams(courseId);
             HibernateUtil.commitTransaction();
-            
+
+            // HibernateUtil.beginTransaction();
+            // isEqual = isEqual && verifyStudents(courseId);
+            // HibernateUtil.commitTransaction();
 
             // if (!verifySectionChain(newCourse)) {
             //     logValidationError("Failed section chain verification");
@@ -228,6 +231,10 @@ public class VerifyCourseEntityAttributes
         return newSectionToTeamHashSet.equals(oldSectionToTeamHashSet);
     }
 
+    // private boolean verifyStudents(String courseId) {
+
+    // }
+
     // private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
     //     // Get old and new students
         
@@ -301,24 +308,26 @@ public class VerifyCourseEntityAttributes
     //     });
     // }
 
-    private boolean verifyStudents(
-            List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {
-        if (oldTeamStudents.size() != newTeamStudents.size()) {
-            logValidationError("Section chain - number of students not equal");
-            return false;
-        }
-        oldTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
-        newTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
-        for (int i = 0; i < oldTeamStudents.size(); i++) {
-            CourseStudent oldStudent = oldTeamStudents.get(i);
-            Student newStudent = newTeamStudents.get(i);
-            if (!verifyStudent(oldStudent, newStudent)) {
-                logValidationError("Section chain - student failed attribute comparison. Old:" + oldStudent + " New:" + newStudent);
-                return false;
-            }
-        }
-        return true;
-    }
+    // private boolean verifyStudents(
+    //         List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {
+    //     if (oldTeamStudents.size() != newTeamStudents.size()) {
+    //         logValidationError("Section chain - number of students not equal");
+    //         return false;
+    //     }
+    //     oldTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+    //     newTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+    //     for (int i = 0; i < oldTeamStudents.size(); i++) {
+    //         CourseStudent oldStudent = oldTeamStudents.get(i);
+    //         Student newStudent = newTeamStudents.get(i);
+    //         if (!verifyStudent(oldStudent, newStudent)) {
+    //             logValidationError("Section chain - student failed attribute comparison. Old:" + oldStudent + " New:" + newStudent);
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+
+    
 
     private boolean verifyStudent(CourseStudent oldStudent,
             Student newStudent) {
@@ -606,7 +615,7 @@ public class VerifyCourseEntityAttributes
         CriteriaQuery<teammates.storage.sqlentity.Section> cr = cb
                 .createQuery(teammates.storage.sqlentity.Section.class);
         Root<teammates.storage.sqlentity.Section> sectionRoot = cr.from(teammates.storage.sqlentity.Section.class);
-        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("courseId"), courseId));
+        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("course").get("id"), courseId));
         List<Section> newSections = HibernateUtil.createQuery(cr).getResultList();
         return newSections;
     }
