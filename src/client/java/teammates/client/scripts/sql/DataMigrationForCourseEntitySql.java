@@ -30,9 +30,9 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
-import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Instructor;
@@ -296,7 +296,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             sectionToTeamNameMap.put(sectionName, teamHashSet);
         }
 
-        // Get team entities with their relations to the sections
+        // Get postgres team entities with their relations to the sections
         // Key: Section Name    Value: Team name - Team Entity Map
         Map<String, HashMap<String, Team>> newSectionToTeamEntityMap = new HashMap<String, HashMap<String, Team>>();
         for (Entry<String, HashSet<String>> entry :sectionToTeamNameMap.entrySet()) {
@@ -308,7 +308,14 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 newSectionToTeamEntityMap.get(sectionName).putIfAbsent(teamName, newTeam);
             }
         }
-        
+
+        Map<String, Account> googleIdToAccountMap = new HashMap<String, Account>();
+
+        for (CourseStudent oldStudent : oldStudents) {
+            String googleId = oldStudent.getGoogleId();
+            Account associatedAccount = getAccount(courseId, googleId);
+            googleIdToAccountMap.put(googleId, associatedAccount);
+        }
         
         for (CourseStudent oldStudent : oldStudents) {
             Team newTeam = newSectionToTeamEntityMap
@@ -316,6 +323,9 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 .get(oldStudent.getTeamName());
 
             Student newStudent = createStudent(newCourse, newTeam, oldStudent);
+            Account associatedAccount = googleIdToAccountMap.get(oldStudent.getGoogleId());
+            newStudent.setAccount(associatedAccount);
+
             HibernateUtil.persist(newStudent);
         }
         
@@ -362,6 +372,10 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         ));
 
         return HibernateUtil.createQuery(cr).getSingleResult();
+    }
+
+    private Account getAccount(String courseId, String googleId) {
+        return HibernateUtil.getBySimpleNaturalId(Account.class, SanitizationHelper.sanitizeGoogleId(googleId));
     }
 
     private teammates.storage.sqlentity.Team createTeam(Section section, String teamName) {
@@ -750,33 +764,33 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     // Associate account to users(students and instructors) who have the same matching google id
-    private void migrateUserAccounts(Course newCourse, Map<String, User> userGoogleIdToUserMap) {
-        List<Account> newAccounts = getAllAccounts(new ArrayList<String>(userGoogleIdToUserMap.keySet()));
-        if (newAccounts.size() != userGoogleIdToUserMap.size()) {
-            log("Mismatch in number of accounts: " + newAccounts.size() + " vs " + userGoogleIdToUserMap.size());
-        }
-        for (Account account: newAccounts) {
-            User newUser = userGoogleIdToUserMap.get(account.getGoogleId());
-            if (newUser == null) {
-                log("User not found for account: " + account.getGoogleId());
-                continue;
-            }
-            newUser.setGoogleId(account.getGoogleId());
-            newUser.setAccount(account);
-            saveEntityDeferred(newUser);
-        }
-    }
+    // private void migrateUserAccounts(Course newCourse, Map<String, User> userGoogleIdToUserMap) {
+    //     List<Account> newAccounts = getAllAccounts(new ArrayList<String>(userGoogleIdToUserMap.keySet()));
+    //     if (newAccounts.size() != userGoogleIdToUserMap.size()) {
+    //         log("Mismatch in number of accounts: " + newAccounts.size() + " vs " + userGoogleIdToUserMap.size());
+    //     }
+    //     for (Account account: newAccounts) {
+    //         User newUser = userGoogleIdToUserMap.get(account.getGoogleId());
+    //         if (newUser == null) {
+    //             log("User not found for account: " + account.getGoogleId());
+    //             continue;
+    //         }
+    //         newUser.setGoogleId(account.getGoogleId());
+    //         newUser.setAccount(account);
+    //         saveEntityDeferred(newUser);
+    //     }
+    // }
 
-    private List<Account> getAllAccounts(List<String> userGoogleIds) {
-        HibernateUtil.beginTransaction();
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Account> cr = cb.createQuery(Account.class);
-        Root<Account> accountRoot = cr.from(Account.class);
-        cr.select(accountRoot).where(cb.in(accountRoot.get("googleId")).value(userGoogleIds));
-        List<Account> newAccounts = HibernateUtil.createQuery(cr).getResultList();
-        HibernateUtil.commitTransaction();
-        return newAccounts;
-    }
+    // private List<Account> getAllAccounts(List<String> userGoogleIds) {
+    //     HibernateUtil.beginTransaction();
+    //     CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+    //     CriteriaQuery<Account> cr = cb.createQuery(Account.class);
+    //     Root<Account> accountRoot = cr.from(Account.class);
+    //     cr.select(accountRoot).where(cb.in(accountRoot.get("googleId")).value(userGoogleIds));
+    //     List<Account> newAccounts = HibernateUtil.createQuery(cr).getResultList();
+    //     HibernateUtil.commitTransaction();
+    //     return newAccounts;
+    // }
 
     private Course getCourse(String courseId) {
         return HibernateUtil.get(Course.class, courseId);

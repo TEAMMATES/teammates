@@ -245,8 +245,14 @@ public class VerifyCourseEntityAttributes
 
         Map<String, Student> studentIdToStudentMap = new HashMap<String, Student>();
 
+        for (Student newStudent : getNewStudents(courseId)) {
+            // Assume that every course have students with unique emails
+            studentIdToStudentMap.put(newStudent.getEmail(), newStudent);
+        }
+
+
         for (CourseStudent oldStudent : oldStudents) {
-            Student newStudent = studentIdToStudentMap.get(oldStudent.getUniqueId());
+            Student newStudent = studentIdToStudentMap.get(oldStudent.getEmail());
             if (!verifyStudent(oldStudent, newStudent)) {
                 return false;
             }
@@ -352,16 +358,20 @@ public class VerifyCourseEntityAttributes
             Student newStudent) {
         if (!(newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
         newStudent.getGoogleId().equals(oldStudent.getGoogleId()))) {
-            logValidationError("Mismatch in google ids " + newStudent.getGoogleId() + "  " + oldStudent.getGoogleId());
+            logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
+                newStudent.getGoogleId(),
+                oldStudent.getGoogleId()));
             return false;
         }
 
         boolean attributesAreEqual = newStudent.getName().equals(oldStudent.getName())
                 && newStudent.getEmail().equals(oldStudent.getEmail())
                 && newStudent.getComments().equals(oldStudent.getComments())
-                && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt())
                 && newStudent.getCreatedAt().equals(oldStudent.getCreatedAt())
                 && newStudent.getRegKey().equals(oldStudent.getRegistrationKey())
+                && newStudent.getCourseId().equals(oldStudent.getCourseId())
+                && newStudent.getSectionName().equals(oldStudent.getSectionName())
+                && newStudent.getTeamName().equals(oldStudent.getTeamName())
                 && (newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
                     newStudent.getGoogleId().equals(oldStudent.getGoogleId())
                 );
