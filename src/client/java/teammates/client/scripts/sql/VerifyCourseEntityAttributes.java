@@ -443,26 +443,26 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        return true;
+        // return true;
 
-        // List<teammates.storage.sqlentity.FeedbackQuestion> newQuestions = newSession.getFeedbackQuestions();
-        // List<FeedbackQuestion> oldQuestions = ofy().load().type(FeedbackQuestion.class)
-        //         .filter("courseId", newSession.getCourse().getId())
-        //         .filter("feedbackSessionName", newSession.getName()).list();
+        List<teammates.storage.sqlentity.FeedbackQuestion> newQuestions = newSession.getFeedbackQuestions();
+        List<FeedbackQuestion> oldQuestions = ofy().load().type(FeedbackQuestion.class)
+                .filter("courseId", newSession.getCourse().getId())
+                .filter("feedbackSessionName", newSession.getName()).list();
 
-        // if (newQuestions.size() != oldQuestions.size()) {
-        //     logValidationError(String.format("Mismatched question counts for session: %s, course id: %s",
-        //             oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
-        //     return false;
-        // }
+        if (newQuestions.size() != oldQuestions.size()) {
+            logValidationError(String.format("Mismatched question counts for session: %s, course id: %s",
+                    oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
+            return false;
+        }
 
-        // Map<Integer, FeedbackQuestion> questionNumberToOldQuestionMap = oldQuestions.stream()
-                // .collect(Collectors.toMap(FeedbackQuestion::getQuestionNumber, question -> question));
+        Map<Integer, FeedbackQuestion> questionNumberToOldQuestionMap = oldQuestions.stream()
+                .collect(Collectors.toMap(FeedbackQuestion::getQuestionNumber, question -> question));
 
-        // return newQuestions.stream().allMatch(newQuestion -> {
-        //     FeedbackQuestion oldQuestion = questionNumberToOldQuestionMap.get(newQuestion.getQuestionNumber());
-        //     return verifyFeedbackQuestion(oldQuestion, newQuestion);
-        // });
+        return newQuestions.stream().allMatch(newQuestion -> {
+            FeedbackQuestion oldQuestion = questionNumberToOldQuestionMap.get(newQuestion.getQuestionNumber());
+            return verifyFeedbackQuestion(oldQuestion, newQuestion);
+        });
     }
 
     private boolean verifyFeedbackQuestion(FeedbackQuestion oldQuestion,
@@ -476,34 +476,35 @@ public class VerifyCourseEntityAttributes
                 && newQuestion.getShowGiverNameTo().equals(oldQuestion.getShowGiverNameTo())
                 && newQuestion.getShowRecipientNameTo().equals(oldQuestion.getShowRecipientNameTo())
                 && newQuestion.getQuestionDetailsCopy().getJsonString().equals(oldQuestion.getQuestionText())
-                && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt())
-                && newQuestion.getUpdatedAt().equals(oldQuestion.getUpdatedAt());
+                && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt());
         if (!doFieldsMatch) {
             logValidationError(String.format("Mismatched fields for question %s, session: %s, course id: %s",
                     oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
             return false;
         }
 
-        List<teammates.storage.sqlentity.FeedbackResponse> newResponses = newQuestion.getFeedbackResponses();
-        List<FeedbackResponse> oldResponses = ofy().load().type(FeedbackResponse.class)
-                .filter("feedbackQuestionId", oldQuestion.getId()).list();
+        return true;
 
-        if (newResponses.size() != oldResponses.size()) {
-            logValidationError(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
-                    newResponses.size(), oldResponses.size(),
-                    oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
-            return false;
-        }
+        // List<teammates.storage.sqlentity.FeedbackResponse> newResponses = newQuestion.getFeedbackResponses();
+        // List<FeedbackResponse> oldResponses = ofy().load().type(FeedbackResponse.class)
+        //         .filter("feedbackQuestionId", oldQuestion.getId()).list();
 
-        Map<String, FeedbackResponse> responseIdToOldResponseMap = oldResponses.stream()
-                .collect(Collectors.toMap(FeedbackResponse::getId, response -> response));
+        // if (newResponses.size() != oldResponses.size()) {
+        //     logValidationError(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
+        //             newResponses.size(), oldResponses.size(),
+        //             oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
+        //     return false;
+        // }
 
-        return newResponses.stream().allMatch(newResponse -> {
-            String oldResponseId = FeedbackResponse.generateId(oldQuestion.getId(), newResponse.getGiver(),
-                    newResponse.getRecipient());
-            FeedbackResponse oldResponse = responseIdToOldResponseMap.get(oldResponseId);
-            return verifyFeedbackResponse(oldResponse, newResponse);
-        });
+        // Map<String, FeedbackResponse> responseIdToOldResponseMap = oldResponses.stream()
+        //         .collect(Collectors.toMap(FeedbackResponse::getId, response -> response));
+
+        // return newResponses.stream().allMatch(newResponse -> {
+        //     String oldResponseId = FeedbackResponse.generateId(oldQuestion.getId(), newResponse.getGiver(),
+        //             newResponse.getRecipient());
+        //     FeedbackResponse oldResponse = responseIdToOldResponseMap.get(oldResponseId);
+        //     return verifyFeedbackResponse(oldResponse, newResponse);
+        // });
     }
 
     private boolean verifyFeedbackResponse(FeedbackResponse oldResponse,

@@ -175,7 +175,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         migrateTeams(courseId);
         migrateStudents(courseId);
 
-        Map<String, Section> sections = new HashMap<>();
+        // Map<String, Section> sections = new HashMap<>();
         // Map<String, List<CourseStudent>> sectionToStuMap = oldStudents.stream()
         //         .collect(Collectors.groupingBy(CourseStudent::getSectionName));
 
@@ -238,7 +238,8 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         Course newCourse = getCourse(courseId);
         
-        List<String> sectionNames = oldStudents.stream().map(student -> student.getSectionName()).distinct().toList();
+        List<String> sectionNames = oldStudents.stream().map(student -> student.getSectionName())
+            .distinct().collect(Collectors.toList());
 
         for (String sectionName : sectionNames) {
             Section newSection = createSection(newCourse, sectionName);
@@ -248,6 +249,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     private void migrateTeams(String courseId) {
+        log(String.format("Migrating Teams for course %s", courseId));
         HibernateUtil.beginTransaction();
 
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
@@ -276,6 +278,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     private void migrateStudents(String courseId) {
+        log(String.format("Migrating Students for course %s", courseId));
         HibernateUtil.beginTransaction();
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
             .list();
@@ -429,9 +432,26 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         Course newCourse = getCourse(courseId);
 
+        Map<String, List<FeedbackQuestion>> feedbackSessionNameToQuestionsMap = ofy().load().type(FeedbackQuestion.class)
+                .filter("courseId", courseId)
+                .list().stream()
+                .collect(Collectors.groupingBy(FeedbackQuestion::getFeedbackSessionName));
+        
         for (teammates.storage.entity.FeedbackSession oldFeedbackSession : oldFeedbackSessions) {
             FeedbackSession newFeedbackSession = createFeedbackSession(newCourse, oldFeedbackSession);
             HibernateUtil.persist(newFeedbackSession);
+
+            String oldFeedbackSessionName = oldFeedbackSession.getFeedbackSessionName();
+
+            // Query<FeedbackResponse> responsesInSession = ofy().load().type(FeedbackResponse.class)
+            //     .filter("courseId", courseId)
+            //     .filter("feedbackSessionName", oldFeedbackSessionName);
+                
+            List<FeedbackQuestion> oldQuestions = feedbackSessionNameToQuestionsMap.get(oldFeedbackSessionName);
+            for (FeedbackQuestion oldQuestion : oldQuestions) {
+                migrateFeedbackQuestion(newFeedbackSession, oldQuestion);
+            }
+
         }
 
         HibernateUtil.commitTransaction();
@@ -463,54 +483,52 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     //     return newSession;
     // }
 
-    private void migrateFeedbackQuestion(teammates.storage.sqlentity.FeedbackSession newSession,
-            FeedbackQuestion oldQuestion, Map<String, List<FeedbackResponse>> questionIdToResponsesMap,
-            Map<String, Section> sectionNameToSectionMap) {
+    private void migrateFeedbackQuestion(teammates.storage.sqlentity.FeedbackSession newSession, FeedbackQuestion oldQuestion) {
         teammates.storage.sqlentity.FeedbackQuestion newFeedbackQuestion = createFeedbackQuestion(newSession,
                 oldQuestion);
-        saveEntityDeferred(newFeedbackQuestion);
+        HibernateUtil.persist(newFeedbackQuestion);
 
-        Map<String, List<FeedbackResponseComment>> responseIdToCommentsMap = ofy().load()
-                .type(FeedbackResponseComment.class)
-                .filter("feedbackQuestionId", oldQuestion.getId()).list().stream()
-                .collect(Collectors.groupingBy(FeedbackResponseComment::getFeedbackResponseId));
+        // Map<String, List<FeedbackResponseComment>> responseIdToCommentsMap = ofy().load()
+        //         .type(FeedbackResponseComment.class)
+        //         .filter("feedbackQuestionId", oldQuestion.getId()).list().stream()
+        //         .collect(Collectors.groupingBy(FeedbackResponseComment::getFeedbackResponseId));
 
-        // cascade migrate responses
-        List<FeedbackResponse> oldResponses;
-        if (questionIdToResponsesMap != null) {
-            oldResponses = questionIdToResponsesMap.get(oldQuestion.getId());
-        } else {
-            oldResponses = ofy().load().type(FeedbackResponse.class)
-                    .filter("feedbackQuestionId", oldQuestion.getId()).list();
-        }
-        for (FeedbackResponse oldResponse : oldResponses) {
-            Section newGiverSection = sectionNameToSectionMap.get(oldResponse.getGiverSection());
-            Section newRecipientSection = sectionNameToSectionMap.get(oldResponse.getRecipientSection());
-            migrateFeedbackResponse(newFeedbackQuestion, oldResponse, newGiverSection,
-                    newRecipientSection, responseIdToCommentsMap);
-        }
+        // // cascade migrate responses
+        // List<FeedbackResponse> oldResponses;
+        // if (questionIdToResponsesMap != null) {
+        //     oldResponses = questionIdToResponsesMap.get(oldQuestion.getId());
+        // } else {
+        //     oldResponses = ofy().load().type(FeedbackResponse.class)
+        //             .filter("feedbackQuestionId", oldQuestion.getId()).list();
+        // }
+        // for (FeedbackResponse oldResponse : oldResponses) {
+        //     Section newGiverSection = sectionNameToSectionMap.get(oldResponse.getGiverSection());
+        //     Section newRecipientSection = sectionNameToSectionMap.get(oldResponse.getRecipientSection());
+        //     migrateFeedbackResponse(newFeedbackQuestion, oldResponse, newGiverSection,
+        //             newRecipientSection, responseIdToCommentsMap);
+        // }
     }
 
-    private void migrateFeedbackResponse(teammates.storage.sqlentity.FeedbackQuestion newQuestion,
-            FeedbackResponse oldResponse, Section newGiverSection, Section newRecipientSection,
-            Map<String, List<FeedbackResponseComment>> responseIdToCommentsMap) {
-        teammates.storage.sqlentity.FeedbackResponse newResponse = createFeedbackResponse(newQuestion, oldResponse,
-                newGiverSection, newRecipientSection);
-        saveEntityDeferred(newResponse);
+    // private void migrateFeedbackResponse(teammates.storage.sqlentity.FeedbackQuestion newQuestion,
+    //         FeedbackResponse oldResponse, Section newGiverSection, Section newRecipientSection,
+    //         Map<String, List<FeedbackResponseComment>> responseIdToCommentsMap) {
+    //     teammates.storage.sqlentity.FeedbackResponse newResponse = createFeedbackResponse(newQuestion, oldResponse,
+    //             newGiverSection, newRecipientSection);
+    //     HibernateUtil.persist(newResponse);
 
-        // cascade migrate response comments
-        List<FeedbackResponseComment> oldComments = responseIdToCommentsMap.get(oldResponse.getId());
-        for (FeedbackResponseComment oldComment : oldComments) {
-            migrateFeedbackResponseComment(newResponse, oldComment, newGiverSection, newRecipientSection);
-        }
-    }
+    //     // cascade migrate response comments
+    //     List<FeedbackResponseComment> oldComments = responseIdToCommentsMap.get(oldResponse.getId());
+    //     for (FeedbackResponseComment oldComment : oldComments) {
+    //         migrateFeedbackResponseComment(newResponse, oldComment, newGiverSection, newRecipientSection);
+    //     }
+    // }
 
-    private void migrateFeedbackResponseComment(teammates.storage.sqlentity.FeedbackResponse newResponse,
-            FeedbackResponseComment oldComment, Section newGiverSection, Section newRecipientSection) {
-        teammates.storage.sqlentity.FeedbackResponseComment newComment = createFeedbackResponseComment(newResponse,
-                oldComment, newGiverSection, newRecipientSection);
-        saveEntityDeferred(newComment);
-    }
+    // private void migrateFeedbackResponseComment(teammates.storage.sqlentity.FeedbackResponse newResponse,
+    //         FeedbackResponseComment oldComment, Section newGiverSection, Section newRecipientSection) {
+    //     teammates.storage.sqlentity.FeedbackResponseComment newComment = createFeedbackResponseComment(newResponse,
+    //             oldComment, newGiverSection, newRecipientSection);
+    //     HibernateUtil.persist(newComment);
+    // }
 
     private FeedbackSession createFeedbackSession(Course newCourse,
             teammates.storage.entity.FeedbackSession oldSession) {
@@ -559,7 +577,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                         getFeedbackQuestionDetails(oldQuestion));
 
         newFeedbackQuestion.setCreatedAt(oldQuestion.getCreatedAt());
-        newFeedbackQuestion.setUpdatedAt(oldQuestion.getUpdatedAt());
 
         return newFeedbackQuestion;
     }

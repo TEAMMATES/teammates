@@ -58,8 +58,8 @@ public class SeedDb extends DatastoreClient {
     private static final int MAX_STUDENT_PER_COURSE = 1000;
     private static final int MAX_TEAM_PER_SECTION = 10;
     private static final int MAX_SECTION_PER_COURSE = 10;
-    private static final int MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE = 5;
-    private static final int MAX_QUESTION_PER_COURSE = 6;
+    private static final int MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE = 5;
+    private static final int MAX_QUESTION_PER_COURSE = 25;
     private static final int MAX_RESPONSES_PER_QUESTION = 10;
     private static final int MAX_COMMENTS_PER_RESPONSE = 2;
     private static final int NOTIFICATION_SIZE = 0;
@@ -159,7 +159,7 @@ public class SeedDb extends DatastoreClient {
                 seedCourseWithCourseId(i, courseId);
                 seedStudents(i, courseId);
                 seedFeedbackSession(i, courseId);
-                // seedFeedbackQuestions(i, courseId);
+                seedFeedbackQuestions(i, courseId);
                 // seedInstructors(i, courseId);
             } catch (Exception e) {
                 log(e.toString());
@@ -253,7 +253,7 @@ public class SeedDb extends DatastoreClient {
 
         log("Seeding feedback chain for course " + courseNumber);
         List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
-        for (int i = 0; i < MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE; i++) {
+        for (int i = 0; i < MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE; i++) {
             try {
                 String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
                 String feedbackSessionCreatorEmail = String.format("Creator Email %s", i);
@@ -284,13 +284,13 @@ public class SeedDb extends DatastoreClient {
     }
 
     private void seedFeedbackQuestions(int courseNumber, String courseId) {
-        assert MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE <= MAX_QUESTION_PER_COURSE;
+        assert MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE <= MAX_QUESTION_PER_COURSE;
 
         int currSession = -1;
         List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackQuestions = new ArrayList<>();
         for (int i = 0; i < MAX_QUESTION_PER_COURSE; i++) {
             try {
-                if (i % (MAX_QUESTION_PER_COURSE / MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE) == 0) {
+                if (i % (MAX_QUESTION_PER_COURSE / MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE) == 0) {
                     currSession++;
                 }
     
@@ -326,28 +326,28 @@ public class SeedDb extends DatastoreClient {
         }
         flushEntityBuffer(listOfCreatedFeedbackQuestions);
 
-        List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackResponses = new ArrayList<>();
-        for (teammates.storage.entity.BaseEntity fq : listOfCreatedFeedbackQuestions) {
-            FeedbackQuestion feedbackQuestion = (FeedbackQuestion) fq;
-            String feedbackQuestionId = feedbackQuestion.getId();
-            FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
-            assert feedbackQuestionId != null;
-            List<teammates.storage.entity.BaseEntity> feedbackResponses = createFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);    
-            listOfCreatedFeedbackResponses.addAll(feedbackResponses);
-        }
-        flushEntityBuffer(listOfCreatedFeedbackResponses);
+        // List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackResponses = new ArrayList<>();
+        // for (teammates.storage.entity.BaseEntity fq : listOfCreatedFeedbackQuestions) {
+        //     FeedbackQuestion feedbackQuestion = (FeedbackQuestion) fq;
+        //     String feedbackQuestionId = feedbackQuestion.getId();
+        //     FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
+        //     assert feedbackQuestionId != null;
+        //     List<teammates.storage.entity.BaseEntity> feedbackResponses = createFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);    
+        //     listOfCreatedFeedbackResponses.addAll(feedbackResponses);
+        // }
+        // flushEntityBuffer(listOfCreatedFeedbackResponses);
 
-        List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackComments = new ArrayList<>();
-        for (teammates.storage.entity.BaseEntity fr : listOfCreatedFeedbackResponses) {
-            FeedbackResponse feedbackResponse = (FeedbackResponse) fr;
-            String giverSection = feedbackResponse.getGiverSection();
-            String recipientSection = feedbackResponse.getRecipientSection();
-            String feedbackResponseId = feedbackResponse.getId();
-            List<teammates.storage.entity.BaseEntity> feedbackComments = createFeedbackResponseComments(courseNumber, courseId, feedbackResponse.getFeedbackQuestionId(), feedbackResponseId, giverSection,
-                    recipientSection);
-            listOfCreatedFeedbackComments.addAll(feedbackComments);
-        }
-        flushEntityBuffer(listOfCreatedFeedbackComments);
+        // List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackComments = new ArrayList<>();
+        // for (teammates.storage.entity.BaseEntity fr : listOfCreatedFeedbackResponses) {
+        //     FeedbackResponse feedbackResponse = (FeedbackResponse) fr;
+        //     String giverSection = feedbackResponse.getGiverSection();
+        //     String recipientSection = feedbackResponse.getRecipientSection();
+        //     String feedbackResponseId = feedbackResponse.getId();
+        //     List<teammates.storage.entity.BaseEntity> feedbackComments = createFeedbackResponseComments(courseNumber, courseId, feedbackResponse.getFeedbackQuestionId(), feedbackResponseId, giverSection,
+        //             recipientSection);
+        //     listOfCreatedFeedbackComments.addAll(feedbackComments);
+        // }
+        // flushEntityBuffer(listOfCreatedFeedbackComments);
         
     }
 
@@ -529,7 +529,7 @@ public class SeedDb extends DatastoreClient {
         Random rand = new Random();
 
         int i = isInstructor ? 1 : 0; // matches if session's questions' giverType are students or instructors
-        for (; i < MAX_FEEDBACKSESSION_FOR_EACH_COURSE_SIZE; i+=2) {
+        for (; i < MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE; i+=2) {
             String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
             boolean sentClosingEmail = rand.nextBoolean();
             Instant endTime = getRandomInstant();

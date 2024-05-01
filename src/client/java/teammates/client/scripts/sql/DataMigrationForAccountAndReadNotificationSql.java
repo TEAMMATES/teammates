@@ -224,6 +224,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
                 log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
                 log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
             }
+            flushEntitiesSavingBuffer();
         }
 
         deleteCursorPositionFile();
