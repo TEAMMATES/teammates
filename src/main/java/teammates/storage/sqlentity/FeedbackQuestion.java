@@ -34,16 +34,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 /**
  * Represents a feedback question.
  */
 @Entity
-@Table(name = "FeedbackQuestions", uniqueConstraints = {
-    @UniqueConstraint(name = "Unique question number per session",
-        columnNames = { "questionNumber", "sessionId" }),
-})
+@Table(name = "FeedbackQuestions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class FeedbackQuestion extends BaseEntity implements Comparable<FeedbackQuestion> {
     @Id
