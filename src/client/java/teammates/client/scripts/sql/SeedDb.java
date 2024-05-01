@@ -60,7 +60,7 @@ public class SeedDb extends DatastoreClient {
     private static final int MAX_SECTION_PER_COURSE = 10;
     private static final int MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE = 5;
     private static final int MAX_QUESTION_PER_COURSE = 25;
-    private static final int MAX_RESPONSES_PER_QUESTION = 10;
+    private static final int MAX_RESPONSES_PER_QUESTION = MAX_STUDENT_PER_COURSE;
     private static final int MAX_COMMENTS_PER_RESPONSE = 2;
     private static final int NOTIFICATION_SIZE = 0;
     private static final int READ_NOTIFICATION_SIZE = 0;
@@ -326,16 +326,16 @@ public class SeedDb extends DatastoreClient {
         }
         flushEntityBuffer(listOfCreatedFeedbackQuestions);
 
-        // List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackResponses = new ArrayList<>();
-        // for (teammates.storage.entity.BaseEntity fq : listOfCreatedFeedbackQuestions) {
-        //     FeedbackQuestion feedbackQuestion = (FeedbackQuestion) fq;
-        //     String feedbackQuestionId = feedbackQuestion.getId();
-        //     FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
-        //     assert feedbackQuestionId != null;
-        //     List<teammates.storage.entity.BaseEntity> feedbackResponses = createFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);    
-        //     listOfCreatedFeedbackResponses.addAll(feedbackResponses);
-        // }
-        // flushEntityBuffer(listOfCreatedFeedbackResponses);
+        List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackResponses = new ArrayList<>();
+        for (teammates.storage.entity.BaseEntity fq : listOfCreatedFeedbackQuestions) {
+            FeedbackQuestion feedbackQuestion = (FeedbackQuestion) fq;
+            String feedbackQuestionId = feedbackQuestion.getId();
+            FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
+            assert feedbackQuestionId != null;
+            List<teammates.storage.entity.BaseEntity> feedbackResponses = createFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);    
+            listOfCreatedFeedbackResponses.addAll(feedbackResponses);
+        }
+        flushEntityBuffer(listOfCreatedFeedbackResponses);
 
         // List<teammates.storage.entity.BaseEntity> listOfCreatedFeedbackComments = new ArrayList<>();
         // for (teammates.storage.entity.BaseEntity fr : listOfCreatedFeedbackResponses) {
@@ -373,7 +373,6 @@ public class SeedDb extends DatastoreClient {
                 FeedbackResponse feedbackResponse = new FeedbackResponse(feedbackSessionName, courseId, feedbackQuestionId,
                         feedbackQuestionType, giverEmail, giverSection, recipient, recipientSection, answer);
                 feedbackResponse.setCreatedAt(getRandomInstant());
-                feedbackResponse.setLastUpdate(getRandomInstant());
     
                 listOfCreatedFeedbackResponses.add(feedbackResponse);
     
