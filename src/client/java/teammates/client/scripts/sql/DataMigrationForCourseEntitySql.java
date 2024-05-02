@@ -153,13 +153,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private void migrateCourseDependencies(String newCourseId) {
         Map<String, User> userGoogleIdToUserMap = new HashMap<>();
-        // Map<String, Instructor> emailToInstructorMap = new HashMap<>();
+        Map<String, Instructor> emailToInstructorMap = new HashMap<>();
         Map<String, Student> emailToStudentMap = new HashMap<>();
         migrateSectionChain(newCourseId, userGoogleIdToUserMap, emailToStudentMap);
         migrateFeedbackChain(newCourseId);
         // Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
                 // migrateFeedbackChain(newCourse, sectionNameToSectionMap);
-        // migrateInstructorEntities(newCourse, userGoogleIdToUserMap, emailToInstructorMap);
+        migrateInstructorEntities(newCourseId, userGoogleIdToUserMap, emailToInstructorMap);
         // migrateUserAccounts(newCourse, userGoogleIdToUserMap);
         // migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, emailToInstructorMap, emailToStudentMap);
     }
@@ -316,7 +316,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         for (CourseStudent oldStudent : oldStudents) {
             String googleId = oldStudent.getGoogleId();
-            Account associatedAccount = getAccount(courseId, googleId);
+            Account associatedAccount = getAccount(googleId);
             googleIdToAccountMap.put(googleId, associatedAccount);
         }
         
@@ -377,7 +377,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return HibernateUtil.createQuery(cr).getSingleResult();
     }
 
-    private Account getAccount(String courseId, String googleId) {
+    private Account getAccount(String googleId) {
         return HibernateUtil.getBySimpleNaturalId(Account.class, SanitizationHelper.sanitizeGoogleId(googleId));
     }
 
@@ -703,17 +703,25 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     // methods for misc migration methods ---------------------------------------------------------------------------------
     // entities: Instructor, DeadlineExtension
 
-    private void migrateInstructorEntities(Course newCourse,
+    private void migrateInstructorEntities(String courseId,
             Map<String, User> userGoogleIdToUserMap, Map<String, Instructor> emailToInstructorMap) {
-        List<teammates.storage.entity.Instructor> oldInstructors = ofy().load().type(teammates.storage.entity.Instructor.class).filter("courseId", newCourse.getId())
+        HibernateUtil.beginTransaction();
+        List<teammates.storage.entity.Instructor> oldInstructors = ofy().load()
+                .type(teammates.storage.entity.Instructor.class)
+                .filter("courseId", courseId)
                 .list();
+
+        Course newCourse = getCourse(courseId);
+
         for (teammates.storage.entity.Instructor oldInstructor : oldInstructors) {
             Instructor newInstructor = migrateInstructor(newCourse, oldInstructor);
+            newInstructor.setAccount(getAccount(oldInstructor.getGoogleId()));
             emailToInstructorMap.put(newInstructor.getEmail(), newInstructor);
-            if (oldInstructor.getGoogleId() != null) {
-                userGoogleIdToUserMap.put(oldInstructor.getGoogleId(), newInstructor);
-            }
+            // if (oldInstructor.getGoogleId() != null) {
+            //     userGoogleIdToUserMap.put(oldInstructor.getGoogleId(), newInstructor);
+            // }
         }
+        HibernateUtil.commitTransaction();
     }
 
     private Instructor migrateInstructor(Course newCourse,

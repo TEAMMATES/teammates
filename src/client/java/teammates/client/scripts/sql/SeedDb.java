@@ -160,7 +160,7 @@ public class SeedDb extends DatastoreClient {
                 seedStudents(i, courseId);
                 seedFeedbackSession(i, courseId);
                 seedFeedbackQuestions(i, courseId);
-                // seedInstructors(i, courseId);
+                seedInstructors(i, courseId);
             } catch (Exception e) {
                 log(e.toString());
             }
@@ -505,7 +505,7 @@ public class SeedDb extends DatastoreClient {
 
             if (rand.nextDouble() <= PERCENTAGE_INSTRUCTORS_WITH_ACCOUNT) {
                 int googleIdNumber = courseNumber * MAX_INSTRUCTOR_PER_COURSE + i
-                        + MAX_ENTITY_SIZE * MAX_STUDENT_PER_COURSE; // to avoid clashes with students
+                        + MAX_NUM_COURSES * MAX_STUDENT_PER_COURSE; // to avoid clashes with students
                 instructorGoogleId = String.format("Account Google ID %s", googleIdNumber);
                 Account account = createAccount(instructorGoogleId, instructorName, instructorEmail);
                 ofy().save().entities(account).now();

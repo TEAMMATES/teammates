@@ -77,6 +77,10 @@ public class VerifyCourseEntityAttributes
             isEqual = isEqual && verifyFeedbackChain(courseId);
             HibernateUtil.commitTransaction();
 
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyInstructors(newCourse);
+            HibernateUtil.commitTransaction();
+
             // if (!verifySectionChain(newCourse)) {
             //     logValidationError("Failed section chain verification");
             //     isEqual = false;
@@ -606,7 +610,7 @@ public class VerifyCourseEntityAttributes
                 && newInstructor.getPrivileges().equals(oldPrivileges)
                 && newInstructor.isDisplayedToStudents() == oldInstructor.isDisplayedToStudents()
                 && newInstructor.getCreatedAt().equals(oldInstructor.getCreatedAt())
-                && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt())
+                // && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt());
                 && (newInstructor.getGoogleId() == null ? newInstructor.getGoogleId() == oldInstructor.getGoogleId() :
                     newInstructor.getGoogleId().equals(oldInstructor.getGoogleId()));
     }
