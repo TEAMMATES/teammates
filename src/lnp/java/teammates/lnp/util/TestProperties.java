@@ -9,6 +9,7 @@ import java.util.Properties;
 /**
  * Represents properties in test.properties file.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public final class TestProperties {
 
     /** The directory where the L&P test data files are stored. */

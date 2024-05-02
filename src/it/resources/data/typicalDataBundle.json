@@ -73,14 +73,17 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "2010-02-14T00:00:00Z"
+      "registeredAt": "2010-02-14T00:00:00Z",
+      "createdAt": "2011-02-01T00:00:00Z"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000102",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "2015-02-14T00:00:00Z"
+      "registeredAt": "2015-02-14T00:00:00Z",
+      "comments": "Comments for account request from instructor2",
+      "status": "REGISTERED"
     },
     "instructor3": {
       "name": "Instructor 3 of CourseNoRegister",
@@ -1418,6 +1421,85 @@
       "notification": {
         "id": "00000000-0000-4000-8000-000000001101"
       }
+    }
+  },
+  "feedbackSessionLogs": {
+    "student1Session1Log1": {
+      "id": "00000000-0000-4000-8000-000000001301",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:00Z"
+    },
+    "student1Session2Log1": {
+      "id": "00000000-0000-4000-8000-000000001302",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000702"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:01Z"
+    },
+    "student1Session2Log2": {
+      "id": "00000000-0000-4000-8000-000000001303",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000702"
+      },
+      "feedbackSessionLogType": "SUBMISSION",
+      "timestamp": "2012-01-01T12:00:02Z"
+    },
+    "student2Session1Log1": {
+      "id": "00000000-0000-4000-8000-000000001304",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000602"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:03Z"
+    },
+    "student2Session1Log2": {
+      "id": "00000000-0000-4000-8000-000000001305",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000602"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "SUBMISSION",
+      "timestamp": "2012-01-01T12:00:04Z"
+    },
+    "student1InAnotherCourse": {
+      "id": "00000000-0000-4000-8000-000000001306",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000707"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:05Z"
+    },
+    "outOfRangeLog": {
+      "id": "00000000-0000-4000-8000-000000001307",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000602"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2010-01-01T00:00:00Z"
     }
   }
 }

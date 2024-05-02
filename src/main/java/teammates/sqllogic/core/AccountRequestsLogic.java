@@ -1,8 +1,9 @@
 package teammates.sqllogic.core;
 
 import java.util.List;
+import java.util.UUID;
 
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -52,27 +53,35 @@ public final class AccountRequestsLogic {
     /**
      * Creates an account request.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
         return accountRequestDb.createAccountRequest(accountRequest);
     }
 
     /**
      * Creates an account request.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        AccountRequest toCreate = new AccountRequest(email, name, institute);
+    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
+            String comments) throws InvalidParametersException {
+        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
 
         return accountRequestDb.createAccountRequest(toCreate);
     }
 
     /**
-     * Gets account request associated with the {@code email} and {@code institute}.
+     * Gets the account request associated with the {@code id}.
      */
-    public AccountRequest getAccountRequest(String email, String institute) {
+    public AccountRequest getAccountRequest(UUID id) {
+        return accountRequestDb.getAccountRequest(id);
+    }
 
-        return accountRequestDb.getAccountRequest(email, institute);
+    /**
+     * Gets the account request associated with the {@code id}.
+     */
+    public AccountRequest getAccountRequestWithTransaction(UUID id) {
+        HibernateUtil.beginTransaction();
+        AccountRequest request = accountRequestDb.getAccountRequest(id);
+        HibernateUtil.commitTransaction();
+        return request;
     }
 
     /**
@@ -84,6 +93,27 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Updates an account request.
+     */
+    @SuppressWarnings("PMD")
+    public AccountRequest updateAccountRequestWithTransaction(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        HibernateUtil.beginTransaction();
+        AccountRequest updatedRequest;
+
+        try {
+            updatedRequest = accountRequestDb.updateAccountRequest(accountRequest);
+            HibernateUtil.commitTransaction();
+        } catch (InvalidParametersException ipe) {
+            HibernateUtil.rollbackTransaction();
+            throw new InvalidParametersException(ipe.getMessage());
+        }
+
+        return updatedRequest;
+    }
+
+    /**
      * Gets account request associated with the {@code regkey}.
      */
     public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
@@ -91,15 +121,39 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given email and institute such that it is not registered.
+     * Gets all pending account requests.
      */
-    public AccountRequest resetAccountRequest(String email, String institute)
+    public List<AccountRequest> getPendingAccountRequests() {
+        return accountRequestDb.getPendingAccountRequests();
+    }
+
+    /**
+     * Gets all account requests.
+     */
+    public List<AccountRequest> getAllAccountRequests() {
+        return accountRequestDb.getAllAccountRequests();
+    }
+
+    /**
+     * Get a list of account requests associated with email provided.
+     */
+    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
+        HibernateUtil.beginTransaction();
+        List<AccountRequest> accountRequests = accountRequestDb.getApprovedAccountRequestsForEmail(email);
+        HibernateUtil.commitTransaction();
+        return accountRequests;
+    }
+
+    /**
+     * Creates/resets the account request with the given id such that it is not registered.
+     */
+    public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
-        AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
+        AccountRequest accountRequest = accountRequestDb.getAccountRequest(id);
 
         if (accountRequest == null) {
             throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
-                + "the given email and institute cannot be found.");
+                + "the given id cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
 
@@ -107,13 +161,13 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes account request associated with the {@code email} and {@code institute}.
+     * Deletes account request associated with the {@code id}.
      *
-     * <p>Fails silently if no account requests with the given email and institute to delete can be found.</p>
+     * <p>Fails silently if no account requests with the given id to delete can be found.</p>
      *
      */
-    public void deleteAccountRequest(String email, String institute) {
-        AccountRequest toDelete = accountRequestDb.getAccountRequest(email, institute);
+    public void deleteAccountRequest(UUID id) {
+        AccountRequest toDelete = accountRequestDb.getAccountRequest(id);
 
         accountRequestDb.deleteAccountRequest(toDelete);
     }
@@ -131,9 +185,10 @@ public final class AccountRequestsLogic {
     /**
      * Creates an or gets an account request.
      */
-    public AccountRequest createOrGetAccountRequestWithTransaction(String name, String email, String institute)
+    public AccountRequest createOrGetAccountRequestWithTransaction(String name, String email, String institute,
+            AccountRequestStatus status, String comments)
             throws InvalidParametersException {
-        AccountRequest toCreate = new AccountRequest(email, name, institute);
+        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
         HibernateUtil.beginTransaction();
         AccountRequest accountRequest;
         try {
@@ -142,10 +197,6 @@ public final class AccountRequestsLogic {
         } catch (InvalidParametersException ipe) {
             HibernateUtil.rollbackTransaction();
             throw new InvalidParametersException(ipe);
-        } catch (EntityAlreadyExistsException eaee) {
-            // Use existing account request
-            accountRequest = getAccountRequest(email, institute);
-            HibernateUtil.commitTransaction();
         }
         return accountRequest;
     }
