@@ -418,7 +418,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         setStudentDeadline(session, student, 30);
 
         int questionNumber = 2;
-        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        String[] submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
     }
@@ -542,7 +542,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    public void testAccessControl_studentSubmissionLoggedInAsAdminMasqueradeAsStudent_shouldFail() throws Exception {
+    public void testAccessControl_studentSubmissionLoggedInAsAdminMasqueradeAsStudent_shouldAllow() throws Exception {
         FeedbackSessionAttributes session = getSession("gracePeriodSession");
         StudentAttributes student = getStudent("student1InCourse1");
         setEndTime(session, 1);
