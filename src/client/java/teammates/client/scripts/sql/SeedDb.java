@@ -496,7 +496,7 @@ public class SeedDb extends DatastoreClient {
         log("Seeding instructors for course " + courseNumber);
         for (int i = 0; i < MAX_INSTRUCTOR_PER_COURSE; i++) {
             String instructorGoogleId = null;
-            String instructorName = String.format("Course %s Instructor &s", courseNumber, i);
+            String instructorName = String.format("Course %s Instructor %s", courseNumber, i);
             String instructorEmail = String.format("Course %s Instructor %s Email", courseNumber, i);
             String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
             String displayedName = String.format("Display Name %s", i);
