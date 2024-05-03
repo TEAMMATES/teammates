@@ -520,18 +520,18 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         HibernateUtil.persist(newResponse);
 
         // cascade migrate response comments
-        // List<FeedbackResponseComment> oldComments = responseIdToCommentsMap.get(oldResponse.getId());
-        // for (FeedbackResponseComment oldComment : oldComments) {
-        //     migrateFeedbackResponseComment(newResponse, oldComment, newGiverSection, newRecipientSection);
-        // }
+        List<FeedbackResponseComment> oldComments = responseIdToCommentsMap.get(oldResponse.getId());
+        for (FeedbackResponseComment oldComment : oldComments) {
+            migrateFeedbackResponseComment(newResponse, oldComment, newGiverSection, newRecipientSection);
+        }
     }
 
-    // private void migrateFeedbackResponseComment(teammates.storage.sqlentity.FeedbackResponse newResponse,
-    //         FeedbackResponseComment oldComment, Section newGiverSection, Section newRecipientSection) {
-    //     teammates.storage.sqlentity.FeedbackResponseComment newComment = createFeedbackResponseComment(newResponse,
-    //             oldComment, newGiverSection, newRecipientSection);
-    //     HibernateUtil.persist(newComment);
-    // }
+    private void migrateFeedbackResponseComment(teammates.storage.sqlentity.FeedbackResponse newResponse,
+            FeedbackResponseComment oldComment, Section newGiverSection, Section newRecipientSection) {
+        teammates.storage.sqlentity.FeedbackResponseComment newComment = createFeedbackResponseComment(newResponse,
+                oldComment, newGiverSection, newRecipientSection);
+        HibernateUtil.persist(newComment);
+    }
 
     private FeedbackSession createFeedbackSession(Course newCourse,
             teammates.storage.entity.FeedbackSession oldSession) {

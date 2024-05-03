@@ -447,8 +447,6 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        // return true;
-
         List<teammates.storage.sqlentity.FeedbackQuestion> newQuestions = newSession.getFeedbackQuestions();
         List<FeedbackQuestion> oldQuestions = ofy().load().type(FeedbackQuestion.class)
                 .filter("courseId", newSession.getCourse().getId())
@@ -501,12 +499,14 @@ public class VerifyCourseEntityAttributes
         Map<String, FeedbackResponse> responseIdToOldResponseMap = oldResponses.stream()
                 .collect(Collectors.toMap(FeedbackResponse::getId, response -> response));
 
-        return newResponses.stream().allMatch(newResponse -> {
+        boolean responsesAreEqual = newResponses.stream().allMatch(newResponse -> {
             String oldResponseId = FeedbackResponse.generateId(oldQuestion.getId(), newResponse.getGiver(),
                     newResponse.getRecipient());
             FeedbackResponse oldResponse = responseIdToOldResponseMap.get(oldResponseId);
             return verifyFeedbackResponse(oldResponse, newResponse);
         });
+
+        return responsesAreEqual;
     }
 
     private boolean verifyFeedbackResponse(FeedbackResponse oldResponse,
@@ -525,26 +525,26 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        // List<teammates.storage.sqlentity.FeedbackResponseComment> newComments = newResponse.getFeedbackResponseComments();
-        // List<FeedbackResponseComment> oldComments = ofy().load()
-        //         .type(teammates.storage.entity.FeedbackResponseComment.class)
-        //         .filter("feedbackResponseId", oldResponse.getId()).list();
+        List<teammates.storage.sqlentity.FeedbackResponseComment> newComments = newResponse.getFeedbackResponseComments();
+        List<FeedbackResponseComment> oldComments = ofy().load()
+                .type(teammates.storage.entity.FeedbackResponseComment.class)
+                .filter("feedbackResponseId", oldResponse.getId()).list();
 
-        // if (newComments.size() != oldComments.size()) {
-        //     logValidationError(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
-        //             oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
-        //             oldResponse.getCourseId()));
-        //     return false;
-        // }
+        if (newComments.size() != oldComments.size()) {
+            logValidationError(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
+                    oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
+                    oldResponse.getCourseId()));
+            return false;
+        }
 
-        // boolean allCommentFieldsMatch = oldComments.stream().allMatch(oldComment -> newComments.stream()
-        //         .anyMatch(newComment -> verifyFeedbackResponseComment(oldComment, newComment)));
-        // if (!allCommentFieldsMatch) {
-        //     logValidationError(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
-        //             oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
-        //             oldResponse.getCourseId()));
-        //     return false;
-        // }
+        boolean allCommentFieldsMatch = oldComments.stream().allMatch(oldComment -> newComments.stream()
+                .anyMatch(newComment -> verifyFeedbackResponseComment(oldComment, newComment)));
+        if (!allCommentFieldsMatch) {
+            logValidationError(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
+                    oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
+                    oldResponse.getCourseId()));
+            return false;
+        }
 
         return true;
     }
@@ -563,7 +563,6 @@ public class VerifyCourseEntityAttributes
                 && newComment.getShowCommentTo().equals(oldComment.getShowCommentTo())
                 && newComment.getShowGiverNameTo().equals(oldComment.getShowGiverNameTo())
                 && newComment.getCreatedAt().equals(oldComment.getCreatedAt())
-                && newComment.getUpdatedAt().equals(oldComment.getLastEditedAt())
                 && newComment.getLastEditorEmail().equals(oldComment.getLastEditorEmail());
     }
 
