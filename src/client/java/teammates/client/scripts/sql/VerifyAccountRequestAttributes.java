@@ -30,18 +30,25 @@ public class VerifyAccountRequestAttributes
     public boolean equals(teammates.storage.sqlentity.AccountRequest sqlEntity, AccountRequest datastoreEntity) {
         if (datastoreEntity != null) {
             boolean matchingCreatedAtTimestamp = false;
+            boolean matchingRegisteredAtTimestamp = false;
 
             if (sqlEntity.getCreatedAt() == null || datastoreEntity.getCreatedAt() == null) {
                 matchingCreatedAtTimestamp = sqlEntity.getCreatedAt() == datastoreEntity.getCreatedAt();
             } else {
                 matchingCreatedAtTimestamp = sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt());
             }
+
+            if (sqlEntity.getRegisteredAt() == null || datastoreEntity.getRegisteredAt() == null) {
+                matchingRegisteredAtTimestamp = sqlEntity.getRegisteredAt() == datastoreEntity.getRegisteredAt();
+            } else {
+                matchingRegisteredAtTimestamp = sqlEntity.getRegisteredAt().equals(datastoreEntity.getRegisteredAt());
+            }
             
             // UUID for account is not checked, as datastore ID is email%institute
             return sqlEntity.getName().equals(datastoreEntity.getName())
                 && sqlEntity.getEmail().equals(datastoreEntity.getEmail())
                 && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())
-                && sqlEntity.getRegisteredAt().equals(datastoreEntity.getRegisteredAt())
+                && matchingRegisteredAtTimestamp
                 && matchingCreatedAtTimestamp;
         } else {
             return false;
