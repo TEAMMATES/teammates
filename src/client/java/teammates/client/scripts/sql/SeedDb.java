@@ -555,7 +555,6 @@ public class SeedDb extends DatastoreClient {
         DataBundle dataBundle = getTypicalDataBundle();
         try {
             // logic.persistDataBundle(dataBundle);
-            clearDataStore();
             persistAdditionalData();
         } catch (Exception e) {
             e.printStackTrace();
@@ -575,20 +574,5 @@ public class SeedDb extends DatastoreClient {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Clears all entities in the data store if re-seeding is needed.
-     */
-    private void clearDataStore() {
-        ofy().delete().entities(ofy().load().type(Account.class).list()).now();
-        ofy().delete().entities(ofy().load().type(AccountRequest.class).list()).now();
-        ofy().delete().entities(ofy().load().type(Course.class).list()).now();
-        ofy().delete().entities(ofy().load().type(CourseStudent.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackQuestion.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackResponse.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackResponseComment.class).list()).now();
-        ofy().delete().entities(ofy().load().type(FeedbackSession.class).list()).now();
-        ofy().delete().entities(ofy().load().type(Notification.class).list()).now();
-        log("Finish deleting all entities");
-    }
 }
+
