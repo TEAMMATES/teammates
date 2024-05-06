@@ -638,18 +638,18 @@ public class VerifyCourseEntityAttributes
             teammates.storage.sqlentity.DeadlineExtension newDeadline = newDeadlineExt.get(i);
             if (!verifyDeadlineExtension(oldDeadline, newDeadline)) {
                 logValidationError("Deadline extension failed comparison");
-                logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
-                oldDeadline.getFeedbackSessionName(),                 
-                    oldDeadline.getUserEmail(),
-                    oldDeadline.getEndTime(),
-                    oldDeadline.getSentClosingEmail(),
-                    oldDeadline.getCreatedAt()));
-                logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
-                    newDeadline.getFeedbackSession().getName(),
-                    newDeadline.getUser().getEmail(),
-                    newDeadline.getEndTime(),
-                    newDeadline.isClosingSoonEmailSent(),
-                    newDeadline.getCreatedAt()));
+                // logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
+                // oldDeadline.getFeedbackSessionName(),                 
+                //     oldDeadline.getUserEmail(),
+                //     oldDeadline.getEndTime(),
+                //     oldDeadline.getSentClosingEmail(),
+                //     oldDeadline.getCreatedAt()));
+                // logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
+                //     newDeadline.getFeedbackSession().getName(),
+                //     newDeadline.getUser().getEmail(),
+                //     newDeadline.getEndTime(),
+                //     newDeadline.isClosingSoonEmailSent(),
+                //     newDeadline.getCreatedAt()));
                 return false;
             }
         }
