@@ -1,5 +1,6 @@
 package teammates.client.connector;
 
+import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -43,7 +44,7 @@ public abstract class DatastoreClient {
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
 
-        try (Closeable objectifySession = ObjectifyService.begin()) {
+        try (Closeable ignored = ObjectifyService.begin()) {
             LogicStarter.initializeDependencies();
             doOperation();
         }

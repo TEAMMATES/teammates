@@ -3,9 +3,10 @@ package teammates.ui.output;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -20,6 +21,10 @@ import teammates.storage.sqlentity.Student;
  * The API output format of {@link FeedbackSessionAttributes}.
  */
 public class FeedbackSessionData extends ApiOutput {
+
+    @Nullable
+    private final UUID feedbackSessionId;
+
     private final String courseId;
     private final String timeZone;
     private final String feedbackSessionName;
@@ -60,6 +65,7 @@ public class FeedbackSessionData extends ApiOutput {
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         String timeZone = feedbackSessionAttributes.getTimeZone();
+        this.feedbackSessionId = null;
         this.courseId = feedbackSessionAttributes.getCourseId();
         this.timeZone = timeZone;
         this.feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
@@ -148,6 +154,7 @@ public class FeedbackSessionData extends ApiOutput {
         assert feedbackSession != null;
         assert feedbackSession.getCourse() != null;
         String timeZone = feedbackSession.getCourse().getTimeZone();
+        this.feedbackSessionId = feedbackSession.getId();
         this.courseId = feedbackSession.getCourse().getId();
         this.timeZone = timeZone;
         this.feedbackSessionName = feedbackSession.getName();
@@ -250,6 +257,10 @@ public class FeedbackSessionData extends ApiOutput {
         } else if (feedbackSession.isClosedGivenExtendedDeadline(extendedDeadline)) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
         }
+    }
+
+    public UUID getFeedbackSessionId() {
+        return feedbackSessionId;
     }
 
     public String getCourseId() {

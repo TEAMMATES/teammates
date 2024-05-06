@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
@@ -115,7 +116,14 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
+        // This method is not necessary for production usage because a feedback session log
+        // is already separately created through the standardized logging infrastructure.
+        // However, this method is not removed as it is necessary to assist in local testing.
+    }
+
+    @Override
+    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         List<String> filters = new ArrayList<>();
         if (courseId != null) {
@@ -131,6 +139,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .withLogEvent(LogEvent.FEEDBACK_SESSION_AUDIT.name())
                 .withSeverityLevel(LogSeverity.INFO)
                 .withExtraFilters(String.join("\n", filters))
+                .withOrder(ASCENDING_ORDER)
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
@@ -153,8 +162,16 @@ public class GoogleCloudLoggingService implements LogService {
                 continue;
             }
 
-            FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getStudentEmail(),
-                    details.getFeedbackSessionName(), details.getAccessType(), timestamp);
+            UUID studentId = details.getStudentId() != null ? UUID.fromString(details.getStudentId()) : null;
+            UUID fsId = details.getFeedbackSessionId() != null ? UUID.fromString(details.getFeedbackSessionId()) : null;
+            FeedbackSessionLogEntry fslEntry;
+            if (fsId != null && studentId != null) {
+                fslEntry = new FeedbackSessionLogEntry(details.getCourseId(), studentId, fsId, details.getAccessType(),
+                        timestamp);
+            } else {
+                fslEntry = new FeedbackSessionLogEntry(details.getCourseId(), details.getStudentEmail(),
+                        details.getFeedbackSessionName(), details.getAccessType(), timestamp);
+            }
             fsLogEntries.add(fslEntry);
         }
 
@@ -281,7 +298,7 @@ public class GoogleCloudLoggingService implements LogService {
     /**
      * Contains params to be used for the searching of logs.
      */
-    private static class LogSearchParams {
+    private static final class LogSearchParams {
         private final List<String> logName = new ArrayList<>();
         private String resourceType;
         private QueryLogsParams queryLogsParams;

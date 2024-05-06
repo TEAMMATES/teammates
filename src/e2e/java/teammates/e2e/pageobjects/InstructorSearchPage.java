@@ -1,7 +1,7 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 import java.util.Map;
@@ -75,6 +75,7 @@ public class InstructorSearchPage extends AppPage {
         WebElement targetCourse = getStudentTableForHeader(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
+            return;
         }
 
         WebElement studentList = targetCourse.findElement(By.tagName("table"));
@@ -118,6 +119,7 @@ public class InstructorSearchPage extends AppPage {
         WebElement targetCourse = getStudentTableForHeader(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
+            return null;
         }
 
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));

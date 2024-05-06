@@ -330,7 +330,7 @@ public class TeamEvalResult {
             count++;
         }
         // omit calculation if no data points
-        double average = count == 0 ? NA : (double) (sum / count);
+        double average = count == 0 ? NA : (sum / count);
 
         String logMessage = "Average(" + values.toString().trim() + ") = " + average;
         log.fine(replaceMagicNumbers(logMessage));

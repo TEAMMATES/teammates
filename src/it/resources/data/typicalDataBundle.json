@@ -73,14 +73,17 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "2010-02-14T00:00:00Z"
+      "registeredAt": "2010-02-14T00:00:00Z",
+      "createdAt": "2011-02-01T00:00:00Z"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000102",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "2015-02-14T00:00:00Z"
+      "registeredAt": "2015-02-14T00:00:00Z",
+      "comments": "Comments for account request from instructor2",
+      "status": "REGISTERED"
     },
     "instructor3": {
       "name": "Instructor 3 of CourseNoRegister",
@@ -600,6 +603,21 @@
       "name": "student3 In Course1",
       "comments": ""
     },
+    "student4InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000611",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000104"
+      },
+      "course": {
+        "id": "course-1"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000305"
+      },
+      "email": "student4@teammates.tmt",
+      "name": "student4 In Course1",
+      "comments": "This student is not in the same team as others in course 1"
+    },
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000604",
       "course": {
@@ -686,21 +704,6 @@
       "email": "studentOfArchivedCourse@teammates.tmt",
       "name": "Student In Archived Course",
       "comments": ""
-    },
-    "student4InCourse1": {
-      "id": "00000000-0000-4000-8000-000000000611",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000104"
-      },
-      "course": {
-        "id": "course-1"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000305"
-      },
-      "email": "student4@teammates.tmt",
-      "name": "student4 In Course1",
-      "comments": "comment for student4Course1"
     }
   },
   "feedbackSessions": {
@@ -1015,10 +1018,66 @@
         "questionType": "TEXT"
       },
       "description": "Feedback question with no responses",
-      "questionNumber": 5,
+      "questionNumber": 6,
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    },
+    "qn7InSession1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000807",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "This is question 7, a text question.",
+        "questionType": "TEXT"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 7,
+      "giverType": "SELF",
+      "recipientType": "SELF",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    },
+    "qn8InSession1InCourse1": {
+    "id": "00000000-0000-4000-8000-000000000808",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "This is question 8, a text question.",
+        "questionType": "TEXT"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 8,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"]
+    },
+    "qn9InSession1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000809",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 9,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
       "showRecipientNameTo": ["INSTRUCTORS"]
@@ -1362,6 +1421,85 @@
       "notification": {
         "id": "00000000-0000-4000-8000-000000001101"
       }
+    }
+  },
+  "feedbackSessionLogs": {
+    "student1Session1Log1": {
+      "id": "00000000-0000-4000-8000-000000001301",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:00Z"
+    },
+    "student1Session2Log1": {
+      "id": "00000000-0000-4000-8000-000000001302",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000702"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:01Z"
+    },
+    "student1Session2Log2": {
+      "id": "00000000-0000-4000-8000-000000001303",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000702"
+      },
+      "feedbackSessionLogType": "SUBMISSION",
+      "timestamp": "2012-01-01T12:00:02Z"
+    },
+    "student2Session1Log1": {
+      "id": "00000000-0000-4000-8000-000000001304",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000602"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:03Z"
+    },
+    "student2Session1Log2": {
+      "id": "00000000-0000-4000-8000-000000001305",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000602"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "SUBMISSION",
+      "timestamp": "2012-01-01T12:00:04Z"
+    },
+    "student1InAnotherCourse": {
+      "id": "00000000-0000-4000-8000-000000001306",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000601"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000707"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2012-01-01T12:00:05Z"
+    },
+    "outOfRangeLog": {
+      "id": "00000000-0000-4000-8000-000000001307",
+      "student": {
+        "id" : "00000000-0000-4000-8000-000000000602"
+      },
+      "feedbackSession": {
+        "id" : "00000000-0000-4000-8000-000000000701"
+      },
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": "2010-01-01T00:00:00Z"
     }
   }
 }

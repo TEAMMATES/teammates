@@ -5,6 +5,11 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -12,11 +17,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for feedback questions.
@@ -80,6 +80,22 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
         Join<FeedbackQuestion, FeedbackSession> fqJoin = fqRoot.join("feedbackSession");
         cq.select(fqRoot).where(cb.equal(fqJoin.get("id"), fdId));
         return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets the unique feedback question based on sessionId and questionNumber.
+     */
+    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackQuestion> cq = cb.createQuery(FeedbackQuestion.class);
+        Root<FeedbackQuestion> fqRoot = cq.from(FeedbackQuestion.class);
+        Join<FeedbackQuestion, FeedbackSession> fqJoin = fqRoot.join("feedbackSession");
+        cq.select(fqRoot).where(
+                cb.and(
+                    cb.equal(fqJoin.get("id"), sessionId),
+                    cb.equal(fqRoot.get("questionNumber"), questionNumber)
+                ));
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 
     /**

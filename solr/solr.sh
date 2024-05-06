@@ -17,3 +17,5 @@ bin/solr create -c accountrequests -s 2 -rf 2
 bin/solr config -c accountrequests -p 8983 -action set-user-property -property update.autoCreateFields -value false
 curl -X POST -H 'Content-type: application/json' --data-binary '{"add-field": {"name": "email", "type": "string"}}' localhost:8983/solr/accountrequests/schema
 curl -X POST -H 'Content-type: application/json' --data-binary '{"add-field": {"name": "institute", "type": "string"}}' localhost:8983/solr/accountrequests/schema
+curl -X POST -H 'Content-type: application/json' --data-binary '{"add-field": {"name": "comments", "type": "string"}}' localhost:8983/solr/accountrequests/schema
+curl -X POST -H 'Content-type: application/json' --data-binary '{"add-field": {"name": "status", "type": "string"}}' localhost:8983/solr/accountrequests/schema

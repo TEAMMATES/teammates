@@ -28,6 +28,15 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
+
 /**
  * Represents a course entity.
  */
@@ -91,12 +100,10 @@ public class FeedbackSession extends BaseEntity {
     private boolean isPublishedEmailSent;
 
     @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
-    @Fetch(FetchMode.JOIN)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
     @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
-    @Fetch(FetchMode.JOIN)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
 
@@ -143,13 +150,18 @@ public class FeedbackSession extends BaseEntity {
         return copy;
     }
 
-    private FeedbackSession getCopy() {
+    /**
+     * Creates a copy of the feedback session.
+     *
+     * @return The copy of this object.
+     */
+    public FeedbackSession getCopy() {
         FeedbackSession fs = new FeedbackSession(
                 name, course, creatorEmail, instructions, startTime,
                 endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 gracePeriod, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
         );
-
+        fs.setId(getId());
         fs.setCreatedAt(getCreatedAt());
         fs.setUpdatedAt(getUpdatedAt());
         fs.setDeletedAt(getDeletedAt());
@@ -231,6 +243,10 @@ public class FeedbackSession extends BaseEntity {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public String getCourseId() {
+        return course.getId();
     }
 
     public String getName() {
@@ -488,7 +504,7 @@ public class FeedbackSession extends BaseEntity {
     public boolean isOpenedGivenExtendedDeadline(Instant extendedDeadline) {
         Instant now = Instant.now();
         return (now.isAfter(startTime) || now.equals(startTime))
-                && now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod));
+                && (now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod)));
     }
 
     /**
@@ -510,7 +526,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Returns {@code true} if the results of the feedback session is visible; {@code false} if not.
+     * Returns {@code true} if the results of the feedback session is published; {@code false} if not.
      *         Does not care if the session has ended or not.
      */
     public boolean isPublished() {

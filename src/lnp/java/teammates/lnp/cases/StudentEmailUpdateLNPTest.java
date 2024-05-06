@@ -260,8 +260,8 @@ public class StudentEmailUpdateLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected ListedHashTree getLnpTestPlan() {
-        ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
+    protected HashTree getLnpTestPlan() {
+        HashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
                 JMeterElements.threadGroup(NUM_INSTRUCTORS, RAMP_UP_PERIOD, 1));
 

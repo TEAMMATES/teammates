@@ -110,7 +110,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
             session = session.getCopyForUser(student.getEmail());
-            verifySessionOpenExceptForModeration(session);
+            verifySessionOpenExceptForModeration(session, student);
             gateKeeper.verifyOwnership(comment,
                     question.getGiverType() == FeedbackParticipantType.TEAMS
                             ? student.getTeamName() : student.getEmail());
@@ -124,7 +124,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             session = session.getCopyForUser(instructorAsFeedbackParticipant.getEmail());
-            verifySessionOpenExceptForModeration(session);
+            verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
             gateKeeper.verifyOwnership(comment, instructorAsFeedbackParticipant.getEmail());
             break;
         case INSTRUCTOR_RESULT:
