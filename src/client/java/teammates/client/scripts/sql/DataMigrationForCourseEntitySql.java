@@ -42,11 +42,11 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion.FeedbackConstantSumQuestionDetailsConverter;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion.FeedbackContributionQuestionDetailsConverter;
 import teammates.storage.sqlentity.questions.FeedbackMcqQuestion.FeedbackMcqQuestionDetailsConverter;
@@ -159,9 +159,9 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         migrateFeedbackChain(newCourseId);
         // Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap =
                 // migrateFeedbackChain(newCourse, sectionNameToSectionMap);
-        migrateInstructorEntities(newCourseId, userGoogleIdToUserMap, emailToInstructorMap);
+        migrateInstructorEntities(newCourseId, userGoogleIdToUserMap);
         // migrateUserAccounts(newCourse, userGoogleIdToUserMap);
-        // migrateDeadlineExtensionEntities(newCourse, feedbackSessionNameToFeedbackSessionMap, emailToInstructorMap, emailToStudentMap);
+        migrateDeadlineExtensionEntities(newCourseId);
     }
 
     // methods for migrate section chain ----------------------------------------------------------------------------------
@@ -704,7 +704,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     // entities: Instructor, DeadlineExtension
 
     private void migrateInstructorEntities(String courseId,
-            Map<String, User> userGoogleIdToUserMap, Map<String, Instructor> emailToInstructorMap) {
+            Map<String, User> userGoogleIdToUserMap) {
         HibernateUtil.beginTransaction();
         List<teammates.storage.entity.Instructor> oldInstructors = ofy().load()
                 .type(teammates.storage.entity.Instructor.class)
@@ -714,17 +714,17 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         Course newCourse = getCourse(courseId);
 
         for (teammates.storage.entity.Instructor oldInstructor : oldInstructors) {
-            Instructor newInstructor = migrateInstructor(newCourse, oldInstructor);
+            Instructor newInstructor = createInstructor(newCourse, oldInstructor);
             newInstructor.setAccount(getAccount(oldInstructor.getGoogleId()));
-            emailToInstructorMap.put(newInstructor.getEmail(), newInstructor);
             // if (oldInstructor.getGoogleId() != null) {
             //     userGoogleIdToUserMap.put(oldInstructor.getGoogleId(), newInstructor);
             // }
+            HibernateUtil.persist(newInstructor);
         }
         HibernateUtil.commitTransaction();
     }
 
-    private Instructor migrateInstructor(Course newCourse,
+    private Instructor createInstructor(Course newCourse,
             teammates.storage.entity.Instructor oldInstructor) {
         InstructorPrivileges newPrivileges;
         if (oldInstructor.getInstructorPrivilegesAsText() == null) {
@@ -750,56 +750,80 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         newInstructor.setCreatedAt(oldInstructor.getCreatedAt());
         newInstructor.setUpdatedAt(oldInstructor.getUpdatedAt());
         newInstructor.setRegKey(oldInstructor.getRegistrationKey());
-        saveEntityDeferred(newInstructor);
-
         return newInstructor;
     }
 
-    private void migrateDeadlineExtensionEntities(Course newCourse,
-            Map<String, teammates.storage.sqlentity.FeedbackSession> feedbackSessionNameToFeedbackSessionMap,
-            Map<String, Instructor> emailToInstructorMap, Map<String, Student> emailToStudentMap) {
+    private void migrateDeadlineExtensionEntities(String courseId) {
+        HibernateUtil.beginTransaction();
         log("Migrating deadline extension");
-        List<DeadlineExtension> oldDeadlineExtensions = ofy().load().type(DeadlineExtension.class)
-                .filter("courseId", newCourse.getId())
+        Map<String, Instructor> emailToInstructorMap = new HashMap<>();
+        Map<String, Student> emailToStudentMap = new HashMap<>();
+
+        List<teammates.storage.entity.DeadlineExtension> oldDeadlineExtensions = ofy().load()
+                .type(teammates.storage.entity.DeadlineExtension .class)
+                .filter("courseId", courseId)
                 .list();
 
-        for (DeadlineExtension oldDeadlineExtension : oldDeadlineExtensions) {
+        Map<String, FeedbackSession> feedbackSessionNameToFeedbackSessionMap = 
+            new HashMap<String, FeedbackSession>();
+        
+        for (FeedbackSession newFeedbackSession : getCourse(courseId).getFeedbackSessions()) {
+            feedbackSessionNameToFeedbackSessionMap.put(newFeedbackSession.getName(), newFeedbackSession);
+        }
+        
+        for (teammates.storage.entity.DeadlineExtension oldDeadlineExtension : oldDeadlineExtensions) {
             String userEmail = oldDeadlineExtension.getUserEmail();
             String feedbackSessionName = oldDeadlineExtension.getFeedbackSessionName();
             teammates.storage.sqlentity.FeedbackSession feedbackSession = feedbackSessionNameToFeedbackSessionMap.get(feedbackSessionName);
-            User user;
+            User user = null;
+            log(userEmail);
             if (oldDeadlineExtension.getIsInstructor()) {
-                user = emailToInstructorMap.get(userEmail);
+                if (emailToInstructorMap.containsKey(userEmail)) {
+                    user = emailToInstructorMap.get(userEmail);
+                } else {
+                    Instructor instructor = getNewInstructor(courseId, userEmail);
+                    emailToInstructorMap.put(userEmail, instructor);
+                    user = instructor;
+                }
+
                 if (user == null) {
                     logError("Instructor not found for deadline extension: " + oldDeadlineExtension);
                     continue;
                 }
             } else {
-                user = emailToStudentMap.get(userEmail);
+                if (emailToStudentMap.containsKey(userEmail)) {
+                    user = emailToStudentMap.get(userEmail);
+                } else {
+                    Student student = getNewStudent(courseId, userEmail);
+                    emailToStudentMap.put(userEmail, student);
+                    user = student;
+                }
                 if (user == null) {
                     logError("Student not found for deadline extension: " + oldDeadlineExtension);
                     continue;
                 }
             }
-            migrateDeadlineExtension(oldDeadlineExtension, feedbackSession, user);
+            DeadlineExtension newDeadlineExtension = createDeadlineExtension(oldDeadlineExtension, feedbackSession, user);
+            HibernateUtil.persist(newDeadlineExtension);
         }
+        HibernateUtil.commitTransaction();
     }
 
-    private void migrateDeadlineExtension(DeadlineExtension oldDeadlineExtension,
+    private DeadlineExtension createDeadlineExtension(teammates.storage.entity.DeadlineExtension oldDeadlineExtension,
                                           teammates.storage.sqlentity.FeedbackSession feedbackSession,
                                           User newUser) {
 
-        teammates.storage.sqlentity.DeadlineExtension newDeadlineExtension =
+        DeadlineExtension newDeadlineExtension =
                 new teammates.storage.sqlentity.DeadlineExtension(
                     newUser,
                     feedbackSession,
                     oldDeadlineExtension.getEndTime());
-
+        
         newDeadlineExtension.setCreatedAt(oldDeadlineExtension.getCreatedAt());
         newDeadlineExtension.setUpdatedAt(oldDeadlineExtension.getUpdatedAt());
         newDeadlineExtension.setClosingSoonEmailSent(oldDeadlineExtension.getSentClosingEmail());
 
-        saveEntityDeferred(newDeadlineExtension);
+        return newDeadlineExtension;
     }
 
     // Associate account to users(students and instructors) who have the same matching google id
@@ -1034,5 +1058,31 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
      */
     protected void logError(String logLine) {
         logger.log("[ERROR]" + logLine);
+    }
+
+    private Student getNewStudent(String courseId, String email) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb
+                .createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        cr.select(studentRoot).where(cb.and(
+            cb.equal(studentRoot.get("courseId"), courseId),
+            cb.equal(studentRoot.get("email"), email)
+        ));
+        Student newStudent = HibernateUtil.createQuery(cr).getSingleResult();
+        return newStudent;
+    }
+
+    private Instructor getNewInstructor(String courseId, String email) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb
+                .createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        cr.select(instructorRoot).where(cb.and(
+            cb.equal(instructorRoot.get("courseId"), courseId),
+            cb.equal(instructorRoot.get("email"), email)
+        ));
+        Instructor newInstructor = HibernateUtil.createQuery(cr).getSingleResult();
+        return newInstructor;
     }
 }

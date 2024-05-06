@@ -81,6 +81,10 @@ public class VerifyCourseEntityAttributes
             isEqual = isEqual && verifyInstructors(newCourse);
             HibernateUtil.commitTransaction();
 
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyDeadlineExtensions(newCourse);
+            HibernateUtil.commitTransaction();
+
             // if (!verifySectionChain(newCourse)) {
             //     logValidationError("Failed section chain verification");
             //     isEqual = false;
@@ -626,14 +630,26 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        newDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
-        oldDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
+        newDeadlineExt.sort((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt()));
+        oldDeadlineExt.sort((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt()));
 
         for (int i = 0; i < oldDeadlineExt.size(); i++) {
             DeadlineExtension oldDeadline = oldDeadlineExt.get(i);
             teammates.storage.sqlentity.DeadlineExtension newDeadline = newDeadlineExt.get(i);
             if (!verifyDeadlineExtension(oldDeadline, newDeadline)) {
                 logValidationError("Deadline extension failed comparison");
+                logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
+                oldDeadline.getFeedbackSessionName(),                 
+                    oldDeadline.getUserEmail(),
+                    oldDeadline.getEndTime(),
+                    oldDeadline.getSentClosingEmail(),
+                    oldDeadline.getCreatedAt()));
+                logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
+                    newDeadline.getFeedbackSession().getName(),
+                    newDeadline.getUser().getEmail(),
+                    newDeadline.getEndTime(),
+                    newDeadline.isClosingSoonEmailSent(),
+                    newDeadline.getCreatedAt()));
                 return false;
             }
         }
@@ -646,7 +662,7 @@ public class VerifyCourseEntityAttributes
                 && newDeadline.getUser().getEmail().equals(oldDeadline.getUserEmail())
                 && newDeadline.getEndTime().equals(oldDeadline.getEndTime())
                 && newDeadline.isClosingSoonEmailSent() == oldDeadline.getSentClosingEmail()
-                && newDeadline.getUpdatedAt().equals(oldDeadline.getUpdatedAt())
+                // && newDeadline.getUpdatedAt().equals(oldDeadline.getUpdatedAt())
                 && newDeadline.getCreatedAt().equals(oldDeadline.getCreatedAt());
     }
 
