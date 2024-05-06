@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
@@ -9,7 +8,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.exception.EntityAlreadyExistsException;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -17,11 +21,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlsearch.AccountRequestSearchManager;
 import teammates.storage.sqlsearch.SearchManagerFactory;
-
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 /**
  * Generates CRUD operations for AccountRequest.
@@ -46,36 +45,64 @@ public final class AccountRequestsDb extends EntitiesDb {
     /**
      * Creates an AccountRequest in the database.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
         assert accountRequest != null;
 
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
-
-        // don't need to check registrationKey for uniqueness since it is generated using email + institute
-        if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) != null) {
-            throw new EntityAlreadyExistsException(
-                String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
-        }
-
         persist(accountRequest);
         return accountRequest;
     }
 
     /**
-     * Get AccountRequest by {@code email} and {@code institute} from database.
+     * Get AccountRequest by {@code id} from the database.
      */
-    public AccountRequest getAccountRequest(String email, String institute) {
+    public AccountRequest getAccountRequest(UUID id) {
+        assert id != null;
+        return HibernateUtil.get(AccountRequest.class, id);
+    }
+
+    /**
+     * Get all Account Requests with {@code status} of 'pending'.
+     */
+    public List<AccountRequest> getPendingAccountRequests() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.equal(
-                root.get("email"), email), cb.equal(root.get("institute"), institute)));
+        cr.select(root)
+                .where(cb.equal(root.get("status"), AccountRequestStatus.PENDING))
+                .orderBy(cb.desc(root.get("createdAt")));
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
-        return query.getResultStream().findFirst().orElse(null);
+        return query.getResultList();
+    }
+
+    /**
+     * Get all Account Requests.
+     */
+    public List<AccountRequest> getAllAccountRequests() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root);
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultList();
+    }
+
+    /**
+     * Get all Account Requests for a given {@code email}.
+     */
+    public List<AccountRequest> getApprovedAccountRequestsForEmail(String email) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root).where(cb.and(cb.equal(root.get("email"), email),
+                cb.equal(root.get("status"), AccountRequestStatus.APPROVED)));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultList();
     }
 
     /**
@@ -116,7 +143,7 @@ public final class AccountRequestsDb extends EntitiesDb {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
 
-        if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) == null) {
+        if (getAccountRequest(accountRequest.getId()) == null) {
             throw new EntityDoesNotExistException(
                 String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
         }
@@ -140,10 +167,8 @@ public final class AccountRequestsDb extends EntitiesDb {
      */
     public void deleteDocumentByAccountRequestId(UUID accountRequestId) {
         if (getSearchManager() != null) {
-            // Solr saves the id with the prefix "java.util.UUID:", so we need to add it here to
-            // identify and delete the document from the index
             getSearchManager().deleteDocuments(
-                    Collections.singletonList("java.util.UUID:" + accountRequestId.toString()));
+                    Collections.singletonList(accountRequestId.toString()));
         }
     }
 

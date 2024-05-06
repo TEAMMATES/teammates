@@ -23,6 +23,7 @@ import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
+    @SuppressWarnings("PMD.FinalFieldCouldBeStatic")
     private final Map<String, NotificationAttributes> typicalNotifications = getTypicalDataBundle().notifications;
 
     @BeforeMethod

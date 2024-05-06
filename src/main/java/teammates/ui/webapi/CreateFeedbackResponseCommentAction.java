@@ -87,7 +87,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             session = session.getCopyForUser(student.getEmail());
 
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            verifySessionOpenExceptForModeration(session);
+            verifySessionOpenExceptForModeration(session, student);
             verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
             verifyNotPreview();
 
@@ -103,7 +103,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             session = session.getCopyForUser(instructorAsFeedbackParticipant.getEmail());
 
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            verifySessionOpenExceptForModeration(session);
+            verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
             verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
             verifyNotPreview();
 

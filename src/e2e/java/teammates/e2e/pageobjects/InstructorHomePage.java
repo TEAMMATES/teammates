@@ -1,6 +1,6 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
 import java.util.List;
@@ -12,6 +12,9 @@ import org.openqa.selenium.WebElement;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Represents the instructor home page.
@@ -38,7 +41,24 @@ public class InstructorHomePage extends AppPage {
         verifyTableBodyValues(getSessionsTable(courseTabIndex), expectedValues);
     }
 
+    public void verifyCourseTabDetails(int courseTabIndex, Course course, FeedbackSession[] sessions) {
+        String expectedDetails = "[" + course.getId() + "]: " + course.getName();
+        assertEquals(getCourseDetails(courseTabIndex), expectedDetails);
+
+        String[][] expectedValues = new String[sessions.length][5];
+        for (int i = 0; i < sessions.length; i++) {
+            expectedValues[i] = getExpectedSessionDetails(sessions[i]);
+        }
+        verifyTableBodyValues(getSessionsTable(courseTabIndex), expectedValues);
+    }
+
     public void verifySessionDetails(int courseTabIndex, int sessionIndex, FeedbackSessionAttributes session) {
+        String[] expectedValues = getExpectedSessionDetails(session);
+        WebElement sessionRow = getSessionsTable(courseTabIndex).findElements(By.cssSelector("tbody tr")).get(sessionIndex);
+        verifyTableRowValues(sessionRow, expectedValues);
+    }
+
+    public void verifySessionDetails(int courseTabIndex, int sessionIndex, FeedbackSession session) {
         String[] expectedValues = getExpectedSessionDetails(session);
         WebElement sessionRow = getSessionsTable(courseTabIndex).findElements(By.cssSelector("tbody tr")).get(sessionIndex);
         verifyTableRowValues(sessionRow, expectedValues);
@@ -53,6 +73,13 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void copySession(int courseTabIndex, int sessionIndex, CourseAttributes copyToCourse, String newSessionName) {
+        WebElement copyFsModal = clickCopyButtonInTable(courseTabIndex, sessionIndex);
+        fillTextBox(copyFsModal.findElement(By.id("copy-session-name")), newSessionName);
+        selectCourseToCopyToInModal(copyFsModal, copyToCourse.getId());
+        click(browser.driver.findElement(By.id("btn-confirm-copy-course")));
+    }
+
+    public void copySession(int courseTabIndex, int sessionIndex, Course copyToCourse, String newSessionName) {
         WebElement copyFsModal = clickCopyButtonInTable(courseTabIndex, sessionIndex);
         fillTextBox(copyFsModal.findElement(By.id("copy-session-name")), newSessionName);
         selectCourseToCopyToInModal(copyFsModal, copyToCourse.getId());
@@ -85,6 +112,18 @@ public class InstructorHomePage extends AppPage {
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
     }
 
+    public void sendReminderEmailToSelectedStudent(int courseTabIndex, int sessionIndex, Student student) {
+        WebElement courseTab = getCourseTab(courseTabIndex);
+        click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
+        List<WebElement> remindSelectedButtons = browser.driver.findElements(
+                By.className("btn-remind-selected-" + sessionIndex)
+            );
+        click(remindSelectedButtons.get(remindSelectedButtons.size() - 1));
+        selectStudentToEmail(student.getEmail());
+        click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
+        click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
+    }
+
     public void sendReminderEmailToNonSubmitters(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
@@ -97,6 +136,14 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void resendResultsLink(int courseTabIndex, int sessionIndex, StudentAttributes student) {
+        WebElement courseTab = getCourseTab(courseTabIndex);
+        click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
+        click(waitForElementPresence(By.className("btn-resend-" + sessionIndex)));
+        selectStudentToEmail(student.getEmail());
+        click(browser.driver.findElement(By.id("btn-confirm-resend-results")));
+    }
+
+    public void resendResultsLink(int courseTabIndex, int sessionIndex, Student student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
         click(waitForElementPresence(By.className("btn-resend-" + sessionIndex)));
@@ -171,6 +218,23 @@ public class InstructorHomePage extends AppPage {
         details[0] = session.getFeedbackSessionName();
         details[1] = getDateString(session.getStartTime(), session.getTimeZone());
         details[2] = getDateString(session.getEndTime(), session.getTimeZone());
+
+        if (session.isClosed()) {
+            details[3] = "Closed";
+        } else if (session.isVisible() && (session.isOpened() || session.isInGracePeriod())) {
+            details[3] = "Open";
+        } else {
+            details[3] = "Awaiting";
+        }
+        details[4] = session.isPublished() ? "Published" : "Not Published";
+        return details;
+    }
+
+    private String[] getExpectedSessionDetails(FeedbackSession session) {
+        String[] details = new String[5];
+        details[0] = session.getName();
+        details[1] = getDateString(session.getStartTime(), session.getCourse().getTimeZone());
+        details[2] = getDateString(session.getEndTime(), session.getCourse().getTimeZone());
 
         if (session.isClosed()) {
             details[3] = "Closed";

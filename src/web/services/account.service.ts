@@ -2,8 +2,20 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, Accounts, JoinLink, MessageOutput } from '../types/api-output';
-import { AccountCreateRequest } from '../types/api-request';
+import {
+  Account,
+  AccountRequest,
+  Accounts,
+  AccountRequests,
+  JoinLink,
+  MessageOutput,
+  AccountRequestStatus,
+} from '../types/api-output';
+import {
+  AccountCreateRequest,
+  AccountRequestUpdateRequest,
+  AccountRequestRejectionRequest,
+} from '../types/api-request';
 
 /**
  * Handles account related logic provision
@@ -29,7 +41,7 @@ export class AccountService {
   /**
    * Creates an account request by calling API.
    */
-  createAccountRequest(request: AccountCreateRequest): Observable<JoinLink> {
+  createAccountRequest(request: AccountCreateRequest): Observable<AccountRequest> {
     return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, {}, request);
   }
 
@@ -46,10 +58,9 @@ export class AccountService {
   /**
    * Deletes an account request by calling API.
    */
-  deleteAccountRequest(email: string, institute: string): Observable<MessageOutput> {
+  deleteAccountRequest(id: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      instructoremail: email,
-      instructorinstitution: institute,
+      id,
     };
     return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   }
@@ -57,10 +68,9 @@ export class AccountService {
   /**
    * Resets an account request by calling API.
    */
-  resetAccountRequest(email: string, institute: string): Observable<JoinLink> {
+  resetAccountRequest(id: string): Observable<JoinLink> {
     const paramMap: Record<string, string> = {
-      instructoremail: email,
-      instructorinstitution: institute,
+      id,
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
   }
@@ -88,6 +98,34 @@ export class AccountService {
   }
 
   /**
+   * Approves account request by calling API
+   */
+  approveAccountRequest(id: string, name: string, email: string, institute: string)
+  : Observable<AccountRequest> {
+    const paramMap: Record<string, string> = {
+      id,
+    };
+    const accountReqUpdateRequest : AccountRequestUpdateRequest = {
+      name,
+      email,
+      institute,
+      status: AccountRequestStatus.APPROVED,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, accountReqUpdateRequest);
+  }
+
+  /**
+   * Edits an account request by calling API.
+   */
+  editAccountRequest(id: string, accountReqUpdateRequest: AccountRequestUpdateRequest): Observable<AccountRequest> {
+    const paramMap: Record<string, string> = {
+      id,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, accountReqUpdateRequest);
+  }
+
+  /**
    * Gets an account by calling API.
    */
   getAccount(googleId: string): Observable<Account> {
@@ -105,6 +143,37 @@ export class AccountService {
       useremail: email,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
+  }
+
+  /**
+   * Gets account requests by calling API.
+   */
+  getPendingAccountRequests(): Observable<AccountRequests> {
+    const paramMap = {
+      status: AccountRequestStatus.PENDING,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
+  }
+
+  /**
+   * Rejects an account request by calling API.
+   */
+  rejectAccountRequest(id: string, title?: string, body?: string): Observable<AccountRequest> {
+    let accountReqRejectRequest: AccountRequestRejectionRequest = {};
+
+    if (title !== undefined && body !== undefined) {
+      accountReqRejectRequest = {
+        reasonTitle: title,
+        reasonBody: body,
+      };
+    }
+
+    const paramMap: Record<string, string> = {
+      id,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, accountReqRejectRequest);
   }
 
 }

@@ -1,0 +1,26 @@
+label.qn {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.form-group.required > label::after {
+    content:"*";
+    color: red;
+}
+
+.help-block {
+    margin-bottom: 0.8rem;
+}
+
+.red-font {
+    color: red;
+}
+
+.error-box {
+    margin: 1rem 0;
+}
