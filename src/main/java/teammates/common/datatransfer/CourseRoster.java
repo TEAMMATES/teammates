@@ -158,7 +158,7 @@ public class CourseRoster {
     /**
      * Simple data transfer object containing the information of a participant.
      */
-    public static class ParticipantInfo {
+    public static final class ParticipantInfo {
 
         private final String name;
         private final String teamName;

@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -24,6 +25,7 @@ import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.FileHelper;
 
 // CHECKSTYLE.ON:ImportOrder
@@ -41,7 +43,7 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
     // cannot set number greater than 300
     // see
     // https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
-    private static final int BATCH_SIZE = 100;
+    private static final int BATCH_SIZE = 500;
 
     // Creates the folder that will contain the stored log.
     static {
@@ -52,10 +54,13 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
     AtomicLong numberOfAffectedEntities;
     AtomicLong numberOfUpdatedEntities;
 
+    private List<AccountRequest> entitiesSavingBuffer;
+
     private PatchCreatedAtAccountRequest() {
         numberOfScannedKey = new AtomicLong();
         numberOfAffectedEntities = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
+        entitiesSavingBuffer = new LinkedList<AccountRequest>();
 
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
         String username = ClientProperties.SCRIPT_API_NAME;
@@ -94,16 +99,11 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
     }
 
     private void doMigration(teammates.storage.entity.AccountRequest entity) {
-        try {
-            if (!isMigrationNeeded(entity)) {
-                return;
-            }
-            if (!isPreview()) {
-                migrateEntity(entity);
-            }
-        } catch (Exception e) {
-            logError("Problem patching account request " + entity);
-            logError(e.getMessage());
+        if (!isMigrationNeeded(entity)) {
+            return;
+        }
+        if (!isPreview()) {
+            migrateEntity(entity);
         }
     }
 
@@ -111,21 +111,19 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
      * Migrates the entity. In this case, add entity to buffer.
      */
     protected void migrateEntity(teammates.storage.entity.AccountRequest oldEntity) {
-        HibernateUtil.beginTransaction();
-
+        
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<teammates.storage.sqlentity.AccountRequest> cr = cb.createQuery(teammates.storage.sqlentity.AccountRequest.class);
         Root<teammates.storage.sqlentity.AccountRequest> root = cr.from(teammates.storage.sqlentity.AccountRequest.class);
-
         cr.select(root).where(cb.equal(root.get("institute"), oldEntity.getInstitute()))
             .where(cb.equal(root.get("email"), oldEntity.getEmail()))
             .where(cb.equal(root.get("name"), oldEntity.getName()))
             .where(cb.equal(root.get("registrationKey"), oldEntity.getRegistrationKey()));
 
         List<teammates.storage.sqlentity.AccountRequest> matchingAccounts = HibernateUtil.createQuery(cr).getResultList();
-        
+
         if (matchingAccounts.size() == 0){
-            throw new Error("No matching account found");
+            throw new Error("No matching account request found");
         }
     
         if (matchingAccounts.size() > 1) {
@@ -135,7 +133,9 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
         // Get first items since there is guaranteed to be one
         teammates.storage.sqlentity.AccountRequest newAccountReq = matchingAccounts.get(0);
         newAccountReq.setCreatedAt(oldEntity.getCreatedAt());
-        HibernateUtil.commitTransaction();
+
+        saveEntityDeferred(newAccountReq);
+        
         numberOfAffectedEntities.incrementAndGet();
         numberOfUpdatedEntities.incrementAndGet();
     }
@@ -154,6 +154,7 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
 
         boolean shouldContinue = true;
         while (shouldContinue) {
+            HibernateUtil.beginTransaction();
             shouldContinue = false;
             Query<teammates.storage.entity.AccountRequest> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
             if (cursor != null) {
@@ -165,14 +166,22 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
 
             while (iterator.hasNext()) {
                 shouldContinue = true;
-
-                doMigration(iterator.next());
+                teammates.storage.entity.AccountRequest accReq = iterator.next();
+                try {
+                    doMigration(accReq);
+                } catch (Exception e) {
+                    logError("Problem patching account request " + accReq.getId());
+                    logError(e.getMessage());
+                    e.getStackTrace();
+                    return;
+                }
 
                 numberOfScannedKey.incrementAndGet();
             }
 
             if (shouldContinue) {
                 cursor = iterator.getCursorAfter();
+                flushEntitiesSavingBuffer();
                 savePositionOfCursorToFile(cursor);
                 log(String.format("Cursor Position: %s", cursor.toUrlSafe()));
                 log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
@@ -244,6 +253,34 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
         System.err.println(logLine);
 
         log("[ERROR]" + logLine);
+    }
+
+    /**
+     * Stores the entity to save in a buffer and saves it later.
+     */
+    protected void saveEntityDeferred(AccountRequest entity) {
+        entitiesSavingBuffer.add(entity);
+    }
+
+    /**
+     * Flushes the saving buffer by issuing Cloud SQL save request.
+     */
+    private void flushEntitiesSavingBuffer() {
+        if (!entitiesSavingBuffer.isEmpty() && !isPreview()) {
+            log("Saving entities in batch..." + entitiesSavingBuffer.size());
+
+            long startTime = System.currentTimeMillis();
+            for (AccountRequest entity : entitiesSavingBuffer) {
+                HibernateUtil.persist(entity);
+            }
+
+            HibernateUtil.flushSession();
+            HibernateUtil.clearSession();
+            HibernateUtil.commitTransaction();
+            long endTime = System.currentTimeMillis();
+            log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");
+        }
+        entitiesSavingBuffer.clear();
     }
 
 }

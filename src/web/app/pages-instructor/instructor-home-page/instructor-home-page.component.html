@@ -91,6 +91,11 @@
                     tmRouterLink="./"> Copy
                   </a>
                 </ng-container>
+                <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyInstructor && courseTabModel.course.isMigrated">
+                  <a class="btn-course-logs btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/student-activity-logs"
+                  [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs
+                  </a>
+                </ng-container>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
                   <a class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     ngbTooltip="Delete the course and its corresponding students and sessions"

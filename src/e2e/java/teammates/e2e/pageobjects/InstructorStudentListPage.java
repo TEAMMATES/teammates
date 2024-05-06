@@ -1,7 +1,7 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -67,6 +67,7 @@ public class InstructorStudentListPage extends AppPage {
         WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
+            return;
         }
 
         if (students.length == 0) {
@@ -86,6 +87,7 @@ public class InstructorStudentListPage extends AppPage {
         WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
+            return;
         }
         String noViewStudentsPermissionText = targetCourse.findElement(By.className("card-body")).getText();
         String expectedText = "You do not have permission to view the details of the students in this course.";
@@ -149,6 +151,7 @@ public class InstructorStudentListPage extends AppPage {
         WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
+            return null;
         }
 
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));

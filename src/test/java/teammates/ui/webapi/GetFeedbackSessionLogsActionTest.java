@@ -48,15 +48,15 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
         long invalidStartTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() + 1) * 24 * 60 * 60 * 1000;
 
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa1Name,
+        mockLogsProcessor.insertFeedbackSessionLog(courseId, student1Email, fsa1Name,
                 FeedbackSessionLogType.ACCESS.getLabel(), startTime);
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
+        mockLogsProcessor.insertFeedbackSessionLog(courseId, student1Email, fsa2Name,
                 FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000);
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
+        mockLogsProcessor.insertFeedbackSessionLog(courseId, student1Email, fsa2Name,
                 FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
+        mockLogsProcessor.insertFeedbackSessionLog(courseId, student2Email, fsa1Name,
                 FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
+        mockLogsProcessor.insertFeedbackSessionLog(courseId, student2Email, fsa1Name,
                 FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000);
 
         ______TS("Failure case: not enough parameters");

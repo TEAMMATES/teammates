@@ -35,6 +35,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 /**
  * Represents a feedback question.
  */

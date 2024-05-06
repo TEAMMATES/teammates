@@ -30,6 +30,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
+
 /**
  * Represents a Feedback Response.
  */
@@ -150,7 +153,7 @@ public abstract class FeedbackResponse extends BaseEntity {
             Section giverSection, String receiver, Section receiverSection,
             FeedbackResponseDetails responseDetails
     ) {
-        FeedbackResponse updatedFeedbackResponse = FeedbackResponse.makeResponse(
+        FeedbackResponse updatedFeedbackResponse = makeResponse(
                 feedbackQuestion,
                 giver,
                 giverSection,
