@@ -167,9 +167,9 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
 
-        if (!TestProperties.isSearchServiceActive()) { 
-            return; 
-        } 
+        // if (!TestProperties.isSearchServiceActive()) { 
+        //     return; 
+        // } 
 
         ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
 
