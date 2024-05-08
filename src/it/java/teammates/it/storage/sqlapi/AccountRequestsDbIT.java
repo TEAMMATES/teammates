@@ -10,7 +10,6 @@ import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 
-
 /**
  * SUT: {@link AccountRequestsDb}.
  */
@@ -193,5 +192,4 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         assertEquals(accountRequest, actual);
     }
-
 }

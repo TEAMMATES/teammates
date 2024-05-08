@@ -15,7 +15,6 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.AssertHelper;
 import teammates.test.TestProperties;
 
-
 /**
  * SUT: {@link AccountRequestsDb},
  *      {@link teammates.storage.search.AccountRequestSearchDocument}.
@@ -167,24 +166,21 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
-        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
 
         if (!TestProperties.isSearchServiceActive()) { 
             return; 
         } 
+
+        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
 
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         accountRequestsDb.createAccountRequest(accountRequest);
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";
         List<AccountRequest> actualInjection = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(typicalBundle.accountRequests.size(), actualInjection.size());
+        assertEquals(0, actualInjection.size());
 
         AccountRequest actual = accountRequestsDb.getAccountRequest("test@gmail.com", "institute");
         assertEquals(accountRequest, actual);
     }
 }
-
-
-
-

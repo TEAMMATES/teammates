@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
 import teammates.common.exception.SearchServiceException;
@@ -50,7 +51,10 @@ public class AccountRequestSearchManager extends SearchManager<AccountRequest> {
      * Searches for account requests.
      */
     public List<AccountRequest> searchAccountRequests(String queryString) throws SearchServiceException {
-        SolrQuery query = getBasicQuery(queryString);
+        // Escape special characters in the query string
+        String escapedQueryString = ClientUtils.escapeQueryChars(queryString);
+        
+        SolrQuery query = getBasicQuery(escapedQueryString);
 
         QueryResponse response = performQuery(query);
         return convertDocumentToEntities(response.getResults());
