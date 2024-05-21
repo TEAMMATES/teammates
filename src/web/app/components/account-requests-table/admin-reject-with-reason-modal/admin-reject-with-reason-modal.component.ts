@@ -54,6 +54,8 @@ export class RejectWithReasonModalComponent implements OnInit {
   + 'please send your justification to {supportEmail}</p>\n\n'
   + '<p><strong>Reason:</strong> You already have an account for this email address and this institution.<br />'
   + '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account: {googleId} </p>\n\n'
+  + '<p>If you are logged into multiple Google accounts, remember to logout from other Google accounts first, '
+  + 'or use an incognito Browser window. Let us know (with a screenshot) if that doesn\'t work.</p>'
   + '<p>If you need further clarification or would like to appeal this decision, please '
   + 'feel free to contact us at {supportEmail}</p>'
   + '<p>Regards,<br />TEAMMATES Team.</p>';
