@@ -119,12 +119,11 @@ export class InstructorRequestFormComponent {
     // Country Mapping
     const countryMapping: { [key: string]: string } = {
       'United States': 'USA',
-      'US': 'USA',
-      'America': 'USA',
-      'UK': 'United Kingdom',
-      'Deutschland': 'Germany',
+      US: 'USA',
+      America: 'USA',
+      UK: 'United Kingdom',
+      Deutschland: 'Germany',
     };
-
 
     // Combine country and institution
     const country = this.country.value!.trim();

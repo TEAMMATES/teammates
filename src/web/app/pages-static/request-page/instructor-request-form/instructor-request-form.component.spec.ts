@@ -127,11 +127,11 @@ describe('InstructorRequestFormComponent', () => {
       instructorInstitution: `${unitedStatesModel.institution}, USA`,
     };
     fillFormWith(unitedStatesModel);
-    component.onSubmit()
+    component.onSubmit();
 
     expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
-    expect(accountService.createAccountRequest).toHaveBeenCalledWith(expect.objectContaining(unitedStatesCreateRequest));
-
+    expect(accountService.createAccountRequest).toHaveBeenCalledWith(
+        expect.objectContaining(unitedStatesCreateRequest));
   });
 
 });
