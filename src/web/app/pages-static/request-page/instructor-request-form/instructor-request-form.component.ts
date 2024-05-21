@@ -116,10 +116,21 @@ export class InstructorRequestFormComponent {
     const email = this.email.value!.trim();
     const comments = this.comments.value!.trim();
 
+    // Country Mapping
+    const countryMapping: { [key: string]: string } = {
+      'United States': 'USA',
+      'US': 'USA',
+      'America': 'USA',
+      'UK': 'United Kingdom',
+      'Deutschland': 'Germany',
+    };
+
+
     // Combine country and institution
     const country = this.country.value!.trim();
+    const mappedCountry = countryMapping[country] || country;
     const institution = this.institution.value!.trim();
-    const combinedInstitution = `${institution}, ${country}`;
+    const combinedInstitution = `${institution}, ${mappedCountry}`;
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
