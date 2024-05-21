@@ -81,7 +81,12 @@ export class RejectWithReasonModalComponent implements OnInit {
           return;
         }
 
-        this.existingAccount = resp.instructors[0];
+        for (const instructor of resp.instructors) {
+          if (instructor.googleId !== '') {
+            this.existingAccount = instructor;
+          }
+        }
+
         this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', this.existingAccount.googleId);
       },
       error: (resp: ErrorMessageOutput) => {
