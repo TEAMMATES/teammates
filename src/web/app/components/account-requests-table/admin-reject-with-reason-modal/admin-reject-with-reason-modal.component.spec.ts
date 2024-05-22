@@ -36,7 +36,7 @@ describe('RejectWithReasonModal', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show error message when title is empty upon submitting', () => {
+  it('reject: should show error message when title is empty upon submitting', () => {
     component.rejectionReasonTitle = '';
     fixture.detectChanges();
 
@@ -51,7 +51,7 @@ describe('RejectWithReasonModal', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
-  it('should show error message when body is empty upon submitting', () => {
+  it('reject: should show error message when body is empty upon submitting', () => {
     component.rejectionReasonBody = '';
     fixture.detectChanges();
 
@@ -65,7 +65,7 @@ describe('RejectWithReasonModal', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
-  it('should close modal with data', () => {
+  it('reject: should close modal with data', () => {
     const spyActiveModal = jest.spyOn(component.activeModal, 'close');
     component.rejectionReasonTitle = 'Rejection Title';
     component.rejectionReasonBody = 'Rejection Body';
