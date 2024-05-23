@@ -96,7 +96,12 @@ export class RejectWithReasonModalComponent implements OnInit {
           }
         }
 
-        this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', this.existingAccount.googleId);
+        if (this.existingAccount.googleId === '') {
+          // When an instructor account exists, but for some reason does not have a googleId
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');
+        } else {
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', this.existingAccount.googleId);
+        }
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
