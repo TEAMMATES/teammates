@@ -86,7 +86,7 @@ export class RejectWithReasonModalComponent implements OnInit {
         const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
 
         if (!hasInstructors) {
-          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'GOOGLEID NOT FOUND');
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');
           return;
         }
 
