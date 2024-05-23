@@ -84,8 +84,8 @@ public class LogsProcessor {
             QueryLogsResults logFetchResults = queryLogs(logsParams);
             List<GeneralLogEntry> logs = logFetchResults.getLogEntries();
             total += logs.size();
-            if (logFetchResults.getHasNextPage()) {
-                logStartTime = logs.get(logs.size() - 1).getTimestamp();
+            if (logFetchResults.getHasNextPage() && !logs.isEmpty()) {
+                logStartTime = logs.getLast().getTimestamp();
             } else {
                 break;
             }
