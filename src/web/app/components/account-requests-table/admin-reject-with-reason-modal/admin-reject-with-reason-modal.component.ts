@@ -70,7 +70,16 @@ export class RejectWithReasonModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountRequestName}', this.accountRequestName);
+    this.rejectionReasonBody = this.rejectionReasonBody.replaceAll('{supportEmail}', environment.supportEmail);
 
+    this.replaceGoogleId();
+  }
+
+  onRejectionReasonBodyChange(updatedText: string): void {
+    this.rejectionReasonBody = updatedText;
+  }
+
+  replaceGoogleId(): void {
     this.searchService.searchAdmin(this.accountRequestEmail)
     .subscribe({
       next: (resp: AdminSearchResult) => {
@@ -93,12 +102,6 @@ export class RejectWithReasonModalComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
-
-    this.rejectionReasonBody = this.rejectionReasonBody.replaceAll('{supportEmail}', environment.supportEmail);
-  }
-
-  onRejectionReasonBodyChange(updatedText: string): void {
-    this.rejectionReasonBody = updatedText;
   }
 
   /**
