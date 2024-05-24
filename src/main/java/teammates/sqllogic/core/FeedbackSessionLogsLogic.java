@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.hibernate.ObjectNotFoundException;
 
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 
@@ -18,7 +19,7 @@ import teammates.storage.sqlentity.FeedbackSessionLog;
  */
 public final class FeedbackSessionLogsLogic {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final FeedbackSessionLogsLogic instance = new FeedbackSessionLogsLogic();
 

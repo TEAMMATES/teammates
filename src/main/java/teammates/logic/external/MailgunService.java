@@ -16,6 +16,7 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Email sender service provided by Mailgun.
@@ -25,7 +26,7 @@ import teammates.common.util.Logger;
  */
 public class MailgunService implements EmailSenderService {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     /**
      * {@inheritDoc}

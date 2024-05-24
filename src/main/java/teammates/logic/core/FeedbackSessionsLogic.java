@@ -19,6 +19,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
+import teammates.main.Application;
 import teammates.storage.api.FeedbackSessionsDb;
 
 /**
@@ -29,7 +30,7 @@ import teammates.storage.api.FeedbackSessionsDb;
  */
 public final class FeedbackSessionsLogic {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");

@@ -20,13 +20,14 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
+import teammates.main.Application;
 
 /**
  * Holds functions for operations related to task queue in local dev environment.
  */
 public class LocalTaskQueueService implements TaskQueueService {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public void addDeferredTask(TaskWrapper task, long countdownTime) {

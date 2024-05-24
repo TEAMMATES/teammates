@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import teammates.common.exception.AuthException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Provides Firebase Admin Auth authentication services.
@@ -21,7 +22,7 @@ import teammates.common.util.Logger;
  */
 public class FirebaseAuthService implements AuthService {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     public FirebaseAuthService() throws AuthException {
         try {

@@ -3,6 +3,7 @@ package teammates.storage.sqlapi;
 
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.BaseEntity;
 
 /**
@@ -10,7 +11,7 @@ import teammates.storage.sqlentity.BaseEntity;
  */
 class EntitiesDb {
 
-    static final Logger log = Logger.getLogger();
+    static final Logger log = Logger.getLogger(Application.class);
 
     /**
      * Copy the state of the given object onto the persistent object with the same identifier.

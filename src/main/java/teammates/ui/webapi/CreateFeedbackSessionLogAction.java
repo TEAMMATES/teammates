@@ -6,13 +6,14 @@ import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.
  */
 public class CreateFeedbackSessionLogAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     AuthType getMinAuthLevel() {

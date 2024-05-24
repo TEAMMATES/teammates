@@ -17,6 +17,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.main.Application;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -24,7 +25,7 @@ import teammates.ui.webapi.JsonResult;
  */
 public class RequestTraceFilter implements Filter {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {

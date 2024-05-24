@@ -9,13 +9,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Servlet that handles logout.
  */
 public class LogoutServlet extends AuthServlet {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.ui.request.ErrorReportRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -8,7 +9,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Actions: sends an error report to the system admin.
  */
 class SendErrorReportAction extends Action {
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     AuthType getMinAuthLevel() {

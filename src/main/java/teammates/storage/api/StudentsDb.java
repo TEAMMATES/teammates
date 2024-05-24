@@ -22,6 +22,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
@@ -34,7 +35,7 @@ import teammates.storage.search.StudentSearchManager;
  */
 public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final int MAX_KEY_REGENERATION_TRIES = 10;
 

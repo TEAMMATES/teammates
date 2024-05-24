@@ -4,6 +4,7 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlapi.CoursesDb;
@@ -22,7 +23,7 @@ import teammates.storage.sqlapi.UsersDb;
  */
 public class LogicStarter implements ServletContextListener {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     /**
      * Registers dependencies between different logic classes.

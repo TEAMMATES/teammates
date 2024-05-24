@@ -27,13 +27,14 @@ import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.main.Application;
 
 /**
  * Servlet that handles the OAuth2 callback.
  */
 public class OAuth2CallbackServlet extends AuthServlet {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

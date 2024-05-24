@@ -24,6 +24,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.main.Application;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -31,7 +32,7 @@ import teammates.ui.webapi.JsonResult;
  */
 public class OriginCheckFilter implements Filter {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final String ALLOWED_HTTP_METHODS = String.join(", ", Arrays.asList(
             HttpGet.METHOD_NAME,

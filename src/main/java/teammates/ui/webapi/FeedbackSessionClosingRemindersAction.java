@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.main.Application;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -21,7 +22,7 @@ import teammates.storage.sqlentity.FeedbackSession;
  */
 public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public JsonResult execute() {

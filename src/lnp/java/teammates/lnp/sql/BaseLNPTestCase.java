@@ -39,6 +39,7 @@ import teammates.lnp.util.LNPResultsStatistics;
 import teammates.lnp.util.LNPSpecification;
 import teammates.lnp.util.LNPSqlTestData;
 import teammates.lnp.util.TestProperties;
+import teammates.main.Application;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
 
@@ -52,7 +53,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     static final String PUT = HttpPut.METHOD_NAME;
     static final String DELETE = HttpDelete.METHOD_NAME;
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final int RESULT_COUNT = 3;
 

@@ -24,6 +24,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -43,7 +44,7 @@ public final class FeedbackQuestionsLogic {
 
     static final String USER_NAME_FOR_SELF = "Myself";
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
     private FeedbackQuestionsDb fqDb;

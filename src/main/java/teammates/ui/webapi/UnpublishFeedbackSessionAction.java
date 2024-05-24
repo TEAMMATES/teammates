@@ -8,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
@@ -17,7 +18,7 @@ import teammates.ui.output.FeedbackSessionData;
  */
 public class UnpublishFeedbackSessionAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     AuthType getMinAuthLevel() {

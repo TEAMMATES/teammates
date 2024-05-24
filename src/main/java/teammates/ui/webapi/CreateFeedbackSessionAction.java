@@ -14,6 +14,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
+import teammates.main.Application;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -27,7 +28,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class CreateFeedbackSessionAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     AuthType getMinAuthLevel() {

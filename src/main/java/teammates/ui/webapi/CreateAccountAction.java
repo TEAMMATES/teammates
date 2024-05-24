@@ -23,6 +23,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
+import teammates.main.Application;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -31,7 +32,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class CreateAccountAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     AuthType getMinAuthLevel() {

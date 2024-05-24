@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -16,7 +17,7 @@ import teammates.ui.request.NotificationCreateRequest;
  * Action: Creates a new notification banner.
  */
 public class CreateNotificationAction extends AdminOnlyAction {
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {

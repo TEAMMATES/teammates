@@ -5,6 +5,7 @@ import java.util.Arrays;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.main.Application;
 
 /**
  * This class represents an feedback contribution question result for a given team.
@@ -18,7 +19,7 @@ public class TeamEvalResult {
     public static final int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit. */
     public static final int NSB = Const.POINTS_NOT_SUBMITTED;
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     /** submission values originally from students of the team. */
     public int[][] claimed;

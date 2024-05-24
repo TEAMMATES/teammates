@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.FeedbackSession;
 
 /**
@@ -13,7 +14,7 @@ import teammates.storage.sqlentity.FeedbackSession;
  */
 public class FeedbackSessionUnpublishedEmailWorkerAction extends AdminOnlyAction {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public JsonResult execute() {

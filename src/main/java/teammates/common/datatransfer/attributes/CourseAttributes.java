@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.main.Application;
 import teammates.storage.entity.Course;
 
 /**
@@ -19,7 +20,7 @@ import teammates.storage.entity.Course;
  */
 public final class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private Instant createdAt;
     private Instant deletedAt;

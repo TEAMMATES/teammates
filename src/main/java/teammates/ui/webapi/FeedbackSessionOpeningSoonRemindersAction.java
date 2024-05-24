@@ -6,13 +6,14 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.main.Application;
 import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session opening soon emails to be sent.
  */
 public class FeedbackSessionOpeningSoonRemindersAction extends AdminOnlyAction {
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public JsonResult execute() {

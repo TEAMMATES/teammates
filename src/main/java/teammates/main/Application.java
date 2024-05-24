@@ -1,13 +1,18 @@
 package teammates.main;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.time.zone.ZoneRulesProvider;
+import java.util.logging.Level;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import org.jetbrains.annotations.NotNull;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
 import teammates.ui.servlets.DevServerLoginServlet;
@@ -20,37 +25,63 @@ import teammates.ui.servlets.DevServerLoginServlet;
 // CHECKSTYLE.OFF:UncommentedMain this is the entrypoint class
 public final class Application {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
+    private static final String JETTY_LOG_LEVEL_PROPERTY = "org.eclipse.jetty.LEVEL";
+    private static final String INFO = "INFO";
 
     private Application() {
         // prevent initialization
     }
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException") // ok to ignore as this is a startup method
-    public static void main(String[] args) throws Exception {
-        System.setProperty("org.eclipse.jetty.LEVEL", "INFO");
+    public static void main(String[] args) {
+        try {
+            System.setProperty(JETTY_LOG_LEVEL_PROPERTY, INFO);
 
-        Server server = new Server(Config.getPort());
+            final int port = Config.getPort();
+            Server server = new Server(port);
 
-        WebAppContext webapp = new WebAppContext();
+            final WebAppContext webapp = getWebAppContext();
+
+            server.setHandler(webapp);
+            server.setStopAtShutdown(true);
+            server.addEventListener(createLifeCycleListener());
+
+            server.start();
+            server.join();
+        } catch (URISyntaxException | IOException e) {
+            log.log(Level.SEVERE, "Failed to determine WAR path", e);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed to start the server", e);
+        }
+    }
+
+    private static WebAppContext getWebAppContext() throws URISyntaxException, IOException {
+        final WebAppContext webapp = new WebAppContext();
         webapp.setContextPath("/");
-        String classPath = Application.class.getProtectionDomain().getCodeSource().getLocation().getFile();
-        String warPath = new File(classPath).getParentFile().getParentFile().getAbsolutePath();
+
+        final String warPath = Application.getWarPath();
         webapp.setWar(warPath);
 
         if (Config.isDevServerLoginEnabled()) {
             // For dev server, we dynamically add servlet to serve the dev server login page.
-
-            ServletHolder devServerLoginServlet =
-                    new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
+            ServletHolder devServerLoginServlet = new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
             webapp.addServlet(devServerLoginServlet, "/devServerLogin");
         }
+        return webapp;
+    }
+    private static String getWarPath() throws URISyntaxException, IOException {
+        return Paths.get(Application.class.getProtectionDomain().getCodeSource().getLocation().toURI())
+                .getParent().getParent().toString();
+    }
 
-        LifeCycle.Listener customLifeCycleListener = new LifeCycle.Listener() {
+    private static LifeCycle.Listener createLifeCycleListener() {
+        return new LifeCycle.Listener() {
             @Override
             public void lifeCycleStarting(LifeCycle event) {
                 log.startup();
             }
+
 
             @Override
             public void lifeCycleStarted(LifeCycle event) {
@@ -59,7 +90,7 @@ public final class Application {
 
             @Override
             public void lifeCycleFailure(LifeCycle event, Throwable cause) {
-                log.severe("Instance failed to start/stop: " + Config.getInstanceId());
+                log.log(Level.SEVERE, "Instance failed to start/stop: " + Config.getInstanceId(), new Exception(cause));
             }
 
             @Override
@@ -72,16 +103,6 @@ public final class Application {
                 // do nothing
             }
         };
-
-        server.setHandler(webapp);
-        server.setStopAtShutdown(true);
-        server.addEventListener(customLifeCycleListener);
-
-        server.start();
-
-        // By using the server.join() the server thread will join with the current thread.
-        // See https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#join-- for more details.
-        server.join();
     }
-
 }
+

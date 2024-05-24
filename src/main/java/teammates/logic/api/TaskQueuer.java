@@ -13,6 +13,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.external.GoogleCloudTasksService;
 import teammates.logic.external.LocalTaskQueueService;
 import teammates.logic.external.TaskQueueService;
+import teammates.main.Application;
 import teammates.ui.request.FeedbackSessionRemindRequest;
 import teammates.ui.request.SendEmailRequest;
 
@@ -21,7 +22,7 @@ import teammates.ui.request.SendEmailRequest;
  */
 public class TaskQueuer {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final TaskQueuer instance = new TaskQueuer();
     private final TaskQueueService service;

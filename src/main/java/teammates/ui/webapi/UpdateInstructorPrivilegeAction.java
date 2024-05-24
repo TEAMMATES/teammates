@@ -9,6 +9,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
@@ -20,7 +21,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class UpdateInstructorPrivilegeAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     AuthType getMinAuthLevel() {

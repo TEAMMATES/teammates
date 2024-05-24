@@ -18,6 +18,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.api.InstructorsDb;
 
 /**
@@ -28,7 +29,7 @@ import teammates.storage.api.InstructorsDb;
  */
 public final class InstructorsLogic {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final InstructorsLogic instance = new InstructorsLogic();
 

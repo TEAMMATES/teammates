@@ -16,13 +16,14 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.main.Application;
 
 /**
  * Servlet that handles login.
  */
 public class LoginServlet extends AuthServlet {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

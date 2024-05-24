@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.JoinLinkData;
 
@@ -17,7 +18,7 @@ import teammates.ui.output.JoinLinkData;
  */
 class ResetAccountRequestAction extends AdminOnlyAction {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public JsonResult execute() throws InvalidOperationException {

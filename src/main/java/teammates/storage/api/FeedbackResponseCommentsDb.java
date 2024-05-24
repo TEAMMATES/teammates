@@ -18,6 +18,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
@@ -29,7 +30,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 public final class FeedbackResponseCommentsDb
         extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final FeedbackResponseCommentsDb instance = new FeedbackResponseCommentsDb();
 

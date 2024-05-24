@@ -14,13 +14,14 @@ import teammates.logic.external.EmptyEmailService;
 import teammates.logic.external.MailgunService;
 import teammates.logic.external.MailjetService;
 import teammates.logic.external.SendgridService;
+import teammates.main.Application;
 
 /**
  * Handles operations related to sending emails.
  */
 public class EmailSender {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final EmailSender instance = new EmailSender();
     private final EmailSenderService service;

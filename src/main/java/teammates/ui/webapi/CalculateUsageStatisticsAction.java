@@ -9,6 +9,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
+import teammates.main.Application;
 import teammates.storage.sqlentity.UsageStatistics;
 
 /**
@@ -17,7 +18,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 public class CalculateUsageStatisticsAction extends AdminOnlyAction {
 
     static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public JsonResult execute() {

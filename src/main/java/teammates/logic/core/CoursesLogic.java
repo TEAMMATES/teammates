@@ -17,6 +17,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.sqlentity.Account;
 
@@ -28,7 +29,7 @@ import teammates.storage.sqlentity.Account;
  */
 public final class CoursesLogic {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final CoursesLogic instance = new CoursesLogic();
 

@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -19,7 +20,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAction {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {

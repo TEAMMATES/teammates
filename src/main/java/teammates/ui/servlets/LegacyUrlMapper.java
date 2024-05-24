@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Maps some selected legacy URLs to new one. This is primarily for URLs send via email.
@@ -20,7 +21,7 @@ import teammates.common.util.Logger;
 @Deprecated
 public class LegacyUrlMapper extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

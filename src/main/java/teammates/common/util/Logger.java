@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,7 @@ import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
+import teammates.main.Application;
 
 /**
  * Allows any component of the application to log messages at appropriate levels.
@@ -39,8 +41,12 @@ public final class Logger {
         this.errorLog = java.util.logging.Logger.getLogger(loggerName + "-err");
     }
 
-    public static Logger getLogger() {
+    public static Logger getLogger(Class<Application> applicationClass) {
         return new Logger();
+    }
+
+    public static Logger getLogger(String name) {
+        return null;
     }
 
     /**
@@ -335,4 +341,6 @@ public final class Logger {
         return null;
     }
 
+    public void log(Level severe, String failedToStartTheServer, Exception e) {
+    }
 }

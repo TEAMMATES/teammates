@@ -10,13 +10,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Servlet that handles the single web page.
  */
 public class WebPageServlet extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,11 +1,15 @@
 package teammates.common.util;
 
+import teammates.main.Application;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 
 /**
  * Represents the deployment-specific configuration values of the system.
@@ -126,14 +130,20 @@ public final class Config {
     /** Indicates whether the current server is dev server. */
     public static final boolean IS_DEV_SERVER;
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Config.class.getName());
+
+    private static final String PROPERTIES_FILE_NAME = "build.template.properties";
 
     static {
         Properties properties = new Properties();
-        try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
-            properties.load(buildPropStream);
+        try (InputStream buildPropStream = FileHelper.getResourceAsStream(PROPERTIES_FILE_NAME)) {
+            if (buildPropStream != null) {
+                properties.load(buildPropStream);
+            } else {
+                throw new RuntimeException(PROPERTIES_FILE_NAME + " file not found");
+            }
         } catch (IOException e) {
-            assert false;
+            throw new RuntimeException("Failed to load properties from " + PROPERTIES_FILE_NAME, e);
         }
 
         String appVersion = properties.getProperty("app.version");

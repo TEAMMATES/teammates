@@ -20,6 +20,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
@@ -43,7 +44,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private static final int SUMMARY_INDEX_CLAIMED = 0;
     private static final int SUMMARY_INDEX_PERCEIVED = 1;
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private boolean isZeroSum;
     private boolean isNotSureAllowed;

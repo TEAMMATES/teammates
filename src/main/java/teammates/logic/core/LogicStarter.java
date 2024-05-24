@@ -4,13 +4,14 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Setup in web.xml to register logic classes at application startup.
  */
 public class LogicStarter implements ServletContextListener {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     /**
      * Registers dependencies between different logic classes.

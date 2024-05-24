@@ -17,13 +17,14 @@ import javax.crypto.spec.SecretKeySpec;
 import com.google.common.base.CharMatcher;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.main.Application;
 
 /**
  * Holds String-related helper functions.
  */
 
 public final class StringHelper {
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private StringHelper() {
         // utility class

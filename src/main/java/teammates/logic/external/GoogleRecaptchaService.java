@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 
 /**
  * Google-based reCAPTCHA verifier service.
@@ -22,7 +23,7 @@ public class GoogleRecaptchaService implements RecaptchaService {
     /** The Google reCAPTCHA API URL to verify the response token. */
     private static final String VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private final String secretKey;
 

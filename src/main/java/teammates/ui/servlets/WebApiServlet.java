@@ -15,6 +15,7 @@ import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
@@ -31,7 +32,7 @@ import teammates.ui.webapi.UnauthorizedAccessException;
  */
 public class WebApiServlet extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

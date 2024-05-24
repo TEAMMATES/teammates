@@ -6,6 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.main.Application;
 import teammates.ui.output.CourseArchiveData;
 import teammates.ui.request.CourseArchiveRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -15,7 +16,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 class ArchiveCourseAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     @Override
     AuthType getMinAuthLevel() {

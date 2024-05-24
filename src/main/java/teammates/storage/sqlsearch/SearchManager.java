@@ -21,6 +21,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.main.Application;
 import teammates.storage.sqlentity.BaseEntity;
 
 /**
@@ -30,7 +31,7 @@ import teammates.storage.sqlentity.BaseEntity;
  */
 abstract class SearchManager<T extends BaseEntity> {
 
-    private static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger(Application.class);
 
     private static final String ERROR_DELETE_DOCUMENT = "Failed to delete document(s) %s in Solr. Root cause: %s ";
     private static final String ERROR_SEARCH_DOCUMENT = "Failed to search for document(s) %s from Solr. Root cause: %s ";
