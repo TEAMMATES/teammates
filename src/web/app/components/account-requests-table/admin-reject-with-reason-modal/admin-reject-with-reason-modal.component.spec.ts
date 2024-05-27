@@ -10,6 +10,7 @@ import {
   SearchService,
 } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
+import { createBuilder } from '../../../../test-helpers/generic-builder';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -19,7 +20,7 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   },
 };
 
-const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
+const instructorAccountSearchResultBuilder = createBuilder<InstructorAccountSearchResult>({
   name: 'name',
   email: 'email',
   googleId: 'googleId',
@@ -35,7 +36,7 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
   notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
   publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-};
+});
 
 describe('RejectWithReasonModal', () => {
   let searchService: SearchService;
@@ -84,10 +85,7 @@ describe('RejectWithReasonModal', () => {
   });
 
   it('replaceGoogleId: should set the googleId to the instructor accounts googleId', () => {
-    const testInstructor = {
-      ...DEFAULT_INSTRUCTOR_SEARCH_RESULT,
-      googleId: 'instructorGoogleId',
-    };
+    const testInstructor = instructorAccountSearchResultBuilder.googleId('instructorGoogleId').build();
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
