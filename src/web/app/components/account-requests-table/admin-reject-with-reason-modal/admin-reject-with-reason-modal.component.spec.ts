@@ -84,7 +84,8 @@ describe('RejectWithReasonModal', () => {
     expect(component.existingAccount.googleId).toEqual('');
   });
 
-  it('replaceGoogleId: should set the googleId to the instructor accounts googleId', () => {
+  it('replaceGoogleId: should set the googleId to the instructor accounts googleId '
+  + 'if an instructor account is found', () => {
     const testInstructor = instructorAccountSearchResultBuilder.googleId('instructorGoogleId').build();
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
