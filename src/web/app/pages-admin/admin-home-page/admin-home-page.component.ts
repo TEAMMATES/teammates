@@ -7,6 +7,7 @@ import { LinkService } from '../../../services/link.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { AccountRequest, AccountRequests } from '../../../types/api-output';
+import { AccountCreateRequest } from '../../../types/api-request';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -64,12 +65,18 @@ export class AdminHomePageComponent implements OnInit {
         invalidLines.push(instructorDetail);
         continue;
       }
-      this.instructorsConsolidated.push({
-        name: instructorDetailSplit[0],
-        email: instructorDetailSplit[1],
-        institution: instructorDetailSplit[2],
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
+
+      const requestData: AccountCreateRequest = {
+        instructorEmail: instructorDetailSplit[1],
+        instructorName: instructorDetailSplit[0],
+        instructorInstitution: instructorDetailSplit[2],
+      };
+
+      this.accountService.createAccountRequest(requestData)
+      .subscribe({
+        next: () => {
+          this.fetchAccountRequests();
+        },
       });
     }
     this.instructorDetails = invalidLines.join('\r\n');
@@ -83,16 +90,26 @@ export class AdminHomePageComponent implements OnInit {
       // TODO handle error
       return;
     }
-    this.instructorsConsolidated.push({
-      name: this.instructorName,
-      email: this.instructorEmail,
-      institution: this.instructorInstitution,
-      status: 'PENDING',
-      isCurrentlyBeingEdited: false,
+
+    const requestData: AccountCreateRequest = {
+      instructorEmail: this.instructorEmail,
+      instructorName: this.instructorName,
+      instructorInstitution: this.instructorInstitution,
+    };
+
+    this.accountService.createAccountRequest(requestData)
+    .subscribe({
+      next: () => {
+        this.instructorName = '';
+        this.instructorEmail = '';
+        this.instructorInstitution = '';
+
+        this.fetchAccountRequests();
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
-    this.instructorName = '';
-    this.instructorEmail = '';
-    this.instructorInstitution = '';
   }
 
   /**
