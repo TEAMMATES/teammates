@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { InstructorData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -25,14 +24,11 @@ export class AdminHomePageComponent implements OnInit {
   instructorEmail: string = '';
   instructorInstitution: string = '';
 
-  instructorsConsolidated: InstructorData[] = [];
   accountReqs: AccountRequestTableRowModel[] = [];
   activeRequests: number = 0;
   currentPage: number = 1;
   pageSize: number = 20;
   items$: Observable<any> = of([]);
-
-  isAddingInstructors: boolean = false;
 
   constructor(
     private accountService: AccountService,
