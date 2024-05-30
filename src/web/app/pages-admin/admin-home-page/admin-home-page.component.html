@@ -47,41 +47,4 @@
   </div>
 </div>
 
-<div class="card bg-light top-padded" *ngIf="instructorsConsolidated.length">
-  <div class="card-header bg-primary text-white">
-    <strong>Result</strong>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Institution</th>
-            <th>Action</th>
-            <th>Status</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr tm-new-instructor-data-row
-              *ngFor="let instructor of instructorsConsolidated; let i = index"
-              [instructor]="instructor"
-              [index]="i"
-              [isAddDisabled]="activeRequests > 0"
-              (addInstructorEvent)="addInstructor(i)"
-              (removeInstructorEvent)="removeInstructor(i)"
-              (toggleEditModeEvent)="setInstructorRowEditModeEnabled(i, $event)"
-          ></tr>
-        </tbody>
-      </table>
-      <button class="btn btn-primary top-padded" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0 || isAddingInstructors">
-        <tm-ajax-loading *ngIf="isAddingInstructors"></tm-ajax-loading>
-        Add All Instructors
-      </button>
-    </div>
-  </div>
-</div>
-
 <tm-account-request-table *ngIf="accountReqs.length" [accountRequests]="accountReqs" [searchString]=""></tm-account-request-table>
