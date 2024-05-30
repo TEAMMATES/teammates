@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { InstructorData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
-import { LinkService } from '../../../services/link.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { AccountRequest, AccountRequests } from '../../../types/api-output';
+import { AccountRequests } from '../../../types/api-output';
 import { AccountCreateRequest } from '../../../types/api-request';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
@@ -40,7 +38,6 @@ export class AdminHomePageComponent implements OnInit {
     private accountService: AccountService,
     private statusMessageService: StatusMessageService,
     private timezoneService: TimezoneService,
-    private linkService: LinkService,
     private formatDateDetailPipe: FormatDateDetailPipe,
   ) {}
 
@@ -110,69 +107,6 @@ export class AdminHomePageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
-  }
-
-  /**
-   * Adds the instructor at the i-th index.
-   */
-  addInstructor(i: number): void {
-    const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (this.instructorsConsolidated[i].isCurrentlyBeingEdited
-      || (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')) {
-      return;
-    }
-    this.activeRequests += 1;
-    instructor.status = 'ADDING';
-
-    this.isAddingInstructors = true;
-    this.accountService.createAccountRequest({
-      instructorEmail: instructor.email,
-      instructorName: instructor.name,
-      instructorInstitution: instructor.institution,
-    })
-        .pipe(finalize(() => {
-          this.isAddingInstructors = false;
-        }))
-        .subscribe({
-          next: (resp: AccountRequest) => {
-            instructor.status = 'SUCCESS';
-            instructor.statusCode = 200;
-            instructor.joinLink = this.linkService.generateAccountRegistrationLink(resp.registrationKey);
-            this.activeRequests -= 1;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            instructor.status = 'FAIL';
-            instructor.statusCode = resp.status;
-            instructor.message = resp.error.message;
-            this.activeRequests -= 1;
-          },
-        });
-  }
-
-  /**
-   * Removes the instructor at the i-th index.
-   */
-  removeInstructor(i: number): void {
-    this.instructorsConsolidated.splice(i, 1);
-  }
-
-  /**
-   * Sets the i-th instructor data row's edit mode status.
-   *
-   * @param i The index.
-   * @param isEnabled Whether the edit mode status is enabled.
-   */
-  setInstructorRowEditModeEnabled(i: number, isEnabled: boolean): void {
-    this.instructorsConsolidated[i].isCurrentlyBeingEdited = isEnabled;
-  }
-
-  /**
-   * Adds all the pending and failed-to-add instructors.
-   */
-  addAllInstructors(): void {
-    for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
-      this.addInstructor(i);
-    }
   }
 
   private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
