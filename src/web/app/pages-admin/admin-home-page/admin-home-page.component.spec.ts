@@ -2,24 +2,48 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { AdminHomePageComponent } from './admin-home-page.component';
-import { InstructorData } from './instructor-data';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 import { AccountService } from '../../../services/account.service';
-import { LinkService } from '../../../services/link.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountRequestStatus } from '../../../types/api-output';
+import { createBuilder } from '../../../test-helpers/generic-builder';
+import { AccountRequest, AccountRequests, AccountRequestStatus } from '../../../types/api-output';
+import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
+const AccountRequestBuilder = createBuilder<AccountRequest>({
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  institute: 'institute',
+  registrationKey: 'registrationKey',
+  status: AccountRequestStatus.PENDING,
+  comments: 'comments',
+  registeredAt: 0,
+  createdAt: 0,
+});
+
+const accountRequestTableRowModelBuilder = createBuilder<AccountRequestTableRowModel>({
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  status: AccountRequestStatus.PENDING,
+  instituteAndCountry: 'instituteAndCountry',
+  createdAtText: 'createdAtText',
+  registeredAtText: 'registeredAtText',
+  comments: 'comments',
+  registrationLink: 'registrationLink',
+  showLinks: false,
+});
+
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
   let fixture: ComponentFixture<AdminHomePageComponent>;
   let accountService: AccountService;
-  let linkService: LinkService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -39,7 +63,6 @@ describe('AdminHomePageComponent', () => {
         AccountService,
         FormatDateDetailPipe,
         StatusMessageService,
-        LinkService,
       ],
     })
     .compileComponents();
@@ -48,7 +71,6 @@ describe('AdminHomePageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminHomePageComponent);
     accountService = TestBed.inject(AccountService);
-    linkService = TestBed.inject(LinkService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -57,64 +79,67 @@ describe('AdminHomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add one instructor to list if all fields are filled', () => {
+  it('validateAndAddInstructorDetail: should add one instructor to list if all fields are filled', () => {
     component.instructorName = 'Instructor Name';
     component.instructorEmail = 'instructor@example.com';
     component.instructorInstitution = 'Instructor Institution';
     fixture.detectChanges();
 
+    const accountRequest: AccountRequest = AccountRequestBuilder
+    .name('Instructor Name')
+    .email('instructor@example.com')
+    .institute('Instructor Institution')
+    .build();
+    const accountRequests: AccountRequests = { accountRequests: [accountRequest] };
+
+    jest.spyOn(accountService, 'createAccountRequest')
+    .mockReturnValue(of(accountRequest));
+    jest.spyOn(accountService, 'getPendingAccountRequests')
+    .mockReturnValue(of(accountRequests));
+
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
     button.click();
 
+    // Clear instructor fields
     expect(component.instructorName).toEqual('');
     expect(component.instructorEmail).toEqual('');
     expect(component.instructorInstitution).toEqual('');
-    expect(component.instructorsConsolidated.length).toEqual(1);
-    expect(component.instructorsConsolidated[0]).toEqual({
-      email: 'instructor@example.com',
-      institution: 'Instructor Institution',
-      name: 'Instructor Name',
-      status: 'PENDING',
-      isCurrentlyBeingEdited: false,
-    });
+
+    expect(component.accountReqs.length).toEqual(1);
+    expect(component.accountReqs[0].name).toEqual('Instructor Name');
+    expect(component.accountReqs[0].email).toEqual('instructor@example.com');
+    expect(component.accountReqs[0].instituteAndCountry).toEqual('Instructor Institution');
   });
 
-  it('should not add one instructor to list if some fields are empty', () => {
+  it('validateAndAddInstructorDetail: should not add one instructor to list if some fields are empty', () => {
+    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest');
+
+    component.instructorName = '';
+    component.instructorEmail = 'instructor@example.com';
+    component.instructorInstitution = 'Instructor Institution';
+    fixture.detectChanges();
+
+    button.click();
+
     component.instructorName = 'Instructor Name';
     component.instructorEmail = '';
     component.instructorInstitution = 'Instructor Institution';
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
     button.click();
-
-    expect(component.instructorName).toEqual('Instructor Name');
-    expect(component.instructorEmail).toEqual('');
-    expect(component.instructorInstitution).toEqual('Instructor Institution');
-    expect(component.instructorsConsolidated.length).toEqual(0);
-
-    component.instructorName = '';
-    component.instructorEmail = 'instructor@example.com';
-
-    button.click();
-
-    expect(component.instructorName).toEqual('');
-    expect(component.instructorEmail).toEqual('instructor@example.com');
-    expect(component.instructorInstitution).toEqual('Instructor Institution');
-    expect(component.instructorsConsolidated.length).toEqual(0);
 
     component.instructorName = 'Instructor Name';
+    component.instructorEmail = 'instructor@example.com';
     component.instructorInstitution = '';
+    fixture.detectChanges();
 
     button.click();
 
-    expect(component.instructorName).toEqual('Instructor Name');
-    expect(component.instructorEmail).toEqual('instructor@example.com');
-    expect(component.instructorInstitution).toEqual('');
-    expect(component.instructorsConsolidated.length).toEqual(0);
+    expect(createAccountRequestSpy).not.toHaveBeenCalled();
   });
 
-  it('should only add valid instructor details in the single line field', () => {
+  it('validateAndAddInstructorDetails: should only add valid instructor details in the single line field', () => {
     component.instructorDetails = [
         'Instructor A | instructora@example.com | Institution A',
         'Instructor B | instructorb@example.com',
@@ -124,6 +149,28 @@ describe('AdminHomePageComponent', () => {
     ].join('\n');
     fixture.detectChanges();
 
+    const accountRequestA: AccountRequest =
+      AccountRequestBuilder
+      .name('Instructor A')
+      .email('instructora@example.com')
+      .institute('Institution A')
+      .build();
+    const accountRequestD: AccountRequest =
+      AccountRequestBuilder
+      .name('Instructor D')
+      .email('instructord@example.com')
+      .institute('Institution D')
+      .build();
+    const accountRequests: AccountRequests = {
+        accountRequests: [accountRequestA, accountRequestD],
+      };
+
+    // We are not testing the value createAccountRequest is being called with so it can be any value
+    jest.spyOn(accountService, 'createAccountRequest')
+    .mockReturnValue(of(accountRequestA));
+    jest.spyOn(accountService, 'getPendingAccountRequests')
+    .mockReturnValue(of(accountRequests));
+
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
@@ -132,21 +179,16 @@ describe('AdminHomePageComponent', () => {
       'Instructor C | | instructorc@example.com',
       '| instructore@example.com | Institution E',
     ].join('\r\n'));
-    expect(component.instructorsConsolidated.length).toEqual(2);
-    expect(component.instructorsConsolidated[0]).toEqual({
-      email: 'instructora@example.com',
-      institution: 'Institution A',
-      name: 'Instructor A',
-      status: 'PENDING',
-      isCurrentlyBeingEdited: false,
-    });
-    expect(component.instructorsConsolidated[1]).toEqual({
-      email: 'instructord@example.com',
-      institution: 'Institution D',
-      name: 'Instructor D',
-      status: 'PENDING',
-      isCurrentlyBeingEdited: false,
-    });
+
+    expect(component.accountReqs.length).toEqual(2);
+
+    expect(component.accountReqs[0].name).toEqual('Instructor A');
+    expect(component.accountReqs[0].email).toEqual('instructora@example.com');
+    expect(component.accountReqs[0].instituteAndCountry).toEqual('Institution A');
+
+    expect(component.accountReqs[1].name).toEqual('Instructor D');
+    expect(component.accountReqs[1].email).toEqual('instructord@example.com');
+    expect(component.accountReqs[1].instituteAndCountry).toEqual('Institution D');
   });
 
   it('should snap with default view', () => {
@@ -154,98 +196,120 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should snap with some instructors details', () => {
-    component.instructorsConsolidated = [
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor B',
-        email: 'instructorb@example.com',
-        institution: 'Sample Institution B',
-        status: 'SUCCESS',
-        statusCode: 200,
-        isCurrentlyBeingEdited: false,
-        joinLink: 'http://localhost:4200/web/join',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor C',
-        email: 'instructorc@example.com',
-        institution: 'Sample Institution C',
-        status: 'FAIL',
-        statusCode: 400,
-        isCurrentlyBeingEdited: false,
-        joinLink: 'This should not be displayed',
-        message: 'The instructor cannot be added for some reason',
-      },
+    component.accountReqs = [
+      accountRequestTableRowModelBuilder
+      .name('Instructor A')
+      .email('instructora@example.com')
+      .status(AccountRequestStatus.PENDING)
+      .instituteAndCountry('Sample Institution and Country A')
+      .createdAtText('Sample Created Time A')
+      .comments('Sample Comment A')
+      .build(),
+
+      accountRequestTableRowModelBuilder
+      .name('Instructor B')
+      .email('instructorb@example.com')
+      .status(AccountRequestStatus.APPROVED)
+      .instituteAndCountry('Sample Institution and Country B')
+      .createdAtText('Sample Created Time B')
+      .comments('Sample Comment B')
+      .build(),
+
+      accountRequestTableRowModelBuilder
+      .name('Instructor C')
+      .email('instructorc@example.com')
+      .status(AccountRequestStatus.REJECTED)
+      .instituteAndCountry('Sample Institution and Country C')
+      .createdAtText('Sample Created Time C')
+      .comments('Sample Comment C')
+      .build(),
     ];
     fixture.detectChanges();
+
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should add multiple instructors split by tabs', () => {
-    component.instructorDetails = `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
-     Instructor B \t instructorb@example.com \t Sample Institution B`;
-
+  it('validateAndAddInstructorDetails: should add multiple instructors split by tabs', () => {
+    component.instructorDetails =
+    `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
+    Instructor B \t instructorb@example.com \t Sample Institution B`;
     fixture.detectChanges();
+
+    const accountRequestA: AccountRequest =
+      AccountRequestBuilder
+      .name('Instructor A')
+      .email('instructora@example.com')
+      .institute('Sample Institution A')
+      .build();
+    const accountRequestB: AccountRequest =
+      AccountRequestBuilder
+      .name('Instructor B')
+      .email('instructorb@example.com')
+      .institute('Sample Institution B')
+      .build();
+    const accountRequests: AccountRequests = {
+        accountRequests: [accountRequestA, accountRequestB],
+      };
+
+    jest.spyOn(accountService, 'createAccountRequest')
+    .mockReturnValue(of(accountRequestA));
+    jest.spyOn(accountService, 'getPendingAccountRequests')
+    .mockReturnValue(of(accountRequests));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
-    expect(component.instructorsConsolidated.length).toEqual(2);
-    expect(component.instructorsConsolidated[0]).toEqual(
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-      },
-    );
-    expect(component.instructorsConsolidated[1]).toEqual(
-      {
-        name: 'Instructor B',
-        email: 'instructorb@example.com',
-        institution: 'Sample Institution B',
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-      },
-    );
+    expect(component.instructorDetails).toEqual('');
+    expect(component.accountReqs.length).toEqual(2);
+
+    expect(component.accountReqs[0].name).toEqual('Instructor A');
+    expect(component.accountReqs[0].email).toEqual('instructora@example.com');
+    expect(component.accountReqs[0].instituteAndCountry).toEqual('Sample Institution A');
+
+    expect(component.accountReqs[1].name).toEqual('Instructor B');
+    expect(component.accountReqs[1].email).toEqual('instructorb@example.com');
+    expect(component.accountReqs[1].instituteAndCountry).toEqual('Sample Institution B');
   });
 
-  it('should add multiple instructors split by vertical bars', () => {
-    component.instructorDetails = `Instructor A | instructora@example.com | Sample Institution A\n
-        Instructor B | instructorb@example.com | Sample Institution B`;
-
+  it('validateAndAddInstructorDetails: should add multiple instructors split by vertical bars', () => {
+    component.instructorDetails =
+    `Instructor A | instructora@example.com | Sample Institution A\n
+    Instructor B | instructorb@example.com | Sample Institution B`;
     fixture.detectChanges();
+
+    const accountRequestA: AccountRequest =
+      AccountRequestBuilder
+      .name('Instructor A')
+      .email('instructora@example.com')
+      .institute('Sample Institution A')
+      .build();
+    const accountRequestB: AccountRequest =
+      AccountRequestBuilder
+      .name('Instructor B')
+      .email('instructorb@example.com')
+      .institute('Sample Institution B')
+      .build();
+    const accountRequests: AccountRequests = {
+        accountRequests: [accountRequestA, accountRequestB],
+      };
+
+    jest.spyOn(accountService, 'createAccountRequest')
+    .mockReturnValueOnce(of(accountRequestA));
+    jest.spyOn(accountService, 'getPendingAccountRequests')
+    .mockReturnValue(of(accountRequests));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
-    expect(component.instructorsConsolidated.length).toEqual(2);
-    expect(component.instructorsConsolidated[0]).toEqual(
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-      },
-    );
-    expect(component.instructorsConsolidated[1]).toEqual(
-      {
-        name: 'Instructor B',
-        email: 'instructorb@example.com',
-        institution: 'Sample Institution B',
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-      },
-    );
+    expect(component.instructorDetails).toEqual('');
+    expect(component.accountReqs.length).toEqual(2);
+
+    expect(component.accountReqs[0].name).toEqual('Instructor A');
+    expect(component.accountReqs[0].email).toEqual('instructora@example.com');
+    expect(component.accountReqs[0].instituteAndCountry).toEqual('Sample Institution A');
+
+    expect(component.accountReqs[1].name).toEqual('Instructor B');
+    expect(component.accountReqs[1].email).toEqual('instructorb@example.com');
+    expect(component.accountReqs[1].instituteAndCountry).toEqual('Sample Institution B');
   });
 });
