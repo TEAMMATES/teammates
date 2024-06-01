@@ -23,6 +23,20 @@ export class InstructorRequestFormComponent {
   readonly COUNTRY_NAME_MAX_LENGTH = FormValidator.COUNTRY_NAME_MAX_LENGTH;
   readonly EMAIL_MAX_LENGTH = FormValidator.EMAIL_MAX_LENGTH;
 
+  // Country Mapping
+  countryMapping: { [key: string]: string } = {
+    'united states': 'USA',
+    us: 'USA',
+    america: 'USA',
+    uk: 'United Kingdom',
+    deutschland: 'Germany',
+    'united arab emirates': 'UAE',
+    españa: 'Spain',
+    méxico: 'Mexico',
+    belgië: 'Belgium',
+    holland: 'Netherlands',
+  };
+
   // Captcha
   captchaSiteKey: string = environment.captchaSiteKey;
   isCaptchaSuccessful: boolean = false;
@@ -116,18 +130,9 @@ export class InstructorRequestFormComponent {
     const email = this.email.value!.trim();
     const comments = this.comments.value!.trim();
 
-    // Country Mapping
-    const countryMapping: { [key: string]: string } = {
-      'United States': 'USA',
-      US: 'USA',
-      America: 'USA',
-      UK: 'United Kingdom',
-      Deutschland: 'Germany',
-    };
-
     // Combine country and institution
     const country = this.country.value!.trim();
-    const mappedCountry = countryMapping[country] || country;
+    const mappedCountry = this.countryMapping[country.toLowerCase()] || country;
     const institution = this.institution.value!.trim();
     const combinedInstitution = `${institution}, ${mappedCountry}`;
 

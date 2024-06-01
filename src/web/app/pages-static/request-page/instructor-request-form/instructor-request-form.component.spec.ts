@@ -120,11 +120,11 @@ describe('InstructorRequestFormComponent', () => {
         new Observable((subscriber) => { subscriber.next(); }));
     const unitedStatesModel: InstructorRequestFormModel = {
       ...typicalModel,
-      country: 'US',
+      country: 'españa',
     };
     const unitedStatesCreateRequest: AccountCreateRequest = {
       ...typicalCreateRequest,
-      instructorInstitution: `${unitedStatesModel.institution}, USA`,
+      instructorInstitution: `${unitedStatesModel.institution}, Spain`,
     };
     fillFormWith(unitedStatesModel);
     component.onSubmit();
