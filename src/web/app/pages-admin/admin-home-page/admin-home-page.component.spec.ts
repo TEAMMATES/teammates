@@ -15,28 +15,26 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
-const AccountRequestBuilder = createBuilder<AccountRequest>({
-  id: 'id',
-  email: 'email',
-  name: 'name',
-  institute: 'institute',
-  registrationKey: 'registrationKey',
+const accountRequestBuilder = createBuilder<AccountRequest>({
+  id: '',
+  email: '',
+  name: '',
+  institute: '',
+  registrationKey: '',
   status: AccountRequestStatus.PENDING,
-  comments: 'comments',
-  registeredAt: 0,
   createdAt: 0,
 });
 
 const accountRequestTableRowModelBuilder = createBuilder<AccountRequestTableRowModel>({
-  id: 'id',
-  name: 'name',
-  email: 'email',
+  id: '',
+  name: '',
+  email: '',
   status: AccountRequestStatus.PENDING,
-  instituteAndCountry: 'instituteAndCountry',
-  createdAtText: 'createdAtText',
-  registeredAtText: 'registeredAtText',
-  comments: 'comments',
-  registrationLink: 'registrationLink',
+  instituteAndCountry: '',
+  createdAtText: '',
+  registeredAtText: '',
+  comments: '',
+  registrationLink: '',
   showLinks: false,
 });
 
@@ -85,17 +83,21 @@ describe('AdminHomePageComponent', () => {
     component.instructorInstitution = 'Instructor Institution';
     fixture.detectChanges();
 
-    const accountRequest: AccountRequest = AccountRequestBuilder
-    .name('Instructor Name')
-    .email('instructor@example.com')
-    .institute('Instructor Institution')
-    .build();
-    const accountRequests: AccountRequests = { accountRequests: [accountRequest] };
+    const accountRequest = accountRequestBuilder
+      .name('Instructor Name')
+      .email('instructor@example.com')
+      .institute('Instructor Institution')
+      .build();
+    const accountRequests: AccountRequests = {
+      accountRequests: [
+        accountRequest,
+      ],
+    };
 
     jest.spyOn(accountService, 'createAccountRequest')
-    .mockReturnValue(of(accountRequest));
+      .mockReturnValue(of(accountRequest));
     jest.spyOn(accountService, 'getPendingAccountRequests')
-    .mockReturnValue(of(accountRequests));
+      .mockReturnValue(of(accountRequests));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
     button.click();
@@ -141,35 +143,36 @@ describe('AdminHomePageComponent', () => {
 
   it('validateAndAddInstructorDetails: should only add valid instructor details in the single line field', () => {
     component.instructorDetails = [
-        'Instructor A | instructora@example.com | Institution A',
-        'Instructor B | instructorb@example.com',
-        'Instructor C | | instructorc@example.com',
-        'Instructor D | instructord@example.com | Institution D',
-        '| instructore@example.com | Institution E',
+      'Instructor A | instructora@example.com | Institution A',
+      'Instructor B | instructorb@example.com',
+      'Instructor C | | instructorc@example.com',
+      'Instructor D | instructord@example.com | Institution D',
+      '| instructore@example.com | Institution E',
     ].join('\n');
     fixture.detectChanges();
 
-    const accountRequestA: AccountRequest =
-      AccountRequestBuilder
+    const accountRequestA = accountRequestBuilder
       .name('Instructor A')
       .email('instructora@example.com')
       .institute('Institution A')
       .build();
-    const accountRequestD: AccountRequest =
-      AccountRequestBuilder
+    const accountRequestD = accountRequestBuilder
       .name('Instructor D')
       .email('instructord@example.com')
       .institute('Institution D')
       .build();
     const accountRequests: AccountRequests = {
-        accountRequests: [accountRequestA, accountRequestD],
-      };
+      accountRequests: [
+        accountRequestA,
+        accountRequestD,
+      ],
+    };
 
     // We are not testing the value createAccountRequest is being called with so it can be any value
     jest.spyOn(accountService, 'createAccountRequest')
-    .mockReturnValue(of(accountRequestA));
+      .mockReturnValue(of(accountRequestA));
     jest.spyOn(accountService, 'getPendingAccountRequests')
-    .mockReturnValue(of(accountRequests));
+      .mockReturnValue(of(accountRequests));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
@@ -198,31 +201,31 @@ describe('AdminHomePageComponent', () => {
   it('should snap with some instructors details', () => {
     component.accountReqs = [
       accountRequestTableRowModelBuilder
-      .name('Instructor A')
-      .email('instructora@example.com')
-      .status(AccountRequestStatus.PENDING)
-      .instituteAndCountry('Sample Institution and Country A')
-      .createdAtText('Sample Created Time A')
-      .comments('Sample Comment A')
-      .build(),
+        .name('Instructor A')
+        .email('instructora@example.com')
+        .status(AccountRequestStatus.PENDING)
+        .instituteAndCountry('Sample Institution and Country A')
+        .createdAtText('Sample Created Time A')
+        .comments('Sample Comment A')
+        .build(),
 
       accountRequestTableRowModelBuilder
-      .name('Instructor B')
-      .email('instructorb@example.com')
-      .status(AccountRequestStatus.APPROVED)
-      .instituteAndCountry('Sample Institution and Country B')
-      .createdAtText('Sample Created Time B')
-      .comments('Sample Comment B')
-      .build(),
+        .name('Instructor B')
+        .email('instructorb@example.com')
+        .status(AccountRequestStatus.APPROVED)
+        .instituteAndCountry('Sample Institution and Country B')
+        .createdAtText('Sample Created Time B')
+        .comments('Sample Comment B')
+        .build(),
 
       accountRequestTableRowModelBuilder
-      .name('Instructor C')
-      .email('instructorc@example.com')
-      .status(AccountRequestStatus.REJECTED)
-      .instituteAndCountry('Sample Institution and Country C')
-      .createdAtText('Sample Created Time C')
-      .comments('Sample Comment C')
-      .build(),
+        .name('Instructor C')
+        .email('instructorc@example.com')
+        .status(AccountRequestStatus.REJECTED)
+        .instituteAndCountry('Sample Institution and Country C')
+        .createdAtText('Sample Created Time C')
+        .comments('Sample Comment C')
+        .build(),
     ];
     fixture.detectChanges();
 
@@ -231,30 +234,31 @@ describe('AdminHomePageComponent', () => {
 
   it('validateAndAddInstructorDetails: should add multiple instructors split by tabs', () => {
     component.instructorDetails =
-    `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
-    Instructor B \t instructorb@example.com \t Sample Institution B`;
+      `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
+      Instructor B \t instructorb@example.com \t Sample Institution B`;
     fixture.detectChanges();
 
-    const accountRequestA: AccountRequest =
-      AccountRequestBuilder
+    const accountRequestA = accountRequestBuilder
       .name('Instructor A')
       .email('instructora@example.com')
       .institute('Sample Institution A')
       .build();
-    const accountRequestB: AccountRequest =
-      AccountRequestBuilder
+    const accountRequestB = accountRequestBuilder
       .name('Instructor B')
       .email('instructorb@example.com')
       .institute('Sample Institution B')
       .build();
     const accountRequests: AccountRequests = {
-        accountRequests: [accountRequestA, accountRequestB],
-      };
+      accountRequests: [
+        accountRequestA,
+        accountRequestB,
+      ],
+    };
 
     jest.spyOn(accountService, 'createAccountRequest')
-    .mockReturnValue(of(accountRequestA));
+      .mockReturnValue(of(accountRequestA));
     jest.spyOn(accountService, 'getPendingAccountRequests')
-    .mockReturnValue(of(accountRequests));
+      .mockReturnValue(of(accountRequests));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
@@ -273,30 +277,31 @@ describe('AdminHomePageComponent', () => {
 
   it('validateAndAddInstructorDetails: should add multiple instructors split by vertical bars', () => {
     component.instructorDetails =
-    `Instructor A | instructora@example.com | Sample Institution A\n
-    Instructor B | instructorb@example.com | Sample Institution B`;
+      `Instructor A | instructora@example.com | Sample Institution A\n
+      Instructor B | instructorb@example.com | Sample Institution B`;
     fixture.detectChanges();
 
-    const accountRequestA: AccountRequest =
-      AccountRequestBuilder
+    const accountRequestA = accountRequestBuilder
       .name('Instructor A')
       .email('instructora@example.com')
       .institute('Sample Institution A')
       .build();
-    const accountRequestB: AccountRequest =
-      AccountRequestBuilder
+    const accountRequestB = accountRequestBuilder
       .name('Instructor B')
       .email('instructorb@example.com')
       .institute('Sample Institution B')
       .build();
     const accountRequests: AccountRequests = {
-        accountRequests: [accountRequestA, accountRequestB],
-      };
+      accountRequests: [
+        accountRequestA,
+        accountRequestB,
+      ],
+    };
 
     jest.spyOn(accountService, 'createAccountRequest')
-    .mockReturnValueOnce(of(accountRequestA));
+      .mockReturnValueOnce(of(accountRequestA));
     jest.spyOn(accountService, 'getPendingAccountRequests')
-    .mockReturnValue(of(accountRequests));
+      .mockReturnValue(of(accountRequests));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
