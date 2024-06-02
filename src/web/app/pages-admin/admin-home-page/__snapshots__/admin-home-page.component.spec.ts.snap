@@ -301,18 +301,18 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 PENDING
               </td>
               <td>
-                Sample Institution and Country A
+                Institution and Country A
               </td>
               <td
                 id="timestamp-box"
               >
-                Sample Created Time A
+                Created Time A
               </td>
               <td>
                 <div
                   id="comment-box"
                 >
-                  Sample Comment A
+                  Comment A
                 </div>
               </td>
               <td
@@ -403,18 +403,18 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 APPROVED
               </td>
               <td>
-                Sample Institution and Country B
+                Institution and Country B
               </td>
               <td
                 id="timestamp-box"
               >
-                Sample Created Time B
+                Created Time B
               </td>
               <td>
                 <div
                   id="comment-box"
                 >
-                  Sample Comment B
+                  Comment B
                 </div>
               </td>
               <td
@@ -507,18 +507,18 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 REJECTED
               </td>
               <td>
-                Sample Institution and Country C
+                Institution and Country C
               </td>
               <td
                 id="timestamp-box"
               >
-                Sample Created Time C
+                Created Time C
               </td>
               <td>
                 <div
                   id="comment-box"
                 >
-                  Sample Comment C
+                  Comment C
                 </div>
               </td>
               <td

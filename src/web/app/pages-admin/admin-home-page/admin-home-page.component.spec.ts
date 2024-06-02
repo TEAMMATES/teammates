@@ -201,27 +201,27 @@ describe('AdminHomePageComponent', () => {
         .name('Instructor A')
         .email('instructora@example.com')
         .status(AccountRequestStatus.PENDING)
-        .instituteAndCountry('Sample Institution and Country A')
-        .createdAtText('Sample Created Time A')
-        .comments('Sample Comment A')
+        .instituteAndCountry('Institution and Country A')
+        .createdAtText('Created Time A')
+        .comments('Comment A')
         .build(),
 
       accountRequestTableRowModelBuilder
         .name('Instructor B')
         .email('instructorb@example.com')
         .status(AccountRequestStatus.APPROVED)
-        .instituteAndCountry('Sample Institution and Country B')
-        .createdAtText('Sample Created Time B')
-        .comments('Sample Comment B')
+        .instituteAndCountry('Institution and Country B')
+        .createdAtText('Created Time B')
+        .comments('Comment B')
         .build(),
 
       accountRequestTableRowModelBuilder
         .name('Instructor C')
         .email('instructorc@example.com')
         .status(AccountRequestStatus.REJECTED)
-        .instituteAndCountry('Sample Institution and Country C')
-        .createdAtText('Sample Created Time C')
-        .comments('Sample Comment C')
+        .instituteAndCountry('Institution and Country C')
+        .createdAtText('Created Time C')
+        .comments('Comment C')
         .build(),
     ];
     fixture.detectChanges();
@@ -231,19 +231,19 @@ describe('AdminHomePageComponent', () => {
 
   it('validateAndAddInstructorDetails: should create multiple instructor account requests when split by tabs', () => {
     component.instructorDetails =
-      `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
-      Instructor B \t instructorb@example.com \t Sample Institution B`;
+      `Instructor A   \t  instructora@example.com \t  Institution A\n
+      Instructor B \t instructorb@example.com \t Institution B`;
     fixture.detectChanges();
 
     const accountCreateRequestA = accountCreateRequestBuilder
       .instructorName('Instructor A')
       .instructorEmail('instructora@example.com')
-      .instructorInstitution('Sample Institution A')
+      .instructorInstitution('Institution A')
       .build();
     const accountCreateRequestB = accountCreateRequestBuilder
       .instructorName('Instructor B')
       .instructorEmail('instructorb@example.com')
-      .instructorInstitution('Sample Institution B')
+      .instructorInstitution('Institution B')
       .build();
 
     const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest');
@@ -260,19 +260,19 @@ describe('AdminHomePageComponent', () => {
   it('validateAndAddInstructorDetails: should create multiple instructor account requests '
   + 'when split by vertical bars', () => {
     component.instructorDetails =
-      `Instructor A | instructora@example.com | Sample Institution A\n
-      Instructor B | instructorb@example.com | Sample Institution B`;
+      `Instructor A | instructora@example.com | Institution A\n
+      Instructor B | instructorb@example.com | Institution B`;
     fixture.detectChanges();
 
     const accountCreateRequestA = accountCreateRequestBuilder
       .instructorName('Instructor A')
       .instructorEmail('instructora@example.com')
-      .instructorInstitution('Sample Institution A')
+      .instructorInstitution('Institution A')
       .build();
     const accountCreateRequestB = accountCreateRequestBuilder
       .instructorName('Instructor B')
       .instructorEmail('instructorb@example.com')
-      .instructorInstitution('Sample Institution B')
+      .instructorInstitution('Institution B')
       .build();
 
     const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest');
