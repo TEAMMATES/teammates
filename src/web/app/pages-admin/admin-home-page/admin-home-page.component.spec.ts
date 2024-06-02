@@ -9,11 +9,18 @@ import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import { AccountRequest, AccountRequests, AccountRequestStatus } from '../../../types/api-output';
+import { AccountCreateRequest } from '../../../types/api-request';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
+
+const accountCreateRequestBuilder = createBuilder<AccountCreateRequest>({
+  instructorEmail: '',
+  instructorName: '',
+  instructorInstitution: '',
+});
 
 const accountRequestBuilder = createBuilder<AccountRequest>({
   id: '',
@@ -83,6 +90,15 @@ describe('AdminHomePageComponent', () => {
     component.instructorInstitution = 'Instructor Institution';
     fixture.detectChanges();
 
+    const accountCreateRequest = accountCreateRequestBuilder
+      .instructorName('Instructor Name')
+      .instructorEmail('instructor@example.com')
+      .instructorInstitution('Instructor Institution')
+      .build();
+
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest')
+      .mockReturnValue(of(accountRequestBuilder.build()));
+
     const accountRequest = accountRequestBuilder
       .name('Instructor Name')
       .email('instructor@example.com')
@@ -94,13 +110,13 @@ describe('AdminHomePageComponent', () => {
       ],
     };
 
-    jest.spyOn(accountService, 'createAccountRequest')
-      .mockReturnValue(of(accountRequest));
     jest.spyOn(accountService, 'getPendingAccountRequests')
       .mockReturnValue(of(accountRequests));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
     button.click();
+
+    expect(createAccountRequestSpy).toHaveBeenCalledWith(accountCreateRequest);
 
     // Clear instructor fields
     expect(component.instructorName).toEqual('');
@@ -115,7 +131,6 @@ describe('AdminHomePageComponent', () => {
 
   it('validateAndAddInstructorDetail: should not add one instructor to list if some fields are empty', () => {
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
-    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest');
 
     component.instructorName = '';
     component.instructorEmail = 'instructor@example.com';
@@ -124,12 +139,22 @@ describe('AdminHomePageComponent', () => {
 
     button.click();
 
+    expect(component.instructorName).toEqual('');
+    expect(component.instructorEmail).toEqual('instructor@example.com');
+    expect(component.instructorInstitution).toEqual('Instructor Institution');
+    expect(component.accountReqs.length).toEqual(0);
+
     component.instructorName = 'Instructor Name';
     component.instructorEmail = '';
     component.instructorInstitution = 'Instructor Institution';
     fixture.detectChanges();
 
     button.click();
+
+    expect(component.instructorName).toEqual('Instructor Name');
+    expect(component.instructorEmail).toEqual('');
+    expect(component.instructorInstitution).toEqual('Instructor Institution');
+    expect(component.accountReqs.length).toEqual(0);
 
     component.instructorName = 'Instructor Name';
     component.instructorEmail = 'instructor@example.com';
@@ -138,7 +163,10 @@ describe('AdminHomePageComponent', () => {
 
     button.click();
 
-    expect(createAccountRequestSpy).not.toHaveBeenCalled();
+    expect(component.instructorName).toEqual('Instructor Name');
+    expect(component.instructorEmail).toEqual('instructor@example.com');
+    expect(component.instructorInstitution).toEqual('');
+    expect(component.accountReqs.length).toEqual(0);
   });
 
   it('validateAndAddInstructorDetails: should only add valid instructor details in the single line field', () => {
@@ -150,6 +178,20 @@ describe('AdminHomePageComponent', () => {
       '| instructore@example.com | Institution E',
     ].join('\n');
     fixture.detectChanges();
+
+    const accountCreateRequestA = accountCreateRequestBuilder
+      .instructorName('Instructor A')
+      .instructorEmail('instructora@example.com')
+      .instructorInstitution('Institution A')
+      .build();
+    const accountCreateRequestD = accountCreateRequestBuilder
+      .instructorName('Instructor D')
+      .instructorEmail('instructord@example.com')
+      .instructorInstitution('Institution D')
+      .build();
+
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest')
+      .mockReturnValue(of(accountRequestBuilder.build()));
 
     const accountRequestA = accountRequestBuilder
       .name('Instructor A')
@@ -168,9 +210,6 @@ describe('AdminHomePageComponent', () => {
       ],
     };
 
-    // We are not testing the value createAccountRequest is being called with so it can be any value
-    jest.spyOn(accountService, 'createAccountRequest')
-      .mockReturnValue(of(accountRequestA));
     jest.spyOn(accountService, 'getPendingAccountRequests')
       .mockReturnValue(of(accountRequests));
 
@@ -182,6 +221,9 @@ describe('AdminHomePageComponent', () => {
       'Instructor C | | instructorc@example.com',
       '| instructore@example.com | Institution E',
     ].join('\r\n'));
+
+    expect(createAccountRequestSpy).toHaveBeenNthCalledWith(1, accountCreateRequestA);
+    expect(createAccountRequestSpy).toHaveBeenNthCalledWith(2, accountCreateRequestD);
 
     expect(component.accountReqs.length).toEqual(2);
 
@@ -238,6 +280,20 @@ describe('AdminHomePageComponent', () => {
       Instructor B \t instructorb@example.com \t Sample Institution B`;
     fixture.detectChanges();
 
+    const accountCreateRequestA = accountCreateRequestBuilder
+      .instructorName('Instructor A')
+      .instructorEmail('instructora@example.com')
+      .instructorInstitution('Sample Institution A')
+      .build();
+    const accountCreateRequestB = accountCreateRequestBuilder
+      .instructorName('Instructor B')
+      .instructorEmail('instructorb@example.com')
+      .instructorInstitution('Sample Institution B')
+      .build();
+
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest')
+      .mockReturnValue(of(accountRequestBuilder.build()));
+
     const accountRequestA = accountRequestBuilder
       .name('Instructor A')
       .email('instructora@example.com')
@@ -255,8 +311,6 @@ describe('AdminHomePageComponent', () => {
       ],
     };
 
-    jest.spyOn(accountService, 'createAccountRequest')
-      .mockReturnValue(of(accountRequestA));
     jest.spyOn(accountService, 'getPendingAccountRequests')
       .mockReturnValue(of(accountRequests));
 
@@ -264,6 +318,10 @@ describe('AdminHomePageComponent', () => {
     button.click();
 
     expect(component.instructorDetails).toEqual('');
+
+    expect(createAccountRequestSpy).toHaveBeenNthCalledWith(1, accountCreateRequestA);
+    expect(createAccountRequestSpy).toHaveBeenNthCalledWith(2, accountCreateRequestB);
+
     expect(component.accountReqs.length).toEqual(2);
 
     expect(component.accountReqs[0].name).toEqual('Instructor A');
@@ -281,6 +339,20 @@ describe('AdminHomePageComponent', () => {
       Instructor B | instructorb@example.com | Sample Institution B`;
     fixture.detectChanges();
 
+    const accountCreateRequestA = accountCreateRequestBuilder
+      .instructorName('Instructor A')
+      .instructorEmail('instructora@example.com')
+      .instructorInstitution('Sample Institution A')
+      .build();
+    const accountCreateRequestB = accountCreateRequestBuilder
+      .instructorName('Instructor B')
+      .instructorEmail('instructorb@example.com')
+      .instructorInstitution('Sample Institution B')
+      .build();
+
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest')
+      .mockReturnValue(of(accountRequestBuilder.build()));
+
     const accountRequestA = accountRequestBuilder
       .name('Instructor A')
       .email('instructora@example.com')
@@ -298,8 +370,6 @@ describe('AdminHomePageComponent', () => {
       ],
     };
 
-    jest.spyOn(accountService, 'createAccountRequest')
-      .mockReturnValueOnce(of(accountRequestA));
     jest.spyOn(accountService, 'getPendingAccountRequests')
       .mockReturnValue(of(accountRequests));
 
@@ -307,6 +377,10 @@ describe('AdminHomePageComponent', () => {
     button.click();
 
     expect(component.instructorDetails).toEqual('');
+
+    expect(createAccountRequestSpy).toHaveBeenNthCalledWith(1, accountCreateRequestA);
+    expect(createAccountRequestSpy).toHaveBeenNthCalledWith(2, accountCreateRequestB);
+
     expect(component.accountReqs.length).toEqual(2);
 
     expect(component.accountReqs[0].name).toEqual('Instructor A');
