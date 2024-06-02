@@ -145,4 +145,7 @@ export class UserJoinPageComponent implements OnInit {
       });
   }
 
+onCancel(): void {
+  window.location.href = 'https://teammatesv4.appspot.com/web/front/home';
+}
 }
