@@ -74,7 +74,7 @@ public final class AttributesDeletionQuery {
     /**
      * Builder for {@link AttributesDeletionQuery}.
      */
-    public static class Builder {
+    public static final class Builder {
 
         private static final String INVALID_COMBINATION = "Invalid combination";
 

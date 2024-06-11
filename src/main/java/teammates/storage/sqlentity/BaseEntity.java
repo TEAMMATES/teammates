@@ -4,6 +4,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Converter;
+import jakarta.persistence.MappedSuperclass;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.google.common.reflect.TypeToken;
@@ -14,11 +19,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.JsonUtils;
-
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Converter;
-import jakarta.persistence.MappedSuperclass;
 
 /**
  * Base class for all entities.

@@ -3,6 +3,7 @@ package teammates.logic.api;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.common.util.HibernateUtil;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.sqllogic.core.UsersLogic;
@@ -46,6 +47,16 @@ public class UserProvision {
                 || studentsLogic.isStudentInAnyCourse(userId);
         user.isMaintainer = Config.APP_MAINTAINERS.contains(user.getId());
         return user;
+    }
+
+    /**
+     * Gets the information of the current logged in user, with an SQL transaction.
+     */
+    public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
+        HibernateUtil.beginTransaction();
+        UserInfo userInfo = getCurrentUser(uic);
+        HibernateUtil.commitTransaction();
+        return userInfo;
     }
 
     // TODO: method visibility to package-private after migration

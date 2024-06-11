@@ -268,7 +268,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
     /**
      * A builder for {@link FeedbackResponseCommentAttributes}.
      */
-    public static class Builder extends BasicBuilder<FeedbackResponseAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<FeedbackResponseAttributes, Builder> {
 
         private FeedbackResponseAttributes fra;
 
@@ -307,7 +307,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
     /**
      * Helper class to specific the fields to update in {@link FeedbackResponseAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String feedbackResponseId;
 
         private UpdateOption<String> giverOption = UpdateOption.empty();
@@ -341,7 +341,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(String feedbackResponseId) {
                 super(new UpdateOptions(feedbackResponseId));

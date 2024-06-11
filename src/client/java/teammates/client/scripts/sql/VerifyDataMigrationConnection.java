@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.sqlentity.Notification;
@@ -43,7 +44,9 @@ public class VerifyDataMigrationConnection extends DatastoreClient {
         teammates.storage.sqlentity.AccountRequest newEntity = new teammates.storage.sqlentity.AccountRequest(
                 "dummy-teammates-account-request-email@gmail.com",
                 "dummy-teammates-account-request",
-                "dummy-teammates-institute");
+                "dummy-teammates-institute",
+                AccountRequestStatus.PENDING,
+                "dummy-comments");
         HibernateUtil.beginTransaction();
         HibernateUtil.persist(newEntity);
         HibernateUtil.commitTransaction();

@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -12,6 +14,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 
 /**
  * The basic action for feedback submission.
@@ -407,10 +410,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      *
      * <p>If it is moderation request, omit the check.
      */
-    void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession) throws UnauthorizedAccessException {
+    void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession, User user)
+            throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        Instant deadlineExtension = sqlLogic.getDeadlineForUser(feedbackSession, user);
 
-        if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
+        if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpenedGivenExtendedDeadline(deadlineExtension)
+                || feedbackSession.isInGracePeriodGivenExtendedDeadline(deadlineExtension))) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
         }
     }
@@ -418,6 +424,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the section of a recipient.
      */
+    @SuppressWarnings("PMD.ImplicitSwitchFallThrough") // false positive
     Section getRecipientSection(
             String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             String recipientIdentifier) {
@@ -427,35 +434,35 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             switch (giverType) {
             case INSTRUCTORS:
             case SELF:
-                return Const.DEFAULT_SQL_SECTION;
+                return sqlLogic.getDefaultSectionOrCreate(courseId);
             case TEAMS:
             case TEAMS_IN_SAME_SECTION:
                 Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-                return section == null ? Const.DEFAULT_SQL_SECTION : section;
+                return section == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : section;
             case STUDENTS:
             case STUDENTS_IN_SAME_SECTION:
                 Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? Const.DEFAULT_SQL_SECTION : student.getSection();
+                return student == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : student.getSection();
             default:
                 assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
             }
         case INSTRUCTORS:
         case NONE:
-            return Const.DEFAULT_SQL_SECTION;
+            return sqlLogic.getDefaultSectionOrCreate(courseId);
         case TEAMS:
         case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:
         case OWN_TEAM:
             Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-            return section == null ? Const.DEFAULT_SQL_SECTION : section;
+            return section == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : section;
         case STUDENTS:
         case STUDENTS_EXCLUDING_SELF:
         case STUDENTS_IN_SAME_SECTION:
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? Const.DEFAULT_SQL_SECTION : student.getSection();
+            return student == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : student.getSection();
         default:
             assert false : "Unknown recipient type " + recipientType;
             return null;
@@ -465,6 +472,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the section of a recipient.
      */
+    @SuppressWarnings("PMD.ImplicitSwitchFallThrough") // false positive
     String getDatastoreRecipientSection(
             String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             String recipientIdentifier) {

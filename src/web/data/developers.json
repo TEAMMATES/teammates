@@ -212,6 +212,10 @@
       "username": "andremralves"
     },
     {
+      "name": "Andy",
+      "username": "Andy-W-Developer"
+    },
+    {
       "name": "Andy Daehn",
       "username": "andydaehn"
     },
@@ -601,18 +605,8 @@
     },
     {
       "multiple": true,
-      "name": "Yeo Di Sheng",
-      "username": "dishenggg"
-    },
-    {
-      "multiple": true,
       "name": "Divya Pandilla",
       "username": "pandilladivya"
-    },
-    {
-      "multiple": true,
-      "name": "Dominic Berzin",
-      "username": "domoberzin"
     },
     {
       "name": "Dominik Leszczenko",
@@ -654,6 +648,10 @@
     },
     {
       "username": "Emp923"
+    },
+    {
+      "name": "",
+      "username": "eraldprifti03"
     },
     {
       "name": "Eric Liu",
@@ -1220,6 +1218,10 @@
       "username": "leonardomilv3"
     },
     {
+      "name": "Leyan Guan",
+      "username": "leyguan"
+    },
+    {
       "multiple": true,
       "name": "Lian Wenhui Florine"
     },
@@ -1338,11 +1340,6 @@
       "username": "marloncalvo"
     },
     {
-      "multiple": true,
-      "name": "Tye Jia Jun, Marques",
-      "username": "marquestye"
-    },
-    {
       "name": "Martin Larsson",
       "username": "leddy231"
     },
@@ -1370,6 +1367,7 @@
       "username": "mattlim1207"
     },
     {
+      "multiple": true,
       "name": "Maureen Chang",
       "username": "techMedMau"
     },
@@ -1413,10 +1411,6 @@
       "username": "miguelarauj1o"
     },
     {
-      "name": "Ching Ming Yuan",
-      "username": "mingyuanc"
-    },
-    {
       "name": "Minsung Joh",
       "username": "jms5049"
     },
@@ -1447,6 +1441,10 @@
     {
       "name": "Mukesh Gupta",
       "username": "mukesh14149"
+    },
+    {
+      "name": "Nada Ayesh",
+      "username": "nadasuhailAyesh12"
     },
     {
       "name": "Naga Rani",
@@ -2336,6 +2334,10 @@
       "name": "Wang Chao"
     },
     {
+      "name": "Wang JingTing",
+      "username": "jingting1412"
+    },
+    {
       "name": "Wang Yuqing",
       "username": "yuqingw"
     },
@@ -2354,10 +2356,6 @@
     {
       "name": "Wu Xiao Xiao",
       "username": "a0129998"
-    },
-    {
-      "name": "Xenos Fiorenzo Anong",
-      "username": "xenosf"
     },
     {
       "multiple": true,
@@ -2490,16 +2488,41 @@
     },
     {
       "multiple": true,
-      "name": "Zhu Yuanxi",
-      "username": "yuanxi1"
-    },
-    {
-      "multiple": true,
       "name": "Zong Xun",
       "username": "Zxun2"
     }
   ],
   "committers": [
+    {
+      "name": "Ching Ming Yuan",
+      "username": "mingyuanc",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Dominic Berzin",
+      "username": "domoberzin",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Tye Jia Jun, Marques",
+      "username": "marquestye",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Xenos Fiorenzo Anong",
+      "username": "xenosf",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Yeo Di Sheng",
+      "username": "dishenggg",
+      "startPeriod": "Jan 2024"
+    },
+    {
+      "name": "Zhu Yuanxi",
+      "username": "yuanxi1",
+      "startPeriod": "Jan 2024"
+    },
     {
       "name": "Jason Qiu",
       "username": "jasonqiu212",

@@ -30,6 +30,18 @@ public final class TimeHelper {
     }
 
     /**
+     * Returns an Instant that represents the nearest quarter hour before the given object.
+     *
+     * <p>The time zone used is assumed to be the default timezone, namely UTC.
+     */
+    public static Instant getInstantNearestQuarterHourBefore(Instant instant) {
+        ZonedDateTime zdt = instant.atZone(ZoneId.of(Const.DEFAULT_TIME_ZONE));
+        int minutesPastQuarter = zdt.getMinute() % 15;
+        ZonedDateTime nearestQuarterZdt = zdt.minusMinutes(minutesPastQuarter).withSecond(0).withNano(0);
+        return nearestQuarterZdt.toInstant();
+    }
+
+    /**
      * Returns an Instant that is offset by a number of days from now.
      *
      * @param offsetInDays integer number of days to offset by

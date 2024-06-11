@@ -1,8 +1,8 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -674,6 +674,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
+    public void addNumScaleQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(5);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackNumericalScaleQuestionDetails questionDetails =
+                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputNumScaleDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void editNumScaleQuestion(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputNumScaleDetails(questionNum, questionDetails);
@@ -790,6 +800,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void addRubricQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(9);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRubricQuestionDetails questionDetails =
+                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputRubricDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addRubricQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(9);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);

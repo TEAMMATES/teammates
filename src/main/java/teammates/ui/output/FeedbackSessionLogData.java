@@ -8,6 +8,7 @@ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
 
 /**
@@ -17,19 +18,24 @@ public class FeedbackSessionLogData {
     private final FeedbackSessionData feedbackSessionData;
     private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
 
-    // Remove generic types after migration is done (i.e. can just use FeedbackSession and Student)
-    public <S, T> FeedbackSessionLogData(S feedbackSession, List<FeedbackSessionLogEntry> logEntries,
+    // Remove generic types after migration is done (i.e. can just use FeedbackSession, Student, FeedbackSessionLog)
+    public <S, T, U> FeedbackSessionLogData(S feedbackSession, List<U> logEntries,
             Map<String, T> studentsMap) {
         if (feedbackSession instanceof FeedbackSessionAttributes) {
             FeedbackSessionAttributes fs = (FeedbackSessionAttributes) feedbackSession;
             FeedbackSessionData fsData = new FeedbackSessionData(fs);
             List<FeedbackSessionLogEntryData> fsLogEntryDatas = logEntries.stream()
                     .map(log -> {
-                        T student = studentsMap.get(log.getStudentEmail());
-                        if (student instanceof StudentAttributes) {
-                            return new FeedbackSessionLogEntryData(log, (StudentAttributes) student);
+                        if (log instanceof FeedbackSessionLogEntry) {
+                            FeedbackSessionLogEntry convertedLog = (FeedbackSessionLogEntry) log;
+                            T student = studentsMap.get(convertedLog.getStudentEmail());
+                            if (student instanceof StudentAttributes) {
+                                return new FeedbackSessionLogEntryData(convertedLog, (StudentAttributes) student);
+                            } else {
+                                throw new IllegalArgumentException("Invalid student type");
+                            }
                         } else {
-                            throw new IllegalArgumentException("Invalid student type");
+                            throw new IllegalArgumentException("Invalid log type");
                         }
                     })
                     .collect(Collectors.toList());
@@ -40,11 +46,16 @@ public class FeedbackSessionLogData {
             FeedbackSessionData fsData = new FeedbackSessionData(fs);
             List<FeedbackSessionLogEntryData> fsLogEntryDatas = logEntries.stream()
                     .map(log -> {
-                        T student = studentsMap.get(log.getStudentEmail());
-                        if (student instanceof Student) {
-                            return new FeedbackSessionLogEntryData(log, (Student) student);
+                        if (log instanceof FeedbackSessionLog) {
+                            FeedbackSessionLog convertedLog = (FeedbackSessionLog) log;
+                            T student = studentsMap.get(convertedLog.getStudent().getEmail());
+                            if (student instanceof Student) {
+                                return new FeedbackSessionLogEntryData(convertedLog, (Student) student);
+                            } else {
+                                throw new IllegalArgumentException("Invalid student type");
+                            }
                         } else {
-                            throw new IllegalArgumentException("Invalid student type");
+                            throw new IllegalArgumentException("Invalid log type");
                         }
                     })
                     .collect(Collectors.toList());

@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -10,13 +9,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -49,32 +49,38 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
-
+    public void testCreateAccountRequest_typicalCase_success() throws InvalidParametersException {
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
     }
 
     @Test
-    public void testCreateAccountRequest_accountRequestAlreadyExists_throwsEntityAlreadyExistsException() {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        doReturn(new AccountRequest("test@gmail.com", "name", "institute"))
-                .when(accountRequestDb).getAccountRequest(anyString(), anyString());
+    public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
+        UUID id = UUID.randomUUID();
+        mockHibernateUtil.when(() -> HibernateUtil.get(AccountRequest.class, id)).thenReturn(null);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(AccountRequest.class, id));
+        assertNull(actualAccountRequest);
+    }
 
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestDb.createAccountRequest(accountRequest));
-
-        assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + accountRequest.toString());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest), never());
+    @Test
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
+        AccountRequest expectedAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        UUID id = expectedAccountRequest.getId();
+        mockHibernateUtil.when(() -> HibernateUtil.get(AccountRequest.class, id)).thenReturn(expectedAccountRequest);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(AccountRequest.class, id));
+        assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 
     @Test
     public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
-        AccountRequest accountRequestWithInvalidEmail = new AccountRequest("testgmail.com", "name", "institute");
+        AccountRequest accountRequestWithInvalidEmail =
+                new AccountRequest("testgmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         assertThrows(InvalidParametersException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequestWithInvalidEmail));
@@ -84,8 +90,9 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        doReturn(null).when(accountRequestDb).getAccountRequest(accountRequest.getId());
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequest));
@@ -95,8 +102,9 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        doReturn(accountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        doReturn(accountRequest).when(accountRequestDb).getAccountRequest(accountRequest.getId());
 
         accountRequestDb.updateAccountRequest(accountRequest);
 
@@ -105,7 +113,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     @Test
     public void testDeleteAccountRequest_success() {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         accountRequestDb.deleteAccountRequest(accountRequest);
 

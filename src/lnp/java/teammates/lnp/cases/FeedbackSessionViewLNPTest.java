@@ -203,8 +203,8 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected ListedHashTree getLnpTestPlan() {
-        ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
+    protected HashTree getLnpTestPlan() {
+        HashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
                 JMeterElements.threadGroup(NUMBER_OF_USER_ACCOUNTS, RAMP_UP_PERIOD, 1));
         threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));

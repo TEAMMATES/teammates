@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.JoinStatus;
 import teammates.ui.webapi.GetCourseJoinStatusAction;
 import teammates.ui.webapi.JsonResult;
@@ -131,8 +132,8 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         ______TS("Normal case: account request not used, instructor has not joined course");
 
-        String accountRequestNotUsedKey = logic.getAccountRequest("unregisteredinstructor1@gmail.tmt",
-                "TEAMMATES Test Institute 1").getRegistrationKey();
+        AccountRequest unregisteredInstructor1AccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        String accountRequestNotUsedKey = unregisteredInstructor1AccountRequest.getRegistrationKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequestNotUsedKey,
@@ -148,8 +149,8 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         ______TS("Normal case: account request already used, instructor has joined course");
 
-        String accountRequestUsedKey =
-                logic.getAccountRequest("instr1@teammates.tmt", "TEAMMATES Test Institute 1").getRegistrationKey();
+        AccountRequest instructor1AccountRequest = typicalBundle.accountRequests.get("instructor1");
+        String accountRequestUsedKey = instructor1AccountRequest.getRegistrationKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequestUsedKey,

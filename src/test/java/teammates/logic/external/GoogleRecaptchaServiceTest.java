@@ -57,7 +57,7 @@ public class GoogleRecaptchaServiceTest extends BaseTestCase {
      *
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference">reCAPTCHA API error codes</a>
      */
-    private static class GoogleRecaptchaServiceStub extends GoogleRecaptchaService {
+    private static final class GoogleRecaptchaServiceStub extends GoogleRecaptchaService {
 
         private GoogleRecaptchaServiceStub(String secretKey) {
             super(secretKey);

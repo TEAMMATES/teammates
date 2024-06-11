@@ -3,12 +3,12 @@ package teammates.storage.sqlapi;
 import java.time.Instant;
 import java.util.List;
 
-import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.UsageStatistics;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
+import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.UsageStatistics;
 
 /**
  * Handles CRUD operations for usage statistics.

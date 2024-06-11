@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
@@ -21,6 +22,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.common.util.Const;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -29,6 +31,7 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
 import teammates.sqllogic.core.FeedbackResponsesLogic;
+import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
@@ -41,6 +44,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
@@ -68,6 +72,7 @@ public class Logic {
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final FeedbackSessionLogsLogic feedbackSessionLogsLogic = FeedbackSessionLogsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
@@ -88,19 +93,41 @@ public class Logic {
      * @throws InvalidParametersException if the account request details are invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
+            String comments) throws InvalidParametersException {
 
-        return accountRequestLogic.createAccountRequest(name, email, institute);
+        return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
     }
 
     /**
-     * Gets the account request with the given email and institute.
+     * Gets the account request with the given {@code id}.
      *
-     * @return account request with the given email and institute.
+     * @return account request with the given {@code id}.
      */
-    public AccountRequest getAccountRequest(String email, String institute) {
-        return accountRequestLogic.getAccountRequest(email, institute);
+    public AccountRequest getAccountRequest(UUID id) {
+        return accountRequestLogic.getAccountRequest(id);
+    }
+
+    /**
+     * Gets the account request with the given {@code id}.
+     *
+     * @return account request with the given {@code id}.
+     */
+    public AccountRequest getAccountRequestWithTransaction(UUID id) {
+        return accountRequestLogic.getAccountRequestWithTransaction(id);
+    }
+
+    /**
+     * Creates a or gets an account request.
+     *
+     * @return newly created account request.
+     * @throws InvalidParametersException if the account request details are invalid.
+     * @throws EntityAlreadyExistsException if the account request already exists.
+     */
+    public AccountRequest createAccountRequestWithTransaction(String name, String email, String institute,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
+
+        return accountRequestLogic.createOrGetAccountRequestWithTransaction(name, email, institute, status, comments);
     }
 
     /**
@@ -123,19 +150,29 @@ public class Logic {
     }
 
     /**
-     * Creates/Resets the account request with the given email and institute
-     * such that it is not registered.
+     * Updates the given account request.
      *
-     * @return account request that is unregistered with the
-     *         email and institute.
+     * @return the updated account request.
      */
-    public AccountRequest resetAccountRequest(String email, String institute)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        return accountRequestLogic.resetAccountRequest(email, institute);
+    public AccountRequest updateAccountRequestWithTransaction(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestLogic.updateAccountRequestWithTransaction(accountRequest);
     }
 
     /**
-     * Deletes account request by email and institute.
+     * Creates/Resets the account request with the given id
+     * such that it is not registered.
+     *
+     * @return account request that is unregistered with the
+     *         id.
+     */
+    public AccountRequest resetAccountRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return accountRequestLogic.resetAccountRequest(id);
+    }
+
+    /**
+     * Deletes account request by id.
      *
      * <ul>
      * <li>Fails silently if no such account request.</li>
@@ -144,8 +181,29 @@ public class Logic {
      * <p>Preconditions:</p>
      * All parameters are non-null.
      */
-    public void deleteAccountRequest(String email, String institute) {
-        accountRequestLogic.deleteAccountRequest(email, institute);
+    public void deleteAccountRequest(UUID id) {
+        accountRequestLogic.deleteAccountRequest(id);
+    }
+
+    /**
+     * Gets all pending account requests.
+     */
+    public List<AccountRequest> getPendingAccountRequests() {
+        return accountRequestLogic.getPendingAccountRequests();
+    }
+
+    /**
+     * Gets all pending account requests.
+     */
+    public List<AccountRequest> getAllAccountRequests() {
+        return accountRequestLogic.getAllAccountRequests();
+    }
+
+    /**
+     * Get a list of account requests associated with email provided.
+     */
+    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
+        return accountRequestLogic.getApprovedAccountRequestsForEmailWithTransaction(email);
     }
 
     /**
@@ -170,6 +228,13 @@ public class Logic {
     }
 
     /**
+     * Get a list of accounts associated with email provided.
+     */
+    public List<Account> getAccountsForEmailWithTransaction(String email) {
+        return accountsLogic.getAccountsForEmailWithTransaction(email);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
@@ -179,6 +244,18 @@ public class Logic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsLogic.createAccount(account);
+    }
+
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the database.
+     */
+    public Account createAccountWithTransaction(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return accountsLogic.createAccountWithTransaction(account);
     }
 
     /**
@@ -398,7 +475,7 @@ public class Logic {
     }
 
     /**
-     * Fetch the deadline extension for a given user and session feedback.
+     * Fetch the deadline extension end time for a given user and session feedback.
      *
      * @return deadline extension instant if exists, else the default end time instant
      *         for the session feedback.
@@ -408,12 +485,21 @@ public class Logic {
     }
 
     /**
-     * Fetch the deadline extension for a given user and session feedback.
+     * Fetch the deadline extension end time for a given user and session feedback.
      *
      * @return deadline extension instant if exists, else return null since no deadline extensions.
      */
     public Instant getExtendedDeadlineForUser(FeedbackSession session, User user) {
         return deadlineExtensionsLogic.getExtendedDeadlineForUser(session, user);
+    }
+
+    /**
+     * Fetch the deadline extension entity for a given user and session feedback.
+     *
+     * @return deadline extension entity if exists, else return null.
+     */
+    public DeadlineExtension getDeadlineExtensionEntityForUser(FeedbackSession session, User user) {
+        return deadlineExtensionsLogic.getDeadlineExtensionEntityForUser(session, user);
     }
 
     /**
@@ -440,6 +526,15 @@ public class Logic {
      */
     public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
         return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Gets a feedback session reference.
+     *
+     * @return Returns a proxy for the feedback session.
+     */
+    public FeedbackSession getFeedbackSessionReference(UUID id) {
+        return feedbackSessionsLogic.getFeedbackSessionReference(id);
     }
 
     /**
@@ -591,15 +686,15 @@ public class Logic {
     }
 
     /**
-     * Soft-deletes a specific  session to Recycle Bin.
+     * Soft-deletes a specific session to Recycle Bin.
      */
-    public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
@@ -924,6 +1019,16 @@ public class Logic {
     }
 
     /**
+     * Gets student reference associated with {@code id}.
+     *
+     * @param id    Id of Student.
+     * @return      Returns a proxy for the Student.
+     */
+    public Student getStudentReference(UUID id) {
+        return usersLogic.getStudentReference(id);
+    }
+
+    /**
      * Gets student associated with {@code courseId} and {@code email}.
      */
     public Student getStudentForEmail(String courseId, String email) {
@@ -983,6 +1088,14 @@ public class Logic {
      */
     public List<Student> getStudentsByTeamName(String teamName, String courseId) {
         return usersLogic.getStudentsForTeam(teamName, courseId);
+    }
+
+    /**
+     * Returns the default SQL section.
+     * If it does not exist, create and return it.
+     */
+    public Section getDefaultSectionOrCreate(String courseId) {
+        return getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
     }
 
     /**
@@ -1208,6 +1321,13 @@ public class Logic {
         assert feedbackSession != null;
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSession);
+    }
+
+    /**
+     * Gets the unique feedback question based on sessionId and questionNumber.
+     */
+    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
+        return feedbackQuestionsLogic.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
     }
 
     /**
@@ -1505,6 +1625,16 @@ public class Logic {
     }
 
     /**
+     * Gets all feedback responses from a specific giver and recipient for a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(String courseId, String giverEmail,
+            String recipientEmail) {
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverAndRecipientForCourse(courseId, giverEmail,
+            recipientEmail);
+    }
+
+    /**
      * Gets all feedback response comments for a feedback response.
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponse) {
@@ -1594,5 +1724,26 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
         return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+    }
+
+    /**
+     * Create feedback session logs.
+     */
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
+        feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
+    }
+
+    /**
+     * Gets the feedback session logs as filtered by the given parameters ordered by
+     * ascending timestamp. Logs with the same timestamp will be ordered by the
+     * student's email.
+     *
+     * @param studentId        Can be null
+     * @param feedbackSessionId Can be null
+     */
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+            UUID feedbackSessionId, Instant startTime, Instant endTime) {
+        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
+                endTime);
     }
 }

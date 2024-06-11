@@ -250,8 +250,8 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected ListedHashTree getLnpTestPlan() {
-        ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
+    protected HashTree getLnpTestPlan() {
+        HashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
                 JMeterElements.threadGroup(1, RAMP_UP_PERIOD, 1));
 

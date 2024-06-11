@@ -68,7 +68,7 @@ public class GetStudentsAction extends Action {
             boolean hasCoursePrivilege = instructor != null
                     && instructor.isAllowedForPrivilege(privilegeName);
             boolean hasSectionPrivilege = instructor != null
-                    && instructor.getSectionsWithPrivilege(privilegeName).size() != 0;
+                    && !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
 
             if (teamName == null && hasCoursePrivilege) {
                 // request to get all course students by instructor with course privilege
@@ -104,7 +104,7 @@ public class GetStudentsAction extends Action {
             boolean hasCoursePrivilege = instructor != null
                     && instructor.isAllowedForPrivilege(privilegeName);
             boolean hasSectionPrivilege = instructor != null
-                    && instructor.getSectionsWithPrivilege(privilegeName).size() != 0;
+                    && !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
 
             if (teamName == null && hasCoursePrivilege) {
                 // request to get all course students by instructor with course privilege

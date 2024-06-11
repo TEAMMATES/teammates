@@ -145,13 +145,13 @@
         <module name="CommentsIndentation"/>
         <module name="ImportOrder">
             <property name="option" value="top"/>
-            <property name="groups" value="java,javax,org,com,teammates"/>
+            <property name="groups" value="java,jakarta,javax,org,com,teammates"/>
             <property name="separated" value="true"/>
             <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
         <module name="IllegalImport">
             <property name="illegalPkgs" value="sun"/>
-            <property name="illegalClasses" value="org.testng.Assert,org.testng.AssertJUnit,java.util.Date,java.util.Calendar,org.junit.Test"/>
+            <property name="illegalClasses" value="org.testng.Assert,org.testng.AssertJUnit,org.junit.Assert,java.util.Date,java.util.Calendar,org.junit.Test,org.junit.jupiter.api.Test"/>
         </module>
         <module name="NoLineWrap"/>
         <module name="SuppressionCommentFilter">

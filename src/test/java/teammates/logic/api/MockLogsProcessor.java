@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
@@ -23,9 +24,19 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of feedback session logs.
      */
-    public void insertFeedbackSessionLog(String studentEmail, String feedbackSessionName,
+    public void insertFeedbackSessionLog(String courseId, String studentEmail, String feedbackSessionName,
             String fslType, long timestamp) {
-        feedbackSessionLogs.add(new FeedbackSessionLogEntry(studentEmail, feedbackSessionName, fslType, timestamp));
+        feedbackSessionLogs
+                .add(new FeedbackSessionLogEntry(courseId, studentEmail, feedbackSessionName, fslType, timestamp));
+    }
+
+    /**
+     * Simulates insertion of feedback session logs.
+     */
+    public void insertFeedbackSessionLog(String courseId, UUID studentId, UUID feedbackSessionId,
+            String fslType, long timestamp) {
+        feedbackSessionLogs
+                .add(new FeedbackSessionLogEntry(courseId, studentId, feedbackSessionId, fslType, timestamp));
     }
 
     /**
@@ -97,13 +108,14 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
+    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
         // No-op
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
+        feedbackSessionLogs.sort((x, y) -> x.compareTo(y));
         return feedbackSessionLogs;
     }
 

@@ -26,6 +26,7 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -256,12 +257,10 @@ public final class SqlEmailGenerator {
 
         Course course = coursesLogic.getCourse(courseId);
         boolean isInstructor = emailType == EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED;
-        Student student = null;
+        Student student = usersLogic.getStudentForEmail(courseId, userEmail);
         Instructor instructor = null;
         if (isInstructor) {
             instructor = usersLogic.getInstructorForEmail(courseId, userEmail);
-        } else {
-            student = usersLogic.getStudentForEmail(courseId, userEmail);
         }
 
         List<FeedbackSession> sessions = new ArrayList<>();
@@ -868,11 +867,11 @@ public final class SqlEmailGenerator {
     }
 
     private boolean isYetToJoinCourse(Student student) {
-        return student.getAccount().getGoogleId() == null || student.getAccount().getGoogleId().isEmpty();
+        return student.getAccount() == null || student.getAccount().getGoogleId().isEmpty();
     }
 
     private boolean isYetToJoinCourse(Instructor instructor) {
-        return instructor.getAccount().getGoogleId() == null || instructor.getAccount().getGoogleId().isEmpty();
+        return instructor.getAccount() == null || instructor.getAccount().getGoogleId().isEmpty();
     }
 
     /**
@@ -970,6 +969,74 @@ public final class SqlEmailGenerator {
         email.setType(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
         email.setSubjectFromType(course.getName(), course.getId());
         email.setContent(emailBody);
+        return email;
+    }
+
+    /**
+     * Generates the email to alert the admin of the new {@code accountRequest}.
+     */
+    public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
+        String name = accountRequest.getName();
+        String institute = accountRequest.getInstitute();
+        String emailAddress = accountRequest.getEmail();
+        String comments = accountRequest.getComments();
+        if (comments == null) {
+            comments = "";
+        }
+        String adminAccountRequestsPageUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).toAbsoluteString();
+        String[] templateKeyValuePairs = new String[] {
+                "${name}", name,
+                "${institute}", institute,
+                "${emailAddress}", emailAddress,
+                "${comments}", comments,
+                "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
+        };
+        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT, templateKeyValuePairs);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
+        email.setSubjectFromType();
+        email.setContent(content);
+        return email;
+    }
+
+    /**
+     * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
+     */
+    public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
+        String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
+        String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute());
+        String emailAddress = SanitizationHelper.sanitizeForHtml(accountRequest.getEmail());
+        String comments = SanitizationHelper.sanitizeForHtml(accountRequest.getComments());
+        if (comments == null) {
+            comments = "";
+        }
+        String[] templateKeyValuePairs = new String[] {
+                "${name}", name,
+                "${institute}", institute,
+                "${emailAddress}", emailAddress,
+                "${comments}", comments,
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+        };
+        String content = Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
+        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
+        email.setBcc(Config.SUPPORT_EMAIL);
+        email.setSubjectFromType();
+        email.setContent(content);
+        return email;
+    }
+
+    /**
+     * Generates the email to be sent to instructor when their account request has been rejected by admin.
+     */
+    public EmailWrapper generateAccountRequestRejectionEmail(AccountRequest accountRequest, String title, String content) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(accountRequest.getEmail());
+        email.setType(EmailType.ACCOUNT_REQUEST_REJECTION);
+        email.setBcc(Config.SUPPORT_EMAIL);
+        email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
+        email.setContent(SanitizationHelper.sanitizeForRichText(content));
+
         return email;
     }
 

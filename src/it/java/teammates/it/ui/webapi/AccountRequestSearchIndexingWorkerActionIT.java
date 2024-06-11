@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -46,6 +47,7 @@ public class AccountRequestSearchIndexingWorkerActionIT extends BaseActionIT<Acc
         }
 
         AccountRequest accountRequest = typicalBundle.accountRequests.get("instructor1");
+        UUID accountRequestId = accountRequest.getId();
 
         ______TS("account request not yet indexed should not be searchable");
 
@@ -56,8 +58,7 @@ public class AccountRequestSearchIndexingWorkerActionIT extends BaseActionIT<Acc
         ______TS("account request indexed should be searchable");
 
         String[] submissionParams = new String[] {
-                ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+                ParamsNames.ACCOUNT_REQUEST_ID, accountRequestId.toString(),
         };
 
         AccountRequestSearchIndexingWorkerAction action = getAction(submissionParams);
