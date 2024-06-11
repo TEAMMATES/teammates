@@ -257,6 +257,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         for (AccountRequest ar : accountRequests) {
             logic.deleteAccountRequest(ar.getId());
         }
+
+        logic.deleteAccount(getTypicalAccount().getGoogleId());
         HibernateUtil.commitTransaction();
     }
 }
