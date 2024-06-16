@@ -130,6 +130,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   feedbackSessionId: string | undefined = '';
   studentId: string | undefined = '';
 
+  autoSaveTimeout: any;
+  autoSaveDelay = 1000; // 1 second delay
+
   private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
@@ -150,6 +153,36 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private logService: LogService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
+  }
+
+  handleAutoSave(event: { id: string, model: QuestionSubmissionFormModel }): void {
+    clearTimeout(this.autoSaveTimeout);
+    console.log("saving...")
+    this.autoSaveTimeout = setTimeout(() => {
+      const savedData = JSON.parse(localStorage.getItem('autosave') || '{}');
+      const clonedModel = {
+        ...event.model,
+        hasResponseChangedForRecipients: Array.from(event.model.hasResponseChangedForRecipients.entries()),
+        isTabExpandedForRecipients: Array.from(event.model.isTabExpandedForRecipients.entries()),
+      };
+      savedData[event.id] = clonedModel;
+      localStorage.setItem('autosave', JSON.stringify(savedData));
+    }, this.autoSaveDelay);
+    console.log(event)
+  }
+
+  loadAutoSavedData(questionId: string): void {
+    const savedData = JSON.parse(localStorage.getItem('autosave') || '{}');
+    const savedModel = savedData[questionId];
+
+    if (savedModel) {
+        const index = this.questionSubmissionForms.findIndex(q => q.feedbackQuestionId === questionId);
+        if (index !== -1) {
+            savedModel.hasResponseChangedForRecipients = new Map(savedModel.hasResponseChangedForRecipients);
+            savedModel.isTabExpandedForRecipients = new Map(savedModel.isTabExpandedForRecipients);
+            this.questionSubmissionForms[index] = savedModel;
+        }
+    }
   }
 
   ngOnInit(): void {
@@ -819,6 +852,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                           recipientSubmissionFormModel.commentByGiver = undefined;
                         }
                       });
+
+                  const savedData = JSON.parse(localStorage.getItem('autosave') || '{}');
+                  delete savedData[questionSubmissionFormModel.feedbackQuestionId];
+                  localStorage.setItem('autosave', JSON.stringify(savedData));
                 }),
                 switchMap(() =>
                     forkJoin(questionSubmissionFormModel.recipientSubmissionForms
@@ -992,6 +1029,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     if (event && event.visible && !questionSubmissionForm.isLoaded && !questionSubmissionForm.isLoading) {
       questionSubmissionForm.isLoading = true;
       this.loadFeedbackQuestionRecipientsForQuestion(questionSubmissionForm);
+      this.loadAutoSavedData(questionSubmissionForm.feedbackQuestionId)
     }
   }
 

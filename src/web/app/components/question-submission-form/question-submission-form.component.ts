@@ -118,6 +118,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Output()
   responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
+  @Output()
+  autoSave: EventEmitter<{ id: string, model: QuestionSubmissionFormModel }> = new EventEmitter();
+
   @ViewChild(ContributionQuestionConstraintComponent)
   private contributionQuestionConstraint!: ContributionQuestionConstraintComponent;
 
@@ -362,6 +365,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       this.updateIsValidByQuestionConstraint();
       this.formModelChange.emit(this.model);
+
+      this.autoSave.emit({ id: this.model.feedbackQuestionId, model: this.model });
     }
   }
 
