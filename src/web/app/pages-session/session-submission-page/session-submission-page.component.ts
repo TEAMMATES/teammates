@@ -870,7 +870,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                   delete savedData[questionSubmissionFormModel.feedbackQuestionId];
                   localStorage.setItem('autosave', JSON.stringify(savedData));
 
-                  // need to update the original model
                   this.originalQuestionSubmissionForms.forEach((originalModel: QuestionSubmissionFormModel) => {
                     if (originalModel.feedbackQuestionId === questionSubmissionFormModel.feedbackQuestionId) {
 
@@ -1123,7 +1122,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   
       if (originalSubmissionForm) {
         if (recipientId) {
-          // Reset only the specified recipient
           questionSubmissionFormModel.recipientSubmissionForms.forEach((form, index) => {
             if (form.recipientIdentifier === recipientId) {
               const originalForm = originalSubmissionForm.recipientSubmissionForms.find(
@@ -1140,7 +1138,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             }
           });
   
-          // Update hasResponseChangedForRecipients and isTabExpandedForRecipients for the specified recipient
           questionSubmissionFormModel.hasResponseChangedForRecipients.set(
             recipientId, originalSubmissionForm.hasResponseChangedForRecipients.get(recipientId) ?? false
           );
@@ -1148,7 +1145,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             recipientId, originalSubmissionForm.isTabExpandedForRecipients.get(recipientId) ?? true
           );
   
-          // Remove autosave data for the specific recipient
           if (savedData[questionSubmissionFormModel.feedbackQuestionId]) {
             const recipientIndex = savedData[questionSubmissionFormModel.feedbackQuestionId].recipientSubmissionForms
               .findIndex((form: FeedbackResponseRecipientSubmissionFormModel) => form.recipientIdentifier === recipientId);
@@ -1162,7 +1158,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             }
           }
         } else {
-          // Reset the entire question
           Object.assign(questionSubmissionFormModel, {
             ...originalSubmissionForm,
             recipientSubmissionForms: originalSubmissionForm.recipientSubmissionForms.map((form: FeedbackResponseRecipientSubmissionFormModel) => ({
@@ -1175,7 +1170,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             questionDetails: { ...originalSubmissionForm.questionDetails },
           });
   
-          // Remove autosave data for the entire question
           delete savedData[questionSubmissionFormModel.feedbackQuestionId];
         }
       }
