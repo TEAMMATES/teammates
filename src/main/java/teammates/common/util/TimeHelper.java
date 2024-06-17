@@ -1,5 +1,9 @@
 package teammates.common.util;
 
+import com.google.type.DateTime;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -162,4 +166,35 @@ public final class TimeHelper {
         }
     }
 
+    /**
+     * Generates a Google Calendar link with the given time, title, optional description, and time zone.
+     * @param instant The start time of the event.
+     * @param timeZone The ID of the time zone to be used for time formatting.
+     * @param title The title of the event.
+     * @param description The optional description of the event. Can be null or empty.
+     * @return The URL to create a Google Calendar event.
+     */
+    public static String getGoogleCalendarLink(Instant instant, String timeZone, String title, String description) {
+        if (instant == null || timeZone == null || title == null) {
+            return "";
+        }
+
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(timeZone));
+
+        // Define formatter with the Google Calendar expected format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")
+                .withZone(ZoneId.of(timeZone));
+
+        String startTime = formatter.format(zonedDateTime);
+        String endTime = formatter.format(zonedDateTime);
+
+        // URL encode title and optionally description to ensure special characters are handled properly
+        String encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8);
+        String encodedDescription = (description != null) ? URLEncoder.encode(description, StandardCharsets.UTF_8) : "";
+
+        // Construct the Google Calendar URL
+        return String.format(
+                "https://www.google.com/calendar/render?action=TEMPLATE&text=%s&details=%s&dates=%s/%s",
+                encodedTitle, encodedDescription, startTime, endTime);
+    }
 }

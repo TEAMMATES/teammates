@@ -56,6 +56,7 @@ public final class EmailGenerator {
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
     private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
+    private static final String FEEDBACK_DEADLINE_REMINDER_TITLE = "Feedback Session Deadline";
 
     private static final EmailGenerator instance = new EmailGenerator();
 
@@ -178,7 +179,10 @@ public final class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${startTime}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(startTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${additionalNotes}", additionalNotes);
+                "${additionalNotes}", additionalNotes,
+                "${googleCalendarLink}", TimeHelper.getGoogleCalendarLink(endTime,
+                        session.getTimeZone(), FEEDBACK_DEADLINE_REMINDER_TITLE,
+                        SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName())));
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
         email.setType(emailType);
@@ -317,7 +321,10 @@ public final class EmailGenerator {
                     "${deadline}", TimeHelper.formatInstant(endTime, fsa.getTimeZone(), DATETIME_DISPLAY_FORMAT)
                             + (fsa.isClosed() ? " (Passed)" : ""),
                     "${submitUrl}", submitUrlHtml,
-                    "${reportUrl}", reportUrlHtml));
+                    "${reportUrl}", reportUrlHtml,
+                    "${googleCalendarLink}", TimeHelper.getGoogleCalendarLink(endTime,
+                            fsa.getTimeZone(), FEEDBACK_DEADLINE_REMINDER_TITLE,
+                            fsa.getFeedbackSessionName())));
         }
 
         if (linksFragmentValue.length() == 0) {
@@ -761,7 +768,10 @@ public final class EmailGenerator {
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${feedbackAction}", feedbackAction,
-                "${additionalContactInformation}", additionalContactInformation);
+                "${additionalContactInformation}", additionalContactInformation,
+                "${googleCalendarLink}", TimeHelper.getGoogleCalendarLink(endTime,
+                        session.getTimeZone(), FEEDBACK_DEADLINE_REMINDER_TITLE,
+                        SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName())));
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
         email.setType(type);
@@ -802,7 +812,10 @@ public final class EmailGenerator {
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${feedbackAction}", feedbackAction,
-                "${additionalContactInformation}", additionalContactInformation);
+                "${additionalContactInformation}", additionalContactInformation,
+                "${googleCalendarLink}", TimeHelper.getGoogleCalendarLink(endTime,
+                        session.getTimeZone(), FEEDBACK_DEADLINE_REMINDER_TITLE,
+                        SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName())));
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
@@ -828,7 +841,10 @@ public final class EmailGenerator {
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${feedbackAction}", feedbackAction,
-                "${additionalContactInformation}", additionalContactInformation);
+                "${additionalContactInformation}", additionalContactInformation,
+                "${googleCalendarLink}", TimeHelper.getGoogleCalendarLink(endTime,
+                        session.getTimeZone(), FEEDBACK_DEADLINE_REMINDER_TITLE,
+                        SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName())));
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
