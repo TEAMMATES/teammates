@@ -1,7 +1,5 @@
 package teammates.common.util;
 
-import com.google.type.DateTime;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
