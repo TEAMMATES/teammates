@@ -291,7 +291,9 @@ There are two big categories of testing in TEAMMATES:
 - **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
 - **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](e2e-testing.md).  
 
-#### Running the tests
+<div id="running-tests">
+
+#### Running tests
 
 ##### Frontend tests
 
@@ -324,7 +326,7 @@ Back-end component tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
-`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
+`Component tests` | `./gradlew componentTests --continue` | `{project folder}/build/reports/tests/componentTests/index.html`
 Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
@@ -334,6 +336,8 @@ You can generate the coverage data with `jacocoReport` task after running tests,
 ```
 
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
+
+</div>
 
 ## Deploying to a staging server
 

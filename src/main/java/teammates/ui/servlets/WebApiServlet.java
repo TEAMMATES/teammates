@@ -2,9 +2,9 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.hibernate.HibernateException;
@@ -60,7 +60,14 @@ public class WebApiServlet extends HttpServlet {
 
         try {
             action = ActionFactory.getAction(req, req.getMethod());
-            ActionResult result = executeWithTransaction(action, req);
+            ActionResult result;
+
+            if (action.isTransactionNeeded()) {
+                result = executeWithTransaction(action, req);
+            } else {
+                result = executeWithoutTransaction(action, req);
+            }
+
             statusCode = result.getStatusCode();
             result.send(resp);
         } catch (ActionMappingException e) {
@@ -125,6 +132,14 @@ public class WebApiServlet extends HttpServlet {
             HibernateUtil.rollbackTransaction();
             throw e;
         }
+    }
+
+    private ActionResult executeWithoutTransaction(Action action, HttpServletRequest req)
+            throws InvalidOperationException, InvalidHttpRequestBodyException, UnauthorizedAccessException {
+        action.init(req);
+        action.checkAccessControl();
+
+        return action.execute();
     }
 
     private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)

@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -92,7 +93,7 @@ public class CreateAccountAction extends Action {
         }
 
         try {
-            setAccountRequestAsRegistered(accountRequest, instructorEmail, instructorInstitution);
+            setAccountRequestAsRegistered(accountRequest);
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
@@ -108,13 +109,10 @@ public class CreateAccountAction extends Action {
      *
      * @return the updated account request
      */
-    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest,
-            String instructorEmail, String instructorInstitution)
+    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
-        accountRequest.setEmail(instructorEmail);
-        accountRequest.setInstitute(instructorInstitution);
+        accountRequest.setStatus(AccountRequestStatus.REGISTERED);
         accountRequest.setRegisteredAt(Instant.now());
-
         sqlLogic.updateAccountRequest(accountRequest);
         return accountRequest;
     }

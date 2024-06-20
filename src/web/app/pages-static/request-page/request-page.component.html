@@ -1,14 +1,59 @@
 <h1 class="color-orange">
-  Request for an Account
+  Request for an Instructor Account
 </h1>
-<div *ngIf="accountRequestFormUrl">
-  <p>
-    Cannot see the request form below? <a [href]="accountRequestFormUrl" target="_blank" rel="noopener noreferrer">Click here.</a>
-  </p>
-  <iframe [src]="accountRequestFormUrl" width="760px" height="880px" frameborder="0" marginheight="0" marginwidth="0">
-    Loading...
-  </iframe>
-</div>
-<div *ngIf="!accountRequestFormUrl">
-  The URL for the account request form is not set.
+<div class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+  <div *ngIf="!submittedFormData">
+    <p>
+      Request for an instructor account using this form if you are an instructor and want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students.
+    </p>
+    <hr>
+    <div *ngIf="!isDeclarationDone">
+      <p>
+        Note: <b>Students should not use this form to request for TEAMMATES accounts</b>, as students do not need accounts to use TEAMMATES. Instead, TEAMMATES will email students (who have been added to TEAMMATES by a course instructor) an access link when there is a TEAMMATES session available for them to access.
+      </p>
+      <a type="button" class="btn btn-secondary" tmRouterLink="/web/front/home">Back to home page</a>
+      <button id="btn-am-instructor" type="button" class="btn btn-primary ms-3" (click)="onDeclarationButtonClicked()">I am an instructor</button>
+    </div>
+    <div *ngIf="isDeclarationDone">
+      <tm-instructor-request-form *ngIf="!submittedFormData" (requestSubmissionEvent)="onRequestSubmitted($event)"></tm-instructor-request-form>
+    </div>
+    <hr>
+  </div>
+  <div *ngIf="submittedFormData">
+    <p>
+      Your request has been submitted successfully:
+    </p>
+    <table class="table table-bordered my-3">
+      <tbody>
+        <tr>
+          <th scope="row" class="col-3">Full Name</th>
+          <td>{{submittedFormData.name}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Institution</th>
+          <td>{{submittedFormData.institution}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Country</th>
+          <td>{{submittedFormData.country}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Email</th>
+          <td>{{submittedFormData.email}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Comments</th>
+          <td>
+            {{submittedFormData.comments}}
+            <span class="empty-field-placeholder" *ngIf="!submittedFormData.comments"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      We have sent an acknowledgement email to your email address <b>{{submittedFormData.email}}</b>.
+      Please check your email inbox or spam folder.
+      If you do not receive the acknowledgement email within 1 hour, please <a tmRouterLink="/web/front/contact">contact</a> us.
+    </p>
+  </div>
 </div>

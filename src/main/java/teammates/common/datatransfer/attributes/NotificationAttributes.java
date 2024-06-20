@@ -260,7 +260,7 @@ public final class NotificationAttributes extends EntityAttributes<Notification>
     /**
      * A builder for {@link NotificationAttributes}.
      */
-    public static class Builder extends BasicBuilder<NotificationAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<NotificationAttributes, Builder> {
         private final NotificationAttributes notificationAttributes;
 
         private Builder(String notificationId) {
@@ -281,7 +281,7 @@ public final class NotificationAttributes extends EntityAttributes<Notification>
     /**
      * Helper class to specific the fields to update in {@link NotificationAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String notificationId;
 
         private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
@@ -318,7 +318,7 @@ public final class NotificationAttributes extends EntityAttributes<Notification>
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(UpdateOptions updateOptions) {
                 super(updateOptions);

@@ -9,9 +9,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
@@ -20,9 +20,9 @@ jobs:
   component-testing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
@@ -31,4 +31,4 @@ jobs:
       - name: Run Solr search service
         run: docker-compose run -d -p 8983:8983 solr
       - name: Run Backend Tests
-        run: ./gradlew createConfigs componentTests
+        run: ./gradlew createConfigs componentTests --continue

@@ -22,11 +22,16 @@ import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseData;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.StudentData;
 
 /**
  * Base class for all browser tests.
@@ -253,5 +258,48 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     @Override
     protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
+    }
+
+    StudentData getStudent(String courseId, String studentEmailAddress) {
+        return BACKDOOR.getStudentData(courseId, studentEmailAddress);
+    }
+
+    @Override
+    protected StudentData getStudent(Student student) {
+        return getStudent(student.getCourseId(), student.getEmail());
+    }
+
+    FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
+        return BACKDOOR.getFeedbackSessionData(courseId, feedbackSessionName);
+    }
+
+    @Override
+    protected FeedbackSessionData getFeedbackSession(FeedbackSession feedbackSession) {
+        return getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
+    }
+
+    /**
+     * Checks if the feedback session is published.
+     */
+    protected boolean isFeedbackSessionPublished(FeedbackSessionPublishStatus status) {
+        return status == FeedbackSessionPublishStatus.PUBLISHED;
+    }
+
+    FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
+    }
+
+    /**
+     * Puts the documents in the database using BACKDOOR.
+     * @param dataBundle the data to be put in the database
+     * @return the result of the operation
+     */
+    protected String putDocuments(SqlDataBundle dataBundle) {
+        try {
+            return BACKDOOR.putSqlDocuments(dataBundle);
+        } catch (HttpRequestFailedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

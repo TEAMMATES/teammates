@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
@@ -111,6 +111,13 @@ public final class FeedbackQuestionsLogic {
         }
 
         return questions;
+    }
+
+    /**
+     * Gets the unique feedback question based on sessionId and questionNumber.
+     */
+    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
+        return fqDb.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
     }
 
     /**
@@ -340,7 +347,7 @@ public final class FeedbackQuestionsLogic {
             }
 
             for (Student student : studentList) {
-                optionList.add(student.getName() + " (" + student.getTeam() + ")");
+                optionList.add(student.getName() + " (" + student.getTeam().getName() + ")");
             }
 
             optionList.sort(null);

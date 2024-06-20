@@ -483,6 +483,18 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets student reference associated with {@code id}.
+     *
+     * @param id Id of Student.
+     * @return Returns a proxy for the Student.
+     */
+    public Student getStudentReference(UUID id) {
+        assert id != null;
+
+        return usersDb.getStudentReference(id);
+    }
+
+    /**
      * Gets the student with the specified email.
      */
     public Student getStudentForEmail(String courseId, String userEmail) {

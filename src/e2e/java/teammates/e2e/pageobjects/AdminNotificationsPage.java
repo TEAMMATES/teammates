@@ -119,7 +119,7 @@ public class AdminNotificationsPage extends AppPage {
 
     public void sortNotificationsTableByDescendingCreateTime() {
         WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
-        if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
+        if (creationTimeHeader.findElements(By.className("fa-sort-down")).isEmpty()) {
             click(creationTimeHeader);
         }
     }

@@ -1,8 +1,8 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -605,6 +605,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
+    public void addMcqQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(3);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputMcqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void editMcqQuestion(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputMcqDetails(questionNum, questionDetails);
@@ -656,6 +665,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void addNumScaleQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(5);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackNumericalScaleQuestionDetails questionDetails =
+                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputNumScaleDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addNumScaleQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(5);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -790,6 +809,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
+    public void addRubricQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(9);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRubricQuestionDetails questionDetails =
+                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputRubricDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void editRubricQuestion(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputRubricDetails(questionNum, questionDetails);
@@ -807,6 +836,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void addRankOptionsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(10);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRankOptionsQuestionDetails questionDetails =
+                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputRankDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addRankOptionsQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(10);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);

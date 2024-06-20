@@ -1,0 +1,282 @@
+{
+  "accounts": {
+    "instructorOfCourse1": {
+      "googleId": "tm.e2e.ISList.instr1",
+      "name": "Instructor of Course 1",
+      "email": "ISList.instr1@gmail.tmt",
+      "id": "00000000-0000-4000-8000-000000000001"
+    },
+    "Student3Course3": {
+      "googleId": "tm.e2e.ISList.charlie.tmms",
+      "name": "Charlie D",
+      "email": "ISList.charlie.tmms@gmail.tmt",
+      "id": "00000000-0000-4000-8000-000000000002"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "course1": {
+      "id": "tm.e2e.ISList.course1",
+      "name": "Name of Course 1",
+      "timeZone": "UTC",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "course2": {
+      "id": "tm.e2e.ISList.course2",
+      "name": "Name of Course 2",
+      "timeZone": "UTC",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "course3": {
+      "id": "tm.e2e.ISList.course3",
+      "name": "Name of Course 3",
+      "timeZone": "UTC",
+      "institute": "TEAMMATES Test Institute 5"
+    }
+  },
+  "sections": {
+    "tm.e2e.ISList.course2-SectionA": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.ISList.course2"
+      },
+      "name": "Section A"
+    },
+    "tm.e2e.ISList.course2-SectionB": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "tm.e2e.ISList.course2"
+      },
+      "name": "Section B"
+    },
+    "tm.e2e.ISList.course3-Section1": {
+      "id": "00000000-0000-4000-8000-000000000203",
+      "course": {
+        "id": "tm.e2e.ISList.course3"
+      },
+      "name": "Section 1"
+    }
+  },
+  "teams": {
+    "tm.e2e.ISList.course2-SectionA-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.ISList.course2-SectionB-Team2": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "name": "Team 2"
+    },
+    "tm.e2e.ISList.course3-Section1-Team1": {
+      "id": "00000000-0000-4000-8000-000000000303",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.ISList.course3-Section1-Team2": {
+      "id": "00000000-0000-4000-8000-000000000304",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "name": "Team 2"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "instructorOfCourse1": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000501",
+      "courseId": "tm.e2e.ISList.course1",
+      "course": {
+        "id": "tm.e2e.ISList.course1"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Instructor1 Course1",
+      "email": "ISList.instr1@gmail.tmt"
+    },
+    "instructorOfCourse2": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": false,
+          "canModifyInstructor": false,
+          "canModifySession": false,
+          "canModifyStudent": false,
+          "canViewStudentInSections": false,
+          "canViewSessionInSections": false,
+          "canSubmitSessionInSections": false,
+          "canModifySessionCommentsInSections": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000502",
+      "courseId": "tm.e2e.ISList.course2",
+      "course": {
+        "id": "tm.e2e.ISList.course2"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Instructor1 Course2",
+      "email": "ISList.instr1@gmail.tmt"
+    },
+    "instructorOfCourse3": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000503",
+      "courseId": "tm.e2e.ISList.course3",
+      "course": {
+        "id": "tm.e2e.ISList.course3"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Instructor1 Course3",
+      "email": "ISList.instr1@gmail.tmt"
+    }
+  },
+  "students": {
+    "Student1Course2": {
+      "comments": "This student's name is Alice",
+      "id": "00000000-0000-4000-8000-000000000601",
+      "courseId": "tm.e2e.ISList.course2",
+      "course": {
+        "id": "tm.e2e.ISList.course2"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "Alice",
+      "email": "ISList.alice.tmms@gmail.tmt"
+    },
+    "Student2Course2": {
+      "comments": "This student's name is Benny Charles",
+      "id": "00000000-0000-4000-8000-000000000602",
+      "courseId": "tm.e2e.ISList.course2",
+      "course": {
+        "id": "tm.e2e.ISList.course2"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "name": "Benny Charles",
+      "email": "benny.c.tmms@gmail.tmt"
+    },
+    "Student3Course2": {
+      "comments": "This student's name is Hugh Ivanov",
+      "id": "00000000-0000-4000-8000-000000000603",
+      "courseId": "tm.e2e.ISList.course2",
+      "course": {
+        "id": "tm.e2e.ISList.course2"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "name": "Hugh Ivanov",
+      "email": "hugh.i.tmms@gmail.tmt"
+    },
+    "Student1Course3": {
+      "comments": "This student's name is Alice",
+      "id": "00000000-0000-4000-8000-000000000604",
+      "courseId": "tm.e2e.ISList.course3",
+      "course": {
+        "id": "tm.e2e.ISList.course3"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000303"
+      },
+      "name": "Alice Betsy",
+      "email": "ISList.alice.tmms@gmail.tmt"
+    },
+    "Student2Course3": {
+      "comments": "This student's name is Benny Charles",
+      "id": "00000000-0000-4000-8000-000000000605",
+      "courseId": "tm.e2e.ISList.course3",
+      "course": {
+        "id": "tm.e2e.ISList.course3"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000303"
+      },
+      "name": "Benny Charles",
+      "email": "benny.c.tmms@gmail.tmt"
+    },
+    "Student3Course3": {
+      "comments": "This student's name is Charlie Davis",
+      "id": "00000000-0000-4000-8000-000000000606",
+      "courseId": "tm.e2e.ISList.course3",
+      "course": {
+        "id": "tm.e2e.ISList.course3"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000304"
+      },
+      "name": "Charlie D",
+      "email": "ISList.charlie.tmms@gmail.tmt"
+    },
+    "Student4Course3": {
+      "comments": "This student's name is Denny Charlés",
+      "id": "00000000-0000-4000-8000-000000000607",
+      "courseId": "tm.e2e.ISList.course3",
+      "course": {
+        "id": "tm.e2e.ISList.course3"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000304"
+      },
+      "name": "Denny Charlés",
+      "email": "denny.c.tmms@gmail.tmt"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {},
+  "readNotifications": {}
+}

@@ -1,6 +1,6 @@
 package teammates.common.datatransfer.logs;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Holds the details for a specific log event.

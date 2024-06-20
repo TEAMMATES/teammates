@@ -2,6 +2,11 @@ package teammates.common.util;
 
 import java.util.List;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
+import jakarta.persistence.criteria.CriteriaQuery;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,6 +24,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
@@ -45,11 +51,6 @@ import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
-
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
-import jakarta.persistence.criteria.CriteriaQuery;
 
 /**
  * Utility class for Hibernate related methods.
@@ -91,7 +92,8 @@ public final class HibernateUtil {
             FeedbackRankRecipientsResponse.class,
             FeedbackRubricResponse.class,
             FeedbackTextResponse.class,
-            FeedbackResponseComment.class);
+            FeedbackResponseComment.class,
+            FeedbackSessionLog.class);
 
     private HibernateUtil() {
         // Utility class
@@ -111,18 +113,28 @@ public final class HibernateUtil {
         Configuration config = new Configuration()
                 .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                 .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
+                .setProperty("hibernate.connection.provider_class",
+                        "org.hibernate.hikaricp.internal.HikariCPConnectionProvider")
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)
                 .setProperty("hibernate.connection.url", dbUrl)
-                .setProperty("hibernate.hbm2ddl.auto", "update")
+                .setProperty("hibernate.hbm2ddl.auto", "validate")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
+                .setProperty("hibernate.hikari.minimumIdle", "10")
+                .setProperty("hibernate.hikari.maximumPoolSize", "30")
+                .setProperty("hibernate.hikari.idleTimeout", "300000")
+                .setProperty("hibernate.hikari.connectionTimeout", "30000")
                 // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
                 // .setProperty("hibernate.jdbc.batch_size", "50")
                 // .setProperty("hibernate.order_updates", "true")
                 // .setProperty("hibernate.batch_versioned_data", "true")
                 // .setProperty("hibernate.jdbc.fetch_size", "50")
                 .addPackage("teammates.storage.sqlentity");
+
+        if (Config.IS_DEV_SERVER) {
+            config.setProperty("hibernate.hbm2ddl.auto", "update");
+        }
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {
             config = config.addAnnotatedClass(cls);
@@ -146,7 +158,7 @@ public final class HibernateUtil {
      * @see SessionFactory#getCurrentSession()
      */
     private static Session getCurrentSession() {
-        return HibernateUtil.getSessionFactory().getCurrentSession();
+        return getSessionFactory().getCurrentSession();
     }
 
     /**
@@ -182,7 +194,7 @@ public final class HibernateUtil {
      * @see Transaction#begin()
      */
     public static void beginTransaction() {
-        Transaction transaction = HibernateUtil.getCurrentSession().getTransaction();
+        Transaction transaction = getCurrentSession().getTransaction();
         transaction.begin();
     }
 
@@ -191,7 +203,7 @@ public final class HibernateUtil {
      * @see Transaction#rollback()
      */
     public static void rollbackTransaction() {
-        Session session = HibernateUtil.getCurrentSession();
+        Session session = getCurrentSession();
         if (session.getTransaction().getStatus() == TransactionStatus.ACTIVE
                 || session.getTransaction().getStatus() == TransactionStatus.MARKED_ROLLBACK) {
             session.getTransaction().rollback();
@@ -200,10 +212,10 @@ public final class HibernateUtil {
 
     /**
      * Commit the current resource transaction, writing any unflushed changes to the database.
-     * @see Session#commit()
+     * @see Transaction#commit()
      */
     public static void commitTransaction() {
-        Transaction transaction = HibernateUtil.getCurrentSession().getTransaction();
+        Transaction transaction = getCurrentSession().getTransaction();
         transaction.commit();
     }
 
@@ -212,7 +224,7 @@ public final class HibernateUtil {
      * @see Session#flush()
      */
     public static void flushSession() {
-        HibernateUtil.getCurrentSession().flush();
+        getCurrentSession().flush();
     }
 
     /**
@@ -220,7 +232,7 @@ public final class HibernateUtil {
      * @see Session#clear()
      */
     public static void clearSession() {
-        HibernateUtil.getCurrentSession().clear();
+        getCurrentSession().clear();
     }
 
     /**
@@ -229,7 +241,7 @@ public final class HibernateUtil {
      * @see Session#get(Class, Object)
      */
     public static <T extends BaseEntity> T get(Class<T> entityType, Object id) {
-        return HibernateUtil.getCurrentSession().get(entityType, id);
+        return getCurrentSession().get(entityType, id);
     }
 
     /**
@@ -238,7 +250,7 @@ public final class HibernateUtil {
      * @see Session#get(Class, Object)
      */
     public static <T extends BaseEntity> T getBySimpleNaturalId(Class<T> entityType, Object id) {
-        return HibernateUtil.getCurrentSession().bySimpleNaturalId(entityType).load(id);
+        return getCurrentSession().bySimpleNaturalId(entityType).load(id);
     }
 
     /**
@@ -246,7 +258,7 @@ public final class HibernateUtil {
      * @see Session#merge(E)
      */
     public static <E> E merge(E object) {
-        return HibernateUtil.getCurrentSession().merge(object);
+        return getCurrentSession().merge(object);
     }
 
     /**
@@ -254,7 +266,7 @@ public final class HibernateUtil {
      * @see Session#persist(Object)
      */
     public static void persist(BaseEntity entity) {
-        HibernateUtil.getCurrentSession().persist(entity);
+        getCurrentSession().persist(entity);
     }
 
     /**
@@ -262,14 +274,24 @@ public final class HibernateUtil {
      * @see Session#remove(Object)
      */
     public static void remove(BaseEntity entity) {
-        HibernateUtil.getCurrentSession().remove(entity);
+        getCurrentSession().remove(entity);
     }
 
     /**
      * Create and execute a {@code MutationQuery} for the given delete criteria tree.
      */
     public static <T> void executeDelete(CriteriaDelete<T> cd) {
-        HibernateUtil.getCurrentSession().createMutationQuery(cd).executeUpdate();
+        getCurrentSession().createMutationQuery(cd).executeUpdate();
+    }
+
+    /**
+     * Return a reference to the persistent instance with the given class and
+     * identifier,making the assumption that the instance is still persistent in the
+     * database.
+     * @see Session#getReference(Class, Object)
+     */
+    public static <T> T getReference(Class<T> entityType, Object id) {
+        return getCurrentSession().getReference(entityType, id);
     }
 
 }

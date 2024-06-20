@@ -9,10 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.function.Executable;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -29,6 +31,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelperExtension;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -43,6 +46,7 @@ import teammates.storage.sqlentity.Team;
 /**
  * Base class for all test cases.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class BaseTestCase {
 
     /**
@@ -183,8 +187,8 @@ public class BaseTestCase {
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
         return FeedbackQuestion.makeQuestion(session, 1, "test-description",
-                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<FeedbackParticipantType>(),
-                new ArrayList<FeedbackParticipantType>(), new ArrayList<FeedbackParticipantType>(),
+                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
                 new FeedbackTextQuestionDetails("test question text"));
     }
 
@@ -204,6 +208,11 @@ public class BaseTestCase {
                 null, null, null);
         comment.setId(id);
         return comment;
+    }
+
+    protected AccountRequest getTypicalAccountRequest() {
+        return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1, Test Country",
+                AccountRequestStatus.PENDING, "");
     }
 
     /**
@@ -277,127 +286,83 @@ public class BaseTestCase {
      */
 
     protected static void assertTrue(boolean condition) {
-        Assert.assertTrue(condition);
+        Assertions.assertTrue(condition);
     }
 
     protected static void assertTrue(String message, boolean condition) {
-        Assert.assertTrue(message, condition);
+        Assertions.assertTrue(condition, message);
     }
 
     protected static void assertFalse(boolean condition) {
-        Assert.assertFalse(condition);
+        Assertions.assertFalse(condition);
     }
 
     protected static void assertFalse(String message, boolean condition) {
-        Assert.assertFalse(message, condition);
+        Assertions.assertFalse(condition, message);
     }
 
     protected static void assertEquals(int expected, int actual) {
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(String message, int expected, int actual) {
-        Assert.assertEquals(message, expected, actual);
+        Assertions.assertEquals(expected, actual, message);
     }
 
     protected static void assertEquals(long expected, long actual) {
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(double expected, double actual, double delta) {
-        Assert.assertEquals(expected, actual, delta);
+        Assertions.assertEquals(expected, actual, delta);
     }
 
     protected static void assertEquals(Object expected, Object actual) {
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     protected static void assertEquals(String message, Object expected, Object actual) {
-        Assert.assertEquals(message, expected, actual);
+        Assertions.assertEquals(expected, actual, message);
     }
 
     protected static void assertArrayEquals(byte[] expected, byte[] actual) {
-        Assert.assertArrayEquals(expected, actual);
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     protected static void assertNotEquals(Object first, Object second) {
-        Assert.assertNotEquals(first, second);
+        Assertions.assertNotEquals(first, second);
     }
 
     protected static void assertSame(Object expected, Object actual) {
-        Assert.assertSame(expected, actual);
+        Assertions.assertSame(expected, actual);
     }
 
     protected static void assertNotSame(Object unexpected, Object actual) {
-        Assert.assertNotSame(unexpected, actual);
+        Assertions.assertNotSame(unexpected, actual);
     }
 
     protected static void assertNull(Object object) {
-        Assert.assertNull(object);
+        Assertions.assertNull(object);
     }
 
     protected static void assertNull(String message, Object object) {
-        Assert.assertNull(message, object);
+        Assertions.assertNull(object, message);
     }
 
     protected static void assertNotNull(Object object) {
-        Assert.assertNotNull(object);
+        Assertions.assertNotNull(object);
     }
 
     protected static void assertNotNull(String message, Object object) {
-        Assert.assertNotNull(message, object);
+        Assertions.assertNotNull(object, message);
     }
 
     protected static void fail(String message) {
-        Assert.fail(message);
+        Assertions.fail(message);
     }
 
-    // This method is adapted from JUnit 5's assertThrows.
-    // Once we upgrade to JUnit 5, their built-in method shall be used instead.
-    @SuppressWarnings({
-            "unchecked",
-            "PMD.AvoidCatchingThrowable", // As per reference method's specification
-    })
     protected static <T extends Throwable> T assertThrows(Class<T> expectedType, Executable executable) {
-        try {
-            executable.execute();
-        } catch (Throwable actualException) {
-            if (expectedType.isInstance(actualException)) {
-                return (T) actualException;
-            } else {
-                String message = String.format("Expected %s to be thrown, but %s was instead thrown.",
-                        getCanonicalName(expectedType), getCanonicalName(actualException.getClass()));
-                throw new AssertionError(message, actualException);
-            }
-        }
-
-        String message = String.format("Expected %s to be thrown, but nothing was thrown.", getCanonicalName(expectedType));
-        throw new AssertionError(message);
+        return Assertions.assertThrows(expectedType, executable);
     }
 
-    private static String getCanonicalName(Class<?> clazz) {
-        String canonicalName = clazz.getCanonicalName();
-        return canonicalName == null ? clazz.getName() : canonicalName;
-    }
-
-    /**
-     * {@code Executable} is a functional interface that can be used to
-     * implement any generic block of code that potentially throws a
-     * {@link Throwable}.
-     *
-     * <p>The {@code Executable} interface is similar to {@link Runnable},
-     * except that an {@code Executable} can throw any kind of exception.
-     */
-    // This interface is adapted from JUnit 5's Executable interface.
-    // Once we upgrade to JUnit 5, this interface shall no longer be necessary.
-    public interface Executable {
-
-        /**
-         * Executes a block of code, potentially throwing a {@link Throwable}.
-         */
-        // CHECKSTYLE.OFF:IllegalThrows
-        void execute() throws Throwable;
-        // CHECKSTYLE.ON:IllegalThrows
-
-    }
 }

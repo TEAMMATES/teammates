@@ -64,9 +64,9 @@ public class ErrorLogEntryTest extends BaseTestCase {
                         "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
                         "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
                         "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
-                        "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-                        "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
-                        "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+                        "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+                        "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+                        "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
                         "..."
                 )
         ));
@@ -81,9 +81,9 @@ public class ErrorLogEntryTest extends BaseTestCase {
                 "    at teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
                 "    at teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
                 "    at teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
-                "    at javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-                "    at javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
-                "    at javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+                "    at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+                "    at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+                "    at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
                 "    at ...",
                 ""
         ));

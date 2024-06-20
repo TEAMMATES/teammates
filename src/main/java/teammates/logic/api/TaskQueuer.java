@@ -194,9 +194,9 @@ public class TaskQueuer {
         int oneHourInMillis = 60 * 60 * 1000;
         int emailIntervalMillis = Math.min(5000, oneHourInMillis / emails.size());
 
-        int numberOfEmailsSent = 0;
+        long numberOfEmailsSent = 0L;
         for (EmailWrapper email : emails) {
-            long emailDelayTimer = (long) numberOfEmailsSent * (long) emailIntervalMillis;
+            long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
             scheduleEmailForSending(email, emailDelayTimer);
             numberOfEmailsSent++;
         }
@@ -218,20 +218,16 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules for the search indexing of the account request identified by {@code email} and {@code institute}.
+     * Schedules for the search indexing of the account request identified by {@code id}.
      *
-     * @param email the email associated with the account request
-     * @param institute the institute associated with the account request
+     * @param id the id associated with the account request
      */
-    public void scheduleAccountRequestForSearchIndexing(String email, String institute) {
+    public void scheduleAccountRequestForSearchIndexing(String id) {
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, email);
-        paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        paramMap.put(ParamsNames.ACCOUNT_REQUEST_ID, id);
 
-        // TODO: change the action CreateAccountRequestAction to call scheduleAccountRequestForSearchIndexing
-        // after AccountRequest is inserted in the DB
-        addDeferredTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
-                paramMap, null, 60);
+        addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
+                paramMap, null);
     }
 
     /**

@@ -411,7 +411,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
     /**
      * A builder class for {@link InstructorAttributes}.
      */
-    public static class Builder extends BasicBuilder<InstructorAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<InstructorAttributes, Builder> {
         private final InstructorAttributes instructorAttributes;
 
         private Builder(String courseId, String email) {
@@ -444,7 +444,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
      *
      * <p>{@code courseId} and {@code email} is used to identify the instructor.
      */
-    public static class UpdateOptionsWithEmail extends UpdateOptions {
+    public static final class UpdateOptionsWithEmail extends UpdateOptions {
         private String courseId;
         private String email;
 
@@ -476,7 +476,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
         /**
          * Builder class for {@link UpdateOptionsWithEmail}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptionsWithEmail, UpdateOptionsWithEmail.Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptionsWithEmail, UpdateOptionsWithEmail.Builder> {
 
             private UpdateOptionsWithEmail updateOptionsWithEmail;
 
@@ -505,7 +505,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
      *
      * <p>{@code courseId} and {@code googleId} is used to identify the instructor.
      */
-    public static class UpdateOptionsWithGoogleId extends UpdateOptions {
+    public static final class UpdateOptionsWithGoogleId extends UpdateOptions {
         private String courseId;
         private String googleId;
 
@@ -538,7 +538,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
         /**
          * Builder class for {@link UpdateOptionsWithGoogleId}.
          */
-        public static class Builder
+        public static final class Builder
                 extends BasicBuilder<UpdateOptionsWithGoogleId, UpdateOptionsWithGoogleId.Builder> {
 
             private UpdateOptionsWithGoogleId updateOptionsWithGoogleId;

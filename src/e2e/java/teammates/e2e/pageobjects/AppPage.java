@@ -1,10 +1,10 @@
 package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -396,6 +396,13 @@ public abstract class AppPage {
     }
 
     /**
+     * Clear existing text in the editor.
+     */
+    protected void clearRichTextEditor(WebElement editor) {
+        writeToRichTextEditor(editor, "");
+    }
+
+    /**
      * Select the option, if it is not already selected.
      * No action taken if it is already selected.
      */
@@ -542,7 +549,7 @@ public abstract class AppPage {
      * Returns True if there is a corresponding element for the given locator.
      */
     public boolean isElementPresent(By by) {
-        return browser.driver.findElements(by).size() != 0;
+        return !browser.driver.findElements(by).isEmpty();
     }
 
     /**

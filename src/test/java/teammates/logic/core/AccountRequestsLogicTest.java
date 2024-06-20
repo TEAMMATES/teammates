@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.storage.entity.AccountRequest;
 import teammates.test.AssertHelper;
 
 /**
@@ -108,7 +109,10 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testDeleteAccountRequest() throws Exception {
-        AccountRequestAttributes a = dataBundle.accountRequests.get("unregisteredInstructor1");
+        // This ensures the AccountRequestAttributes has the correct ID.
+        AccountRequestAttributes accountRequestAttributes = dataBundle.accountRequests.get("unregisteredInstructor1");
+        AccountRequest accountRequest = accountRequestAttributes.toEntity();
+        AccountRequestAttributes a = AccountRequestAttributes.valueOf(accountRequest);
 
         ______TS("silent deletion of non-existent account request");
 

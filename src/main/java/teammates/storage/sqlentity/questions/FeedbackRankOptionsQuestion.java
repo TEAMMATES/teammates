@@ -3,16 +3,16 @@ package teammates.storage.sqlentity.questions;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
+import jakarta.persistence.Entity;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
-import jakarta.persistence.Entity;
 
 /**
  * Represents a rank options question.
@@ -33,8 +33,7 @@ public class FeedbackRankOptionsQuestion extends FeedbackQuestion {
             String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
-            FeedbackQuestionDetails feedbackQuestionDetails
-    ) {
+            FeedbackQuestionDetails feedbackQuestionDetails) {
         super(feedbackSession, questionNumber, description, giverType, recipientType,
                 numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
         setFeedBackQuestionDetails((FeedbackRankOptionsQuestionDetails) feedbackQuestionDetails);
@@ -52,8 +51,7 @@ public class FeedbackRankOptionsQuestion extends FeedbackQuestion {
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(),
                 new ArrayList<>(this.getShowResponsesTo()), new ArrayList<>(this.getShowGiverNameTo()),
                 new ArrayList<>(this.getShowRecipientNameTo()),
-                new FeedbackRankOptionsQuestionDetails(this.questionDetails.getQuestionText())
-        );
+                this.questionDetails.getDeepCopy());
     }
 
     @Override

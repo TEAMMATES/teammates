@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
@@ -329,7 +330,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
-        return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        return BACKDOOR.getAccountRequest(UUID.fromString(accountRequest.getId()));
     }
 
     NotificationAttributes getNotification(String notificationId) {

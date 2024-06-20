@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -38,32 +39,44 @@ import teammates.storage.sqlentity.Team;
  * Helper class to convert entities from its noSQL to SQL format.
  */
 public class DataStoreToSqlConverter {
-    private String uuidPrefix = "00000000-0000-4000-8000-";
-    private int initialAccountNumber = 1;
-    private int initialAccountRequestNumber = 101;
-    private int initialSectionNumber = 201;
-    private int initialTeamNumber = 301;
-    private int initialDeadlineExtensionNumber = 401;
-    private int initialInstructorNumber = 501;
-    private int initialStudentNumber = 601;
-    private int intitialFeedbackSessionNumber = 701;
-    private int initialFeedbackQuestionNumber = 801;
-    private int intialFeedbackResponseNumber = 901;
-    private int initialNotificationNumber = 1101;
-    private int initialReadNotificationNumber = 1201;
+    private static final String UUID_PREFIX = "00000000-0000-4000-8000-";
+    private static final int INITIAL_ACCOUNT_NUMBER = 1;
+    private static final int INITIAL_ACCOUNT_REQUEST_NUMBER = 101;
+    private static final int INITIAL_SECTION_NUMBER = 201;
+    private static final int INITIAL_TEAM_NUMBER = 301;
+    private static final int INITIAL_DEADLINE_EXTENSION_NUMBER = 401;
+    private static final int INITIAL_INSTRUCTOR_NUMBER = 501;
+    private static final int INITIAL_STUDENT_NUMBER = 601;
+    private static final int INITIAL_FEEDBACK_SESSION_NUMBER = 701;
+    private static final int INITIAL_FEEDBACK_QUESTION_NUMBER = 801;
+    private static final int INITIAL_FEEDBACK_RESPONSE_NUMBER = 901;
+    private static final int INITIAL_NOTIFICATION_NUMBER = 1101;
+    private static final int INITIAL_READ_NOTIFICATION_NUMBER = 1201;
 
-    private UuidGenerator accountUuidGenerator = new UuidGenerator(initialAccountNumber, uuidPrefix);
-    private UuidGenerator accounRequestUuidGenerator = new UuidGenerator(initialAccountRequestNumber, uuidPrefix);
-    private UuidGenerator sectionUuidGenerator = new UuidGenerator(initialSectionNumber, uuidPrefix);
-    private UuidGenerator teamUuidGenerator = new UuidGenerator(initialTeamNumber, uuidPrefix);
-    private UuidGenerator deadlineExtensionUuidGenerator = new UuidGenerator(initialDeadlineExtensionNumber, uuidPrefix);
-    private UuidGenerator instructorUuidGenerator = new UuidGenerator(initialInstructorNumber, uuidPrefix);
-    private UuidGenerator studentUuidGenerator = new UuidGenerator(initialStudentNumber, uuidPrefix);
-    private UuidGenerator feedbackSessionUuidGenerator = new UuidGenerator(intitialFeedbackSessionNumber, uuidPrefix);
-    private UuidGenerator feedbackQuestionUuidGenerator = new UuidGenerator(initialFeedbackQuestionNumber, uuidPrefix);
-    private UuidGenerator feedbackResponseUuidGenerator = new UuidGenerator(intialFeedbackResponseNumber, uuidPrefix);
-    private UuidGenerator notificationUuidGenerator = new UuidGenerator(initialNotificationNumber, uuidPrefix);
-    private UuidGenerator readNotificationUuidGenerator = new UuidGenerator(initialReadNotificationNumber, uuidPrefix);
+    private static final UuidGenerator ACCOUNT_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_ACCOUNT_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator ACCOUN_REQUEST_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_ACCOUNT_REQUEST_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator SECTION_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_SECTION_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator TEAM_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_TEAM_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator DEADLINE_EXTENSION_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_DEADLINE_EXTENSION_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator INSTRUCTOR_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_INSTRUCTOR_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator STUDENT_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_STUDENT_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator FEEDBACK_SESSION_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_FEEDBACK_SESSION_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator FEEDBACK_QUESTION_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_FEEDBACK_QUESTION_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator FEEDBACK_RESPONSE_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_FEEDBACK_RESPONSE_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator NOTIFICATION_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_NOTIFICATION_NUMBER, UUID_PREFIX);
+    private static final UuidGenerator READ_NOTIFICATION_UUID_GENERATOR =
+            new UuidGenerator(INITIAL_READ_NOTIFICATION_NUMBER, UUID_PREFIX);
 
     private long initialFeedbackResponseCommentId;
 
@@ -98,11 +111,11 @@ public class DataStoreToSqlConverter {
         return String.format("%s-%s", courseId, sectionName);
     }
 
-    private String generatefeedbackSessionKey(FeedbackSessionAttributes feedbackSession) {
+    private String generateFeedbackSessionKey(FeedbackSessionAttributes feedbackSession) {
         return String.format("%s-%s", feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName());
     }
 
-    private String generatefeedbackSessionKey(String courseId, String feedbackSessionName) {
+    private String generateFeedbackSessionKey(String courseId, String feedbackSessionName) {
         return String.format("%s-%s", courseId, feedbackSessionName);
     }
 
@@ -114,7 +127,7 @@ public class DataStoreToSqlConverter {
                 accAttr.getName(),
                 accAttr.getEmail());
 
-        UUID uuid = accountUuidGenerator.generateUuid();
+        UUID uuid = ACCOUNT_UUID_GENERATOR.generateUuid();
         sqlAccount.setId(uuid);
 
         accounts.put(accAttr.getGoogleId(), sqlAccount);
@@ -128,13 +141,17 @@ public class DataStoreToSqlConverter {
     protected AccountRequest convert(AccountRequestAttributes accReqAttr) {
         AccountRequest sqlAccountRequest = new AccountRequest(accReqAttr.getEmail(),
                 accReqAttr.getName(),
-                accReqAttr.getInstitute());
+                accReqAttr.getInstitute(), AccountRequestStatus.APPROVED, null);
+
+        if (accReqAttr.getRegisteredAt() != null) {
+            sqlAccountRequest.setStatus(AccountRequestStatus.REGISTERED);
+        }
 
         sqlAccountRequest.setCreatedAt(accReqAttr.getCreatedAt());
         sqlAccountRequest.setRegisteredAt(accReqAttr.getRegisteredAt());
         sqlAccountRequest.setRegistrationKey(accReqAttr.getRegistrationKey());
 
-        UUID uuid = accounRequestUuidGenerator.generateUuid();
+        UUID uuid = ACCOUN_REQUEST_UUID_GENERATOR.generateUuid();
         sqlAccountRequest.setId(uuid);
 
         return sqlAccountRequest;
@@ -174,7 +191,7 @@ public class DataStoreToSqlConverter {
             sqlNotification.setShown();
         }
 
-        UUID uuid = notificationUuidGenerator.generateUuid();
+        UUID uuid = NOTIFICATION_UUID_GENERATOR.generateUuid();
         sqlNotification.setId(uuid);
 
         notifications.put(notifAttr.getNotificationId(), sqlNotification);
@@ -204,9 +221,9 @@ public class DataStoreToSqlConverter {
 
         sqlFs.setCreatedAt(fsAttr.getCreatedTime());
         sqlFs.setDeletedAt(fsAttr.getDeletedTime());
-        sqlFs.setId(feedbackSessionUuidGenerator.generateUuid());
+        sqlFs.setId(FEEDBACK_SESSION_UUID_GENERATOR.generateUuid());
 
-        feedbackSessions.put(generatefeedbackSessionKey(fsAttr), sqlFs);
+        feedbackSessions.put(generateFeedbackSessionKey(fsAttr), sqlFs);
 
         return sqlFs;
     }
@@ -227,7 +244,7 @@ public class DataStoreToSqlConverter {
                 instructor.getDisplayedName(),
                 role,
                 instructor.getPrivileges());
-        sqlInstructor.setId(instructorUuidGenerator.generateUuid());
+        sqlInstructor.setId(INSTRUCTOR_UUID_GENERATOR.generateUuid());
         sqlInstructor.setAccount(sqlAccount);
 
         return sqlInstructor;
@@ -245,7 +262,7 @@ public class DataStoreToSqlConverter {
                 student.getEmail(),
                 student.getComments());
 
-        sqlStudent.setId(studentUuidGenerator.generateUuid());
+        sqlStudent.setId(STUDENT_UUID_GENERATOR.generateUuid());
         sqlStudent.setAccount(sqlAccount);
 
         return sqlStudent;
@@ -256,7 +273,7 @@ public class DataStoreToSqlConverter {
      */
     protected DeadlineExtension convert(DeadlineExtensionAttributes deadlineExtension) {
         FeedbackSession sqlFeedbackSession = feedbackSessions.get(
-                generatefeedbackSessionKey(deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName()));
+                generateFeedbackSessionKey(deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName()));
 
         // User is not included since DataBundleLogic.java does not read users from this attribute
         DeadlineExtension sqlDE = new DeadlineExtension(null,
@@ -265,7 +282,7 @@ public class DataStoreToSqlConverter {
 
         sqlDE.setClosingSoonEmailSent(deadlineExtension.getSentClosingEmail());
         sqlDE.setCreatedAt(deadlineExtension.getCreatedAt());
-        sqlDE.setId(deadlineExtensionUuidGenerator.generateUuid());
+        sqlDE.setId(DEADLINE_EXTENSION_UUID_GENERATOR.generateUuid());
 
         return sqlDE;
     }
@@ -275,7 +292,7 @@ public class DataStoreToSqlConverter {
      */
     protected FeedbackQuestion convert(FeedbackQuestionAttributes feedbackQuestion) {
         FeedbackSession sqlFeedbackSession = feedbackSessions.get(
-                generatefeedbackSessionKey(feedbackQuestion.getCourseId(), feedbackQuestion.getFeedbackSessionName()));
+                generateFeedbackSessionKey(feedbackQuestion.getCourseId(), feedbackQuestion.getFeedbackSessionName()));
 
         FeedbackQuestion sqlFq = FeedbackQuestion.makeQuestion(sqlFeedbackSession,
                 feedbackQuestion.getQuestionNumber(),
@@ -289,7 +306,7 @@ public class DataStoreToSqlConverter {
                 feedbackQuestion.getQuestionDetails());
 
         sqlFq.setCreatedAt(feedbackQuestion.getCreatedAt());
-        sqlFq.setId(feedbackQuestionUuidGenerator.generateUuid());
+        sqlFq.setId(FEEDBACK_QUESTION_UUID_GENERATOR.generateUuid());
 
         return sqlFq;
     }
@@ -314,7 +331,7 @@ public class DataStoreToSqlConverter {
                 sqlReceiverSection,
                 feedbackResponse.getResponseDetails());
 
-        sqlFeedbackResponse.setId(feedbackResponseUuidGenerator.generateUuid());
+        sqlFeedbackResponse.setId(FEEDBACK_RESPONSE_UUID_GENERATOR.generateUuid());
         sqlFeedbackResponse.setCreatedAt(feedbackResponse.getCreatedAt());
 
         return sqlFeedbackResponse;
@@ -355,7 +372,7 @@ public class DataStoreToSqlConverter {
         Course sqlCourse = courses.get(student.getCourse());
         Section sqlSection = new Section(sqlCourse, student.getSection());
 
-        sqlSection.setId(sectionUuidGenerator.generateUuid());
+        sqlSection.setId(SECTION_UUID_GENERATOR.generateUuid());
 
         sections.put(generateSectionKey(student), sqlSection);
 
@@ -368,7 +385,7 @@ public class DataStoreToSqlConverter {
     protected Team createTeam(StudentAttributes student) {
         Section sqlSection = sections.get(generateSectionKey(student));
         Team sqlTeam = new Team(sqlSection, student.getTeam());
-        sqlTeam.setId(teamUuidGenerator.generateUuid());
+        sqlTeam.setId(TEAM_UUID_GENERATOR.generateUuid());
 
         return sqlTeam;
     }
@@ -383,7 +400,7 @@ public class DataStoreToSqlConverter {
         account.getReadNotifications().forEach((notifId, endTime) -> {
             Notification sqlNotification = notifications.get(notifId);
             ReadNotification sqlReadNotification = new ReadNotification(sqlAccount, sqlNotification);
-            sqlReadNotification.setId(readNotificationUuidGenerator.generateUuid());
+            sqlReadNotification.setId(READ_NOTIFICATION_UUID_GENERATOR.generateUuid());
             sqlReadNotifications.add(sqlReadNotification);
         });
 
