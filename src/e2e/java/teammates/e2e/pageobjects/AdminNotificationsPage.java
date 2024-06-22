@@ -67,8 +67,19 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public void verifyNotificationsTableRow(Notification notification) {
-        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getId().toString()));
+        WebElement notificationRow = getNotificationRow(notification);
         verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
+    }
+
+    private WebElement getNotificationRow(Notification notification) {
+        List<WebElement> notificationRows = notificationsTable.findElements(By.cssSelector("tbody tr"));
+        for (WebElement notificationRow : notificationRows) {
+            List<WebElement> notificationCells = notificationRow.findElements(By.tagName("td"));
+            if (notificationCells.get(0).getText().equals(notification.getTitle())) {
+                return notificationRow;
+            }
+        }
+        return null;
     }
 
     public void addNotification(Notification notification) {
@@ -120,6 +131,14 @@ public class AdminNotificationsPage extends AppPage {
     public void sortNotificationsTableByDescendingCreateTime() {
         WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
         if (creationTimeHeader.findElements(By.className("fa-sort-down")).isEmpty()) {
+            click(creationTimeHeader);
+            click(creationTimeHeader);
+        }
+    }
+
+    public void sortNotificationsTableByAscendingCreateTime() {
+        WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
+        if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
             click(creationTimeHeader);
         }
     }
