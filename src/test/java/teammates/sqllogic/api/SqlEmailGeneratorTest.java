@@ -47,7 +47,6 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
         verifyEmail(email, "darth-vader@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
-                Config.SUPPORT_EMAIL,
                 "/instructorNewAccountRequestAcknowledgementEmailWithComments.html");
     }
 
@@ -58,7 +57,6 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
         verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
-                Config.SUPPORT_EMAIL,
                 "/instructorNewAccountRequestAcknowledgementEmailWithNoComments.html");
     }
 
