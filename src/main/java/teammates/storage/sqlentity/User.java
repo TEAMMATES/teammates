@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -53,7 +55,7 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false)
     private String regKey;
 
-    // @UpdateTimestamp
+    @UpdateTimestamp
     private Instant updatedAt;
 
     protected User() {

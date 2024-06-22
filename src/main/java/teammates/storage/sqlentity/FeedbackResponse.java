@@ -6,6 +6,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,16 +32,6 @@ import jakarta.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
-import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
-import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
-import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
-import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
-import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
-import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
-import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
-import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 /**
  * Represents a Feedback Response.

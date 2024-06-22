@@ -4,20 +4,22 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.Instructor;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -31,15 +33,15 @@ import jakarta.persistence.criteria.Root;
  */
 @SuppressWarnings({ "PMD", "deprecation" })
 public class VerifyCourseEntityAttributes
-        extends VerifyNonCourseEntityAttributesBaseScript<Course, teammates.storage.sqlentity.Course> {
+        extends VerifyNonCourseEntityAttributesBaseScript<teammates.storage.entity.Course, Course> {
 
     public VerifyCourseEntityAttributes() {
-        super(Course.class,
-                teammates.storage.sqlentity.Course.class);
+        super(teammates.storage.entity.Course.class,
+                Course.class);
     }
 
     @Override
-    protected String generateID(teammates.storage.sqlentity.Course sqlEntity) {
+    protected String generateID(Course sqlEntity) {
         return sqlEntity.getId();
     }
 
@@ -50,47 +52,84 @@ public class VerifyCourseEntityAttributes
 
     // Used for sql data migration
     @Override
-    public boolean equals(teammates.storage.sqlentity.Course newCourse, Course oldCourse) {
+    public boolean equals(Course newCourse, teammates.storage.entity.Course oldCourse) {
+        // Refetch course to ensure that the information is upto date
+        String courseId = newCourse.getId();
         try {
-            HibernateUtil.beginTransaction();
-            newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class, newCourse.getId());
             boolean isEqual = true;
-            if (!verifyCourse(newCourse, oldCourse)) {
-                log("Failed course verification");
-                isEqual = false;
-            }
-
-            if (!verifySectionChain(newCourse)) {
-                log("Failed section chain verification");
-                isEqual = false;
-            }
-
-            if (!verifyFeedbackChain(newCourse)) {
-                log("Failed feedback chain verification"); 
-                isEqual = false;
-            }
-
-            if (!verifyInstructors(newCourse)) {
-                log("Failed instructor verification");
-                isEqual = false;
-            }
-
-            if (!verifyDeadlineExtensions(newCourse)) {
-                log("Failed deadline extension verification");
-                isEqual = false;
-            }
-
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyCourse(courseId, oldCourse);
             HibernateUtil.commitTransaction();
+            
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifySections(courseId);
+            HibernateUtil.commitTransaction();
+
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyTeams(courseId);
+            HibernateUtil.commitTransaction();
+
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyStudents(courseId);
+            HibernateUtil.commitTransaction();
+
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyFeedbackChain(courseId);
+            HibernateUtil.commitTransaction();
+
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyInstructors(newCourse);
+            HibernateUtil.commitTransaction();
+
+            HibernateUtil.beginTransaction();
+            isEqual = isEqual && verifyDeadlineExtensions(newCourse);
+            HibernateUtil.commitTransaction();
+
+            // if (!verifySectionChain(newCourse)) {
+            //     logValidationError("Failed section chain verification");
+            //     isEqual = false;
+            // }
+
+            // if (!verifyFeedbackChain(newCourse)) {
+            //     logValidationError("Failed feedback chain verification"); 
+            //     isEqual = false;
+            // }
+
+            // if (!verifyInstructors(newCourse)) {
+            //     logValidationError("Failed instructor verification");
+            //     isEqual = false;
+            // }
+
+            // if (!verifyDeadlineExtensions(newCourse)) {
+            //     logValidationError("Failed deadline extension verification");
+            //     isEqual = false;
+            // }
+
             return isEqual;
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
-            log("ERROR, IllegalArgumentException " + iae.getMessage());
+            logValidationError("ERROR, IllegalArgumentException " + iae.getMessage());
             HibernateUtil.commitTransaction();
             return false;
         }
     }
 
-    private boolean verifyCourse(teammates.storage.sqlentity.Course sqlEntity, Course datastoreEntity) {
+    private Course getCourse(String courseId) {
+        return HibernateUtil.get(Course.class, courseId);
+    }
+
+    private boolean verifyCourse(String courseId, teammates.storage.entity.Course oldCourse) {
+        log("Verifying Course attributes");
+        Course newCourse = getCourse(courseId);
+        boolean isEqual = true;
+        if (!verifyCourseEntityAttributes(newCourse, oldCourse)) {
+            logValidationError("Failed course verification");
+            isEqual = false;
+        }
+        return isEqual;
+    }
+
+    private boolean verifyCourseEntityAttributes(Course sqlEntity, teammates.storage.entity.Course datastoreEntity) {
         return sqlEntity.getId().equals(datastoreEntity.getUniqueId())
                 && sqlEntity.getName().equals(datastoreEntity.getName())
                 && sqlEntity.getTimeZone().equals(datastoreEntity.getTimeZone())
@@ -103,140 +142,289 @@ public class VerifyCourseEntityAttributes
     // methods for verify section chain  -----------------------------------------------------------------------------------
     // entities: Section, Team, Student
 
-    private boolean verifySectionChain(teammates.storage.sqlentity.Course newCourse) {
-        // Get old and new students
-        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", newCourse.getId())
+    private boolean verifySections(String courseId) {
+        log("Verifying sections");
+        // Get datastore sections
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
                 .list();
-        List<Student> newStudents = getNewStudents(newCourse.getId());
 
-        // Group students by section
-        Map<String, List<CourseStudent>> sectionToOldStuMap = oldStudents.stream()
-                .collect(Collectors.groupingBy(CourseStudent::getSectionName));
-        Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
-                .collect(Collectors.groupingBy(Student::getSectionName));
+        List<Section> newSections = getNewSections(courseId);
 
-        List<Section> newSections = getNewSections(newCourse.getId());
+        HashSet<String> oldSectionNames = new HashSet<String>();
+        HashSet<String> newSectionNames = new HashSet<String>();
 
-        boolean isNotSectionsCountEqual = newSections.size() != sectionToOldStuMap.size()
-                || newSections.size() != sectionToNewStuMap.size();
-        if (isNotSectionsCountEqual) {
-            log(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
-                sectionToOldStuMap.size(), sectionToNewStuMap.size()));
-            log("Section chain - section count not equal");
+        for (CourseStudent oldStudent : oldStudents) {
+            oldSectionNames.add(oldStudent.getSectionName());
+        }
+
+        for (Section newSection : newSections) {
+            newSectionNames.add(newSection.getName());;
+        }
+
+        boolean isSectionsCountEqual = newSectionNames.size() == oldSectionNames.size();
+        if (!isSectionsCountEqual) {
+            logValidationError(String.format("Section chain - section count not equal (%d but expected %d)", newSectionNames.size(),
+                oldSectionNames.size()));
             return false;
         }
 
-        return newSections.stream().allMatch(section -> {
-            List<CourseStudent> oldSectionStudents = sectionToOldStuMap.get(section.getName());
-            List<Student> newSectionStudents = sectionToNewStuMap.get(section.getName());
-
-            // If either of the sectionStudent is null,
-            // then section is not present in the corresponding datastore or sql
-            // which means a possible migration error
-            boolean sectionNameNotPresent = oldSectionStudents == null || newSectionStudents == null;
-            if (sectionNameNotPresent) {
-                log("Section chain - section name not present");
-                return false;
-            }
-
-            // Group students by team
-            Map<String, List<CourseStudent>> teamNameToOldStuMap = oldSectionStudents.stream()
-                    .collect(Collectors.groupingBy(CourseStudent::getTeamName));
-            Map<String, List<Student>> teamNameToNewStuMap = newSectionStudents.stream()
-                    .collect(Collectors.groupingBy(Student::getTeamName));
-            return verifyTeams(section, teamNameToOldStuMap, teamNameToNewStuMap);
-        });
-
+        if (!newSectionNames.equals(oldSectionNames)) {
+            logValidationError(String.format("Section chain - section attributes are not equal"));
+            return false;
+        }
+        return true;
     }
 
-    private boolean verifyTeams(Section newSection,
-            Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
+    // private boolean verifyTeams(Section newSection,
+    //         Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
 
-        List<Team> newTeams = newSection.getTeams();
+    //     List<Team> newTeams = newSection.getTeams();
 
-        boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
-                || newTeams.size() != teamNameToOldStuMap.size();
-        if (isNotTeamCountEqual) {
-            log("Section chain - team count not equal");
+    //     boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
+    //             || newTeams.size() != teamNameToOldStuMap.size();
+    //     if (isNotTeamCountEqual) {
+    //         logValidationError("Section chain - team count not equal");
+    //         return false;
+    //     }
+
+    //     return newTeams.stream().allMatch(team -> {
+    //         List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
+    //         List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
+
+    //         // If either of the teamStudent is null,
+    //         // then team is not present in the corresponding datastore or sql
+    //         // which means a possible migration error
+    //         boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
+    //         if (teamNameNotPresent) {
+    //             logValidationError("Section chain - team name not present");
+    //             return false;
+    //         }
+    //         return verifyStudents(oldTeamStudents, newTeamStudents);
+    //     });
+    // }
+
+    private boolean verifyTeams(String courseId) {
+        log("Verifying teams");
+       // Assume that team names are unique within a section but not unique among all sections
+
+        // get all datastore students related to course
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
+                .list();
+
+        // get all teams related to sections
+        int numberOldTeams = 0;
+        Map<String, HashSet<String>> oldSectionToTeamHashSet = new HashMap<String, HashSet<String>>();
+        for (CourseStudent student : oldStudents) {
+            String sectionName = student.getSectionName();
+            oldSectionToTeamHashSet.putIfAbsent(sectionName, new HashSet<>());
+            HashSet<String> teamHashSet = oldSectionToTeamHashSet.get(sectionName);
+            boolean addedToSet = teamHashSet.add(student.getTeamName());
+            if (addedToSet) {
+                numberOldTeams += 1;
+            }
+        }
+
+        // map team to section
+        int numberNewTeams = 0;
+        Map<String, HashSet<String>> newSectionToTeamHashSet = new HashMap<String, HashSet<String>>();
+        List<Section> newSections = getNewSections(courseId);
+        for (Section newSection : newSections) {
+            String sectionName = newSection.getName();
+            HashSet<String> teamHashSet = new HashSet<>();
+            for (Team newTeam : newSection.getTeams()) {
+                boolean addedToSet = teamHashSet.add(newTeam.getName());
+                if (addedToSet) {
+                    numberNewTeams += 1;
+                }
+            }
+            newSectionToTeamHashSet.put(sectionName, teamHashSet);
+        }
+
+        boolean isTeamCountEqual = numberNewTeams == numberOldTeams;
+        if (!isTeamCountEqual) {
+            logValidationError(String.format("Section chain - team count not equal (%d but expected %d)", numberNewTeams, 
+                numberOldTeams));
             return false;
         }
 
-        return newTeams.stream().allMatch(team -> {
-            List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
-            List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
-
-            // If either of the teamStudent is null,
-            // then team is not present in the corresponding datastore or sql
-            // which means a possible migration error
-            boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
-            if (teamNameNotPresent) {
-                log("Section chain - team name not present");
-                return false;
-            }
-            return verifyStudents(oldTeamStudents, newTeamStudents);
-        });
+        if (!newSectionToTeamHashSet.equals(oldSectionToTeamHashSet)) {
+            logValidationError(String.format("Section chain - team attributes are not equal"));
+            return false;
+        }
+        return true;
     }
 
-    private boolean verifyStudents(
-            List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {
-        if (oldTeamStudents.size() != newTeamStudents.size()) {
-            log("Section chain - number of students not equal");
-            return false;
+    private boolean verifyStudents(String courseId) {
+        log("Verifying students");
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
+            .list();
+
+        Map<String, Student> studentIdToStudentMap = new HashMap<String, Student>();
+
+        for (Student newStudent : getNewStudents(courseId)) {
+            // Assume that every course have students with unique emails
+            studentIdToStudentMap.put(newStudent.getEmail(), newStudent);
         }
-        oldTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
-        newTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
-        for (int i = 0; i < oldTeamStudents.size(); i++) {
-            CourseStudent oldStudent = oldTeamStudents.get(i);
-            Student newStudent = newTeamStudents.get(i);
+
+
+        for (CourseStudent oldStudent : oldStudents) {
+            Student newStudent = studentIdToStudentMap.get(oldStudent.getEmail());
             if (!verifyStudent(oldStudent, newStudent)) {
-                log("Section chain - student failed attribute comparison. Old:" + oldStudent + " New:" + newStudent);
                 return false;
             }
         }
         return true;
     }
 
+    // private boolean verifySectionChain(Course newCourse) {
+    //     // Get old and new students
+        
+    //     List<Student> newStudents = getNewStudents(newCourse.getId());
+
+    //     // Group students by section
+    //     Map<String, List<CourseStudent>> sectionToOldStuMap = oldStudents.stream()
+    //             .collect(Collectors.groupingBy(CourseStudent::getSectionName));
+    //     Map<String, List<Student>> sectionToNewStuMap = newStudents.stream()
+    //             .collect(Collectors.groupingBy(Student::getSectionName));
+
+    //     List<Section> newSections = getNewSections(newCourse.getId());
+
+    //     boolean isNotSectionsCountEqual = newSections.size() != sectionToOldStuMap.size()
+    //             || newSections.size() != sectionToNewStuMap.size();
+    //     if (isNotSectionsCountEqual) {
+    //         logValidationError(String.format("newSection size: %d, sectionToOldStuMap: %d, sectionToOldStuMap: %d", newSections.size(), 
+    //             sectionToOldStuMap.size(), sectionToNewStuMap.size()));
+    //         logValidationError("Section chain - section count not equal");
+    //         return false;
+    //     }
+
+    //     return newSections.stream().allMatch(section -> {
+    //         List<CourseStudent> oldSectionStudents = sectionToOldStuMap.get(section.getName());
+    //         List<Student> newSectionStudents = sectionToNewStuMap.get(section.getName());
+
+    //         // If either of the sectionStudent is null,
+    //         // then section is not present in the corresponding datastore or sql
+    //         // which means a possible migration error
+    //         boolean sectionNameNotPresent = oldSectionStudents == null || newSectionStudents == null;
+    //         if (sectionNameNotPresent) {
+    //             logValidationError("Section chain - section name not present");
+    //             return false;
+    //         }
+
+    //         // Group students by team
+    //         Map<String, List<CourseStudent>> teamNameToOldStuMap = oldSectionStudents.stream()
+    //                 .collect(Collectors.groupingBy(CourseStudent::getTeamName));
+    //         Map<String, List<Student>> teamNameToNewStuMap = newSectionStudents.stream()
+    //                 .collect(Collectors.groupingBy(Student::getTeamName));
+    //         return verifyTeams(section, teamNameToOldStuMap, teamNameToNewStuMap);
+    //     });
+
+    // }
+
+    // private boolean verifyTeams(Section newSection,
+    //         Map<String, List<CourseStudent>> teamNameToOldStuMap, Map<String, List<Student>> teamNameToNewStuMap) {
+
+    //     List<Team> newTeams = newSection.getTeams();
+
+    //     boolean isNotTeamCountEqual = newTeams.size() != teamNameToNewStuMap.size()
+    //             || newTeams.size() != teamNameToOldStuMap.size();
+    //     if (isNotTeamCountEqual) {
+    //         logValidationError("Section chain - team count not equal");
+    //         return false;
+    //     }
+
+    //     return newTeams.stream().allMatch(team -> {
+    //         List<CourseStudent> oldTeamStudents = teamNameToOldStuMap.get(team.getName());
+    //         List<Student> newTeamStudents = teamNameToNewStuMap.get(team.getName());
+
+    //         // If either of the teamStudent is null,
+    //         // then team is not present in the corresponding datastore or sql
+    //         // which means a possible migration error
+    //         boolean teamNameNotPresent = oldTeamStudents == null || newTeamStudents == null;
+    //         if (teamNameNotPresent) {
+    //             logValidationError("Section chain - team name not present");
+    //             return false;
+    //         }
+    //         return verifyStudents(oldTeamStudents, newTeamStudents);
+    //     });
+    // }
+
+    // private boolean verifyStudents(
+    //         List<CourseStudent> oldTeamStudents, List<Student> newTeamStudents) {
+    //     if (oldTeamStudents.size() != newTeamStudents.size()) {
+    //         logValidationError("Section chain - number of students not equal");
+    //         return false;
+    //     }
+    //     oldTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+    //     newTeamStudents.sort((a, b) -> a.getEmail().compareTo(b.getEmail()));
+    //     for (int i = 0; i < oldTeamStudents.size(); i++) {
+    //         CourseStudent oldStudent = oldTeamStudents.get(i);
+    //         Student newStudent = newTeamStudents.get(i);
+    //         if (!verifyStudent(oldStudent, newStudent)) {
+    //             logValidationError("Section chain - student failed attribute comparison. Old:" + oldStudent + " New:" + newStudent);
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+
+    
+
     private boolean verifyStudent(CourseStudent oldStudent,
             Student newStudent) {
         if (!(newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
         newStudent.getGoogleId().equals(oldStudent.getGoogleId()))) {
-            log("Mismatch in google ids " + newStudent.getGoogleId() + "  " + oldStudent.getGoogleId());
+            logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
+                newStudent.getGoogleId(),
+                oldStudent.getGoogleId()));
+            return false;
         }
 
-        return newStudent.getName().equals(oldStudent.getName())
+        boolean attributesAreEqual = newStudent.getName().equals(oldStudent.getName())
                 && newStudent.getEmail().equals(oldStudent.getEmail())
                 && newStudent.getComments().equals(oldStudent.getComments())
-                && newStudent.getUpdatedAt().equals(oldStudent.getUpdatedAt())
                 && newStudent.getCreatedAt().equals(oldStudent.getCreatedAt())
                 && newStudent.getRegKey().equals(oldStudent.getRegistrationKey())
+                && newStudent.getCourseId().equals(oldStudent.getCourseId())
+                && newStudent.getSectionName().equals(oldStudent.getSectionName())
+                && newStudent.getTeamName().equals(oldStudent.getTeamName())
                 && (newStudent.getGoogleId() == null ? newStudent.getGoogleId() == oldStudent.getGoogleId() :
                     newStudent.getGoogleId().equals(oldStudent.getGoogleId())
                 );
+
+        if (!attributesAreEqual) {
+            logValidationError(String.format("Section chain - student attributes are not equal"));
+            return false;
+        }
+
+        return true;
     }
 
     // methods for verify feedback chain -----------------------------------------------------------------------------------
     // entities: FeedbackSession, FeedbackQuestion, FeedbackResponse, FeedbackResponseComment
 
-    private boolean verifyFeedbackChain(teammates.storage.sqlentity.Course newCourse) {
-        List<teammates.storage.sqlentity.FeedbackSession> newSessions = newCourse.getFeedbackSessions();
-        List<FeedbackSession> oldSessions = ofy().load().type(FeedbackSession.class)
+    private boolean verifyFeedbackChain(String courseId) {
+        log("Verifying feedback chain");
+        Course newCourse = getCourse(courseId);
+        List<FeedbackSession> newSessions = newCourse.getFeedbackSessions();
+        List<teammates.storage.entity.FeedbackSession> oldSessions = ofy().load().type(teammates.storage.entity.FeedbackSession.class)
                 .filter("courseId", newCourse.getId()).list();
 
         if (newSessions.size() != oldSessions.size()) {
-            log(String.format("Mismatched session counts for course id: %s. Old size: %d, New size: %d", newCourse.getId(), newSessions.size(), oldSessions.size()));
+            logValidationError(String.format("Mismatched session counts for course id: %s. Old size: %d, New size: %d", newCourse.getId(), newSessions.size(), oldSessions.size()));
             return false;
         }
 
-        Map<String, FeedbackSession> sessionNameToOldSessionMap = oldSessions.stream()
-                .collect(Collectors.toMap(FeedbackSession::getFeedbackSessionName, session -> session));
+        Map<String, teammates.storage.entity.FeedbackSession> sessionNameToOldSessionMap = oldSessions.stream()
+                .collect(Collectors.toMap(teammates.storage.entity.FeedbackSession::getFeedbackSessionName, session -> session));
 
         return newSessions.stream().allMatch(newSession -> {
-            FeedbackSession oldSession = sessionNameToOldSessionMap.get(newSession.getName());
+            teammates.storage.entity.FeedbackSession oldSession = sessionNameToOldSessionMap.get(newSession.getName());
             return verifyFeedbackSession(oldSession, newSession);
         });
     }
 
-    private boolean verifyFeedbackSession(FeedbackSession oldSession, teammates.storage.sqlentity.FeedbackSession newSession) {
+    private boolean verifyFeedbackSession(teammates.storage.entity.FeedbackSession oldSession, FeedbackSession newSession) {
         boolean doFieldsMatch = newSession.getCourse().getId().equals(oldSession.getCourseId())
                 && newSession.getName().equals(oldSession.getFeedbackSessionName())
                 && newSession.getCreatorEmail().equals(oldSession.getCreatorEmail())
@@ -253,11 +441,12 @@ public class VerifyCourseEntityAttributes
                 && newSession.isClosedEmailSent() == oldSession.isSentClosedEmail()
                 && newSession.isClosingSoonEmailSent() == oldSession.isSentClosingEmail()
                 && newSession.isPublishedEmailSent() == oldSession.isSentPublishedEmail()
+                && newSession.isPublishedEmailEnabled() == oldSession.isPublishedEmailEnabled()
                 && newSession.getCreatedAt().equals(oldSession.getCreatedTime())
                 && (newSession.getDeletedAt() == oldSession.getDeletedTime()
                         || newSession.getDeletedAt().equals(oldSession.getDeletedTime()));
         if (!doFieldsMatch) {
-            log(String.format("Mismatched fields for session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for session: %s, course id: %s",
                     oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
             return false;
         }
@@ -268,7 +457,7 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackSessionName", newSession.getName()).list();
 
         if (newQuestions.size() != oldQuestions.size()) {
-            log(String.format("Mismatched question counts for session: %s, course id: %s",
+            logValidationError(String.format("Mismatched question counts for session: %s, course id: %s",
                     oldSession.getFeedbackSessionName(), oldSession.getCourseId()));
             return false;
         }
@@ -293,10 +482,9 @@ public class VerifyCourseEntityAttributes
                 && newQuestion.getShowGiverNameTo().equals(oldQuestion.getShowGiverNameTo())
                 && newQuestion.getShowRecipientNameTo().equals(oldQuestion.getShowRecipientNameTo())
                 && newQuestion.getQuestionDetailsCopy().getJsonString().equals(oldQuestion.getQuestionText())
-                && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt())
-                && newQuestion.getUpdatedAt().equals(oldQuestion.getUpdatedAt());
+                && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt());
         if (!doFieldsMatch) {
-            log(String.format("Mismatched fields for question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for question %s, session: %s, course id: %s",
                     oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
             return false;
         }
@@ -306,7 +494,7 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackQuestionId", oldQuestion.getId()).list();
 
         if (newResponses.size() != oldResponses.size()) {
-            log(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
                     newResponses.size(), oldResponses.size(),
                     oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
             return false;
@@ -315,12 +503,14 @@ public class VerifyCourseEntityAttributes
         Map<String, FeedbackResponse> responseIdToOldResponseMap = oldResponses.stream()
                 .collect(Collectors.toMap(FeedbackResponse::getId, response -> response));
 
-        return newResponses.stream().allMatch(newResponse -> {
+        boolean responsesAreEqual = newResponses.stream().allMatch(newResponse -> {
             String oldResponseId = FeedbackResponse.generateId(oldQuestion.getId(), newResponse.getGiver(),
                     newResponse.getRecipient());
             FeedbackResponse oldResponse = responseIdToOldResponseMap.get(oldResponseId);
             return verifyFeedbackResponse(oldResponse, newResponse);
         });
+
+        return responsesAreEqual;
     }
 
     private boolean verifyFeedbackResponse(FeedbackResponse oldResponse,
@@ -331,10 +521,9 @@ public class VerifyCourseEntityAttributes
                 && newResponse.getRecipient().equals(oldResponse.getRecipientEmail())
                 && newResponse.getRecipientSectionName().equals(oldResponse.getRecipientSection())
                 && newResponse.getCreatedAt().equals(oldResponse.getCreatedAt())
-                && newResponse.getUpdatedAt().equals(oldResponse.getUpdatedAt())
                 && newResponse.getFeedbackResponseDetailsCopy().getJsonString().equals(oldResponse.getAnswer());
         if (!allFieldsMatch) {
-            log(String.format("Mismatched fields for response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -346,7 +535,7 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackResponseId", oldResponse.getId()).list();
 
         if (newComments.size() != oldComments.size()) {
-            log(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -355,7 +544,7 @@ public class VerifyCourseEntityAttributes
         boolean allCommentFieldsMatch = oldComments.stream().allMatch(oldComment -> newComments.stream()
                 .anyMatch(newComment -> verifyFeedbackResponseComment(oldComment, newComment)));
         if (!allCommentFieldsMatch) {
-            log(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -378,18 +567,17 @@ public class VerifyCourseEntityAttributes
                 && newComment.getShowCommentTo().equals(oldComment.getShowCommentTo())
                 && newComment.getShowGiverNameTo().equals(oldComment.getShowGiverNameTo())
                 && newComment.getCreatedAt().equals(oldComment.getCreatedAt())
-                && newComment.getUpdatedAt().equals(oldComment.getLastEditedAt())
                 && newComment.getLastEditorEmail().equals(oldComment.getLastEditorEmail());
     }
 
     // Verify Instructor ----------------------------
-    private boolean verifyInstructors(teammates.storage.sqlentity.Course newCourse) {
+    private boolean verifyInstructors(Course newCourse) {
         List<teammates.storage.sqlentity.Instructor> newInstructors = getNewInstructors(newCourse.getId());
         List<Instructor> oldInstructors = ofy().load().type(Instructor.class).filter("courseId", newCourse.getId())
                 .list();
 
         if (oldInstructors.size() != newInstructors.size()) {
-            log("Feedback chain - Instructor counts not equal");
+            logValidationError("Feedback chain - Instructor counts not equal");
             return false;
         }
 
@@ -399,7 +587,7 @@ public class VerifyCourseEntityAttributes
             Instructor oldInstructor = oldInstructors.get(i);
             teammates.storage.sqlentity.Instructor newInstructor = newInstructors.get(i);
             if (!verifyInstructor(oldInstructor, newInstructor)) {
-                log("Feedback chain - Instructor attributes failed comparison");
+                logValidationError("Feedback chain - Instructor attributes failed comparison");
                 return false;
             }
         }
@@ -425,31 +613,43 @@ public class VerifyCourseEntityAttributes
                 && newInstructor.getPrivileges().equals(oldPrivileges)
                 && newInstructor.isDisplayedToStudents() == oldInstructor.isDisplayedToStudents()
                 && newInstructor.getCreatedAt().equals(oldInstructor.getCreatedAt())
-                && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt())
+                // && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt());
                 && (newInstructor.getGoogleId() == null ? newInstructor.getGoogleId() == oldInstructor.getGoogleId() :
                     newInstructor.getGoogleId().equals(oldInstructor.getGoogleId()));
     }
 
     // Verify DeadlineExtensions ----------------------------
-    private boolean verifyDeadlineExtensions(teammates.storage.sqlentity.Course newCourse) {
+    private boolean verifyDeadlineExtensions(Course newCourse) {
         List<teammates.storage.sqlentity.DeadlineExtension> newDeadlineExt = getNewDeadlineExtensions(newCourse.getId());
         List<DeadlineExtension> oldDeadlineExt = ofy().load()
                 .type(DeadlineExtension.class).filter("courseId", newCourse.getId()).list();
 
         if (oldDeadlineExt.size() != newDeadlineExt.size()) {
-            log("Deadline extension size not equal");
+            logValidationError("Deadline extension size not equal");
 
             return false;
         }
 
-        newDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
-        oldDeadlineExt.sort((a, b) -> a.getId().compareTo(b.getId()));
+        newDeadlineExt.sort((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt()));
+        oldDeadlineExt.sort((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt()));
 
         for (int i = 0; i < oldDeadlineExt.size(); i++) {
             DeadlineExtension oldDeadline = oldDeadlineExt.get(i);
             teammates.storage.sqlentity.DeadlineExtension newDeadline = newDeadlineExt.get(i);
             if (!verifyDeadlineExtension(oldDeadline, newDeadline)) {
-                log("Deadline extension failed comparison");
+                logValidationError("Deadline extension failed comparison");
+                // logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
+                // oldDeadline.getFeedbackSessionName(),                 
+                //     oldDeadline.getUserEmail(),
+                //     oldDeadline.getEndTime(),
+                //     oldDeadline.getSentClosingEmail(),
+                //     oldDeadline.getCreatedAt()));
+                // logValidationError(String.format("Expected oldDeadline with feedback name %s, userEmail %s, endTime %s, closingEmailSent %b, createdAt %s",
+                //     newDeadline.getFeedbackSession().getName(),
+                //     newDeadline.getUser().getEmail(),
+                //     newDeadline.getEndTime(),
+                //     newDeadline.isClosingSoonEmailSent(),
+                //     newDeadline.getCreatedAt()));
                 return false;
             }
         }
@@ -462,7 +662,7 @@ public class VerifyCourseEntityAttributes
                 && newDeadline.getUser().getEmail().equals(oldDeadline.getUserEmail())
                 && newDeadline.getEndTime().equals(oldDeadline.getEndTime())
                 && newDeadline.isClosingSoonEmailSent() == oldDeadline.getSentClosingEmail()
-                && newDeadline.getUpdatedAt().equals(oldDeadline.getUpdatedAt())
+                // && newDeadline.getUpdatedAt().equals(oldDeadline.getUpdatedAt())
                 && newDeadline.getCreatedAt().equals(oldDeadline.getCreatedAt());
     }
 
@@ -482,7 +682,17 @@ public class VerifyCourseEntityAttributes
         CriteriaQuery<teammates.storage.sqlentity.Section> cr = cb
                 .createQuery(teammates.storage.sqlentity.Section.class);
         Root<teammates.storage.sqlentity.Section> sectionRoot = cr.from(teammates.storage.sqlentity.Section.class);
-        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("courseId"), courseId));
+        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("course").get("id"), courseId));
+        List<Section> newSections = HibernateUtil.createQuery(cr).getResultList();
+        return newSections;
+    }
+
+    private List<Section> getnew(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Section> cr = cb
+                .createQuery(teammates.storage.sqlentity.Section.class);
+        Root<teammates.storage.sqlentity.Section> sectionRoot = cr.from(teammates.storage.sqlentity.Section.class);
+        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("course").get("id"), courseId));
         List<Section> newSections = HibernateUtil.createQuery(cr).getResultList();
         return newSections;
     }

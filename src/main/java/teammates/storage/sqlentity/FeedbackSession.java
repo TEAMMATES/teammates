@@ -12,6 +12,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -107,7 +108,7 @@ public class FeedbackSession extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
 
-    // @UpdateTimestamp
+    @UpdateTimestamp
     private Instant updatedAt;
 
     private Instant deletedAt;

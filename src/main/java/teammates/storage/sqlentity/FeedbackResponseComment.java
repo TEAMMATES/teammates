@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.FieldValidator;
@@ -71,7 +72,7 @@ public class FeedbackResponseComment extends BaseEntity {
     @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showGiverNameTo;
 
-    // @UpdateTimestamp
+    @UpdateTimestamp
     private Instant updatedAt;
 
     @Column(nullable = false)

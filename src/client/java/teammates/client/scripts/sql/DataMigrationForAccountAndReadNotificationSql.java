@@ -226,6 +226,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             } else {
                 flushEntitiesSavingBuffer();
             }
+            flushEntitiesSavingBuffer();
         }
 
         deleteCursorPositionFile();
