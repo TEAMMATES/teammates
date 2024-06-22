@@ -36,6 +36,10 @@ export class AccountRequestTableComponent {
   @Input()
   searchString = '';
 
+  isRejectingAccount: boolean = false;
+  isApprovingAccount: boolean = false;
+  isResettingAccount: boolean = false;
+
   constructor(
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
@@ -95,6 +99,7 @@ export class AccountRequestTableComponent {
   }
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    this.isApprovingAccount = true;
     this.accountService.approveAccountRequest(accountRequest.id, accountRequest.name,
         accountRequest.email, accountRequest.instituteAndCountry)
     .subscribe({
@@ -103,21 +108,26 @@ export class AccountRequestTableComponent {
         this.statusMessageService.showSuccessToast(
           `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`,
         );
+        this.isApprovingAccount = false;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
+        this.isApprovingAccount = false;
       },
     });
   }
 
   resetAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    this.isResettingAccount = true;
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
         <strong>${accountRequest.instituteAndCountry}</strong>?
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
-
+    modalRef.dismissed.subscribe(() => {
+      this.isResettingAccount = false;
+    });
     modalRef.result.then(() => {
       this.accountService.resetAccountRequest(accountRequest.id)
         .subscribe({
@@ -125,9 +135,11 @@ export class AccountRequestTableComponent {
             this.statusMessageService
                 .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
             accountRequest.registeredAtText = '';
+            this.isResettingAccount = false;
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
+            this.isResettingAccount = false;
           },
         });
     }, () => {});
@@ -163,22 +175,30 @@ export class AccountRequestTableComponent {
   }
 
   rejectAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    this.isRejectingAccount = true;
     this.accountService.rejectAccountRequest(accountRequest.id)
     .subscribe({
       next: (resp : AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
+        this.isRejectingAccount = false;
         },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
+        this.isRejectingAccount = false;
       },
     });
   }
 
   rejectAccountRequestWithReason(accountRequest: AccountRequestTableRowModel): void {
+    this.isRejectingAccount = true;
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
+
+    modalRef.dismissed.subscribe(() => {
+      this.isRejectingAccount = false;
+    });
 
     modalRef.result.then((res: RejectWithReasonModalComponentResult) => {
       this.accountService.rejectAccountRequest(accountRequest.id,
@@ -189,9 +209,11 @@ export class AccountRequestTableComponent {
           this.statusMessageService.showSuccessToast(
             `Account request was successfully rejected. Email has been sent to ${accountRequest.email}.`,
           );
+          this.isRejectingAccount = false;
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
+          this.isRejectingAccount = false;
         },
       });
     }, () => {});
