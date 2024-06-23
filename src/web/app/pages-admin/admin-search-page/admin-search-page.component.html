@@ -64,7 +64,7 @@
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
               <br>
-              <button id="regenerate-instructor-key-{{i}}" class="btn btn-danger" (click)="instructor.showLinks = !instructor.showLinks; regenerateInstructorKey(instructor);">Regenerate key</button>
+              <button id="regenerate-instructor-key-{{i}}" class="btn btn-danger" (click)="instructor.showLinks = !instructor.showLinks; regenerateInstructorKey(instructor, i);"><tm-ajax-loading *ngIf="isRegeneratingInstructorKeys[i]"></tm-ajax-loading>Regenerate key</button>
             </td>
           </tr>
           <tr *ngIf="instructor.showLinks">
@@ -159,7 +159,7 @@
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
               <br>
-              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateStudentKey(student);">Regenerate key</button>
+              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateStudentKey(student, i);"><tm-ajax-loading *ngIf="isRegeneratingStudentKeys[i]"></tm-ajax-loading>Regenerate key</button>
             </td>
           </tr>
           <tr>

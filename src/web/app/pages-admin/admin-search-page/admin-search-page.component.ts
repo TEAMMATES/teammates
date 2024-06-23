@@ -43,6 +43,9 @@ export class AdminSearchPageComponent {
   accountRequests: AccountRequestTableRowModel[] = [];
   characterLimit = 100;
 
+  isRegeneratingInstructorKeys: boolean[] = [];
+  isRegeneratingStudentKeys: boolean[] = [];
+
   constructor(
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
@@ -82,6 +85,9 @@ export class AdminSearchPageComponent {
         this.accountRequests = this.formatAccountRequests(resp.accountRequests);
         this.hideAllInstructorsLinks();
         this.hideAllStudentsLinks();
+
+        this.isRegeneratingInstructorKeys = new Array(this.instructors.length).fill(false);
+        this.isRegeneratingStudentKeys = new Array(this.students.length).fill(false);
 
         // prompt user to use more specific terms if search results limit reached
         const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
@@ -222,22 +228,29 @@ export class AdminSearchPageComponent {
   /**
    * Regenerates the student's registration key.
    */
-  regenerateStudentKey(student: StudentAccountSearchResult): void {
+  regenerateStudentKey(student: StudentAccountSearchResult, index: number): void {
+    this.isRegeneratingStudentKeys[index] = true;
     const modalContent: string = `Are you sure you want to regenerate the registration key for
         <strong>${student.name}</strong> for the course <strong>${student.courseId}</strong>?
         An email will be sent to the student with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Regenerate <strong>${student.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
 
+    modalRef.dismissed.subscribe(() => {
+      this.isRegeneratingStudentKeys[index] = false;
+    });
+    
     modalRef.result.then(() => {
       this.studentService.regenerateStudentKey(student.courseId, student.email)
         .subscribe({
           next: (resp: RegenerateKey) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
+            this.isRegeneratingStudentKeys[index] = false;
           },
           error: (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(response.error.message);
+            this.isRegeneratingStudentKeys[index] = false;
           },
         });
     }, () => {});
@@ -246,22 +259,29 @@ export class AdminSearchPageComponent {
   /**
    * Regenerates the instructor's registration key.
    */
-  regenerateInstructorKey(instructor: InstructorAccountSearchResult): void {
+  regenerateInstructorKey(instructor: InstructorAccountSearchResult, index: number): void {
+    this.isRegeneratingInstructorKeys[index] = true;
     const modalContent: string = `Are you sure you want to regenerate the registration key for
         <strong>${instructor.name}</strong> for the course <strong>${instructor.courseId}</strong>?
         An email will be sent to the instructor with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Regenerate <strong>${instructor.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
 
+    modalRef.dismissed.subscribe(() => {
+      this.isRegeneratingInstructorKeys[index] = false;
+    });  
+    
     modalRef.result.then(() => {
       this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
           .subscribe({
             next: (resp: RegenerateKey) => {
               this.statusMessageService.showSuccessToast(resp.message);
               this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
+              this.isRegeneratingInstructorKeys[index] = false;
             },
             error: (response: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(response.error.message);
+              this.isRegeneratingInstructorKeys[index] = false;
             },
           });
     }, () => {});

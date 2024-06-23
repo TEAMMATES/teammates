@@ -8,6 +8,7 @@ import {
   AccountRequestTableModule,
 } from '../../components/account-requests-table/account-request-table.module';
 import { Pipes } from '../../pipes/pipes.module';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
     AccountRequestTableModule,
     RouterModule.forChild(routes),
     Pipes,
+    AjaxLoadingModule,
   ],
 })
 export class AdminSearchPageModule { }
