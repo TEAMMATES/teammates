@@ -66,16 +66,16 @@
                     <i class="fa-solid fa-eye"></i>
                 </a>
               </div>
-              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="!accountRequest.status || accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED'" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest)"> <tm-ajax-loading *ngIf="isApprovingAccount"></tm-ajax-loading>Approve</button>
+              <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="!accountRequest.status || accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED'" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"> <tm-ajax-loading *ngIf="isApprovingAccount[i]"></tm-ajax-loading>Approve</button>
               <span ngbDropdown container="body">
-                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="!accountRequest.status || accountRequest.status === 'REGISTERED' || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED'" ngbDropdownToggle> <tm-ajax-loading *ngIf="isRejectingAccount"></tm-ajax-loading> Reject </button>
+                <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning" [disabled]="!accountRequest.status || accountRequest.status === 'REGISTERED' || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED'" ngbDropdownToggle> <tm-ajax-loading *ngIf="isRejectingAccount[i]"></tm-ajax-loading> Reject </button>
                 <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                  <button id="reject-request-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest)"> Reject </button>
-                  <button id="reject-request-with-reason-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest)"> Reject With Reason </button>
+                  <button id="reject-request-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest, i)"> Reject </button>
+                  <button id="reject-request-with-reason-{{i}}" class="btn btn-light btn-sm dropdown-item" (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest, i)"> Reject With Reason </button>
                 </div>
               </span>
               <div *ngIf="searchString" class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'" placement="top">
-                <button id="reset-account-request-{{i}}" class="btn btn-primary" [disabled]="!accountRequest.registeredAtText" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);"> <tm-ajax-loading *ngIf="isResettingAccount"></tm-ajax-loading>Reset</button>
+                <button id="reset-account-request-{{i}}" class="btn btn-primary" [disabled]="!accountRequest.registeredAtText" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest, i);"> <tm-ajax-loading *ngIf="isResettingAccount[i]"></tm-ajax-loading>Reset</button>
               </div>
             </div>
             </td>

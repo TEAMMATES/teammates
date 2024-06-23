@@ -239,7 +239,7 @@ export class AdminSearchPageComponent {
     modalRef.dismissed.subscribe(() => {
       this.isRegeneratingStudentKeys[index] = false;
     });
-    
+
     modalRef.result.then(() => {
       this.studentService.regenerateStudentKey(student.courseId, student.email)
         .subscribe({
@@ -269,8 +269,8 @@ export class AdminSearchPageComponent {
 
     modalRef.dismissed.subscribe(() => {
       this.isRegeneratingInstructorKeys[index] = false;
-    });  
-    
+    });
+
     modalRef.result.then(() => {
       this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
           .subscribe({

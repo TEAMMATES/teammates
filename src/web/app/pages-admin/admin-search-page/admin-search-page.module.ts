@@ -7,8 +7,8 @@ import { AdminSearchPageComponent } from './admin-search-page.component';
 import {
   AccountRequestTableModule,
 } from '../../components/account-requests-table/account-request-table.module';
-import { Pipes } from '../../pipes/pipes.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { Pipes } from '../../pipes/pipes.module';
 
 const routes: Routes = [
   {
