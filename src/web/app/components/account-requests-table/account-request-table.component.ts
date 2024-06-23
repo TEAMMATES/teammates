@@ -125,9 +125,11 @@ export class AccountRequestTableComponent {
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
+
     modalRef.dismissed.subscribe(() => {
       this.isResettingAccount[index] = false;
     });
+
     modalRef.result.then(() => {
       this.accountService.resetAccountRequest(accountRequest.id)
         .subscribe({
