@@ -179,10 +179,7 @@ public final class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${startTime}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(startTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${additionalNotes}", additionalNotes,
-                "${googleCalendarLink}", TimeHelper.getGoogleCalendarLink(endTime,
-                        session.getTimeZone(), FEEDBACK_DEADLINE_REMINDER_TITLE,
-                        SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName())));
+                "${additionalNotes}", additionalNotes);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
         email.setType(emailType);
