@@ -693,7 +693,11 @@ public final class EmailGenerator {
                 .replace("${oldEndTime}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(oldEndTimeFormatted, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)))
                 .replace("${newEndTime}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(newEndTimeFormatted, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)));
+                        TimeHelper.formatInstant(newEndTimeFormatted, session.getTimeZone(),
+                                DATETIME_DISPLAY_FORMAT))).replace("${googleCalendarLink}",
+                        TimeHelper.getGoogleCalendarLink(newEndTimeFormatted, session.getTimeZone(),
+                                FEEDBACK_DEADLINE_REMINDER_TITLE,
+                                SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName())));
         String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
 
         if (isInstructor) {
