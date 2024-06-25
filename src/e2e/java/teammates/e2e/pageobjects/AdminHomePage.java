@@ -74,8 +74,27 @@ public class AdminHomePage extends AppPage {
         waitForElementToBeClickable(addAllInstructorsButton);
     }
 
+    public void clickApproveAccountRequestButton(String name, String email, String institute) {
+        WebElement accountRequestRow = getAccountRequestRow(name, email, institute);
+        waitForElementPresence(By.cssSelector("[id^='approve-account-request-']"));
+        WebElement approveButton = accountRequestRow.findElement(By.cssSelector("[id^='approve-account-request-']"));
+        waitForElementToBeClickable(approveButton);
+        approveButton.click();
+        waitForPageToLoad();
+    }
+
     public String getMessageForInstructor(int i) {
         By by = By.id("message-instructor-" + i);
+        waitForElementVisibility(by);
+        WebElement element = browser.driver.findElement(by);
+        if (element == null) {
+            return null;
+        }
+        return element.getText();
+    }
+
+    public String getToastTextContent() {
+        By by = By.tagName("tm-toast");
         waitForElementVisibility(by);
         WebElement element = browser.driver.findElement(by);
         if (element == null) {
