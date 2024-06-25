@@ -34,14 +34,8 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         String singleLineDetails = "Instructor With Invalid Email | invalidemail | TEAMMATES Test Institute 1";
         homePage.queueInstructorForAdding(singleLineDetails);
 
-        //homePage.addAllInstructors();
         homePage.clickApproveAccountRequestButton(name, email, institute);
 
-        /*
-        String failureMessage = homePage.getMessageForInstructor(1);
-        assertTrue(failureMessage.contains(
-                "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format."));
-        */
         String successMessage = homePage.getToastTextContent();
         assertTrue(successMessage.contains(
                 "Account request was successfully approved. Email has been sent to AHPUiT+++_.instr1!@gmail.tmt."));
