@@ -6,7 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
