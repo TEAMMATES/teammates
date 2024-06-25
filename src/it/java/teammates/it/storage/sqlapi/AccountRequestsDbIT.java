@@ -11,7 +11,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.test.TestProperties;
 
 /**
  * SUT: {@link AccountRequestsDb}.
@@ -240,9 +239,6 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
         ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
 
         AccountRequest accountRequest =
