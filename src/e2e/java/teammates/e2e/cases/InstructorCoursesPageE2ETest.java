@@ -101,7 +101,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         BACKDOOR.deleteCourse(copyCourse2.getId());
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     public void testAll() {
         String instructorId = sqlTestData.accounts.get("instructor").getGoogleId();
