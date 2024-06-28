@@ -809,6 +809,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
+    public void addRubricQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(9);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRubricQuestionDetails questionDetails =
+                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputRubricDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void editRubricQuestion(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputRubricDetails(questionNum, questionDetails);

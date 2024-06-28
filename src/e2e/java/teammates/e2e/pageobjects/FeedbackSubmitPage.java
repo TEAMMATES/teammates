@@ -544,9 +544,27 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillRubricResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getFeedbackResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            click(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)));
+        }
+    }
+
     public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackRubricResponseDetails responseDetails =
                 (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            assertTrue(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)).isSelected());
+        }
+    }
+
+    public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             assertTrue(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)).isSelected());
