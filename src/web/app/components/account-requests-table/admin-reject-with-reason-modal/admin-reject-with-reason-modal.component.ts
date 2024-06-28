@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RejectWithReasonModalComponentResult } from './admin-reject-with-reason-modal-model';
 import { environment } from '../../../../environments/environment';
+import { AdminSearchResult, InstructorAccountSearchResult, SearchService } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
+import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
  * Modal to select reject account requests with reason.
@@ -21,6 +23,24 @@ export class RejectWithReasonModalComponent implements OnInit {
   @Input()
   accountRequestEmail: string = '';
 
+  existingAccount: InstructorAccountSearchResult = {
+    name: '',
+    email: '',
+    googleId: '',
+    courseId: '',
+    courseName: '',
+    isCourseDeleted: false,
+    institute: '',
+    courseJoinLink: '',
+    homePageLink: '',
+    manageAccountLink: '',
+    showLinks: false,
+    awaitingSessions: {},
+    openSessions: {},
+    notOpenSessions: {},
+    publishedSessions: {},
+  };
+
   rejectionReasonBody: string = '<p>Hi, {accountRequestName} </p>\n\n'
   + '<p>Thanks for your interest in using TEAMMATES. '
   + 'We are unable to create a TEAMMATES instructor account for you.</p>'
@@ -33,22 +53,60 @@ export class RejectWithReasonModalComponent implements OnInit {
   + '<strong>Remedy:</strong> If you are a student but you still need an instructor account, '
   + 'please send your justification to {supportEmail}</p>\n\n'
   + '<p><strong>Reason:</strong> You already have an account for this email address and this institution.<br />'
-  + '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account {existingEmail} </p>\n\n'
+  + '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account: {googleId} </p>\n\n'
+  + '<p>If you are logged into multiple Google accounts, remember to logout from other Google accounts first, '
+  + 'or use an incognito Browser window. Let us know (with a screenshot) if that doesn\'t work.</p>'
   + '<p>If you need further clarification or would like to appeal this decision, please '
   + 'feel free to contact us at {supportEmail}</p>'
   + '<p>Regards,<br />TEAMMATES Team.</p>';
   rejectionReasonTitle: string = 'We are Unable to Create an Account for you';
 
-  constructor(public activeModal: NgbActiveModal, public statusMessageService: StatusMessageService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    public statusMessageService: StatusMessageService,
+
+    private searchService: SearchService,
+  ) {}
 
   ngOnInit(): void {
     this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountRequestName}', this.accountRequestName);
-    this.rejectionReasonBody = this.rejectionReasonBody.replace('{existingEmail}', this.accountRequestEmail);
     this.rejectionReasonBody = this.rejectionReasonBody.replaceAll('{supportEmail}', environment.supportEmail);
+
+    this.replaceGoogleId();
   }
 
   onRejectionReasonBodyChange(updatedText: string): void {
     this.rejectionReasonBody = updatedText;
+  }
+
+  replaceGoogleId(): void {
+    this.searchService.searchAdmin(this.accountRequestEmail)
+    .subscribe({
+      next: (resp: AdminSearchResult) => {
+        const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+
+        if (!hasInstructors) {
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');
+          return;
+        }
+
+        for (const instructor of resp.instructors) {
+          if (instructor.googleId !== '') {
+            this.existingAccount = instructor;
+          }
+        }
+
+        if (this.existingAccount.googleId === '') {
+          // When an instructor account exists, but for some reason does not have a googleId
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');
+        } else {
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', this.existingAccount.googleId);
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
