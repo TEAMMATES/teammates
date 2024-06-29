@@ -1021,7 +1021,6 @@ public final class SqlEmailGenerator {
                 EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
         email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
-        email.setBcc(Config.SUPPORT_EMAIL);
         email.setSubjectFromType();
         email.setContent(content);
         return email;
