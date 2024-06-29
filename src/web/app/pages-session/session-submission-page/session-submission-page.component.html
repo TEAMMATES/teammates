@@ -123,7 +123,7 @@
                                           [(isSubmitAllClicked)]="isSubmitAllClicked"
                                           [currentSelectedSessionView]="currentSelectedSessionView"
                                           [recipientId]="entry.key"
-                                          (reset)="resetFeedbackResponses([$event], entry.key)"
+                                          (resetFeedback)="resetFeedbackResponses([$event], entry.key)"
                                           (autoSave)="handleAutoSave($event)"
               ></tm-question-submission-form>
             </ng-container>
@@ -156,7 +156,7 @@
                                       (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                       [isQuestionCountOne]="isQuestionCountOne"
                                       [(isSubmitAllClicked)]="isSubmitAllClicked"
-                                      (reset)="resetFeedbackResponses([$event], null)"
+                                      (resetFeedback)="resetFeedbackResponses([$event], null)"
                                       (autoSave)="handleAutoSave($event)"
           ></tm-question-submission-form>
         </ng-container>
@@ -173,7 +173,7 @@
                                    [isQuestionCountOne]="isQuestionCountOne"
                                    [(isSubmitAllClicked)]="isSubmitAllClicked"
                                    [currentSelectedSessionView]="currentSelectedSessionView"
-                                   (reset)="resetFeedbackResponses([$event], null)"
+                                   (resetFeedback)="resetFeedbackResponses([$event], null)"
                                    (autoSave)="handleAutoSave($event)"
       ></tm-question-submission-form>
     </ng-container>

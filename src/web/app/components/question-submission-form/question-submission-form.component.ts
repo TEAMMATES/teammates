@@ -93,7 +93,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
-    this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some(value => value)
+    this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
   }
 
   @Input()
@@ -123,7 +123,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   autoSave: EventEmitter<{ id: string, model: QuestionSubmissionFormModel }> = new EventEmitter();
 
   @Output()
-  reset: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter<QuestionSubmissionFormModel>();
+  resetFeedback: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter<QuestionSubmissionFormModel>();
 
   @ViewChild(ContributionQuestionConstraintComponent)
   private contributionQuestionConstraint!: ContributionQuestionConstraintComponent;
@@ -231,7 +231,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   resetForm(): void {
-    this.reset.emit(this.model);
+    this.resetFeedback.emit(this.model);
     this.isSaved = true;
     this.hasResponseChanged = false;
     clearTimeout(this.autosaveTimeout);
@@ -366,7 +366,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
     if (!this.isFormsDisabled) {
-      
       this.isSubmitAllClickedChange.emit(false);
       this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
 

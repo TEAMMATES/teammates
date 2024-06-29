@@ -697,6 +697,12 @@ describe('SessionSubmissionPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should store value in localStorage', () => {
+    // Use localStorage methods as usual
+    localStorage.setItem('myKey', 'myValue');
+    expect(localStorage.getItem('myKey')).toBe('myValue');
+  });
+
   it('should snap when feedback session questions have failed to load', () => {
     component.retryAttempts = 0;
     component.hasFeedbackSessionQuestionsLoadingFailed = true;
@@ -1280,5 +1286,39 @@ describe('SessionSubmissionPageComponent', () => {
     expect(commentSpy).toHaveBeenCalledTimes(1);
     expect(commentSpy).toHaveBeenLastCalledWith(expectedId, Intent.STUDENT_SUBMISSION,
         { key: testQueryParams.key, moderatedperson: '' });
+  });
+
+  it('should autosave data to localStorage', () => {
+    const questionId = 'feedback-question-id-mcq';
+    const model: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    model.hasResponseChangedForRecipients = new Map<string, boolean>().set('r1', true);
+    model.isTabExpandedForRecipients = new Map<string, boolean>().set('r1', true);
+    const event = { id: questionId, model };
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+
+    jest.useFakeTimers();
+    component.handleAutoSave(event);
+    jest.advanceTimersByTime(component.autoSaveDelay);
+
+    expect(setItemSpy).toHaveBeenCalled();
+    jest.useRealTimers();
+  });
+
+  it('should load autosaved data from localStorage', () => {
+    const questionId = 'feedback-question-id-mcq';
+    const savedModel: any = deepCopy(testMcqQuestionSubmissionForm);
+    savedModel.hasResponseChangedForRecipients = Array.from(new Map<string, boolean>().set('r1', true).entries());
+    savedModel.isTabExpandedForRecipients = Array.from(new Map<string, boolean>().set('r1', true).entries());
+
+    const getItemSpy = jest.spyOn(Storage.prototype, 'getItem')
+      .mockReturnValue(JSON.stringify({ [questionId]: savedModel }));
+
+    component.questionSubmissionForms = [deepCopy(testMcqQuestionSubmissionForm)];
+
+    component.loadAutoSavedData(questionId);
+
+    expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('r1')).toBe(true);
+    expect(component.questionSubmissionForms[0].isTabExpandedForRecipients.get('r1')).toBe(true);
+    expect(getItemSpy).toHaveBeenCalledWith('autosave');
   });
 });
