@@ -1,0 +1,358 @@
+{
+  "accounts": {
+    "instructorWithSessions": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.FRubricQn.instructor",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "course": {
+      "id": "tm.e2e.FRubricQn.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "Africa/Johannesburg",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "course2": {
+      "id": "tm.e2e.FRubricQn.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "Africa/Johannesburg",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "sections": {
+    "tm.e2e.FRubricQn.CS2104-None": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS2104"
+      },
+      "name": "None"
+    },
+    "tm.e2e.FRubricQn.CS1101-None": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS1101"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "tm.e2e.FRubricQn.CS2104-None-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.FRubricQn.CS1101-None-Team2": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "name": "Team 2"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "instructor": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000501",
+      "courseId": "tm.e2e.FRubricQn.CS2104",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS2104"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "regKey": "4F647E6C589F4A653FE2E00ACBF60E97098AEE5B9B2B344F1433AC3336D567FE498879D5EDC75B130B1D4316641CEEE7AA53CA47CAAE91920644B3AC4DC6D66F"
+    },
+    "instructor2": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000502",
+      "courseId": "tm.e2e.FRubricQn.CS1101",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "regKey": "4F647E6C589F4A653FE2E00ACBF60E97098AEE5B9B2B344F1433AC3336D567FEA097E915F0B418903EA5756DB26891F20E0D47726D1FAA6CE0C29EAF17D950CD"
+    }
+  },
+  "students": {
+    "alice.tmms@FRubricQn.CS2104": {
+      "comments": "This student's name is Alice Betsy",
+      "id": "00000000-0000-4000-8000-000000000601",
+      "courseId": "tm.e2e.FRubricQn.CS2104",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS2104"
+      },
+      "name": "Alice Betsy",
+      "email": "alice.b.tmms@gmail.tmt",
+      "regKey": "EBE50B16D49CF8511F63AC64F55EEE9A9BBF979EDD08808B815CB748176E61CBBD7364C6F112325851C21A8237FE3F2B9D157BBE8E0A82BFC8695990DDDB8DDB",
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    "benny.tmms@FRubricQn.CS2104": {
+      "comments": "This student's name is Benny Charles",
+      "id": "00000000-0000-4000-8000-000000000602",
+      "courseId": "tm.e2e.FRubricQn.CS2104",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Benny Charles",
+      "email": "benny.tmms@gmail.tmt",
+      "regKey": "4E89CF58E1263D114A5A352555BDEF24FE9EBA55575B73F1FCDE2A30FF8DF1C8A04289CB0E187D938973732E18082EBF82A64E5B2EC66152A7A50EBB4790F91F"
+    },
+    "charlie.tmms@FRubricQn.CS2104": {
+      "comments": "This student's name is Charlie Davis",
+      "id": "00000000-0000-4000-8000-000000000603",
+      "courseId": "tm.e2e.FRubricQn.CS2104",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Charlie Davis",
+      "email": "FRubricQn.charlie.tmms@gmail.tmt",
+      "regKey": "067D131524890778C6BBB57B778D4F2FBCF1FA17123302BA4FBBC6705321C17311B2393495AFC68170567B84EB749F9C59DB034E6B00DC113C1D97A09171A55F438B4CED8016561F1425C109373DEA8C"
+    },
+    "danny.tmms@FRubricQn.CS1101": {
+      "comments": "This student's name is Danny Engrid",
+      "id": "00000000-0000-4000-8000-000000000604",
+      "courseId": "tm.e2e.FRubricQn.CS1101",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS1101"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "name": "Danny Engrid",
+      "email": "FRubricQn.danny.tmms@gmail.tmt",
+      "regKey": "5E0FC5BDABC5E09C5A325401E6C19A01DB3D85BD1D630C2E25655BCC0194ADC8CC61A14AE6407480F243E167055081FA688CDD2062670A825B9FFA6D130439DA6CD537E26F7DDF4AB586838EA9619B3E"
+    }
+  },
+  "feedbackSessions": {
+    "openSession": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS2104"
+      },
+      "name": "First Session",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": "<p>Instructions for first session</p>",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
+      "gracePeriod": 10,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": false,
+      "isOpenEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "createdAt": "2012-04-01T23:59:00Z"
+    },
+    "openSession2": {
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "tm.e2e.FRubricQn.CS1101"
+      },
+      "name": "Second Session",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": "<p>Instructions for Second session</p>",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
+      "gracePeriod": 10,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": false,
+      "isOpenEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "createdAt": "2012-04-01T23:59:00Z"
+    }
+  },
+  "feedbackQuestions": {
+    "qn1ForFirstSession": {
+      "questionDetails": {
+        "hasAssignedWeights": true,
+        "rubricWeightsForEachCell": [
+          [
+            1.01,
+            -0.99
+          ],
+          [
+            100.0,
+            -200.0
+          ]
+        ],
+        "rubricChoices": [
+          "Yes",
+          "No"
+        ],
+        "rubricSubQuestions": [
+          "This student has done a good job.",
+          "This student has tried his/her best."
+        ],
+        "rubricDescriptions": [
+          [
+            "",
+            ""
+          ],
+          [
+            "Most of the time",
+            "Less than half the time"
+          ]
+        ],
+        "questionType": "RUBRIC",
+        "questionText": "Please choose the best choice for the following sub-questions."
+      },
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionNumber": 1,
+      "description": "<p>Testing description for first session</p>",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn1ForSecondSession": {
+      "questionDetails": {
+        "hasAssignedWeights": false,
+        "rubricWeightsForEachCell": [],
+        "rubricChoices": [
+          "Strongly Agree",
+          "Agree",
+          "Neutral",
+          "Disagree",
+          "Strongly Disagree"
+        ],
+        "rubricSubQuestions": [
+          "The content of the class was interesting.",
+          "The professor was engaging.",
+          "The duration of the lessons too short."
+        ],
+        "rubricDescriptions": [
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Most of the time",
+            "",
+            "",
+            "",
+            "Less than half the time"
+          ],
+          [
+            "The class should be 1 hour longer.",
+            "The class should be 30 min longer.",
+            "The class duration is just right.",
+            "The class should be 30 min shorter.",
+            "The class should be 1 hour shorter."
+          ]
+        ],
+        "questionType": "RUBRIC",
+        "questionText": "Please choose the best choice for the following sub-questions."
+      },
+      "id": "00000000-0000-4000-8000-000000000802",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000702"
+      },
+      "questionNumber": 1,
+      "description": "<p>Testing description for second session</p>",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "feedbackSessionLogs": {},
+  "notifications": {},
+  "readNotifications": {}
+}

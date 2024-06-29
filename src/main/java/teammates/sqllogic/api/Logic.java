@@ -22,6 +22,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.common.util.Const;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -474,7 +475,7 @@ public class Logic {
     }
 
     /**
-     * Fetch the deadline extension for a given user and session feedback.
+     * Fetch the deadline extension end time for a given user and session feedback.
      *
      * @return deadline extension instant if exists, else the default end time instant
      *         for the session feedback.
@@ -484,12 +485,21 @@ public class Logic {
     }
 
     /**
-     * Fetch the deadline extension for a given user and session feedback.
+     * Fetch the deadline extension end time for a given user and session feedback.
      *
      * @return deadline extension instant if exists, else return null since no deadline extensions.
      */
     public Instant getExtendedDeadlineForUser(FeedbackSession session, User user) {
         return deadlineExtensionsLogic.getExtendedDeadlineForUser(session, user);
+    }
+
+    /**
+     * Fetch the deadline extension entity for a given user and session feedback.
+     *
+     * @return deadline extension entity if exists, else return null.
+     */
+    public DeadlineExtension getDeadlineExtensionEntityForUser(FeedbackSession session, User user) {
+        return deadlineExtensionsLogic.getDeadlineExtensionEntityForUser(session, user);
     }
 
     /**
@@ -1081,6 +1091,14 @@ public class Logic {
     }
 
     /**
+     * Returns the default SQL section.
+     * If it does not exist, create and return it.
+     */
+    public Section getDefaultSectionOrCreate(String courseId) {
+        return getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
+    }
+
+    /**
      * Gets a team by associated {@code courseId} and {@code sectionName}.
      */
     public Section getSectionOrCreate(String courseId, String sectionName) {
@@ -1303,6 +1321,13 @@ public class Logic {
         assert feedbackSession != null;
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSession);
+    }
+
+    /**
+     * Gets the unique feedback question based on sessionId and questionNumber.
+     */
+    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
+        return feedbackQuestionsLogic.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
     }
 
     /**
@@ -1597,6 +1622,16 @@ public class Logic {
      */
     public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
         return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
+    }
+
+    /**
+     * Gets all feedback responses from a specific giver and recipient for a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(String courseId, String giverEmail,
+            String recipientEmail) {
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverAndRecipientForCourse(courseId, giverEmail,
+            recipientEmail);
     }
 
     /**
