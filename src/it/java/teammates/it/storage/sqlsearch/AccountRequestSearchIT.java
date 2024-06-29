@@ -6,6 +6,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
@@ -160,6 +161,26 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertThrows(SearchServiceException.class,
                 () -> accountRequestsDb.searchAccountRequestsInWholeSystem("anything"));
+    }
+
+    @Test
+    public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
+        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
+
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        accountRequestsDb.createAccountRequest(accountRequest);
+
+        String searchInjection = "institute'; DROP TABLE account_requests; --";
+        List<AccountRequest> actualInjection = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
+        assertEquals(typicalBundle.accountRequests.size(), actualInjection.size());
+
+        AccountRequest actual = accountRequestsDb.getAccountRequest(accountRequest.getId());
+        assertEquals(accountRequest, actual);
     }
 
     /**

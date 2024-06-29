@@ -128,7 +128,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             session = session.getCopyForUser(student.getEmail());
 
             gateKeeper.verifyAnswerableForStudent(question);
-            verifySessionOpenExceptForModeration(session);
+            verifySessionOpenExceptForModeration(session, student);
             verifyInstructorCanSeeQuestionIfInModeration(question);
             verifyNotPreview();
 
@@ -145,7 +145,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             session = session.getCopyForUser(instructorAsFeedbackParticipant.getEmail());
 
             gateKeeper.verifyAnswerableForInstructor(question);
-            verifySessionOpenExceptForModeration(session);
+            verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
             verifyInstructorCanSeeQuestionIfInModeration(question);
             verifyNotPreview();
 
