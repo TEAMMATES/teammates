@@ -115,11 +115,24 @@ export class InstructorRequestFormComponent {
     const name = this.name.value!.trim();
     const email = this.email.value!.trim();
     const comments = this.comments.value!.trim();
-
+    // Country Mapping
+    const countryMapping: { [key: string]: string } = {
+      'united states': 'USA',
+      us: 'USA',
+      america: 'USA',
+      uk: 'United Kingdom',
+      deutschland: 'Germany',
+      'united arab emirates': 'UAE',
+      españa: 'Spain',
+      méxico: 'Mexico',
+      belgië: 'Belgium',
+      holland: 'Netherlands',
+    };
     // Combine country and institution
     const country = this.country.value!.trim();
+    const mappedCountry = countryMapping[country.toLowerCase()] || country;
     const institution = this.institution.value!.trim();
-    const combinedInstitution = `${institution}, ${country}`;
+    const combinedInstitution = `${institution}, ${mappedCountry}`;
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
