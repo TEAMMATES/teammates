@@ -697,12 +697,6 @@ describe('SessionSubmissionPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should store value in localStorage', () => {
-    // Use localStorage methods as usual
-    localStorage.setItem('myKey', 'myValue');
-    expect(localStorage.getItem('myKey')).toBe('myValue');
-  });
-
   it('should snap when feedback session questions have failed to load', () => {
     component.retryAttempts = 0;
     component.hasFeedbackSessionQuestionsLoadingFailed = true;
