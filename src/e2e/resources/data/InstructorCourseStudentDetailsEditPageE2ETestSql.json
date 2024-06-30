@@ -1,0 +1,123 @@
+{
+  "accounts": {
+    "ICSDetEdit.instr": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ICSDetEdit.instr",
+      "name": "Teammates Test",
+      "email": "ICSDetEdit.instr@gmail.tmt"
+    },
+    "José Gómez": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.ICSDetEdit.jose.tmms",
+      "name": "José Gómez",
+      "email": "ICSDetEdit.jose.tmms@gmail.tmt"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "ICSDetEdit.CS2104": {
+      "id": "tm.e2e.ICSDetEdit.CS2104",
+      "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "UTC"
+    }
+  },
+  "sections": {
+    "tm.e2e.ICSDetEdit.CS2104-SectionA": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.ICSDetEdit.CS2104"
+      },
+      "name": "Section A"
+    },
+    "tm.e2e.ICSDetEdit.CS2104-SectionB": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "tm.e2e.ICSDetEdit.CS2104"
+      },
+      "name": "Section B"
+    }
+  },
+  "teams": {
+    "tm.e2e.ICSDetEdit.CS2104-SectionA-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.ICSDetEdit.CS2104-SectionB-Team100": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "name": "Team 100"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "ICSDetEdit.instr": {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "course": {
+        "id": "tm.e2e.ICSDetEdit.CS2104"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "ICSDetEdit.instr@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": false,
+      "displayName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "ICSDetEdit.jose.tmms": {
+      "id": "00000000-0000-4000-8000-000000000601",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "course": {
+        "id": "tm.e2e.ICSDetEdit.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "email": "ICSDetEdit.jose.tmms@gmail.tmt",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez"
+    },
+    "ICSDetEdit.benny.c": {
+      "id": "00000000-0000-4000-8000-000000000602",
+      "course": {
+        "id": "tm.e2e.ICSDetEdit.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "email": "ICSDetEdit.benny.c.tmms@gmail.tmt",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {},
+  "readNotifications": {}
+}
