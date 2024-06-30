@@ -135,7 +135,7 @@
                 (click)="saveResponsesForSelectedRecipientQuestions(entry.key, questionSubmissionForms)"
                 [disabled]="isSavingResponses || isSubmissionFormsDisabled"><tm-ajax-loading
                   *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for {{ getRecipientName(entry.key) }}</button>
-              <button type="button" class="btn btn-warning float-end" ngbTooltip="Reset your responses for this question to the last submitted state." 
+              <button type="button" class="btn btn-warning float-end" ngbTooltip="Reset your responses for this question to the last submitted state."
                 #resetTooltip="ngbTooltip" (click)="resetResponsesForSelectedRecipientQuestions(entry.key, questionSubmissionForms)"
                 [disabled]="!hasResponseChangedForRecipient(entry.key, questionSubmissionForms)" >Reset Responses for {{ getRecipientName(entry.key) }}</button>
             </div>
