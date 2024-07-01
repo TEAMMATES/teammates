@@ -60,6 +60,7 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
     this.perRecipientColumnsData = [
       { header: 'Team', sortBy: SortBy.MCQ_TEAM },
       { header: 'Recipient Name', sortBy: SortBy.MCQ_RECIPIENT_NAME },
+      { header: 'Recipient Email', sortBy: SortBy.RECIPIENT_EMAIL },
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
           header: `${key}[${(this.weightPerOption[key]).toFixed(2)}]`,
