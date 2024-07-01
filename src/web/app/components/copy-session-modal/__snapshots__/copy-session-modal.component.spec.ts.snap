@@ -61,7 +61,7 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
               aria-hidden="true"
               class="fa fa-exclamation-circle"
             />
-             The field "Name for copied session" should not be empty. 
+             The field "Name for copied session" should not be empty.
           </div>
           <span>
             64 characters left
@@ -151,7 +151,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
               aria-hidden="true"
               class="fa fa-exclamation-circle"
             />
-             The field "Name for copied session" should not be empty. 
+             The field "Name for copied session" should not be empty.
           </div>
           <span>
             52 characters left
@@ -174,11 +174,11 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             >
               Test01
             </span>
-            ] : Sample Course 101 
+            ] : Sample Course 101
             <span
               class="text-danger"
             >
-               {Session currently in this course} 
+               {Session currently in this course}
             </span>
           </label>
         </div>
@@ -197,7 +197,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             <span>
               Test02
             </span>
-            ] : Sample Course 202 
+            ] : Sample Course 202
           </label>
         </div>
       </div>
