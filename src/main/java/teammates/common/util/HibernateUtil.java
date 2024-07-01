@@ -294,4 +294,13 @@ public final class HibernateUtil {
         return getCurrentSession().getReference(entityType, id);
     }
 
+    /**
+     * Flush the current session and evict the given entity from the session.
+     * @see Session#evict(Object)
+     */
+    public static <T> void flushAndEvict(T entity) {
+        flushSession();
+        getCurrentSession().evict(entity);
+    }
+
 }
