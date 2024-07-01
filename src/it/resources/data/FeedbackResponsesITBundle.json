@@ -1022,7 +1022,7 @@
         "questionType": "TEXT"
       },
       "description": "Feedback question with no responses",
-      "questionNumber": 5,
+      "questionNumber": 6,
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,

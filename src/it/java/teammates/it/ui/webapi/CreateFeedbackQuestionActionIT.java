@@ -64,31 +64,31 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         ______TS("null question type");
 
-        FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+        FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest(10);
         createRequest.setQuestionType(null);
         verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Invalid questionNumber");
 
-        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest = getTypicalTextQuestionCreateRequest(10);
         createRequest.setQuestionNumber(0);
         verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Failure: Invalid giverType");
 
-        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest = getTypicalTextQuestionCreateRequest(10);
         createRequest.setGiverType(FeedbackParticipantType.NONE);
         verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Failure: empty question brief");
 
-        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest = getTypicalTextQuestionCreateRequest(10);
         createRequest.setQuestionBrief("");
         verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Typical case");
 
-        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest = getTypicalTextQuestionCreateRequest(10);
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
@@ -103,7 +103,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         ______TS("Custom number of entity to give feedback to");
 
-        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest = getTypicalTextQuestionCreateRequest(11);
         createRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
         createRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(100);
         createRequest.setGiverType(FeedbackParticipantType.STUDENTS);
@@ -152,9 +152,9 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
                 fs.getCourse(), Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
     }
 
-    private FeedbackQuestionCreateRequest getTypicalTextQuestionCreateRequest() {
+    private FeedbackQuestionCreateRequest getTypicalTextQuestionCreateRequest(int questionNumber) {
         FeedbackQuestionCreateRequest createRequest = new FeedbackQuestionCreateRequest();
-        createRequest.setQuestionNumber(2);
+        createRequest.setQuestionNumber(questionNumber);
         createRequest.setQuestionBrief("this is the brief");
         createRequest.setQuestionDescription("this is the description");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();

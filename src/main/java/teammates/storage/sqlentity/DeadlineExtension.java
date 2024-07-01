@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -23,7 +24,9 @@ import teammates.common.util.FieldValidator;
  * Represents a deadline extension entity.
  */
 @Entity
-@Table(name = "DeadlineExtensions")
+@Table(name = "DeadlineExtensions", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique deadline per session and user", columnNames = { "userId", "sessionId" }),
+})
 public class DeadlineExtension extends BaseEntity {
     @Id
     private UUID id;
