@@ -851,7 +851,7 @@ public final class SqlEmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(endTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorPreamble}", fillUpInstructorPreamble(course),
+                "${instructorPreamble}", fillUpInstructorPreamble(course, session),
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
@@ -1098,10 +1098,14 @@ public final class SqlEmailGenerator {
             "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
-    private String fillUpInstructorPreamble(Course course) {
+    private String fillUpInstructorPreamble(Course course, FeedbackSession session) {
+        var recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
+
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COPY_PREAMBLE,
             "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-            "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()));
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
+                "${sessionsRecoveryLink}", recoveryUrl);
     }
 
     /**
