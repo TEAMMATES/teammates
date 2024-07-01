@@ -34,16 +34,6 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.queueInstructorForAdding(singleLineDetails);
 
-        homePage.addAllInstructors();
-
-        String successMessage = homePage.getMessageForInstructor(0);
-        assertTrue(successMessage.contains(
-                "Instructor \"AHPUiT Instrúctör WithPlusInEmail\" has been successfully created"));
-
-        String failureMessage = homePage.getMessageForInstructor(1);
-        assertTrue(failureMessage.contains(
-                "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format."));
-
         homePage.reloadPage();
 
         ______TS("Verify that newly added instructor appears in account request table");

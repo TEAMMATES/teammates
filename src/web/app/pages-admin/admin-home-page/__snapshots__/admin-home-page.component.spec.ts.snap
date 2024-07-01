@@ -11,10 +11,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
-  instructorsConsolidated={[Function Array]}
-  isAddingInstructors="false"
   items$={[Function Observable]}
-  linkService={[Function LinkService]}
   pageSize={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -121,298 +118,6 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
           id="add-instructor"
         >
           Add Instructor
-        </button>
-      </div>
-    </div>
-  </div>
-</tm-admin-home-page>
-`;
-
-exports[`AdminHomePageComponent should snap with disabled adding instructor button if there are active requests 1`] = `
-<tm-admin-home-page
-  accountReqs={[Function Array]}
-  accountService={[Function AccountService]}
-  activeRequests={[Function Number]}
-  currentPage={[Function Number]}
-  formatDateDetailPipe={[Function FormatDateDetailPipe]}
-  instructorDetails=""
-  instructorEmail=""
-  instructorInstitution=""
-  instructorName=""
-  instructorsConsolidated={[Function Array]}
-  isAddingInstructors={[Function Boolean]}
-  items$={[Function Observable]}
-  linkService={[Function LinkService]}
-  pageSize={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
->
-  <div
-    class="card bg-light top-padded"
-  >
-    <div
-      class="card-body"
-    >
-      <div>
-        <strong>
-          Adding Multiple Instructors
-        </strong>
-        <p
-          class="text-muted"
-        >
-          <i
-            class="fas fa-exclamation-circle"
-          />
-           Add Instructor Details in the format: Name | Email | Institution 
-        </p>
-        <textarea
-          aria-label="Add multiple instructors"
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-details-single-line"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <button
-          class="btn btn-primary"
-          id="add-instructor-single-line"
-        >
-          Add Instructors
-        </button>
-      </div>
-    </div>
-  </div><div
-    class="card bg-light top-padded"
-  >
-    <div
-      class="card-body"
-    >
-      <div>
-        <strong>
-          Adding a Single Instructor
-        </strong>
-      </div>
-      <div
-        class="top-padded"
-      >
-        <label
-          for="instructor-name"
-        >
-          <strong>
-            Name:
-          </strong>
-        </label>
-        <input
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-name"
-          type="text"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <label
-          for="instructor-email"
-        >
-          <strong>
-            Email:
-          </strong>
-        </label>
-        <input
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-email"
-          type="text"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <label
-          for="instructor-institution"
-        >
-          <strong>
-            Institution:
-          </strong>
-        </label>
-        <input
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-institution"
-          type="text"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <button
-          class="btn btn-primary"
-          id="add-instructor"
-        >
-          Add Instructor
-        </button>
-      </div>
-    </div>
-  </div><div
-    class="card bg-light top-padded"
-  >
-    <div
-      class="card-header bg-primary text-white"
-    >
-      <strong>
-        Result
-      </strong>
-    </div>
-    <div
-      class="card-body"
-    >
-      <div
-        class="table-responsive"
-      >
-        <table
-          class="table table-striped table-hover"
-        >
-          <thead>
-            <tr>
-              <th>
-                Name
-              </th>
-              <th>
-                Email
-              </th>
-              <th>
-                Institution
-              </th>
-              <th>
-                Action
-              </th>
-              <th>
-                Status
-              </th>
-              <th>
-                Message
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              tm-new-instructor-data-row=""
-            >
-              <td>
-                <span
-                  id="instructor-0-name"
-                >
-                  Instructor A
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-0-email"
-                >
-                  instructora@example.com
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-0-institution"
-                >
-                  Sample Institution A
-                </span>
-              </td>
-              <td
-                style="width: 17%;"
-              >
-              </td>
-              <td
-                style="width: 8%;"
-              >
-                ADDING
-              </td>
-              <td
-                style="width: 40%;"
-              >
-              </td>
-            </tr>
-            <tr
-              tm-new-instructor-data-row=""
-            >
-              <td>
-                <span
-                  id="instructor-1-name"
-                >
-                  Instructor B
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-1-email"
-                >
-                  instructorb@example.com
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-1-institution"
-                >
-                  Sample Institution B
-                </span>
-              </td>
-              <td
-                style="width: 17%;"
-              >
-                <div
-                  class="button-group"
-                >
-                  <button
-                    class="action-btn btn btn-sm btn-primary text-nowrap"
-                    disabled=""
-                    id="add-instructor-1"
-                    style="margin-right: 10px;"
-                  >
-                    Add
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-info text-nowrap"
-                    id="edit-instructor-1"
-                    style="margin-right: 10px;"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-danger"
-                    id="remove-instructor-1"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </td>
-              <td
-                style="width: 8%;"
-              >
-                PENDING
-              </td>
-              <td
-                style="width: 40%;"
-              >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button
-          class="btn btn-primary top-padded"
-          disabled=""
-          id="add-all-instructors"
-        >
-          <tm-ajax-loading>
-            <div
-              class="loading-container"
-            >
-              <div
-                class="spinner-border spinner-border-sm text-white"
-                role="status"
-              />
-            </div>
-          </tm-ajax-loading>
-           Add All Instructors 
         </button>
       </div>
     </div>
@@ -431,10 +136,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
-  instructorsConsolidated={[Function Array]}
-  isAddingInstructors="false"
   items$={[Function Observable]}
-  linkService={[Function LinkService]}
   pageSize={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -544,24 +246,23 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
         </button>
       </div>
     </div>
-  </div><div
-    class="card bg-light top-padded"
-  >
+  </div><tm-account-request-table>
     <div
-      class="card-header bg-primary text-white"
+      class="card bg-light top-padded"
     >
-      <strong>
-        Result
-      </strong>
-    </div>
-    <div
-      class="card-body"
-    >
+      <div
+        class="card-header bg-primary text-white"
+      >
+        <strong>
+          Pending Account Requests
+        </strong>
+      </div>
       <div
         class="table-responsive"
       >
         <table
-          class="table table-striped table-hover"
+          class="table table-striped data-table"
+          id="search-table-account-request"
         >
           <thead>
             <tr>
@@ -572,209 +273,336 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 Email
               </th>
               <th>
-                Institution
-              </th>
-              <th>
-                Action
-              </th>
-              <th>
                 Status
               </th>
               <th>
-                Message
+                Institute, Country
+              </th>
+              <th>
+                Created At
+              </th>
+              <th>
+                Comments
+              </th>
+              <th>
+                Options
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              tm-new-instructor-data-row=""
-            >
+            <tr>
               <td>
-                <span
-                  id="instructor-0-name"
-                >
-                  Instructor A
-                </span>
+                Instructor A
               </td>
               <td>
-                <span
-                  id="instructor-0-email"
-                >
-                  instructora@example.com
-                </span>
+                instructora@example.com
               </td>
               <td>
-                <span
-                  id="instructor-0-institution"
-                >
-                  Sample Institution A
-                </span>
-              </td>
-              <td
-                style="width: 17%;"
-              >
-                <div
-                  class="button-group"
-                >
-                  <button
-                    class="action-btn btn btn-sm btn-primary text-nowrap"
-                    id="add-instructor-0"
-                    style="margin-right: 10px;"
-                  >
-                    Add
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-info text-nowrap"
-                    id="edit-instructor-0"
-                    style="margin-right: 10px;"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-danger"
-                    id="remove-instructor-0"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </td>
-              <td
-                style="width: 8%;"
-              >
                 PENDING
               </td>
-              <td
-                style="width: 40%;"
-              >
-              </td>
-            </tr>
-            <tr
-              tm-new-instructor-data-row=""
-            >
               <td>
-                <span
-                  id="instructor-1-name"
-                >
-                  Instructor B
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-1-email"
-                >
-                  instructorb@example.com
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-1-institution"
-                >
-                  Sample Institution B
-                </span>
+                Institution and Country A
               </td>
               <td
-                style="width: 17%;"
+                id="timestamp-box"
               >
-              </td>
-              <td
-                style="width: 8%;"
-              >
-                SUCCESS
-              </td>
-              <td
-                style="width: 40%;"
-              >
-                <span
-                  id="message-instructor-1"
-                >
-                   Instructor "Instructor B" has been successfully created. [
-                  <a
-                    href="http://localhost:4200/web/join"
-                  >
-                    join link
-                  </a>
-                  ] 
-                </span>
-              </td>
-            </tr>
-            <tr
-              tm-new-instructor-data-row=""
-            >
-              <td>
-                <span
-                  id="instructor-2-name"
-                >
-                  Instructor C
-                </span>
+                Created Time A
               </td>
               <td>
-                <span
-                  id="instructor-2-email"
-                >
-                  instructorc@example.com
-                </span>
-              </td>
-              <td>
-                <span
-                  id="instructor-2-institution"
-                >
-                  Sample Institution C
-                </span>
-              </td>
-              <td
-                style="width: 17%;"
-              >
                 <div
-                  class="button-group"
+                  id="comment-box"
                 >
-                  <button
-                    class="action-btn btn btn-sm btn-primary text-nowrap"
-                    id="add-instructor-2"
-                    style="margin-right: 10px;"
-                  >
-                    Add
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-info text-nowrap"
-                    id="edit-instructor-2"
-                    style="margin-right: 10px;"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="action-btn btn btn-sm btn-danger"
-                    id="remove-instructor-2"
-                  >
-                    Remove
-                  </button>
+                  Comment A
                 </div>
               </td>
               <td
-                style="width: 8%;"
+                class="align-middle"
               >
-                FAIL
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center gap-2"
+                >
+                  <div>
+                    <a
+                      id="edit-account-request-0"
+                    >
+                      <i
+                        class="fa-solid fa-pen"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="ngb-tooltip-class"
+                    placement="top"
+                  >
+                    <a
+                      id="delete-account-request-0"
+                    >
+                      <i
+                        class="fa-solid fa-trash"
+                      />
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      id="view-account-request-0"
+                    >
+                      <i
+                        class="fa-solid fa-eye"
+                      />
+                    </a>
+                  </div>
+                  <button
+                    class="btn btn-success"
+                    id="approve-account-request-0"
+                  >
+                    Approve
+                  </button>
+                  <span
+                    class="dropdown"
+                    container="body"
+                    ngbdropdown=""
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="dropdown-toggle btn btn-warning"
+                      id="reject-account-request-0"
+                      ngbdropdowntoggle=""
+                      type="button"
+                    >
+                       Reject 
+                    </button>
+                    <div
+                      class="dropdown-menu"
+                      ngbdropdownmenu=""
+                    >
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-0"
+                      >
+                         Reject 
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-with-reason-0"
+                      >
+                         Reject With Reason 
+                      </button>
+                    </div>
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Instructor B
+              </td>
+              <td>
+                instructorb@example.com
+              </td>
+              <td>
+                APPROVED
+              </td>
+              <td>
+                Institution and Country B
               </td>
               <td
-                style="width: 40%;"
+                id="timestamp-box"
               >
-                <span
-                  class="message"
-                  id="message-instructor-2"
+                Created Time B
+              </td>
+              <td>
+                <div
+                  id="comment-box"
                 >
-                  The instructor cannot be added for some reason
-                </span>
+                  Comment B
+                </div>
+              </td>
+              <td
+                class="align-middle"
+              >
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center gap-2"
+                >
+                  <div>
+                    <a
+                      id="edit-account-request-1"
+                    >
+                      <i
+                        class="fa-solid fa-pen"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="ngb-tooltip-class"
+                    placement="top"
+                  >
+                    <a
+                      id="delete-account-request-1"
+                    >
+                      <i
+                        class="fa-solid fa-trash"
+                      />
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      id="view-account-request-1"
+                    >
+                      <i
+                        class="fa-solid fa-eye"
+                      />
+                    </a>
+                  </div>
+                  <button
+                    class="btn btn-success"
+                    disabled=""
+                    id="approve-account-request-1"
+                  >
+                    Approve
+                  </button>
+                  <span
+                    class="dropdown"
+                    container="body"
+                    ngbdropdown=""
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="dropdown-toggle btn btn-warning"
+                      disabled=""
+                      id="reject-account-request-1"
+                      ngbdropdowntoggle=""
+                      type="button"
+                    >
+                       Reject 
+                    </button>
+                    <div
+                      class="dropdown-menu"
+                      ngbdropdownmenu=""
+                    >
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-1"
+                      >
+                         Reject 
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-with-reason-1"
+                      >
+                         Reject With Reason 
+                      </button>
+                    </div>
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Instructor C
+              </td>
+              <td>
+                instructorc@example.com
+              </td>
+              <td>
+                REJECTED
+              </td>
+              <td>
+                Institution and Country C
+              </td>
+              <td
+                id="timestamp-box"
+              >
+                Created Time C
+              </td>
+              <td>
+                <div
+                  id="comment-box"
+                >
+                  Comment C
+                </div>
+              </td>
+              <td
+                class="align-middle"
+              >
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center gap-2"
+                >
+                  <div>
+                    <a
+                      id="edit-account-request-2"
+                    >
+                      <i
+                        class="fa-solid fa-pen"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="ngb-tooltip-class"
+                    placement="top"
+                  >
+                    <a
+                      id="delete-account-request-2"
+                    >
+                      <i
+                        class="fa-solid fa-trash"
+                      />
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      id="view-account-request-2"
+                    >
+                      <i
+                        class="fa-solid fa-eye"
+                      />
+                    </a>
+                  </div>
+                  <button
+                    class="btn btn-success"
+                    id="approve-account-request-2"
+                  >
+                    Approve
+                  </button>
+                  <span
+                    class="dropdown"
+                    container="body"
+                    ngbdropdown=""
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="dropdown-toggle btn btn-warning"
+                      disabled=""
+                      id="reject-account-request-2"
+                      ngbdropdowntoggle=""
+                      type="button"
+                    >
+                       Reject 
+                    </button>
+                    <div
+                      class="dropdown-menu"
+                      ngbdropdownmenu=""
+                    >
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-2"
+                      >
+                         Reject 
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm dropdown-item"
+                        id="reject-request-with-reason-2"
+                      >
+                         Reject With Reason 
+                      </button>
+                    </div>
+                  </span>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
-        <button
-          class="btn btn-primary top-padded"
-          id="add-all-instructors"
-        >
-           Add All Instructors 
-        </button>
       </div>
     </div>
-  </div>
+  </tm-account-request-table>
 </tm-admin-home-page>
 `;
