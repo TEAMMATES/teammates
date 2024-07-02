@@ -63,7 +63,7 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
       { header: 'Recipient Email', sortBy: SortBy.RECIPIENT_EMAIL },
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
-          header: `${key} [${this.weightPerOption[key]}]`,
+          header: `${key} [${(this.weightPerOption[key]).toFixed(2)}]`,
           sortBy: SortBy.MSQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -84,8 +84,8 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
             value: this.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: this.perRecipientResponses[key].total },
-        { value: this.perRecipientResponses[key].average },
+        { value: (this.perRecipientResponses[key].total).toFixed(2) },
+        { value: (this.perRecipientResponses[key].average).toFixed(2) },
       ];
     });
   }
