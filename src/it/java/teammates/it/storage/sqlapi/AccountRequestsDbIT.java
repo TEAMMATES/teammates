@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.test.TestProperties;
 
 /**
  * SUT: {@link AccountRequestsDb}.
@@ -236,5 +237,4 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         assertEquals(accountRequest, actual);
     }
-
 }
