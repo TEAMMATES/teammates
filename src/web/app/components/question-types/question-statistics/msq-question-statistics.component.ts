@@ -60,7 +60,6 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
     this.perRecipientColumnsData = [
       { header: 'Team', sortBy: SortBy.MSQ_TEAM },
       { header: 'Recipient Name', sortBy: SortBy.MSQ_RECIPIENT_NAME },
-      { header: 'Recipient Email', sortBy: SortBy.RECIPIENT_EMAIL },
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
           header: `${key} [${(this.weightPerOption[key]).toFixed(2)}]`,
