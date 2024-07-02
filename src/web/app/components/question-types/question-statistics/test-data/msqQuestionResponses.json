@@ -100,7 +100,7 @@
     }
   ],
   "expectedPerRecipientResponses": {
-    "Alice": {
+    "alice@gmail.com": {
       "average": 1.5,
       "recipient": "Alice",
       "recipientEmail": "alice@gmail.com",
@@ -112,7 +112,7 @@
       },
       "total": 3
     },
-    "Bob": {
+    "bob@gmail.com": {
       "average": 1,
       "recipient": "Bob",
       "recipientEmail": "bob@gmail.com",
@@ -124,7 +124,7 @@
       },
       "total": 1
     },
-    "Charles": {
+    "charles@gmail.com": {
       "average": 0,
       "recipient": "Charles",
       "recipientEmail": "charles@gmail.com",
@@ -138,7 +138,7 @@
     }
   },
   "expectedPerRecipientResponsesWithOther": {
-    "Alice": {
+    "alice@gmail.com": {
       "average": 2,
       "recipient": "Alice",
       "recipientEmail": "alice@gmail.com",
@@ -151,7 +151,7 @@
       },
       "total": 6
     },
-    "Bob": {
+    "bob@gmail.com": {
       "average": 2.5,
       "recipient": "Bob",
       "recipientEmail": "bob@gmail.com",
@@ -164,7 +164,7 @@
       },
       "total": 5
     },
-    "Charles": {
+    "charles@gmail.com": {
       "average": 0,
       "recipient": "Charles",
       "recipientEmail": "charles@gmail.com",

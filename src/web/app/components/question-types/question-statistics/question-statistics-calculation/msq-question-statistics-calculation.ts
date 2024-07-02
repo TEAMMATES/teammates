@@ -91,19 +91,29 @@ export class MsqQuestionStatisticsCalculation
     const perRecipientResponse: Record<string, Record<string, number>> = {};
     const recipientToTeam: Record<string, string> = {};
     const recipientEmails: Record<string, string> = {};
+    const recipientNames: Record<string, string> = {};
     for (const response of this.responses) {
-      perRecipientResponse[response.recipient] = perRecipientResponse[response.recipient] || {};
-      recipientEmails[response.recipient] = recipientEmails[response.recipient] || response.recipientEmail || '';
+      if (!response.recipientEmail) {
+        continue;
+      }
+      perRecipientResponse[response.recipientEmail] = perRecipientResponse[response.recipientEmail] || {};
+      const responseEmail = response.recipientEmail;
+      recipientEmails[responseEmail] = recipientEmails[responseEmail] || responseEmail || '';
+      recipientNames[responseEmail] = recipientNames[responseEmail] || response.recipient || '';
       for (const choice of this.question.msqChoices) {
-        perRecipientResponse[response.recipient][choice] = 0;
+        perRecipientResponse[responseEmail][choice] = 0;
       }
       if (this.question.otherEnabled) {
-        perRecipientResponse[response.recipient]['Other'] = 0;
+        perRecipientResponse[responseEmail]['Other'] = 0;
       }
-      recipientToTeam[response.recipient] = response.recipientTeam;
+      recipientToTeam[responseEmail] = response.recipientTeam;
     }
     for (const response of this.responses) {
-      this.updateResponseCountPerOptionForResponse(response.responseDetails, perRecipientResponse[response.recipient]);
+      if (!response.recipientEmail) {
+        continue;
+      }
+      const email = response.recipientEmail;
+      this.updateResponseCountPerOptionForResponse(response.responseDetails, perRecipientResponse[email]);
     }
 
     for (const recipient of Object.keys(perRecipientResponse)) {
@@ -120,7 +130,7 @@ export class MsqQuestionStatisticsCalculation
       average = numOfResponsesForRecipient ? total / numOfResponsesForRecipient : 0;
 
       this.perRecipientResponses[recipient] = {
-        recipient,
+        recipient: recipientNames[recipient],
         recipientEmail: recipientEmails[recipient],
         total: +total.toFixed(5),
         average: +average.toFixed(2),
