@@ -5,8 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 
-import teammates.storage.sqlentity.Section;
-
 /**
  * Stores constants that are widely used across classes.
  * this class contains several nested classes, each containing a specific
@@ -27,7 +25,6 @@ public final class Const {
     public static final int SECTION_SIZE_LIMIT = 100;
 
     public static final String DEFAULT_SECTION = "None";
-    public static final Section DEFAULT_SQL_SECTION = null;
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 

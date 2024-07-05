@@ -607,9 +607,15 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
+    const mockModalRef = {
+      componentInstance: {},
+      result: Promise.resolve({}),
+      dismissed: {
+        subscribe: jest.fn(),
+      },
+    };
+
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(of({
       message: 'success',
@@ -669,9 +675,15 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
+    const mockModalRef = {
+      componentInstance: {},
+      result: Promise.resolve({}),
+      dismissed: {
+        subscribe: jest.fn(),
+      },
+    };
+
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(throwError(() => ({
       error: {
@@ -698,9 +710,15 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
+    const mockModalRef = {
+      componentInstance: {},
+      result: Promise.resolve({}),
+      dismissed: {
+        subscribe: jest.fn(),
+      },
+    };
+
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(of({
       message: 'success',
@@ -728,9 +746,15 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
+    const mockModalRef = {
+      componentInstance: {},
+      result: Promise.resolve({}),
+      dismissed: {
+        subscribe: jest.fn(),
+      },
+    };
+
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(throwError(() => ({
       error: {
