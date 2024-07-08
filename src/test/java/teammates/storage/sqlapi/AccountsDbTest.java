@@ -114,6 +114,7 @@ public class AccountsDbTest extends BaseTestCase {
         Account account = getTypicalAccount();
         mockHibernateUtil.when(() -> HibernateUtil.get(Account.class, account.getId()))
                 .thenReturn(account);
+        mockHibernateUtil.when(() -> HibernateUtil.merge(account)).thenReturn(account);
         account.setName("new name");
 
         accountsDb.updateAccount(account);
