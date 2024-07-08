@@ -151,7 +151,7 @@ public class FeedbackSession extends BaseEntity {
                 endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 gracePeriod, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
         );
-
+        fs.setId(getId());
         fs.setCreatedAt(getCreatedAt());
         fs.setUpdatedAt(getUpdatedAt());
         fs.setDeletedAt(getDeletedAt());
@@ -233,6 +233,10 @@ public class FeedbackSession extends BaseEntity {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public String getCourseId() {
+        return course.getId();
     }
 
     public String getName() {
@@ -490,7 +494,7 @@ public class FeedbackSession extends BaseEntity {
     public boolean isOpenedGivenExtendedDeadline(Instant extendedDeadline) {
         Instant now = Instant.now();
         return (now.isAfter(startTime) || now.equals(startTime))
-                && now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod));
+                && (now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod)));
     }
 
     /**
