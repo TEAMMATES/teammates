@@ -88,20 +88,20 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (student == null) {
-                throw new EntityNotFoundException("Student does not exist.");
+                throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
             feedbackSession = feedbackSession.getCopyForUser(student.getEmail());
-            verifySessionOpenExceptForModeration(feedbackSession);
+            verifySessionOpenExceptForModeration(feedbackSession, student);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (instructor == null) {
-                throw new EntityNotFoundException("Instructor does not exist.");
+                throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
             feedbackSession = feedbackSession.getCopyForUser(instructor.getEmail());
-            verifySessionOpenExceptForModeration(feedbackSession);
+            verifySessionOpenExceptForModeration(feedbackSession, instructor);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
@@ -205,7 +205,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructor.getEmail();
-            giverSection = Const.DEFAULT_SQL_SECTION;
+            giverSection = sqlLogic.getDefaultSectionOrCreate(courseId);
             existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
             sqlLogic.populateFieldsToGenerateInQuestion(feedbackQuestion,
