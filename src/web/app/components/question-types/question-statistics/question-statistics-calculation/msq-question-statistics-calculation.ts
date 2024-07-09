@@ -93,11 +93,11 @@ export class MsqQuestionStatisticsCalculation
     const recipientEmails: Record<string, string> = {};
     const recipientNames: Record<string, string> = {};
     for (const response of this.responses) {
-      if (!response.recipientEmail) {
+      const responseEmail = response.recipientEmail;
+      if (!responseEmail) {
         continue;
       }
-      perRecipientResponse[response.recipientEmail] = perRecipientResponse[response.recipientEmail] || {};
-      const responseEmail = response.recipientEmail;
+      perRecipientResponse[responseEmail] = perRecipientResponse[responseEmail] || {};
       recipientEmails[responseEmail] = recipientEmails[responseEmail] || responseEmail || '';
       recipientNames[responseEmail] = recipientNames[responseEmail] || response.recipient || '';
       for (const choice of this.question.msqChoices) {
@@ -109,10 +109,10 @@ export class MsqQuestionStatisticsCalculation
       recipientToTeam[responseEmail] = response.recipientTeam;
     }
     for (const response of this.responses) {
-      if (!response.recipientEmail) {
+      const email = response.recipientEmail;
+      if (!email) {
         continue;
       }
-      const email = response.recipientEmail;
       this.updateResponseCountPerOptionForResponse(response.responseDetails, perRecipientResponse[email]);
     }
 
