@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 import teammates.test.BaseTestCase;
@@ -40,8 +39,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_notificationDoesNotExist_success()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateNotification_notificationDoesNotExist_success() throws EntityAlreadyExistsException {
         Notification newNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
@@ -52,33 +50,17 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException() {
-        Notification invalidNotification = new Notification(Instant.parse("2011-02-01T00:00:00Z"),
-                Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+    public void testCreateNotification_notificationExists_throwsEntityAlreadyExistsException() {
+        Notification existingNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
 
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(invalidNotification), never());
-    }
+        mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, existingNotification.getId()))
+                .thenReturn(existingNotification);
 
-    @Test
-    public void testCreateNotification_emptyTitle_throwsInvalidParametersException() {
-        Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "", "<p>Deprecation happens in three minutes</p>");
+        assertThrows(EntityAlreadyExistsException.class, () -> notificationsDb.createNotification(existingNotification));
 
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(invalidNotification), never());
-    }
-
-    @Test
-    public void testCreateNotification_emptyMessage_throwsInvalidParametersException() {
-        Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "A deprecation note", "");
-
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(invalidNotification), never());
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(existingNotification), never());
     }
 
     @Test
