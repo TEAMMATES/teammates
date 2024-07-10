@@ -1,9 +1,9 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -544,9 +544,27 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillRubricResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getFeedbackResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            click(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)));
+        }
+    }
+
     public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackRubricResponseDetails responseDetails =
                 (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            assertTrue(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)).isSelected());
+        }
+    }
+
+    public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             assertTrue(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)).isSelected());

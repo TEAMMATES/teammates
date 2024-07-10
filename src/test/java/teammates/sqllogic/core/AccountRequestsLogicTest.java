@@ -7,10 +7,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -23,86 +25,90 @@ import teammates.test.BaseTestCase;
  */
 public class AccountRequestsLogicTest extends BaseTestCase {
 
-    private final AccountRequestsLogic arLogic = AccountRequestsLogic.inst();
-    private AccountRequestsDb arDb;
+    private AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
+    private AccountRequestsDb accountRequestsDb;
 
     @BeforeMethod
     public void setUpMethod() {
-        arDb = mock(AccountRequestsDb.class);
-        arLogic.initLogicDependencies(arDb);
+        accountRequestsDb = mock(AccountRequestsDb.class);
+        accountRequestsLogic.initLogicDependencies(accountRequestsDb);
     }
 
     @Test
     public void testCreateAccountRequest_typicalRequest_success() throws Exception {
         AccountRequest accountRequest = getTypicalAccountRequest();
-        when(arDb.createAccountRequest(accountRequest)).thenReturn(accountRequest);
-        AccountRequest createdAccountRequest = arLogic.createAccountRequest(accountRequest);
+        when(accountRequestsDb.createAccountRequest(accountRequest)).thenReturn(accountRequest);
+        AccountRequest createdAccountRequest = accountRequestsLogic.createAccountRequest(accountRequest);
 
         assertEquals(accountRequest, createdAccountRequest);
-        verify(arDb, times(1)).createAccountRequest(accountRequest);
+        verify(accountRequestsDb, times(1)).createAccountRequest(accountRequest);
     }
 
     @Test
-    public void testCreateAccountRequest_requestAlreadyExists_failure() throws Exception {
-        AccountRequest duplicateAccountRequest = getTypicalAccountRequest();
-        when(arDb.createAccountRequest(duplicateAccountRequest))
-                .thenThrow(new EntityAlreadyExistsException("test exception"));
+    public void testCreateAccountRequest_requestAlreadyExists_success() throws Exception {
+        AccountRequest accountRequest1 = getTypicalAccountRequest();
+        AccountRequest accountRequest2 = getTypicalAccountRequest();
+        when(accountRequestsDb.createAccountRequest(accountRequest1))
+                .thenReturn(accountRequest1);
+        when(accountRequestsDb.createAccountRequest(accountRequest2))
+                        .thenReturn(accountRequest2);
 
-        assertThrows(EntityAlreadyExistsException.class, () -> {
-            arLogic.createAccountRequest(duplicateAccountRequest);
-        });
-        verify(arDb, times(1)).createAccountRequest(duplicateAccountRequest);
+        accountRequestsLogic.createAccountRequest(accountRequest1);
+        accountRequestsLogic.createAccountRequest(accountRequest2);
+        verify(accountRequestsDb, times(1)).createAccountRequest(accountRequest1);
+        verify(accountRequestsDb, times(1)).createAccountRequest(accountRequest2);
     }
 
     @Test
     public void testCreateAccountRequest_invalidParams_failure() throws Exception {
         AccountRequest invalidEmailAccountRequest = getTypicalAccountRequest();
         invalidEmailAccountRequest.setEmail("invalid email");
-        when(arDb.createAccountRequest(invalidEmailAccountRequest))
+        when(accountRequestsDb.createAccountRequest(invalidEmailAccountRequest))
                 .thenThrow(new InvalidParametersException("test exception"));
 
         assertThrows(InvalidParametersException.class, () -> {
-            arLogic.createAccountRequest(invalidEmailAccountRequest);
+            accountRequestsLogic.createAccountRequest(invalidEmailAccountRequest);
         });
-        verify(arDb, times(1)).createAccountRequest(invalidEmailAccountRequest);
+        verify(accountRequestsDb, times(1)).createAccountRequest(invalidEmailAccountRequest);
     }
 
     @Test
     public void testUpdateAccountRequest_typicalRequest_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest ar = getTypicalAccountRequest();
-        when(arDb.updateAccountRequest(ar)).thenReturn(ar);
-        AccountRequest updatedAr = arLogic.updateAccountRequest(ar);
+        when(accountRequestsDb.updateAccountRequest(ar)).thenReturn(ar);
+        AccountRequest updatedAr = accountRequestsLogic.updateAccountRequest(ar);
 
         assertEquals(ar, updatedAr);
-        verify(arDb, times(1)).updateAccountRequest(ar);
+        verify(accountRequestsDb, times(1)).updateAccountRequest(ar);
     }
 
     @Test
     public void testUpdateAccountRequest_requestNotFound_failure()
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest arNotFound = getTypicalAccountRequest();
-        when(arDb.updateAccountRequest(arNotFound)).thenThrow(new EntityDoesNotExistException("test message"));
+        when(accountRequestsDb.updateAccountRequest(arNotFound)).thenThrow(new EntityDoesNotExistException("test message"));
 
         assertThrows(EntityDoesNotExistException.class,
-                () -> arLogic.updateAccountRequest(arNotFound));
-        verify(arDb, times(1)).updateAccountRequest(any(AccountRequest.class));
+                () -> accountRequestsLogic.updateAccountRequest(arNotFound));
+        verify(accountRequestsDb, times(1)).updateAccountRequest(any(AccountRequest.class));
     }
 
     @Test
     public void testDeleteAccountRequest_typicalRequest_success() {
         AccountRequest ar = getTypicalAccountRequest();
-        when(arDb.getAccountRequest(ar.getEmail(), ar.getInstitute())).thenReturn(ar);
-        arLogic.deleteAccountRequest(ar.getEmail(), ar.getInstitute());
+        when(accountRequestsDb.getAccountRequest(ar.getId())).thenReturn(ar);
+        accountRequestsLogic.deleteAccountRequest(ar.getId());
 
-        verify(arDb, times(1)).deleteAccountRequest(any(AccountRequest.class));
+        verify(accountRequestsDb, times(1)).deleteAccountRequest(any(AccountRequest.class));
     }
 
     @Test
     public void testDeleteAccountRequest_nonexistentRequest_shouldSilentlyDelete() {
-        arLogic.deleteAccountRequest("not_exist", "not_exist");
+        UUID nonexistentUuid = UUID.fromString("00000000-0000-4000-8000-000000000100");
+        accountRequestsLogic.deleteAccountRequest(nonexistentUuid);
 
-        verify(arDb, times(1)).deleteAccountRequest(nullable(AccountRequest.class));
+        verify(accountRequestsDb, times(1)).deleteAccountRequest(nullable(AccountRequest.class));
     }
 
     @Test
@@ -110,42 +116,21 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         AccountRequest ar = getTypicalAccountRequest();
         String regkey = "regkey";
         ar.setRegistrationKey(regkey);
-        when(arDb.getAccountRequestByRegistrationKey(regkey)).thenReturn(ar);
+        when(accountRequestsDb.getAccountRequestByRegistrationKey(regkey)).thenReturn(ar);
         AccountRequest actualAr =
-                arLogic.getAccountRequestByRegistrationKey(ar.getRegistrationKey());
+                accountRequestsLogic.getAccountRequestByRegistrationKey(ar.getRegistrationKey());
 
         assertEquals(ar, actualAr);
-        verify(arDb, times(1)).getAccountRequestByRegistrationKey(regkey);
+        verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(regkey);
     }
 
     @Test
     public void testGetAccountRequestByRegistrationKey_nonexistentRequest_shouldReturnNull() throws Exception {
         String nonexistentRegkey = "not_exist";
-        when(arDb.getAccountRequestByRegistrationKey(nonexistentRegkey)).thenReturn(null);
+        when(accountRequestsDb.getAccountRequestByRegistrationKey(nonexistentRegkey)).thenReturn(null);
 
-        assertNull(arLogic.getAccountRequestByRegistrationKey(nonexistentRegkey));
-        verify(arDb, times(1)).getAccountRequestByRegistrationKey(nonexistentRegkey);
-    }
-
-    @Test
-    public void testGetAccountRequest_typicalRequest_success() {
-        AccountRequest expectedAr = getTypicalAccountRequest();
-        when(arDb.getAccountRequest(expectedAr.getEmail(), expectedAr.getInstitute())).thenReturn(expectedAr);
-        AccountRequest actualAr =
-                arLogic.getAccountRequest(expectedAr.getEmail(), expectedAr.getInstitute());
-
-        assertEquals(expectedAr, actualAr);
-        verify(arDb, times(1)).getAccountRequest(expectedAr.getEmail(), expectedAr.getInstitute());
-    }
-
-    @Test
-    public void testGetAccountRequest_nonexistentRequest_shouldReturnNull() {
-        String nonexistentEmail = "not-found@test.com";
-        String nonexistentInstitute = "not-found";
-        when(arDb.getAccountRequest(nonexistentEmail, nonexistentInstitute)).thenReturn(null);
-
-        assertNull(arLogic.getAccountRequest(nonexistentEmail, nonexistentInstitute));
-        verify(arDb, times(1)).getAccountRequest(nonexistentEmail, nonexistentInstitute);
+        assertNull(accountRequestsLogic.getAccountRequestByRegistrationKey(nonexistentRegkey));
+        verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(nonexistentRegkey);
     }
 
     @Test
@@ -153,13 +138,13 @@ public class AccountRequestsLogicTest extends BaseTestCase {
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest = getTypicalAccountRequest();
         accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
-        when(arDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()))
+        when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
                 .thenReturn(accountRequest);
-        when(arDb.updateAccountRequest(accountRequest)).thenReturn(accountRequest);
-        accountRequest = arLogic.resetAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        when(accountRequestsDb.updateAccountRequest(accountRequest)).thenReturn(accountRequest);
+        accountRequest = accountRequestsLogic.resetAccountRequest(accountRequest.getId());
 
         assertNull(accountRequest.getRegisteredAt());
-        verify(arDb, times(1)).getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        verify(accountRequestsDb, times(1)).getAccountRequest(accountRequest.getId());
     }
 
     @Test
@@ -167,11 +152,31 @@ public class AccountRequestsLogicTest extends BaseTestCase {
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest = getTypicalAccountRequest();
         accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
-        when(arDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()))
+        when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
                 .thenReturn(null);
         assertThrows(EntityDoesNotExistException.class,
-                () -> arLogic.resetAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
-        verify(arDb, times(1)).getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
-        verify(arDb, times(0)).updateAccountRequest(nullable(AccountRequest.class));
+                () -> accountRequestsLogic.resetAccountRequest(accountRequest.getId()));
+        verify(accountRequestsDb, times(1)).getAccountRequest(accountRequest.getId());
+        verify(accountRequestsDb, times(0)).updateAccountRequest(nullable(AccountRequest.class));
+    }
+
+    @Test
+    public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
+        UUID id = UUID.randomUUID();
+        when(accountRequestsDb.getAccountRequest(id)).thenReturn(null);
+        AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
+        verify(accountRequestsDb).getAccountRequest(id);
+        assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
+        AccountRequest expectedAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        UUID id = expectedAccountRequest.getId();
+        when(accountRequestsDb.getAccountRequest(id)).thenReturn(expectedAccountRequest);
+        AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
+        verify(accountRequestsDb).getAccountRequest(id);
+        assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 }

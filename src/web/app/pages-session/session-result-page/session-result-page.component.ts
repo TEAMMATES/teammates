@@ -103,6 +103,9 @@ export class SessionResultPageComponent implements OnInit {
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
+  feedbackSessionId: string | undefined = '';
+  studentId: string | undefined = '';
+
   private backendUrl: string = environment.backendUrl;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
@@ -252,20 +255,10 @@ export class SessionResultPageComponent implements OnInit {
           this.previewAsPerson,
           this.regKey,
         ).subscribe((student: Student) => {
+          this.studentId = student.studentId;
           this.personName = student.name;
           this.personEmail = student.email;
-
-          this.logService.createFeedbackSessionLog({
-            courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
-            studentEmail: this.personEmail,
-            logType: FeedbackSessionLogType.VIEW_RESULT,
-          }).subscribe({
-            next: () => {
-              // No action needed if log is successfully created.
-            },
-            error: () => this.statusMessageService.showWarningToast('Failed to log feedback session view'),
-          });
+          this.logStudentView();
         });
         break;
       case Intent.INSTRUCTOR_RESULT:
@@ -294,15 +287,21 @@ export class SessionResultPageComponent implements OnInit {
       key: this.regKey,
       previewAs: this.previewAsPerson,
     })
-    .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
+    .pipe(finalize(() => {
+      this.isFeedbackSessionDetailsLoading = false;
+    }))
     .subscribe({
       next: (feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
         this.session = feedbackSession;
+        this.feedbackSessionId = feedbackSession.feedbackSessionId;
         this.formattedSessionOpeningTime = this.timezoneService
             .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
         this.formattedSessionClosingTime = this.timezoneService
             .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
+
+        this.logStudentView();
+
         this.feedbackQuestionsService.getFeedbackQuestions({
           courseId: this.courseId,
           feedbackSessionName: this.feedbackSessionName,
@@ -377,5 +376,28 @@ export class SessionResultPageComponent implements OnInit {
     } else {
       this.statusMessageService.showErrorToast(resp.error.message);
     }
+  }
+
+  /**
+   * Logs student activity after student/session details have been fetched.
+   */
+  logStudentView(): void {
+    if (this.intent !== Intent.STUDENT_RESULT) {
+      return;
+    }
+
+    // dummy vars to check that both student and session has been loaded
+    if (!this.personEmail || !this.session.courseId) {
+      return;
+    }
+
+    this.logService.createFeedbackSessionLog({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+      studentEmail: this.personEmail,
+      logType: FeedbackSessionLogType.VIEW_RESULT,
+      feedbackSessionId: this.feedbackSessionId,
+      studentId: this.studentId,
+    }).subscribe();
   }
 }

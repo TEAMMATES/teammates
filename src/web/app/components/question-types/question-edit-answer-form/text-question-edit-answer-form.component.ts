@@ -26,6 +26,12 @@ export class TextQuestionEditAnswerFormComponent
     super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
   }
 
+  decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
   get wordCount(): number {
     return this.responseDetails.answer.split(/\s/g)
         .filter((item: string) => item.match(/\w/)).length;
@@ -40,5 +46,9 @@ export class TextQuestionEditAnswerFormComponent
     const lowerLimit: number = this.questionDetails.recommendedLength - this.questionDetails.recommendedLength * 0.1;
 
     return this.wordCount > lowerLimit && this.wordCount < upperLimit;
+  }
+
+  get decodedAnswer(): string {
+    return this.decodeHtml(this.responseDetails.answer);
   }
 }

@@ -3,7 +3,7 @@ package teammates.ui.request;
 import java.time.Duration;
 import java.time.Instant;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.util.Const;
 import teammates.ui.output.ResponseVisibleSetting;

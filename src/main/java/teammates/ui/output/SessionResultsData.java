@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -718,7 +718,7 @@ public class SessionResultsData extends ApiOutput {
     /**
      * API output format for questions in session results.
      */
-    public static class QuestionOutput {
+    public static final class QuestionOutput {
 
         private final FeedbackQuestionData feedbackQuestion;
         private final String questionStatistics;
@@ -785,7 +785,7 @@ public class SessionResultsData extends ApiOutput {
     /**
      * API output format for question responses.
      */
-    public static class ResponseOutput {
+    public static final class ResponseOutput {
 
         private boolean isMissingResponse;
 
@@ -989,7 +989,7 @@ public class SessionResultsData extends ApiOutput {
     /**
      * API output format for response comments.
      */
-    public static class CommentOutput extends FeedbackResponseCommentData {
+    public static final class CommentOutput extends FeedbackResponseCommentData {
 
         @Nullable
         private String commentGiverName;

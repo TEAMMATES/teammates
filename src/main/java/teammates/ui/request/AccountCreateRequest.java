@@ -3,6 +3,8 @@ package teammates.ui.request;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.Nullable;
+
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 
@@ -14,6 +16,10 @@ public class AccountCreateRequest extends BasicRequest {
     private String instructorEmail;
     private String instructorName;
     private String instructorInstitution;
+    @Nullable
+    private String instructorComments;
+    @Nullable
+    private String captchaResponse;
 
     public String getInstructorEmail() {
         return instructorEmail;
@@ -27,6 +33,14 @@ public class AccountCreateRequest extends BasicRequest {
         return this.instructorInstitution;
     }
 
+    public String getInstructorComments() {
+        return this.instructorComments;
+    }
+
+    public String getCaptchaResponse() {
+        return this.captchaResponse;
+    }
+
     public void setInstructorName(String name) {
         this.instructorName = name;
     }
@@ -37,6 +51,14 @@ public class AccountCreateRequest extends BasicRequest {
 
     public void setInstructorEmail(String instructorEmail) {
         this.instructorEmail = instructorEmail;
+    }
+
+    public void setInstructorComments(String instructorComments) {
+        this.instructorComments = instructorComments;
+    }
+
+    public void setCaptchaResponse(String captchaResponse) {
+        this.captchaResponse = captchaResponse;
     }
 
     @Override

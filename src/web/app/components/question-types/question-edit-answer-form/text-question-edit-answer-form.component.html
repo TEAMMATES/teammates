@@ -1,5 +1,5 @@
 <div class="plain-text-area" *ngIf="!questionDetails.shouldAllowRichText">
-  <textarea [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [attr.aria-label]="getAriaLabel()" [disabled]="isDisabled"></textarea>
+  <textarea [ngModel]="decodedAnswer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [attr.aria-label]="getAriaLabel()" [disabled]="isDisabled"></textarea>
 </div>
 <tm-rich-text-editor *ngIf="questionDetails.shouldAllowRichText" role="textbox" [attr.aria-label]="getAriaLabel()" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
 <div class="margin-top-7px text-secondary text-end">

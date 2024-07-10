@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
@@ -19,21 +21,19 @@ class ResetAccountRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidOperationException {
-        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequest(instructorEmail, institute);
+        AccountRequest accountRequest = sqlLogic.getAccountRequest(id);
 
         if (accountRequest == null) {
-            throw new EntityNotFoundException("Account request for instructor with email: " + instructorEmail
-                    + " and institute: " + institute + " does not exist.");
+            throw new EntityNotFoundException("Account request with id: " + id.toString() + " does not exist.");
         }
         if (accountRequest.getRegisteredAt() == null) {
             throw new InvalidOperationException("Unable to reset account request as instructor is still unregistered.");
         }
 
         try {
-            accountRequest = sqlLogic.resetAccountRequest(instructorEmail, institute);
+            accountRequest = sqlLogic.resetAccountRequest(id);
         } catch (InvalidParametersException | EntityDoesNotExistException ue) {
             // InvalidParametersException and EntityDoesNotExistException should not be thrown as
             // validity of params has been verified when fetching entity.

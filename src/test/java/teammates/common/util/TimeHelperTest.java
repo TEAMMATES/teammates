@@ -146,4 +146,68 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void getInstantNearestQuarterHourBefore() {
+        Instant expectedQ1 = Instant.parse("2020-12-31T16:00:00Z");
+        Instant actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:00:00Z"));
+
+        assertEquals(expectedQ1, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:09:30Z"));
+
+        assertEquals(expectedQ1, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:14:59Z"));
+
+        assertEquals(expectedQ1, actual);
+
+        actual = TimeHelper
+                .getInstantNearestQuarterHourBefore(OffsetDateTime.parse("2021-01-01T00:10:00+08:00").toInstant());
+
+        assertEquals(expectedQ1, actual);
+
+        actual = TimeHelper
+                .getInstantNearestQuarterHourBefore(OffsetDateTime.parse("2020-12-31T12:09:00-04:00").toInstant());
+
+        assertEquals(expectedQ1, actual);
+
+        Instant expectedQ2 = Instant.parse("2020-12-31T16:15:00Z");
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:15:00Z"));
+
+        assertEquals(expectedQ2, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:19:30Z"));
+
+        assertEquals(expectedQ2, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:29:59Z"));
+
+        assertEquals(expectedQ2, actual);
+
+        Instant expectedQ3 = Instant.parse("2020-12-31T16:30:00Z");
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:30:00Z"));
+
+        assertEquals(expectedQ3, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:39:30Z"));
+
+        assertEquals(expectedQ3, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:44:59Z"));
+
+        assertEquals(expectedQ3, actual);
+
+        Instant expectedQ4 = Instant.parse("2020-12-31T16:45:00Z");
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:45:00Z"));
+
+        assertEquals(expectedQ4, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:49:30Z"));
+
+        assertEquals(expectedQ4, actual);
+
+        actual = TimeHelper.getInstantNearestQuarterHourBefore(Instant.parse("2020-12-31T16:59:59Z"));
+
+        assertEquals(expectedQ4, actual);
+    }
 }

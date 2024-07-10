@@ -49,27 +49,12 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         Course course = typicalBundle.courses.get("course1");
         String courseId = course.getId();
         FeedbackSession fsa1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSession fsa2 = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
-        String fsa1Name = fsa1.getName();
-        String fsa2Name = fsa2.getName();
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student2 = typicalBundle.students.get("student2InCourse1");
         String student1Email = student1.getEmail();
         String student2Email = student2.getEmail();
-        long endTime = Instant.now().toEpochMilli();
+        long endTime = Instant.parse("2012-01-02T12:00:00Z").toEpochMilli();
         long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
-        long invalidStartTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() + 1) * 24 * 60 * 60 * 1000;
-
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa1Name,
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime);
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000);
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
-                FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
-                FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000);
 
         ______TS("Failure case: not enough parameters");
         verifyHttpParameterFailure(
@@ -87,16 +72,16 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         ______TS("Failure case: invalid course id");
         String[] paramsInvalid1 = {
                 Const.ParamsNames.COURSE_ID, "fake-course-id",
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
         verifyEntityNotFound(paramsInvalid1);
 
-        ______TS("Failure case: invalid student email");
+        ______TS("Failure case: invalid student id");
         String[] paramsInvalid2 = {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, "fake-student-email@gmail.com",
+                Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
@@ -116,13 +101,6 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
         };
         verifyHttpParameterFailure(paramsInvalid4);
-
-        ______TS("Failure case: start time is before earliest search time");
-        verifyHttpParameterFailure(
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(invalidStartTime),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime)
-        );
 
         ______TS("Success case: should group by feedback session");
         String[] paramsSuccessful1 = {
@@ -161,15 +139,63 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
         assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
-        ______TS("Success case: should accept optional email");
+        ______TS("Success case: should accept optional student Id");
         String[] paramsSuccessful2 = {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        getJsonResult(getAction(paramsSuccessful2));
-        // No need to check output again here, it will be exactly the same as the previous case
+        actionOutput = getJsonResult(getAction(paramsSuccessful2));
+        fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
+        fsLogs = fslData.getFeedbackSessionLogs();
+
+        assertEquals(fsLogs.size(), 6);
+        assertEquals(fsLogs.get(2).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(3).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(4).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(5).getFeedbackSessionLogEntries().size(), 0);
+
+        fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
+        fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
+
+        assertEquals(fsLogEntries1.size(), 1);
+        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+
+        assertEquals(fsLogEntries2.size(), 2);
+        assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
+
+        ______TS("Success case: should accept optional feedback session");
+        String[] paramsSuccessful3 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+        };
+        actionOutput = getJsonResult(getAction(paramsSuccessful3));
+        fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
+        fsLogs = fslData.getFeedbackSessionLogs();
+
+        assertEquals(fsLogs.size(), 6);
+        assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(2).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(3).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(4).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(5).getFeedbackSessionLogEntries().size(), 0);
+
+        fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
+
+        assertEquals(fsLogEntries1.size(), 3);
+        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2Email);
+        assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2Email);
+        assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         // TODO: if we restrict the range from start to end time, it should be tested here as well
     }

@@ -1,8 +1,8 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -450,7 +450,7 @@ public class FeedbackResultsPage extends AppPage {
             WebElement rubricTableBody = responseField.findElement(By.className("rubric-answers"));
             WebElement rubricRow = rubricTableBody.findElements(By.cssSelector("tr")).get(i);
             WebElement rubricCell = rubricRow.findElements(By.tagName("td")).get(answers.get(i) + 1);
-            if (rubricCell.findElements(By.className("fa-check")).size() == 0) {
+            if (rubricCell.findElements(By.className("fa-check")).isEmpty()) {
                 return false;
             }
         }
@@ -799,7 +799,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean isCommentByResponseGiver(WebElement commentField) {
-        return commentField.findElements(By.className("by-response-giver")).size() > 0;
+        return !commentField.findElements(By.className("by-response-giver")).isEmpty();
     }
 
     private String getCommentGiver(WebElement commentField) {

@@ -1,8 +1,9 @@
 package teammates.storage.api;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
+import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -31,6 +32,7 @@ public class OfyHelper implements ServletContextListener {
         DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
         if (Config.IS_DEV_SERVER) {
             builder.setHost("http://localhost:" + Config.APP_LOCALDATASTORE_PORT);
+            builder.setCredentials(NoCredentials.getInstance());
         }
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
     }

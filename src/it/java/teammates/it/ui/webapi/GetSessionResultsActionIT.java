@@ -258,7 +258,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     private boolean isQuestionOutputEqual(SessionResultsData.QuestionOutput self,
-                                          SessionResultsData.QuestionOutput other) {
+            SessionResultsData.QuestionOutput other) {
         if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(other.getFeedbackQuestion()))
                 || !self.getQuestionStatistics().equals(other.getQuestionStatistics())
                 || self.getHasResponseButNotVisibleForPreview() != other.getHasResponseButNotVisibleForPreview()
@@ -281,7 +281,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     private boolean isResponseOutputEqual(SessionResultsData.ResponseOutput self,
-                                          SessionResultsData.ResponseOutput other) {
+            SessionResultsData.ResponseOutput other) {
         return self.getGiver().equals(other.getGiver())
                 && self.getGiverTeam().equals(other.getGiverTeam())
                 && self.getGiverSection().equals(other.getGiverSection())

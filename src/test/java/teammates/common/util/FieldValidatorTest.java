@@ -210,11 +210,12 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidInstituteName = StringHelperExtension.generateStringOfLength(
                                                                 FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForInstituteName(invalidInstituteName);
+        String expectedTemplate = "\"%s\" is not "
+                + "acceptable to TEAMMATES as a/an institute name because it is too long. The value "
+                + "of a/an institute name should be no longer than 128 characters. It should not be empty.";
+        String expected = String.format(expectedTemplate, invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
-                         + "acceptable to TEAMMATES as a/an institute name because it is too long. The value "
-                         + "of a/an institute name should be no longer than 64 characters. It should not be empty.",
-                     actual);
+                expected, actual);
     }
 
     @Test

@@ -68,7 +68,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         ______TS("Click join link: valid account request key");
 
         String regKey = BACKDOOR
-                .getRegKeyForAccountRequest("ICJoinConf.newinstr@gmail.tmt", "TEAMMATES Test Institute 1");
+                .getRegKeyForAccountRequest(sqlTestData.accountRequests.get("ICJoinConf.newinstr").getId());
 
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount("true")

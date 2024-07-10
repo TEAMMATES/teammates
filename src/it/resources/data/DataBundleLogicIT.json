@@ -19,6 +19,8 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "status": "REGISTERED",
+      "comments": "These are some comments.",
       "registeredAt": "2015-02-14T00:00:00Z"
     }
   },

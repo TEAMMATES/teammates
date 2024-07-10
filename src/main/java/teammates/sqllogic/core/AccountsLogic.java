@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -78,6 +79,19 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets accounts associated with email.
+     */
+    public List<Account> getAccountsForEmailWithTransaction(String email) {
+        assert email != null;
+
+        HibernateUtil.beginTransaction();
+        List<Account> accounts = accountsDb.getAccountsByEmail(email);
+        HibernateUtil.commitTransaction();
+
+        return accounts;
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
@@ -89,6 +103,25 @@ public final class AccountsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
         return accountsDb.createAccount(account);
+    }
+
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException   if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the
+     *                                      database.
+     */
+    public Account createAccountWithTransaction(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert account != null;
+
+        HibernateUtil.beginTransaction();
+        Account createdAccount = accountsDb.createAccount(account);
+        HibernateUtil.commitTransaction();
+
+        return createdAccount;
     }
 
     /**

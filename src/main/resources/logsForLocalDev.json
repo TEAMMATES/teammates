@@ -28,8 +28,8 @@
           "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:707)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:707)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790)",
           "..."
         ],
         [
@@ -114,8 +114,8 @@
           "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:707)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:707)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790)",
           "..."
         ],
         [
@@ -197,8 +197,8 @@
           "teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:19)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ],
         [
@@ -270,8 +270,8 @@
           "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ]
       ],
@@ -316,8 +316,8 @@
           "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ]
       ],
@@ -363,8 +363,8 @@
           "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ]
       ],
@@ -410,8 +410,8 @@
           "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ]
       ],
@@ -457,8 +457,8 @@
           "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ]
       ],
@@ -501,9 +501,9 @@
           "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ]
       ],
@@ -546,9 +546,9 @@
           "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
-          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
           "..."
         ]
       ],
