@@ -4,6 +4,9 @@ exports[`AccountRequestTableComponent should display account requests with no re
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  isApprovingAccount={[Function Array]}
+  isRejectingAccount={[Function Array]}
+  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
   searchString=""
   simpleModalService={[Function SimpleModalService]}
@@ -267,6 +270,9 @@ exports[`AccountRequestTableComponent should display account requests with reset
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  isApprovingAccount={[Function Array]}
+  isRejectingAccount={[Function Array]}
+  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
@@ -592,6 +598,9 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  isApprovingAccount={[Function Array]}
+  isRejectingAccount={[Function Array]}
+  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
   searchString=""
   simpleModalService={[Function SimpleModalService]}
