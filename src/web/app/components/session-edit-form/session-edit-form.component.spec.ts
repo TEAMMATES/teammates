@@ -95,7 +95,8 @@ describe('SessionEditFormComponent', () => {
     expect(configureSubmissionOpeningTimeSpy).not.toHaveBeenCalled();
   });
 
-  it('should trigger the change of the model when the submission opening time changes to before the visibility time', () => {
+  it('should trigger the change of the model when the submission opening time '
+    + 'changes to before the visibility time', () => {
     const date: DateFormat = { day: 12, month: 7, year: 2024 };
     const time: TimeFormat = { hour: 4, minute: 0 };
     const visibilityTime: TimeFormat = { hour: 14, minute: 0 };

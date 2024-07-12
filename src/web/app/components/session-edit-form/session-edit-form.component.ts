@@ -143,12 +143,12 @@ export class SessionEditFormComponent {
   adjustSessionVisibilityTime(value: any, field: string): void {
     const submissionDateTime = this.combineDateAndTime(
       field === 'submissionStartDate' ? value : this.model.submissionStartDate,
-      field === 'submissionStartTime' ? value : this.model.submissionStartTime
+      field === 'submissionStartTime' ? value : this.model.submissionStartTime,
     );
-    
+
     const visibilityDateTime = this.combineDateAndTime(
       this.model.customSessionVisibleDate,
-      this.model.customSessionVisibleTime
+      this.model.customSessionVisibleTime,
     );
 
     if (submissionDateTime.isBefore(visibilityDateTime)) {
@@ -169,7 +169,7 @@ export class SessionEditFormComponent {
       month: date.month - 1,
       day: date.day,
       hour: time.hour,
-      minute: time.minute
+      minute: time.minute,
     }, this.model.timeZone);
   }
 
@@ -226,7 +226,7 @@ export class SessionEditFormComponent {
   configureSessionVisibleDateTime(date: DateFormat, time: TimeFormat): void {
     const sessionDate: DateFormat = this.model.customSessionVisibleDate;
     const sessionTime: TimeFormat = this.model.customSessionVisibleTime;
-    
+
     if (DateTimeService.compareDateFormat(date, sessionDate) === -1) {
       this.model.customSessionVisibleDate = date;
     } else if (DateTimeService.compareDateFormat(date, sessionDate) === 0
