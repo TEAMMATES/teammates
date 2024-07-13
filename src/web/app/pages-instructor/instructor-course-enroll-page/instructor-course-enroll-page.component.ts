@@ -248,6 +248,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   /**
    * Copies data from existing students HOT to new students HOT
+   * The data is copied only if the existing students tab is expanded
    */
   copyStudents(): void {
     this.isCopying = true;
@@ -255,122 +256,30 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.allStudentChunks = [];
 
     const lastColIndex: number = 4;
+    const existingStudentsHOTInstance: Handsontable =
+        this.hotRegisterer.getInstance(this.existingStudentsHOT);
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
+    const existingStudentsData: Handsontable.CellValue[] = existingStudentsHOTInstance.getData();
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
-    // Reset error highlighting on a new submission
+
+    if (existingStudentsData.length == 0) {
+      this.copyErrorMessage = 'No data to copy from existing students.';
+      this.isCopying = false;
+      return;
+    }
+
+    newStudentsHOTInstance.loadData(existingStudentsData);
+
+    // Reset styles on new students HOT
     this.resetTableStyle(newStudentsHOTInstance, 0,
         newStudentsHOTInstance.getData().length - 1,
         0,
         hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
 
-    // Remove error highlight on click
-    newStudentsHOTInstance.addHook('afterSelectionEnd', (row: number, column: number,
-                                                          row2: number, column2: number) => {
-      this.resetTableStyle(newStudentsHOTInstance, row, row2, column, column2);
-    });
-
-    // Record the row with its index on the table
-    const studentEnrollRequests: Map<number, StudentEnrollRequest> = new Map();
-
-    // Parse the user input to be requests.
-    // Handsontable contains null value initially,
-    // see https://github.com/handsontable/handsontable/issues/3927
-    newStudentsHOTInstance.getData()
-        .forEach((row: string[], index: number) => {
-          if (!row.every((cell: string) => cell === null || cell === '')) {
-            studentEnrollRequests.set(index, {
-              section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
-              team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
-              name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
-              email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
-              comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
-            });
-          }
-        });
-
-    if (studentEnrollRequests.size === 0) {
-      this.enrollErrorMessage = 'Empty table';
-      this.isEnrolling = false;
-      return;
-    }
-
-    this.checkCompulsoryFields(studentEnrollRequests);
-    this.checkEmailNotRepeated(studentEnrollRequests);
-    this.checkTeamsValid(studentEnrollRequests);
-
-    if (this.invalidRowsIndex.size > 0) {
-      this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
-      this.isEnrolling = false;
-      return;
-    }
-
-    this.partitionStudentEnrollRequests(Array.from(studentEnrollRequests.values()));
-    const enrolledStudents: Student[] = [];
-
-    // Use concat because we cannot afford to parallelize with forkJoin when there's data dependency
-    const enrollRequests: Observable<EnrollStudents> = concat(
-        ...this.allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
-          const request: StudentsEnrollRequest = {
-            studentEnrollRequests: studentChunk,
-          };
-          return this.studentService.enrollStudents(
-              this.courseId, request,
-          );
-        }),
-    );
-
-    this.progressBarService.updateProgress(0);
-    enrollRequests.pipe(finalize(() => {
-      this.isEnrolling = false;
-    })).subscribe({
-      next: (resp: EnrollStudents) => {
-        enrolledStudents.push(...resp.studentsData.students);
-
-        if (resp.unsuccessfulEnrolls != null) {
-          for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
-            this.unsuccessfulEnrolls[unsuccessfulEnroll.studentEmail] = unsuccessfulEnroll.errorMessage;
-
-            for (const index of studentEnrollRequests.keys()) {
-              if (studentEnrollRequests.get(index)?.email === unsuccessfulEnroll.studentEmail) {
-                this.invalidRowsIndex.add(index);
-                break;
-              }
-            }
-          }
-        }
-        const percentage: number = Math.round(100 * enrolledStudents.length / studentEnrollRequests.size);
-        this.progressBarService.updateProgress(percentage);
-      },
-      complete: () => {
-        this.showEnrollResults = true;
-        this.statusMessage.pop(); // removes any existing error status message
-        this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
-        this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
-
-        if (this.invalidRowsIndex.size > 0
-          || this.newStudentRowsIndex.size > 0
-          || this.modifiedStudentRowsIndex.size > 0
-          || this.unchangedStudentRowsIndex.size > 0) {
-          this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
-        }
-      },
-      error: (resp: ErrorMessageOutput) => {
-        if (enrolledStudents.length > 0) {
-          this.showEnrollResults = true;
-          this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
-        }
-
-        // Set error message after populating result panels to avoid it being overridden
-        this.enrollErrorMessage = resp.error.message;
-      },
-    });
+    this.isCopying = false;
+    this.statusMessageService.showSuccessToast('Students copied successfully.');
   }
 
   private prepareEnrollmentResults(enrolledStudents: Student[],
