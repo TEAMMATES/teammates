@@ -159,19 +159,19 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   handleAutoSave(event: { id: string, model: QuestionSubmissionFormModel }): void {
     clearTimeout(this.autoSaveTimeout);
     this.autoSaveTimeout = setTimeout(() => {
-      const savedData = JSON.parse(localStorage.getItem('autosave') || '{}');
+      const savedData = this.getLocalStorageItem('autosave');
       const clonedModel = {
         ...event.model,
         hasResponseChangedForRecipients: Array.from(event.model.hasResponseChangedForRecipients.entries()),
         isTabExpandedForRecipients: Array.from(event.model.isTabExpandedForRecipients.entries()),
       };
       savedData[event.id] = clonedModel;
-      localStorage.setItem('autosave', JSON.stringify(savedData));
+      this.setLocalStorageItem('autosave', savedData);
     }, this.autoSaveDelay);
   }
 
   loadAutoSavedData(questionId: string): void {
-    const savedData = JSON.parse(localStorage.getItem('autosave') || '{}');
+    const savedData = this.getLocalStorageItem('autosave');
     const savedModel = savedData[questionId];
 
     if (savedModel) {
@@ -866,9 +866,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                         }
                       });
 
-                  const savedData = JSON.parse(localStorage.getItem('autosave') || '{}');
+                  const savedData = this.getLocalStorageItem('autosave');
                   delete savedData[questionSubmissionFormModel.feedbackQuestionId];
-                  localStorage.setItem('autosave', JSON.stringify(savedData));
+                  this.setLocalStorageItem('autosave', savedData);
 
                   this.originalQuestionSubmissionForms.forEach((originalModel: QuestionSubmissionFormModel) => {
                     if (originalModel.feedbackQuestionId === questionSubmissionFormModel.feedbackQuestionId) {
@@ -1114,7 +1114,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   resetFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
-    const savedData = JSON.parse(localStorage.getItem('autosave') || '{}');
+    const savedData = this.getLocalStorageItem('autosave');
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       const originalSubmissionForm = this.originalQuestionSubmissionForms.find(
@@ -1180,7 +1180,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       }
     });
 
-    localStorage.setItem('autosave', JSON.stringify(savedData));
+    this.setLocalStorageItem('autosave', savedData);
   }
 
   hasResponseChangedForRecipient(recipientId: string,
@@ -1318,5 +1318,19 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
     }).subscribe();
+  }
+
+  /**
+   * Utility method to get item from local storage.
+   */
+  private getLocalStorageItem(key: string): any {
+    return JSON.parse(localStorage.getItem(key) || '{}');
+  }
+
+  /**
+   * Utility method to set item in local storage.
+   */
+  private setLocalStorageItem(key: string, data: any): void {
+    localStorage.setItem(key, JSON.stringify(data));
   }
 }
