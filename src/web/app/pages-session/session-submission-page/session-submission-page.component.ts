@@ -157,6 +157,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   handleAutoSave(event: { id: string, model: QuestionSubmissionFormModel }): void {
+    if (this.previewAsPerson) return; // Disable autosave in preview mode
+
     clearTimeout(this.autoSaveTimeout);
     this.autoSaveTimeout = setTimeout(() => {
       const savedData = this.getLocalStorageItem('autosave');
@@ -171,6 +173,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   loadAutoSavedData(questionId: string): void {
+    if (this.previewAsPerson) return; // Disable loading autosaved data in preview mode
+
     const savedData = this.getLocalStorageItem('autosave');
     const savedModel = savedData[questionId];
 
