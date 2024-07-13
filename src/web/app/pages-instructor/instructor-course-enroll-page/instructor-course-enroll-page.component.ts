@@ -260,26 +260,34 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.hotRegisterer.getInstance(this.existingStudentsHOT);
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
-    const existingStudentsData: Handsontable.CellValue[] = existingStudentsHOTInstance.getData();
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
-
-    if (existingStudentsData.length == 0) {
-      this.copyErrorMessage = 'No data to copy from existing students.';
+    const copyData = () => {
+      const existingStudentsData: Handsontable.CellValue[] = existingStudentsHOTInstance.getData();
+  
+      if (existingStudentsData.length === 0) {
+        this.copyErrorMessage = 'No data to copy from existing students.';
+        this.isCopying = false;
+        return;
+      }
+  
+      newStudentsHOTInstance.loadData(existingStudentsData);
+  
+      this.resetTableStyle(newStudentsHOTInstance, 0,
+          newStudentsHOTInstance.getData().length - 1,
+          0,
+          hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
+  
       this.isCopying = false;
-      return;
+      this.statusMessageService.showSuccessToast('Students copied successfully.');
+    };
+
+    if (this.isExistingStudentsPanelCollapsed) {
+      this.toggleExistingStudentsPanel(copyData);
     }
-
-    newStudentsHOTInstance.loadData(existingStudentsData);
-
-    // Reset styles on new students HOT
-    this.resetTableStyle(newStudentsHOTInstance, 0,
-        newStudentsHOTInstance.getData().length - 1,
-        0,
-        hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
-
-    this.isCopying = false;
-    this.statusMessageService.showSuccessToast('Students copied successfully.');
+    else {
+      copyData();
+    }
   }
 
   private prepareEnrollmentResults(enrolledStudents: Student[],
@@ -584,7 +592,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   /**
    * Toggles the view of 'Existing Students' spreadsheet interface
    */
-  toggleExistingStudentsPanel(): void {
+  toggleExistingStudentsPanel(callback?: () => void): void {
     // Has to be done before the API call is made so that HOT is available for data population
     this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed;
     this.isLoadingExistingStudents = true;
@@ -594,6 +602,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     // Calling REST API only the first time when spreadsheet has no data
     if (this.getSpreadsheetLength(existingStudentsHOTInstance.getData()) !== 0) {
       this.isLoadingExistingStudents = false;
+      if (callback) callback();
       return;
     }
 
@@ -614,6 +623,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       },
       complete: () => {
         this.isLoadingExistingStudents = false;
+        if (callback) callback();
       },
     });
   }
