@@ -101,7 +101,20 @@
                     title="Enroll"
                     id="btn-enroll"
                     name="button-enroll"
-                    class="btn btn-success float-end"
+                    class="btn btn-info"
+                    [disabled]="isEnrolling"
+                    (click)="submitEnrollData()">
+                  <tm-progress-bar *ngIf="isEnrolling"></tm-progress-bar>
+                  <tm-ajax-loading *ngIf="isEnrolling"></tm-ajax-loading>
+                  Copy students
+                </button>
+                <button
+                    [ngClass]="{'w-50': isEnrolling}"
+                    type="submit"
+                    title="Enroll"
+                    id="btn-enroll"
+                    name="button-enroll"
+                    class="btn btn-success"
                     [disabled]="isEnrolling"
                     (click)="submitEnrollData()">
                   <tm-progress-bar *ngIf="isEnrolling"></tm-progress-bar>
