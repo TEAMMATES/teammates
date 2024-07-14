@@ -72,6 +72,12 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
     return `${id}-row${row}-col${col}-${platform}`;
   }
 
+  confirmReset(): void {
+    if (confirm('Are you sure you want to reset all choices?')) {
+      this.resetRubricAnswer();
+    }
+  }
+
   resetRubricAnswer(): void {
     const resettedAnswer: number[] = 
         Array(this.questionDetails.rubricSubQuestions.length).fill(RUBRIC_ANSWER_NOT_CHOSEN);
