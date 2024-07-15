@@ -17,6 +17,3 @@ export class ResetChoicesComfirmationComponent {
     this.confirmReset.emit(false);
   }
 }
-
-
-
