@@ -8,7 +8,7 @@ describe('ResetChoicesComfirmationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResetChoicesComfirmationComponent]
+      declarations: [ResetChoicesComfirmationComponent],
     });
     fixture = TestBed.createComponent(ResetChoicesComfirmationComponent);
     component = fixture.componentInstance;

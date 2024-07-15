@@ -32,7 +32,7 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
 
   @Output()
   resetWarningTriggered: EventEmitter<void> = new EventEmitter<void>();
-  
+
   showResetWarning: boolean = false;
 
   constructor() {
