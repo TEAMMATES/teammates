@@ -262,30 +262,29 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.hotRegisterer.getInstance(this.newStudentsHOT);
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
-    const copyData = () => {
+    const copyData = (): void => {
       const existingStudentsData: Handsontable.CellValue[] = existingStudentsHOTInstance.getData();
-  
+
       if (existingStudentsData.length === 0) {
         this.copyErrorMessage = 'No data to copy from existing students.';
         this.isCopying = false;
         return;
       }
-  
+
       newStudentsHOTInstance.loadData(existingStudentsData);
-  
+
       this.resetTableStyle(newStudentsHOTInstance, 0,
           newStudentsHOTInstance.getData().length - 1,
           0,
           hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
-  
+
       this.isCopying = false;
       this.statusMessageService.showSuccessToast('Students copied successfully.');
     };
 
     if (this.isExistingStudentsPanelCollapsed) {
       this.toggleExistingStudentsPanel(copyData);
-    }
-    else {
+    } else {
       copyData();
     }
   }
