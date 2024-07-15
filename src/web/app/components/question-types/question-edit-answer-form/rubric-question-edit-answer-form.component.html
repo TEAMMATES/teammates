@@ -50,7 +50,6 @@
       </div>
     </div>
   </div>
-  
   <div class="button-container">
     <button
       type="button"
@@ -62,9 +61,8 @@
       Reset choices
     </button>
   </div>
-  
-  <tm-reset-choices-comfirmation 
-    *ngIf="showResetWarning" 
+  <tm-reset-choices-comfirmation
+    *ngIf="showResetWarning"
     (confirmReset)="confirmReset($event)">
   </tm-reset-choices-comfirmation>
 </div>
