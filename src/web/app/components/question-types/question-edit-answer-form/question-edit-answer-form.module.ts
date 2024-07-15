@@ -17,6 +17,7 @@ import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module';
+import { ResetChoicesComfirmationComponent } from './reset-choices-comfirmation.component';
 
 /**
  * Module for all different types of question edit answer forms.
@@ -34,6 +35,7 @@ import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module'
     RubricQuestionEditAnswerFormComponent,
     ConstsumOptionsQuestionEditAnswerFormComponent,
     ConstsumRecipientsQuestionEditAnswerFormComponent,
+    ResetChoicesComfirmationComponent,
   ],
   exports: [
     ContributionQuestionEditAnswerFormComponent,

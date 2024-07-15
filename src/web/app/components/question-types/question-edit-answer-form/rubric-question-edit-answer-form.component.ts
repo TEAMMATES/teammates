@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
@@ -29,6 +29,11 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
 
   // constant
   readonly RUBRIC_ANSWER_NOT_CHOSEN: number = RUBRIC_ANSWER_NOT_CHOSEN;
+
+  @Output()
+  resetWarningTriggered: EventEmitter<void> = new EventEmitter<void>();
+  
+  showResetWarning: boolean = false;
 
   constructor() {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS(), DEFAULT_RUBRIC_RESPONSE_DETAILS());
@@ -72,10 +77,16 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
     return `${id}-row${row}-col${col}-${platform}`;
   }
 
-  confirmReset(): void {
-    if (confirm('Are you sure you want to reset all choices?')) {
+  triggerResetWarning(): void {
+    this.showResetWarning = true;
+    this.resetWarningTriggered.emit();
+  }
+
+  confirmReset(confirm: boolean): void {
+    if (confirm) {
       this.resetRubricAnswer();
     }
+    this.showResetWarning = false;
   }
 
   resetRubricAnswer(): void {
