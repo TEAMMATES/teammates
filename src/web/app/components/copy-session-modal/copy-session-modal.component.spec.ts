@@ -146,4 +146,34 @@ describe('CopySessionModalComponent', () => {
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
 
+  it('should update session name to "Copy of ..." when the same course is selected', () => {
+    component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
+    component.originalSessionName = feedbackSessionToCopy.feedbackSessionName;
+    component.sessionToCopyCourseId = courseSessionIn.courseId;
+    component.courseCandidates = [courseSessionIn, courseCopyTo];
+    fixture.detectChanges();
+
+    const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
+    const firstOption: any = options[0];
+    firstOption.triggerEventHandler('click', { target: firstOption.nativeElement });
+    fixture.detectChanges();
+
+    expect(component.newFeedbackSessionName).toBe(`Copy of ${feedbackSessionToCopy.feedbackSessionName}`);
+  });
+
+  it('should restore the original session name when the same course is deselected', () => {
+    component.newFeedbackSessionName = `Copy of ${feedbackSessionToCopy.feedbackSessionName}`;
+    component.originalSessionName = feedbackSessionToCopy.feedbackSessionName;
+    component.sessionToCopyCourseId = courseSessionIn.courseId;
+    component.courseCandidates = [courseSessionIn, courseCopyTo];
+    component.copyToCourseSet.add(courseSessionIn.courseId);
+    fixture.detectChanges();
+
+    const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
+    const firstOption: any = options[0];
+    firstOption.triggerEventHandler('click', { target: firstOption.nativeElement });
+    fixture.detectChanges();
+
+    expect(component.newFeedbackSessionName).toBe(feedbackSessionToCopy.feedbackSessionName);
+  });
 });
