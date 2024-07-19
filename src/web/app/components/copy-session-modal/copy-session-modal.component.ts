@@ -49,12 +49,13 @@ export class CopySessionModalComponent implements OnInit {
   select(courseId: string): void {
     if (this.copyToCourseSet.has(courseId)) {
       this.copyToCourseSet.delete(courseId);
-      if (courseId === this.sessionToCopyCourseId) {
-        this.newFeedbackSessionName = this.originalSessionName;
+      if (courseId === this.sessionToCopyCourseId
+        && this.newFeedbackSessionName === `Copy of ${this.originalSessionName}`) {
+          this.newFeedbackSessionName = this.originalSessionName;
       }
     } else {
       this.copyToCourseSet.add(courseId);
-      if (courseId === this.sessionToCopyCourseId) {
+      if (courseId === this.sessionToCopyCourseId && this.newFeedbackSessionName === this.originalSessionName) {
         this.newFeedbackSessionName = `Copy of ${this.originalSessionName}`;
       }
     }
