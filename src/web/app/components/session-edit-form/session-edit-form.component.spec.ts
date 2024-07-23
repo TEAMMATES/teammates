@@ -21,6 +21,7 @@ describe('SessionEditFormComponent', () => {
   let dateTimeService: DateTimeService;
 
   const submissionStartDateField = 'submissionStartDate';
+  const submissionStartTimeField = 'submissionStartTime';
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -92,6 +93,41 @@ describe('SessionEditFormComponent', () => {
     component.triggerSubmissionOpeningDateModelChange(submissionStartDateField, date);
     expect(triggerModelChangeSpy).toHaveBeenCalledWith(submissionStartDateField, date);
     expect(configureSubmissionOpeningTimeSpy).not.toHaveBeenCalled();
+  });
+
+  it('should trigger the change of the model when the submission opening time '
+    + 'changes to before the visibility time', () => {
+    const date: DateFormat = { day: 12, month: 7, year: 2024 };
+    const time: TimeFormat = { hour: 4, minute: 0 };
+    const visibilityTime: TimeFormat = { hour: 14, minute: 0 };
+    const triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
+    const configureSessionVisibleDateTimeSpy = jest.spyOn(component, 'configureSessionVisibleDateTime');
+    component.model.customSessionVisibleDate = date;
+    component.model.submissionStartDate = date;
+    component.model.customSessionVisibleTime = visibilityTime;
+    component.triggerSubmissionOpeningTimeModelChange(submissionStartTimeField, time);
+    expect(triggerModelChangeSpy).toHaveBeenCalledWith(submissionStartTimeField, time);
+    expect(configureSessionVisibleDateTimeSpy).toHaveBeenCalledWith(date, time);
+  });
+
+  it('should adjust the session visibility date if submission opening date is earlier', () => {
+    const date: DateFormat = { day: 12, month: 7, year: 2024 };
+    const time: TimeFormat = { hour: 14, minute: 0 };
+    component.model.customSessionVisibleDate = { day: 13, month: 7, year: 2024 };
+    component.model.customSessionVisibleTime = time;
+    component.configureSessionVisibleDateTime(date, time);
+    expect(component.model.customSessionVisibleDate).toEqual(date);
+    expect(component.model.customSessionVisibleTime).toEqual(time);
+  });
+
+  it('should not adjust the session visibility date and time if submission opening date and time are later', () => {
+    const date: DateFormat = component.minDateForSubmissionStart;
+    const time: TimeFormat = component.minTimeForSubmissionStart;
+    component.model.customSessionVisibleDate = dateTimeService.getDateInstance(moment().subtract(1, 'days'));
+    component.model.customSessionVisibleTime = dateTimeService.getTimeInstance(moment().subtract(1, 'hours'));
+    component.configureSessionVisibleDateTime(date, time);
+    expect(component.model.customSessionVisibleDate).not.toEqual(date);
+    expect(component.model.customSessionVisibleTime).not.toEqual(time);
   });
 
   it('should emit a modelChange event with the updated field when triggerModelChange is called', () => {
