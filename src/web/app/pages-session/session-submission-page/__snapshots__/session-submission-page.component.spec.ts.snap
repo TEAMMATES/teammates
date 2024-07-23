@@ -2,11 +2,13 @@
 
 exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -44,6 +46,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -160,11 +163,13 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -202,6 +207,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -315,11 +321,13 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 
 exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -357,6 +365,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -470,11 +479,13 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 
 exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -512,6 +523,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
@@ -758,11 +770,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -800,6 +815,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -1290,6 +1306,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 1
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 1
+                  </button>
                 </div>
               </div>
             </div>
@@ -1546,6 +1570,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 3
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 3
                   </button>
                 </div>
               </div>
@@ -1980,6 +2012,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 4
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 4
+                  </button>
                 </div>
               </div>
             </div>
@@ -2194,6 +2234,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 5
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 5
                   </button>
                 </div>
               </div>
@@ -2423,6 +2471,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 6
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 6
                   </button>
                 </div>
               </div>
@@ -2883,6 +2939,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 7
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 7
+                  </button>
                 </div>
               </div>
             </div>
@@ -3246,6 +3310,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 8
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 8
+                  </button>
                 </div>
               </div>
             </div>
@@ -3528,6 +3600,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 9
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 9
+                  </button>
                 </div>
               </div>
             </div>
@@ -3760,6 +3840,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 10
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 10
+                  </button>
                 </div>
               </div>
             </div>
@@ -3789,11 +3877,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -3831,6 +3921,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -4326,6 +4417,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 1
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 1
                   </button>
                 </div>
               </div>
@@ -4582,6 +4681,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 3
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 3
+                  </button>
                 </div>
               </div>
             </div>
@@ -5021,6 +5127,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 4
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 4
+                  </button>
                 </div>
               </div>
             </div>
@@ -5237,6 +5351,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 5
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 5
                   </button>
                 </div>
               </div>
@@ -5468,6 +5590,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 6
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 6
                   </button>
                 </div>
               </div>
@@ -5930,6 +6060,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 7
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 7
+                  </button>
                 </div>
               </div>
             </div>
@@ -6303,6 +6441,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 8
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 8
+                  </button>
                 </div>
               </div>
             </div>
@@ -6587,6 +6733,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 9
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 9
+                  </button>
                 </div>
               </div>
             </div>
@@ -6820,6 +6974,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 10
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 10
+                  </button>
                 </div>
               </div>
             </div>
@@ -6850,11 +7012,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -6892,6 +7056,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
@@ -7006,11 +7171,13 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 
 exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -7048,6 +7215,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
