@@ -17,8 +17,8 @@ import teammates.logic.external.SendgridService;
 
 /**
  * SUT: {@link SendgridService},
- *      {@link MailgunService},
- *      {@link MailjetService}.
+ * {@link MailgunService},
+ * {@link MailjetService}.
  */
 public class EmailSenderTest extends BaseLogicTest {
 
@@ -88,13 +88,43 @@ public class EmailSenderTest extends BaseLogicTest {
         assertEquals(wrapper.getSenderEmail(), email.get(Email.FROMEMAIL));
         assertEquals(wrapper.getSenderName(), email.get(Email.FROMNAME));
         assertEquals(wrapper.getRecipient(),
-                     ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(0).get("Email"));
+                ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(0).get("Email"));
         assertEquals(wrapper.getBcc(),
-                     ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(1).get("Email"));
+                ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(1).get("Email"));
         assertEquals(wrapper.getReplyTo(),
-                     ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
+                ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
     }
 
+}
+
+    @Test
+    public void testSendEmail_toTestAccount() {
+        EmailWrapper message = new EmailWrapper();
+        message.setRecipient("test@teammates.test");
+        EmailSendingStatus status = emailService.sendEmail(message);
+        assertEquals(HttpStatus.SC_OK, status.getStatusCode());
+        assertEquals("Not sending email to test account", status.getMessage());
+    }
+
+    @Test
+    public void testSendEmail_success() {
+        EmailWrapper message = new EmailWrapper();
+        message.setRecipient("user@domain.com");
+        when(service.sendEmail(message))
+                .thenReturn(new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully"));
+        EmailSendingStatus status = emailService.sendEmail(message);
+        assertEquals(HttpStatus.SC_OK, status.getStatusCode());
+        assertEquals("Email sent successfully", status.getMessage());
+    }
+
+@Test
+public void testSendEmail_failure() {
+    EmailWrapper message = new EmailWrapper();
+    message.setRecipient("user@domain.com");
+    when(service.sendEmail(message)).thenThrow(new EmailSendingException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to send email"));
+    EmailSendingStatus status = emailService.sendEmail(message);
+    assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, status.getStatusCode());
+    assertEquals("Failed to send email", status.getMessage());
 }
