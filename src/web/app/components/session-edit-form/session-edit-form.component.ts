@@ -128,10 +128,49 @@ export class SessionEditFormComponent {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
+    if (field === 'submissionStartDate' || field === 'submissionStartTime') {
+      this.adjustSessionVisibilityTime(data, field);
+    }
     this.modelChange.emit({
       ...this.model,
       [field]: data,
     });
+  }
+
+  /**
+   * Adjusts session visibility time to ensure it does not occur after submission opening time.
+   */
+  adjustSessionVisibilityTime(value: any, field: string): void {
+    const submissionDateTime = this.combineDateAndTime(
+      field === 'submissionStartDate' ? value : this.model.submissionStartDate,
+      field === 'submissionStartTime' ? value : this.model.submissionStartTime,
+    );
+
+    const visibilityDateTime = this.combineDateAndTime(
+      this.model.customSessionVisibleDate,
+      this.model.customSessionVisibleTime,
+    );
+
+    if (submissionDateTime.isBefore(visibilityDateTime)) {
+      if (field === 'submissionStartDate') {
+        this.model.customSessionVisibleDate = value;
+      } else {
+        this.model.customSessionVisibleTime = value;
+      }
+    }
+  }
+
+  /**
+   * Combines date and time into a single moment instance.
+   */
+  combineDateAndTime(date: DateFormat, time: TimeFormat): moment.Moment {
+    return moment.tz({
+      year: date.year,
+      month: date.month - 1,
+      day: date.day,
+      hour: time.hour,
+      minute: time.minute,
+    }, this.model.timeZone);
   }
 
   /**
@@ -148,6 +187,7 @@ export class SessionEditFormComponent {
       this.model.submissionStartTime = minTime;
     }
 
+    this.adjustSessionVisibilityTime(date, field);
     this.triggerModelChange(field, date);
   }
 
@@ -161,6 +201,37 @@ export class SessionEditFormComponent {
       // Case where minutes is not 0 since the earliest time with 0 minutes is the hour before
       time.hour += 1;
       time.minute = 0;
+    }
+  }
+
+  /**
+   * Triggers the change of the model when the submission opening time changes.
+   */
+  triggerSubmissionOpeningTimeModelChange(field: string, time: TimeFormat): void {
+    const date: DateFormat = this.model.submissionStartDate;
+    const sessionDate: DateFormat = this.model.customSessionVisibleDate;
+    const sessionTime: TimeFormat = this.model.customSessionVisibleTime;
+
+    if (DateTimeService.compareDateFormat(date, sessionDate) === 0
+        && DateTimeService.compareTimeFormat(time, sessionTime) === -1) {
+      this.configureSessionVisibleDateTime(date, time);
+    }
+
+    this.triggerModelChange(field, time);
+  }
+
+  /**
+   * Configures the session visible date and time to ensure it is not after submission opening time.
+   */
+  configureSessionVisibleDateTime(date: DateFormat, time: TimeFormat): void {
+    const sessionDate: DateFormat = this.model.customSessionVisibleDate;
+    const sessionTime: TimeFormat = this.model.customSessionVisibleTime;
+
+    if (DateTimeService.compareDateFormat(date, sessionDate) === -1) {
+      this.model.customSessionVisibleDate = date;
+    } else if (DateTimeService.compareDateFormat(date, sessionDate) === 0
+               && DateTimeService.compareTimeFormat(time, sessionTime) === -1) {
+      this.model.customSessionVisibleTime = time;
     }
   }
 

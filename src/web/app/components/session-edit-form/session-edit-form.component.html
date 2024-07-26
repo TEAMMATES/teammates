@@ -144,7 +144,7 @@
                                [date]="model.submissionStartDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
-                <tm-timepicker id="submission-start-time" [isDisabled]="!model.isEditable" (timeChange)="triggerModelChange('submissionStartTime', $event)"
+                <tm-timepicker id="submission-start-time" [isDisabled]="!model.isEditable" (timeChange)="triggerSubmissionOpeningTimeModelChange('submissionStartTime', $event)"
                                [minDate]="minDateForSubmissionStart" [maxDate]="maxDateForSubmissionStart"
                                [date]="model.submissionStartDate"
                                [minTime]="minTimeForSubmissionStart" [maxTime]="maxTimeForSubmissionStart"

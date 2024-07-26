@@ -241,6 +241,8 @@
             <tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>
             <span>{{ isQuestionCountOne ? "Submit Response" : "Submit Response for Question " + model.questionNumber }}</span>
           </button>
+          <button type="button" class="btn btn-warning float-end" (click)="resetForm(); resetTooltip.close();" ngbTooltip="Reset your responses for this question to the last submitted state."
+          #resetTooltip="ngbTooltip" (mouseenter)="resetTooltip.open()" [disabled]="!hasResponseChanged">{{ "Reset Question " + model.questionNumber }}</button>
         </div>
       </div>
     </div>
