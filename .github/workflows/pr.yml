@@ -36,7 +36,7 @@ jobs:
               body += "- Description must reference the issue number the PR is fixing, e.g. `Fixes #<issue-number>` (or `Part of #<issue-number>` if the PR does not address the issue fully)\n"
             }
             if (!isIssueOpen) {
-                body += "- Issue #<issue-number> is closed\n"
+                body += "- The issue this PR is addressing is closed\n"
             }
             body += "\nPlease address the above before we proceed to review your PR."
             await github.rest.issues.createComment({
