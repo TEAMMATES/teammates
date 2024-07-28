@@ -21,11 +21,25 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             })
-            const isIssueOpen = pr.data.state.description === 'open';
             const isTitleValid = /^\[#\d+\] /.test(pr.data.title)
             const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d+/.test(pr.data.body)
-            if (isTitleValid && isDescriptionValid && isIssueOpen) {
-              return
+            const descriptionRegex = /(?:[Ff]ix(?:es|ed)?|[Cc]lose(?:s|d)?|[Rr]esolve(?:s|d)?|[Pp]art [Oo]f) #(\d+)/
+            const extractIssueNumber = (description) => {
+              const match = description.match(descriptionRegex)
+              return match ? parseInt(match[1]) : null
+            };
+            const issueNumber = extractIssueNumber(pr.data.body)
+            let isIssueOpen = false
+            if (issueNumber) {
+              const issue = await github.rest.issues.get({
+                  owner: 'TEAMMATES',
+                  repo: 'teammates',
+                issue_number: issueNumber
+              })
+              isIssueOpen = issue.data.state === 'open'
+              if (isTitleValid && isDescriptionValid && isIssueOpen) {
+                return
+              }
             }
             let body = `Hi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!
               However, your PR does not appear to follow our [contribution guidelines](https://teammates.github.io/teammates/process.html#step-4-submit-a-pr):\n\n`
@@ -35,8 +49,8 @@ jobs:
             if (!isDescriptionValid) {
               body += "- Description must reference the issue number the PR is fixing, e.g. `Fixes #<issue-number>` (or `Part of #<issue-number>` if the PR does not address the issue fully)\n"
             }
-            if (!isIssueOpen) {
-                body += "- The issue this PR is addressing is not open.\n"
+            if (!isIssueOpen && issueNumber) {
+              body += "- The issue referenced in the description (#" + issueNumber + ") is not open.\n"
             }
             body += "\nPlease address the above before we proceed to review your PR."
             await github.rest.issues.createComment({
