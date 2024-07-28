@@ -94,6 +94,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
+    this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
   }
 
   @Input()
@@ -118,6 +119,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Output()
   responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
+
+  @Output()
+  autoSave: EventEmitter<{ id: string, model: QuestionSubmissionFormModel }> = new EventEmitter();
+
+  @Output()
+  resetFeedback: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter<QuestionSubmissionFormModel>();
 
   @ViewChild(ContributionQuestionConstraintComponent)
   private contributionQuestionConstraint!: ContributionQuestionConstraintComponent;
@@ -168,6 +175,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   visibilityStateMachine: VisibilityStateMachine;
   isEveryRecipientSorted: boolean = false;
+
+  autosaveTimeout: any;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
     private feedbackResponseService: FeedbackResponsesService) {
@@ -220,6 +229,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.isSaved = false;
       }
     });
+  }
+
+  resetForm(): void {
+    this.resetFeedback.emit(this.model);
+    this.isSaved = true;
+    this.hasResponseChanged = false;
+    clearTimeout(this.autosaveTimeout);
   }
 
   toggleQuestionTab(): void {
@@ -357,7 +373,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
     if (!this.isFormsDisabled) {
-      this.hasResponseChanged = true;
       this.isSubmitAllClickedChange.emit(false);
       this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
 
@@ -369,6 +384,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       this.updateIsValidByQuestionConstraint();
       this.formModelChange.emit(this.model);
+
+      this.autoSave.emit({ id: this.model.feedbackQuestionId, model: this.model });
+      clearTimeout(this.autosaveTimeout);
+      this.autosaveTimeout = setTimeout(() => {
+        this.hasResponseChanged = true;
+      }, 100); // 0.1 second to prevent people from trying to immediately reset before autosave kicks in
     }
   }
 
@@ -458,6 +479,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
+    clearTimeout(this.autosaveTimeout);
     this.isSaved = true;
     this.hasResponseChanged = false;
     this.model.hasResponseChangedForRecipients.forEach(
