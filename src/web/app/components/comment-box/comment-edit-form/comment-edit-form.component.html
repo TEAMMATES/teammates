@@ -50,7 +50,7 @@
 <div class="d-flex justify-content-end">
   <button 
     type="button" 
-    class="btn btn-light btn-sm" 
+    class="btn btn-light btn-sm me-2" 
     (click)="triggerCloseCommentBoxEvent()" 
     *ngIf="!shouldHideClosingButton" 
     [disabled]="isDisabled"
@@ -61,7 +61,7 @@
 
   <button 
     type="button" 
-    class="btn btn-success btn-sm me-2" 
+    class="btn btn-success btn-sm" 
     (click)="triggerSaveCommentEvent()" 
     *ngIf="!shouldHideSavingButton" 
     [disabled]="isDisabled" 
