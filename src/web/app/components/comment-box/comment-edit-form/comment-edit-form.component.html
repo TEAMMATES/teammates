@@ -48,23 +48,23 @@
 </div>
 
 <div class="d-flex justify-content-end">
-  <button 
-    type="button" 
-    class="btn btn-light btn-sm me-2" 
-    (click)="triggerCloseCommentBoxEvent()" 
-    *ngIf="!shouldHideClosingButton" 
+  <button
+    type="button"
+    class="btn btn-light btn-sm me-2"
+    (click)="triggerCloseCommentBoxEvent()"
+    *ngIf="!shouldHideClosingButton"
     [disabled]="isDisabled"
     aria-label="Cancel editing">
     <i class="fas fa-times"></i>
     Cancel
   </button>
 
-  <button 
-    type="button" 
-    class="btn btn-success btn-sm" 
-    (click)="triggerSaveCommentEvent()" 
-    *ngIf="!shouldHideSavingButton" 
-    [disabled]="isDisabled" 
+  <button
+    type="button"
+    class="btn btn-success btn-sm"
+    (click)="triggerSaveCommentEvent()"
+    *ngIf="!shouldHideSavingButton"
+    [disabled]="isDisabled"
     aria-label="Save comment">
     <i class="fas fa-save"></i>
     {{ mode === CommentRowMode.EDIT ? 'Save' : 'Add' }}
