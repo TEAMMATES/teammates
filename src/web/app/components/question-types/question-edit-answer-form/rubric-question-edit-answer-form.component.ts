@@ -7,6 +7,9 @@ import {
   DEFAULT_RUBRIC_QUESTION_DETAILS, DEFAULT_RUBRIC_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../types/feedback-response-details';
+import { SimpleModalService } from '../../../../services/simple-modal.service'
+import { SimpleModalType } from '../../simple-modal/simple-modal-type';
+
 
 /**
  * The rubric question submission form for a recipient.
@@ -35,7 +38,7 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
 
   showResetWarning: boolean = false;
 
-  constructor() {
+  constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS(), DEFAULT_RUBRIC_RESPONSE_DETAILS());
   }
 
@@ -77,17 +80,23 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
     return `${id}-row${row}-col${col}-${platform}`;
   }
 
-  triggerResetWarning(): void {
-    this.showResetWarning = true;
-    this.resetWarningTriggered.emit();
+  resetHandler(): void {
+    this.simpleModalService.openConfirmationModal(
+      `Reset Choices?`,
+      SimpleModalType.WARNING,
+      'Are you sure you want to reset your choices? This action cannot be reverted'
+    ).result.then(() => {
+        this.resetRubricAnswer();
+        // this.resetWarningTriggered.emit();
+    }, () => {});
   }
 
-  confirmReset(confirm: boolean): void {
-    if (confirm) {
-      this.resetRubricAnswer();
-    }
-    this.showResetWarning = false;
-  }
+  // confirmReset(confirm: boolean): void {
+  //   if (confirm) {
+  //     this.resetRubricAnswer();
+  //   }
+  //   this.showResetWarning = false;
+  // }
 
   resetRubricAnswer(): void {
     const resettedAnswer: number[] =

@@ -53,16 +53,18 @@
   <div class="button-container">
     <button
       type="button"
+      class="btn btn-secondary"
       title="Reset choices"
       id="btn-reset"
       name="button-reset"
-      class="btn btn-secondary"
-      (click)="triggerResetWarning()">
+      ngbTooltip="Reset current choices"
+      (click)="resetHandler()">
       Reset choices
     </button>
-  </div>
+
+  <!-- </div>
   <tm-reset-choices-comfirmation
     *ngIf="showResetWarning"
     (confirmReset)="confirmReset($event)">
   </tm-reset-choices-comfirmation>
-</div>
+</div> -->
