@@ -87,16 +87,8 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
       'Are you sure you want to reset your choices? This action cannot be reverted'
     ).result.then(() => {
         this.resetRubricAnswer();
-        // this.resetWarningTriggered.emit();
     }, () => {});
   }
-
-  // confirmReset(confirm: boolean): void {
-  //   if (confirm) {
-  //     this.resetRubricAnswer();
-  //   }
-  //   this.showResetWarning = false;
-  // }
 
   resetRubricAnswer(): void {
     const resettedAnswer: number[] =
