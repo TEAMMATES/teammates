@@ -12,7 +12,6 @@ import { MsqQuestionEditAnswerFormComponent } from './msq-question-edit-answer-f
 import { NumScaleQuestionEditAnswerFormComponent } from './num-scale-question-edit-answer-form.component';
 import { RankOptionsQuestionEditAnswerFormComponent } from './rank-options-question-edit-answer-form.component';
 import { RankRecipientsQuestionEditAnswerFormComponent } from './rank-recipients-question-edit-answer-form.component';
-import { ResetChoicesComfirmationComponent } from './reset-choices-comfirmation.component';
 import { RubricQuestionEditAnswerFormComponent } from './rubric-question-edit-answer-form.component';
 import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer-form.component';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
@@ -35,7 +34,6 @@ import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module'
     RubricQuestionEditAnswerFormComponent,
     ConstsumOptionsQuestionEditAnswerFormComponent,
     ConstsumRecipientsQuestionEditAnswerFormComponent,
-    ResetChoicesComfirmationComponent,
   ],
   exports: [
     ContributionQuestionEditAnswerFormComponent,
