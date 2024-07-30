@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
   FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
 } from '../../../../types/api-output';
@@ -7,9 +8,7 @@ import {
   DEFAULT_RUBRIC_QUESTION_DETAILS, DEFAULT_RUBRIC_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../types/feedback-response-details';
-import { SimpleModalService } from '../../../../services/simple-modal.service'
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
-
 
 /**
  * The rubric question submission form for a recipient.
@@ -82,9 +81,9 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
 
   resetHandler(): void {
     this.simpleModalService.openConfirmationModal(
-      `Reset Choices?`,
+      'Reset Choices?',
       SimpleModalType.WARNING,
-      'Are you sure you want to reset your choices? This action cannot be reverted'
+      'Are you sure you want to reset your choices? This action cannot be reverted',
     ).result.then(() => {
         this.resetRubricAnswer();
     }, () => {});
