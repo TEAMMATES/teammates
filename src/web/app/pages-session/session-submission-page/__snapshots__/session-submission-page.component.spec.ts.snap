@@ -3257,6 +3257,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             class="btn btn-secondary"
                             id="btn-reset"
                             name="button-reset"
+                            ngbtooltip="Reset current choices"
                             title="Reset choices"
                             type="button"
                           >
@@ -6386,6 +6387,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             class="btn btn-secondary"
                             id="btn-reset"
                             name="button-reset"
+                            ngbtooltip="Reset current choices"
                             title="Reset choices"
                             type="button"
                           >
