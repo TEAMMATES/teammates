@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
