@@ -58,6 +58,7 @@
       id="btn-reset"
       name="button-reset"
       ngbTooltip="Reset current choices"
+      [disabled]="isDisabled"
       (click)="resetHandler()">
       Reset choices
     </button>

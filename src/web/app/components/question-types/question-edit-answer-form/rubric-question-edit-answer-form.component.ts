@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
@@ -31,11 +31,6 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
 
   // constant
   readonly RUBRIC_ANSWER_NOT_CHOSEN: number = RUBRIC_ANSWER_NOT_CHOSEN;
-
-  @Output()
-  resetWarningTriggered: EventEmitter<void> = new EventEmitter<void>();
-
-  showResetWarning: boolean = false;
 
   constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS(), DEFAULT_RUBRIC_RESPONSE_DETAILS());
