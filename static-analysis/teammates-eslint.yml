@@ -182,4 +182,5 @@ overrides:
   - "*.html"
   extends:
   - plugin:@angular-eslint/template/recommended
-  rules: {}
+  rules:
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }]
