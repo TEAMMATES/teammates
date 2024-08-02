@@ -1253,6 +1253,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       ngbtooltip="Edit this comment"
                                       type="button"
@@ -1262,6 +1263,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       ngbtooltip="Delete this comment"
                                       type="button"
@@ -1535,15 +1537,20 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 </div>
                               </tm-rich-text-editor>
                             </div>
-                            <button
-                              class="btn btn-light btn-sm float-end"
-                              type="button"
+                            <div
+                              class="d-flex justify-content-end"
                             >
-                              <i
-                                class="fas fa-times"
-                              />
-                               Cancel
-                            </button>
+                              <button
+                                aria-label="Cancel editing"
+                                class="btn btn-light btn-sm me-2"
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-times"
+                                />
+                                 Cancel 
+                              </button>
+                            </div>
                           </tm-comment-edit-form>
                         </tm-comment-row>
                       </div>
@@ -1959,6 +1966,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       ngbtooltip="Edit this comment"
                                       type="button"
@@ -1968,6 +1976,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       ngbtooltip="Delete this comment"
                                       type="button"
@@ -4343,6 +4352,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       disabled=""
                                       ngbtooltip="Edit this comment"
@@ -4353,6 +4363,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       disabled=""
                                       ngbtooltip="Delete this comment"
@@ -4624,16 +4635,21 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 </div>
                               </tm-rich-text-editor>
                             </div>
-                            <button
-                              class="btn btn-light btn-sm float-end"
-                              disabled=""
-                              type="button"
+                            <div
+                              class="d-flex justify-content-end"
                             >
-                              <i
-                                class="fas fa-times"
-                              />
-                               Cancel
-                            </button>
+                              <button
+                                aria-label="Cancel editing"
+                                class="btn btn-light btn-sm me-2"
+                                disabled=""
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-times"
+                                />
+                                 Cancel 
+                              </button>
+                            </div>
                           </tm-comment-edit-form>
                         </tm-comment-row>
                       </div>
@@ -5052,6 +5068,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       disabled=""
                                       ngbtooltip="Edit this comment"
@@ -5062,6 +5079,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       disabled=""
                                       ngbtooltip="Delete this comment"
