@@ -25,17 +25,22 @@ export class CopySessionModalComponent implements OnInit {
   newFeedbackSessionName: string = '';
   copyToCourseSet: Set<string> = new Set<string>();
   originalSessionName: string = '';
+  isNameCollision: boolean = false;
 
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.originalSessionName = this.newFeedbackSessionName;
+    this.checkNameCollision();
   }
 
   /**
    * Fires the copy event.
    */
   copy(): void {
+    if (this.isNameCollision) {
+      return;
+    }
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
@@ -49,15 +54,17 @@ export class CopySessionModalComponent implements OnInit {
   select(courseId: string): void {
     if (this.copyToCourseSet.has(courseId)) {
       this.copyToCourseSet.delete(courseId);
-      if (courseId === this.sessionToCopyCourseId
-        && this.newFeedbackSessionName === `Copy of ${this.originalSessionName}`) {
-          this.newFeedbackSessionName = this.originalSessionName;
-      }
     } else {
       this.copyToCourseSet.add(courseId);
-      if (courseId === this.sessionToCopyCourseId && this.newFeedbackSessionName === this.originalSessionName) {
-        this.newFeedbackSessionName = `Copy of ${this.originalSessionName}`;
-      }
     }
+    this.checkNameCollision();
+  }
+
+  /**
+   * Checks for name collision.
+   */
+  checkNameCollision(): void {
+    this.isNameCollision = this.newFeedbackSessionName === this.originalSessionName 
+      && this.copyToCourseSet.has(this.sessionToCopyCourseId);
   }
 }

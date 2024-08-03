@@ -11,12 +11,15 @@
       <div class="form-group">
         <label><b>Name for copied session*</b></label>
         <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
-               required #newSessionName="ngModel">
+               required #newSessionName="ngModel" (input)="checkNameCollision()">
         <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             The field "Name for copied session" should not be empty.
         </div>
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
+      </div>
+      <div *ngIf="isNameCollision" class="alert alert-danger">
+        The new session name and course match the original session. Please change the session name to avoid duplication.
       </div>
       <div class="form-check" *ngFor="let course of courseCandidates">
         <label class="form-check-label text-break">
@@ -35,5 +38,5 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
   <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
-          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1">Copy</button>
+          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1 || isNameCollision">Copy</button>
 </div>
