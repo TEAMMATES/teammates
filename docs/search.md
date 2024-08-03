@@ -19,11 +19,6 @@ We have provided a Docker compose definition to run dependent services, includin
 ```sh
 docker compose run -p 8983:8983 solr
 ```
-If the above command does not work, you may want to try this instead:
-
-```sh
-docker-compose run -p 8983:8983 solr
-```
 
 **Verification:** the Solr admin console should be accessible in `http://localhost:8983`.
 
