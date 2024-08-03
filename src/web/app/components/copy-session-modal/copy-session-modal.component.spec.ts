@@ -146,34 +146,66 @@ describe('CopySessionModalComponent', () => {
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
 
-  it('should update session name to "Copy of ..." when the same course is selected', () => {
-    component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
-    component.originalSessionName = feedbackSessionToCopy.feedbackSessionName;
-    component.sessionToCopyCourseId = courseSessionIn.courseId;
-    component.courseCandidates = [courseSessionIn, courseCopyTo];
-    fixture.detectChanges();
-
-    const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-    const firstOption: any = options[0];
-    firstOption.triggerEventHandler('click', { target: firstOption.nativeElement });
-    fixture.detectChanges();
-
-    expect(component.newFeedbackSessionName).toBe(`Copy of ${feedbackSessionToCopy.feedbackSessionName}`);
+  it('should detect name collision correctly', () => {
+    component.newFeedbackSessionName = 'Test Feedback Session';
+    component.originalSessionName = 'Test Feedback Session';
+    component.sessionToCopyCourseId = 'TestCourseID';
+    component.select('TestCourseID');
+    expect(component.isNameCollision).toBe(true);
   });
 
-  it('should restore the original session name when the same course is deselected', () => {
-    component.newFeedbackSessionName = `Copy of ${feedbackSessionToCopy.feedbackSessionName}`;
-    component.originalSessionName = feedbackSessionToCopy.feedbackSessionName;
-    component.sessionToCopyCourseId = courseSessionIn.courseId;
-    component.courseCandidates = [courseSessionIn, courseCopyTo];
-    component.copyToCourseSet.add(courseSessionIn.courseId);
-    fixture.detectChanges();
+  it('should not detect name collision when new name is different', () => {
+    component.newFeedbackSessionName = 'New Feedback Session';
+    component.originalSessionName = 'Test Feedback Session';
+    component.sessionToCopyCourseId = 'TestCourseID';
+    component.select('TestCourseID');
+    expect(component.isNameCollision).toBe(false);
+  });
 
-    const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-    const firstOption: any = options[0];
-    firstOption.triggerEventHandler('click', { target: firstOption.nativeElement });
-    fixture.detectChanges();
+  it('should not detect name collision when selected course is different', () => {
+    component.newFeedbackSessionName = 'Test Feedback Session';
+    component.originalSessionName = 'Test Feedback Session';
+    component.sessionToCopyCourseId = 'TestCourseID';
+    component.select('DifferentCourseID');
+    expect(component.isNameCollision).toBe(false);
+  });
 
-    expect(component.newFeedbackSessionName).toBe(feedbackSessionToCopy.feedbackSessionName);
+  it('should detect name collision when name matches original session and courseId is selected', () => {
+    component.newFeedbackSessionName = 'Test session';
+    component.originalSessionName = 'Test session';
+    component.sessionToCopyCourseId = 'Test01';
+    component.select('Test01');
+    fixture.detectChanges();
+    expect(component.isNameCollision).toBe(true);
+  });
+
+  it('should not detect name collision when name matches original session but courseId is not selected', () => {
+    component.newFeedbackSessionName = 'Test session';
+    component.originalSessionName = 'Test session';
+    component.sessionToCopyCourseId = 'Test01';
+    component.select('Test02');
+    fixture.detectChanges();
+    expect(component.isNameCollision).toBe(false);
+  });
+
+  it('should update name collision status on input change', () => {
+    component.newFeedbackSessionName = 'Test session';
+    component.originalSessionName = 'Test session';
+    component.sessionToCopyCourseId = 'Test01';
+    component.select('Test01');
+    component.newFeedbackSessionName = 'New session name';
+    component.checkNameCollision();
+    fixture.detectChanges();
+    expect(component.isNameCollision).toBe(false);
+  });
+
+  it('should update name collision status on course selection change', () => {
+    component.newFeedbackSessionName = 'Test session';
+    component.originalSessionName = 'Test session';
+    component.sessionToCopyCourseId = 'Test01';
+    component.select('Test01');
+    component.select('Test01');
+    fixture.detectChanges();
+    expect(component.isNameCollision).toBe(false);
   });
 });

@@ -64,7 +64,7 @@ export class CopySessionModalComponent implements OnInit {
    * Checks for name collision.
    */
   checkNameCollision(): void {
-    this.isNameCollision = this.newFeedbackSessionName === this.originalSessionName 
+    this.isNameCollision = this.newFeedbackSessionName === this.originalSessionName
       && this.copyToCourseSet.has(this.sessionToCopyCourseId);
   }
 }
