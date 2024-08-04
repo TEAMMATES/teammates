@@ -36,9 +36,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.clickApproveAccountRequestButton(name, email, institute);
 
-        String successMessage = homePage.getToastTextContent();
-        assertTrue(successMessage.contains(
-                "Account request was successfully approved. Email has been sent to AHPUiT+++_.instr1!@gmail.tmt."));
+        homePage.verifyStatusMessage("Account request was successfully approved. Email has been sent to AHPUiT+++_.instr1!@gmail.tmt.");
     }
 
 }

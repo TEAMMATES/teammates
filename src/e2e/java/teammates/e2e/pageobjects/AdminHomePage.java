@@ -75,16 +75,6 @@ public class AdminHomePage extends AppPage {
         waitForPageToLoad();
     }
 
-    public String getToastTextContent() {
-        By by = By.tagName("tm-toast");
-        waitForElementVisibility(by);
-        WebElement element = browser.driver.findElement(by);
-        if (element == null) {
-            return null;
-        }
-        return element.getText();
-    }
-
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {
         By by = By.id("instructor-" + i + "-registered-info-button");
         waitForElementVisibility(by);
