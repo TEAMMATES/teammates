@@ -70,6 +70,11 @@ export class AdminHomePageComponent implements OnInit {
         next: () => {
           this.fetchAccountRequests();
         },
+        error: (resp: ErrorMessageOutput) => {
+          invalidLines.push(instructorDetail);
+          this.instructorDetails = invalidLines.join('\r\n');
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }
     this.instructorDetails = invalidLines.join('\r\n');
