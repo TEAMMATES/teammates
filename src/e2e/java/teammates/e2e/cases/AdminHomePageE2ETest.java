@@ -33,6 +33,10 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
 
         String singleLineDetails = "Instructor With Invalid Email | invalidemail | TEAMMATES Test Institute 1";
         homePage.queueInstructorForAdding(singleLineDetails);
+        homePage.verifyStatusMessage("\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not "
+            + "in the correct format. An email address contains some text followed by one '@' sign followed by some "
+            + "more text, and should end with a top level domain address like .com. It cannot be longer than 254 "
+            + "characters, cannot be empty and cannot contain spaces.");
 
         homePage.clickApproveAccountRequestButton(name, email, institute);
 
