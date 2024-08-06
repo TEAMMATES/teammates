@@ -38,8 +38,11 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
             + "more text, and should end with a top level domain address like .com. It cannot be longer than 254 "
             + "characters, cannot be empty and cannot contain spaces.");
 
-        homePage.clickApproveAccountRequestButton(name, email, institute);
+        ______TS("Verify that newly added instructor appears in account request table");
+        homePage.verifyInstructorInAccountRequestTable(name, email, institute);
 
+        ______TS("Test approving a valid account request");
+        homePage.clickApproveAccountRequestButton(name, email, institute);
         homePage.verifyStatusMessage("Account request was successfully approved. Email has been sent to AHPUiT+++_.instr1!@gmail.tmt.");
     }
 
