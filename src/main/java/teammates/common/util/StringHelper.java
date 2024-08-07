@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -179,7 +180,9 @@ public final class StringHelper {
      * Converts a double value between 0 and 1 to 3dp-string.
      */
     public static String toDecimalFormatString(double doubleVal) {
-        DecimalFormat df = new DecimalFormat("0.###");
+        DecimalFormatSymbols syms = new DecimalFormatSymbols();
+        syms.setDecimalSeparator('.');
+        DecimalFormat df = new DecimalFormat("0.###", syms);
         return df.format(doubleVal);
     }
 
