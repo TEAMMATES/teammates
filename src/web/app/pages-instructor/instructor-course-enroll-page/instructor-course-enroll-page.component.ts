@@ -51,6 +51,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isLoadingCourseEnrollPage: boolean = false;
   showEnrollResults?: boolean = false;
   enrollErrorMessage: string = '';
+  copyErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
   unsuccessfulEnrolls: { [email: string]: string } = {};
 
@@ -89,6 +90,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isLoadingExistingStudents: boolean = false;
   isAjaxSuccess: boolean = true;
   isEnrolling: boolean = false;
+  isCopying: boolean = false;
 
   allStudentChunks: StudentEnrollRequest[][] = [];
   invalidRowsIndex: Set<number> = new Set();
@@ -242,6 +244,49 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.enrollErrorMessage = resp.error.message;
       },
     });
+  }
+
+  /**
+   * Copies data from existing students HOT to new students HOT
+   * The data is copied only if the existing students tab is expanded
+   */
+  copyStudents(): void {
+    this.isCopying = true;
+    this.copyErrorMessage = '';
+    this.allStudentChunks = [];
+
+    const lastColIndex: number = 4;
+    const existingStudentsHOTInstance: Handsontable =
+        this.hotRegisterer.getInstance(this.existingStudentsHOT);
+    const newStudentsHOTInstance: Handsontable =
+        this.hotRegisterer.getInstance(this.newStudentsHOT);
+    const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
+
+    const copyData = (): void => {
+      const existingStudentsData: Handsontable.CellValue[] = existingStudentsHOTInstance.getData();
+
+      if (existingStudentsData.length === 0) {
+        this.copyErrorMessage = 'No data to copy from existing students.';
+        this.isCopying = false;
+        return;
+      }
+
+      newStudentsHOTInstance.loadData(existingStudentsData);
+
+      this.resetTableStyle(newStudentsHOTInstance, 0,
+          newStudentsHOTInstance.getData().length - 1,
+          0,
+          hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
+
+      this.isCopying = false;
+      this.statusMessageService.showSuccessToast('Students copied successfully.');
+    };
+
+    if (this.isExistingStudentsPanelCollapsed) {
+      this.toggleExistingStudentsPanel(copyData);
+    } else {
+      copyData();
+    }
   }
 
   private prepareEnrollmentResults(enrolledStudents: Student[],
@@ -546,7 +591,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   /**
    * Toggles the view of 'Existing Students' spreadsheet interface
    */
-  toggleExistingStudentsPanel(): void {
+  toggleExistingStudentsPanel(callback?: () => void): void {
     // Has to be done before the API call is made so that HOT is available for data population
     this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed;
     this.isLoadingExistingStudents = true;
@@ -556,6 +601,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     // Calling REST API only the first time when spreadsheet has no data
     if (this.getSpreadsheetLength(existingStudentsHOTInstance.getData()) !== 0) {
       this.isLoadingExistingStudents = false;
+      if (callback) callback();
       return;
     }
 
@@ -576,6 +622,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       },
       complete: () => {
         this.isLoadingExistingStudents = false;
+        if (callback) callback();
       },
     });
   }
