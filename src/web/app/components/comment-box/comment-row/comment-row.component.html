@@ -34,9 +34,9 @@
 
         <div class="float-end">
           <button type="button" class="btn-edit-comment btn btn-outline-primary btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
-                  (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i></button>
+                  (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled" aria-label="Edit comment"><i class="fas fa-pencil-alt"></i></button>
           <button type="button" class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
-                  (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i></button>
+                  (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled" aria-label="Delete comment"><i class="fas fa-trash"></i></button>
         </div>
       </div>
       <div class="comment-text col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>
