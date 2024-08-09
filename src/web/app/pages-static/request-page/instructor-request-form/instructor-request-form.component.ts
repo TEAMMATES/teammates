@@ -140,17 +140,17 @@ export class InstructorRequestFormComponent {
       holland: 'Netherlands',
 
       belgium: 'Belgium',
-      'belgië': 'Belgium',
+      belgië: 'Belgium',
       'belgique': 'Belgium',
 
       brazil: 'Brazil',
       brasil: 'Brazil',
 
       spain: 'Spain',
-      'españa': 'Spain',
+      españa: 'Spain',
 
       mexico: 'Mexico',
-      'méxico': 'Mexico',
+      méxico: 'Mexico',
 
       italy: 'Italy',
       italia: 'Italy',
