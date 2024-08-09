@@ -138,11 +138,12 @@ export class InstructorRequestFormComponent {
       germany: 'Germany',
 
       netherlands: 'Netherlands',
+      'the netherlands': 'Netherlands',
+      nederland: 'Netherlands',
       holland: 'Netherlands',
 
       belgium: 'Belgium',
       belgië: 'Belgium',
-      belgique: 'Belgium',
 
       brazil: 'Brazil',
       brasil: 'Brazil',
@@ -164,10 +165,8 @@ export class InstructorRequestFormComponent {
       'republic of france': 'France',
 
       india: 'India',
-      bharat: 'India',
 
       japan: 'Japan',
-      nippon: 'Japan',
 
       russia: 'Russia',
       'russian federation': 'Russia',
@@ -183,19 +182,17 @@ export class InstructorRequestFormComponent {
       'republic of south africa': 'South Africa',
 
       switzerland: 'Switzerland',
-      schweiz: 'Switzerland',
-      suisse: 'Switzerland',
-      svizzera: 'Switzerland',
-      svizra: 'Switzerland',
 
       taiwan: 'Taiwan',
-      'republic of china': 'Taiwan',
 
       turkey: 'Turkey',
       'republic of turkey': 'Turkey',
+      'republic of türkiye': 'Turkey',
 
       vietnam: 'Vietnam',
       'viet nam': 'Vietnam',
+
+      malaysia: 'Malaysia',
     };
     // Combine country and institution
     const country = this.country.value!.trim();
