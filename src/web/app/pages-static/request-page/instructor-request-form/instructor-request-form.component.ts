@@ -141,7 +141,7 @@ export class InstructorRequestFormComponent {
 
       belgium: 'Belgium',
       belgië: 'Belgium',
-      'belgique': 'Belgium',
+      belgique: 'Belgium',
 
       brazil: 'Brazil',
       brasil: 'Brazil',
