@@ -118,7 +118,7 @@ export class InstructorRequestFormComponent {
     // Country Mapping
     const countryMapping: { [key: string]: string } = {
       'united states': 'USA',
-      usa: 'USA',
+      'u.s.a.': 'USA',
       us: 'USA',
       america: 'USA',
       'united states of america': 'USA',
