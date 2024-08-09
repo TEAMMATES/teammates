@@ -118,62 +118,62 @@ export class InstructorRequestFormComponent {
     // Country Mapping
     const countryMapping: { [key: string]: string } = {
       'united states': 'USA',
-      'u.s.a': 'USA',
-      'us': 'USA',
-      'america': 'USA',
+      usa: 'USA',
+      us: 'USA',
+      america: 'USA',
       'united states of america': 'USA',
 
       'united kingdom': 'UK',
-      'uk': 'UK',
-      'britain': 'UK',
+      uk: 'UK',
+      britain: 'UK',
       'great britain': 'UK',
-      'england': 'UK',
+      england: 'UK',
 
       'united arab emirates': 'UAE',
-      'uae': 'UAE',
-      'emirates': 'UAE',
+      uae: 'UAE',
+      emirates: 'UAE',
 
-      'deutschland': 'Germany',
-      'germany': 'Germany',
+      deutschland: 'Germany',
+      germany: 'Germany',
 
-      'netherlands': 'Netherlands',
-      'holland': 'Netherlands',
+      netherlands: 'Netherlands',
+      holland: 'Netherlands',
 
-      'belgium': 'Belgium',
+      belgium: 'Belgium',
       'belgië': 'Belgium',
       'belgique': 'Belgium',
 
-      'brazil': 'Brazil',
-      'brasil': 'Brazil',
+      brazil: 'Brazil',
+      brasil: 'Brazil',
 
-      'spain': 'Spain',
+      spain: 'Spain',
       'españa': 'Spain',
 
-      'mexico': 'Mexico',
+      mexico: 'Mexico',
       'méxico': 'Mexico',
 
-      'italy': 'Italy',
-      'italia': 'Italy',
+      italy: 'Italy',
+      italia: 'Italy',
 
-      'china': 'China',
+      china: 'China',
       'peoples republic of china': 'China',
-      'prc': 'China',
+      prc: 'China',
 
-      'france': 'France',
+      france: 'France',
       'republic of france': 'France',
 
-      'india': 'India',
-      'bharat': 'India',
+      india: 'India',
+      bharat: 'India',
 
-      'japan': 'Japan',
-      'nippon': 'Japan',
+      japan: 'Japan',
+      nippon: 'Japan',
 
-      'russia': 'Russia',
+      russia: 'Russia',
       'russian federation': 'Russia',
 
       'south korea': 'South Korea',
       'republic of korea': 'South Korea',
-      'korea': 'South Korea',
+      korea: 'South Korea',
 
       'north korea': 'North Korea',
       'democratic peoples republic of korea': 'North Korea',
@@ -181,19 +181,19 @@ export class InstructorRequestFormComponent {
       'south africa': 'South Africa',
       'republic of south africa': 'South Africa',
 
-      'switzerland': 'Switzerland',
-      'schweiz': 'Switzerland',
-      'suisse': 'Switzerland',
-      'svizzera': 'Switzerland',
-      'svizra': 'Switzerland',
+      switzerland: 'Switzerland',
+      schweiz: 'Switzerland',
+      suisse: 'Switzerland',
+      svizzera: 'Switzerland',
+      svizra: 'Switzerland',
 
-      'taiwan': 'Taiwan',
+      taiwan: 'Taiwan',
       'republic of china': 'Taiwan',
 
-      'turkey': 'Turkey',
+      turkey: 'Turkey',
       'republic of turkey': 'Turkey',
 
-      'vietnam': 'Vietnam',
+      vietnam: 'Vietnam',
       'viet nam': 'Vietnam',
     };
     // Combine country and institution
