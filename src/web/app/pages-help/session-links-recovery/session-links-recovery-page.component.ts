@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -42,8 +42,20 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   }
 
   /**
+   * Custom validator to disallow whitespace-only values.
+   */
+  noWhitespaceValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value && control.value.trim().length === 0) {
+      return { 'whitespace': true };
+    }
+    return null;
+  }
+
+  /**
    * Sends the feedback session links to the recovery email address.
    */
+
+  
   onSubmitFormSessionLinksRecovery(sessionLinksRecoveryForm: UntypedFormGroup): void {
     if (!this.captchaSiteKey) {
       this.captchaResponse = '';
