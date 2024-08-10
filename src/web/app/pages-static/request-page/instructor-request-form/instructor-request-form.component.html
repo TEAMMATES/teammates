@@ -127,7 +127,10 @@
   <ngb-alert type="danger" [dismissible]="false" *ngIf="serverErrorMessage" class="error-box">
     <strong>Error submitting request:</strong> {{serverErrorMessage}}
   </ngb-alert>
-  <button type="submit" class="btn btn-primary" id="submit-button" [disabled]="!canSubmit">
+  <a type="button" class="btn btn-danger me-3" tmRouterLink="/web/front/home" aria-label="Cancel button">
+    Cancel
+  </a>
+  <button type="submit" class="btn btn-primary" id="submit-button" aria-label="Submit form" [disabled]="!canSubmit">
     {{isLoading ? "Submitting..." : "Submit"}}
   </button>
 </form>
