@@ -50,7 +50,8 @@ public class SearchStudentsAction extends Action {
             return new JsonResult(e.getMessage(), e.getStatusCode());
         }
 
-        // Search in datastore. For more information on dual db support, see this [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
+        // Search in datastore. For more information on dual db support, see this
+        // [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
         List<StudentAttributes> studentsDatastore;
         try {
             if (userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
@@ -74,8 +75,7 @@ public class SearchStudentsAction extends Action {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getRegKey(),
                         sqlLogic.getCourseInstitute(s.getCourseId()),
-                        s.getGoogleId()
-                );
+                        s.getGoogleId());
             }
 
             studentDataList.add(studentData);
@@ -92,8 +92,7 @@ public class SearchStudentsAction extends Action {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getKey(),
                         logic.getCourseInstitute(s.getCourse()),
-                        s.getGoogleId()
-                );
+                        s.getGoogleId());
             }
 
             studentDataList.add(studentData);

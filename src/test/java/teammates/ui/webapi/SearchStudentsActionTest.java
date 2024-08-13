@@ -228,6 +228,44 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         assertEquals("Full-text search is not available.", output.getMessage());
     }
 
+    @Test
+    public void execute_searchByPrefix_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        String[] prefixSearchParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "John",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        SearchStudentsAction action = getAction(prefixSearchParams);
+        JsonResult result = getJsonResult(action);
+        StudentsData response = (StudentsData) result.getOutput();
+
+        assertTrue(response.getStudents().stream()
+                .anyMatch(student -> student.getName().equals("John Doe")));
+    }
+
+    @Test
+    public void execute_searchBySubstring_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        String[] substringSearchParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "Campos",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        SearchStudentsAction a = getAction(substringSearchParams);
+        JsonResult result = getJsonResult(a);
+        StudentsData response = (StudentsData) result.getOutput();
+
+        assertTrue(response.getStudents().stream()
+                .anyMatch(student -> student.getName().equals("Amanda Campos")));
+    }
+
     @Override
     @Test
     protected void testAccessControl() {
