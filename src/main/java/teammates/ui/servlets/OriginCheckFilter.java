@@ -3,14 +3,13 @@ package teammates.ui.servlets;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
@@ -50,11 +49,6 @@ public class OriginCheckFilter implements Filter {
     ));
 
     @Override
-    public void init(FilterConfig filterConfig) {
-        // nothing to do
-    }
-
-    @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
@@ -73,7 +67,7 @@ public class OriginCheckFilter implements Filter {
         }
 
         // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_task_request_headers
         boolean isRequestFromAppEngineQueue = request.getHeader("X-AppEngine-QueueName") != null;
 
         if (isRequestFromAppEngineQueue) {
@@ -179,11 +173,6 @@ public class OriginCheckFilter implements Filter {
         result.send(response);
 
         log.request(request, statusCode, message);
-    }
-
-    @Override
-    public void destroy() {
-        // nothing to do
     }
 
 }

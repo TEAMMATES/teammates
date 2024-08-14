@@ -156,7 +156,7 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
      * <p>Note that we are using a simplified builder pattern here, as opposed to builders of other attributes,
      * as this entity is designed to be immutable.
      */
-    public static class Builder {
+    public static final class Builder {
 
         private final UsageStatisticsAttributes usa;
 

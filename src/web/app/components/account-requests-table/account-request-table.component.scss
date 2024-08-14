@@ -1,0 +1,65 @@
+::ng-deep .highlighted-text {
+  background-color: yellow;
+}
+
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+.table-responsive {
+  overflow-y: visible;
+  overflow-x: -moz-scrollbars-horizontal; 
+}
+
+.table-responsive > table > thead > tr > th {
+  white-space: nowrap;
+}
+
+/* stylelint-disable property-no-vendor-prefix */
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background-color: rgb(0 0 0 / 50%);
+  box-shadow: 0 0 1px rgb(255 255 255 / 50%);
+}
+
+
+#search-table-account-request {
+  border-collapse: collapse;
+}
+
+
+#search-table-account-request th:last-child, 
+#search-table-account-request td:last-child {
+  min-width: 10vw;
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background-color: #F8F9FA;
+}
+
+#search-table-account-request th:last-child::after,
+#search-table-account-request td:last-child::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #c8c7c7;
+  z-index: 1;
+}
+
+#comment-box {
+  min-height: 5vh;
+  width: max(800px, 35vw);
+  max-width: max-content;
+  word-break: break-word;
+  word-wrap: break-all;
+
+}
+
+.dropdown-item {
+  border: none;
+}

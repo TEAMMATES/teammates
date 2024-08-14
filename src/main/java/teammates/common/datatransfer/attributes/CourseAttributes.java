@@ -213,7 +213,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
     /**
      * A builder for {@link CourseAttributes}.
      */
-    public static class Builder extends BasicBuilder<CourseAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<CourseAttributes, Builder> {
 
         private final CourseAttributes courseAttributes;
 
@@ -235,7 +235,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
     /**
      * Helper class to specific the fields to update in {@link AccountAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private String courseId;
 
         private UpdateOption<String> nameOption = UpdateOption.empty();
@@ -267,7 +267,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(String courseId) {
                 super(new UpdateOptions(courseId));

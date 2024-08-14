@@ -26,6 +26,7 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -850,7 +851,7 @@ public final class SqlEmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(endTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorPreamble}", fillUpInstructorPreamble(course),
+                "${instructorPreamble}", fillUpInstructorPreamble(course, session),
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
@@ -972,6 +973,73 @@ public final class SqlEmailGenerator {
     }
 
     /**
+     * Generates the email to alert the admin of the new {@code accountRequest}.
+     */
+    public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
+        String name = accountRequest.getName();
+        String institute = accountRequest.getInstitute();
+        String emailAddress = accountRequest.getEmail();
+        String comments = accountRequest.getComments();
+        if (comments == null) {
+            comments = "";
+        }
+        String adminAccountRequestsPageUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).toAbsoluteString();
+        String[] templateKeyValuePairs = new String[] {
+                "${name}", name,
+                "${institute}", institute,
+                "${emailAddress}", emailAddress,
+                "${comments}", comments,
+                "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
+        };
+        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT, templateKeyValuePairs);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
+        email.setSubjectFromType();
+        email.setContent(content);
+        return email;
+    }
+
+    /**
+     * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
+     */
+    public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
+        String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
+        String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute());
+        String emailAddress = SanitizationHelper.sanitizeForHtml(accountRequest.getEmail());
+        String comments = SanitizationHelper.sanitizeForHtml(accountRequest.getComments());
+        if (comments == null) {
+            comments = "";
+        }
+        String[] templateKeyValuePairs = new String[] {
+                "${name}", name,
+                "${institute}", institute,
+                "${emailAddress}", emailAddress,
+                "${comments}", comments,
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+        };
+        String content = Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
+        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
+        email.setSubjectFromType();
+        email.setContent(content);
+        return email;
+    }
+
+    /**
+     * Generates the email to be sent to instructor when their account request has been rejected by admin.
+     */
+    public EmailWrapper generateAccountRequestRejectionEmail(AccountRequest accountRequest, String title, String content) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(accountRequest.getEmail());
+        email.setType(EmailType.ACCOUNT_REQUEST_REJECTION);
+        email.setBcc(Config.SUPPORT_EMAIL);
+        email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
+        email.setContent(SanitizationHelper.sanitizeForRichText(content));
+
+        return email;
+    }
+
+    /**
      * Generates the course registered email for the user with the given details in {@code course}.
      */
     public EmailWrapper generateUserCourseRegisteredEmail(
@@ -1030,10 +1098,14 @@ public final class SqlEmailGenerator {
             "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
-    private String fillUpInstructorPreamble(Course course) {
+    private String fillUpInstructorPreamble(Course course, FeedbackSession session) {
+        var recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
+
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COPY_PREAMBLE,
             "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-            "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()));
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
+                "${sessionsRecoveryLink}", recoveryUrl);
     }
 
     /**

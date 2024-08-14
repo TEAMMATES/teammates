@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;

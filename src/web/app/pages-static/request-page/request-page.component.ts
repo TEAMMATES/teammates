@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { InstructorRequestFormModel } from './instructor-request-form/instructor-request-form-model';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -13,6 +14,8 @@ import { environment } from '../../../environments/environment';
 export class RequestPageComponent {
 
   accountRequestFormUrl: SafeResourceUrl | null;
+  isDeclarationDone: boolean = false;
+  submittedFormData: InstructorRequestFormModel | null = null;
 
   constructor(private sanitizer: DomSanitizer) {
     this.accountRequestFormUrl = environment.accountRequestFormUrl
@@ -20,4 +23,11 @@ export class RequestPageComponent {
         : null;
   }
 
+  onDeclarationButtonClicked(): void {
+    this.isDeclarationDone = true;
+  }
+
+  onRequestSubmitted(data: InstructorRequestFormModel): void {
+    this.submittedFormData = data;
+  }
 }

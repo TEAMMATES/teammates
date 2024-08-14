@@ -192,7 +192,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
     /**
      * A builder for {@link DeadlineExtensionAttributes}.
      */
-    public static class Builder extends BasicBuilder<DeadlineExtensionAttributes, Builder> {
+    public static final class Builder extends BasicBuilder<DeadlineExtensionAttributes, Builder> {
         private final DeadlineExtensionAttributes deadlineExtensionAttributes;
 
         private Builder(String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
@@ -214,7 +214,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
     /**
      * Helper class to specify the fields to update in {@link DeadlineExtensionAttributes}.
      */
-    public static class UpdateOptions {
+    public static final class UpdateOptions {
         private final String courseId;
         private final String feedbackSessionName;
         private final String userEmail;
@@ -272,7 +272,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+        public static final class Builder extends BasicBuilder<UpdateOptions, Builder> {
             private Builder(UpdateOptions updateOptions) {
                 super(updateOptions);
                 thisBuilder = this;

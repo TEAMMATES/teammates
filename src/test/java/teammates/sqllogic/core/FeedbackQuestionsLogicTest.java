@@ -73,7 +73,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         fq4.setQuestionNumber(4);
         fq5.setQuestionNumber(5);
 
-        ArrayList<FeedbackQuestion> questions = new ArrayList<>(List.of(fq2, fq4, fq3, fq1, fq5));
+        List<FeedbackQuestion> questions = new ArrayList<>(List.of(fq2, fq4, fq3, fq1, fq5));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questions);
 
@@ -116,7 +116,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         fq3.setQuestionNumber(4);
         fq4.setQuestionNumber(5);
 
-        ArrayList<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
+        List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
         when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
@@ -142,7 +142,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         fq4.setQuestionNumber(5);
         fq5.setQuestionNumber(1);
 
-        ArrayList<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
+        List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
         when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
@@ -170,7 +170,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         fq3.setQuestionNumber(2);
         fq4.setQuestionNumber(3);
 
-        ArrayList<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
+        List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
         when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
@@ -275,7 +275,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     }
 
     private List<FeedbackQuestion> createQuestionList(FeedbackSession fs, int numOfQuestions) {
-        ArrayList<FeedbackQuestion> questions = new ArrayList<>();
+        List<FeedbackQuestion> questions = new ArrayList<>();
         for (int i = 1; i <= numOfQuestions; i++) {
             FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
             fq.setQuestionNumber(i);

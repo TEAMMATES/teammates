@@ -1,8 +1,8 @@
 package teammates.test;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  * Mocks {@link FilterChain} for testing purpose.

@@ -551,6 +551,7 @@ public class ArchitectureTest {
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .and().doNotHaveSimpleName("BaseTestCaseWithSqlDatabaseAccess")
                 .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
+                .and().doNotHaveSimpleName("ObjectifyFilter")
                 .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
                 .check(ALL_CLASSES);
     }
@@ -564,7 +565,7 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("MockHttpServletResponse")
                 .and().doNotHaveSimpleName("MockPart")
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .should().accessClassesThat().haveFullyQualifiedName("javax.servlet..")
+                .should().accessClassesThat().haveFullyQualifiedName("jakarta.servlet..")
                 .check(ALL_CLASSES);
     }
 
@@ -581,7 +582,7 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("BaseTestCase")
                 .and().doNotHaveSimpleName("AssertHelper")
                 .and().doNotHaveSimpleName("EmailChecker")
-                .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
+                .should().accessClassesThat().haveFullyQualifiedName("org.junit.jupiter.api.Assertions")
                 .check(ALL_CLASSES);
     }
 

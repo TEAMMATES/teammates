@@ -1,11 +1,13 @@
 package teammates.it.storage.sqlapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
@@ -21,13 +23,13 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testCreateReadDeleteAccountRequest() throws Exception {
         ______TS("Create account request, does not exists, succeeds");
 
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
-        ______TS("Read account request using the given email and institute");
+        ______TS("Read account request using the given ID");
 
-        AccountRequest actualAccReqEmalAndInstitute =
-                accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actualAccReqEmalAndInstitute = accountRequestDb.getAccountRequest(accountRequest.getId());
         verifyEquals(accountRequest, actualAccReqEmalAndInstitute);
 
         ______TS("Read account request using the given registration key");
@@ -51,29 +53,49 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                         accountRequest.getCreatedAt().minusMillis(2000));
         assertEquals(0, actualAccReqCreatedAtOutside.size());
 
-        ______TS("Create acccount request, already exists, execption thrown");
+        ______TS("Create account request, same email address and institute already exist, creates successfully");
 
         AccountRequest identicalAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute");
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         assertNotSame(accountRequest, identicalAccountRequest);
 
-        assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestDb.createAccountRequest(identicalAccountRequest));
+        accountRequestDb.createAccountRequest(identicalAccountRequest);
+        AccountRequest actualIdenticalAccountRequest =
+                accountRequestDb.getAccountRequestByRegistrationKey(identicalAccountRequest.getRegistrationKey());
+        verifyEquals(identicalAccountRequest, actualIdenticalAccountRequest);
 
         ______TS("Delete account request that was created");
 
         accountRequestDb.deleteAccountRequest(accountRequest);
 
         AccountRequest actualAccountRequest =
-                accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+                accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
         assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
+        UUID id = UUID.randomUUID();
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        assertNull(actualAccountRequest);
+    }
+
+    @Test
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+        AccountRequest expectedAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        UUID id = expectedAccountRequest.getId();
+        accountRequestDb.createAccountRequest(expectedAccountRequest);
+        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 
     @Test
     public void testUpdateAccountRequest() throws Exception {
         ______TS("Update account request, does not exists, exception thrown");
 
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequest));
@@ -84,8 +106,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         accountRequest.setName("new account request name");
 
         accountRequestDb.updateAccountRequest(accountRequest);
-        AccountRequest actual = accountRequestDb.getAccountRequest(
-                accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         verifyEquals(accountRequest, actual);
     }
 
@@ -95,11 +116,12 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         // Attempt to use SQL commands in email field
         String email = "email'/**/OR/**/1=1/**/@gmail.com";
-        AccountRequest accountRequest = new AccountRequest(email, "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest(email, "name", "institute", AccountRequestStatus.PENDING, "comments");
 
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         assertEquals(email, actual.getEmail());
     }
 
@@ -109,11 +131,12 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         // Attempt to use SQL commands in name field
         String name = "name'; SELECT * FROM account_requests; --";
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", name, "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", name, "institute", AccountRequestStatus.PENDING, "comments");
 
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         assertEquals(name, actual.getName());
     }
 
@@ -123,34 +146,36 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         // Attempt to use SQL commands in institute field
         String institute = "institute'; DROP TABLE account_requests; --";
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", institute);
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", institute, AccountRequestStatus.PENDING, "comments");
 
         // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), institute);
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         assertEquals(institute, actual.getInstitute());
     }
 
     @Test
-    public void testSqlInjectionInGetAccountRequest() throws Exception {
-        ______TS("SQL Injection test in getAccountRequest");
+    public void testSqlInjectionInCreateAccountRequestCommentsField() throws Exception {
+        ______TS("SQL Injection test in comments field");
 
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        // Attempt to use SQL commands in comments field
+        String comments = "comment'; DROP TABLE account_requests; --";
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, comments);
+
+        // The system should treat the input as a plain text string
         accountRequestDb.createAccountRequest(accountRequest);
-
-        String instituteInjection = "institute'; DROP TABLE account_requests; --";
-        AccountRequest actualInjection = accountRequestDb.getAccountRequest(accountRequest.getEmail(), instituteInjection);
-        assertNull(actualInjection);
-
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
-        assertEquals(accountRequest, actual);
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
+        assertEquals(comments, actual.getComments());
     }
 
     @Test
     public void testSqlInjectionInGetAccountRequestByRegistrationKey() throws Exception {
         ______TS("SQL Injection test in getAccountRequestByRegistrationKey");
 
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String regKeyInjection = "regKey'; DROP TABLE account_requests; --";
@@ -162,17 +187,34 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
+    public void testSqlInjectionInGetApprovedAccountRequestsForEmail() throws Exception {
+        ______TS("SQL Injection test in getApprovedAccountRequestsForEmail");
+
+        String email = "test@gmail.com";
+        AccountRequest accountRequest =
+                new AccountRequest(email, "name", "institute", AccountRequestStatus.APPROVED, "comments");
+        accountRequestDb.createAccountRequest(accountRequest);
+
+        // Attempt to use SQL commands in email field
+        String emailInjection = "email'/**/OR/**/1=1/**/@gmail.com";
+        List<AccountRequest> actualInjection = accountRequestDb.getApprovedAccountRequestsForEmail(emailInjection);
+        // The system should treat the input as a plain text string
+        assertEquals(0, actualInjection.size());
+    }
+
+    @Test
     public void testSqlInjectionInUpdateAccountRequest() throws Exception {
         ______TS("SQL Injection test in updateAccountRequest");
 
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String nameInjection = "newName'; DROP TABLE account_requests; --";
         accountRequest.setName(nameInjection);
         accountRequestDb.updateAccountRequest(accountRequest);
 
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         assertEquals(accountRequest, actual);
     }
 
@@ -180,31 +222,19 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testSqlInjectionInDeleteAccountRequest() throws Exception {
         ______TS("SQL Injection test in deleteAccountRequest");
 
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest accountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         String emailInjection = "email'/**/OR/**/1=1/**/@gmail.com";
         String nameInjection = "name'; DROP TABLE account_requests; --";
         String instituteInjection = "institute'; DROP TABLE account_requests; --";
-        AccountRequest accountRequestInjection = new AccountRequest(emailInjection, nameInjection, instituteInjection);
+        AccountRequest accountRequestInjection = new AccountRequest(emailInjection, nameInjection, instituteInjection,
+                AccountRequestStatus.PENDING, "comments");
         accountRequestDb.deleteAccountRequest(accountRequestInjection);
 
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
         assertEquals(accountRequest, actual);
     }
 
-    @Test
-    public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
-        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
-
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        accountRequestDb.createAccountRequest(accountRequest);
-
-        String searchInjection = "institute'; DROP TABLE account_requests; --";
-        List<AccountRequest> actualInjection = accountRequestDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(0, actualInjection.size());
-
-        AccountRequest actual = accountRequestDb.getAccountRequest("test@gmail.com", "institute");
-        assertEquals(accountRequest, actual);
-    }
 }

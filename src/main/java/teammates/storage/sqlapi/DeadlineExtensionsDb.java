@@ -7,6 +7,12 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -15,12 +21,6 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.User;
-
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for deadline extensions.

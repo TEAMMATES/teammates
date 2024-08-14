@@ -4,6 +4,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 
+import jakarta.transaction.Transactional;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -22,8 +24,6 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
-
-import jakarta.transaction.Transactional;
 
 /**
  * SUT: {@link CreateAccountAction}.
@@ -75,7 +75,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         ______TS("Normal case with valid timezone");
         String timezone = "Asia/Singapore";
-        AccountRequest accountRequest = logic.getAccountRequest(email, institute);
+        AccountRequest accountRequest = logic.getAccountRequest(accReq.getId());
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
@@ -118,10 +118,9 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         accReq = typicalBundle.accountRequests.get("unregisteredInstructor2");
         email = accReq.getEmail();
-        institute = accReq.getInstitute();
         timezone = "InvalidTimezone";
 
-        accountRequest = logic.getAccountRequest(email, institute);
+        accountRequest = logic.getAccountRequest(accReq.getId());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),

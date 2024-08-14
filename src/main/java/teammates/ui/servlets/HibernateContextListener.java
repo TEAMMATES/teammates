@@ -1,7 +1,7 @@
 package teammates.ui.servlets;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;

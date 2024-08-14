@@ -1,15 +1,15 @@
 package teammates.storage.sqlentity.responses;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
+import jakarta.persistence.Entity;
+
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Section;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
-import jakarta.persistence.Entity;
 
 /**
  * Represents a feedback numerical scale response.

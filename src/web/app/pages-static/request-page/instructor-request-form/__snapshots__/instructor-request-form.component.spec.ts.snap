@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorRequestFormComponent should render correctly 1`] = `
+<tm-instructor-request-form
+  COUNTRY_NAME_MAX_LENGTH={[Function Number]}
+  EMAIL_MAX_LENGTH={[Function Number]}
+  INSTITUTION_NAME_MAX_LENGTH={[Function Number]}
+  STUDENT_NAME_MAX_LENGTH={[Function Number]}
+  accountService={[Function Object]}
+  arf={[Function FormGroup]}
+  captchaSiteKey=""
+  comments={[Function FormControl2]}
+  country={[Function FormControl2]}
+  email={[Function FormControl2]}
+  hasSubmitAttempt="false"
+  institution={[Function FormControl2]}
+  isCaptchaSuccessful="false"
+  isLoading="false"
+  lang={[Function String]}
+  name={[Function FormControl2]}
+  requestSubmissionEvent={[Function EventEmitter_]}
+  serverErrorMessage=""
+  size={[Function String]}
+>
+  <p
+    aria-hidden="true"
+  >
+     Questions marked with an asterisk 
+    <span
+      class="red-font"
+    >
+      *
+    </span>
+     are required.
+  </p><form
+    class="ng-untouched ng-pristine ng-invalid"
+    novalidate=""
+  >
+    <div
+      class="form-group required"
+    >
+      <label
+        class="qn"
+        for="name"
+        id="name-label"
+      >
+         Full Name 
+      </label>
+      <p
+        class="help-block"
+      >
+         This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.) 
+      </p>
+      <input
+        aria-invalid="true"
+        autocomplete="name"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        id="name"
+        required=""
+        type="text"
+      />
+      <div
+        aria-describedby="name-label"
+        class="invalid-feedback"
+        role="alert"
+        tabindex="0"
+      >
+         Please enter your name. 
+      </div>
+    </div>
+    <br />
+    <div
+      class="form-group required"
+    >
+      <label
+        class="qn"
+        for="institution"
+        id="institution-label"
+      >
+         University/school/institution 
+      </label>
+      <p
+        class="help-block"
+      >
+         Please give full name of the university/institution. 
+      </p>
+      <input
+        aria-invalid="true"
+        autocomplete="organization"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        id="institution"
+        required=""
+        type="text"
+      />
+      <div
+        aria-describedby="institution-label"
+        class="invalid-feedback"
+        role="alert"
+        tabindex="0"
+      >
+         Please enter your institution name. 
+      </div>
+    </div>
+    <br />
+    <div
+      class="form-group required"
+    >
+      <label
+        class="qn"
+        for="country"
+        id="country-label"
+      >
+         Country 
+      </label>
+      <p
+        class="help-block"
+      >
+         Which country is your university/institution based in? 
+      </p>
+      <input
+        aria-invalid="true"
+        autocomplete="country-name"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        id="country"
+        required=""
+        type="text"
+      />
+      <div
+        aria-describedby="country-label"
+        class="invalid-feedback"
+        role="alert"
+        tabindex="0"
+      >
+         Please enter your institution's country. 
+      </div>
+    </div>
+    <br />
+    <div
+      class="form-group required"
+    >
+      <label
+        class="qn"
+        for="email"
+        id="email-label"
+      >
+         Official email address 
+      </label>
+      <p
+        class="help-block"
+      >
+         Please use the email address 
+        <b>
+          given to you by your school/university
+        </b>
+         (not your personal Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+      </p>
+      <input
+        aria-invalid="true"
+        autocomplete="email"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        id="email"
+        required=""
+        type="email"
+      />
+      <div
+        aria-describedby="email-label"
+        class="invalid-feedback"
+        role="alert"
+        tabindex="0"
+      >
+         Please enter your email address. 
+      </div>
+    </div>
+    <br />
+    <div
+      class="form-group"
+    >
+      <label
+        class="qn"
+        for="comments"
+        id="comments-label"
+      >
+         Any other comments/queries 
+      </label>
+      <textarea
+        aria-invalid="false"
+        class="form-control ng-untouched ng-pristine ng-valid"
+        id="comments"
+      />
+    </div>
+    <br />
+    <a
+      aria-label="Cancel button"
+      class="btn btn-danger me-3"
+      tmrouterlink="/web/front/home"
+      type="button"
+    >
+       Cancel 
+    </a>
+    <button
+      aria-label="Submit form"
+      class="btn btn-primary"
+      id="submit-button"
+      type="submit"
+    >
+       Submit 
+    </button>
+  </form>
+</tm-instructor-request-form>
+`;

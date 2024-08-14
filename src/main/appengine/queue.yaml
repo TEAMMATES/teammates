@@ -1,4 +1,3 @@
-# Reference: https://cloud.google.com/appengine/docs/standard/java/config/queueref-yaml
 # Reference: https://cloud.google.com/tasks/docs/queue-yaml
 # Although the usage of queue.yaml is somewhat deprecated, we continue to use it for now
 # as it is more practical for us compared to managing task queue within code.

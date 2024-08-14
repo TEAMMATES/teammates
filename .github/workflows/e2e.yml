@@ -20,17 +20,17 @@ jobs:
         browser: [firefox]
         tests: [stable, unstable]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '11'
+          distribution: temurin
+          java-version: 11
       - name: Cache Gradle packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -41,7 +41,7 @@ jobs:
       - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
       - name: Run Solr search service + local Datastore emulator
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes
       - name: Install Frontend Dependencies
@@ -54,4 +54,3 @@ jobs:
           ./wait-for-server.sh
       - name: Start Tests
         run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTests
-        

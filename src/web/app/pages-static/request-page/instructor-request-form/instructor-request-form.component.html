@@ -1,0 +1,136 @@
+<p aria-hidden="true">
+  <!-- aria-hidden as screen readers use inputs' required attribute instead (and cannot see the asterisks) -->
+  Questions marked with an asterisk <span class="red-font">*</span> are required.
+</p>
+<form (ngSubmit)="onSubmit()" [formGroup]="arf">
+  <div class="form-group {{checkIsFieldRequired(name) ? 'required' : ''}}">
+    <label for="name" id="name-label" class="qn">
+      Full Name
+    </label>
+    <p class="help-block">
+      This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.)
+    </p>
+    <input class="form-control {{getFieldValidationClasses(name)}}" type="text" id="name" autocomplete="name"
+      [formControl]="name" [required]="checkIsFieldRequired(name)" [attr.aria-invalid]="name.invalid">
+    <div *ngIf="name.errors?.['required']" role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
+      Please enter your name.
+    </div>
+    <div *ngIf="name.errors?.['maxlength']" role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
+      Name must be shorter than {{STUDENT_NAME_MAX_LENGTH}} characters. (Current: {{name.value?.length}})
+    </div>
+    <div *ngIf="name.errors?.['pattern']" role="alert" aria-describedby="name-label" tabindex="0"
+      class="invalid-feedback">
+      Name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or percent sign (%).
+    </div>
+  </div>
+  <br>
+  <div class="form-group {{checkIsFieldRequired(institution) ? 'required' : ''}}">
+    <label for="institution" id="institution-label" class="qn">
+      University/school/institution
+    </label>
+    <p class="help-block">
+      Please give full name of the university/institution.
+    </p>
+    <input class="form-control {{getFieldValidationClasses(institution)}}" type="text" id="institution"
+      autocomplete="organization" [formControl]="institution" [required]="checkIsFieldRequired(institution)"
+      [attr.aria-invalid]="institution.invalid">
+    <div *ngIf="institution.errors?.['required']" role="alert" aria-describedby="institution-label" tabindex="0"
+      class="invalid-feedback">
+      Please enter your institution name.
+    </div>
+    <div *ngIf="institution.errors?.['maxlength']" role="alert" aria-describedby="institution-label" tabindex="0"
+      class="invalid-feedback">
+      Institution name must be shorter than {{INSTITUTION_NAME_MAX_LENGTH}} characters. (Current: {{institution.value?.length}})
+    </div>
+    <div *ngIf="institution.errors?.['pattern']" role="alert" aria-describedby="institution-label" tabindex="0"
+      class="invalid-feedback">
+      Institution name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or percent sign (%).
+    </div>
+  </div>
+  <br>
+  <div class="form-group {{checkIsFieldRequired(country) ? 'required' : ''}}">
+    <label for="country" id="country-label" class="qn">
+      Country
+    </label>
+    <p class="help-block">
+      Which country is your university/institution based in?
+    </p>
+    <input class="form-control {{getFieldValidationClasses(country)}}" type="text" id="country"
+      autocomplete="country-name" [formControl]="country" [required]="checkIsFieldRequired(country)"
+      [attr.aria-invalid]="country.invalid">
+    <div *ngIf="country.errors?.['required']" role="alert" aria-describedby="country-label" tabindex="0"
+      class="invalid-feedback">
+      Please enter your institution's country.
+    </div>
+    <div *ngIf="country.errors?.['maxlength']" role="alert" aria-describedby="country-label" tabindex="0"
+      class="invalid-feedback">
+      Country name must be shorter than {{COUNTRY_NAME_MAX_LENGTH}} characters. (Current: {{country.value?.length}})
+    </div>
+    <div *ngIf="country.errors?.['pattern']" role="alert" aria-describedby="country-label" tabindex="0"
+      class="invalid-feedback">
+      Country name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or percent sign (%).
+    </div>
+  </div>
+  <br>
+  <div class="form-group {{checkIsFieldRequired(email) ? 'required' : ''}}">
+    <label for="email" id="email-label" class="qn">
+      Official email address
+    </label>
+    <p class="help-block">
+      Please use the email address <b>given to you by your school/university</b>
+      (not your personal Gmail/Hotmail address).
+      Note that this email address will be visible to the students you enroll in TEAMMATES.
+    </p>
+    <input class="form-control {{getFieldValidationClasses(email)}}" type="email" id="email" autocomplete="email"
+      [formControl]="email" [required]="checkIsFieldRequired(email)" [attr.aria-invalid]="email.invalid">
+    <div *ngIf="email.errors?.['required']" role="alert" aria-describedby="email-label" tabindex="0"
+      class="invalid-feedback">
+      Please enter your email address.
+    </div>
+    <div *ngIf="email.errors?.['maxlength']" role="alert" aria-describedby="email-label" tabindex="0"
+      class="invalid-feedback">
+      Email address must be shorter than {{EMAIL_MAX_LENGTH}} characters. (Current: {{email.value?.length}})
+    </div>
+    <div *ngIf="email.errors?.['pattern']" role="alert" aria-describedby="email-label" tabindex="0"
+      class="invalid-feedback">
+      Please enter a valid email address.
+    </div>
+  </div>
+  <br>
+  <div class="form-group {{checkIsFieldRequired(comments) ? 'required' : ''}}">
+    <label for="comments" id="comments-label" class="qn">
+      Any other comments/queries
+    </label>
+    <textarea class="form-control {{getFieldValidationClasses(comments)}}" id="comments" [formControl]="comments"
+      [attr.aria-invalid]="comments.invalid"></textarea>
+  </div>
+  <br>
+  <div *ngIf="captchaSiteKey !== ''" class="form-group">
+    <ngx-recaptcha2 #captchaElem
+                    [siteKey]="captchaSiteKey"
+                    (success)="handleCaptchaSuccess($event)"
+                    [useGlobalDomain]="false"
+                    [size]="size"
+                    [hl]="lang"
+                    formControlName="recaptcha"
+                    class="{{!isCaptchaSuccessful ? ' is-invalid' : ''}}">
+    </ngx-recaptcha2>
+    <div *ngIf="!isCaptchaSuccessful && hasSubmitAttempt" role="alert" tabindex="0"
+      class="invalid-feedback">
+      Please complete the CAPTCHA verification.
+    </div>
+    <br>
+  </div>
+  <ngb-alert type="danger" [dismissible]="false" *ngIf="hasSubmitAttempt && arf.invalid" class="error-box">
+    <strong>There was a problem with your submission.</strong> Please check and fix the errors above and submit again.
+  </ngb-alert>
+  <ngb-alert type="danger" [dismissible]="false" *ngIf="serverErrorMessage" class="error-box">
+    <strong>Error submitting request:</strong> {{serverErrorMessage}}
+  </ngb-alert>
+  <a type="button" class="btn btn-danger me-3" tmRouterLink="/web/front/home" aria-label="Cancel button">
+    Cancel
+  </a>
+  <button type="submit" class="btn btn-primary" id="submit-button" aria-label="Submit form" [disabled]="!canSubmit">
+    {{isLoading ? "Submitting..." : "Submit"}}
+  </button>
+</form>

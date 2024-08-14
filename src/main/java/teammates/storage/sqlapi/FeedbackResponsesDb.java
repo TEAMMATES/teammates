@@ -6,6 +6,14 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
+
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -16,14 +24,6 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Section;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
 
 /**
  * Handles CRUD operations for feedbackResponses.
@@ -86,6 +86,27 @@ public final class FeedbackResponsesDb extends EntitiesDb {
                 .where(cb.and(
                     cb.equal(cJoin.get("id"), courseId),
                     cb.equal(frRoot.get("recipient"), recipient)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets all responses with a specific giver and recipient in a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesForGiverAndRecipientForCourse(String courseId, String giver,
+            String recipient) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cr = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
+
+        cr.select(frRoot)
+                .where(cb.and(
+                    cb.equal(cJoin.get("id"), courseId),
+                    cb.equal(frRoot.get("recipient"), recipient),
+                    cb.equal(frRoot.get("giver"), giver)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

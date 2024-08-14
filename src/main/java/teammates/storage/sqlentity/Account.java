@@ -6,6 +6,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,13 +20,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 /**
  * Represents a unique account in the system.

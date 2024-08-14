@@ -40,10 +40,10 @@ public class SearchStudentsAction extends Action {
         List<Student> students;
 
         try {
-            if (userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
+            if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
                 List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
                 students = sqlLogic.searchStudents(searchKey, instructors);
-            } else if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+            } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
                 students = sqlLogic.searchStudentsInWholeSystem(searchKey);
             } else {
                 throw new InvalidHttpParameterException("Invalid entity type for search");
@@ -57,10 +57,10 @@ public class SearchStudentsAction extends Action {
         // [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
         List<StudentAttributes> studentsDatastore;
         try {
-            if (userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
+            if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
                 List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
                 studentsDatastore = logic.searchStudents(searchKey, instructors);
-            } else if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+            } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
                 studentsDatastore = logic.searchStudentsInWholeSystem(searchKey);
             } else {
                 throw new InvalidHttpParameterException("Invalid entity type for search");
@@ -75,7 +75,7 @@ public class SearchStudentsAction extends Action {
         for (Student s : students) {
             StudentData studentData = new StudentData(s);
 
-            if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+            if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getRegKey(),
                         sqlLogic.getCourseInstitute(s.getCourseId()),
@@ -92,7 +92,7 @@ public class SearchStudentsAction extends Action {
                 continue;
             }
 
-            if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+            if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getKey(),
                         logic.getCourseInstitute(s.getCourse()),
