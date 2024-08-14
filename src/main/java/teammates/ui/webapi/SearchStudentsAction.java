@@ -3,6 +3,8 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.checkerframework.checker.units.qual.t;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchServiceException;
@@ -47,7 +49,8 @@ public class SearchStudentsAction extends Action {
                 throw new InvalidHttpParameterException("Invalid entity type for search");
             }
         } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
+            int statusCode = determineStatusCodeBasedOnException(e);
+            return new JsonResult(e.getMessage(), statusCode);
         }
 
         // Search in datastore. For more information on dual db support, see this
@@ -63,7 +66,8 @@ public class SearchStudentsAction extends Action {
                 throw new InvalidHttpParameterException("Invalid entity type for search");
             }
         } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
+            int statusCode = determineStatusCodeBasedOnException(e);
+            return new JsonResult(e.getMessage(), statusCode);
         }
 
         List<StudentData> studentDataList = new ArrayList<>();
@@ -101,5 +105,10 @@ public class SearchStudentsAction extends Action {
         studentsData.setStudents(studentDataList);
 
         return new JsonResult(studentsData);
+    }
+
+    private int determineStatusCodeBasedOnException(SearchServiceException e) {
+
+        throw new UnsupportedOperationException("Unimplemented method 'determineStatusCodeBasedOnException'");
     }
 }

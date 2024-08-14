@@ -23,7 +23,8 @@ public class SearchInstructorsAction extends AdminOnlyAction {
         try {
             instructors = sqlLogic.searchInstructorsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
+            int statusCode = determineStatusCodeBasedOnException(e);
+            return new JsonResult(e.getMessage(), statusCode);
         }
 
         // Search for datastore
@@ -31,7 +32,9 @@ public class SearchInstructorsAction extends AdminOnlyAction {
         try {
             instructorsDatastore = logic.searchInstructorsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
+            int statusCode = determineStatusCodeBasedOnException(e);
+            return new JsonResult(e.getMessage(), statusCode);
+
         }
 
         List<InstructorData> instructorDataList = new ArrayList<>();
@@ -68,5 +71,10 @@ public class SearchInstructorsAction extends AdminOnlyAction {
         instructorsData.setInstructors(instructorDataList);
 
         return new JsonResult(instructorsData);
+    }
+
+    private int determineStatusCodeBasedOnException(SearchServiceException e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'determineStatusCodeBasedOnException'");
     }
 }

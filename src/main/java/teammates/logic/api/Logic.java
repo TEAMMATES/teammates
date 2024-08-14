@@ -48,7 +48,8 @@ import teammates.logic.core.UsageStatisticsLogic;
 /**
  * Provides the business logic for production usage of the system.
  *
- * <p>This is a Facade class which simply forwards the method to internal classes.
+ * <p>
+ * This is a Facade class which simply forwards the method to internal classes.
  */
 public class Logic {
 
@@ -89,7 +90,8 @@ public class Logic {
     /**
      * Returns a list of accounts with email matching {@code email}.
      *
-     * <br/> Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public List<AccountAttributes> getAccountsForEmail(String email) {
@@ -103,9 +105,12 @@ public class Logic {
     }
 
     /**
-     * Updates user read status for notification with ID {@code notificationId} and expiry time {@code endTime}.
+     * Updates user read status for notification with ID {@code notificationId} and
+     * expiry time {@code endTime}.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null. {@code endTime} must be after current moment.
      */
     public List<String> updateReadNotifications(String googleId, String notificationId, Instant endTime)
@@ -119,7 +124,8 @@ public class Logic {
     }
 
     /**
-     * Returns active notification for general users and the specified {@code targetUser}.
+     * Returns active notification for general users and the specified
+     * {@code targetUser}.
      */
     public List<NotificationAttributes> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
@@ -132,7 +138,9 @@ public class Logic {
     /**
      * Gets a notification by ID.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return Null if no match found.
@@ -144,29 +152,36 @@ public class Logic {
     /**
      * Creates a notification.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return created notification
-     * @throws InvalidParametersException if the notification is not valid
-     * @throws EntityAlreadyExistsException if the notification exists in the database
+     * @throws InvalidParametersException   if the notification is not valid
+     * @throws EntityAlreadyExistsException if the notification exists in the
+     *                                      database
      */
-    public NotificationAttributes createNotification(NotificationAttributes notification) throws
-            InvalidParametersException, EntityAlreadyExistsException {
+    public NotificationAttributes createNotification(NotificationAttributes notification)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return notificationsLogic.createNotification(notification);
     }
 
     /**
      * Updates a notification.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
+     * 
      * @return updated notification
-     * @throws InvalidParametersException if the notification is not valid
-     * @throws EntityDoesNotExistException if the notification does not exist in the database
+     * @throws InvalidParametersException  if the notification is not valid
+     * @throws EntityDoesNotExistException if the notification does not exist in the
+     *                                     database
      */
-    public NotificationAttributes updateNotification(NotificationAttributes.UpdateOptions updateOptions) throws
-            InvalidParametersException, EntityDoesNotExistException {
+    public NotificationAttributes updateNotification(NotificationAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
         return notificationsLogic.updateNotification(updateOptions);
     }
 
@@ -177,7 +192,9 @@ public class Logic {
      * <li>Fails silently if no such notification.</li>
      * </ul>
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      */
     public void deleteNotification(String notificationId) {
@@ -193,7 +210,9 @@ public class Logic {
      * <li>Fails silently if no such account.</li>
      * </ul>
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      */
     public void deleteAccountCascade(String googleId) {
@@ -206,10 +225,13 @@ public class Logic {
     /**
      * Verifies that all the given instructors exist in the given course.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
-     * @throws EntityDoesNotExistException If some instructor does not exist in the course.
+     * @throws EntityDoesNotExistException If some instructor does not exist in the
+     *                                     course.
      */
     public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
             throws EntityDoesNotExistException {
@@ -222,12 +244,15 @@ public class Logic {
     /**
      * Creates an instructor.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the created instructor
-     * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database
+     * @throws InvalidParametersException   if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the
+     *                                      database
      */
     public InstructorAttributes createInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -237,9 +262,12 @@ public class Logic {
     }
 
     /**
-     * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
+     * This method should be used by admin only since the searching does not
+     * restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin
+     * to
      * search instructors in the whole system.
+     * 
      * @return Null if no match found.
      */
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
@@ -259,11 +287,14 @@ public class Logic {
     }
 
     /**
-     * Update instructor being edited to ensure validity of instructors for the course.
+     * Update instructor being edited to ensure validity of instructors for the
+     * course.
      *
-     * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes)
+     * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String,
+     *      InstructorAttributes)
      */
-    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId,
+            InstructorAttributes instructorToEdit) {
 
         assert courseId != null;
         assert instructorToEdit != null;
@@ -274,6 +305,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return null if not found.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
@@ -287,6 +319,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return null if not found.
      */
     public InstructorAttributes getInstructorById(String courseId, String email) {
@@ -300,6 +333,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return null if not found.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
@@ -313,6 +347,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return null if not found.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String registrationKey) {
@@ -325,6 +360,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return Empty list if none found.
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
@@ -344,6 +380,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return Empty list if none found.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
@@ -359,15 +396,19 @@ public class Logic {
     }
 
     /**
-     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
+     * Updates an instructor by
+     * {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
      *
-     * <p>Cascade update the comments, responses and deadline extensions associated with the instructor.
+     * <p>
+     * Cascade update the comments, responses and deadline extensions associated
+     * with the instructor.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated instructor
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the instructor cannot be found
      */
     public InstructorAttributes updateInstructorCascade(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
@@ -380,11 +421,12 @@ public class Logic {
     /**
      * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithEmail}.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated instructor
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the instructor cannot be found
      */
     public InstructorAttributes updateInstructor(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
@@ -395,7 +437,8 @@ public class Logic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
+     * Make the instructor join the course, i.e. associate the Google ID to the
+     * instructor.<br>
      * Creates an account for the instructor if no existing account is found.
      * Preconditions: <br>
      * * Parameters regkey and googleId are non-null.
@@ -410,11 +453,14 @@ public class Logic {
     }
 
     /**
-     * Deletes an instructor cascade its associated feedback responses, deadline extensions and comments.
+     * Deletes an instructor cascade its associated feedback responses, deadline
+     * extensions and comments.
      *
-     * <p>Fails silently if the student does not exist.
+     * <p>
+     * Fails silently if the student does not exist.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void deleteInstructorCascade(String courseId, String email) {
@@ -428,9 +474,11 @@ public class Logic {
     /**
      * Creates a course and an associated instructor for the course.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null. <br/>
-     * * {@code instructorGoogleId} already has an account and instructor privileges.
+     * * {@code instructorGoogleId} already has an account and instructor
+     * privileges.
      */
     public void createCourseAndInstructor(String instructorGoogleId, CourseAttributes courseAttributes)
             throws EntityAlreadyExistsException, InvalidParametersException {
@@ -443,6 +491,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return null if not found.
      */
     public CourseAttributes getCourse(String courseId) {
@@ -465,7 +514,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Courses the given instructors is in except for courses in Recycle Bin.
+     * @return Courses the given instructors is in except for courses in Recycle
+     *         Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
@@ -488,13 +538,16 @@ public class Logic {
     /**
      * Updates a course by {@link CourseAttributes.UpdateOptions}.
      *
-     * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
+     * <p>
+     * If the {@code timezone} of the course is changed, cascade the change to its
+     * corresponding feedback sessions.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated course
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the course cannot be found
      */
     public CourseAttributes updateCourseCascade(CourseAttributes.UpdateOptions updateOptions)
@@ -507,10 +560,11 @@ public class Logic {
     /**
      * Changes the archive status of a course for an instructor.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
-     * @param courseId The course of which the archive status is to be changed
+     * @param courseId      The course of which the archive status is to be changed
      * @param archiveStatus The archive status to be set
      */
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
@@ -523,11 +577,14 @@ public class Logic {
     }
 
     /**
-     * Deletes a course cascade its students, instructors, sessions, responses, deadline extensions and comments.
+     * Deletes a course cascade its students, instructors, sessions, responses,
+     * deadline extensions and comments.
      *
-     * <p>Fails silently if no such course.
+     * <p>
+     * Fails silently if no such course.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void deleteCourseCascade(String courseId) {
@@ -538,7 +595,8 @@ public class Logic {
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return the deletion timestamp assigned to the course.
@@ -552,7 +610,8 @@ public class Logic {
      * Restores a course and all data related to the course from Recycle Bin by
      * its given corresponding ID.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void restoreCourseFromRecycleBin(String courseId)
@@ -564,8 +623,9 @@ public class Logic {
 
     /**
      * Search for students. Preconditions: all parameters are non-null.
-     * @param instructors   a list of InstructorAttributes associated to a googleId,
-     *                      used for filtering of search result
+     * 
+     * @param instructors a list of InstructorAttributes associated to a googleId,
+     *                    used for filtering of search result
      * @return Null if no match found
      */
     public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
@@ -576,9 +636,12 @@ public class Logic {
     }
 
     /**
-     * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
+     * This method should be used by admin only since the searching does not
+     * restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin
+     * to
      * search students in the whole system.
+     * 
      * @return Null if no match found.
      */
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
@@ -650,6 +713,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @return Empty list if none found.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
@@ -660,7 +724,8 @@ public class Logic {
     /**
      * Returns a list of section names for the course with ID courseId.
      *
-     * <p>Preconditions: <br>
+     * <p>
+     * Preconditions: <br>
      * * All parameters are non-null.
      *
      * @see CoursesLogic#getSectionsNameForCourse(String)
@@ -673,15 +738,19 @@ public class Logic {
     /**
      * Populates fields that need dynamic generation in a question.
      *
-     * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
+     * <p>
+     * Currently, only MCQ/MSQ needs to generate choices dynamically.
+     * </p>
      *
-     * <br/> Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters except <code>teamOfEntityDoingQuestion</code> are non-null.
      *
      * @param feedbackQuestionAttributes the question to populate
      * @param emailOfEntityDoingQuestion the email of the entity doing the question
-     * @param teamOfEntityDoingQuestion the team of the entity doing the question. If the entity is an instructor,
-     *                                  it can be {@code null}.
+     * @param teamOfEntityDoingQuestion  the team of the entity doing the question.
+     *                                   If the entity is an instructor,
+     *                                   it can be {@code null}.
      */
     public void populateFieldsToGenerateInQuestion(FeedbackQuestionAttributes feedbackQuestionAttributes,
             String emailOfEntityDoingQuestion, String teamOfEntityDoingQuestion) {
@@ -695,7 +764,8 @@ public class Logic {
     /**
      * Resets the googleId associated with the student.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void resetStudentGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
@@ -706,12 +776,14 @@ public class Logic {
     }
 
     /**
-     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the instructor with email address
+     * {@code email} in course {@code courseId}.
      *
      * @return the instructor attributes with the new registration key.
-     * @throws EntityAlreadyExistsException if the newly generated instructor has the same registration key as the
-     *          original one.
-     * @throws EntityDoesNotExistException if the instructor does not exist.
+     * @throws EntityAlreadyExistsException if the newly generated instructor has
+     *                                      the same registration key as the
+     *                                      original one.
+     * @throws EntityDoesNotExistException  if the instructor does not exist.
      */
     public InstructorAttributes regenerateInstructorRegistrationKey(String courseId, String email)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -723,12 +795,14 @@ public class Logic {
     }
 
     /**
-     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the student with email address
+     * {@code email} in course {@code courseId}.
      *
      * @return the student attributes with the new registration key.
-     * @throws EntityAlreadyExistsException if the newly generated course student has the same registration key as the
-     *          original one.
-     * @throws EntityDoesNotExistException if the student does not exist.
+     * @throws EntityAlreadyExistsException if the newly generated course student
+     *                                      has the same registration key as the
+     *                                      original one.
+     * @throws EntityDoesNotExistException  if the student does not exist.
      */
     public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -753,8 +827,9 @@ public class Logic {
      * Creates a student.
      *
      * @return the created student.
-     * @throws InvalidParametersException if the student is not valid.
-     * @throws EntityAlreadyExistsException if the student already exists in the database.
+     * @throws InvalidParametersException   if the student is not valid.
+     * @throws EntityAlreadyExistsException if the student already exists in the
+     *                                      database.
      */
     public StudentAttributes createStudent(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -767,21 +842,29 @@ public class Logic {
     /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *
-     * <p>If email changed, update by recreating the student and cascade update all responses
-     * the student gives/receives as well as any deadline extensions given to the student.
+     * <p>
+     * If email changed, update by recreating the student and cascade update all
+     * responses
+     * the student gives/receives as well as any deadline extensions given to the
+     * student.
      *
-     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     * <p>
+     * If team changed, cascade delete all responses the student gives/receives
+     * within that team.
      *
-     * <p>If section changed, cascade update all responses the student gives/receives.
+     * <p>
+     * If section changed, cascade update all responses the student gives/receives.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated student
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws InvalidParametersException   if attributes to update are not valid
+     * @throws EntityDoesNotExistException  if the student cannot be found
      * @throws EntityAlreadyExistsException if the student cannot be updated
-     *         by recreation because of an existent student
+     *                                      by recreation because of an existent
+     *                                      student
      */
     public StudentAttributes updateStudentCascade(StudentAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -792,10 +875,12 @@ public class Logic {
     }
 
     /**
-     * Make the student join the course, i.e. associate the Google ID to the student.<br>
+     * Make the student join the course, i.e. associate the Google ID to the
+     * student.<br>
      * Create an account for the student if no existing account is found.
      * Preconditions: <br>
      * * All parameters are non-null.
+     * 
      * @param key the registration key
      */
     public StudentAttributes joinCourseForStudent(String key, String googleId)
@@ -816,7 +901,10 @@ public class Logic {
     /**
      * Checks whether an instructor has attempted a feedback session.
      *
-     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
+     * <p>
+     * If there is no question for instructors, the feedback session is considered
+     * as attempted.
+     * </p>
      */
     public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSessionAttributes fsa, String userEmail) {
         assert fsa != null;
@@ -827,9 +915,13 @@ public class Logic {
     /**
      * Checks whether a student has attempted a feedback session.
      *
-     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
+     * <p>
+     * If there is no question for students, the feedback session is considered as
+     * attempted.
+     * </p>
      */
-    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSessionAttributes fsa, String userEmail,
+            String userTeam) {
         assert fsa != null;
         assert userEmail != null;
         assert userTeam != null;
@@ -837,11 +929,14 @@ public class Logic {
     }
 
     /**
-     * Deletes a student cascade its associated feedback responses, deadline extensions and comments.
+     * Deletes a student cascade its associated feedback responses, deadline
+     * extensions and comments.
      *
-     * <p>Fails silently if the student does not exist.
+     * <p>
+     * Fails silently if the student does not exist.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void deleteStudentCascade(String courseId, String studentEmail) {
@@ -852,9 +947,11 @@ public class Logic {
     }
 
     /**
-     * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
+     * Deletes all the students in the course cascade their associated responses,
+     * deadline extensions and comments.
      *
-     * <br/>Preconditions: <br>
+     * <br/>
+     * Preconditions: <br>
      * * All parameters are non-null.
      */
     public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
@@ -864,9 +961,11 @@ public class Logic {
     }
 
     /**
-     * Validates sections for any limit violations and teams for any team name violations.
+     * Validates sections for any limit violations and teams for any team name
+     * violations.
      *
-     * <p>Preconditions: <br>
+     * <p>
+     * Preconditions: <br>
      * * All parameters are non-null.
      *
      * @see StudentsLogic#validateSectionsAndTeams(List, String)
@@ -901,11 +1000,12 @@ public class Logic {
     /**
      * Creates a feedback session.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return created feedback session
-     * @throws InvalidParametersException if the session is not valid
+     * @throws InvalidParametersException   if the session is not valid
      * @throws EntityAlreadyExistsException if the session already exist
      */
     public FeedbackSessionAttributes createFeedbackSession(FeedbackSessionAttributes feedbackSession)
@@ -918,7 +1018,8 @@ public class Logic {
     /**
      * Gets a feedback session from the data storage.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return null if not found or in recycle bin.
@@ -934,7 +1035,8 @@ public class Logic {
     /**
      * Gets a feedback session from the recycle bin.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return null if not found.
@@ -958,7 +1060,8 @@ public class Logic {
     /**
      * Gets the expected number of submissions for a feedback session.
      *
-     * <br>Preconditions: <br>
+     * <br>
+     * Preconditions: <br>
      * * All parameters are non-null.
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
@@ -969,7 +1072,8 @@ public class Logic {
     /**
      * Gets the actual number of submissions for a feedback session.
      *
-     * <br>Preconditions: <br>
+     * <br>
+     * Preconditions: <br>
      * * All parameters are non-null.
      */
     public int getActualTotalSubmission(FeedbackSessionAttributes fsa) {
@@ -987,7 +1091,8 @@ public class Logic {
     }
 
     /**
-     * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
+     * Returns a {@code List} of feedback sessions in the Recycle Bin for the
+     * instructors.
      * <br>
      * Omits sessions if the corresponding courses are archived or in Recycle Bin
      */
@@ -1042,19 +1147,23 @@ public class Logic {
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructorEmail);
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId,
+                instructorEmail);
     }
 
     /**
-     * Updates the details of a feedback session by {@link FeedbackSessionAttributes.UpdateOptions}.
+     * Updates the details of a feedback session by
+     * {@link FeedbackSessionAttributes.UpdateOptions}.
      *
-     * <p>Adjust email sending status if necessary.
+     * <p>
+     * Adjust email sending status if necessary.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated feedback session
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
     public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
@@ -1067,12 +1176,13 @@ public class Logic {
     /**
      * Publishes a feedback session.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return the published feedback session
      * @throws EntityDoesNotExistException if the feedback session cannot be found
-     * @throws InvalidParametersException if session is already published
+     * @throws InvalidParametersException  if session is already published
      */
     public FeedbackSessionAttributes publishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -1086,13 +1196,15 @@ public class Logic {
     /**
      * Unpublishes a feedback session.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return the unpublished feedback session
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      * @throws InvalidParametersException
-     *             if the feedback session is not ready to be unpublished.
+     *                                     if the feedback session is not ready to
+     *                                     be unpublished.
      */
     public FeedbackSessionAttributes unpublishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -1104,9 +1216,11 @@ public class Logic {
     }
 
     /**
-     * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
+     * Deletes a feedback session cascade to its associated questions, responses,
+     * deadline extensions and comments.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
@@ -1144,7 +1258,8 @@ public class Logic {
     /**
      * Creates a new feedback question.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return the created question
@@ -1158,20 +1273,25 @@ public class Logic {
     }
 
     /**
-     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     * Updates a feedback question by
+     * {@code FeedbackQuestionAttributes.UpdateOptions}.
      *
-     * <p>Cascade adjust the question number of questions in the same session.
+     * <p>
+     * Cascade adjust the question number of questions in the same session.
      *
-     * <p>Cascade adjust the existing response of the question.
+     * <p>
+     * Cascade adjust the existing response of the question.
      *
-     * <br/> Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated feedback question
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the feedback question cannot be found
      */
-    public FeedbackQuestionAttributes updateFeedbackQuestionCascade(FeedbackQuestionAttributes.UpdateOptions updateOptions)
+    public FeedbackQuestionAttributes updateFeedbackQuestionCascade(
+            FeedbackQuestionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
@@ -1181,9 +1301,11 @@ public class Logic {
     /**
      * Deletes a feedback question cascade its responses and comments.
      *
-     * <p>Silently fail if question does not exist.
+     * <p>
+     * Silently fail if question does not exist.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void deleteFeedbackQuestionCascade(String questionId) {
@@ -1194,7 +1316,8 @@ public class Logic {
     /**
      * Checks whether there are responses for a question.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
@@ -1208,7 +1331,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName, String courseId) {
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName,
+            String courseId) {
         assert feedbackSessionName != null;
         assert courseId != null;
 
@@ -1216,7 +1340,8 @@ public class Logic {
     }
 
     /**
-     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     * Gets a set of giver identifiers that has at least one response under a
+     * feedback session.
      */
     public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
         assert courseId != null;
@@ -1229,7 +1354,7 @@ public class Logic {
      * Gets the session result for a feedback session.
      *
      * @see FeedbackResponsesLogic#getSessionResultsForCourse(
-     * String, String, String, String, String, FeedbackResultFetchType)
+     *      String, String, String, String, String, FeedbackResultFetchType)
      */
     public SessionResultsBundle getSessionResultsForCourse(
             String feedbackSessionName, String courseId, String userEmail,
@@ -1245,7 +1370,8 @@ public class Logic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForUser(String, String, String, boolean, String, boolean)
+     * @see FeedbackResponsesLogic#getSessionResultsForUser(String, String, String,
+     *      boolean, String, boolean)
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
@@ -1259,7 +1385,8 @@ public class Logic {
     }
 
     /**
-     * Get existing feedback responses from student or his team for the given question.
+     * Get existing feedback responses from student or his team for the given
+     * question.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
             FeedbackQuestionAttributes question, StudentAttributes student) {
@@ -1289,11 +1416,12 @@ public class Logic {
     /**
      * Creates a feedback response.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return created feedback response
-     * @throws InvalidParametersException if the response is not valid
+     * @throws InvalidParametersException   if the response is not valid
      * @throws EntityAlreadyExistsException if the response already exist
      */
     public FeedbackResponseAttributes createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
@@ -1308,24 +1436,31 @@ public class Logic {
     }
 
     /**
-     * Updates a feedback response by {@link FeedbackResponseAttributes.UpdateOptions}.
+     * Updates a feedback response by
+     * {@link FeedbackResponseAttributes.UpdateOptions}.
      *
-     * <p>Cascade updates its associated feedback response comment
+     * <p>
+     * Cascade updates its associated feedback response comment
      * (e.g. associated response ID, giverSection and recipientSection).
      *
-     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * <p>
+     * If the giver/recipient field is changed, the response is updated by
+     * recreating the response
      * as question-giver-recipient is the primary key.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated feedback response
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws InvalidParametersException   if attributes to update are not valid
+     * @throws EntityDoesNotExistException  if the comment cannot be found
      * @throws EntityAlreadyExistsException if the response cannot be updated
-     *         by recreation because of an existent response
+     *                                      by recreation because of an existent
+     *                                      response
      */
-    public FeedbackResponseAttributes updateFeedbackResponseCascade(FeedbackResponseAttributes.UpdateOptions updateOptions)
+    public FeedbackResponseAttributes updateFeedbackResponseCascade(
+            FeedbackResponseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         assert updateOptions != null;
 
@@ -1335,7 +1470,8 @@ public class Logic {
     /**
      * Deletes a feedback response and cascades its associated comments.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public void deleteFeedbackResponseCascade(String responseId) {
@@ -1346,7 +1482,8 @@ public class Logic {
     /**
      * Create a feedback response comment, and return the created comment.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      */
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(
@@ -1365,7 +1502,9 @@ public class Logic {
     /**
      * Gets comment associated with the response.
      *
-     * <p>The comment is given by a feedback participant to explain the response</p>
+     * <p>
+     * The comment is given by a feedback participant to explain the response
+     * </p>
      *
      * @param feedbackResponseId the response id
      */
@@ -1377,13 +1516,15 @@ public class Logic {
     }
 
     /**
-     * Updates a feedback response comment by {@link FeedbackResponseCommentAttributes.UpdateOptions}.
+     * Updates a feedback response comment by
+     * {@link FeedbackResponseCommentAttributes.UpdateOptions}.
      *
-     * <br/>Preconditions: <br/>
+     * <br/>
+     * Preconditions: <br/>
      * * All parameters are non-null.
      *
      * @return updated comment
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
@@ -1419,7 +1560,8 @@ public class Logic {
     }
 
     /**
-     * Returns a list of sessions that require automated emails to be sent as they are published.
+     * Returns a list of sessions that require automated emails to be sent as they
+     * are published.
      *
      * @see FeedbackSessionsLogic#getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent()
      */
@@ -1467,10 +1609,13 @@ public class Logic {
     /**
      * Verifies that all the given students exist in the given course.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
-     * @throws EntityDoesNotExistException If some student does not exist in the course.
+     * @throws EntityDoesNotExistException If some student does not exist in the
+     *                                     course.
      */
     public void verifyAllStudentsExistInCourse(String courseId, Collection<String> studentEmailAddresses)
             throws EntityDoesNotExistException {
@@ -1490,11 +1635,13 @@ public class Logic {
     /**
      * Creates an account request.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the created account request
-     * @throws InvalidParametersException if the account request is not valid
+     * @throws InvalidParametersException   if the account request is not valid
      * @throws EntityAlreadyExistsException if the account request already exists
      */
     public AccountRequestAttributes createAccountRequest(AccountRequestAttributes accountRequest)
@@ -1507,12 +1654,15 @@ public class Logic {
     /**
      * Updates an account request.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the updated account request
-     * @throws InvalidParametersException if the account request is not valid
-     * @throws EntityDoesNotExistException if the account request to update does not exist
+     * @throws InvalidParametersException  if the account request is not valid
+     * @throws EntityDoesNotExistException if the account request to update does not
+     *                                     exist
      */
     public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -1524,7 +1674,9 @@ public class Logic {
     /**
      * Deletes an account request.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      */
     public void deleteAccountRequest(String email, String institute) {
@@ -1536,7 +1688,9 @@ public class Logic {
     /**
      * Gets an account request by unique constraint {@code registrationKey}.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the account request
@@ -1550,7 +1704,9 @@ public class Logic {
     /**
      * Gets an account request by email address and institute.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the account request
@@ -1565,7 +1721,8 @@ public class Logic {
     /**
      * This is used by admin to search account requests in the whole system.
      *
-     * @return A list of {@link AccountRequestAttributes} or {@code null} if no match found.
+     * @return A list of {@link AccountRequestAttributes} or {@code null} if no
+     *         match found.
      */
     public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
@@ -1606,12 +1763,16 @@ public class Logic {
     /**
      * Updates a deadline extension.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the updated deadline extension
-     * @throws InvalidParametersException if the updated deadline extension is not valid
-     * @throws EntityDoesNotExistException if the deadline extension to update does not exist
+     * @throws InvalidParametersException  if the updated deadline extension is not
+     *                                     valid
+     * @throws EntityDoesNotExistException if the deadline extension to update does
+     *                                     not exist
      */
     public DeadlineExtensionAttributes updateDeadlineExtension(DeadlineExtensionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -1623,12 +1784,15 @@ public class Logic {
     /**
      * Creates a deadline extension.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the created deadline extension
-     * @throws InvalidParametersException if the deadline extension is not valid
-     * @throws EntityAlreadyExistsException if the deadline extension to create already exists
+     * @throws InvalidParametersException   if the deadline extension is not valid
+     * @throws EntityAlreadyExistsException if the deadline extension to create
+     *                                      already exists
      */
     public DeadlineExtensionAttributes createDeadlineExtension(DeadlineExtensionAttributes deadlineExtension)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -1640,10 +1804,14 @@ public class Logic {
     /**
      * Deletes a deadline extension.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
-     * <p>Fails silently if the deadline extension doesn't exist.</p>
+     * <p>
+     * Fails silently if the deadline extension doesn't exist.
+     * </p>
      */
     public void deleteDeadlineExtension(
             String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
@@ -1658,7 +1826,9 @@ public class Logic {
      * Gets a deadline extension by {@code courseId}, {@code feedbackSessionName},
      * {@code userEmail} and {@code isInstructor}.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * All parameters are non-null.
      *
      * @return the deadline extension if it exists, null otherwise

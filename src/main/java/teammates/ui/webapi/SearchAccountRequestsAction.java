@@ -23,14 +23,16 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
         try {
             accountRequests = sqlLogic.searchAccountRequestsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
+            int statusCode = determineStatusCodeBasedOnException(e);
+            return new JsonResult(e.getMessage(), statusCode);
         }
 
         List<AccountRequestAttributes> requestsDatastore;
         try {
             requestsDatastore = logic.searchAccountRequestsInWholeSystem(searchKey);
         } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
+            int statusCode = determineStatusCodeBasedOnException(e);
+            return new JsonResult(e.getMessage(), statusCode);
         }
 
         List<AccountRequestData> accountRequestDataList = new ArrayList<>();
@@ -50,5 +52,10 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
         accountRequestsData.setAccountRequests(accountRequestDataList);
 
         return new JsonResult(accountRequestsData);
+    }
+
+    private int determineStatusCodeBasedOnException(SearchServiceException e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'determineStatusCodeBasedOnException'");
     }
 }

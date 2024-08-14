@@ -248,22 +248,59 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    public void execute_searchBySubstring_success() {
+    public void execute_adminSearchBySubstring_success() {
         if (!TestProperties.isSearchServiceActive()) {
             return;
         }
 
-        String[] substringSearchParams = new String[] {
-                Const.ParamsNames.SEARCH_KEY, "Campos",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        loginAsAdmin();
+        String[] accSubstringParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "ohn",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
-
-        SearchStudentsAction a = getAction(substringSearchParams);
+        SearchStudentsAction a = getAction(accSubstringParams);
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertTrue(response.getStudents().stream()
-                .anyMatch(student -> student.getName().equals("Amanda Campos")));
+        assertEquals(2, response.getStudents().size());
+    }
+
+    @Test
+    public void execute_adminSearchNoResults_noMatch() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        loginAsAdmin();
+        String[] accNoResultsParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "NonExistentStudent",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
+        };
+        SearchStudentsAction a = getAction(accNoResultsParams);
+        JsonResult result = getJsonResult(a);
+        StudentsData response = (StudentsData) result.getOutput();
+
+        // Verifica se nenhum estudante foi encontrado
+        assertEquals(0, response.getStudents().size());
+    }
+
+    @Test
+    public void execute_adminSearchCaseInsensitive_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        loginAsAdmin();
+        String[] accCaseInsensitiveParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "john",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
+        };
+        SearchStudentsAction a = getAction(accCaseInsensitiveParams);
+        JsonResult result = getJsonResult(a);
+        StudentsData response = (StudentsData) result.getOutput();
+
+        // Verifica se a busca é insensível a maiúsculas/minúsculas
+        assertEquals(1, response.getStudents().size());
     }
 
     @Override
