@@ -44,40 +44,39 @@ export class AdminHomePageComponent implements OnInit {
   /**
    * Validates and adds the instructor details filled with first form.
    */
-  validateAndAddInstructorDetails(): void {
-    const invalidLines: string[] = [];
-    for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
-      const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
-      if (instructorDetailSplit.length < 3) {
-        // TODO handle error
-        invalidLines.push(instructorDetail);
-        continue;
-      }
-      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
-        // TODO handle error
-        invalidLines.push(instructorDetail);
-        continue;
-      }
+validateAndAddInstructorDetails(): void {
+    const lines: string[] = this.instructorDetails.split(/\r?\n/);
+    const accountRequests: Promise<void>[] = [];
+    for (const line of lines) {
+      const instructorDetailsSplit: string[] = line.split(/[|\t]/).map((item: string) => item.trim());
 
       const requestData: AccountCreateRequest = {
-        instructorEmail: instructorDetailSplit[1],
-        instructorName: instructorDetailSplit[0],
-        instructorInstitution: instructorDetailSplit[2],
+        instructorEmail: instructorDetailsSplit[1],
+        instructorName: instructorDetailsSplit[0],
+        instructorInstitution: instructorDetailsSplit[2],
       };
 
-      this.accountService.createAccountRequest(requestData)
-      .subscribe({
-        next: () => {
-          this.fetchAccountRequests();
-        },
-        error: (resp: ErrorMessageOutput) => {
-          invalidLines.push(instructorDetail);
-          this.instructorDetails = invalidLines.join('\r\n');
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
+      const newRequest: Promise<void> = new Promise((resolve, reject) => {
+        this.accountService.createAccountRequest(requestData)
+        .subscribe({
+          next: () => {
+            lines.splice(lines.indexOf(line), 1);
+            resolve();
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            reject();
+          },
+        });
       });
+
+      accountRequests.push(newRequest);
     }
-    this.instructorDetails = invalidLines.join('\r\n');
+
+    Promise.allSettled(accountRequests).then(() => {
+      this.instructorDetails = lines.join('\r\n');
+      this.fetchAccountRequests();
+    });
   }
 
   /**
