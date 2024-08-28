@@ -94,7 +94,7 @@ export class AdminHomePageComponent implements OnInit {
       if (errorMessage !== '') {
         invalidLines.push(line);
         this.statusMessageService.showErrorToast(errorMessage);
-        break;
+        continue;
       }
 
       const requestData: AccountCreateRequest = {
