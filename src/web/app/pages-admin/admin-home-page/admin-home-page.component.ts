@@ -44,8 +44,9 @@ export class AdminHomePageComponent implements OnInit {
   /**
    * Validates and adds the instructor details filled with first form.
    */
-validateAndAddInstructorDetails(): void {
+  validateAndAddInstructorDetails(): void {
     const lines: string[] = this.instructorDetails.split(/\r?\n/);
+    const invalidLines: string[] = [];
     const accountRequests: Promise<void>[] = [];
     for (const line of lines) {
       const instructorDetailsSplit: string[] = line.split(/[|\t]/).map((item: string) => item.trim());
@@ -60,10 +61,10 @@ validateAndAddInstructorDetails(): void {
         this.accountService.createAccountRequest(requestData)
         .subscribe({
           next: () => {
-            lines.splice(lines.indexOf(line), 1);
             resolve();
           },
           error: (resp: ErrorMessageOutput) => {
+            invalidLines.push(line);
             this.statusMessageService.showErrorToast(resp.error.message);
             reject();
           },
@@ -74,7 +75,7 @@ validateAndAddInstructorDetails(): void {
     }
 
     Promise.allSettled(accountRequests).then(() => {
-      this.instructorDetails = lines.join('\r\n');
+      this.instructorDetails = invalidLines.join('\r\n');
       this.fetchAccountRequests();
     });
   }
