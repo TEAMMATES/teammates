@@ -50,6 +50,52 @@ export class AdminHomePageComponent implements OnInit {
     const accountRequests: Promise<void>[] = [];
     for (const line of lines) {
       const instructorDetailsSplit: string[] = line.split(/[|\t]/).map((item: string) => item.trim());
+      let errorMessage = '';
+      switch (instructorDetailsSplit.length) {
+        case 1:
+          // Triggers when instructorDetails is empty
+          if (!instructorDetailsSplit[0]) {
+            continue;
+          }
+
+          invalidLines.push(line);
+          this.statusMessageService.showErrorToast('email cannot be null');
+          continue;
+        case 2:
+          invalidLines.push(line);
+          this.statusMessageService.showErrorToast('institution cannot be null');
+          continue;
+        case 3:
+          break;
+        default:
+          invalidLines.push(line);
+          this.statusMessageService.showErrorToast('Too many fields, please check that all lines contains only a '
+            + 'name, email and institution.');
+          continue;
+      }
+
+      // Update the character numbers if it changes in the backend.
+      if (!instructorDetailsSplit[0]) {
+        errorMessage = 'The field \'person name\' is empty. '
+        + 'The value of a/an person name should be no longer than 100 characters. '
+        + 'It should not be empty.\n';
+      }
+      if (!instructorDetailsSplit[1]) {
+        errorMessage += 'The field \'email\' is empty. '
+        + 'An email address contains some text followed by one \'@\' sign followed by some more text, '
+        + 'and should end with a top level domain address like .com. '
+        + 'It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.\n';
+      }
+      if (!instructorDetailsSplit[2]) {
+        errorMessage += 'The field \'institute name\' is empty. '
+        + 'The value of a/an institute name should be no longer than 128 characters. '
+        + 'It should not be empty.';
+      }
+      if (errorMessage !== '') {
+        invalidLines.push(line);
+        this.statusMessageService.showErrorToast(errorMessage);
+        break;
+      }
 
       const requestData: AccountCreateRequest = {
         instructorEmail: instructorDetailsSplit[1],
