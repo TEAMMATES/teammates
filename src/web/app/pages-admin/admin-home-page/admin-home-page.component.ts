@@ -44,7 +44,7 @@ export class AdminHomePageComponent implements OnInit {
   /**
    * Validates and adds the instructor details filled with first form.
    */
-  validateAndAddInstructorDetails(): void {
+  validateAndAddInstructorDetails(): Promise<void> {
     const lines: string[] = this.instructorDetails.split(/\r?\n/);
     const invalidLines: string[] = [];
     const accountRequests: Promise<void>[] = [];
@@ -74,7 +74,7 @@ export class AdminHomePageComponent implements OnInit {
       accountRequests.push(newRequest);
     }
 
-    Promise.allSettled(accountRequests).then(() => {
+    return Promise.allSettled(accountRequests).then(() => {
       this.instructorDetails = invalidLines.join('\r\n');
       this.fetchAccountRequests();
     });
