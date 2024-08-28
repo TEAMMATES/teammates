@@ -2,19 +2,20 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder } from '../../../test-helpers/generic-builder';
-import { AccountRequest, AccountRequests, AccountRequestStatus } from '../../../types/api-output';
+import { AccountRequest, AccountRequests, AccountRequestStatus, MessageOutput } from '../../../types/api-output';
 import { AccountCreateRequest } from '../../../types/api-request';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 const accountCreateRequestBuilder = createBuilder<AccountCreateRequest>({
   instructorEmail: '',
@@ -30,6 +31,15 @@ const accountRequestBuilder = createBuilder<AccountRequest>({
   registrationKey: '',
   status: AccountRequestStatus.PENDING,
   createdAt: 0,
+});
+
+const messageOutputBuilder = createBuilder<MessageOutput>({
+  message: '',
+});
+
+const errorMessageOutputBuilder = createBuilder<ErrorMessageOutput>({
+  error: messageOutputBuilder.build(),
+  status: 0,
 });
 
 const accountRequestTableRowModelBuilder = createBuilder<AccountRequestTableRowModel>({
@@ -175,7 +185,17 @@ describe('AdminHomePageComponent', () => {
       .instructorInstitution('Institution D')
       .build();
 
-    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest');
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest')
+      .mockImplementation((request) => {
+        switch (request.instructorEmail) {
+          case accountCreateRequestA.instructorEmail:
+            return of(accountRequestBuilder.build());
+          case accountCreateRequestD.instructorEmail:
+            return of(accountRequestBuilder.build());
+          default:
+            return throwError(() => errorMessageOutputBuilder.build());
+        }
+      });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
@@ -246,7 +266,17 @@ describe('AdminHomePageComponent', () => {
       .instructorInstitution('Institution B')
       .build();
 
-    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest');
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest')
+      .mockImplementation((request) => {
+        switch (request.instructorEmail) {
+          case accountCreateRequestA.instructorEmail:
+            return of(accountRequestBuilder.build());
+          case accountCreateRequestB.instructorEmail:
+            return of(accountRequestBuilder.build());
+          default:
+            return throwError(() => errorMessageOutputBuilder.build());
+        }
+      });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
@@ -275,7 +305,17 @@ describe('AdminHomePageComponent', () => {
       .instructorInstitution('Institution B')
       .build();
 
-    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest');
+    const createAccountRequestSpy = jest.spyOn(accountService, 'createAccountRequest')
+      .mockImplementation((request) => {
+        switch (request.instructorEmail) {
+          case accountCreateRequestA.instructorEmail:
+            return of(accountRequestBuilder.build());
+          case accountCreateRequestB.instructorEmail:
+            return of(accountRequestBuilder.build());
+          default:
+            return throwError(() => errorMessageOutputBuilder.build());
+        }
+      });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
