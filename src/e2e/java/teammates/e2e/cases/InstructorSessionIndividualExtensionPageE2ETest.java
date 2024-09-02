@@ -58,7 +58,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         ______TS("verify extend some deadlines, notifyUsers enabled");
 
-        individualExtensionPage.selectStudents(0, 2); // alice and charlie
+        individualExtensionPage.selectStudents(0, 3); // alice and charlie
         individualExtensionPage.selectInstructor(0); // instructor 1
 
         individualExtensionPage.extendDeadlineByTwelveHours(true);
@@ -69,7 +69,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         Map<String, Instant> updatedInstructorDeadlines = updatedSession.getInstructorDeadlines();
         Instant expectedDeadline = feedbackSession.getEndTime().plus(Duration.ofHours(12));
 
-        verifyUpdatedDeadlinesMap(updatedStudentDeadlines, TestProperties.TEST_EMAIL, "charlie.tmms@gmail.tmt");
+        verifyUpdatedDeadlinesMap(updatedStudentDeadlines, testEmail, "charlie.tmms@gmail.tmt");
         verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
         verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
 
@@ -92,7 +92,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         updatedStudentDeadlines = updatedSession.getStudentDeadlines();
         updatedInstructorDeadlines = updatedSession.getInstructorDeadlines();
 
-        verifyUpdatedDeadlinesMap(updatedStudentDeadlines, TestProperties.TEST_EMAIL, "charlie.tmms@gmail.tmt");
+        verifyUpdatedDeadlinesMap(updatedStudentDeadlines, testEmail, "charlie.tmms@gmail.tmt");
         verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
         verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
 
