@@ -17,6 +17,7 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -128,6 +129,20 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
         </div>
       </div>
     </div>
+  </div><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
   </div><tm-loading-retry>
     <div>
       <div
@@ -165,6 +180,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -277,6 +293,20 @@ exports[`SessionResultPageComponent should snap when session results failed to l
         </div>
       </div>
     </div>
+  </div><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
   </div><tm-loading-retry>
     <div
       class="text-center"
@@ -317,6 +347,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -429,6 +460,20 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
         </div>
       </div>
     </div>
+  </div><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
   </div><tm-loading-retry>
     <div>
       <div
@@ -466,6 +511,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -578,6 +624,20 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </div>
+  </div><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
   </div><tm-loading-retry>
     <div>
       <div
@@ -615,6 +675,7 @@ exports[`SessionResultPageComponent should snap with session details and results
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -676,7 +737,21 @@ exports[`SessionResultPageComponent should snap with session details and results
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
+  </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -713,6 +788,7 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -825,6 +901,20 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
         </div>
       </div>
     </div>
+  </div><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
   </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
@@ -862,6 +952,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -975,6 +1066,20 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
         </div>
       </div>
     </div>
+  </div><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
   </div><tm-loading-retry>
     <div>
       <div
@@ -1012,6 +1117,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  hideSelfResponses="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -1124,6 +1230,20 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
         </div>
       </div>
     </div>
+  </div><div
+    class="form-check form-switch"
+  >
+    <input
+      class="form-check-input"
+      id="hideOwnResponses"
+      type="checkbox"
+    />
+    <label
+      class="form-check-label"
+      for="hideOwnResponses"
+    >
+      Hide my own responses
+    </label>
   </div><tm-loading-retry>
     <div>
       <div
