@@ -183,8 +183,6 @@ export class InstructorRequestFormComponent {
 
       switzerland: 'Switzerland',
 
-      taiwan: 'Taiwan',
-
       turkey: 'Turkey',
       'republic of turkey': 'Turkey',
       'republic of türkiye': 'Turkey',
