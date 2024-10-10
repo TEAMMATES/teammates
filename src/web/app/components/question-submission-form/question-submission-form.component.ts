@@ -367,6 +367,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   triggerRecipientIdentifierChange(index: number, data: any): void {
     this.searchName[index] = "";
     this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
+    console.log("Select triggered");
+  }
+
+  triggerSelectInputChange(index: number){
+    this.model.recipientSubmissionForms[index].recipientIdentifier = "";
+    console.log(index + " input triggered");
   }
 
   /**

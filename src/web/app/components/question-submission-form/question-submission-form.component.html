@@ -80,7 +80,7 @@
                       <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
                     </ng-container>
                   </select>
-                  <input type="text" class="select-input fw-bold form-control" [ngModel]="searchName[i]"/>
+                  <input type="text" class="select-input fw-bold form-control" [(ngModel)]="searchName[i]" (ngModelChange)="triggerSelectInputChange(i)"/>
                 </div>
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})
