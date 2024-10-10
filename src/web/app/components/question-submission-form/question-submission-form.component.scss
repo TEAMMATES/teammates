@@ -54,3 +54,22 @@
 .collapse-caret {
   margin-right: 10px;
 }
+
+.select-editable {
+  position: relative;
+  border: 0;
+}
+
+.select-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 80%;
+  border: 0;
+  background-color: transparent;
+  padding: .75rem 1.5rem;
+}
+
+.select-input:focus {
+  box-shadow: none;
+}
