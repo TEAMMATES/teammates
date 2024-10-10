@@ -59,7 +59,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
 
-  searchName: string[] = [];
+  searchNameTexts: string[] = [];
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -96,7 +96,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
     this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
-    this.searchName = new Array(this.model.recipientSubmissionForms.length).fill("");
+    this.searchNameTexts = new Array(this.model.recipientSubmissionForms.length).fill("");
   }
 
   @Input()
@@ -323,6 +323,17 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.updateSubmissionFormIndexes();
   }
 
+  filterRecipientsBySearchText(searchText: string, recipients: FeedbackResponseRecipient[]): FeedbackResponseRecipient[]{
+    if (!searchText) return recipients;
+    let searchName = searchText.trim().toLowerCase();
+    if (searchName.length === 0) return recipients;
+    if (searchName.includes(" ")){
+      return recipients.filter(s=>s.recipientName.toLowerCase().includes(searchName));
+    }
+    
+    return recipients.filter(s=>s.recipientName.split(" ").some(s=>s.toLowerCase().startsWith(searchName)));
+  }
+
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
@@ -364,15 +375,19 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
   }
 
+  /**
+   * Triggers the changes of the recipient selection
+   */
   triggerRecipientIdentifierChange(index: number, data: any): void {
-    this.searchName[index] = "";
+    this.searchNameTexts[index] = "";
     this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
-    console.log("Select triggered");
   }
 
+  /**
+   * Triggers the changes of the recipient search text input
+   */
   triggerSelectInputChange(index: number){
     this.model.recipientSubmissionForms[index].recipientIdentifier = "";
-    console.log(index + " input triggered");
   }
 
   /**

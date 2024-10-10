@@ -76,11 +76,16 @@
                           [disabled]="isFormsDisabled"
                           [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i">
                     <option value=""></option>
-                    <ng-container *ngFor="let recipient of model.recipientList">
+                    <ng-container *ngFor="let recipient of filterRecipientsBySearchText(searchNameTexts[i],model.recipientList)">
                       <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
                     </ng-container>
                   </select>
-                  <input type="text" class="select-input fw-bold form-control" [(ngModel)]="searchName[i]" (ngModelChange)="triggerSelectInputChange(i)"/>
+                  <input type="text" class="select-input fw-bold form-control"
+                          [(ngModel)]="searchNameTexts[i]"
+                          (ngModelChange)="triggerSelectInputChange(i)"
+                          [disabled]="isFormsDisabled"
+                          [attr.aria-label]="'Recipient names filter ' + model.questionNumber + ' index ' + i"
+                          [ngClass]="filterRecipientsBySearchText(searchNameTexts[i],model.recipientList).length === 0 ? 'no-match' : ''" />
                 </div>
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})

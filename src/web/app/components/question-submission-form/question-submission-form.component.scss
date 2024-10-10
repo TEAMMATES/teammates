@@ -73,3 +73,7 @@
 .select-input:focus {
   box-shadow: none;
 }
+
+.no-match {
+  color: var(--bs-danger)
+}
