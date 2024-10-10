@@ -59,6 +59,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
 
+  searchName: string[] = [];
+
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
@@ -94,6 +96,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
     this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
+    this.searchName = new Array(this.model.recipientSubmissionForms.length).fill("");
   }
 
   @Input()
@@ -359,6 +362,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     return this.model.recipientSubmissionForms.some(
       (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
         recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
+  }
+
+  triggerRecipientIdentifierChange(index: number, data: any): void {
+    this.searchName[index] = "";
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
   }
 
   /**
