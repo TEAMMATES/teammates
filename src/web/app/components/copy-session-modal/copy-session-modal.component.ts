@@ -25,12 +25,25 @@ export class CopySessionModalComponent {
   newFeedbackSessionName: string = '';
   copyToCourseSet: Set<string> = new Set<string>();
 
+  errorMessage: string = '';
+
   constructor(public activeModal: NgbActiveModal) {}
+
+  onNameChange(): void {
+    this.errorMessage = '';
+  }
 
   /**
    * Fires the copy event.
    */
   copy(): void {
+    if (this.newFeedbackSessionName.trim().length === 0) {
+      this.errorMessage = "The field \"Name for copied session\" should not be whitespace.";
+      return;
+    }
+
+    this.errorMessage = '';
+
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
