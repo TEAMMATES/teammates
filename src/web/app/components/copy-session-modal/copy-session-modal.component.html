@@ -10,8 +10,11 @@
     <div class="col-12">
       <div class="form-group">
         <label><b>Name for copied session*</b></label>
-        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
+        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" (ngModelChange)="onNameChange()" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
                required #newSessionName="ngModel">
+        <div *ngIf="errorMessage" class="text-danger">
+          {{ errorMessage }}
+        </div>
         <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             The field "Name for copied session" should not be empty.
