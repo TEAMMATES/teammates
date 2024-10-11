@@ -96,7 +96,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
     this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
-    this.searchNameTexts = new Array(this.model.recipientSubmissionForms.length).fill("");
+    this.searchNameTexts = new Array(this.model.recipientSubmissionForms.length).fill('');
   }
 
   @Input()
@@ -323,15 +323,16 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.updateSubmissionFormIndexes();
   }
 
-  filterRecipientsBySearchText(searchText: string, recipients: FeedbackResponseRecipient[]): FeedbackResponseRecipient[]{
+  filterRecipientsBySearchText(searchText: string, recipients: FeedbackResponseRecipient[])
+  : FeedbackResponseRecipient[] {
     if (!searchText) return recipients;
-    let searchName = searchText.trim().toLowerCase();
+    const searchName = searchText.trim().toLowerCase();
     if (searchName.length === 0) return recipients;
-    if (searchName.includes(" ")){
-      return recipients.filter(s=>s.recipientName.toLowerCase().includes(searchName));
+    if (searchName.includes(' ')) {
+      return recipients.filter((s) => s.recipientName.toLowerCase().includes(searchName));
     }
     
-    return recipients.filter(s=>s.recipientName.split(" ").some(s=>s.toLowerCase().startsWith(searchName)));
+    return recipients.filter((r) => r.recipientName.split(' ').some((s) => s.toLowerCase().startsWith(searchName)));
   }
 
   private sortRecipientsBySectionTeam(): void {
@@ -386,8 +387,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   /**
    * Triggers the changes of the recipient search text input
    */
-  triggerSelectInputChange(index: number){
-    this.model.recipientSubmissionForms[index].recipientIdentifier = "";
+  triggerSelectInputChange(index: number): void {
+    this.model.recipientSubmissionForms[index].recipientIdentifier = '';
   }
 
   /**
