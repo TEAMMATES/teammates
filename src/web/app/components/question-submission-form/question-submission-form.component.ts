@@ -332,7 +332,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return recipients.filter((s) => s.recipientName.toLowerCase().includes(searchName));
     }
     
-    return recipients.filter((r) => r.recipientName.split(' ').some((s) => s.toLowerCase().startsWith(searchName)));
+    return recipients.filter((r) => r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
   }
 
   private sortRecipientsBySectionTeam(): void {
