@@ -331,7 +331,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (searchName.includes(' ')) {
       return recipients.filter((s) => s.recipientName.toLowerCase().includes(searchName));
     }
-    
     return recipients.filter((r) => r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
   }
 
@@ -380,7 +379,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the changes of the recipient selection
    */
   triggerRecipientIdentifierChange(index: number, data: any): void {
-    this.searchNameTexts[index] = "";
+    this.searchNameTexts[index] = '';
     this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
   }
 
