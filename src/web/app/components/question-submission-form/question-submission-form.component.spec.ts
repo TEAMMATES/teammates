@@ -490,16 +490,21 @@ describe('QuestionSubmissionFormComponent', () => {
     const sally = { recipientIdentifier: 'sallyBrown', recipientName: 'Sally Brown' };
     const snoopy = { recipientIdentifier: 'snoopy', recipientName: 'Snoopy' };
     const linus = { recipientIdentifier: 'linusVanPelt', recipientName: 'Linus van Pelt' };
+    const benny = { recipientIdentifier: 'bennyCharles', recipientName: 'Benny Charles' };
+    const charlieDavis = { recipientIdentifier: 'charlieDavis', recipientName: 'Charlie Davis' };
+    const francis = { recipientIdentifier: 'francisGabriel', recipientName: 'Francis Gabriel' };
 
-    const recipients = [doubleLucy, charlie, lucy, sally, snoopy, linus];
+    const recipients = [doubleLucy, charlie, lucy, sally, snoopy, linus, benny, charlieDavis, francis];
     expect(component.filterRecipientsBySearchText('', recipients)).toStrictEqual(recipients);
     expect(component.filterRecipientsBySearchText('  ', recipients)).toStrictEqual(recipients);
     expect(component.filterRecipientsBySearchText('Lucy', recipients)).toStrictEqual([doubleLucy, lucy]);
-    expect(component.filterRecipientsBySearchText('s', recipients)).toStrictEqual([sally, snoopy]);
+    expect(component.filterRecipientsBySearchText('s', recipients)).toStrictEqual([sally, snoopy, linus, benny, charlieDavis, francis]);
     expect(component.filterRecipientsBySearchText('Brow', recipients)).toStrictEqual([charlie, sally]);
     expect(component.filterRecipientsBySearchText('van pel', recipients)).toStrictEqual([lucy, linus]);
     expect(component.filterRecipientsBySearchText('van Pelt', recipients)).toStrictEqual([lucy, linus]);
-    expect(component.filterRecipientsBySearchText('cy', recipients)).toStrictEqual([]);
+    expect(component.filterRecipientsBySearchText('cy', recipients)).toStrictEqual([doubleLucy, lucy]);
+    expect(component.filterRecipientsBySearchText('char', recipients)).toStrictEqual([charlie, benny, charlieDavis]);
+    expect(component.filterRecipientsBySearchText('is', recipients)).toStrictEqual([charlieDavis, francis]);
   });
 
   it('triggerDeleteCommentEvent: should emit the correct index to deleteCommentEvent', () => {
