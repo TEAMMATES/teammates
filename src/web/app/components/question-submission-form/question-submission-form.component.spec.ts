@@ -483,6 +483,25 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.isRecipientSelected(feedbackResponseRecipient)).toBeFalsy();
   });
 
+  it('filterRecipientsBySearchText: should return correct filtered names', () => {
+    const doubleLucy = { recipientIdentifier: 'lucyLucy', recipientName: 'Lucy Lucy' };
+    const charlie = { recipientIdentifier: 'charlieBrown', recipientName: 'Charlie Brown' };
+    const lucy = { recipientIdentifier: 'lucyVanPelt', recipientName: 'Lucy van Pelt' };
+    const sally = { recipientIdentifier: 'sallyBrown', recipientName: 'Sally Brown' };
+    const snoopy = { recipientIdentifier: 'snoopy', recipientName: 'Snoopy' };
+    const linus = { recipientIdentifier: 'linusVanPelt', recipientName: 'Linus van Pelt' };
+
+    const recipients = [doubleLucy, charlie, lucy, sally, snoopy, linus];
+    expect(component.filterRecipientsBySearchText('', recipients)).toStrictEqual(recipients);
+    expect(component.filterRecipientsBySearchText('  ', recipients)).toStrictEqual(recipients);
+    expect(component.filterRecipientsBySearchText('Lucy', recipients)).toStrictEqual([doubleLucy, lucy]);
+    expect(component.filterRecipientsBySearchText('s', recipients)).toStrictEqual([sally, snoopy]);
+    expect(component.filterRecipientsBySearchText('Brow', recipients)).toStrictEqual([charlie, sally]);
+    expect(component.filterRecipientsBySearchText('van pel', recipients)).toStrictEqual([lucy, linus]);
+    expect(component.filterRecipientsBySearchText('van Pelt', recipients)).toStrictEqual([lucy, linus]);
+    expect(component.filterRecipientsBySearchText('cy', recipients)).toStrictEqual([]);
+  });
+
   it('triggerDeleteCommentEvent: should emit the correct index to deleteCommentEvent', () => {
     let emittedIndex: number | undefined;
     testEventEmission(component.deleteCommentEvent, (index) => { emittedIndex = index; });
