@@ -58,6 +58,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
+  dropdownVisible: boolean[] = []; 
+  filteredRecipients: any[][] = []; 
+  displayedRecipientName: string[] = [];
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -349,7 +352,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     const recipient: FeedbackResponseRecipient | undefined =
       this.model.recipientList.find(
         (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
-    return recipient ? recipient.recipientName : 'Unknown';
+    return recipient ? recipient.recipientName : '';
   }
 
   /**
@@ -594,5 +597,42 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       default:
         return false;
     }
+  }
+
+  /**
+   * Filters the recipient list based on the input value and updates the filtered recipients array at the specified index.
+   */
+  filterRecipients(value: string, index: number) {
+
+    this.filteredRecipients[index] = this.model.recipientList.filter(recipient =>
+      this.getSelectionOptionLabel(recipient).toLowerCase().includes(value.toLowerCase())
+    );
+    this.dropdownVisible[index] = this.filteredRecipients[index].length > 0; 
+  }
+
+  /**
+   * Sets the dropdown visibility to true for the specified recipient index.
+   */
+  showDropdown(index: number) {
+    this.dropdownVisible[index] = true;
+  }
+
+  /**
+   * Hides the dropdown for the specified recipient index after a short delay.
+   */
+  hideDropdown(index: number) {
+    setTimeout(() => {
+      this.dropdownVisible[index] = false; 
+    }, 100); 
+  }
+
+  /**
+   * Updates the recipient selection in the form model and sets the displayed name for the selected recipient.
+   */
+  selectRecipient(recipient: any, recipientSubmissionFormModel: any, index: number) {
+    recipientSubmissionFormModel.recipientIdentifier = recipient.recipientIdentifier; 
+    this.displayedRecipientName[index] = recipient.recipientName; 
+    this.filteredRecipients[index] = []; 
+    this.dropdownVisible[index] = false; 
   }
 }
