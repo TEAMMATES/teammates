@@ -73,7 +73,7 @@
                 <input type="text"
                         id="recipient-input-qn-{{ model.questionNumber }}-idx-{{ i }}"
                         class="form-control fw-bold col"
-                        [ngModel]="displayedRecipientName[i] || getRecipientName(model.recipientSubmissionForms[i].recipientIdentifier)"
+                        [ngModel]="displayedRecipientName[i] || getRecipientNameForInput(model.recipientSubmissionForms[i].recipientIdentifier)"
                         (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
                         (input)="filterRecipients($event.target.value, i)"
                         (focus)="showDropdown(i)"

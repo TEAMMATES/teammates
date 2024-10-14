@@ -352,7 +352,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     const recipient: FeedbackResponseRecipient | undefined =
       this.model.recipientList.find(
         (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
-    return recipient ? recipient.recipientName : '';
+    return recipient ? recipient.recipientName : 'Unknown';
   }
 
   /**
@@ -635,4 +635,16 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.filteredRecipients[index] = []; 
     this.dropdownVisible[index] = false; 
   }
+
+  /**
+   * Gets recipient name in {@code FIXED_RECIPIENT} mode.
+   * Origin from getRecipientName
+   */
+    getRecipientNameForInput(recipientIdentifier: string): string {
+      const recipient: FeedbackResponseRecipient | undefined =
+        this.model.recipientList.find(
+          (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
+      return recipient ? recipient.recipientName : '';
+    }
+  
 }
