@@ -1157,4 +1157,24 @@ describe('QuestionSubmissionFormComponent', () => {
     fixture.detectChanges();
     expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
   });
+
+  it('filterRecipients: should filter recipient list in the dropdown list and update dropdown visibility', ()=>{
+
+    const value = 'alice';
+    const index = 0;
+
+    component.model.recipientList = [
+      { recipientIdentifier: '0', recipientName: 'Alice Betsy' },
+      { recipientIdentifier: '1', recipientName: 'Benny Charles' }
+    ];
+
+    component.getSelectionOptionLabel = (recipient: any) => recipient.recipientName;
+    component.filterRecipients(value, index);
+    
+    expect(component.filteredRecipients[index].length).toBe(1);
+    expect(component.filteredRecipients[index][0].recipientName).toBe('Alice Betsy');
+
+    expect(component.dropdownVisible[index]).toBe(true);
+  })
+  
 });
