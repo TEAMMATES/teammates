@@ -656,4 +656,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       scrollOffset: 70,
     });
   }
+
+  /**
+   * Implement the copy method
+   */
+  copyToClipboard() {
+    alert("Copy the student information")
+  }
 }
