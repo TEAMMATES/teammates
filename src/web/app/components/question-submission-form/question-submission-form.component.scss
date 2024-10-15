@@ -83,12 +83,13 @@
 
 .input-selection-option {
   cursor: pointer;
+  user-select: none;
 }
 
 .input-selection-option:hover {
   color: white;
   background-color: var(--bs-blue);
-  border-radius: 0.25rem;
+  border-radius: 0.15rem;
 }
 
 .select-editable {
@@ -104,10 +105,6 @@
   border: 0;
   background-color: transparent;
   padding: .75rem 1.5rem;
-}
-
-.select-input:focus {
-  box-shadow: none;
 }
 
 .no-match {
