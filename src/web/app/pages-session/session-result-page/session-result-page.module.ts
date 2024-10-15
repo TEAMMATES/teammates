@@ -11,6 +11,7 @@ import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {
@@ -23,16 +24,17 @@ const routes: Routes = [
  * Module for feedback session result page.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    QuestionTextWithInfoModule,
-    StudentViewResponsesModule,
-    SingleStatisticsModule,
-    RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    LoadingRetryModule,
-    QuestionResponsePanelModule,
-  ],
+    imports: [
+        CommonModule,
+        QuestionTextWithInfoModule,
+        StudentViewResponsesModule,
+        SingleStatisticsModule,
+        RouterModule.forChild(routes),
+        LoadingSpinnerModule,
+        LoadingRetryModule,
+        QuestionResponsePanelModule,
+        FormsModule,
+    ],
   declarations: [
     SessionResultPageComponent,
   ],

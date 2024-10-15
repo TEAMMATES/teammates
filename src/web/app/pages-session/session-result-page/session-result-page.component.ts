@@ -14,6 +14,8 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
+// @ts-ignore
+// @ts-ignore
 import {
   AuthInfo,
   Course,
@@ -60,6 +62,7 @@ export class SessionResultPageComponent implements OnInit {
 
   // enum
   Intent: typeof Intent = Intent;
+  hideSelfResponses: boolean = false;
 
   session: FeedbackSession = {
     courseId: '',
