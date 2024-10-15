@@ -67,6 +67,11 @@
   </div>
 </div>
 
+<div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" id="hideOwnResponses" [(ngModel)]="hideSelfResponses">
+  <label class="form-check-label" for="hideOwnResponses">Hide my own responses</label>
+</div>
+
 <div class="card bg-light" style="margin-bottom: 20px;" *ngIf="intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading && !isFeedbackSessionDetailsLoading">
   <div class="card-body">
     If you wish to view the feedback results of the entire course, <a href="javascript:;" (click)="navigateToSessionReportPage(); $event.preventDefault()">click here</a>.
@@ -82,6 +87,7 @@
     </div>
     <tm-question-response-panel [questions]="questions" [session]="session"
                                 [intent]="intent" [regKey]="regKey" [previewAsPerson]="previewAsPerson"
+                                [hideSelfResponses]="hideSelfResponses"
     ></tm-question-response-panel>
   </div>
 </tm-loading-retry>

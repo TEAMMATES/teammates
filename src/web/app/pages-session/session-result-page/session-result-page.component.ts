@@ -106,6 +106,8 @@ export class SessionResultPageComponent implements OnInit {
   feedbackSessionId: string | undefined = '';
   studentId: string | undefined = '';
 
+  hideSelfResponses: boolean = false;
+
   private backendUrl: string = environment.backendUrl;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
