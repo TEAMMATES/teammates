@@ -45,6 +45,7 @@ export interface FeedbackQuestionModel {
   errorMessage?: string;
   hasResponseButNotVisibleForPreview: boolean;
   hasCommentNotVisibleForPreview: boolean;
+  hideSelfResponses: boolean;// Define a new boolean
 }
 
 /**
@@ -329,6 +330,7 @@ export class SessionResultPageComponent implements OnInit {
                     hasResponse: false,
                     hasResponseButNotVisibleForPreview: false,
                     hasCommentNotVisibleForPreview: false,
+                    hideSelfResponses: false,// Initialize default value = false
                   });
                 }
               },
