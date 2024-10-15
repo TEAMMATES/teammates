@@ -326,18 +326,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   filterRecipientsBySearchText(searchText: string, recipients: FeedbackResponseRecipient[])
   : FeedbackResponseRecipient[] {
     if (!searchText) return recipients;
-    if (this.isSectionTeamShown){
-      const labelComponents = searchText.split(" | ");
-      if (labelComponents && labelComponents.length > 0){
-        searchText = labelComponents.at(-1) || "";
-      }
-    }
     const searchName = searchText.trim().toLowerCase();
     if (searchName.length === 0) return recipients;
     if (searchName.includes(' ')) {
-      return recipients.filter((s) => s.recipientName.toLowerCase().includes(searchName));
+      return recipients.filter((r) => !this.isRecipientSelected(r) && r.recipientName.toLowerCase().includes(searchName));
     }
-    return recipients.filter((r) => r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
+    return recipients.filter((r) => !this.isRecipientSelected(r) && r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
   }
 
   private sortRecipientsBySectionTeam(): void {
@@ -387,7 +381,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   triggerRecipientIdentifierChange(index: number, data: any): void {
     this.searchNameTexts[index] = '';
     this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
-    console.log(this.model.recipientSubmissionForms[index].recipientIdentifier);
   }
 
   /**
@@ -395,13 +388,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   triggerSelectInputChange(index: number): void {
     this.model.recipientSubmissionForms[index].recipientIdentifier = '';
-  }
-
-  triggerRecipientOptionSelect(index: number, recipient: FeedbackResponseRecipient, event: any): void {
-    event.target.blur();
-    console.log(recipient);
-    this.searchNameTexts[index] = this.getSelectionOptionLabel(recipient);
-    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
   }
 
   /**
