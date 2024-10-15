@@ -329,9 +329,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     const searchName = searchText.trim().toLowerCase();
     if (searchName.length === 0) return recipients;
     if (searchName.includes(' ')) {
-      return recipients.filter((r) => !this.isRecipientSelected(r) && r.recipientName.toLowerCase().includes(searchName));
+      return recipients.filter((r) => !this.isRecipientSelected(r)
+        && r.recipientName.toLowerCase().includes(searchName));
     }
-    return recipients.filter((r) => !this.isRecipientSelected(r) && r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
+    return recipients.filter((r) => !this.isRecipientSelected(r)
+      && r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
   }
 
   private sortRecipientsBySectionTeam(): void {
