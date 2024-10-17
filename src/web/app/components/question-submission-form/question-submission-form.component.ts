@@ -325,6 +325,34 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.updateSubmissionFormIndexes();
   }
 
+/**
+ * Filters the recipients based on the provided search text.
+ * 
+ * This method searches through the list of recipients and returns those that match 
+ * the search criteria. The search is case-insensitive and supports both full names 
+ * and individual name parts. If the search text contains a space, it matches the 
+ * entire name; otherwise, it searches for any part of the name.
+ * 
+ * @param {string} searchText - The text to search for within recipient names. If empty or only whitespace, all recipients are returned.
+ * @param {FeedbackResponseRecipient[]} recipients - The list of recipients to filter.
+ * @returns {FeedbackResponseRecipient[]} - A filtered list of recipients that match the search criteria and are marked as selected.
+ */
+  filterRecipientsBySearchText(searchText: string, recipients: FeedbackResponseRecipient[]): FeedbackResponseRecipient[] {
+    if (!searchText) return recipients;
+    const searchName = searchText.trim().toLowerCase();
+    if (searchName.length === 0) return recipients;
+
+    const isSpaceIncluded = searchName.includes(' ');
+    return recipients.filter((r) => {
+        if (!this.isRecipientSelected(r)) return false;
+
+        const recipientName = r.recipientName.toLowerCase();
+        return isSpaceIncluded
+            ? recipientName.includes(searchName)
+            : recipientName.split(' ').some((s) => s.includes(searchName));
+    });
+}
+
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
@@ -365,7 +393,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
         recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
   }
-  
+
   // Method to handle changes in the recipient identifier.
   triggerRecipientIdentifierChange(index: number, data: any): void {
     if (this.searchName[index] !== undefined) {
@@ -373,6 +401,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
     this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
 }
+
+  // Trigger to change the text input
+  triggerSelectInputChange(index: number): void {
+    this.model.recipientSubmissionForms[index].recipientIdentifier = '';
+  }
 
   /**
    * Triggers the change of the recipient submission form.
