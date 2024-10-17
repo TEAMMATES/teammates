@@ -660,7 +660,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   /**
    * Implement the copy method
    */
-  copyToClipboard() {
-    alert("Copy the student information")
+  copyToClipboard(): void {
+    const existingStudentsHOTInstance: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+    const newStudentsHOTInstance: Handsontable = this.hotRegisterer.getInstance(this.newStudentsHOT);
+
+    const existingStudentsData = existingStudentsHOTInstance.getData();
+
+    newStudentsHOTInstance.loadData(existingStudentsData);
   }
 }
