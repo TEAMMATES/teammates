@@ -58,6 +58,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
+  // Initial a new array to store names
+  searchName: string[] = [];
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -94,6 +96,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
     this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
+    // Initialize the searchName array with empty strings, matching the length of recipientSubmissionForms.
+    this.searchName = Array.from({ length: this.model.recipientSubmissionForms.length }, () => "");
+
   }
 
   @Input()
@@ -360,6 +365,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
         recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
   }
+  
+  // Method to handle changes in the recipient identifier.
+  triggerRecipientIdentifierChange(index: number, data: any): void {
+    if (this.searchName[index] !== undefined) {
+        this.searchName[index] = "";
+    }
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
+}
 
   /**
    * Triggers the change of the recipient submission form.
