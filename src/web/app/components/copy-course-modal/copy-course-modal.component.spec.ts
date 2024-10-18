@@ -44,6 +44,41 @@ describe('CopyCourseModalComponent', () => {
     fixture.detectChanges();
   });
 
+   it('should set courseIdEmptyError to true if Course ID is empty after user clears input', () => {
+      component.newCourseId = 'Test Course ID';
+      fixture.detectChanges();
+      // Simulate clearing the input
+      component.newCourseId = '';
+      component.onCourseIdChange(component.newCourseId);
+      fixture.detectChanges();
+      // Verify that courseIdEmptyError is set to true
+      expect(component.courseIdEmptyError).toBeTruthy();
+    });
+
+   it('should set courseNameEmptyError to true if Course Name is empty after user clears input', () => {
+     component.newCourseName = 'Test Course Name';
+     fixture.detectChanges();
+     component.newCourseName = '';
+     component.onCourseNameChange(component.newCourseName);
+     fixture.detectChanges();
+
+     expect(component.courseNameEmptyError).toBeTruthy();
+   });
+
+   it('should not set courseIdEmptyError if Course ID is provided', () => {
+      component.newCourseId = 'CS101';
+      component.onCourseIdChange(component.newCourseId);
+      fixture.detectChanges();
+      expect(component.courseIdEmptyError).toBeFalsy();
+   });
+
+   it('should not set courseNameEmptyError if Course Name is provided', () => {
+     component.newCourseName = 'Software Engineering';
+     component.onCourseNameChange(component.newCourseName);
+     fixture.detectChanges();
+     expect(component.courseNameEmptyError).toBeFalsy();
+   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -171,12 +206,35 @@ describe('CopyCourseModalComponent', () => {
     ]);
   });
 
-  it('should call showErrorToast when copying with no new courseId and name', () => {
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
-    component.copy();
-    expect(spyStatusMessageService)
-      .toHaveBeenCalledWith('Please make sure you have filled in both Course ID and Name before adding the course!');
+  it('should display error message when copying with null new courseId', () => {
+    component.newCourseId = 'Test02';
+    fixture.detectChanges();
+
+    component.newCourseId = '';
+    component.onCourseIdChange(component.newCourseId);
+    fixture.detectChanges();
+
+    const errorMessage = fixture.debugElement.query(By.css('.text-danger'));
+
+      // Verify that the error message element exists and contains the correct text
+    expect(errorMessage).toBeTruthy(); // Ensure the element is present
+    expect(errorMessage.nativeElement.textContent).toContain('The field Course ID should not be empty.');
   });
+
+    it('should display error message when copying with null new courseName', () => {
+      component.newCourseName = 'Test10';
+      fixture.detectChanges();
+
+      component.newCourseName = '';
+      component.onCourseNameChange(component.newCourseId);
+      fixture.detectChanges();
+
+      const errorMessage = fixture.debugElement.query(By.css('.text-danger'));
+
+        // Verify that the error message element exists and contains the correct text
+      expect(errorMessage).toBeTruthy(); // Ensure the element is present
+      expect(errorMessage.nativeElement.textContent).toContain('The field Course Name should not be empty.');
+    });
 
   it('should call showErrorToast when newCourseId is a duplicate', () => {
     const testCourses: Course[] = [
