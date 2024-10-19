@@ -86,7 +86,6 @@
                           [disabled]="isFormsDisabled"
                           [attr.aria-label]="'Recipient names filter ' + model.questionNumber + ' index ' + i"
                           [ngClass]="filterRecipientsBySearchText(searchNameTexts[i],model.recipientList).length === 0 ? 'no-match' : ''" />
-                  
                 </div> -->
 
                 <div class="input-selection-wrapper col">
@@ -95,8 +94,10 @@
                           (ngModelChange)="triggerSelectInputChange(i)"
                           [disabled]="isFormsDisabled"
                           [attr.aria-label]="'Recipient names filter ' + model.questionNumber + ' index ' + i"
-                          [ngClass]="filterRecipientsBySearchText(searchNameTexts[i],model.recipientList).length === 0 ? 'no-match' : ''" />
-                  <div class="form-control input-selection-option-wrapper">
+                          [ngClass]="(feedbackRecipients[i] === null && filterRecipientsBySearchText(searchNameTexts[i],model.recipientList).length === 0) ? 'no-match' : ''"
+                          (focus)="triggerSelectInputFocus(i)"
+                          autocomplete="off" />
+                  <div class="form-control input-selection-option-wrapper" [ngClass]="feedbackRecipients[i] !== null ? 'selected-input' : ''">
                     <ng-container *ngFor="let recipient of filterRecipientsBySearchText(searchNameTexts[i],model.recipientList)">
                       <option class="input-selection-option" *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier"
                       [ngValue]="recipient.recipientIdentifier"
@@ -104,7 +105,7 @@
                       tabindex="0">{{ getSelectionOptionLabel(recipient) }}</option>
                     </ng-container>
                   </div>
-                </div>                
+                </div>
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})
                 </div>

@@ -62,7 +62,7 @@
   box-sizing: content-box;
 }
 
-.input-selection-wrapper:focus-within .input-selection-option-wrapper{
+.input-selection-wrapper:focus-within .input-selection-option-wrapper:not(.selected-input){
   display: flex;
 }
 
@@ -71,14 +71,13 @@
   z-index: 10;
   top: 100%;
   width: auto;
-  left:calc(var(--bs-gutter-x)*0.5);
-  right:calc(var(--bs-gutter-x)*0.5);
+  left:calc(var(--bs-gutter-x) * 0.5);
+  right:calc(var(--bs-gutter-x) * 0.5);
   max-height: 9rem;
   box-sizing: content-box;
   display: none;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
 }
 
 .input-selection-option {
