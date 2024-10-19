@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -36,6 +37,10 @@ import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+import {
+  QuestionResponsePanelComponent
+} from "../../components/question-response-panel/question-response-panel.component";
+import {By} from "@angular/platform-browser";
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -119,6 +124,7 @@ describe('SessionResultPageComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        FormsModule,
         StudentViewResponsesModule,
         QuestionTextWithInfoModule,
         QuestionResponsePanelModule,
@@ -412,5 +418,71 @@ describe('SessionResultPageComponent', () => {
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);
+  });
+
+  // Test the toggle feature
+  it('should toggle `hideMyResponses` when the checkbox is clicked', () => {
+    // Arrange: Get the checkbox input element
+    const checkbox = fixture.debugElement.query(By.css('#hideMyResponses')).nativeElement;
+
+    // Act: Toggle the checkbox to hide responses
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    // Assert: The `hideMyResponses` should be true
+    expect(component.hideMyResponses).toBe(true);
+
+    // Act: Toggle the checkbox again to show responses
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    // Assert: The `hideMyResponses` should be false
+    expect(component.hideMyResponses).toBe(false);
+  });
+
+  it('should pass `hideMyResponses` to QuestionResponsePanelComponent correctly', () => {
+    // Arrange: Set `hideMyResponses` to true
+    component.hideMyResponses = true;
+    fixture.detectChanges();
+
+    // Act: Get the QuestionResponsePanelComponent instance
+    const questionResponsePanel = fixture.debugElement.query(By.directive(QuestionResponsePanelComponent))
+        .componentInstance as QuestionResponsePanelComponent;
+
+    // Assert: The `hideMyResponses` should be passed to the child component
+    expect(questionResponsePanel.hideMyResponses).toBe(true);
+
+    // Arrange: Set `hideMyResponses` to false
+    component.hideMyResponses = false;
+    fixture.detectChanges();
+
+    // Assert: The `hideMyResponses` should now be false in the child component
+    expect(questionResponsePanel.hideMyResponses).toBe(false);
+  });
+
+  it('should hide the self responses section when `hideMyResponses` is true', () => {
+    // Arrange: Set `hideMyResponses` to true
+    component.hideMyResponses = true;
+    fixture.detectChanges();
+
+    // Act: Query the responses section with class `given-responses`
+    const responseSection = fixture.debugElement.query(By.css('.given-responses'));
+
+    // Assert: Response section should not be present in the DOM
+    expect(responseSection).toBeNull();
+  });
+
+  it('should show the self responses section when `hideMyResponses` is false', () => {
+    // Arrange: Set `hideMyResponses` to false
+    component.hideMyResponses = false;
+    fixture.detectChanges();
+
+    // Act: Query the responses section with class `given-responses`
+    const responseSection = fixture.debugElement.query(By.css('.given-responses'));
+
+    // Assert: Response section should be present in the DOM
+    expect(responseSection).not.toBeNull();
   });
 });
