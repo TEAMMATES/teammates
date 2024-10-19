@@ -383,12 +383,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the changes of the recipient selection
    */
   triggerRecipientIdentifierChange(index: number, data: any): void {
-    const recipient = this.model.recipientList.find((r) => r.recipientIdentifier === data);
-    if (recipient) {
-      this.searchNameTexts[index] = this.getSelectionOptionLabel(recipient);
-      this.feedbackRecipients[index] = recipient;
-      this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
-    }
+    this.searchNameTexts[index] = '';
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
   }
 
   /**
