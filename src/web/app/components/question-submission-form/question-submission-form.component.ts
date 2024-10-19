@@ -58,8 +58,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
-  dropdownVisible: boolean[] = []; 
-  filteredRecipients: any[][] = []; 
+  dropdownVisible: boolean[] = [];
+  filteredRecipients: any[][] = [];
   displayedRecipientName: string[] = [];
 
   @Input()
@@ -600,40 +600,40 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   /**
-   * Filters the recipient list based on the input value and updates the filtered recipients array at the specified index.
+   * Filters the recipient list by input value and updates the filtered recipients array at the given index.
    */
-  filterRecipients(value: string, index: number) {
+  filterRecipients(value: string, index: number): void {
 
-    this.filteredRecipients[index] = this.model.recipientList.filter(recipient =>
-      this.getSelectionOptionLabel(recipient).toLowerCase().includes(value.toLowerCase())
+    this.filteredRecipients[index] = this.model.recipientList.filter((recipient) =>
+      this.getSelectionOptionLabel(recipient).toLowerCase().includes(value.toLowerCase()),
     );
-    this.dropdownVisible[index] = this.filteredRecipients[index].length > 0; 
+    this.dropdownVisible[index] = this.filteredRecipients[index].length > 0;
   }
 
   /**
    * Sets the dropdown visibility to true for the specified recipient index.
    */
-  showDropdown(index: number) {
+  showDropdown(index: number): void {
     this.dropdownVisible[index] = true;
   }
 
   /**
    * Hides the dropdown for the specified recipient index after a short delay.
    */
-  hideDropdown(index: number) {
+  hideDropdown(index: number): void {
     setTimeout(() => {
-      this.dropdownVisible[index] = false; 
-    }, 100); 
+      this.dropdownVisible[index] = false;
+    }, 100);
   }
 
   /**
    * Updates the recipient selection in the form model and sets the displayed name for the selected recipient.
    */
-  selectRecipient(recipient: any, recipientSubmissionFormModel: any, index: number) {
-    recipientSubmissionFormModel.recipientIdentifier = recipient.recipientIdentifier; 
-    this.displayedRecipientName[index] = recipient.recipientName; 
-    this.filteredRecipients[index] = []; 
-    this.dropdownVisible[index] = false; 
+  selectRecipient(recipient: any, recipientSubmissionFormModel: any, index: number): void {
+    recipientSubmissionFormModel.recipientIdentifier = recipient.recipientIdentifier;
+    this.displayedRecipientName[index] = recipient.recipientName;
+    this.filteredRecipients[index] = [];
+    this.dropdownVisible[index] = false;
   }
 
   /**
@@ -646,5 +646,4 @@ export class QuestionSubmissionFormComponent implements DoCheck {
           (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
       return recipient ? recipient.recipientName : '';
     }
-  
 }

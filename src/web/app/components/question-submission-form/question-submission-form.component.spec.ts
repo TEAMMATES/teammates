@@ -1158,26 +1158,7 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
   });
 
-  it('filterRecipients: should filter recipient list in the dropdown list and update dropdown visibility', ()=>{
-
-    const value = 'alice';
-    const index = 0;
-
-    component.model.recipientList = [
-      { recipientIdentifier: '0', recipientName: 'Alice Betsy' },
-      { recipientIdentifier: '1', recipientName: 'Benny Charles' }
-    ];
-
-    component.getSelectionOptionLabel = (recipient: any) => recipient.recipientName;
-    component.filterRecipients(value, index);
-    
-    expect(component.filteredRecipients[index].length).toBe(1);
-    expect(component.filteredRecipients[index][0].recipientName).toBe('Alice Betsy');
-
-    expect(component.dropdownVisible[index]).toBe(true);
-  })
-
-  it('filterRecipients: should filter recipient list in the dropdown list and update dropdown visibility', ()=>{
+  it('filterRecipients: should filter recipient list in the dropdown list and update dropdown visibility', () => {
 
       const value = 'alex';
       const index = 0;
@@ -1188,38 +1169,35 @@ describe('QuestionSubmissionFormComponent', () => {
         { recipientIdentifier: '2', recipientName: 'Group 2 | Tutorial 13 | Alex Kim' },
         { recipientIdentifier: '3', recipientName: 'Lecture #1 @ Room A | Jason Doe' },
         { recipientIdentifier: '4', recipientName: 'Lab Session *10* | Annie K. & John L.' },
-        { recipientIdentifier: '5', recipientName: 'Group 3: Research Team | Dr. Alex Smith' }
+        { recipientIdentifier: '5', recipientName: 'Group 3: Research Team | Dr. Alex Smith' },
       ];
 
       component.getSelectionOptionLabel = (recipient: any) => recipient.recipientName;
       component.filterRecipients(value, index);
 
-      // Testing for the filtered recipients based on 'alex'
       expect(component.filteredRecipients[index].length).toBe(2);
       expect(component.filteredRecipients[index][0].recipientName).toBe('Group 2 | Tutorial 13 | Alex Kim');
       expect(component.filteredRecipients[index][1].recipientName).toBe('Group 3: Research Team | Dr. Alex Smith');
 
-      // Dropdown should be visible for the filtered results
       expect(component.dropdownVisible[index]).toBe(true);
   });
-  
-  it('filterRecipients: should filter recipient list and resuld should be empty and dropdown should not be visible', ()=>{
+
+  it('filterRecipients: should filter the list with no results, hiding the dropdown', () => {
 
     const value = 'alice';
     const index = 0;
 
     component.model.recipientList = [
       { recipientIdentifier: '0', recipientName: 'Matty Betsy' },
-      { recipientIdentifier: '1', recipientName: 'Benny Charles' }
+      { recipientIdentifier: '1', recipientName: 'Benny Charles' },
     ];
 
     component.getSelectionOptionLabel = (recipient: any) => recipient.recipientName;
     component.filterRecipients(value, index);
-    
     expect(component.filteredRecipients[index].length).toBe(0);
     expect(component.filteredRecipients[index][0]).toBeUndefined();
 
     expect(component.dropdownVisible[index]).toBe(false);
-  })
+  });
 
 });
