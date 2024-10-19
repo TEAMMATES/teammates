@@ -70,8 +70,8 @@
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-                <div class="input-selection-wrapper col">
-                  <input type="text" class="form-control form-select fw-bold" id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
+                <div class="input-selection-wrapper col"  id="recipient-dropdown-qn-{{ model.questionNumber }}-input-idx-{{ i }}">
+                  <input type="text" class="form-control form-select fw-bold"
                           [(ngModel)]="searchNameTexts[i]"
                           (ngModelChange)="triggerSelectInputChange(i)"
                           [disabled]="isFormsDisabled"
@@ -87,6 +87,15 @@
                       tabindex="0">{{ getSelectionOptionLabel(recipient) }}</option>
                     </ng-container>
                   </div>
+                  <select hidden
+                    id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
+                    [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+                    (ngModelChange)="triggerRecipientIdentifierChange(i, $event)">
+                    <option value=""></option>
+                    <ng-container *ngFor="let recipient of model.recipientList">
+                      <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
+                    </ng-container>
+                  </select>
                 </div>
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})
