@@ -1203,4 +1203,23 @@ describe('QuestionSubmissionFormComponent', () => {
       expect(component.dropdownVisible[index]).toBe(true);
   });
   
+  it('filterRecipients: should filter recipient list and resuld should be empty and dropdown should not be visible', ()=>{
+
+    const value = 'alice';
+    const index = 0;
+
+    component.model.recipientList = [
+      { recipientIdentifier: '0', recipientName: 'Matty Betsy' },
+      { recipientIdentifier: '1', recipientName: 'Benny Charles' }
+    ];
+
+    component.getSelectionOptionLabel = (recipient: any) => recipient.recipientName;
+    component.filterRecipients(value, index);
+    
+    expect(component.filteredRecipients[index].length).toBe(0);
+    expect(component.filteredRecipients[index][0]).toBeUndefined();
+
+    expect(component.dropdownVisible[index]).toBe(false);
+  })
+
 });
