@@ -666,27 +666,17 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const existingStudentsData = existingStudentsHOTInstance.getData();
 
-
-    const validStudents: StudentEnrollRequest[] = existingStudentsData
-        .filter((row: string[]) => !row.every(cell => cell === null || cell === ''))
-        .map((row: string[]) => ({
-          section: row[0] ? row[0].trim() : '',
-          team: row[1] ? row[1].trim() : '',
-          name: row[2] ? row[2].trim() : '',
-          email: row[3] ? row[3].trim() : '',
-          comments: row[4] ? row[4].trim() : '',
-        }));
-
     newStudentsHOTInstance.loadData(existingStudentsData);
 
     // judge if the existing student is empty
-    if (validStudents.length === 0) {
+    if(!this.isExistingStudentsPresent) {
       this.statusMessageService.showErrorToast('No valid existing students to copy.');
       return;
     }
 
     if(this.isExistingStudentsPanelCollapsed) {
       this.statusMessageService.showWarningToast('Please expand existing students.');
+      return;
     } else {
       this.statusMessageService.showSuccessToast('Existing students copied successfully.');
     }
