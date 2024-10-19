@@ -70,7 +70,7 @@
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-                <div class="input-selection-wrapper col"  id="recipient-dropdown-qn-{{ model.questionNumber }}-input-idx-{{ i }}">
+                <div class="input-selection-wrapper col"  id="recipient-dropdown-input-qn-{{ model.questionNumber }}-idx-{{ i }}">
                   <input type="text" class="form-control form-select fw-bold"
                           [(ngModel)]="searchNameTexts[i]"
                           (ngModelChange)="triggerSelectInputChange(i)"
