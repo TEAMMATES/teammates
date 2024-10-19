@@ -73,6 +73,11 @@
   </div>
 </div>
 
+<div class="toggle-container">
+    <input class="toggle-input" type="checkbox" id="hideMyResponses" >
+    <label class="toggle-label" for="hideMyResponses">Hide my own responses</label>
+</div>
+
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
     <div *ngIf="questions.length === 0" class="mt-4">
