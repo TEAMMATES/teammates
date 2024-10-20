@@ -172,7 +172,7 @@ if (environment.maintenance) {
     }),
     LoadingSpinnerModule,
     TeammatesRouterModule,
-    FormsModule,// This module has been imported
+    FormsModule,
     NgbDatepickerModule,
     SessionEditFormModule,
     environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
