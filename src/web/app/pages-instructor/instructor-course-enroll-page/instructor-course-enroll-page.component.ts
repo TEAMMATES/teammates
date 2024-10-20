@@ -668,7 +668,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     newStudentsHOTInstance.loadData(existingStudentsData);
 
-    // judge if the existing student is empty
     if(!this.isExistingStudentsPresent) {
       this.statusMessageService.showErrorToast('No valid existing students to copy.');
       return;
