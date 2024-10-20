@@ -110,6 +110,10 @@
                                  [isDisabled]="!model.isEditable"
                                  [hasCharacterLimit]="true">
             </tm-rich-text-editor>
+            <div class="invalid-field" *ngIf="!model.instructions || model.instructions.trim() === ''">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+              The Instructions field should not be empty.
+            </div>
             <div *ngIf="!model.instructions || model.instructions.trim() === ''" class="invalid-feedback">
               <i class="fa fa-exclamation-circle"></i> The field should not be empty.
             </div>
