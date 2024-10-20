@@ -67,3 +67,24 @@
   padding-top: 5px;
   color: #b50000;
 }
+
+
+.additional-text {
+    width: 100%;
+    margin-top: 5px; // Reduce the margin to make it more consistent
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: #fff;
+    resize: vertical; // Allow vertical resizing if needed
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px; // Add some spacing between the label and the textarea
+    font-weight: bold; // Make it bold to match other form labels
+}
+
+
+

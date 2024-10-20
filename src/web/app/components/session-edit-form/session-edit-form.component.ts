@@ -51,6 +51,7 @@ export class SessionEditFormComponent {
     courseName: '',
     feedbackSessionName: '',
     instructions: '',
+    additionalInstructions: '',
 
     submissionStartTime: getDefaultTimeFormat(),
     submissionStartDate: getDefaultDateFormat(),
@@ -463,6 +464,14 @@ export class SessionEditFormComponent {
    * Handles submit button click event.
    */
   submitFormHandler(): void {
+    // Verify that the "Instructions" field is empty
+    if (!this.model.instructions || this.model.instructions.trim() === '') {
+        // If the description field is empty, the user is prompted and form submission is blocked
+        alert('The field cannot be empty');
+        return;
+    }
+
+
     // resolve local date time to timestamp
     if (this.formMode === SessionEditFormMode.ADD) {
       this.addNewSessionEvent.emit();

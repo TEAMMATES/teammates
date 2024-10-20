@@ -32,6 +32,7 @@ export interface SessionEditFormModel {
   courseName: string;
   feedbackSessionName: string;
   instructions: string;
+  additionalInstructions?: string;
 
   submissionStartTime: TimeFormat;
   submissionStartDate: DateFormat;
@@ -64,4 +65,6 @@ export interface SessionEditFormModel {
   isEditable: boolean;
   isDeleting: boolean;
   isCopying: boolean;
+
+
 }
