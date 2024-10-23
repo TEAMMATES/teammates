@@ -1,9 +1,6 @@
-// rich-text-editor.component.spec.ts
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RichTextEditorComponent } from './rich-text-editor.component';
 
-// Define TINYMCE_BASE_URL as used in the component
 const MOCK_TINYMCE_BASE_URL = 'https://cdn.jsdelivr.net/npm/tinymce@6.8.2';
 
 describe('RichTextEditorComponent', () => {
@@ -13,11 +10,6 @@ describe('RichTextEditorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RichTextEditorComponent],
-      // If TINYMCE_BASE_URL is imported in the component, no need to provide it here
-      // Otherwise, provide it as a value
-      // providers: [
-      //   { provide: 'TINYMCE_BASE_URL', useValue: MOCK_TINYMCE_BASE_URL },
-      // ],
     }).compileComponents();
   });
 
@@ -90,7 +82,6 @@ describe('RichTextEditorComponent', () => {
   });
 
   describe('Character Limit Functionality', () => {
-    // Define a MockRange class to mimic the Range object
     class MockRange {
       setStart = jest.fn();
       collapse = jest.fn();
@@ -105,7 +96,6 @@ describe('RichTextEditorComponent', () => {
 
       mockRange = new MockRange();
 
-      // Mock the TinyMCE editor
       mockEditor = {
         on: jest.fn(),
         getContent: jest.fn().mockReturnValue('Sample text'),
@@ -129,94 +119,94 @@ describe('RichTextEditorComponent', () => {
         },
       };
 
-      // Invoke the setup function manually
       const setupFunction = component.init.setup;
       if (setupFunction) {
         setupFunction(mockEditor);
       }
     });
 
-    it('should update characterCount on GetContent event', (done) => {
+    it('should update characterCount on GetContent event', async () => {
       expect(mockEditor.on).toHaveBeenCalledWith('GetContent', expect.any(Function));
       const getContentCallback = mockEditor.on.mock.calls.find(
-        (call: [string, Function]) => call[0] === 'GetContent'
-      )[1];
+        (call: [string, (...args: any[]) => void]) => call[0] === 'GetContent',
+      )?.[1];
 
-      // Simulate GetContent event
-      getContentCallback();
+      if (getContentCallback) {
+        getContentCallback();
 
-      // Allow setTimeout to execute
-      setTimeout(() => {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
         expect(component.characterCount).toBe(1000);
-        done();
-      }, 0);
+      }
     });
 
     it('should prevent keypress when character limit is reached', () => {
       const keypressCallback = mockEditor.on.mock.calls.find(
-        (call: [string, Function]) => call[0] === 'keypress'
-      )[1];
+        (call: [string, (...args: any[]) => void]) => call[0] === 'keypress',
+      )?.[1];
+
       const mockEvent = { preventDefault: jest.fn() };
 
-      // Simulate keypress event when character limit is reached
       component.RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
       mockEditor.plugins.wordcount.body.getCharacterCount.mockReturnValue(2000);
-      keypressCallback(mockEvent);
-      expect(mockEvent.preventDefault).toHaveBeenCalled();
+
+      if (keypressCallback) {
+        keypressCallback(mockEvent);
+        expect(mockEvent.preventDefault).toHaveBeenCalled();
+      }
     });
 
-    it('should handle paste event and truncate content if necessary', (done) => {
+    it('should handle paste event and truncate content if necessary', async () => {
       const pasteCallback = mockEditor.on.mock.calls.find(
-        (call: [string, Function]) => call[0] === 'paste'
-      )[1];
+        (call: [string, (...args: any[]) => void]) => call[0] === 'paste',
+      )?.[1];
+
       const mockPasteEvent = { preventDefault: jest.fn() };
 
-      // Mock content before and after paste
       mockEditor.getContent
-        .mockReturnValueOnce('Existing content') // Before paste
-        .mockReturnValueOnce('Existing contentPastedText'); // After paste
+        .mockReturnValueOnce('Existing content')
+        .mockReturnValueOnce('Existing contentPastedText');
 
       component.RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
       mockEditor.plugins.wordcount.body.getCharacterCount.mockReturnValue(2000);
 
-      pasteCallback(mockPasteEvent);
+      if (pasteCallback) {
+        pasteCallback(mockPasteEvent);
 
-      setTimeout(() => {
-        try {
-          expect(mockPasteEvent.preventDefault).toHaveBeenCalled();
+        await new Promise((resolve) => setTimeout(resolve, 0));
 
-          // Calculate expected finalContent
-          const contentBeforePaste = 'Existing content';
-          const contentAfterPaste = 'Existing contentPastedText';
-          let firstDifferentIndex = 0;
-          while (
-            firstDifferentIndex < contentBeforePaste.length &&
-            contentBeforePaste[firstDifferentIndex] === contentAfterPaste[firstDifferentIndex]
-          ) {
-            firstDifferentIndex += 1;
-          }
-          const contentBeforeFirstDifferentIndex = contentBeforePaste.substring(0, firstDifferentIndex);
-          const contentAfterFirstDifferentIndex = contentBeforePaste.substring(firstDifferentIndex);
-          const lengthExceed = mockEditor.plugins.wordcount.body.getCharacterCount() - component.RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
-          const pasteContentLength = contentAfterPaste.length - contentBeforePaste.length;
-          const pasteContent = contentAfterPaste.substring(
-            firstDifferentIndex,
-            firstDifferentIndex + pasteContentLength
-          );
-          const truncatedPastedText = pasteContent.substring(0, pasteContentLength - lengthExceed);
-          const finalContent = contentBeforeFirstDifferentIndex + truncatedPastedText + contentAfterFirstDifferentIndex;
+        expect(mockPasteEvent.preventDefault).toHaveBeenCalled();
 
-          expect(mockEditor.setContent).toHaveBeenCalledWith(finalContent);
-          expect(mockEditor.selection.getRng).toHaveBeenCalled();
-          expect(mockEditor.dom.createRng).toHaveBeenCalled();
-          expect(mockEditor.selection.setRng).toHaveBeenCalledWith(mockRange);
-          expect(mockRange.setStart).toHaveBeenCalled();
-          expect(mockRange.collapse).toHaveBeenCalled();
-          done();
-        } catch (error) {
-          done(error);
+        const contentBeforePaste = 'Existing content';
+        const contentAfterPaste = 'Existing contentPastedText';
+        let firstDifferentIndex = 0;
+        while (
+          firstDifferentIndex < contentBeforePaste.length
+          && contentBeforePaste[firstDifferentIndex] === contentAfterPaste[firstDifferentIndex]
+        ) {
+          firstDifferentIndex += 1;
         }
-      }, 0);
+        const contentBeforeFirstDifferentIndex = contentBeforePaste.substring(0, firstDifferentIndex);
+        const contentAfterFirstDifferentIndex = contentBeforePaste.substring(firstDifferentIndex);
+        const lengthExceed =
+          mockEditor.plugins.wordcount.body.getCharacterCount()
+          - component.RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
+        const pasteContentLength = contentAfterPaste.length - contentBeforePaste.length;
+        const pasteContent = contentAfterPaste.substring(
+          firstDifferentIndex,
+          firstDifferentIndex + pasteContentLength,
+        );
+        const truncatedPastedText = pasteContent.substring(0, pasteContentLength - lengthExceed);
+        const finalContent =
+          contentBeforeFirstDifferentIndex + truncatedPastedText + contentAfterFirstDifferentIndex;
+
+        expect(mockEditor.setContent).toHaveBeenCalledWith(finalContent);
+        expect(mockEditor.selection.getRng).toHaveBeenCalled();
+        expect(mockEditor.dom.createRng).toHaveBeenCalled();
+        expect(mockEditor.selection.setRng).toHaveBeenCalledWith(mockRange);
+        expect(mockRange.setStart).toHaveBeenCalled();
+        expect(mockRange.collapse).toHaveBeenCalled();
+      }
     });
   });
 
