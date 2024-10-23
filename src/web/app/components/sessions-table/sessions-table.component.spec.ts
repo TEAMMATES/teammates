@@ -1,5 +1,6 @@
 // Angular imports
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Pipe, PipeTransform } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -7,16 +8,15 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 // Third-party imports
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Application imports
+import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableModule } from './sessions-table.module';
 import { SessionsTableComponent } from './sessions-table.component';
-import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';

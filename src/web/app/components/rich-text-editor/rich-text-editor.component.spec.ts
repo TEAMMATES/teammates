@@ -1,5 +1,3 @@
-// rich-text-editor.component.spec.ts
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RichTextEditorComponent } from './rich-text-editor.component';
 
@@ -135,11 +133,11 @@ describe('RichTextEditorComponent', () => {
 
       if (getContentCallback) {
         getContentCallback();
-
-        await new Promise((resolve) => setTimeout(resolve, 0));
-
-        expect(component.characterCount).toBe(1000);
       }
+
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      expect(component.characterCount).toBe(1000);
     });
 
     it('should prevent keypress when character limit is reached', () => {
@@ -154,8 +152,9 @@ describe('RichTextEditorComponent', () => {
 
       if (keypressCallback) {
         keypressCallback(mockEvent);
-        expect(mockEvent.preventDefault).toHaveBeenCalled();
       }
+
+      expect(mockEvent.preventDefault).toHaveBeenCalled();
     });
 
     it('should handle paste event and truncate content if necessary', async () => {
@@ -174,41 +173,41 @@ describe('RichTextEditorComponent', () => {
 
       if (pasteCallback) {
         pasteCallback(mockPasteEvent);
-
-        await new Promise((resolve) => setTimeout(resolve, 0));
-
-        expect(mockPasteEvent.preventDefault).toHaveBeenCalled();
-
-        const contentBeforePaste = 'Existing content';
-        const contentAfterPaste = 'Existing contentPastedText';
-        let firstDifferentIndex = 0;
-        while (
-          firstDifferentIndex < contentBeforePaste.length
-          && contentBeforePaste[firstDifferentIndex] === contentAfterPaste[firstDifferentIndex]
-        ) {
-          firstDifferentIndex += 1;
-        }
-        const contentBeforeFirstDifferentIndex = contentBeforePaste.substring(0, firstDifferentIndex);
-        const contentAfterFirstDifferentIndex = contentBeforePaste.substring(firstDifferentIndex);
-        const lengthExceed =
-          mockEditor.plugins.wordcount.body.getCharacterCount()
-          - component.RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
-        const pasteContentLength = contentAfterPaste.length - contentBeforePaste.length;
-        const pasteContent = contentAfterPaste.substring(
-          firstDifferentIndex,
-          firstDifferentIndex + pasteContentLength,
-        );
-        const truncatedPastedText = pasteContent.substring(0, pasteContentLength - lengthExceed);
-        const finalContent =
-          contentBeforeFirstDifferentIndex + truncatedPastedText + contentAfterFirstDifferentIndex;
-
-        expect(mockEditor.setContent).toHaveBeenCalledWith(finalContent);
-        expect(mockEditor.selection.getRng).toHaveBeenCalled();
-        expect(mockEditor.dom.createRng).toHaveBeenCalled();
-        expect(mockEditor.selection.setRng).toHaveBeenCalledWith(mockRange);
-        expect(mockRange.setStart).toHaveBeenCalled();
-        expect(mockRange.collapse).toHaveBeenCalled();
       }
+
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      expect(mockPasteEvent.preventDefault).toHaveBeenCalled();
+
+      const contentBeforePaste = 'Existing content';
+      const contentAfterPaste = 'Existing contentPastedText';
+      let firstDifferentIndex = 0;
+      while (
+        firstDifferentIndex < contentBeforePaste.length
+        && contentBeforePaste[firstDifferentIndex] === contentAfterPaste[firstDifferentIndex]
+      ) {
+        firstDifferentIndex += 1;
+      }
+      const contentBeforeFirstDifferentIndex = contentBeforePaste.substring(0, firstDifferentIndex);
+      const contentAfterFirstDifferentIndex = contentBeforePaste.substring(firstDifferentIndex);
+      const lengthExceed =
+        mockEditor.plugins.wordcount.body.getCharacterCount()
+        - component.RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
+      const pasteContentLength = contentAfterPaste.length - contentBeforePaste.length;
+      const pasteContent = contentAfterPaste.substring(
+        firstDifferentIndex,
+        firstDifferentIndex + pasteContentLength,
+      );
+      const truncatedPastedText = pasteContent.substring(0, pasteContentLength - lengthExceed);
+      const finalContent =
+        contentBeforeFirstDifferentIndex + truncatedPastedText + contentAfterFirstDifferentIndex;
+
+      expect(mockEditor.setContent).toHaveBeenCalledWith(finalContent);
+      expect(mockEditor.selection.getRng).toHaveBeenCalled();
+      expect(mockEditor.dom.createRng).toHaveBeenCalled();
+      expect(mockEditor.selection.setRng).toHaveBeenCalledWith(mockRange);
+      expect(mockRange.setStart).toHaveBeenCalled();
+      expect(mockRange.collapse).toHaveBeenCalled();
     });
   });
 
