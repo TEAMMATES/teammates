@@ -14,12 +14,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Application imports
-import { SessionsTableComponent } from './sessions-table.component';
-import { SessionsTableModule } from './sessions-table.module';
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+import { SessionsTableComponent } from './sessions-table.component';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+import { SessionsTableModule } from './sessions-table.module';
 
 // Types and models
 import {
@@ -34,42 +34,42 @@ import {
 // Mock Pipes
 @Pipe({ name: 'formatDateBrief' })
 class MockFormatDateBriefPipe implements PipeTransform {
-  transform(_value: number, _timeZone: string): string {
+  transform(): string {
     return 'Mock Format Date Brief';
   }
 }
 
 @Pipe({ name: 'formatDateDetail' })
 class MockFormatDateDetailPipe implements PipeTransform {
-  transform(_value: number, _timeZone: string): string {
+  transform(): string {
     return 'Mock Format Date Detail';
   }
 }
 
 @Pipe({ name: 'publishStatusName' })
 class MockPublishStatusNamePipe implements PipeTransform {
-  transform(_value: FeedbackSessionPublishStatus): string {
+  transform(): string {
     return 'Mock Publish Status Name';
   }
 }
 
 @Pipe({ name: 'publishStatusTooltip' })
 class MockPublishStatusTooltipPipe implements PipeTransform {
-  transform(_value: FeedbackSessionPublishStatus): string {
+  transform(): string {
     return 'Mock Publish Status Tooltip';
   }
 }
 
 @Pipe({ name: 'submissionStatusTooltip' })
 class MockSubmissionStatusTooltipPipe implements PipeTransform {
-  transform(_status: FeedbackSessionSubmissionStatus, _deadlines: any): string {
+  transform(): string {
     return 'Mock Submission Status Tooltip';
   }
 }
 
 @Pipe({ name: 'submissionStatusName' })
 class MockSubmissionStatusNamePipe implements PipeTransform {
-  transform(_status: FeedbackSessionSubmissionStatus, _deadlines: any): string {
+  transform(): string {
     return 'Mock Submission Status Name';
   }
 }

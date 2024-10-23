@@ -135,7 +135,9 @@ describe('RichTextEditorComponent', () => {
         getContentCallback();
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 0));
+      await new Promise((resolve) => {
+        setTimeout(resolve, 0);
+      });
 
       expect(component.characterCount).toBe(1000);
     });
