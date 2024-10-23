@@ -1,3 +1,5 @@
+// rich-text-editor.component.spec.ts
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RichTextEditorComponent } from './rich-text-editor.component';
 
