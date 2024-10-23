@@ -175,7 +175,9 @@ describe('RichTextEditorComponent', () => {
         pasteCallback(mockPasteEvent);
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 0));
+      await new Promise((resolve) => {
+        setTimeout(resolve, 0);
+      });
 
       expect(mockPasteEvent.preventDefault).toHaveBeenCalled();
 

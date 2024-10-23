@@ -14,9 +14,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Application imports
-import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
-import { SessionsTableModule } from './sessions-table.module';
 import { SessionsTableComponent } from './sessions-table.component';
+import { SessionsTableModule } from './sessions-table.module';
+import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
@@ -81,13 +81,8 @@ describe('SessionsTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SessionsTableModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
-        TeammatesRouterModule,
-      ],
       declarations: [
+        SessionsTableComponent,
         MockFormatDateBriefPipe,
         MockFormatDateDetailPipe,
         MockPublishStatusNamePipe,
@@ -95,14 +90,22 @@ describe('SessionsTableComponent', () => {
         MockSubmissionStatusTooltipPipe,
         MockSubmissionStatusNamePipe,
       ],
-      providers: [NgbModal, SimpleModalService],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        SessionsTableModule,
+        TeammatesRouterModule,
+      ],
+      providers: [
+        SimpleModalService,
+        { provide: NgbModal, useValue: ngbModal },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SessionsTableComponent);
     component = fixture.componentInstance;
-    ngbModal = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
 
