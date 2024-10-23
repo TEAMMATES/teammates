@@ -60,6 +60,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   hasResponseChanged: boolean = false;
   // Initial a new array to store names
   searchName: string[] = [];
+  feedbackRecipients: Array<FeedbackResponseRecipient | null> = [];
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -97,7 +98,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     });
     this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
     // Initialize the searchName array with empty strings, matching the length of recipientSubmissionForms.
-    this.searchName = Array.from({ length: this.model.recipientSubmissionForms.length }, () => "");
+    this.searchName = new Array(this.model.recipientSubmissionForms.length).fill('');
+    this.feedbackRecipients = new Array(this.model.recipientSubmissionForms.length).fill(null);
 
   }
 
@@ -342,16 +344,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     const searchName = searchText.trim().toLowerCase();
     if (searchName.length === 0) return recipients;
 
-    const isSpaceIncluded = searchName.includes(' ');
-    return recipients.filter((r) => {
-        if (!this.isRecipientSelected(r)) return false;
-
-        const recipientName = r.recipientName.toLowerCase();
-        return isSpaceIncluded
-            ? recipientName.includes(searchName)
-            : recipientName.split(' ').some((s) => s.includes(searchName));
-    });
-}
+    if (searchName.includes(' ')) {
+      return recipients.filter((r) => !this.isRecipientSelected(r)
+        && r.recipientName.toLowerCase().includes(searchName));
+    }
+    return recipients.filter((r) => !this.isRecipientSelected(r)
+      && r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
+  }
 
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
@@ -396,15 +395,38 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   // Method to handle changes in the recipient identifier.
   triggerRecipientIdentifierChange(index: number, data: any): void {
-    if (this.searchName[index] !== undefined) {
-        this.searchName[index] = "";
-    }
+    this.searchName[index] = '';
     this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
 }
+
+updateSearchNameTextByShowSection(): void {
+  this.searchName = this.searchName.map(
+    (s, i) => {
+      return this.feedbackRecipients[i] === null ? s : this.getSelectionOptionLabel(this.feedbackRecipients[i]!);
+    },
+  );
+}
+
+triggerSelectInputFocus(index: number): void {
+  if (this.feedbackRecipients[index] !== null) {
+    this.searchName[index] = '';
+    this.model.recipientSubmissionForms[index].recipientIdentifier = '';
+    this.feedbackRecipients[index] = null;
+  }
+}
+
 
   // Trigger to change the text input
   triggerSelectInputChange(index: number): void {
     this.model.recipientSubmissionForms[index].recipientIdentifier = '';
+    this.feedbackRecipients[index] = null;
+  }
+
+  triggerRecipientOptionSelect(index: number, recipient: FeedbackResponseRecipient, event: any): void {
+    event.target.blur();
+    this.searchName[index] = this.getSelectionOptionLabel(recipient);
+    this.feedbackRecipients[index] = recipient;
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
   }
 
   /**
@@ -569,6 +591,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.isSectionTeamShown = false;
       this.sortRecipientsByName();
     }
+    this.updateSearchNameTextByShowSection();
   }
 
   /**
