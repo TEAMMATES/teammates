@@ -18,8 +18,6 @@ import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-mod
 import { SessionsTableComponent } from './sessions-table.component';
 import { SessionsTableModule } from './sessions-table.module';
 import { SimpleModalService } from '../../../services/simple-modal.service';
-import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 // Types and models
 import {
@@ -30,6 +28,10 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+
+import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+
 
 // Mock Pipes
 @Pipe({ name: 'formatDateBrief' })
