@@ -9,16 +9,13 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
 // Third-party imports
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 // Application imports
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
 import { SessionsTableModule } from './sessions-table.module';
 import { SimpleModalService } from '../../../services/simple-modal.service';
-
 // Types and models
 import {
   FeedbackSession,
@@ -28,11 +25,8 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-
-
 // Mock Pipes
 @Pipe({ name: 'formatDateBrief' })
 class MockFormatDateBriefPipe implements PipeTransform {
@@ -40,42 +34,36 @@ class MockFormatDateBriefPipe implements PipeTransform {
     return 'Mock Format Date Brief';
   }
 }
-
 @Pipe({ name: 'formatDateDetail' })
 class MockFormatDateDetailPipe implements PipeTransform {
   transform(): string {
     return 'Mock Format Date Detail';
   }
 }
-
 @Pipe({ name: 'publishStatusName' })
 class MockPublishStatusNamePipe implements PipeTransform {
   transform(): string {
     return 'Mock Publish Status Name';
   }
 }
-
 @Pipe({ name: 'publishStatusTooltip' })
 class MockPublishStatusTooltipPipe implements PipeTransform {
   transform(): string {
     return 'Mock Publish Status Tooltip';
   }
 }
-
 @Pipe({ name: 'submissionStatusTooltip' })
 class MockSubmissionStatusTooltipPipe implements PipeTransform {
   transform(): string {
     return 'Mock Submission Status Tooltip';
   }
 }
-
 @Pipe({ name: 'submissionStatusName' })
 class MockSubmissionStatusNamePipe implements PipeTransform {
   transform(): string {
     return 'Mock Submission Status Name';
   }
 }
-
 describe('SessionsTableComponent', () => {
   let component: SessionsTableComponent;
   let fixture: ComponentFixture<SessionsTableComponent>;
@@ -104,17 +92,14 @@ describe('SessionsTableComponent', () => {
       ],
     }).compileComponents();
   }));
-
   beforeEach(() => {
     fixture = TestBed.createComponent(SessionsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
   const feedbackSession1: FeedbackSession = {
     courseId: 'GOT',
     timeZone: 'Asia/Singapore',
@@ -133,7 +118,6 @@ describe('SessionsTableComponent', () => {
     studentDeadlines: {},
     instructorDeadlines: {},
   };
-
   const feedbackSession2: FeedbackSession = {
     courseId: 'GOT',
     timeZone: 'Asia/Singapore',
@@ -152,7 +136,6 @@ describe('SessionsTableComponent', () => {
     studentDeadlines: {},
     instructorDeadlines: {},
   };
-
   const instructorCanEverything: InstructorPermissionSet = {
     canModifyCourse: true,
     canModifySession: true,
@@ -163,7 +146,6 @@ describe('SessionsTableComponent', () => {
     canViewSessionInSections: true,
     canSubmitSessionInSections: true,
   };
-
   const instructorCannotEverything: InstructorPermissionSet = {
     canModifyCourse: false,
     canModifySession: false,
@@ -174,28 +156,24 @@ describe('SessionsTableComponent', () => {
     canViewSessionInSections: false,
     canSubmitSessionInSections: false,
   };
-
   const sessionTable1: SessionsTableRowModel = {
     feedbackSession: feedbackSession1,
     responseRate: '8 / 9',
     isLoadingResponseRate: false,
     instructorPrivilege: instructorCanEverything,
   };
-
   const sessionTable2: SessionsTableRowModel = {
     feedbackSession: feedbackSession2,
     responseRate: '',
     isLoadingResponseRate: true,
     instructorPrivilege: instructorCannotEverything,
   };
-
   it('should snap like in home page with 2 sessions sorted by start date', () => {
     component.columnsToShow = [SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE];
     component.sessionsTableRowModels = [sessionTable1, sessionTable2];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
   it('should call copySession when triggered', fakeAsync(() => {
     const spy = jest.spyOn(component.copySessionEvent, 'emit');
     const modalRef = {
@@ -205,12 +183,9 @@ describe('SessionsTableComponent', () => {
       }),
       componentInstance: {},
     } as any;
-
     jest.spyOn(ngbModal, 'open').mockReturnValue(modalRef);
-
     component.copySession(0);
     tick();
-
     expect(ngbModal.open).toHaveBeenCalledWith(CopySessionModalComponent);
     expect(spy).toHaveBeenCalledWith({
       newFeedbackSessionName: 'Copied Session',
