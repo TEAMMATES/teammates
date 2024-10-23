@@ -14,7 +14,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Application imports
+import { SessionsTableModule } from './sessions-table.module';
+import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
+import { SessionsTableComponent } from './sessions-table.component';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+
+// Types and models
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -24,11 +30,8 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 
+// Application components
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
-import { SessionsTableComponent } from './sessions-table.component';
-import { SessionsTableModule } from './sessions-table.module';
 
 // Mock Pipes
 @Pipe({ name: 'formatDateBrief' })
