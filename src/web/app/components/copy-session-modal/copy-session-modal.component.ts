@@ -46,13 +46,14 @@ export class CopySessionModalComponent {
     }
     else {
       validName=true;
+      this.activeModal.close({
+        newFeedbackSessionName: this.newFeedbackSessionName,
+        sessionToCopyCourseId: this.sessionToCopyCourseId,
+        copyToCourseList: Array.from(this.copyToCourseSet),
+      });
     }
 
-    this.activeModal.close({
-      newFeedbackSessionName: this.newFeedbackSessionName,
-      sessionToCopyCourseId: this.sessionToCopyCourseId,
-      copyToCourseList: Array.from(this.copyToCourseSet),
-    });
+
   }
 
   /**
