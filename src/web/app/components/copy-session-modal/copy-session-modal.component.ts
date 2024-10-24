@@ -40,11 +40,14 @@ export class CopySessionModalComponent {
   /**
   * check if session name is whitespace or not
   * /
-  if (this.newFeedbackSessionName.trim().length==0) {
-  validName:false; }
-  else {validName=true;}
-  return;
-  }
+    if (this.newFeedbackSessionName.trim().length==0) {
+      validName:false;
+      return;
+    }
+    else {
+      validName=true;
+    }
+
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
