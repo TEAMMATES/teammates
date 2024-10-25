@@ -12,7 +12,7 @@
         <label><b>Name for copied session*</b></label>
         <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
                required #newSessionName="ngModel">
-        <div [hidden]="!validName" class="invalid-field">
+        <div [hidden]="!(validName.value)" class="invalid-field">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             The field "Name for copied session" should not be empty.
         </div>
@@ -35,5 +35,5 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
   <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
-          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1 || !validName">Copy</button>
+          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1 || !(validName.value)">Copy</button>
 </div>
