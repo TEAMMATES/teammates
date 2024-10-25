@@ -38,7 +38,7 @@ export class CopySessionModalComponent {
     }
     if (this.newFeedbackSessionName.length > this.FEEDBACK_SESSION_NAME_MAX_LENGTH) {
       this.statusMessageService.showErrorToast(
-      `The field "Name for copied session" should less than ${this.FEEDBACK_SESSION_NAME_MAX_LENGTH}.`
+      `The field "Name for copied session" should less than ${this.FEEDBACK_SESSION_NAME_MAX_LENGTH}.`,
       );
       return;
     }
