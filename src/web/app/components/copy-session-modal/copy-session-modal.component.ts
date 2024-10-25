@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { StatusMessageService } from '../../../services/status-message.service';
 
 /**
  * Copy current session modal.
@@ -25,24 +26,18 @@ export class CopySessionModalComponent {
   newFeedbackSessionName: string = '';
   copyToCourseSet: Set<string> = new Set<string>();
 
-  errorMessage: string = '';
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal,private statusMessageService: StatusMessageService) {}
 
-  onNameChange(): void {
-    this.errorMessage = '';
-  }
 
   /**
    * Fires the copy event.
    */
   copy(): void {
     if (this.newFeedbackSessionName.trim().length === 0) {
-      this.errorMessage = 'The field "Name for copied session" should not be whitespace.';
+      this.statusMessageService.showErrorToast('The field "Name for copied session" should not be whitespace.')
       return;
     }
-
-    this.errorMessage = '';
 
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
