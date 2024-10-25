@@ -667,5 +667,18 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     const existingStudentsData = existingStudentsHOTInstance.getData();
 
     newStudentsHOTInstance.loadData(existingStudentsData);
+
+    if(!this.isExistingStudentsPresent) {
+      this.statusMessageService.showErrorToast('No valid existing students to copy.');
+      return;
+    }
+
+    if(this.isExistingStudentsPanelCollapsed) {
+      this.statusMessageService.showWarningToast('Please expand existing students.');
+      return;
+    } else {
+      this.statusMessageService.showSuccessToast('Existing students copied successfully.');
+    }
+
   }
 }
