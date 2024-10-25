@@ -30,7 +30,16 @@ export class CopySessionModalComponent {
   /**
   * boolean to store validity of name
   * /
-  validName: boolean = false;
+
+
+  validateName(sessionName: string): boolean {
+    if (this.sessionName.trim().length==0) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 
   /**
    * Fires the copy event.
@@ -39,11 +48,7 @@ export class CopySessionModalComponent {
   /**
    * check if session name is whitespace or not
    */
-    if (this.newFeedbackSessionName.trim().length==0) {
-      this.validName=false;
-      return;
-    } else {
-        this.validName=true;
+    if (validateName(this.newFeedbackSessionName)) {
         this.activeModal.close({
           newFeedbackSessionName: this.newFeedbackSessionName,
           sessionToCopyCourseId: this.sessionToCopyCourseId,
