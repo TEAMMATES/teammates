@@ -38,6 +38,10 @@ constructor(public activeModal: NgbActiveModal) {}
     });
   }
 
+  validateName(newFeedbackSessionName: string): boolean {
+    return (!(newFeedbackSessionName.trim().length === 0 && newFeedbackSessionName !== ''));
+  }
+
   /**
    * Toggles selection of course to copy to in set.
    */
