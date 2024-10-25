@@ -38,7 +38,7 @@ export class CopySessionModalComponent {
    */
   copy(): void {
     if (this.newFeedbackSessionName.trim().length === 0) {
-      this.errorMessage = "The field \"Name for copied session\" should not be whitespace.";
+      this.errorMessage = 'The field \"Name for copied session\" should not be whitespace.';
       return;
     }
 
