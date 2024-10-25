@@ -39,7 +39,7 @@ constructor(public activeModal: NgbActiveModal) {}
   }
 
   validateName(newFeedbackSessionName: string): boolean {
-    return (!(newFeedbackSessionName.trim().length === 0 && newFeedbackSessionName !== ''));
+    return (!(newFeedbackSessionName.trim().length === 0 && newFeedbackSessionName !== null));
   }
 
   /**
