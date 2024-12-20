@@ -97,4 +97,15 @@ public class EmailSenderTest extends BaseLogicTest {
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
     }
 
+    @Test
+    public void testSpecialCharactersInFields() {
+        EmailWrapper wrapper = getTypicalEmailWrapper();
+        wrapper.setSubject("Test 🚀 with special characters 🎉");
+        wrapper.setContent("<p>Content with emoji 😊 and symbols &copy;</p>");
+
+        Mail email = new SendgridService().parseToEmail(wrapper);
+        assertEquals("Test 🚀 with special characters 🎉", email.getSubject());
+        assertEquals("Content with emoji 😊 and symbols ©", email.getContent().get(0).getValue());
+    }
+
 }
