@@ -150,7 +150,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // If weights are negative, trigger this error.
             if (hasAssignedWeights && !msqWeights.isEmpty()) {
                 msqWeights.stream()
-                        .filter(weight -> weight < 0)
+                        .filter(weight -> weight != null && weight < 0)
                         .forEach(weight -> errors.add(MSQ_ERROR_INVALID_WEIGHT));
             }
 
