@@ -97,7 +97,21 @@ export class McqQuestionStatisticsCalculation
         perRecipientResponse[response.recipient][answer] += 1;
       }
 
+      const areAllOptionWeightsNull: boolean = this.question.mcqWeights.every(weight => weight === null);
+
       for (const recipient of Object.keys(perRecipientResponse)) {
+        if (areAllOptionWeightsNull) {
+          this.perRecipientResponses[recipient] = {
+            recipient,
+            recipientEmail: recipientEmails[recipient],
+            total: null,
+            average: null,
+            recipientTeam: recipientToTeam[recipient],
+            responses: perRecipientResponse[recipient],
+          };
+          continue;
+        }
+
         const responses: Record<string, number> = perRecipientResponse[recipient];
         let total: number = 0;
         let average: number = 0;

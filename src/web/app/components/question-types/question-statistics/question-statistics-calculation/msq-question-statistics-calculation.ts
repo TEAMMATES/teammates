@@ -119,7 +119,21 @@ export class MsqQuestionStatisticsCalculation
       this.updateResponseCountPerOptionForResponse(response.responseDetails, perRecipientResponse[email]);
     }
 
+    const areAllOptionWeightsNull: boolean = this.question.msqWeights.every(weight => weight === null);
+
     for (const recipient of Object.keys(perRecipientResponse)) {
+      if (areAllOptionWeightsNull) {
+        this.perRecipientResponses[recipient] = {
+          recipient,
+          recipientEmail: recipientEmails[recipient],
+          total: null,
+          average: null,
+          recipientTeam: recipientToTeam[recipient],
+          responses: perRecipientResponse[recipient],
+        };
+        continue;
+      }
+
       const responses: Record<string, number> = perRecipientResponse[recipient];
       let total: number = 0;
       let average: number = 0;
