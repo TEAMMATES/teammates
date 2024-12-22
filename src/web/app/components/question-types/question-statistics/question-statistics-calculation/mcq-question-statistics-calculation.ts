@@ -102,6 +102,9 @@ export class McqQuestionStatisticsCalculation
         for (const answer of Object.keys(responses)) {
           const responseCount: number = responses[answer];
           const weight: number = this.weightPerOption[answer];
+          if (weight === null) {
+            continue;
+          }
           total += responseCount * weight;
           numOfResponsesForRecipient += responseCount;
         }
