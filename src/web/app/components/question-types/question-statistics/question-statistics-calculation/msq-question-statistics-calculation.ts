@@ -71,6 +71,9 @@ export class MsqQuestionStatisticsCalculation
 
       for (const answer of Object.keys(this.weightPerOption)) {
         const weight: number = this.weightPerOption[answer];
+        if (weight === null) {
+          continue;
+        }
         const frequency: number = this.answerFrequency[answer];
         const weightedPercentage: number = totalWeightedResponseCount === 0 ? 0
             : 100 * ((frequency * weight) / totalWeightedResponseCount);
