@@ -7,7 +7,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { SessionLinksRecoveryResponse } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-
+import { noWhitespaceValidator } from './validators/no-whitespace.validator';
 /**
  * Student recover session links page.
  */
@@ -36,7 +36,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.formSessionLinksRecovery = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, noWhitespaceValidator]],
       recaptcha: [''],
     });
   }
