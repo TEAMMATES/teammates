@@ -845,9 +845,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-        public void testIsValidStartEndDate() {
+    public void testIsValidStartEndDate() {
         FeedbackSessionsLogic logic = FeedbackSessionsLogic.inst();
         ZoneId timeZone = ZoneId.of("UTC");
+    
 
         // CT1: TestNullStartDate
         assertFalse(logic.isValidStartEndDate(null, Instant.parse("2023-12-31T23:59:59Z"), timeZone));
@@ -869,6 +870,48 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // CT7: TestEndYearAfter9999
         assertFalse(logic.isValidStartEndDate(Instant.parse("2023-01-01T00:00:00Z"), Instant.parse("10000-01-01T00:00:00Z"), timeZone));
+
+         // CT8: TestStartDateEqualEndDate
+        assertFalse(logic.isValidStartEndDate(
+                Instant.parse("2023-01-01T00:00:00Z"),
+                Instant.parse("2023-01-01T00:00:00Z"),
+                timeZone
+        ));
+
+        // CT9: TestStartDateJustBeforeEndDate
+        assertTrue(logic.isValidStartEndDate(
+                Instant.parse("2023-01-01T00:00:00Z"),
+                Instant.parse("2023-01-01T00:00:01Z"),
+                timeZone
+        ));
+
+        // CT10: TestStartYear1970
+        assertTrue(logic.isValidStartEndDate(
+                Instant.parse("1970-01-01T00:00:00Z"),
+                Instant.parse("2023-12-31T23:59:59Z"),
+                timeZone
+        ));
+
+        // CT11: TestEndYear9999
+        assertTrue(logic.isValidStartEndDate(
+                Instant.parse("2023-01-01T00:00:00Z"),
+                Instant.parse("9999-12-31T23:59:59Z"),
+                timeZone
+        ));
+
+        // CT12: TestStartYearJustBefore1970
+        assertFalse(logic.isValidStartEndDate(
+                Instant.parse("1969-12-31T23:59:59Z"),
+                Instant.parse("2023-12-31T23:59:59Z"),
+                timeZone
+        ));
+
+        // CT13: TestEndYearJustAfter9999
+        assertFalse(logic.isValidStartEndDate(
+                Instant.parse("2023-01-01T00:00:00Z"),
+                Instant.parse("10000-01-01T00:00:00Z"),
+                timeZone
+        ));
         }
 
 
