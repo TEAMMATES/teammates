@@ -53,6 +53,7 @@ import {
 } from '../../components/question-submission-form/question-submission-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SessionPageService } from "../../../services/session-page.service";
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -154,6 +155,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
               private logService: LogService,
+              private sessionPageService: SessionPageService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -1227,6 +1229,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
       this.groupQuestionsByRecipient();
     }
+  }
+
+  toggleAllResponseView(): void {
+    this.sessionPageService.toggleExpansion();
   }
 
   /**

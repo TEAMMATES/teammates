@@ -36,6 +36,7 @@ import { ContributionQuestionConstraintComponent }
 import { RankRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/rank-recipients-question-constraint.component';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { SessionPageService } from "../../../services/session-page.service";
 
 /**
  * The question submission form for a question.
@@ -178,7 +179,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   autosaveTimeout: any;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
-    private feedbackResponseService: FeedbackResponsesService) {
+    private feedbackResponseService: FeedbackResponsesService,
+    private sessionPageService: SessionPageService) {
     this.visibilityStateMachine =
       this.feedbackQuestionsService.getNewVisibilityStateMachine(
         this.model.giverType, this.model.recipientType);
@@ -195,6 +197,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       }
     }
     return false;
+  }
+
+  ngOnInit(): void {
+    this.sessionPageService.isExpandableUser.subscribe(
+      (toExpand: boolean) => {
+        this.model.isTabExpanded = toExpand;
+        console.log(this.model.isTabExpanded);
+      }
+    );
   }
 
   ngDoCheck(): void {
