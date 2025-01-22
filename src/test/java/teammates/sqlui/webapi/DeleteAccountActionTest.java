@@ -15,6 +15,7 @@ import teammates.ui.webapi.DeleteAccountAction;
  */
 public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction> {
     String googleId = "user-googleId";
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.ACCOUNT;
@@ -24,14 +25,15 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     protected String getRequestMethod() {
         return DELETE;
     }
+
     @Test
     protected void textExecute_accountDoesNotExist_failSilently() {
-         String[] params = {
-              Const.ParamsNames.INSTRUCTOR_ID, "non-existing-account",
-         };
-            DeleteAccountAction action = getAction(params);
-            MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-            assertEquals("Account is successfully deleted.", actionOutput.getMessage());
+        String[] params = {
+                Const.ParamsNames.INSTRUCTOR_ID, "non-existing-account",
+        };
+        DeleteAccountAction action = getAction(params);
+        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
+        assertEquals("Account is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -47,6 +49,6 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         DeleteAccountAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
         assertEquals("Account is successfully deleted.", actionOutput.getMessage());
-        assertNull(mockLogic.getInstructorByGoogleId(stubCourse.getId(),instructor.getGoogleId()));
+        assertNull(mockLogic.getInstructorByGoogleId(stubCourse.getId(), instructor.getGoogleId()));
     }
 }
