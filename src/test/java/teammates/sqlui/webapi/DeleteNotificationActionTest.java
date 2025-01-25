@@ -2,6 +2,9 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
+import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -11,9 +14,9 @@ import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.DeleteNotificationAction;
 
-import java.time.Instant;
-import java.util.UUID;
-
+/**
+ * SUT: {@link DeleteNotificationAction}.
+ */
 public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificationAction> {
 
     @Override
