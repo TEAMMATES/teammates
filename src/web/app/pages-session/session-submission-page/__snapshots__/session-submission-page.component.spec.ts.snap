@@ -35,6 +35,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
@@ -56,6 +57,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   regKey={[Function String]}
   retryAttempts="0"
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
@@ -196,6 +198,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
@@ -217,6 +220,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
@@ -354,6 +358,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
@@ -375,6 +380,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
@@ -512,6 +518,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
@@ -533,6 +540,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
@@ -804,6 +812,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
@@ -825,6 +834,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
@@ -1005,6 +1015,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </div>
     </div>
+  </div><div
+    class="w-100 d-flex justify-content-end"
+  >
+    <button
+      class="btn expand-btn btn-light margin-top-30px my-3 px-5"
+      id="btn-collapse-expand"
+    >
+       Collapse All 
+    </button>
   </div><tm-loading-retry>
     <div>
       <tm-question-submission-form
@@ -3900,6 +3919,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
@@ -3921,6 +3941,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
@@ -4101,6 +4122,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </div>
     </div>
+  </div><div
+    class="w-100 d-flex justify-content-end"
+  >
+    <button
+      class="btn expand-btn btn-light margin-top-30px my-3 px-5"
+      id="btn-collapse-expand"
+    >
+       Collapse All 
+    </button>
   </div><tm-loading-retry>
     <div>
       <tm-question-submission-form
@@ -4433,7 +4463,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0"
+            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
@@ -4452,6 +4482,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </button>
               </tm-panel-chevron>
             </div>
+            <i
+              aria-hidden="true"
+              class="fas fa-check me-2"
+            />
             <h2
               class="question-details"
             >
@@ -4680,6 +4714,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   </button>
                   <button
                     class="btn btn-warning float-end"
+                    disabled=""
                     ngbtooltip="Reset your responses for this question to the last submitted state."
                     type="button"
                   >
@@ -7025,6 +7060,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
@@ -7046,6 +7082,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
@@ -7184,6 +7221,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isFormsExpanded={[Function Boolean]}
   isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
@@ -7205,6 +7243,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
+  sessionPageService={[Function SessionPageService]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentId=""
