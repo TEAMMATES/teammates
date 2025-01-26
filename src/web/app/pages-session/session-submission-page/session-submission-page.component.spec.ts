@@ -700,7 +700,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should have the contents expanded' , () => {
+  it('should have the contents expanded', () => {
     expect(component.isFormsExpanded).toBe(true);
   });
 
