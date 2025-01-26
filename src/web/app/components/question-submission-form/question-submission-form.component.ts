@@ -200,10 +200,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   ngOnInit(): void {
-    this.sessionPageService.isExpandableUser.subscribe(
+    this.sessionPageService.isExpandedObservable.subscribe(
       (toExpand: boolean) => {
         this.model.isTabExpanded = toExpand;
-        console.log(this.model.isTabExpanded);
       }
     );
   }

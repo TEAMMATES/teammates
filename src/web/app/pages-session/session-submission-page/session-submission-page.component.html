@@ -101,8 +101,11 @@
   </div>
 </div>
 
-<div>
-  <button (click)="toggleAllResponseView()">Show/Hide All</button>
+<div *ngIf="questionSubmissionForms.length > 0" class="w-100 d-flex justify-content-end">
+    <button id="btn-collapse-expand" class="btn expand-btn btn-light margin-top-30px my-3 px-5"
+            (click)="isFormsExpanded ? collapseAllResponses() : expandAllResponses()">
+        {{isFormsExpanded ? "Collapse" : "Expand" }} All
+    </button>
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">

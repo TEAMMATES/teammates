@@ -108,6 +108,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   isSavingResponses: boolean = false;
   isSubmissionFormsDisabled: boolean = false;
+  isFormsExpanded: boolean = true;
 
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
@@ -285,6 +286,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         },
       });
     });
+
+    this.sessionPageService.isExpandedObservable.subscribe(
+        (toExpand: boolean) => {
+          this.isFormsExpanded = toExpand;
+        }
+    );
   }
 
   // Solution for checking partial element visibility adapted from
@@ -1231,8 +1238,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleAllResponseView(): void {
-    this.sessionPageService.toggleExpansion();
+  expandAllResponses(): void {
+    this.sessionPageService.showExpansion();
+  }
+
+  collapseAllResponses(): void {
+    this.sessionPageService.hideExpansion();
   }
 
   /**
