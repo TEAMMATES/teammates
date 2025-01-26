@@ -8,6 +8,7 @@ import {
 } from './question-submission-form-model';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
+import { SessionPageService } from '../../../services/session-page.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackConstantSumResponseDetails,
@@ -36,7 +37,6 @@ import { ContributionQuestionConstraintComponent }
 import { RankRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/rank-recipients-question-constraint.component';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { SessionPageService } from "../../../services/session-page.service";
 
 /**
  * The question submission form for a question.
@@ -203,7 +203,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.sessionPageService.isExpandedObservable.subscribe(
       (toExpand: boolean) => {
         this.model.isTabExpanded = toExpand;
-      }
+      },
     );
   }
 

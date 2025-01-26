@@ -1,14 +1,12 @@
-import { BehaviorSubject } from "rxjs";
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class SessionPageService {
   private isExpandableBehaviourSubject = new BehaviorSubject<boolean>(true);
   isExpandedObservable = this.isExpandableBehaviourSubject.asObservable();
-
-  constructor() {}
 
   showExpansion(): void {
     this.isExpandableBehaviourSubject.next(true);

@@ -17,6 +17,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SessionPageService } from '../../../services/session-page.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -53,7 +54,6 @@ import {
 } from '../../components/question-submission-form/question-submission-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SessionPageService } from "../../../services/session-page.service";
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -290,7 +290,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.sessionPageService.isExpandedObservable.subscribe(
         (toExpand: boolean) => {
           this.isFormsExpanded = toExpand;
-        }
+        },
     );
   }
 
