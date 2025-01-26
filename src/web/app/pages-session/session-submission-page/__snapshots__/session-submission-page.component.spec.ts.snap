@@ -4463,7 +4463,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
@@ -4482,10 +4482,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </button>
               </tm-panel-chevron>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
             <h2
               class="question-details"
             >
@@ -4714,7 +4710,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   </button>
                   <button
                     class="btn btn-warning float-end"
-                    disabled=""
                     ngbtooltip="Reset your responses for this question to the last submitted state."
                     type="button"
                   >
