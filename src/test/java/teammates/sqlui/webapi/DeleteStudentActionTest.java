@@ -34,7 +34,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Student student = new Student(course, "Student Name", "studentEmail@gmail.tmt", "Some comments");
 
-        when(mockLogic.getStudentByGoogleId(course.getId(), student.getGoogleId())).thenReturn(student);
+        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -52,28 +52,27 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Student student = new Student(course, "Student Name", "studentEmail@gmail.tmt", "Some comments");
 
-        when(mockLogic.getStudentByGoogleId(course.getId(), student.getGoogleId())).thenReturn(student);
+        when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
+                Const.ParamsNames.STUDENT_ID, googleId,
         };
 
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        assertNotNull(actionOutput);
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
     void testExecute_courseDoesNotExist_failSilently() {
-        String studentId = "student-id";
-
-        when(mockLogic.getStudentByGoogleId("RANDOM_COURSE", studentId)).thenReturn(null);
+        when(mockLogic.getStudentByGoogleId("RANDOM_COURSE", googleId)).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
-                Const.ParamsNames.STUDENT_ID, studentId,
+                Const.ParamsNames.STUDENT_ID, googleId,
         };
 
         DeleteStudentAction action = getAction(params);
@@ -130,7 +129,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     void testExecute_randomEmail_failSilently() {
         String courseId = "course-id";
 
-        when(mockLogic.getStudentByGoogleId(courseId, "RANDOM_EMAIL")).thenReturn(null);
+        when(mockLogic.getStudentForEmail(courseId, "RANDOM_EMAIL")).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -150,11 +149,11 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         loginAsAdmin();
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentByGoogleId(course.getId(), student.getGoogleId())).thenReturn(student);
+        when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
+                Const.ParamsNames.STUDENT_ID, googleId,
         };
 
         verifyCanAccess(params);
@@ -164,7 +163,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     void testSpecificAccessControl_instructorWithPermission_canAccess() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, true);
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
 
@@ -184,7 +183,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         Course course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
 
