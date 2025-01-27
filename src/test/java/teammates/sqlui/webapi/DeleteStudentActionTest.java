@@ -98,6 +98,11 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     }
 
     @Test
+    void testExecute_noParameters_throwsInvalidParametersException() {
+        verifyHttpParameterFailure();
+    }
+
+    @Test
     void testExecute_missingStudentIdOrEmail_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
