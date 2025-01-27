@@ -62,7 +62,6 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        assertNotNull(actionOutput);
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
