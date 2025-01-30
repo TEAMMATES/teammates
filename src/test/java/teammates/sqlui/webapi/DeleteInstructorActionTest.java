@@ -4,7 +4,6 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -67,15 +66,11 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     private void simulateInstructorDeletion(Instructor targetInstructor) {
-        AtomicReference<Instructor> instructorRef = new AtomicReference<>(targetInstructor);
-
-        when(mockLogic.getInstructorByGoogleId(course.getId(), targetInstructor.getGoogleId()))
-                .thenAnswer(invocation -> instructorRef.get());
-        when(mockLogic.getInstructorForEmail(course.getId(), targetInstructor.getEmail()))
-                .thenAnswer(invocation -> instructorRef.get());
-
         doAnswer(invocation -> {
-            instructorRef.set(null);
+            when(mockLogic.getInstructorByGoogleId(course.getId(), targetInstructor.getGoogleId()))
+                    .thenReturn(null);
+            when(mockLogic.getInstructorForEmail(course.getId(), targetInstructor.getEmail()))
+                    .thenReturn(null);
             return null;
         }).when(mockLogic).deleteInstructorCascade(course.getId(), targetInstructor.getEmail());
     }
