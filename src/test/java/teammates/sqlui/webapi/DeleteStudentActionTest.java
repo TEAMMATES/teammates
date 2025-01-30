@@ -2,10 +2,12 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.when;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -17,7 +19,9 @@ import teammates.ui.webapi.DeleteStudentAction;
  */
 public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction> {
 
-    String googleId = "user-googleId";
+    private Course course;
+    private Student student;
+    private Instructor instructor;
 
     @Override
     protected String getActionUri() {
@@ -29,13 +33,42 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         return DELETE;
     }
 
+    @BeforeMethod
+    void setUp() {
+        course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
+        student = setupStudent("student-googleId", "Student Name", "studentEmail@gmail.tmt", "Some comments");
+        instructor = setupInstructor("instructor-googleId", "Instructor Name", "instructorEmail@tm.tmt");
+
+        setupMockLogic();
+    }
+
+    private Student setupStudent(String googleId, String name, String email, String comments) {
+        Account account = new Account(googleId, name, email);
+        Student student = new Student(course, name, email, comments);
+        student.setAccount(account);
+        return student;
+    }
+
+    private Instructor setupInstructor(String googleId, String name, String email) {
+        Account account = new Account(googleId, name, email);
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
+
+        Instructor instructor = new Instructor(course, name, email,
+                false, "", null, instructorPrivileges);
+        instructor.setAccount(account);
+        return instructor;
+    }
+
+    private void setupMockLogic() {
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        when(mockLogic.getStudentByGoogleId(course.getId(), student.getGoogleId())).thenReturn(student);
+        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+    }
+
     @Test
     void testExecute_deleteStudentByEmail_success() {
-        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-        Student student = new Student(course, "Student Name", "studentEmail@gmail.tmt", "Some comments");
-
-        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
-
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
@@ -49,14 +82,9 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Test
     void testExecute_deleteStudentById_success() {
-        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-        Student student = new Student(course, "Student Name", "studentEmail@gmail.tmt", "Some comments");
-
-        when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(student);
-
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, googleId,
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
         };
 
         DeleteStudentAction action = getAction(params);
@@ -67,11 +95,11 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Test
     void testExecute_courseDoesNotExist_failSilently() {
-        when(mockLogic.getStudentByGoogleId("RANDOM_COURSE", googleId)).thenReturn(null);
+        when(mockLogic.getCourse("RANDOM_COURSE")).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
-                Const.ParamsNames.STUDENT_ID, googleId,
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
         };
 
         DeleteStudentAction action = getAction(params);
@@ -82,12 +110,10 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Test
     void testExecute_studentDoesNotExist_failSilently() {
-        String courseId = "course-id";
-
-        when(mockLogic.getStudentByGoogleId(courseId, "RANDOM_STUDENT")).thenReturn(null);
+        when(mockLogic.getStudentByGoogleId(course.getId(), "RANDOM_STUDENT")).thenReturn(null);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_ID, "RANDOM_STUDENT",
         };
 
@@ -105,7 +131,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     @Test
     void testExecute_missingStudentIdOrEmail_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, "course-id",
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyHttpParameterFailure(params);
@@ -114,7 +140,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     @Test
     void testExecute_missingCourseIdWithStudentId_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_ID, "student-id",
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
         };
 
         verifyHttpParameterFailure(params);
@@ -123,7 +149,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     @Test
     void testExecute_missingCourseIdWithStudentEmail_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, "studentEmail@gmail.tmt",
+                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
         };
 
         verifyHttpParameterFailure(params);
@@ -131,12 +157,10 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Test
     void testExecute_randomEmail_failSilently() {
-        String courseId = "course-id";
-
-        when(mockLogic.getStudentForEmail(courseId, "RANDOM_EMAIL")).thenReturn(null);
+        when(mockLogic.getStudentForEmail(course.getId(), "RANDOM_EMAIL")).thenReturn(null);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, "RANDOM_EMAIL",
         };
 
@@ -148,16 +172,11 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Test
     void testSpecificAccessControl_admin_canAccess() {
-        Course course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
-        Student student = new Student(course, "Student Name", "studentEmail@gmail.tmt", "Some comments");
-
         loginAsAdmin();
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, googleId,
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
         };
 
         verifyCanAccess(params);
@@ -165,19 +184,11 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Test
     void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
-
-        loginAsInstructor(googleId);
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        loginAsInstructor(instructor.getGoogleId());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, "student-id",
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
         };
 
         verifyCanAccess(params);
@@ -185,18 +196,27 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Test
     void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
-        Course course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
+        instructor.setPrivileges(instructorPrivileges);
 
-        loginAsInstructor(googleId);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        loginAsInstructor(instructor.getGoogleId());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, "student-id",
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
+        };
+
+        verifyCannotAccess(params);
+    }
+
+    @Test
+    void testSpecificAccessControl_instructorInDifferentCourse_cannotAccess() {
+        loginAsInstructor("instructor2-googleId");
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
         };
 
         verifyCannotAccess(params);
@@ -205,11 +225,11 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, "course-id",
-                Const.ParamsNames.STUDENT_ID, "student-id",
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
         };
 
-        loginAsStudent(googleId);
+        loginAsStudent(student.getGoogleId());
         verifyCannotAccess(params);
 
         logoutUser();
