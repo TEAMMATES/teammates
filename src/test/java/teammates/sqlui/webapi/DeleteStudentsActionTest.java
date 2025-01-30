@@ -94,10 +94,31 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
                 false, "", null, instructorPrivileges);
 
         loginAsInstructor(googleId);
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
+        };
+
+        verifyCannotAccess(params);
+    }
+
+    @Test
+    void testSpecificAccessControl_instructorInDifferentCourse_cannotAccess() {
+        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
+        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, instructorPrivileges);
+
+        loginAsInstructor(googleId);
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), "instructor-googleId")).thenReturn(instructor);
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.INSTRUCTOR_ID, "instructor-googleId",
         };
 
         verifyCannotAccess(params);
