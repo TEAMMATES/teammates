@@ -139,4 +139,14 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         logoutUser();
         verifyCannotAccess(params);
     }
+
+    @Test
+    public void testSpecificAccessControl_loggedOut_cannotAccess() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+        };
+
+        logoutUser();
+        verifyCannotAccess(params);
+    }
 }
