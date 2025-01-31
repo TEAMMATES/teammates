@@ -231,6 +231,14 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         loginAsStudent(student.getGoogleId());
         verifyCannotAccess(params);
+    }
+
+    @Test
+    public void testSpecificAccessControl_loggedOut_cannotAccess() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_ID, student.getGoogleId(),
+        };
 
         logoutUser();
         verifyCannotAccess(params);
