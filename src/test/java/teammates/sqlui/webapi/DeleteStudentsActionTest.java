@@ -90,11 +90,30 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     }
 
     @Test
+    void testExecute_missingCourseId_throwsInvalidParametersException() {
+        String[] params = {
+                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
+        };
+
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test
+    void testExecute_missingLimit_throwsInvalidParametersException() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+        };
+
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test
     void testSpecificAccessControl_instructorWithPermission_canAccess() {
         loginAsInstructor(instructor.getGoogleId());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCanAccess(params);
@@ -110,6 +129,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCannotAccess(params);
@@ -121,7 +141,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCannotAccess(params);
@@ -131,6 +151,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     void testSpecificAccessControl_student_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         loginAsStudent("student-googleId");
@@ -144,6 +165,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     public void testSpecificAccessControl_loggedOut_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         logoutUser();
