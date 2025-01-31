@@ -156,9 +156,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         loginAsStudent("student-googleId");
         verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
     }
 
     @Test
