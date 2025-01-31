@@ -290,6 +290,14 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         loginAsStudent("student-googleId");
         verifyCannotAccess(params);
+    }
+
+    @Test
+    public void testSpecificAccessControl_loggedOut_cannotAccess() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+        };
 
         logoutUser();
         verifyCannotAccess(params);
