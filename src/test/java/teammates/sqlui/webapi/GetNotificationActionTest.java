@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -60,6 +61,8 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
         NotificationData output = (NotificationData) jsonResult.getOutput();
         verifyNotificationEquals(expected, output);
+
+        when(mockLogic.getNotification(testNotification.getId())).thenCallRealMethod();
     }
 
     @Test
