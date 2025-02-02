@@ -1,6 +1,5 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
