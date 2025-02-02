@@ -12,6 +12,8 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 
+import java.util.UUID;
+
 /**
  * SUT: {@link DeleteFeedbackQuestionAction}.
  */
@@ -30,7 +32,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
     }
 
     @Test
-    protected void testExecute_feedbackQuestionDoesNotExist_failSilently() {
+    protected void testExecute_feedbackQuestionExists_success() {
         Instructor typicalInstructor = getTypicalInstructor();
         Course typicalCourse = typicalInstructor.getCourse();
         FeedbackSession typicalFeedbackSessionForCourse = getTypicalFeedbackSessionForCourse(typicalCourse);
@@ -46,6 +48,40 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
         assertEquals("Feedback question deleted!", actionOutput.getMessage());
+    }
+
+    @Test
+    protected void testExecute_feedbackQuestionDoesNotExist_failSilently() {
+        UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, nonexistentQuestionId.toString(),
+        };
+
+        DeleteFeedbackQuestionAction action = getAction(params);
+        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
+
+        assertEquals("Feedback question deleted!", actionOutput.getMessage());
+    }
+
+    @Test
+    protected void testExecute_invalidFeedbackQuestionId_failSilently() {
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, "invalid-feedbackquestion-id",
+        };
+
+        DeleteFeedbackQuestionAction action = getAction(params);
+        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
+
+        assertEquals("Feedback question deleted!", actionOutput.getMessage());
+    }
+
+    @Test
+    protected void textExecute_missingFeedbackQuestionId_throwsInvalidHttpParameterException() {
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, null,
+        };
+
+        verifyHttpParameterFailure(params);
     }
 
 }
