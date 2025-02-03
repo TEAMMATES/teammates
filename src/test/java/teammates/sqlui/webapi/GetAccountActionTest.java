@@ -33,7 +33,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     }
 
     @Test
-    void testExecute_success() {
+    void testExecute_validParams_success() {
         Account account = new Account(googleId, "name", "email");
         when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(account);
         String[] params = {
