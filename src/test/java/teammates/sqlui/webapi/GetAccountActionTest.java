@@ -8,12 +8,13 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.ui.output.AccountData;
+import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetAccountAction;
 
 /**
  * SUT: {@link GetAccountAction}.
  */
-public class  GetAccountActionTest extends BaseActionTest<GetAccountAction> {
+public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     String googleId = "test.googleId";
 
     @Override
@@ -49,6 +50,7 @@ public class  GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,
         };
-        verifyEntityNotFound(params);
+        EntityNotFoundException e = verifyEntityNotFound(params);
+        assertEquals("Account does not exist.", e.getMessage());
     }
 }
