@@ -31,7 +31,8 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
     @Test
     void testExecute_existingAccountRequest_success() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING,
+                "comments");
         UUID id = accountRequest.getId();
 
         when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
@@ -48,7 +49,8 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
     @Test
     void testExecute_registeredInstructor_throwsInvalidOperationException() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.REGISTERED, "comments");
+        AccountRequest accountRequest = new AccountRequest("email", "name", "institute",
+                AccountRequestStatus.REGISTERED, "comments");
         accountRequest.setRegisteredAt(Instant.now());
         UUID id = accountRequest.getId();
 
@@ -89,7 +91,8 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
     @Test
     void testSpecificAccessControl_admin_canAccess() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING,
+                "comments");
         UUID id = accountRequest.getId();
 
         loginAsAdmin();
@@ -104,13 +107,14 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
     @Test
     void testSpecificAccessControl_notAdmin_cannotAccess() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING,
+                "comments");
         UUID id = accountRequest.getId();
 
         when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
 
         String[] params = {
-            Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
         };
 
         loginAsUnregistered("unregistered");
@@ -121,7 +125,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         loginAsInstructor("instructor");
         verifyCannotAccess(params);
-        
+
         logoutUser();
         verifyCannotAccess(params);
     }
