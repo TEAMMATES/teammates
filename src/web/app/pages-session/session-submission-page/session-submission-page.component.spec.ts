@@ -707,9 +707,11 @@ describe('SessionSubmissionPageComponent', () => {
   it('should hide contents when content is collapsed', () => {
     sessionPageService.hideExpansion();
     expect(component.isFormsExpanded).toBe(false);
+    sessionPageService.showExpansion();
   });
 
   it('should show contents when content is shown', () => {
+    sessionPageService.hideExpansion();
     sessionPageService.showExpansion();
     expect(component.isFormsExpanded).toBe(true);
   });
