@@ -3,7 +3,6 @@ package teammates.sqlui.webapi;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static teammates.ui.request.Intent.FULL_DETAIL;
 
@@ -32,6 +31,7 @@ import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetSessionResultsAction;
+import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -42,6 +42,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     Course course;
 
     FeedbackSession session;
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.RESULT;
@@ -68,13 +69,13 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 false,
                 false,
                 false);
-        loginAsInstructor(googleId);
     }
 
-    SqlSessionResultsBundle prepareMocks(Intent intent) {
+    SqlSessionResultsBundle prepareMocksBasicParams(Intent intent) {
+        loginAsInstructor(googleId);
         Instructor instructorStub = getTypicalInstructor();
         List<FeedbackQuestion> questionsStub = new ArrayList<>();
-        questionsStub.add(new FeedbackMcqQuestion(session,1, "description",
+        questionsStub.add(new FeedbackMcqQuestion(session, 1, "description",
                 FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.OWN_TEAM, 0,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new FeedbackMcqQuestionDetails()));
         SqlSessionResultsBundle resultsStub = new SqlSessionResultsBundle(questionsStub,
@@ -87,23 +88,27 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
 
         // Specific mocked methods
-        switch(intent) {
+        switch (intent) {
         case FULL_DETAIL:
             when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
             when(mockLogic.getSessionResultsForCourse(any(), any(), any(), any(), any(), any())).thenReturn(resultsStub);
+            break;
         case INSTRUCTOR_RESULT:
             when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
             when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
             when(mockLogic.getSessionResultsForUser(any(FeedbackSession.class), any(String.class), any(String.class),
                     any(Boolean.class), nullable(UUID.class), anyBoolean())).thenReturn(resultsStub);
+            break;
         case STUDENT_RESULT:
             Student studentStub = getTypicalStudent();
             when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
             when(mockLogic.getSessionResultsForUser(any(FeedbackSession.class), any(String.class), any(String.class),
                     any(Boolean.class), nullable(UUID.class), anyBoolean())).thenReturn(resultsStub);
+            break;
         case INSTRUCTOR_SUBMISSION:
         case STUDENT_SUBMISSION:
-
+        default:
+            break;
         }
         return resultsStub;
 
@@ -111,29 +116,14 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testExecute_fullDetailIntent_success() {
+        SqlSessionResultsBundle resultsStub = prepareMocksBasicParams(FULL_DETAIL);
 
-
-//        questionsStub.add(new FeedbackMcqQuestion(session,1, "description",
-//                FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.OWN_TEAM, 0,
-//                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new FeedbackMcqQuestionDetails()));
-//        SqlSessionResultsBundle resultsStub = new SqlSessionResultsBundle(questionsStub,
-//                new HashSet<>(), new HashSet<>(), new ArrayList<>(),
-//                new ArrayList<>(), new HashMap<>(), new HashMap<>(),
-//                new HashMap<>(), new HashMap<>(), new SqlCourseRoster(new ArrayList<>(), new ArrayList<>()));
-
-        SqlSessionResultsBundle resultsStub = prepareMocks(FULL_DETAIL);
-
-//        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-//        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-//        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
-//        when(mockLogic.getSessionResultsForCourse(any(), any(), any(), any(), any(), any())).thenReturn(resultsStub);
-
-       String[] params = {
-               Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-               Const.ParamsNames.COURSE_ID, session.getCourseId(),
-               Const.ParamsNames.INTENT, FULL_DETAIL.name(),
-       };
-         GetSessionResultsAction action = getAction(params);
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, FULL_DETAIL.name(),
+        };
+        GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
 
@@ -144,21 +134,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testExecute_instructorResultIntent_success() {
-//        Instructor instructorStub = getTypicalInstructor();
-//        List<FeedbackQuestion> questionsStub = new ArrayList<>();
-//        questionsStub.add(new FeedbackMcqQuestion(session, 1, "description",
-//                FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.OWN_TEAM, 0,
-//                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new FeedbackMcqQuestionDetails()));
-//        SqlSessionResultsBundle resultsStub = new SqlSessionResultsBundle(questionsStub,
-//                new HashSet<>(), new HashSet<>(), new ArrayList<>(),
-//                new ArrayList<>(), new HashMap<>(), new HashMap<>(),
-//                new HashMap<>(), new HashMap<>(), new SqlCourseRoster(new ArrayList<>(), new ArrayList<>()));
-//        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-//        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-//        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
-//        when(mockLogic.getSessionResultsForUser(any(FeedbackSession.class), any(String.class), any(String.class),
-//                any(Boolean.class), nullable(UUID.class), anyBoolean())).thenReturn(resultsStub);
-        SqlSessionResultsBundle resultsStub = prepareMocks(Intent.INSTRUCTOR_RESULT);
+        SqlSessionResultsBundle resultsStub = prepareMocksBasicParams(Intent.INSTRUCTOR_RESULT);
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -176,21 +152,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testExecute_studentResultIntent_success() {
-//        Student studentStub = getTypicalStudent();
-//        List<FeedbackQuestion> questionsStub = new ArrayList<>();
-//        questionsStub.add(new FeedbackMcqQuestion(session, 1, "description",
-//                FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.OWN_TEAM, 0,
-//                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new FeedbackMcqQuestionDetails()));
-//        SqlSessionResultsBundle resultsStub = new SqlSessionResultsBundle(questionsStub,
-//                new HashSet<>(), new HashSet<>(), new ArrayList<>(),
-//                new ArrayList<>(), new HashMap<>(), new HashMap<>(),
-//                new HashMap<>(), new HashMap<>(), new SqlCourseRoster(new ArrayList<>(), new ArrayList<>()));
-//        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-//        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-//        when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
-//        when(mockLogic.getSessionResultsForUser(any(FeedbackSession.class), any(String.class), any(String.class),
-//                any(Boolean.class), nullable(UUID.class), anyBoolean())).thenReturn(resultsStub);
-        SqlSessionResultsBundle resultsStub = prepareMocks(Intent.STUDENT_RESULT);
+        SqlSessionResultsBundle resultsStub = prepareMocksBasicParams(Intent.STUDENT_RESULT);
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -208,9 +170,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testExecute_instructorSubmissionIntent_throwsInvalidHttpParameterException() {
-//        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-//        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        prepareMocks(Intent.INSTRUCTOR_SUBMISSION);
+        prepareMocksBasicParams(Intent.INSTRUCTOR_SUBMISSION);
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -221,9 +181,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testExecute_studentSubmissionIntent_throwsInvalidHttpParameterException() {
-//        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-//        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        prepareMocks(Intent.STUDENT_SUBMISSION);
+        prepareMocksBasicParams(Intent.STUDENT_SUBMISSION);
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -233,42 +191,8 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testExecute_nonNullFeedbackQuestionIdFullDetailIntent_success() {
-        Instructor instructorStub = getTypicalInstructor();
-        List<FeedbackQuestion> questionsStub = new ArrayList<>();
-        FeedbackQuestion questionStub = new FeedbackMcqQuestion(session,1, "description",
-                FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.OWN_TEAM, 0,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new FeedbackMcqQuestionDetails());
-        questionsStub.add(questionStub);
-        SqlSessionResultsBundle resultsStub = new SqlSessionResultsBundle(questionsStub,
-                new HashSet<>(), new HashSet<>(), new ArrayList<>(),
-                new ArrayList<>(), new HashMap<>(), new HashMap<>(),
-                new HashMap<>(), new HashMap<>(), new SqlCourseRoster(new ArrayList<>(), new ArrayList<>()));
-
-
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
-        when(mockLogic.getSessionResultsForCourse(any(), any(), any(), any(), any(), any())).thenReturn(resultsStub);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, FULL_DETAIL.name(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionStub.getId().toString(),
-        };
-        GetSessionResultsAction action = getAction(params);
-        JsonResult actionOutput = getJsonResult(action);
-        SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
-
-        assertEquals(resultsStub.getQuestions().size(), output.getQuestions().size());
-        assertEquals(resultsStub.getQuestions().get(0).getDescription(),
-                output.getQuestions().get(0).getFeedbackQuestion().getQuestionDescription());
-
-    }
-
-    @Test
     void testExecute_invalidParams_throwsInvalidHttpParameterException() {
+        loginAsInstructor(googleId);
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -278,6 +202,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testExecute_withAllParametersAndFullDetailIntent_success() {
+        loginAsInstructor(googleId);
         Instructor instructorStub = getTypicalInstructor();
         List<FeedbackQuestion> questionsStub = new ArrayList<>();
         FeedbackQuestion questionStub = new FeedbackMcqQuestion(session, 1, "description",
@@ -313,10 +238,10 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     }
 
-
     @Test
-    void testCheckSpecificAccessControlSql() {
-        String[] params ={
+    void testCheckSpecificAccessControl_nullInstructor_cannotAccess() {
+        loginAsInstructor(googleId);
+        String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
@@ -327,9 +252,10 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_validInstructorAndSessionPublished_canAccess() {
+    void testCheckSpecificAccessControl_instructorResultIntent_canAccess() {
+        loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
-        String[] params ={
+        String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
@@ -342,7 +268,64 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_validInstructorAndNoPreviewResultsAndSessionNotPublished_canAccess() {
+    void testCheckSpecificAccessControl_fullDetailIntent_canAccess() {
+        loginAsInstructor(googleId);
+        Instructor instructor = getTypicalInstructor();
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, FULL_DETAIL.name(),
+                Const.ParamsNames.PREVIEWAS, instructor.getEmail(),
+        };
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
+        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorForEmail(session.getCourseId(), instructor.getEmail())).thenReturn(instructor);
+        verifyCanAccess(params);
+    }
+
+    @Test
+    void testCheckSpecificAccessControl_studentResultIntent_canAccess() {
+        loginAsStudent(googleId);
+        Instructor instructor = getTypicalInstructor();
+        Student student = getTypicalStudent();
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+                Const.ParamsNames.PREVIEWAS, student.getEmail(),
+        };
+        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
+        when(mockLogic.getStudentForEmail(student.getCourseId(), student.getEmail())).thenReturn(student);
+        verifyCanAccess(params);
+    }
+
+    @Test
+    void testCheckSpecificAccessControl_invalidIntent_invalidHttpParameterException() {
+        loginAsInstructor(googleId);
+        Instructor instructor = getTypicalInstructor();
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
+        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructor);
+        GetSessionResultsAction a = getAction(params);
+        assertThrows(InvalidHttpParameterException.class, a::checkAccessControl);
+
+        String [] params2 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
+        };
+        GetSessionResultsAction b = getAction(params2);
+        assertThrows(InvalidHttpParameterException.class, b::checkAccessControl);
+    }
+
+    @Test
+    void testCheckSpecificAccessControl_instructorResultIntentUnpublishedSession_cannotAccess() {
+        loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
         FeedbackSession unpublishedSession = new FeedbackSession(
                 "session-name",
@@ -357,31 +340,46 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 false,
                 false,
                 false);
-        String[] params ={
+        String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, unpublishedSession.getName(),
                 Const.ParamsNames.COURSE_ID, unpublishedSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
         };
-        when(mockLogic.getFeedbackSession(unpublishedSession.getName(), unpublishedSession.getCourseId())).thenReturn(unpublishedSession);
+        when(mockLogic.getFeedbackSession(unpublishedSession.getName(), unpublishedSession.getCourseId()))
+                .thenReturn(unpublishedSession);
         when(mockLogic.getInstructorByGoogleId(unpublishedSession.getCourseId(), googleId)).thenReturn(instructor);
-        when(mockLogic.getInstructorForEmail(unpublishedSession.getCourseId(), instructor.getEmail())).thenReturn(instructor);
+        when(mockLogic.getInstructorForEmail(unpublishedSession.getCourseId(), instructor.getEmail()))
+                .thenReturn(instructor);
         verifyCannotAccess(params);
     }
 
-//    @Test
-//    void testCheckSpecificAccessControl_validStudentAndSessionPublished_canAccess() {
-//        Student student = getTypicalStudent();
-//        String[] params ={
-//                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-//                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-//                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
-//                Const.ParamsNames.PREVIEWAS, student.getEmail(),
-//        };
-//        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-//        when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(student);
-//        verifyCanAccess(params);
-//    }
-
-
-
+    @Test
+    void testCheckSpecificAccessControl_studentResultIntentUnpublishedSession_cannotAccess() {
+        loginAsStudent(googleId);
+        Instructor instructor = getTypicalInstructor();
+        FeedbackSession unpublishedSession = new FeedbackSession(
+                "session-name",
+                course,
+                "creater_email@tm.tmt",
+                null,
+                Instant.parse("2020-01-01T00:00:00.000Z"),
+                Instant.parse("2020-10-01T00:00:00.000Z"),
+                Instant.parse("2020-01-01T00:00:00.000Z"),
+                Instant.MAX,
+                null,
+                false,
+                false,
+                false);
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, unpublishedSession.getName(),
+                Const.ParamsNames.COURSE_ID, unpublishedSession.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+        when(mockLogic.getFeedbackSession(unpublishedSession.getName(), unpublishedSession.getCourseId()))
+                .thenReturn(unpublishedSession);
+        when(mockLogic.getInstructorByGoogleId(unpublishedSession.getCourseId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorForEmail(unpublishedSession.getCourseId(), instructor.getEmail()))
+                .thenReturn(instructor);
+        verifyCannotAccess(params);
+    }
 }
