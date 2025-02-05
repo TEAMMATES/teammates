@@ -1,6 +1,7 @@
 <frontmatter>
   title: "Contributing"
 </frontmatter>
+Red Cunningham
 
 <include src="CONTRIBUTING.md"/>
 
