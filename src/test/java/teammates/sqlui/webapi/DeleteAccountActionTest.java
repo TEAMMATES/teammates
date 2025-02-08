@@ -1,5 +1,8 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -27,17 +30,15 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     }
 
     @Test
-    protected void textExecute_accountDoesNotExist_failSilently() {
+    protected void textExecute_nullParams_failSilently() {
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, "non-existing-account",
+                Const.ParamsNames.INSTRUCTOR_ID, null,
         };
-        DeleteAccountAction action = getAction(params);
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-        assertEquals("Account is successfully deleted.", actionOutput.getMessage());
+        verifyHttpParameterFailure(params);
     }
 
     @Test
-    protected void testExecute_accountExists_success() {
+    protected void testExecute_nonNullParams_success() {
         Course stubCourse = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Account stubAccount = new Account(googleId, "name", "instructoremail@tm.tmt");
         Instructor instructor = new Instructor(stubCourse, "name", "instructoremail@tm.tmt",
@@ -49,6 +50,6 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         DeleteAccountAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
         assertEquals("Account is successfully deleted.", actionOutput.getMessage());
-        assertNull(mockLogic.getInstructorByGoogleId(stubCourse.getId(), instructor.getGoogleId()));
+        verify(mockLogic, times(1)).deleteAccountCascade(googleId);
     }
 }
