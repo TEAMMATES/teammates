@@ -67,7 +67,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
     }
 
     @Test
-    void textExecute_missingFeedbackQuestionId_throwsInvalidHttpParameterException() {
+    void testExecute_missingFeedbackQuestionId_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, null,
         };
@@ -110,7 +110,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
                 typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutAccess.getGoogleId()))
                 .thenReturn(instructorWithoutAccess);
 
         String[] submissionParams = {
