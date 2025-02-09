@@ -30,7 +30,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     }
 
     @Test
-    protected void textExecute_nullParams_failSilently() {
+    protected void textExecute_nullParams_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, null,
         };
