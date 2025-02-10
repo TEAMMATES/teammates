@@ -62,7 +62,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
                 new EmailSendingStatus(200, "Email sent successfully")
         );
 
-        String[] params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
@@ -90,7 +90,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
                 new EmailSendingStatus(500, "Email sending failed")
         );
 
-        String[] params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
@@ -109,7 +109,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail()))
                 .thenThrow(new EntityDoesNotExistException("Instructor not found"));
 
-        String[] params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
@@ -123,7 +123,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail()))
                 .thenThrow(new InstructorUpdateException("Instructor update failed"));
 
-        String[] params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
