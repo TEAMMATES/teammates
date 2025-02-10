@@ -159,7 +159,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     }
 
     @Test
-    public void testSpecificAccessControl_loggedOut_cannotAccess() {
+    void testSpecificAccessControl_loggedOut_cannotAccess() {
         logoutUser();
 
         String[] params = {
