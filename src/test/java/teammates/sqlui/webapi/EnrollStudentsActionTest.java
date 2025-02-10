@@ -1,12 +1,14 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -31,9 +33,9 @@ import teammates.ui.webapi.JsonResult;
  * Test cases for the {@link EnrollStudentsAction} class.
  */
 public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsAction> {
-    Course course;
-    Team team;
-    Section section;
+    private Course course;
+    private Team team;
+    private Section section;
 
     @Override
     protected String getActionUri() {
@@ -58,7 +60,12 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         loginAsInstructor(instructor.getGoogleId());
         Student newStudent = new Student(course, "name", "email.com", "", team);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.createStudent(any(Student.class))).thenReturn(newStudent);
+        when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>());
+        when(mockLogic.createStudent(
+                argThat(argument -> Objects.equals(argument.getName(), newStudent.getName())
+                        && Objects.equals(argument.getEmail(), newStudent.getEmail())
+                        && Objects.equals(argument.getTeam(), newStudent.getTeam())
+                        && Objects.equals(argument.getSection(), newStudent.getSection())))).thenReturn(newStudent);
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
 
@@ -70,7 +77,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         JsonResult result = getJsonResult(action);
 
         List<StudentData> enrolledStudents = ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
-        assertEquals(enrolledStudents.size(), 1);
+        assertEquals(1, enrolledStudents.size());
         assertEquals(enrolledStudents.get(0).getEmail(), newStudent.getEmail());
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
@@ -80,13 +87,17 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         Instructor instructor = getTypicalInstructor();
         loginAsInstructor(instructor.getGoogleId());
         Student newStudent = new Student(course, "name", "email.com", "", team);
-        when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>(List.of(newStudent)));
+        Student existingStudent = new Student(course, "oldName", "email.com", "", team);
+        when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>(List.of(existingStudent)));
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentForEmail(course.getId(), newStudent.getEmail())).thenReturn(newStudent);
+        when(mockLogic.getStudentForEmail(course.getId(), newStudent.getEmail())).thenReturn(existingStudent);
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
-        when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(newStudent);
-
+        when(mockLogic.updateStudentCascade(
+                argThat(argument -> Objects.equals(argument.getName(), newStudent.getName())
+                        && Objects.equals(argument.getEmail(), newStudent.getEmail())
+                        && Objects.equals(argument.getTeam(), newStudent.getTeam())
+                        && Objects.equals(argument.getSection(), newStudent.getSection())))).thenReturn(newStudent);
         StudentsEnrollRequest req = prepareRequest(newStudent);
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -96,7 +107,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
         List<StudentData> enrolledStudents = ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
         assertEquals(enrolledStudents.size(), 1);
-        assertEquals(enrolledStudents.get(0).getEmail(), newStudent.getEmail());
+        assertEquals(enrolledStudents.get(0).getName(), newStudent.getName());
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 

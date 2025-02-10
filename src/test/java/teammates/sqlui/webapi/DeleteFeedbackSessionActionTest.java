@@ -1,5 +1,7 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -19,7 +21,7 @@ import teammates.ui.webapi.DeleteFeedbackSessionAction;
  * SUT: {@link DeleteFeedbackSessionAction}.
  */
 public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedbackSessionAction> {
-    String googleId = "user-googleId";
+    private String googleId = "user-googleId";
     private Course course;
     private FeedbackSession session;
 
@@ -54,21 +56,20 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
     @Test
     public void testExecute_sessionDoesNotExist_failSilently() {
-        when(mockLogic.getFeedbackSession("incorrect-name", course.getId())).thenReturn(null);
+        String sessionName = "incorrect-name";
         String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "incorrect-name",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName,
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
-
         DeleteFeedbackSessionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
         assertEquals("The feedback session is deleted.", actionOutput.getMessage());
+        verify(mockLogic, times(1))
+                .deleteFeedbackSessionCascade(sessionName, course.getId());
     }
 
     @Test
     public void testExecute_sessionExists_success() {
-        when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
-
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
