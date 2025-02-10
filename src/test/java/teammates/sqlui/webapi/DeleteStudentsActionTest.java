@@ -1,13 +1,15 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.MessageOutput;
@@ -21,6 +23,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     private static final int DELETE_LIMIT = 3;
     private Course course;
     private Instructor instructor;
+    private String instructorId = "instructor-googleId";
 
     @Override
     protected String getActionUri() {
@@ -34,26 +37,20 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @BeforeMethod
     void setUp() {
+        Mockito.reset(mockLogic);
+
         course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
-        instructor = setupInstructor("instructor-googleId", "name", "instructoremail@tm.tmt");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
+        instructor = new Instructor(course, "Instructor Name", "instructoremail@tm.tmt",
+                false, "", null, instructorPrivileges);
 
         setupMockLogic();
     }
 
-    private Instructor setupInstructor(String googleId, String name, String email) {
-        Account account = new Account(googleId, name, email);
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-
-        Instructor instructor = new Instructor(course, name, email,
-                false, "", null, instructorPrivileges);
-        instructor.setAccount(account);
-        return instructor;
-    }
-
     private void setupMockLogic() {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
     }
 
     @Test
@@ -66,11 +63,12 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         DeleteStudentsAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        verify(mockLogic, times(1)).deleteStudentsInCourseCascade(course.getId());
         assertEquals("Successful", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_randomCourse_failSilently() {
+    void testExecute_courseDoesNotExist_failSilently() {
         when(mockLogic.getCourse("RANDOM_ID")).thenReturn(null);
 
         String[] params = {
@@ -81,6 +79,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         DeleteStudentsAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        verify(mockLogic, times(0)).deleteStudentsInCourseCascade(course.getId());
         assertEquals("Successful", actionOutput.getMessage());
     }
 
@@ -109,7 +108,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Test
     void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructorId);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -125,7 +124,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
         instructor.setPrivileges(instructorPrivileges);
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructorId);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -149,23 +148,25 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
+        loginAsStudent("student-googleId");
+
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
-        loginAsStudent("student-googleId");
         verifyCannotAccess(params);
     }
 
     @Test
     public void testSpecificAccessControl_loggedOut_cannotAccess() {
+        logoutUser();
+
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
-        logoutUser();
         verifyCannotAccess(params);
     }
 }
