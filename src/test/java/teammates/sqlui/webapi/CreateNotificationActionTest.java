@@ -2,6 +2,7 @@ package teammates.sqlui.webapi;
 
 import java.util.UUID;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -18,7 +19,9 @@ import teammates.ui.webapi.CreateNotificationAction;
  * SUT: {@link CreateNotificationAction}.
  */
 public class CreateNotificationActionTest extends BaseActionTest<CreateNotificationAction> {
+    private static final String GOOGLE_ID = "user-googleId";
     private static final String TEST_NOTIFICATION = "notification1";
+    NotificationCreateRequest req = getTypicalCreateRequest();
     private final NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
 
     @Override
@@ -29,6 +32,11 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     @Override
     String getRequestMethod() {
         return POST;
+    }
+
+    @BeforeMethod
+    void setUp() {
+        loginAsAdmin();
     }
 
     @Test(enabled = false)
@@ -64,8 +72,23 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     }
 
     @Test
+    void accessControl() {
+        loginAsInstructor(GOOGLE_ID);
+        verifyCannotAccess();
+        logoutUser();
+
+        loginAsAdmin();
+        verifyCanAccess();
+        logoutUser();
+
+        loginAsStudent(GOOGLE_ID);
+        verifyCannotAccess();
+        logoutUser();
+    }
+
+    @Test
     void testExecute_invalidStyle_throwsInvalidHttpParameterException() throws Exception {
-        NotificationCreateRequest req = getTypicalCreateRequest();
+        req = getTypicalCreateRequest();
         req.setStyle(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
         assertEquals("Notification style cannot be null", ex.getMessage());
@@ -73,7 +96,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test
     void testExecute_invalidTargetUser_throwsInvalidHttpParameterException() throws Exception {
-        NotificationCreateRequest req = getTypicalCreateRequest();
+        req = getTypicalCreateRequest();
         req.setTargetUser(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
         assertEquals("Notification target user cannot be null", ex.getMessage());
@@ -81,7 +104,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test
     void testExecute_invalidTitle_throwsInvalidHttpParameterException() throws Exception {
-        NotificationCreateRequest req = getTypicalCreateRequest();
+        req = getTypicalCreateRequest();
         req.setTitle(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
         assertEquals("Notification title cannot be null", ex.getMessage());
@@ -89,7 +112,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test
     void testExecute_invalidMessage_throwsInvalidHttpParameterException() throws Exception {
-        NotificationCreateRequest req = getTypicalCreateRequest();
+        req = getTypicalCreateRequest();
         req.setMessage(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
         assertEquals("Notification message cannot be null", ex.getMessage());
@@ -97,7 +120,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test
     void testExecute_negativeStartTimestamp_throwsInvalidHttpParameterException() throws Exception {
-        NotificationCreateRequest req = getTypicalCreateRequest();
+        req = getTypicalCreateRequest();
         req.setStartTimestamp(-1);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
         assertEquals("Start timestamp should be greater than zero", ex.getMessage());
@@ -105,7 +128,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test
     void testExecute_negativeEndTimestamp_throwsInvalidHttpParameterException() throws Exception {
-        NotificationCreateRequest req = getTypicalCreateRequest();
+        req = getTypicalCreateRequest();
         req.setEndTimestamp(-1);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
         assertEquals("End timestamp should be greater than zero", ex.getMessage());
@@ -113,14 +136,14 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test(enabled = false)
     void testExecute_invalidParameter_throwsInvalidHttpParameterException() throws Exception {
-        NotificationCreateRequest req = getTypicalCreateRequest();
+        req = getTypicalCreateRequest();
         String invalidTitle = "";
         req.setTitle(invalidTitle);
         verifyHttpRequestBodyFailure(req);
     }
 
     private NotificationCreateRequest getTypicalCreateRequest() {
-        NotificationCreateRequest req = new NotificationCreateRequest();
+        req = new NotificationCreateRequest();
 
         req.setStartTimestamp(testNotificationAttribute.getStartTime().toEpochMilli());
         req.setEndTimestamp(testNotificationAttribute.getEndTime().toEpochMilli());
