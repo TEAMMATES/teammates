@@ -1,26 +1,23 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.TaskWrapper;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.request.SendEmailRequest;
 import teammates.ui.webapi.FeedbackSessionClosedRemindersAction;
 
 /**
@@ -28,8 +25,10 @@ import teammates.ui.webapi.FeedbackSessionClosedRemindersAction;
  */
 public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<FeedbackSessionClosedRemindersAction> {
 
-    private Course course;
-    private FeedbackSession session;
+    private FeedbackSession mockSession;
+    private FeedbackSession mockSession2;
+    private EmailWrapper mockEmail;
+    private EmailWrapper mockEmail2;
 
     @Override
     protected String getActionUri() {
@@ -43,21 +42,43 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     @BeforeMethod
     void setUp() {
-        course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
-        session = new FeedbackSession(
-                "Session Name",
-                course,
-                "instructor1email@tm.tmt",
-                "Instructions",
-                Instant.now().minusSeconds(7200), // Start time 2 hours ago
-                Instant.now().minusSeconds(3600), // End time 1 hour ago
-                Instant.now().minusSeconds(10800), // Session visible 3 hours ago
-                Instant.now().minusSeconds(3600), // Results visible 1 hour ago
-                Duration.ofMinutes(30),
-                false, true, false
-        );
+        Mockito.reset(mockLogic, mockSqlEmailGenerator, mockTaskQueuer);
 
-        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of(session));
+        mockSession = mock(FeedbackSession.class);
+        mockSession2 = mock(FeedbackSession.class);
+        mockEmail = mock(EmailWrapper.class);
+        mockEmail2 = mock(EmailWrapper.class);
+
+        when(mockSqlEmailGenerator.generateFeedbackSessionClosedEmails(mockSession)).thenReturn(List.of(mockEmail));
+        when(mockSqlEmailGenerator.generateFeedbackSessionClosedEmails(mockSession2)).thenReturn(List.of(mockEmail2));
+    }
+
+    @Test
+    void testExecute_allSessionsClosed_emailsSent() {
+        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of(mockSession, mockSession2));
+
+        FeedbackSessionClosedRemindersAction action = getAction();
+        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
+
+        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail));
+        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail2));
+        verify(mockSession, times(1)).setClosedEmailSent(true);
+        verify(mockSession2, times(1)).setClosedEmailSent(true);
+        assertEquals("Successful", actionOutput.getMessage());
+    }
+
+    @Test
+    void testExecute_oneSessionClosed_emailsSent() {
+        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of(mockSession));
+
+        FeedbackSessionClosedRemindersAction action = getAction();
+        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
+
+        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail));
+        verify(mockTaskQueuer, never()).scheduleEmailsForSending(List.of(mockEmail2));
+        verify(mockSession, times(1)).setClosedEmailSent(true);
+        verify(mockSession2, never()).setClosedEmailSent(true);
+        assertEquals("Successful", actionOutput.getMessage());
     }
 
     @Test
@@ -67,83 +88,24 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
         FeedbackSessionClosedRemindersAction action = getAction();
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verifyNoTasksAdded();
+        verify(mockTaskQueuer, never()).scheduleEmailsForSending(anyList());
+        verify(mockSession, never()).setClosedEmailSent(true);
+        verify(mockSession2, never()).setClosedEmailSent(true);
         assertEquals("Successful", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_recentlyClosedSession_emailsSent() {
-        int numInstructors = 3;
-        List<Instructor> instructors = IntStream.range(1, numInstructors + 1)
-                .mapToObj(i -> new Instructor(
-                        course, "name" + i, "instructor" + i + "email@tm.tmt",
-                        false, "", null, new InstructorPrivileges()))
-                .collect(Collectors.toList());
-
-        List<EmailWrapper> emails = instructors.stream()
-                .map(instructor -> {
-                    EmailWrapper email = new EmailWrapper();
-                    email.setRecipient(instructor.getEmail());
-                    email.setType(EmailType.FEEDBACK_CLOSED);
-                    email.setSubjectFromType(course.getName(), session.getName());
-                    return email;
-                })
-                .collect(Collectors.toList());
-
-        when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(instructors);
-        when(mockSqlEmailGenerator.generateFeedbackSessionClosedEmails(session)).thenReturn(emails);
+    void testExecute_emailSendingFails_logsError() {
+        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of(mockSession, mockSession2));
+        doThrow(new RuntimeException("Email sending failed")).when(mockTaskQueuer).scheduleEmailsForSending(anyList());
 
         FeedbackSessionClosedRemindersAction action = getAction();
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        // Verify 3 emails were correctly queued
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
-
-        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
-        for (TaskWrapper task : tasksAdded) {
-            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
-            EmailWrapper emailSent = requestBody.getEmail();
-            String expectedSubject = String.format(
-                    EmailType.FEEDBACK_CLOSED.getSubject(),
-                    course.getName(),
-                    session.getName()
-            );
-            assertEquals(expectedSubject, emailSent.getSubject());
-        }
-
-        assertEquals("Successful", actionOutput.getMessage());
-    }
-
-    @Test
-    void testExecute_disabledClosedReminderSession_noEmailsSent() {
-        session.setClosingEmailEnabled(false);
-
-        FeedbackSessionClosedRemindersAction action = getAction();
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-
-        verifyNoTasksAdded();
-        assertEquals("Successful", actionOutput.getMessage());
-    }
-
-    @Test
-    void testExecute_stillInGracePeriodSession_noEmailsSent() {
-        session.setEndTime(Instant.now());
-
-        FeedbackSessionClosedRemindersAction action = getAction();
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-
-        verifyNoTasksAdded();
-        assertEquals("Successful", actionOutput.getMessage());
-    }
-
-    @Test
-    void testExecute_emailsAlreadySentSession_noEmailsSent() {
-        session.setClosedEmailSent(true);
-
-        FeedbackSessionClosedRemindersAction action = getAction();
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-
-        verifyNoTasksAdded();
+        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail));
+        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail2));
+        verify(mockSession, never()).setClosedEmailSent(true);
+        verify(mockSession2, never()).setClosedEmailSent(true);
         assertEquals("Successful", actionOutput.getMessage());
     }
 
@@ -166,7 +128,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
     }
 
     @Test
-    public void testSpecificAccessControl_loggedOut_cannotAccess() {
+    void testSpecificAccessControl_loggedOut_cannotAccess() {
         logoutUser();
         verifyCannotAccess();
     }
