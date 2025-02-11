@@ -258,8 +258,8 @@ export class ExtensionConfirmModalComponent implements OnInit {
           strB = b.sectionName;
           break;
         case SortBy.TEAM_NAME:
-          strA = a.sectionName;
-          strB = b.sectionName;
+          strA = a.teamName;
+          strB = b.teamName;
           break;
         case SortBy.RESPONDENT_NAME:
           strA = a.name;
