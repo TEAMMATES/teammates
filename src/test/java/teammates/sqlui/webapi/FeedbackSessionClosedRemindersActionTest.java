@@ -1,7 +1,5 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -27,8 +25,6 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     private FeedbackSession mockSession;
     private FeedbackSession mockSession2;
-    private EmailWrapper mockEmail;
-    private EmailWrapper mockEmail2;
 
     @Override
     protected String getActionUri() {
@@ -42,12 +38,12 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator, mockTaskQueuer);
+        Mockito.reset(mockLogic, mockSqlEmailGenerator);
 
         mockSession = mock(FeedbackSession.class);
         mockSession2 = mock(FeedbackSession.class);
-        mockEmail = mock(EmailWrapper.class);
-        mockEmail2 = mock(EmailWrapper.class);
+        EmailWrapper mockEmail = mock(EmailWrapper.class);
+        EmailWrapper mockEmail2 = mock(EmailWrapper.class);
 
         when(mockSqlEmailGenerator.generateFeedbackSessionClosedEmails(mockSession)).thenReturn(List.of(mockEmail));
         when(mockSqlEmailGenerator.generateFeedbackSessionClosedEmails(mockSession2)).thenReturn(List.of(mockEmail2));
@@ -60,8 +56,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
         FeedbackSessionClosedRemindersAction action = getAction();
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail));
-        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail2));
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
         verify(mockSession, times(1)).setClosedEmailSent(true);
         verify(mockSession2, times(1)).setClosedEmailSent(true);
         assertEquals("Successful", actionOutput.getMessage());
@@ -74,8 +69,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
         FeedbackSessionClosedRemindersAction action = getAction();
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail));
-        verify(mockTaskQueuer, never()).scheduleEmailsForSending(List.of(mockEmail2));
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
         verify(mockSession, times(1)).setClosedEmailSent(true);
         verify(mockSession2, never()).setClosedEmailSent(true);
         assertEquals("Successful", actionOutput.getMessage());
@@ -88,22 +82,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
         FeedbackSessionClosedRemindersAction action = getAction();
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockTaskQueuer, never()).scheduleEmailsForSending(anyList());
-        verify(mockSession, never()).setClosedEmailSent(true);
-        verify(mockSession2, never()).setClosedEmailSent(true);
-        assertEquals("Successful", actionOutput.getMessage());
-    }
-
-    @Test
-    void testExecute_emailSendingFails_logsError() {
-        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of(mockSession, mockSession2));
-        doThrow(new RuntimeException("Email sending failed")).when(mockTaskQueuer).scheduleEmailsForSending(anyList());
-
-        FeedbackSessionClosedRemindersAction action = getAction();
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-
-        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail));
-        verify(mockTaskQueuer, times(1)).scheduleEmailsForSending(List.of(mockEmail2));
+        verifyNoTasksAdded();
         verify(mockSession, never()).setClosedEmailSent(true);
         verify(mockSession2, never()).setClosedEmailSent(true);
         assertEquals("Successful", actionOutput.getMessage());

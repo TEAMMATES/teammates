@@ -57,7 +57,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     Logic mockLogic = mock(Logic.class);
     teammates.logic.api.Logic mockDatastoreLogic = mock(teammates.logic.api.Logic.class);
-    MockTaskQueuer mockTaskQueuer = mock(MockTaskQueuer.class);
+    MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
