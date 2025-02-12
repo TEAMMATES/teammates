@@ -18,6 +18,7 @@ import teammates.ui.webapi.DeleteNotificationAction;
  * SUT: {@link DeleteNotificationAction}.
  */
 public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificationAction> {
+    private static final String GOOGLE_ID = "user-googleId";
 
     @Override
     String getActionUri() {
@@ -27,6 +28,21 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
     @Override
     String getRequestMethod() {
         return DELETE;
+    }
+
+    @Test
+    void testAccessControl() {
+        loginAsInstructor(GOOGLE_ID);
+        verifyCannotAccess();
+        logoutUser();
+
+        loginAsAdmin();
+        verifyCanAccess();
+        logoutUser();
+
+        loginAsStudent(GOOGLE_ID);
+        verifyCannotAccess();
+        logoutUser();
     }
 
     @Test
@@ -52,7 +68,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
     }
 
     @Test
-    void testExecute_notificationDoesNotExists_failSilently() {
+    void testExecute_notificationDoesNotExist_failSilently() {
         UUID invalidUuid = UUID.randomUUID();
         when(mockLogic.getNotification(invalidUuid)).thenReturn(null);
 
