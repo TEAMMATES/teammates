@@ -21,7 +21,7 @@ import teammates.ui.webapi.CreateNotificationAction;
 public class CreateNotificationActionTest extends BaseActionTest<CreateNotificationAction> {
     private static final String GOOGLE_ID = "user-googleId";
     private static final String TEST_NOTIFICATION = "notification1";
-    NotificationCreateRequest req = getTypicalCreateRequest();
+    NotificationCreateRequest testReq;
     private final NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
 
     @Override
@@ -88,62 +88,62 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test
     void testExecute_invalidStyle_throwsInvalidHttpParameterException() throws Exception {
-        req = getTypicalCreateRequest();
-        req.setStyle(null);
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
+        testReq = getTypicalCreateRequest();
+        testReq.setStyle(null);
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
         assertEquals("Notification style cannot be null", ex.getMessage());
     }
 
     @Test
     void testExecute_invalidTargetUser_throwsInvalidHttpParameterException() throws Exception {
-        req = getTypicalCreateRequest();
-        req.setTargetUser(null);
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
+        testReq = getTypicalCreateRequest();
+        testReq.setTargetUser(null);
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
         assertEquals("Notification target user cannot be null", ex.getMessage());
     }
 
     @Test
     void testExecute_invalidTitle_throwsInvalidHttpParameterException() throws Exception {
-        req = getTypicalCreateRequest();
-        req.setTitle(null);
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
+        testReq = getTypicalCreateRequest();
+        testReq.setTitle(null);
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
         assertEquals("Notification title cannot be null", ex.getMessage());
     }
 
     @Test
     void testExecute_invalidMessage_throwsInvalidHttpParameterException() throws Exception {
-        req = getTypicalCreateRequest();
-        req.setMessage(null);
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
+        testReq = getTypicalCreateRequest();
+        testReq.setMessage(null);
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
         assertEquals("Notification message cannot be null", ex.getMessage());
     }
 
     @Test
     void testExecute_negativeStartTimestamp_throwsInvalidHttpParameterException() throws Exception {
-        req = getTypicalCreateRequest();
-        req.setStartTimestamp(-1);
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
+        testReq = getTypicalCreateRequest();
+        testReq.setStartTimestamp(-1);
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
         assertEquals("Start timestamp should be greater than zero", ex.getMessage());
     }
 
     @Test
     void testExecute_negativeEndTimestamp_throwsInvalidHttpParameterException() throws Exception {
-        req = getTypicalCreateRequest();
-        req.setEndTimestamp(-1);
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
+        testReq = getTypicalCreateRequest();
+        testReq.setEndTimestamp(-1);
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
         assertEquals("End timestamp should be greater than zero", ex.getMessage());
     }
 
     @Test(enabled = false)
     void testExecute_invalidParameter_throwsInvalidHttpParameterException() throws Exception {
-        req = getTypicalCreateRequest();
+        testReq = getTypicalCreateRequest();
         String invalidTitle = "";
-        req.setTitle(invalidTitle);
-        verifyHttpRequestBodyFailure(req);
+        testReq.setTitle(invalidTitle);
+        verifyHttpRequestBodyFailure(testReq);
     }
 
     private NotificationCreateRequest getTypicalCreateRequest() {
-        req = new NotificationCreateRequest();
+        NotificationCreateRequest req = new NotificationCreateRequest();
 
         req.setStartTimestamp(testNotificationAttribute.getStartTime().toEpochMilli());
         req.setEndTimestamp(testNotificationAttribute.getEndTime().toEpochMilli());
