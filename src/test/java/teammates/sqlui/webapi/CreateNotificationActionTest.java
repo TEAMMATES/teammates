@@ -72,18 +72,27 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     }
 
     @Test
-    void accessControl() {
-        loginAsInstructor(GOOGLE_ID);
-        verifyCannotAccess();
-        logoutUser();
-
+    void testSpecificAccessControl_admin_canAccess() {
         loginAsAdmin();
         verifyCanAccess();
-        logoutUser();
+    }
 
+    @Test
+    void testSpecificAccessControl_instructor_cannotAccess() {
+        loginAsInstructor(GOOGLE_ID);
+        verifyCannotAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_student_cannotAccess() {
         loginAsStudent(GOOGLE_ID);
         verifyCannotAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_loggedOut_cannotAccess() {
         logoutUser();
+        verifyCannotAccess();
     }
 
     @Test
