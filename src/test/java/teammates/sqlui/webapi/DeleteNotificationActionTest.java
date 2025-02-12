@@ -33,7 +33,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
     @Test
     void testSpecificAccessControl_admin_canAccess() {
         loginAsAdmin();
-        verifyCannotAccess();
+        verifyCanAccess();
     }
 
     @Test
