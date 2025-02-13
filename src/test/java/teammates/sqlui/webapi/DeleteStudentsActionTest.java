@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -68,7 +69,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     }
 
     @Test
-    void testExecute_courseDoesNotExist_failSilently() {
+    void testExecute_nonExistentCourse_failSilently() {
         when(mockLogic.getCourse("RANDOM_ID")).thenReturn(null);
 
         String[] params = {
@@ -79,7 +80,8 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         DeleteStudentsAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(0)).deleteStudentsInCourseCascade(course.getId());
+        verify(mockLogic, times(1)).deleteStudentsInCourseCascade("RANDOM_ID");
+        verify(mockLogic, never()).deleteStudentsInCourseCascade(course.getId());
         assertEquals("Successful", actionOutput.getMessage());
     }
 
