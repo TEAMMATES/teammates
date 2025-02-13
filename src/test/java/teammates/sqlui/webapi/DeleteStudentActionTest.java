@@ -1,5 +1,7 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -68,6 +70,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        verify(mockLogic, never()).getStudentByGoogleId(any(), any());
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
@@ -82,12 +85,13 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), studentId);
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_courseDoesNotExist_failSilently() {
+    void testExecute_nonExistentCourse_failSilently() {
         when(mockLogic.getCourse("RANDOM_COURSE")).thenReturn(null);
 
         String[] params = {
@@ -98,7 +102,8 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(0)).deleteStudentCascade(course.getId(), student.getEmail());
+        verify(mockLogic, times(1)).getStudentByGoogleId("RANDOM_COURSE", studentId);
+        verify(mockLogic, never()).deleteStudentCascade(any(), any());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
@@ -114,7 +119,8 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(0)).deleteStudentCascade(course.getId(), student.getEmail());
+        verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), "RANDOM_STUDENT");
+        verify(mockLogic, never()).deleteStudentCascade(any(), any());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
@@ -130,7 +136,9 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(0)).deleteStudentCascade(course.getId(), student.getEmail());
+        verify(mockLogic, never()).getStudentByGoogleId(any(), any());
+        verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), "RANDOM_EMAIL");
+        verify(mockLogic, never()).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
