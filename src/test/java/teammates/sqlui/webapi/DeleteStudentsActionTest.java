@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -81,6 +82,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
         verify(mockLogic, times(1)).deleteStudentsInCourseCascade("RANDOM_ID");
+        verify(mockLogic, times(1)).deleteStudentsInCourseCascade(any());
         verify(mockLogic, never()).deleteStudentsInCourseCascade(course.getId());
         assertEquals("Successful", actionOutput.getMessage());
     }
