@@ -138,6 +138,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         verify(mockLogic, never()).getStudentByGoogleId(any(), any());
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), "RANDOM_EMAIL");
+        verify(mockLogic, times(1)).deleteStudentCascade(any(), any());
         verify(mockLogic, never()).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
