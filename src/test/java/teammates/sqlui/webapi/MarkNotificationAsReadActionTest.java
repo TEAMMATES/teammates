@@ -7,10 +7,9 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.ReadNotificationsData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -22,9 +21,8 @@ import teammates.ui.webapi.MarkNotificationAsReadAction;
  * SUT: {@link MarkNotificationAsReadAction}.
  */
 public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotificationAsReadAction> {
-    InstructorAttributes instructor;
+    Instructor instructor;
     String instructorId;
-    NotificationAttributes notification;
     Notification testNotification;
 
     @Override
@@ -39,17 +37,10 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
 
     @BeforeMethod
     void setUp() {
-        instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        instructor = getTypicalInstructor();
         instructorId = instructor.getGoogleId();
-        notification = typicalBundle.notifications.get("notification5");
+        testNotification = getTypicalNotificationWithId();
         loginAsInstructor(instructorId);
-        testNotification = new Notification(
-                notification.getStartTime(),
-                notification.getEndTime(),
-                notification.getStyle(),
-                notification.getTargetUser(),
-                notification.getTitle(),
-                notification.getMessage());
     }
 
     @Test
@@ -57,7 +48,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
         when(mockLogic.updateReadNotifications(
                 instructorId,
                 testNotification.getId(),
-                notification.getEndTime()
+                testNotification.getEndTime()
         )).thenReturn(List.of(testNotification.getId()));
 
         MarkNotificationAsReadRequest reqBody = new MarkNotificationAsReadRequest(
@@ -75,7 +66,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
     @Test
     protected void testExecute_markNonExistentNotificationAsRead_shouldFail() {
         MarkNotificationAsReadRequest reqBody =
-                new MarkNotificationAsReadRequest("invalid id", notification.getEndTime().toEpochMilli());
+                new MarkNotificationAsReadRequest("invalid id", testNotification.getEndTime().toEpochMilli());
 
         MarkNotificationAsReadAction action = getAction(reqBody);
 
