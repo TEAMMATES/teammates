@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
@@ -20,9 +19,8 @@ import teammates.ui.webapi.CreateNotificationAction;
  */
 public class CreateNotificationActionTest extends BaseActionTest<CreateNotificationAction> {
     private static final String GOOGLE_ID = "user-googleId";
-    private static final String TEST_NOTIFICATION = "notification1";
     NotificationCreateRequest testReq;
-    private final NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
+    private final Notification testNotification = getTypicalNotificationWithId();
 
     @Override
     String getActionUri() {
@@ -41,12 +39,12 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test(enabled = false)
     void testExecute_addNotification_success() throws Exception {
-        long startTime = testNotificationAttribute.getStartTime().toEpochMilli();
-        long endTime = testNotificationAttribute.getEndTime().toEpochMilli();
-        NotificationStyle style = testNotificationAttribute.getStyle();
-        NotificationTargetUser targetUser = testNotificationAttribute.getTargetUser();
-        String title = testNotificationAttribute.getTitle();
-        String message = testNotificationAttribute.getMessage();
+        long startTime = testNotification.getStartTime().toEpochMilli();
+        long endTime = testNotification.getEndTime().toEpochMilli();
+        NotificationStyle style = testNotification.getStyle();
+        NotificationTargetUser targetUser = testNotification.getTargetUser();
+        String title = testNotification.getTitle();
+        String message = testNotification.getMessage();
 
         NotificationCreateRequest req = getTypicalCreateRequest();
         CreateNotificationAction action = getAction(req);
@@ -73,18 +71,19 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test
     void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
         verifyCanAccess();
     }
 
     @Test
     void testSpecificAccessControl_instructor_cannotAccess() {
+        logoutUser();
         loginAsInstructor(GOOGLE_ID);
         verifyCannotAccess();
     }
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
+        logoutUser();
         loginAsStudent(GOOGLE_ID);
         verifyCannotAccess();
     }
@@ -154,12 +153,12 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     private NotificationCreateRequest getTypicalCreateRequest() {
         NotificationCreateRequest req = new NotificationCreateRequest();
 
-        req.setStartTimestamp(testNotificationAttribute.getStartTime().toEpochMilli());
-        req.setEndTimestamp(testNotificationAttribute.getEndTime().toEpochMilli());
-        req.setStyle(testNotificationAttribute.getStyle());
-        req.setTargetUser(testNotificationAttribute.getTargetUser());
-        req.setTitle(testNotificationAttribute.getTitle());
-        req.setMessage(testNotificationAttribute.getMessage());
+        req.setStartTimestamp(testNotification.getStartTime().toEpochMilli());
+        req.setEndTimestamp(testNotification.getEndTime().toEpochMilli());
+        req.setStyle(testNotification.getStyle());
+        req.setTargetUser(testNotification.getTargetUser());
+        req.setTitle(testNotification.getTitle());
+        req.setMessage(testNotification.getMessage());
 
         return req;
     }
