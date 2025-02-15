@@ -78,6 +78,8 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         DeleteFeedbackSessionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
         assertEquals("The feedback session is deleted.", actionOutput.getMessage());
+        verify(mockLogic, times(1))
+                .deleteFeedbackSessionCascade(session.getName(), session.getCourseId());
     }
 
     @Test
