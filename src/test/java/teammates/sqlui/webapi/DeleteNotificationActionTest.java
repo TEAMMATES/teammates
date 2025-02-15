@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -74,6 +75,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
         assertEquals("Notification has been deleted.", actionOutput.getMessage());
+        reset(mockLogic);
     }
 
     @Test
@@ -89,6 +91,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
         assertEquals("Notification has been deleted.", actionOutput.getMessage());
+        reset(mockLogic);
     }
 
     @Test
