@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Notification;
@@ -25,7 +24,6 @@ import teammates.ui.webapi.UpdateNotificationAction;
  * SUT: {@link UpdateNotificationAction}.
  */
 public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificationAction> {
-    NotificationAttributes typicalNotificationAttribute;
     Notification testNotification;
     Notification newNotification;
     NotificationUpdateRequest notificationRequest;
@@ -43,16 +41,9 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
     @BeforeMethod
     void setUp() {
-        typicalNotificationAttribute = typicalBundle.notifications.get("notification1");
         notificationRequest = getTypicalUpdateRequest();
 
-        testNotification = new Notification(
-                typicalNotificationAttribute.getStartTime(),
-                typicalNotificationAttribute.getEndTime(),
-                typicalNotificationAttribute.getStyle(),
-                typicalNotificationAttribute.getTargetUser(),
-                typicalNotificationAttribute.getTitle(),
-                typicalNotificationAttribute.getMessage());
+        testNotification = getTypicalNotificationWithId();
         newNotification = new Notification(
                 Instant.ofEpochMilli(notificationRequest.getStartTimestamp()),
                 Instant.ofEpochMilli(notificationRequest.getEndTimestamp()),
