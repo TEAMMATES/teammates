@@ -15,7 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -56,7 +55,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     static final String PUT = HttpPut.METHOD_NAME;
     static final String DELETE = HttpDelete.METHOD_NAME;
 
-    DataBundle typicalBundle = getTypicalDataBundle();
     Logic mockLogic = mock(Logic.class);
     teammates.logic.api.Logic mockDatastoreLogic = mock(teammates.logic.api.Logic.class);
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();

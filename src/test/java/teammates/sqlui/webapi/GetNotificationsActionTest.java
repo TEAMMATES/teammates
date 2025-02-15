@@ -11,9 +11,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
@@ -25,6 +22,9 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetNotificationsAction}.
  */
 public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
+    private static final String GOOGLE_ID = "user-googleId";
+    private static final int READ_NOTIFICATION_COUNT = 5;
+    private static final int UNREAD_NOTIFICATION_COUNT = 10;
 
     @Override
     String getActionUri() {
@@ -43,8 +43,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     protected void testAccessControl_instructorAccessStudentNotification_shouldFail() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -54,8 +53,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     protected void testAccessControl_instructorAccessInstructorNotification_shouldSucceed() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -65,8 +63,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     protected void testAccessControl_studentAccessInstructorNotification_shouldFail() {
-        StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.getGoogleId());
+        loginAsStudent(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -76,8 +73,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     protected void testAccessControl_studentAccessStudentNotification_shouldSucceed() {
-        StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.getGoogleId());
+        loginAsStudent(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -87,8 +83,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     protected void testAccessControl_unknownTargetUser_shouldFail() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, "unknown",
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -108,23 +103,18 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     protected void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        List<Notification> testNotifications = new ArrayList<>();
 
-        NotificationAttributes notification = typicalBundle.notifications.get("notification5");
-        Notification testNotification = new Notification(
-                notification.getStartTime(),
-                notification.getEndTime(),
-                notification.getStyle(),
-                notification.getTargetUser(),
-                notification.getTitle(),
-                notification.getMessage());
+        loginAsInstructor(GOOGLE_ID);
 
-        when(mockLogic.getActiveNotificationsByTargetUser(notification.getTargetUser()))
-                .thenReturn(List.of(testNotification));
+        int expectedNumberOfNotifications = UNREAD_NOTIFICATION_COUNT + READ_NOTIFICATION_COUNT;
 
-        int expectedNumberOfNotifications =
-                mockLogic.getActiveNotificationsByTargetUser(notification.getTargetUser()).size();
+        for (int i = 0; i < expectedNumberOfNotifications; i++) {
+            testNotifications.add(getTypicalNotificationWithId());
+        }
+
+        when(mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR))
+                .thenReturn(testNotifications);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
@@ -143,19 +133,15 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_withoutUserTypeForAdmin_shouldReturnAllNotifications() {
+        final int expectedNumberOfNotifications = 5;
+        Notification testNotification = getTypicalNotificationWithId();
+
         loginAsAdmin();
 
-        int expectedNumberOfNotifications = typicalBundle.notifications.size();
-        NotificationAttributes notification = typicalBundle.notifications.get("notStartedNotification2");
-
         List<Notification> testNotifications = new ArrayList<>();
-        typicalBundle.notifications.forEach((key, eachNotification) -> testNotifications.add(new Notification(
-                eachNotification.getStartTime(),
-                eachNotification.getEndTime(),
-                eachNotification.getStyle(),
-                eachNotification.getTargetUser(),
-                eachNotification.getTitle(),
-                eachNotification.getMessage())));
+        for (int i = 0; i < expectedNumberOfNotifications; i++) {
+            testNotifications.add(getTypicalNotificationWithId());
+        }
 
         when(mockLogic.getAllNotifications()).thenReturn(testNotifications);
 
@@ -179,14 +165,13 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         // notification's shown attribute should not be updated
         List<Notification> notificationToCheck =
-                mockLogic.getActiveNotificationsByTargetUser(notification.getTargetUser());
+                mockLogic.getActiveNotificationsByTargetUser(testNotification.getTargetUser());
         notificationToCheck.forEach(n -> assertFalse(n.isShown()));
     }
 
     @Test
     public void testExecute_withoutUserTypeForNonAdmin_shouldFail() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(GOOGLE_ID);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -198,8 +183,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_invalidUserType_shouldFail() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(GOOGLE_ID);
 
         // when usertype is GENERAL
         verifyHttpParameterFailure(Const.ParamsNames.NOTIFICATION_TARGET_USER,
@@ -216,25 +200,31 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_withFalseIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
-        Set<String> readNotificationsId = typicalBundle.accounts.get("instructor1OfCourse1").getReadNotifications().keySet();
+        loginAsInstructor(GOOGLE_ID);
 
-        List<Notification> testNotifications = new ArrayList<>();
+        List<Notification> testAllNotifications = new ArrayList<>();
+        List<Notification> testUnreadNotifications = new ArrayList<>();
+        Set<String> readNotificationsId;
 
-        typicalBundle.notifications.forEach((key, eachNotification) -> {
-            if (!readNotificationsId.contains(eachNotification.getNotificationId())) {
-                testNotifications.add(new Notification(
-                        eachNotification.getStartTime(),
-                        eachNotification.getEndTime(),
-                        eachNotification.getStyle(),
-                        eachNotification.getTargetUser(),
-                        eachNotification.getTitle(),
-                        eachNotification.getMessage()));
-            }
-        });
+        for (int i = 0; i < UNREAD_NOTIFICATION_COUNT; i++) {
+            testUnreadNotifications.add(getTypicalNotificationWithId());
+        }
 
-        when(mockLogic.getAllNotifications()).thenReturn(testNotifications);
+        for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
+            Notification readNotification = getTypicalNotificationWithId();
+            readNotification.setShown();
+            testAllNotifications.add(readNotification);
+        }
+
+        readNotificationsId = testAllNotifications.stream()
+                .map(n -> n.getId().toString())
+                .collect(Collectors.toSet());
+
+        testAllNotifications.addAll(testUnreadNotifications);
+
+        when(mockLogic.getAllNotifications()).thenReturn(testAllNotifications);
+        when(mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR))
+                .thenReturn(testUnreadNotifications);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
@@ -259,9 +249,24 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_withoutIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
-        Set<String> readNotificationsId = typicalBundle.accounts.get("instructor1OfCourse1").getReadNotifications().keySet();
+        List<Notification> testAllNotifications = new ArrayList<>();
+        List<Notification> testUnreadNotifications = new ArrayList<>();
+        Set<String> readNotificationsId;
+
+        loginAsInstructor(GOOGLE_ID);
+
+        for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
+            Notification readNotification = getTypicalNotificationWithId();
+            readNotification.setShown();
+            testAllNotifications.add(readNotification);
+        }
+
+        readNotificationsId = testAllNotifications.stream()
+                .map(n -> n.getId().toString())
+                .collect(Collectors.toSet());
+
+        when(mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR))
+                .thenReturn(testUnreadNotifications);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
@@ -277,8 +282,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_withInvalidIsFetchingAll_shouldFail() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(GOOGLE_ID);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
