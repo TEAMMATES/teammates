@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -7,7 +8,6 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
@@ -38,16 +38,8 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @Test
     protected void testExecute_withValidNotificationId_shouldReturnData() {
-        NotificationAttributes notification = typicalBundle.notifications.get("notification1");
-        Notification testNotification = new Notification(
-                notification.getStartTime(),
-                notification.getEndTime(),
-                notification.getStyle(),
-                notification.getTargetUser(),
-                notification.getTitle(),
-                notification.getMessage());
-        notification.setNotificationId(testNotification.getId().toString());
-        NotificationData expected = new NotificationData(notification);
+        Notification testNotification = getTypicalNotificationWithId();
+        NotificationData expected = new NotificationData(testNotification);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_ID, String.valueOf(testNotification.getId()),
@@ -61,13 +53,14 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         NotificationData output = (NotificationData) jsonResult.getOutput();
         verifyNotificationEquals(expected, output);
 
-        when(mockLogic.getNotification(testNotification.getId())).thenCallRealMethod();
+        reset(mockLogic);
     }
 
     @Test
     protected void testExecute_nonExistentNotification_shouldThrowError() {
         GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, UUID.randomUUID().toString());
         EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
+
         assertEquals("Notification does not exist.", enfe.getMessage());
     }
 
@@ -75,6 +68,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
     protected void testExecute_notificationIdIsNull_shouldThrowError() {
         GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, null, new String[] {});
         InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
+
         assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());
     }
 
