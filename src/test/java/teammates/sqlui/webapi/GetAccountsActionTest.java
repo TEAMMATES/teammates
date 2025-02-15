@@ -34,14 +34,13 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
     @BeforeMethod
     protected void prepareTestData() {
         Account accountStub = typicalAccount;
-        Account anotherAccountStub = new Account(accountStub.getGoogleId(), accountStub.getEmail(), accountStub.getName());
+        Account anotherAccountStub = new Account("anotherGoogleId", "anotherEmail", "anotherName");
         accounts.add(accountStub);
         accounts.add(anotherAccountStub);
     }
 
     @Test
-    void testExecute_validParameters_success() {
-        loginAsAdmin();
+    void testExecute_validParams_success() {
         when(mockLogic.getAccountsForEmail(typicalAccount.getEmail())).thenReturn(accounts);
         String[] params = {
                 Const.ParamsNames.USER_EMAIL, typicalAccount.getEmail(),
@@ -57,5 +56,17 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
             assertEquals(accountData.getEmail(), account.getEmail());
             assertEquals(accountData.getName(), account.getName());
         }
+    }
+
+    @Test
+    void textExecute_invalidParams_throwsInvalidParametersException() {
+        String[] params = {
+                Const.ParamsNames.USER_EMAIL, null,
+        };
+        verifyHttpParameterFailure(params);
+
+        String[] params2 = {};
+
+        verifyHttpParameterFailure(params2);
     }
 }
