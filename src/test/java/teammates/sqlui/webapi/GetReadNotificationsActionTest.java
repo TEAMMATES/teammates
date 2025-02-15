@@ -9,9 +9,8 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.ReadNotificationsData;
 import teammates.ui.webapi.GetReadNotificationsAction;
@@ -21,6 +20,8 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetReadNotificationsAction}.
  */
 public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotificationsAction> {
+    /** Number of read notifications used for testing. */
+    public static final int READ_NOTIFICATION_COUNT = 2;
 
     @Override
     String getActionUri() {
@@ -34,22 +35,14 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
     @Test
     protected void testExecute_getReadNotificationsAsInstructor_shouldSucceed() {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
-
-        List<NotificationAttributes> notificationAttributesList = List.of(
-                typicalBundle.notifications.get("notification1"),
-                typicalBundle.notifications.get("notification3"));
+        Instructor instructor = getTypicalInstructor();
         List<Notification> testNotifications = new ArrayList<>();
-        for (NotificationAttributes notificationAttributes : notificationAttributesList) {
-            testNotifications.add(new Notification(
-                    notificationAttributes.getStartTime(),
-                    notificationAttributes.getEndTime(),
-                    notificationAttributes.getStyle(),
-                    notificationAttributes.getTargetUser(),
-                    notificationAttributes.getTitle(),
-                    notificationAttributes.getMessage()));
+
+        loginAsInstructor(instructor.getGoogleId());
+        for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
+            testNotifications.add(getTypicalNotificationWithId());
         }
+
         List<UUID> testNotificationIds = testNotifications.stream().map(Notification::getId).collect(Collectors.toList());
         when(mockLogic.getReadNotificationsId(instructor.getGoogleId())).thenReturn(testNotificationIds);
 
@@ -62,6 +55,6 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
         readNotificationsData.forEach(notificationId ->
                 assertTrue(testNotificationIds.contains(UUID.fromString(notificationId))));
-        assertEquals(2, readNotificationsData.size());
+        assertEquals(READ_NOTIFICATION_COUNT, readNotificationsData.size());
     }
 }
