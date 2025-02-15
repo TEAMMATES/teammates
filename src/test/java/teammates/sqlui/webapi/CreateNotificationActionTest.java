@@ -19,6 +19,7 @@ import teammates.ui.webapi.CreateNotificationAction;
  */
 public class CreateNotificationActionTest extends BaseActionTest<CreateNotificationAction> {
     private static final String GOOGLE_ID = "user-googleId";
+    private static final String INVALID_TITLE = "";
     NotificationCreateRequest testReq;
     private final Notification testNotification = getTypicalNotificationWithId();
 
@@ -145,8 +146,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     @Test(enabled = false)
     void testExecute_invalidParameter_throwsInvalidHttpParameterException() throws Exception {
         testReq = getTypicalCreateRequest();
-        String invalidTitle = "";
-        testReq.setTitle(invalidTitle);
+        testReq.setTitle(INVALID_TITLE);
         verifyHttpRequestBodyFailure(testReq);
     }
 
