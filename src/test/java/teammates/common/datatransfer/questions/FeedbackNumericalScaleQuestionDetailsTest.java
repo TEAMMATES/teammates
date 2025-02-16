@@ -19,7 +19,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void tesValidateResponseDetails() {
+    public void testValidateResponseDetails() {
         FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
         numScaleQuestion.setStep(0.1);
 
