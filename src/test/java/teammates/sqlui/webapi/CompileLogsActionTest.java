@@ -18,6 +18,7 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
     private static final String GOOGLE_ID = "user-googleId";
     private static final long TIMESTAMP_TOO_DISTANT = Instant.now().minusSeconds(7 * 60).toEpochMilli();
     private static final long CORRECT_TIMESTAMP = Instant.now().minusSeconds(30).toEpochMilli();
+
     private SourceLocation sourceLocation = new SourceLocation("file5", 5L, "func5");
 
     @Override
