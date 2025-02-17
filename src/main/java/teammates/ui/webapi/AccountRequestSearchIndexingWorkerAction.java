@@ -19,7 +19,7 @@ public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
         UUID accountRequestId;
 
         try {
-            accountRequestId = UUID.fromString(id);
+            accountRequestId = getUuidFromString(ParamsNames.ACCOUNT_REQUEST_ID, id);
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(e.getMessage(), e);
         }

@@ -293,6 +293,9 @@ public abstract class Action {
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
                     "Expected UUID value for " + paramName + " parameter, but found: [" + uuid + "]", e);
+        } catch (NullPointerException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected UUID value for " + paramName + " parameter, but found: null", e);
         }
     }
 
