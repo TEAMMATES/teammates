@@ -55,8 +55,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         typicalInstructor = getTypicalInstructor();
         typicalCourse = typicalInstructor.getCourse();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
-        typicalFeedbackQuestion =
-                getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+        typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
     }
 
     @Test
