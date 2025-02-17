@@ -1,12 +1,16 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
@@ -14,6 +18,7 @@ import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.ReadNotificationsData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;
+import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.MarkNotificationAsReadAction;
 
@@ -64,13 +69,32 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
     }
 
     @Test
-    protected void testExecute_markNonExistentNotificationAsRead_shouldFail() {
+    protected void testExecute_markInvalidNotificationAsRead_shouldThrowIllegalArgumentError() {
         MarkNotificationAsReadRequest reqBody =
                 new MarkNotificationAsReadRequest("invalid id", testNotification.getEndTime().toEpochMilli());
 
         MarkNotificationAsReadAction action = getAction(reqBody);
 
         assertThrows(IllegalArgumentException.class, () -> action.execute());
+    }
+
+    @Test
+    protected void testExecute_markNonExistentNotificationAsRead_shouldFail() throws Exception {
+        UUID nonExistentNotificationId = UUID.randomUUID();
+
+        MarkNotificationAsReadRequest reqBody =
+                new MarkNotificationAsReadRequest(
+                        nonExistentNotificationId.toString(),
+                        testNotification.getEndTime().toEpochMilli());
+
+        when(mockLogic.updateReadNotifications(
+                any(),
+                eq(nonExistentNotificationId),
+                eq(testNotification.getEndTime()))).thenThrow(new EntityDoesNotExistException(""));
+
+        MarkNotificationAsReadAction action = getAction(reqBody);
+
+        assertThrows(EntityNotFoundException.class, () -> action.execute());
     }
 
     @Test
