@@ -1,8 +1,9 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -27,13 +28,9 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         return GET;
     }
 
-    @BeforeMethod
-    void setUp() {
-        loginAsAdmin();
-    }
-
     @Test
     void testExecute_validParams_success() {
+        loginAsAdmin();
         Account account = new Account(googleId, "name", "email");
         when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(account);
         String[] params = {
@@ -45,12 +42,50 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     }
 
     @Test
-    void testExecute_accountDoesNotExist_failSilently() {
-        when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(null);
+    void testExecute_accountDoesNotExist_throwsEntityNotFoundException() {
+        loginAsAdmin();
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,
         };
         EntityNotFoundException e = verifyEntityNotFound(params);
         assertEquals("Account does not exist.", e.getMessage());
+        verify(mockLogic, times(1)).getAccountForGoogleId(googleId);
+    }
+
+    @Test
+    void testExecute_noParameters_throwsInvalidHttpParameterException() {
+        String[] params = {};
+        verifyHttpParameterFailure(params);
+
+        verifyHttpParameterFailure();
+    }
+
+    @Test
+    void testSpecificAccessControl_admin_canAccess() {
+        loginAsAdmin();
+        verifyCanAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_instructor_cannotAccess() {
+        loginAsInstructor(googleId);
+        verifyCannotAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_student_cannotAccess() {
+        loginAsStudent(googleId);
+        verifyCannotAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_loggedOut_cannotAccess() {
+        verifyCannotAccess();
+
+        loginAsAdmin();
+        verifyCanAccess();
+
+        logoutUser();
+        verifyCannotAccess();
     }
 }
