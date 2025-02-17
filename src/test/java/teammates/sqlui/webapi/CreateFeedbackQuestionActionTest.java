@@ -276,5 +276,5 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
                 FeedbackParticipantType.INSTRUCTORS, Const.MAX_POSSIBLE_RECIPIENTS, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), textQuestionDetails);
     }
-    
+
 }
