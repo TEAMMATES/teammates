@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -34,11 +35,10 @@ import teammates.ui.webapi.UpdateFeedbackQuestionAction;
  */
 public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedbackQuestionAction> {
 
-    private final Instructor typicalInstructor = getTypicalInstructor();
-    private final Course typicalCourse = typicalInstructor.getCourse();
-    private final FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
-    private final FeedbackQuestion typicalFeedbackQuestion =
-            getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+    private Instructor typicalInstructor;
+    private Course typicalCourse;
+    private FeedbackSession typicalFeedbackSession;
+    private FeedbackQuestion typicalFeedbackQuestion;
 
     @Override
     String getActionUri() {
@@ -48,6 +48,15 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     @Override
     String getRequestMethod() {
         return PUT;
+    }
+
+    @BeforeMethod
+    void setUp() {
+        typicalInstructor = getTypicalInstructor();
+        typicalCourse = typicalInstructor.getCourse();
+        typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
+        typicalFeedbackQuestion =
+                getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
     }
 
     @Test
