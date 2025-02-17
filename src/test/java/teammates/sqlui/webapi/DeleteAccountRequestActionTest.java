@@ -1,13 +1,15 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.UUID;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.MessageOutput;
@@ -19,6 +21,8 @@ import teammates.ui.webapi.InvalidOperationException;
  */
 public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccountRequestAction> {
 
+    private AccountRequest accountRequest;
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.ACCOUNT_REQUEST;
@@ -29,10 +33,13 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         return DELETE;
     }
 
+    @BeforeMethod
+    void setUp() {
+        accountRequest = getTypicalAccountRequest();
+    }
+
     @Test
     void testExecute_existingAccountRequest_success() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING,
-                "comments");
         UUID id = accountRequest.getId();
 
         when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
@@ -45,12 +52,11 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
         assertEquals("Account request successfully deleted.", actionOutput.getMessage());
+        verify(mockLogic, times(1)).deleteAccountRequest(id);
     }
 
     @Test
     void testExecute_registeredInstructor_throwsInvalidOperationException() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute",
-                AccountRequestStatus.REGISTERED, "comments");
         accountRequest.setRegisteredAt(Instant.now());
         UUID id = accountRequest.getId();
 
@@ -66,9 +72,10 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
     @Test
     void testExecute_nonExistingAccountRequest_failSilently() {
-        UUID id = UUID.randomUUID();
+        accountRequest = null;
+        UUID id = UUID.fromString("11110000-0000-0000-0000-000000000000");
 
-        when(mockLogic.getAccountRequest(id)).thenReturn(null);
+        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
 
         String[] params = {
                 Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
@@ -91,8 +98,6 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
     @Test
     void testSpecificAccessControl_admin_canAccess() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING,
-                "comments");
         UUID id = accountRequest.getId();
 
         loginAsAdmin();
@@ -107,8 +112,6 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
     @Test
     void testSpecificAccessControl_notAdmin_cannotAccess() {
-        AccountRequest accountRequest = new AccountRequest("email", "name", "institute", AccountRequestStatus.PENDING,
-                "comments");
         UUID id = accountRequest.getId();
 
         when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
