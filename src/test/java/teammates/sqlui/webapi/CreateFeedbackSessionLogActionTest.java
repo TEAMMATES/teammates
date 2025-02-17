@@ -8,9 +8,16 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Student;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
+import teammates.ui.webapi.JsonResult;
 
+/**
+ * SUT: {@link CreateFeedbackSessionLogAction}.
+ */
 public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFeedbackSessionLogAction> {
+    private static final String GOOGLE_ID = "user-googleId";
+
     Course course1;
     Course course2;
     Course course3;
@@ -50,7 +57,109 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_notEnoughParameters_shouldFail() throws Exception {
+    void testAccessControl_admin_canAccess() {
+        loginAsAdmin();
+        verifyCanAccess();
+    }
+
+    @Test
+    void testAccessControl_maintainers_canAccess() {
+        loginAsMaintainer();
+        verifyCanAccess();
+    }
+
+    @Test
+    void testAccessControl_instructor_canAccess() {
+        loginAsInstructor(GOOGLE_ID);
+        verifyCanAccess();
+    }
+
+    @Test
+    void testAccessControl_student_canAccess() {
+        loginAsStudent(GOOGLE_ID);
+        verifyCanAccess();
+    }
+
+    @Test
+    void testAccessControl_loggedOut_canAccess() {
+        logoutUser();
+        verifyCanAccess();
+    }
+
+    @Test
+    void testAccessControl_unregistered_canAccess() {
+        loginAsUnregistered(GOOGLE_ID);
+        verifyCanAccess();
+    }
+
+    @Test
+    void testExecute_typicalAccess_shouldSucceed() {
+        String[] paramsSuccessfulAccess = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+        };
+        CreateFeedbackSessionLogAction action = getAction(paramsSuccessfulAccess);
+        JsonResult response = getJsonResult(action);
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+    }
+
+    @Test
+    void testExecute_typicalSubmission_shouldSucceed() {
+        String[] paramsSuccessfulSubmission = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa2.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
+        };
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+    }
+
+    @Test
+    void testExecute_invalidSessionName_shouldStillSucceed() {
+        String[] paramsNonExistentFsName = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+        };
+        JsonResult response = getJsonResult(getAction(paramsNonExistentFsName));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+    }
+
+    @Test
+    void testExecute_invalidEmail_shouldStillSucceed() {
+        String[] paramsNonExistentStudentEmail = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
+        };
+        JsonResult response = getJsonResult(getAction(paramsNonExistentStudentEmail));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+    }
+
+    @Test
+    void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceed() {
+        String[] paramsWithoutAccess = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
+        };
+        JsonResult response = getJsonResult(getAction(paramsWithoutAccess));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+    }
+
+    @Test
+    void testExecute_notEnoughParameters_shouldFail() {
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, courseId1);
         verifyHttpParameterFailure(
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -64,7 +173,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_invalidLogType_shouldFail() throws Exception {
+    void testExecute_invalidLogType_shouldFail() {
         String[] paramsInvalid = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
@@ -73,6 +182,5 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         };
         verifyHttpParameterFailure(paramsInvalid);
     }
-
 
 }
