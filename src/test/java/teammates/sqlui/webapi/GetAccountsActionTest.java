@@ -3,9 +3,9 @@ package teammates.sqlui.webapi;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -18,8 +18,6 @@ import teammates.ui.webapi.GetAccountsAction;
  * SUT: {@link GetAccountsAction}.
  */
 public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
-    List<Account> accounts = new ArrayList<>();
-    Account typicalAccount = getTypicalAccount();
 
     @Override
     protected String getActionUri() {
@@ -31,23 +29,7 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
         return GET;
     }
 
-    @BeforeMethod
-    protected void prepareTestData() {
-        Account accountStub = typicalAccount;
-        Account anotherAccountStub = new Account("anotherGoogleId", "anotherEmail", "anotherName");
-        accounts.add(accountStub);
-        accounts.add(anotherAccountStub);
-    }
-
-    @Test
-    void testExecute_validParams_success() {
-        when(mockLogic.getAccountsForEmail(typicalAccount.getEmail())).thenReturn(accounts);
-        String[] params = {
-                Const.ParamsNames.USER_EMAIL, typicalAccount.getEmail(),
-        };
-        GetAccountsAction action = getAction(params);
-        AccountsData actionOutput = (AccountsData) getJsonResult(action).getOutput();
-        List<AccountData> accountDataList = actionOutput.getAccounts();
+    private void verifyAccounts(List<AccountData> accountDataList, List<Account> accounts) {
         assertEquals(accountDataList.size(), accounts.size());
         for (int i = 0; i < accountDataList.size(); i++) {
             AccountData accountData = accountDataList.get(i);
@@ -56,6 +38,51 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
             assertEquals(accountData.getEmail(), account.getEmail());
             assertEquals(accountData.getName(), account.getName());
         }
+    }
+
+    @Test
+    void testExecute_multipleAccountsWithEmail_multipleAccountsFetched() {
+        List<Account> accounts = new ArrayList<>();
+        Account accountStub = getTypicalAccount();
+        Account anotherAccountStub = new Account("anotherGoogleId", "anotherEmail",
+                accountStub.getEmail());
+        accounts.add(accountStub);
+        accounts.add(anotherAccountStub);
+        when(mockLogic.getAccountsForEmail(accountStub.getEmail())).thenReturn(accounts);
+        String[] params = {
+                Const.ParamsNames.USER_EMAIL, accountStub.getEmail(),
+        };
+        GetAccountsAction action = getAction(params);
+        AccountsData actionOutput = (AccountsData) getJsonResult(action).getOutput();
+        List<AccountData> accountDataList = actionOutput.getAccounts();
+        verifyAccounts(accountDataList, accounts);
+    }
+
+    @Test
+    void testExecute_oneAccountWithEmail_accountFetched() {
+        List<Account> accounts = new ArrayList<>();
+        Account accountStub = getTypicalAccount();
+        accounts.add(accountStub);
+        when(mockLogic.getAccountsForEmail(accountStub.getEmail())).thenReturn(accounts);
+        String[] params = {
+                Const.ParamsNames.USER_EMAIL, accountStub.getEmail(),
+        };
+        GetAccountsAction action = getAction(params);
+        AccountsData actionOutput = (AccountsData) getJsonResult(action).getOutput();
+        List<AccountData> accountDataList = actionOutput.getAccounts();
+        verifyAccounts(accountDataList, accounts);
+    }
+
+    @Test
+    void testExecute_noAccountsWithEmail_noAccountsFetched() {
+        when(mockLogic.getAccountsForEmail("email")).thenReturn(Collections.emptyList());
+        String[] params = {
+                Const.ParamsNames.USER_EMAIL, "email",
+        };
+        GetAccountsAction action = getAction(params);
+        AccountsData actionOutput = (AccountsData) getJsonResult(action).getOutput();
+        List<AccountData> accountDataList = actionOutput.getAccounts();
+        verifyAccounts(accountDataList, Collections.emptyList());
     }
 
     @Test
@@ -68,5 +95,34 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
         String[] params2 = {};
 
         verifyHttpParameterFailure(params2);
+    }
+
+    @Test
+    void testSpecificAccessControl_admin_canAccess() {
+        loginAsAdmin();
+        verifyCanAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_instructor_cannotAccess() {
+        loginAsInstructor(getTypicalAccount().getGoogleId());
+        verifyCannotAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_student_cannotAccess() {
+        loginAsStudent(getTypicalAccount().getGoogleId());
+        verifyCannotAccess();
+    }
+
+    @Test
+    void testSpecificAccessControl_loggedOut_cannotAccess() {
+        verifyCannotAccess();
+
+        loginAsAdmin();
+        verifyCanAccess();
+
+        logoutUser();
+        verifyCannotAccess();
     }
 }
