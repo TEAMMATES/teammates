@@ -41,11 +41,8 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     void setUp() {
         Mockito.reset(mockLogic);
 
-        course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        instructor = new Instructor(course, "Instructor Name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
+        course = getTypicalCourse();
+        instructor = getTypicalInstructor();
 
         setupMockLogic();
     }
