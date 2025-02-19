@@ -278,7 +278,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testSpecificAccessControl_invalidInstructorId_cannotAccess() {
+    void testSpecificAccessControl_invalidInstructorLoginId_cannotAccess() {
         loginAsInstructor(null);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
