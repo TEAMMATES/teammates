@@ -1,5 +1,7 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.DeleteInstructorAction;
 import teammates.ui.webapi.InvalidOperationException;
@@ -27,6 +30,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     private Course course;
     private Instructor instructor;
     private Instructor instructor2;
+    private Student student;
+    private String studentId = "student-googleId";
 
     @Override
     protected String getActionUri() {
@@ -42,21 +47,24 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     void setUp() {
         Mockito.reset(mockLogic);
 
-        course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
-        instructor = setupInstructor("instructor-googleId", "name", "instructoremail@tm.tmt");
-        instructor2 = setupInstructor("instructor2-googleId", "name2", "instructor2email@tm.tmt");
+        course = getTypicalCourse();
+        instructor = setupInstructor("instructor-googleId", "instructoremail@teammates.tmt");
+        instructor2 = setupInstructor("instructor2-googleId", "instructor2email@teammates.tmt");
+        student = getTypicalStudent();
 
         setupMockLogic();
     }
 
-    private Instructor setupInstructor(String googleId, String name, String email) {
-        Account account = new Account(googleId, name, email);
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+    private Instructor setupInstructor(String googleId, String email) {
+        Account account = getTypicalAccount();
+        account.setGoogleId(googleId);
+        account.setEmail(email);
 
-        Instructor instructor = new Instructor(course, name, email,
-                true, "", null, instructorPrivileges);
+        Instructor instructor = getTypicalInstructor();
+        instructor.setEmail(email);
+        instructor.setDisplayedToStudents(true);
         instructor.setAccount(account);
+
         return instructor;
     }
 
@@ -64,9 +72,11 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor2.getGoogleId())).thenReturn(instructor2);
+        when(mockLogic.getStudentByGoogleId(course.getId(), studentId)).thenReturn(student);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor2.getEmail())).thenReturn(instructor2);
         when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(List.of(instructor, instructor2));
+        when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(List.of(student));
     }
 
     @Test
@@ -79,7 +89,9 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor2.getGoogleId());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor2.getEmail());
+        verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
@@ -93,12 +105,14 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), instructor2.getEmail());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor2.getEmail());
+        verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_deleteLastInstructorByGoogleId_fail() {
+    void testExecute_onlyOneInstructorInCourse_throwsInvalidOperationException() {
         // Override the mock logic for the course to have only one instructor
         when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(List.of(instructor));
 
@@ -113,7 +127,42 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(0)).deleteInstructorCascade(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
+        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
+    }
+
+    @Test
+    void testExecute_onlyOneRegisteredInstructor_throwsInvalidOperationException() {
+        instructor2.setAccount(null);
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+        };
+
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
+
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
+        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
+    }
+
+    @Test
+    void testExecute_onlyOneInstructorDisplayedToStudents_throwsInvalidOperationException() {
+        instructor2.setDisplayedToStudents(false);
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+        };
+
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
+
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
+        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
     }
 
     @Test
@@ -128,7 +177,9 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
@@ -141,18 +192,17 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
                 Const.ParamsNames.INSTRUCTOR_ID, "fake-googleId",
         };
 
-        assertNull(mockLogic.getInstructorByGoogleId(course.getId(), "fake-googleId"));
-
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(0)).deleteInstructorCascade(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), "fake-googleId");
+        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
     void testExecute_deleteNonExistentInstructorByEmail_failSilently() {
-        String fakeInstructorEmail = "fake-instructoremail@tm.tmt";
+        String fakeInstructorEmail = "fake-instructoremail@teammates.tmt";
         when(mockLogic.getInstructorForEmail(course.getId(), fakeInstructorEmail)).thenReturn(null);
 
         String[] params = {
@@ -160,17 +210,16 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
                 Const.ParamsNames.INSTRUCTOR_EMAIL, fakeInstructorEmail,
         };
 
-        assertNull(mockLogic.getInstructorForEmail(course.getId(), fakeInstructorEmail));
-
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(0)).deleteInstructorCascade(course.getId(), fakeInstructorEmail);
+        verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), fakeInstructorEmail);
+        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_courseDoesNotExist_failSilently() {
+    void testExecute_nonExistentCourse_failSilently() {
         String nonExistentCourseId = "non-existent-course-id";
         when(mockLogic.getCourse(nonExistentCourseId)).thenReturn(null);
 
@@ -182,7 +231,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(0)).deleteInstructorCascade(nonExistentCourseId, instructor.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(nonExistentCourseId, instructor.getGoogleId());
+        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
@@ -272,7 +322,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-googleId");
+        loginAsStudent(studentId);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
