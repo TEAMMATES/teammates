@@ -60,7 +60,7 @@ You can generate the coverage data with `jacocoReport` task after running tests,
 
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 
-## Writing Unit Tests
+## Creating Unit Tests
 
 ### General guidelines
 
