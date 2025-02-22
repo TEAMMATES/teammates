@@ -19,20 +19,21 @@ Backend unit tests in TEAMMATES are located in the package `teammates.test` and 
 
 ### Frontend tests
 
-To run all front-end component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
+To run all frontend component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
 
 ```sh
 npm run test
 ```
 
-To update snapshots, run the following command:
+Most frontend component tests use [Snapshot Testing](snapshot-testing.md). To update snapshots, run the following command:
+
 ```sh
 npm run test
 ```
 
 Followed by `a` to run all the test cases. Check through the snapshots to make sure that the changes are as expected, and press `u` to update them.
 
-To run all front-end component tests once and generate coverage data afterwards, run the following command:
+To run all frontend component tests once and generate coverage data afterwards, run the following command:
 
 ```sh
 npm run coverage
@@ -44,7 +45,7 @@ To run all tests in a test file (or all test files matching a pattern), you can 
 
 ### Backend tests
 
-Back-end component tests follow this configuration:
+Backend component tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
