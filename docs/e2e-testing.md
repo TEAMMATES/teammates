@@ -10,7 +10,7 @@
 - It aims to ensure all integrated components of the application work together as expected when it is being used by the end user.   
 - This is done by simulating user scenarios on the fully built product.  
   
-E2E tests in TEAMMATES can be found in the package `teammates.e2e`.
+E2E tests in TEAMMATES are located in the package `teammates.e2e` and configured in `src/e2e/resources/testng-e2e.xml`.
 
 ## Running E2E tests
 
