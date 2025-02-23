@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 /**
  * A helper class to hold time-related functions (e.g., converting dates to strings etc.).
@@ -105,7 +106,9 @@ public final class TimeHelper {
         if (zonedDateTime.getHour() == 12 && zonedDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofPattern(processedPattern)
+                .withLocale(Locale.US);
         return zonedDateTime.format(formatter);
     }
 

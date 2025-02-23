@@ -21,7 +21,7 @@ import teammates.ui.webapi.DeleteFeedbackQuestionAction;
  * SUT: {@link DeleteFeedbackQuestionAction}.
  */
 public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedbackQuestionAction> {
-
+  
     private Instructor typicalInstructor;
     private Course typicalCourse;
     private FeedbackSession typicalFeedbackSession;
@@ -44,7 +44,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
     }
-
+  
     @Test
     void testExecute_feedbackQuestionExists_success() {
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
