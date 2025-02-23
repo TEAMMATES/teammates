@@ -5,7 +5,7 @@ import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCT
 
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -37,7 +37,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         return DELETE;
     }
 
-    @BeforeEach
+    @BeforeMethod
     void setUp() {
         typicalInstructor = getTypicalInstructor();
         typicalCourse = typicalInstructor.getCourse();
