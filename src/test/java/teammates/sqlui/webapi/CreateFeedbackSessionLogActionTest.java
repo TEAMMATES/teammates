@@ -97,8 +97,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         CreateFeedbackSessionLogAction action = getAction(paramsSuccessfulAccess);
         JsonResult response = getJsonResult(action);
@@ -111,8 +113,11 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsSuccessfulSubmission = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa2.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa2.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString(),
+
         };
         JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
         MessageOutput output = (MessageOutput) response.getOutput();
@@ -124,8 +129,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         JsonResult response = getJsonResult(getAction(paramsNonExistentFsName));
         MessageOutput output = (MessageOutput) response.getOutput();
@@ -137,8 +144,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         JsonResult response = getJsonResult(getAction(paramsNonExistentStudentEmail));
         MessageOutput output = (MessageOutput) response.getOutput();
@@ -150,8 +159,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString(),
         };
         JsonResult response = getJsonResult(getAction(paramsWithoutAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
@@ -177,8 +188,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsInvalid = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "invalid log type",
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         verifyHttpParameterFailure(paramsInvalid);
     }
