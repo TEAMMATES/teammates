@@ -343,4 +343,16 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         verifyCannotAccess(params);
     }
+
+    @Test
+    void testSpecificAccessControl_unregistered_cannotAccess() {
+        loginAsUnregistered(instructor.getGoogleId());
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+        };
+
+        verifyCannotAccess(params);
+    }
 }
