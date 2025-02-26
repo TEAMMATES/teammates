@@ -1,5 +1,9 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.when;
+
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -7,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
@@ -21,7 +26,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     private static final String GOOGLE_ID = "user-googleId";
     private static final String INVALID_TITLE = "";
     NotificationCreateRequest testReq;
-    private final Notification testNotification = getTypicalNotificationWithId();
+    private Notification testNotification;
 
     @Override
     String getActionUri() {
@@ -36,9 +41,10 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     @BeforeMethod
     void setUp() {
         loginAsAdmin();
+        testNotification = getTypicalNotificationWithId();
     }
 
-    @Test(enabled = false)
+    @Test
     void testExecute_addNotification_success() throws Exception {
         long startTime = testNotification.getStartTime().toEpochMilli();
         long endTime = testNotification.getEndTime().toEpochMilli();
@@ -47,9 +53,13 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         String title = testNotification.getTitle();
         String message = testNotification.getMessage();
 
+        when(mockLogic.createNotification(isA(Notification.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
         NotificationCreateRequest req = getTypicalCreateRequest();
         CreateNotificationAction action = getAction(req);
         NotificationData res = (NotificationData) action.execute().getOutput();
+
+        when(mockLogic.getNotification(UUID.fromString(res.getNotificationId()))).thenReturn(testNotification);
 
         Notification createdNotification = mockLogic.getNotification(UUID.fromString(res.getNotificationId()));
 
@@ -96,58 +106,74 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     }
 
     @Test
-    void testExecute_invalidStyle_throwsInvalidHttpParameterException() throws Exception {
+    void testExecute_invalidStyle_throwsInvalidHttpParameterException() {
         testReq = getTypicalCreateRequest();
         testReq.setStyle(null);
+
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
+
         assertEquals("Notification style cannot be null", ex.getMessage());
     }
 
     @Test
-    void testExecute_invalidTargetUser_throwsInvalidHttpParameterException() throws Exception {
+    void testExecute_invalidTargetUser_throwsInvalidHttpParameterException() {
         testReq = getTypicalCreateRequest();
         testReq.setTargetUser(null);
+
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
+
         assertEquals("Notification target user cannot be null", ex.getMessage());
     }
 
     @Test
-    void testExecute_invalidTitle_throwsInvalidHttpParameterException() throws Exception {
+    void testExecute_invalidTitle_throwsInvalidHttpParameterException() {
         testReq = getTypicalCreateRequest();
         testReq.setTitle(null);
+
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
+
         assertEquals("Notification title cannot be null", ex.getMessage());
     }
 
     @Test
-    void testExecute_invalidMessage_throwsInvalidHttpParameterException() throws Exception {
+    void testExecute_invalidMessage_throwsInvalidHttpParameterException() {
         testReq = getTypicalCreateRequest();
         testReq.setMessage(null);
+
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
+
         assertEquals("Notification message cannot be null", ex.getMessage());
     }
 
     @Test
-    void testExecute_negativeStartTimestamp_throwsInvalidHttpParameterException() throws Exception {
+    void testExecute_negativeStartTimestamp_throwsInvalidHttpParameterException() {
         testReq = getTypicalCreateRequest();
         testReq.setStartTimestamp(-1);
+
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
+
         assertEquals("Start timestamp should be greater than zero", ex.getMessage());
     }
 
     @Test
-    void testExecute_negativeEndTimestamp_throwsInvalidHttpParameterException() throws Exception {
+    void testExecute_negativeEndTimestamp_throwsInvalidHttpParameterException() {
         testReq = getTypicalCreateRequest();
         testReq.setEndTimestamp(-1);
+
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
+
         assertEquals("End timestamp should be greater than zero", ex.getMessage());
     }
 
-    @Test(enabled = false)
+    @Test
     void testExecute_invalidParameter_throwsInvalidHttpParameterException() throws Exception {
         testReq = getTypicalCreateRequest();
         testReq.setTitle(INVALID_TITLE);
-        verifyHttpRequestBodyFailure(testReq);
+
+        when(mockLogic.createNotification(any())).thenThrow(new InvalidParametersException("Invalid title"));
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
+
+        assertEquals("Invalid title", ex.getMessage());
     }
 
     private NotificationCreateRequest getTypicalCreateRequest() {
