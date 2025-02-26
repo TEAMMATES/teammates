@@ -36,13 +36,8 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         return GET;
     }
 
-    @BeforeMethod
-    public void baseClassSetup() {
-        loginAsAdmin();
-    }
-
     @Test
-    protected void testAccessControl_instructorAccessStudentNotification_shouldFail() {
+    void testAccessControl_instructorAccessStudentNotification_shouldFail() {
         loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
@@ -52,7 +47,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    protected void testAccessControl_instructorAccessInstructorNotification_shouldSucceed() {
+    void testAccessControl_instructorAccessInstructorNotification_shouldSucceed() {
         loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
@@ -62,7 +57,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    protected void testAccessControl_studentAccessInstructorNotification_shouldFail() {
+    void testAccessControl_studentAccessInstructorNotification_shouldFail() {
         loginAsStudent(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
@@ -72,7 +67,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    protected void testAccessControl_studentAccessStudentNotification_shouldSucceed() {
+    void testAccessControl_studentAccessStudentNotification_shouldSucceed() {
         loginAsStudent(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
@@ -82,7 +77,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    protected void testAccessControl_unknownTargetUser_shouldFail() {
+    void testAccessControl_unknownTargetUser_shouldFail() {
         loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, "unknown",
@@ -92,7 +87,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    protected void testAccessControl_adminAccessAllNotification_shouldSucceed() {
+    void testAccessControl_adminAccessAllNotification_shouldSucceed() {
         loginAsAdmin();
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, null,
@@ -102,7 +97,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    protected void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
+    void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
         List<Notification> testNotifications = new ArrayList<>();
 
         loginAsInstructor(GOOGLE_ID);
@@ -144,6 +139,8 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         }
 
         when(mockLogic.getAllNotifications()).thenReturn(testNotifications);
+        when(mockLogic.getActiveNotificationsByTargetUser(testNotification.getTargetUser()))
+                .thenReturn(testNotifications);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, null,
@@ -154,13 +151,13 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         JsonResult jsonResult = getJsonResult(action);
 
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
-        List<NotificationData> notifications = output.getNotifications();
+        List<NotificationData> notificationOutput = output.getNotifications();
 
         assertEquals(expectedNumberOfNotifications, mockLogic.getAllNotifications().size());
-        assertEquals(expectedNumberOfNotifications, notifications.size());
+        assertEquals(expectedNumberOfNotifications, notificationOutput.size());
 
         NotificationData expected = new NotificationData(testNotifications.get(0));
-        NotificationData firstNotification = notifications.get(0);
+        NotificationData firstNotification = notificationOutput.get(0);
         verifyNotificationEquals(expected, firstNotification);
 
         // notification's shown attribute should not be updated
@@ -239,12 +236,12 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         verifyDoesNotContainNotifications(notifications, readNotificationsId);
 
         // should update notification has shown attribute
-        List<Notification> notificationAttributes =
+        List<Notification> activeNotifications =
                 mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR);
-        notificationAttributes = notificationAttributes.stream()
+        activeNotifications = activeNotifications.stream()
                 .filter(n -> !readNotificationsId.contains(n.getId().toString()))
                 .collect(Collectors.toList());
-        notificationAttributes.forEach(n -> assertTrue(n.isShown()));
+        activeNotifications.forEach(n -> assertTrue(n.isShown()));
     }
 
     @Test
