@@ -47,10 +47,10 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
     }
 
     @Test
-    void testAccessControl_maintainers_canAccess() {
+    void testAccessControl_maintainers_cannotAccess() {
         logoutUser();
         loginAsMaintainer();
-        verifyCanAccess();
+        verifyCannotAccess();
     }
 
     @Test
