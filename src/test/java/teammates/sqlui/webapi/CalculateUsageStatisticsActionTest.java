@@ -82,6 +82,7 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
 
     @BeforeMethod
     void setUp() {
+        loginAsAdmin();
         testUsageStatistics = new UsageStatistics(
                 startTime,
                 COLLECTION_TIME_PERIOD,
