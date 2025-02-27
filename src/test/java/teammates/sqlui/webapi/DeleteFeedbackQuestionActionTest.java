@@ -5,6 +5,7 @@ import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCT
 
 import java.util.UUID;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -21,11 +22,10 @@ import teammates.ui.webapi.DeleteFeedbackQuestionAction;
  */
 public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedbackQuestionAction> {
 
-    private final Instructor typicalInstructor = getTypicalInstructor();
-    private final Course typicalCourse = typicalInstructor.getCourse();
-    private final FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
-    private final FeedbackQuestion typicalFeedbackQuestion =
-            getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+    private Instructor typicalInstructor;
+    private Course typicalCourse;
+    private FeedbackSession typicalFeedbackSession;
+    private FeedbackQuestion typicalFeedbackQuestion;
 
     @Override
     protected String getActionUri() {
@@ -35,6 +35,14 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
     @Override
     protected String getRequestMethod() {
         return DELETE;
+    }
+
+    @BeforeMethod
+    void setUp() {
+        typicalInstructor = getTypicalInstructor();
+        typicalCourse = typicalInstructor.getCourse();
+        typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
+        typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
     }
 
     @Test
