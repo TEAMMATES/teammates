@@ -25,10 +25,9 @@ Here are some documents important for TEAMMATES developers.
 ### Supplementary documents
 
 * **Coding standards** for:
-  [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
-  [CSS](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html),
-  [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
-
+  * [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
+  * [CSS](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html),
+  * [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
 * **Best practices** for:
   * [Coding](best-practices/coding.md)
   * [Testing](best-practices/testing.md)
@@ -36,11 +35,14 @@ Here are some documents important for TEAMMATES developers.
   * [UI design](best-practices/ui-design.md)
   * [Accessibility](best-practices/accessibility.md)
   * [Mobile-friendliness](best-practices/mobile-friendliness.md)
-
 * **How-to guides** for:
-  * [Static analysis](static-analysis.md): Performing code quality checks
-  * [Setting up third-party email providers](emails.md)
   * [Setting up CAPTCHA](captcha.md)
+  * [Setting up developer documentation](documentation.md)
+  * [Setting up third-party email providers](emails.md)
+  * [Unit testing](unit-testing.md)
+  * [End-to-End testing](e2e-testing.md)
   * [Snapshot testing](snapshot-testing.md)
-  * [E2E testing](e2e-testing.md)
+  * [Performance testing](performance-testing.md)
   * [Accessibility testing](axe-testing.md)
+  * [Setting up full-text search](search.md)
+  * [Static analysis](static-analysis.md): Performing code quality checks

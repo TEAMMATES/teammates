@@ -11,10 +11,56 @@ Unit testing is a testing methodology where the objective is to test components 
 - It aims to ensure all components of the application work as expected, assuming its dependencies are working.   
 - This is done in TEAMMATES by using mocks to simulate a component's dependencies.  
 
-Frontend Unit tests in TEAMMATES are located in `.spec.ts` files, while Backend Unit tests in TEAMMATES can be found in the package `teammates.test`.
+Frontend unit tests in TEAMMATES are located in `*.spec.ts` files and configured in `src/web/jest.config.js`.
 
+Backend unit tests in TEAMMATES are located in the package `teammates.test` and configured in `src/test/resources/testng-component.xml`.
 
-## Writing Unit Tests
+## Running Unit Tests
+
+### Frontend tests
+
+To run all frontend component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
+
+```sh
+npm run test
+```
+
+Most frontend component tests use [Snapshot Testing](snapshot-testing.md). To update snapshots, run the following command:
+
+```sh
+npm run test
+```
+
+Followed by `a` to run all the test cases. Check through the snapshots to make sure that the changes are as expected, and press `u` to update them.
+
+To run all frontend component tests once and generate coverage data afterwards, run the following command:
+
+```sh
+npm run coverage
+```
+
+To run an individual test in a test file, change `it` in the `*.spec.ts` file to `fit`.
+
+To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.
+
+### Backend tests
+
+Backend component tests follow this configuration:
+
+Test suite | Command | Results can be viewed in
+---|---|---
+`Component tests` | `./gradlew componentTests --continue` | `{project folder}/build/reports/tests/componentTests/index.html`
+Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
+
+You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
+
+```sh
+./gradlew componentTests jacocoReport
+```
+
+The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
+
+## Creating Unit Tests
 
 ### General guidelines
 
@@ -121,7 +167,7 @@ it('getStudentCourseJoinStatus: should return true if student has joined the cou
 
 By injecting the values in the test right before they are used, developers are able to more easily trace the code and understand the test.
 
-### Frontend
+### Frontend tests
 
 #### Naming
 Unit tests for a function should follow the format:
@@ -179,7 +225,7 @@ it('triggerDeleteCommentEvent: should emit the correct index to deleteCommentEve
 });
 ```
 
-### Backend
+### Backend tests
 
 #### Naming
 Unit test names should follow the format: `test<functionName>_<scenario>_<outcome>`
@@ -202,5 +248,3 @@ account.setEmail("newemail@teammates.com");
 Student student = getTypicalStudent();
 student.setName("New Student Name");
 ```
-
-<include src="development.md#running-tests" />

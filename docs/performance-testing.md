@@ -8,16 +8,6 @@ TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and perform
 
 The performance test cases are located in the [`teammates.lnp.cases`](https://github.com/TEAMMATES/teammates/tree/master/src/lnp/java/teammates/lnp/cases) package.
 
-## Creating Performance Tests
-
-Each new test case must inherit the `BaseLNPTestCase` class, and implement the methods required for generating the test data and the JMeter L&P test plan. The L&P test plans are created in Java using the JMeter API.
-
-The inherited test cases can run JMeter test by calling `runJmeter` method. When passing the parameter `shouldCreateJmxFile` as `true`, an equivalent `.jmx` file can be generated from this test plan.
-
-To help with debugging, you can open this `.jmx` file in the JMeter GUI and add Listeners.
-
-To see a sample implementation of a test case, you can refer to `FeedbackSessionSubmitLNPTest`. It is a _simple_ test case which load tests a PUT endpoint (`/webapi/responses`).
-
 ## Running Performance Tests
 
 If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_jmeter.cgi), update the `test.jmeter.*` properties in `src/lnp/resources/test.properties` accordingly.
@@ -68,3 +58,13 @@ However, you should not use the GUI to run large scale tests as it is very resou
 
 Remember to **disable or remove all `Listeners`** in the `.jmx` file, unless you are debugging. Having them enabled can have a negative impact on the test performance.
 </box>
+
+## Creating Performance Tests
+
+Each new test case must inherit the `BaseLNPTestCase` class, and implement the methods required for generating the test data and the JMeter L&P test plan. The L&P test plans are created in Java using the JMeter API.
+
+The inherited test cases can run JMeter test by calling `runJmeter` method. When passing the parameter `shouldCreateJmxFile` as `true`, an equivalent `.jmx` file can be generated from this test plan.
+
+To help with debugging, you can open this `.jmx` file in the JMeter GUI and add Listeners.
+
+To see a sample implementation of a test case, you can refer to `FeedbackSessionSubmitLNPTest`. It is a _simple_ test case which load tests a PUT endpoint (`/webapi/responses`).
