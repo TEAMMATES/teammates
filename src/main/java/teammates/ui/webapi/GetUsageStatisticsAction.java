@@ -11,7 +11,7 @@ import teammates.ui.output.UsageStatisticsRangeData;
 /**
  * Gets usage statistics for a specified time period.
  */
-class GetUsageStatisticsAction extends Action {
+public class GetUsageStatisticsAction extends Action {
 
     private static final Duration MAX_SEARCH_WINDOW = Duration.ofDays(184L); // covering six whole months
 
