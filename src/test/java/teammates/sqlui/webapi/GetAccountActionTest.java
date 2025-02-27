@@ -44,6 +44,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     @Test
     void testExecute_accountDoesNotExist_throwsEntityNotFoundException() {
         loginAsAdmin();
+        when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(null);
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,
         };
