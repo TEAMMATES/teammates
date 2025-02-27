@@ -11,7 +11,7 @@ import teammates.ui.output.TimeZonesData;
 /**
  * Action: get supported time zones.
  */
-class GetTimeZonesAction extends Action {
+public class GetTimeZonesAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
