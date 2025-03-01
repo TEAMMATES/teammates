@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -60,6 +61,11 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @BeforeTest
     void setUpHibernate() {
         HibernateUtil.beginTransaction();
+    }
+
+    @AfterTest
+    void flush() {
+        HibernateUtil.flushSession();
     }
 
     @BeforeMethod
