@@ -321,7 +321,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     @Test
     void testAccessControl_studentAsCommentGiver_canAccessStudentComment() {
         typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
-        
+
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
 
         String[] params = new String[] {
