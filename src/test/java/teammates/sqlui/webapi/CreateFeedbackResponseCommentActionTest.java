@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
 
@@ -9,9 +10,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.testng.annotations.AfterTest;
+import org.mockito.Answers;
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -41,6 +43,8 @@ import teammates.ui.webapi.JsonResult;
  */
 public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<CreateFeedbackResponseCommentAction> {
 
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
+
     private Course typicalCourse;
     private Instructor typicalInstructor = getTypicalInstructor();
     private Student typicalStudent;
@@ -58,24 +62,22 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         return POST;
     }
 
-    @BeforeTest
-    void setUpHibernate() {
-        HibernateUtil.beginTransaction();
-    }
-
-    @AfterTest
-    void flush() {
-        HibernateUtil.flushSession();
-    }
-
     @BeforeMethod
     void setUp() {
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+        mockHibernateUtil.when(HibernateUtil::flushSession).thenAnswer(Answers.RETURNS_DEFAULTS);
+
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
         typicalStudent = getTypicalStudent();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        mockHibernateUtil.close();
     }
 
     @Test
