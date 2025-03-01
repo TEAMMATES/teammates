@@ -46,7 +46,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     private Course typicalCourse;
-    private Instructor typicalInstructor = getTypicalInstructor();
+    private Instructor typicalInstructor;
     private Student typicalStudent;
     private FeedbackSession typicalFeedbackSession;
     private FeedbackResponse typicalFeedbackResponse;
