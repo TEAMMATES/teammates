@@ -62,8 +62,8 @@
                   </button>
                 </div>
               <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'" placement="top">
-                <button 
-                  id="delete-account-request-{{i}}" 
+                <button
+                  id="delete-account-request-{{i}}"
                   type="button"
                   class="btn btn-link p-0"
                   (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)"
@@ -72,8 +72,8 @@
                 </button>
               </div>
               <div>
-                <button 
-                  id="view-account-request-{{i}}" 
+                <button
+                  id="view-account-request-{{i}}"
                   type="button"
                   class="btn btn-link p-0"
                   (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)"
