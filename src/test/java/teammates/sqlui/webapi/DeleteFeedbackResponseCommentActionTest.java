@@ -445,7 +445,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Test
-    void testAccessControl_instructorWithCorrectPrivilege_canAccessTeamComment() {
+    void testAccessControl_instructorWithCorrectPrivilege_canAccessCrossSectionComment() {
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
 
         Instructor instructorWithPrivilege = getTypicalInstructor();
@@ -473,7 +473,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Test
-    void testAccessControl_instructorWithoutGiverSectionPrivilege_cannotAccessTeamComment() {
+    void testAccessControl_instructorWithoutGiverSectionPrivilege_cannotAccessCrossSectionComment() {
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
@@ -499,7 +499,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Test
-    void testAccessControl_instructorWithoutRecipientSectionPrivilege_cannotAccessTeamComment() {
+    void testAccessControl_instructorWithoutRecipientSectionPrivilege_cannotAccessCrossSectionComment() {
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
