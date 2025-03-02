@@ -103,6 +103,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   placement="top"
                 >
                   <button
+                    aria-label="Delete account request"
                     class="btn btn-link p-0"
                     id="delete-account-request-0"
                     type="button"
@@ -114,6 +115,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 </div>
                 <div>
                   <button
+                    aria-label="View account request"
                     class="btn btn-link p-0"
                     id="view-account-request-0"
                     type="button"
@@ -212,6 +214,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   placement="top"
                 >
                   <button
+                    aria-label="Delete account request"
                     class="btn btn-link p-0"
                     id="delete-account-request-1"
                     type="button"
@@ -223,6 +226,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 </div>
                 <div>
                   <button
+                    aria-label="View account request"
                     class="btn btn-link p-0"
                     id="view-account-request-1"
                     type="button"
@@ -412,6 +416,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   placement="top"
                 >
                   <button
+                    aria-label="Delete account request"
                     class="btn btn-link p-0"
                     id="delete-account-request-0"
                     type="button"
@@ -423,6 +428,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <div>
                   <button
+                    aria-label="View account request"
                     class="btn btn-link p-0"
                     id="view-account-request-0"
                     type="button"
@@ -540,6 +546,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   placement="top"
                 >
                   <button
+                    aria-label="Delete account request"
                     class="btn btn-link p-0"
                     id="delete-account-request-1"
                     type="button"
@@ -551,6 +558,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 </div>
                 <div>
                   <button
+                    aria-label="View account request"
                     class="btn btn-link p-0"
                     id="view-account-request-1"
                     type="button"
@@ -725,6 +733,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                   placement="top"
                 >
                   <button
+                    aria-label="Delete account request"
                     class="btn btn-link p-0"
                     id="delete-account-request-0"
                     type="button"
@@ -736,6 +745,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                 </div>
                 <div>
                   <button
+                    aria-label="View account request"
                     class="btn btn-link p-0"
                     id="view-account-request-0"
                     type="button"
