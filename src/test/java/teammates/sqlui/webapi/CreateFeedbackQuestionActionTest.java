@@ -199,7 +199,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     }
 
     @Test
-    void testExecute_nonExistentFeedbackSession_throws() {
+    void testExecute_nonExistentFeedbackSession_throwsEntityNotFoundException() {
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId())).thenReturn(null);
 
         String[] params = {
