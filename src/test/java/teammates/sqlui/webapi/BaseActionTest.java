@@ -380,4 +380,106 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
+
+    protected void adminCanAccess(String... params) {
+        loginAsAdmin();
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    protected void adminCannotAccess(String... params) {
+        loginAsAdmin();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    protected void instructorCanAccess(String... params) {
+        loginAsInstructor("instructor-googleId");
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    protected void instructorCannotAccess(String... params) {
+        loginAsInstructor("instructor-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    protected void studentCanAccess(String... params) {
+        loginAsStudent("student-googleId");
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    protected void studentCannotAccess(String... params) {
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    protected void unregisteredCanAccess(String... params) {
+        loginAsUnregistered("unregistered-googleId");
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    protected void unregisteredCannotAccess(String... params) {
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    protected void guestCanAccess(String... params) {
+        logoutUser();
+        verifyCanAccess(params);
+    }
+
+    protected void guestCannotAccess(String... params) {
+        logoutUser();
+        verifyCannotAccess(params);
+    }
+
+    protected void maintainerCanAccess(String... params) {
+        loginAsMaintainer();
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    protected void maintainerCannotAccess(String... params) {
+        loginAsMaintainer();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    // TODO, and not same course cannot access
+    protected void instructorsOfTheSameCourseCanAccess(String... params) {
+        logoutUser();
+    }
+
+    protected void verifyAnyUserCanAccess(String... params) {
+        guestCanAccess(params);
+        unregisteredCanAccess(params);
+        adminCanAccess(params);
+    }
+
+    protected void verifyAnyLoggedInUserCanAccess(String... params) {
+        guestCannotAccess(params);
+        unregisteredCanAccess(params);
+        adminCanAccess(params);
+    }
+
+    protected void verifyOnlyAdminsCanAccess(String... params) {
+        guestCannotAccess(params);
+        unregisteredCannotAccess(params);
+        studentCannotAccess(params);
+        instructorCannotAccess(params);
+        adminCanAccess(params);
+    }
+
+    protected void verifyOnlyInstructorsCanAccess(String... params) {
+        guestCannotAccess(params);
+        unregisteredCannotAccess(params);
+        studentCannotAccess(params);
+        instructorCanAccess(params);
+    }
 }
