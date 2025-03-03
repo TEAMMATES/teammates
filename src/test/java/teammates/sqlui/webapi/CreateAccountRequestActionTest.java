@@ -1,9 +1,14 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.when;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.CreateAccountRequestAction;
@@ -13,6 +18,9 @@ import teammates.ui.webapi.CreateAccountRequestAction;
  */
 public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccountRequestAction> {
 
+    private String instructorName = "JamesBond";
+    private String instructorEmail = "jamesbond89@gmail.tmt";
+    private String instructorInstitution = "TEAMMATES Test Institute 1";
     private AccountCreateRequest createRequest;
 
     @Override
@@ -57,12 +65,22 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         verifyNoTasksAdded();
     }
 
+    @Test
+    void testExecute_validAccountCreateRequest_success() throws InvalidParametersException {
+        loginAsAdmin();
+        AccountRequest accountRequest = new AccountRequest(instructorEmail, instructorName, instructorInstitution, AccountRequestStatus.PENDING, null);
+
+        when(mockLogic.createAccountRequestWithTransaction(instructorName, instructorEmail, instructorInstitution, AccountRequestStatus.PENDING, null)).thenReturn(accountRequest);
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+    }
+
     private AccountCreateRequest getTypicalAccountCreateRequest() {
         AccountCreateRequest createRequest = new AccountCreateRequest();
 
-        createRequest.setInstructorName("JamesBond");
-        createRequest.setInstructorEmail("jamesbond89@gmail.tmt");
-        createRequest.setInstructorInstitution("TEAMMATES Test Institute 1");
+        createRequest.setInstructorName(instructorName);
+        createRequest.setInstructorEmail(instructorEmail);
+        createRequest.setInstructorInstitution(instructorInstitution);
 
         return createRequest;
     }
