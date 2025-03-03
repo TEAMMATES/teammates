@@ -13,7 +13,7 @@ import teammates.common.util.EmailWrapper;
 /**
  * SUT: {@link CompileLogsAction}.
  */
-class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
+public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
 
     @Override
     protected String getActionUri() {
