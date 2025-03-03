@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -21,6 +22,11 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetCoursesAction}.
  */
 public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
+    private Instructor stubInstructor;
+    private List<Instructor> stubInstructorList;
+    private Course stubCourse;
+    private List<Course> stubCourseList;
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.COURSES;
@@ -31,11 +37,15 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         return GET;
     }
 
-    private InstructorStub prepareInstructorStub() {
-        Instructor stubInstructor = getTypicalInstructor();
-        List<Instructor> stubInstructorList = new ArrayList<>();
+    @BeforeMethod
+    void setUp() {
+        stubInstructor = getTypicalInstructor();
+        stubInstructorList = new ArrayList<>();
         stubInstructorList.add(stubInstructor);
-        return new InstructorStub(stubInstructorList, stubInstructor);
+        stubCourse = getTypicalCourse();
+        stubCourse.setCreatedAt(Instant.ofEpochMilli(1));
+        stubCourseList = new ArrayList<>();
+        stubCourseList.add(stubCourse);
     }
 
     private List<Course> prepareCourseStubList() {
@@ -48,69 +58,62 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInstructorAndActiveCourses_success() {
-        InstructorStub stubInstructorObject = prepareInstructorStub();
-        List<Course> stubCourseList = prepareCourseStubList();
-
-        loginAsInstructor(stubInstructorObject.getInstructorStub().getGoogleId());
-        when(mockLogic.getInstructorsForGoogleId(stubInstructorObject.getInstructorStub().getGoogleId()))
-                .thenReturn(stubInstructorObject.getInstructorListStub());
+        loginAsInstructor(stubInstructor.getGoogleId());
+        when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
+                .thenReturn(stubInstructorList);
         when(mockLogic.getCoursesForInstructors(argThat(
                 argument ->
                         Objects.equals(argument.get(0).getGoogleId(),
-                        stubInstructorObject.getInstructorStub().getGoogleId())))).thenReturn(stubCourseList);
+                        stubInstructor.getGoogleId())))).thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
-        GetCoursesAction a = getAction(params);
-        JsonResult result = a.execute();
-        CoursesData x = (CoursesData) result.getOutput();
-        assertEquals(stubCourseList.size(), x.getCourses().size());
-        assertEquals(stubCourseList.get(0).getId(), x.getCourses().get(0).getCourseId());
+        GetCoursesAction action = getAction(params);
+        JsonResult result = action.execute();
+        CoursesData data = (CoursesData) result.getOutput();
+        assertEquals(stubCourseList.size(), data.getCourses().size());
+        assertEquals(stubCourseList.get(0).getId(), data.getCourses().get(0).getCourseId());
+        assertEquals(stubInstructor.getPrivileges().getCourseLevelPrivileges(), data.getCourses().get(0).getPrivileges());
     }
 
     @Test
     void testExecute_withInstructorAndArchivedCourses_success() {
-        Instructor stubInstructor = getTypicalInstructor();
-
         loginAsInstructor(stubInstructor.getGoogleId());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ARCHIVED,
         };
-        GetCoursesAction a = getAction(params);
-        JsonResult result = a.execute();
-        CoursesData x = (CoursesData) result.getOutput();
-        assertEquals(0, x.getCourses().size());
+        GetCoursesAction action = getAction(params);
+        JsonResult result = action.execute();
+        CoursesData data = (CoursesData) result.getOutput();
+        assertEquals(0, data.getCourses().size());
 
     }
 
     @Test
     void testExecute_withInstructorAndSoftDeletedCourses_success() {
-        InstructorStub stubInstructorObject = prepareInstructorStub();
-        List<Course> stubCourseList = prepareCourseStubList();
-
-        loginAsInstructor(stubInstructorObject.getInstructorStub().getGoogleId());
-        when(mockLogic.getInstructorsForGoogleId(stubInstructorObject.getInstructorStub().getGoogleId()))
-                .thenReturn(stubInstructorObject.getInstructorListStub());
+        loginAsInstructor(stubInstructor.getGoogleId());
+        when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
+                .thenReturn(stubInstructorList);
         when(mockLogic.getSoftDeletedCoursesForInstructors(argThat(
                 argument -> Objects.equals(argument.get(0).getGoogleId(),
-                                stubInstructorObject.getInstructorStub().getGoogleId())))).thenReturn(stubCourseList);
+                                stubInstructor.getGoogleId())))).thenReturn(stubCourseList);
 
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.SOFT_DELETED,
         };
-        GetCoursesAction a = getAction(params);
-        JsonResult result = a.execute();
-        CoursesData x = (CoursesData) result.getOutput();
-        assertEquals(stubCourseList.size(), x.getCourses().size());
-        assertEquals(stubCourseList.get(0).getId(), x.getCourses().get(0).getCourseId());
+        GetCoursesAction action = getAction(params);
+        JsonResult result = action.execute();
+        CoursesData data = (CoursesData) result.getOutput();
+        assertEquals(stubCourseList.size(), data.getCourses().size());
+        assertEquals(stubCourseList.get(0).getId(), data.getCourses().get(0).getCourseId());
+        assertEquals(stubInstructor.getPrivileges().getCourseLevelPrivileges(), data.getCourses().get(0).getPrivileges());
     }
 
     @Test
     void testExecute_withInstructorAndInvalidCourseStatus_throwsException() {
-        Instructor stubInstructor = getTypicalInstructor();
         loginAsInstructor(stubInstructor.getGoogleId());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -129,17 +132,16 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     @Test
     void testExecute_withStudentEntityType_success() {
         loginAsStudent("student");
-        List<Course> stubCourseList = prepareCourseStubList();
-        Course stubCourse = stubCourseList.get(0);
         when(mockLogic.getCoursesForStudentAccount("student")).thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
-        GetCoursesAction a = getAction(params);
-        JsonResult result = a.execute();
-        CoursesData x = (CoursesData) result.getOutput();
-        assertEquals(1, x.getCourses().size());
-        assertEquals(stubCourse.getId(), x.getCourses().get(0).getCourseId());
+        GetCoursesAction action = getAction(params);
+        JsonResult result = action.execute();
+        CoursesData data = (CoursesData) result.getOutput();
+        assertEquals(1, data.getCourses().size());
+        assertEquals(stubCourse.getId(), data.getCourses().get(0).getCourseId());
+        assertEquals(0, data.getCourses().get(0).getDeletionTimestamp());
     }
 
     @Test
@@ -158,7 +160,6 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testSpecificAccessControl_instructor_success() {
-        Instructor stubInstructor = getTypicalInstructor();
         loginAsInstructor(stubInstructor.getGoogleId());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -193,23 +194,5 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
         verifyCannotAccess(params);
-    }
-
-    private static class InstructorStub {
-        List<Instructor> instructorListStub;
-        Instructor instructorStub;
-
-        InstructorStub(List<Instructor> instructorListStub, Instructor instructorStub) {
-            this.instructorListStub = instructorListStub;
-            this.instructorStub = instructorStub;
-        }
-
-        List<Instructor> getInstructorListStub() {
-            return instructorListStub;
-        }
-
-        Instructor getInstructorStub() {
-            return instructorStub;
-        }
     }
 }
