@@ -20,16 +20,13 @@ import teammates.ui.webapi.CalculateUsageStatisticsAction;
  * SUT: {@link CalculateUsageStatisticsAction}.
  */
 public class CalculateUsageStatisticsActionTest extends BaseActionTest<CalculateUsageStatisticsAction> {
-    private static final int NUMBER_OF_RESPONSES = 2;
-    private static final int NUMBER_OF_COURSES = 2;
-    private static final int NUMBER_OF_STUDENTS = 2;
-    private static final int NUMBER_OF_INSTRUCTORS = 2;
-    private static final int NUMBER_OF_ACCOUNT_REQUESTS = 2;
-    private static final int COLLECTION_TIME_PERIOD = 60;
-    Instant endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
-    Instant startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
-    UsageStatistics testUsageStatistics;
-    UsageStatisticsAttributes testUsageStatisticsAttributes;
+    private final Instant startTime =
+            TimeHelper.getInstantNearestHourBefore(Instant.now()).minus(1, ChronoUnit.HOURS);
+    private final UsageStatistics testUsageStatistics =
+            getTypicalUsageStatistics(startTime);
+    private final UsageStatisticsAttributes testUsageStatisticsAttributes =
+            getTypicalUsageStatisticsAttributes(startTime);
+    private final int collectionTimePeriod = testUsageStatistics.getTimePeriod();
 
     @Override
     protected String getActionUri() {
@@ -83,24 +80,6 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
     @BeforeMethod
     void setUp() {
         loginAsAdmin();
-        testUsageStatistics = new UsageStatistics(
-                startTime,
-                COLLECTION_TIME_PERIOD,
-                NUMBER_OF_RESPONSES,
-                NUMBER_OF_COURSES,
-                NUMBER_OF_STUDENTS,
-                NUMBER_OF_INSTRUCTORS,
-                NUMBER_OF_ACCOUNT_REQUESTS,
-                0,
-                0);
-        testUsageStatisticsAttributes =
-                UsageStatisticsAttributes.builder(startTime, COLLECTION_TIME_PERIOD)
-                        .withNumResponses(NUMBER_OF_RESPONSES)
-                        .withNumCourses(NUMBER_OF_COURSES)
-                        .withNumStudents(NUMBER_OF_STUDENTS)
-                        .withNumInstructors(NUMBER_OF_INSTRUCTORS)
-                        .withNumAccountRequests(NUMBER_OF_ACCOUNT_REQUESTS)
-                        .build();
     }
 
     @Test
@@ -124,7 +103,7 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
         assertEquals(1, statsObjects.size());
 
         UsageStatistics statsObject = statsObjects.get(0);
-        assertEquals(COLLECTION_TIME_PERIOD, statsObject.getTimePeriod());
+        assertEquals(collectionTimePeriod, statsObject.getTimePeriod());
 
         // Note that there is a slim possibility that this assertion may fail, if the hour has changed
         // between when the stats was gathered and the line where Instant.now is called.
