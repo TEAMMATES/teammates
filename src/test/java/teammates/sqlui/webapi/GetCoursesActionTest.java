@@ -48,14 +48,6 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         stubCourseList.add(stubCourse);
     }
 
-    private List<Course> prepareCourseStubList() {
-        Course stubCourse = getTypicalCourse();
-        stubCourse.setCreatedAt(Instant.ofEpochMilli(1));
-        List<Course> stubCourseList = new ArrayList<>();
-        stubCourseList.add(stubCourse);
-        return stubCourseList;
-    }
-
     @Test
     void testExecute_withInstructorAndActiveCourses_success() {
         loginAsInstructor(stubInstructor.getGoogleId());
