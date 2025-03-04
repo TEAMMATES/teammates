@@ -34,6 +34,7 @@
               "src/web/robots.txt"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/web/styles.scss"
             ]
           },

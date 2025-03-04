@@ -59,6 +59,7 @@ export class SessionResultPageComponent implements OnInit {
 
   // enum
   Intent: typeof Intent = Intent;
+  hideSelfResponses: boolean = false;
 
   session: FeedbackSession = {
     courseId: '',
@@ -96,7 +97,6 @@ export class SessionResultPageComponent implements OnInit {
 
   previewAsPerson: string = '';
   isPreviewHintExpanded: boolean = false;
-
   isCourseLoading: boolean = true;
   isFeedbackSessionDetailsLoading: boolean = true;
   isFeedbackSessionResultsLoading: boolean = true;

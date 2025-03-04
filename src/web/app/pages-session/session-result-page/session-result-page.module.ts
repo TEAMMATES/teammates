@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SessionResultPageComponent } from './session-result-page.component';
@@ -23,16 +24,17 @@ const routes: Routes = [
  * Module for feedback session result page.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    QuestionTextWithInfoModule,
-    StudentViewResponsesModule,
-    SingleStatisticsModule,
-    RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    LoadingRetryModule,
-    QuestionResponsePanelModule,
-  ],
+    imports: [
+        CommonModule,
+        QuestionTextWithInfoModule,
+        StudentViewResponsesModule,
+        SingleStatisticsModule,
+        RouterModule.forChild(routes),
+        LoadingSpinnerModule,
+        LoadingRetryModule,
+        QuestionResponsePanelModule,
+        FormsModule,
+    ],
   declarations: [
     SessionResultPageComponent,
   ],
