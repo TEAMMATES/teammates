@@ -8,7 +8,7 @@ import teammates.storage.sqlentity.AccountRequest;
 /**
  * Deletes an existing account request.
  */
-class DeleteAccountRequestAction extends AdminOnlyAction {
+public class DeleteAccountRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidOperationException {
