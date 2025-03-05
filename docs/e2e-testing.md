@@ -70,8 +70,6 @@ Only modern Edge (Chromium-based) is supported.
 
 ### Running the tests
 
-To run the E2E tests, ensure that a database instance and a full-text search service instance are running. Details on the backend pre-requisites can be found [here](development.md#pre-requisites).
-
 E2E tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
