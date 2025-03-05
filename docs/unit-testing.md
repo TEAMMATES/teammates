@@ -45,11 +45,13 @@ To run all tests in a test file (or all test files matching a pattern), you can 
 
 ### Backend tests
 
+To run the backend tests, ensure that a database instance and a full-text search service instance are running. Details on the backend pre-requisites can be found [here](development.md#pre-requisites).
+
 Backend component tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
-`Component tests` | `./gradlew componentTests --continue` | `{project folder}/build/reports/tests/componentTests/index.html`
+Component tests | `./gradlew componentTests --continue` | `{project folder}/build/reports/tests/componentTests/index.html`
 Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
