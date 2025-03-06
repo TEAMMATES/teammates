@@ -24,10 +24,10 @@ import teammates.ui.webapi.UpdateNotificationAction;
  * SUT: {@link UpdateNotificationAction}.
  */
 public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificationAction> {
-    Notification testNotification;
-    Notification newNotification;
-    NotificationUpdateRequest notificationRequest;
-    String[] requestParams;
+    private Notification testNotification;
+    private Notification newNotification;
+    private NotificationUpdateRequest notificationRequest;
+    private String[] requestParams;
 
     @Override
     String getActionUri() {
