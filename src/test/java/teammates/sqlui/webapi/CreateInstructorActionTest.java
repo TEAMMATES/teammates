@@ -1,10 +1,14 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.datatransfer.InstructorPermissionRole.getEnum;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -42,6 +46,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
     @BeforeMethod
     void setUpMethod() {
+        Mockito.reset(mockLogic);
+
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
     }
@@ -71,6 +77,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         CreateInstructorAction action = getAction(requestBody, params);
         JsonResult r = getJsonResult(action);
         InstructorData response = (InstructorData) r.getOutput();
+
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
@@ -107,6 +116,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 ioe.getMessage());
 
         verifyNoTasksAdded();
+
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
     }
 
     @Test
@@ -131,6 +143,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         verifyHttpRequestBodyFailure(requestBody, params);
 
         verifyNoTasksAdded();
+
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
     }
 
     @Test
@@ -159,6 +174,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         JsonResult r = getJsonResult(action);
         InstructorData response = (InstructorData) r.getOutput();
 
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
+
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
@@ -178,6 +196,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         logoutUser();
         verifyCannotAccess(params);
+
+        verify(mockLogic, never()).getCourse(typicalCourse.getId());
+        verify(mockLogic, never()).getInstructorByGoogleId(any(String.class), any(String.class));
     }
 
     @Test
@@ -188,6 +209,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         loginAsUnregistered("unregistered user");
         verifyCannotAccess(params);
+
+        verify(mockLogic, never()).getCourse(typicalCourse.getId());
+        verify(mockLogic, never()).getInstructorByGoogleId(any(String.class), any(String.class));
     }
 
     @Test
@@ -199,6 +223,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         loginAsStudent(typicalStudent.getGoogleId());
         verifyCannotAccess(params);
+
+        verify(mockLogic, never()).getCourse(typicalCourse.getId());
+        verify(mockLogic, never()).getInstructorByGoogleId(any(String.class), any(String.class));
     }
 
     @Test
@@ -214,12 +241,16 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         };
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
                 .thenReturn(instructorFromDifferentCourse);
 
         loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
 
         verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1))
+                .getInstructorByGoogleId(typicalCourse.getId(), instructorFromDifferentCourse.getGoogleId());
     }
 
     @Test
@@ -240,6 +271,10 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());
 
         verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1))
+                .getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId());
     }
 
     @Test
@@ -251,6 +286,28 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         loginAsAdmin();
 
         verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
+
+        verify(mockLogic, never()).getCourse(typicalCourse.getId());
+        verify(mockLogic, never()).getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
+    }
+
+    @Test
+    void testAccessControl_instructorWithCorrectCoursePrivilege_canAccess() {
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+        };
+
+        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+                .thenReturn(typicalInstructor);
+
+        loginAsInstructor(typicalInstructor.getGoogleId());
+
+        verifyCanAccess(params);
+
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1))
+                .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
     }
 
 }
