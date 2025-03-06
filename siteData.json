@@ -270,11 +270,11 @@
       "title": "Performance Testing",
       "headings": {
         "performance-testing": "Performance Testing",
-        "creating-performance-tests": "Creating Performance Tests",
         "running-performance-tests": "Running Performance Tests",
         "using-gradle": "Using Gradle",
         "using-the-command-line": "Using the Command Line",
-        "using-jmeter-gui": "Using JMeter GUI"
+        "using-jmeter-gui": "Using JMeter GUI",
+        "creating-performance-tests": "Creating Performance Tests"
       },
       "headingKeywords": {}
     },
@@ -341,8 +341,7 @@
         "how-do-we-use-snapshot-testing": "How do we use Snapshot Testing?",
         "when-do-we-use-snapshot-testing": "When do we use Snapshot Testing?",
         "when-do-we-not-use-snapshot-testing": "When do we NOT use Snapshot Testing?",
-        "best-practices": "Best Practices",
-        "final-notes": "Final Notes"
+        "best-practices": "Best Practices"
       },
       "headingKeywords": {}
     },
@@ -375,10 +374,13 @@
       "headings": {
         "unit-testing": "Unit Testing",
         "what-is-unit-testing": "What is Unit Testing?",
-        "writing-unit-tests": "Writing Unit Tests",
+        "running-unit-tests": "Running Unit Tests",
+        "frontend-tests": "Frontend tests",
+        "backend-tests": "Backend tests",
+        "creating-unit-tests": "Creating Unit Tests",
         "general-guidelines": "General guidelines",
-        "frontend": "Frontend",
-        "backend": "Backend"
+        "frontend-tests-2": "Frontend tests",
+        "backend-tests-2": "Backend tests"
       },
       "headingKeywords": {}
     }
