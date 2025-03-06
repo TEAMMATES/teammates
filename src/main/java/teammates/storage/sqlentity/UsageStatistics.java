@@ -113,6 +113,23 @@ public class UsageStatistics extends BaseEntity {
         return numSubmissions;
     }
 
+    /**
+     * Gets the {@link UsageStatistics} instance of
+     * the given {@link teammates.common.datatransfer.attributes.UsageStatisticsAttributes}.
+     */
+    public static UsageStatistics valueOf(teammates.common.datatransfer.attributes.UsageStatisticsAttributes us) {
+        return new UsageStatistics(
+                us.getStartTime(),
+                us.getTimePeriod(),
+                us.getNumResponses(),
+                us.getNumCourses(),
+                us.getNumStudents(),
+                us.getNumInstructors(),
+                us.getNumAccountRequests(),
+                us.getNumEmails(),
+                us.getNumSubmissions());
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
