@@ -12,7 +12,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -61,6 +60,20 @@ public final class AccountRequestsDb extends EntitiesDb {
     public AccountRequest getAccountRequest(UUID id) {
         assert id != null;
         return HibernateUtil.get(AccountRequest.class, id);
+    }
+
+    /**
+     * Get AccountRequest by {@code email} and {@code institute} from database.
+     */
+    public AccountRequest getAccountRequest(String email, String institute) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root).where(cb.and(cb.equal(
+                root.get("email"), email), cb.equal(root.get("institute"), institute)));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     /**
@@ -119,7 +132,8 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
-     * Get AccountRequest with {@code createdTime} within the times {@code startTime} and {@code endTime}.
+     * Get AccountRequest with {@code createdTime} within the times
+     * {@code startTime} and {@code endTime}.
      */
     public List<AccountRequest> getAccountRequests(Instant startTime, Instant endTime) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -145,7 +159,7 @@ public final class AccountRequestsDb extends EntitiesDb {
 
         if (getAccountRequest(accountRequest.getId()) == null) {
             throw new EntityDoesNotExistException(
-                String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
+                    String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
         }
 
         merge(accountRequest);
@@ -175,7 +189,8 @@ public final class AccountRequestsDb extends EntitiesDb {
     /**
      * Searches all account requests in the system.
      *
-     * <p>This is used by admin to search account requests in the whole system.
+     * <p>
+     * This is used by admin to search account requests in the whole system.
      */
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
