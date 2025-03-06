@@ -12,6 +12,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -189,8 +190,7 @@ public final class AccountRequestsDb extends EntitiesDb {
     /**
      * Searches all account requests in the system.
      *
-     * <p>
-     * This is used by admin to search account requests in the whole system.
+     * <p>This is used by admin to search account requests in the whole system.
      */
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
