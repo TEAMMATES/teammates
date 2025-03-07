@@ -1,18 +1,23 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static teammates.ui.webapi.RegenerateInstructorKeyAction.SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
+import static teammates.ui.webapi.RegenerateInstructorKeyAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT;
+import static teammates.ui.webapi.RegenerateInstructorKeyAction.UNSUCCESSFUL_REGENERATION;
 
 import org.apache.http.HttpStatus;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Course;
@@ -41,10 +46,18 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
 
     @BeforeMethod
     public void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator, mockEmailSender);
-        course = new Course("course-id", "Course Name", Const.DEFAULT_TIME_ZONE, "institute");
-        instructor = new Instructor(course, "Instructor Name", "instructorEmail@tm.tmt",
-                false, "", null, new InstructorPrivileges());
+        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+
+        course = getTypicalCourse();
+        instructor = getTypicalInstructor();
+        EmailWrapper mockEmail = mock(EmailWrapper.class);
+
+        when(mockSqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                course.getId(),
+                instructor.getEmail(),
+                EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
+        )).thenReturn(mockEmail);
+        mockEmailSender.setShouldFail(false);
     }
 
     @Test
@@ -52,16 +65,6 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
             throws EntityDoesNotExistException, InstructorUpdateException {
         when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail())).thenReturn(instructor);
 
-        EmailWrapper mockEmail = mock(EmailWrapper.class);
-        when(mockSqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
-                instructor.getEmail(),
-                EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
-        )).thenReturn(mockEmail);
-        when(mockEmailSender.sendEmail(mockEmail)).thenReturn(
-                new EmailSendingStatus(200, "Email sent successfully")
-        );
-
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
@@ -70,8 +73,14 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         RegenerateInstructorKeyAction action = getAction(params);
         RegenerateKeyData actionOutput = (RegenerateKeyData) getJsonResult(action).getOutput();
 
-        assertEquals(actionOutput.getMessage(),
-                "Instructor's key for this course has been successfully regenerated, and the email has been sent.");
+        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail());
+        verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
+                course.getId(),
+                instructor.getEmail(),
+                EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
+        );
+        verifyNumberOfEmailsSent(1);
+        assertEquals(SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, actionOutput.getMessage());
         assertNotNull(actionOutput.getNewRegistrationKey());
     }
 
@@ -79,16 +88,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     void testExecute_successfulRegenerationWithEmailFailed_success()
             throws EntityDoesNotExistException, InstructorUpdateException {
         when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail())).thenReturn(instructor);
-
-        EmailWrapper mockEmail = mock(EmailWrapper.class);
-        when(mockSqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
-                instructor.getEmail(),
-                EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
-        )).thenReturn(mockEmail);
-        when(mockEmailSender.sendEmail(mockEmail)).thenReturn(
-                new EmailSendingStatus(500, "Email sending failed")
-        );
+        mockEmailSender.setShouldFail(true);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -98,8 +98,14 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         RegenerateInstructorKeyAction action = getAction(params);
         RegenerateKeyData actionOutput = (RegenerateKeyData) getJsonResult(action).getOutput();
 
-        assertEquals(actionOutput.getMessage(),
-                "Instructor's key for this course has been successfully regenerated, but the email failed to send.");
+        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail());
+        verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
+                course.getId(),
+                instructor.getEmail(),
+                EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
+        );
+        verifyNoEmailsSent();
+        assertEquals(SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED, actionOutput.getMessage());
         assertNotNull(actionOutput.getNewRegistrationKey());
     }
 
@@ -114,11 +120,14 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
+        verify(mockLogic, never()).regenerateInstructorRegistrationKey(any(), any());
+        verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
+        verifyNoEmailsSent();
         verifyEntityNotFound(params);
     }
 
     @Test
-    void testExecute_instructionUpdateException_throwsInstructorUpdateException()
+    void testExecute_instructionUpdateException_failure()
             throws EntityDoesNotExistException, InstructorUpdateException {
         when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail()))
                 .thenThrow(new InstructorUpdateException("Instructor update failed"));
@@ -131,7 +140,10 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         RegenerateInstructorKeyAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action, HttpStatus.SC_INTERNAL_SERVER_ERROR).getOutput();
 
-        assertEquals(actionOutput.getMessage(), "Regeneration of the instructor's key was unsuccessful.");
+        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(any(), any());
+        verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
+        verifyNoEmailsSent();
+        assertEquals(UNSUCCESSFUL_REGENERATION, actionOutput.getMessage());
     }
 
     @Test
@@ -163,13 +175,13 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
 
     @Test
     void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor("instructor-googleId");
+        loginAsInstructor(instructor.getGoogleId());
         verifyCannotAccess();
     }
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-googleId");
+        loginAsStudent(getTypicalStudent().getGoogleId());
         verifyCannotAccess();
     }
 
