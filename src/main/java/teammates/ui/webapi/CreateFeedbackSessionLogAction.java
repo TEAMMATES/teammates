@@ -45,6 +45,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         details.setAccessType(fslType);
 
         if (isCourseMigrated(courseId)) {
+
             UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
             UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
