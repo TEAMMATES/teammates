@@ -26,7 +26,7 @@ public class DeadlineExtension extends BaseEntity {
 
     private boolean isInstructor;
 
-    private boolean sentClosingEmail;
+    private boolean sentClosingSoonEmail;
 
     @Translate(InstantTranslatorFactory.class)
     private Instant endTime;
@@ -43,12 +43,12 @@ public class DeadlineExtension extends BaseEntity {
     }
 
     public DeadlineExtension(String courseId, String feedbackSessionName, String userEmail, boolean isInstructor,
-            boolean sentClosingEmail, Instant endTime) {
+            boolean sentClosingSoonEmail, Instant endTime) {
         this.setCourseId(courseId);
         this.setFeedbackSessionName(feedbackSessionName);
         this.setUserEmail(userEmail);
         this.setIsInstructor(isInstructor);
-        this.setSentClosingEmail(sentClosingEmail);
+        this.setSentClosingSoonEmail(sentClosingSoonEmail);
         this.setEndTime(endTime);
         this.setId(generateId(this.courseId, this.feedbackSessionName, this.userEmail, this.isInstructor));
         this.setCreatedAt(Instant.now());
@@ -94,12 +94,12 @@ public class DeadlineExtension extends BaseEntity {
         this.isInstructor = isInstructor;
     }
 
-    public boolean getSentClosingEmail() {
-        return sentClosingEmail;
+    public boolean getSentClosingSoonEmail() {
+        return sentClosingSoonEmail;
     }
 
-    public void setSentClosingEmail(boolean sentClosingEmail) {
-        this.sentClosingEmail = sentClosingEmail;
+    public void setSentClosingSoonEmail(boolean sentClosingSoonEmail) {
+        this.sentClosingSoonEmail = sentClosingSoonEmail;
     }
 
     public Instant getEndTime() {

@@ -323,7 +323,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       templateSessionName: '',
 
-      isClosingEmailEnabled: feedbackSession.isClosingEmailEnabled,
+      isClosingSoonEmailEnabled: feedbackSession.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
 
       isSaving: false,
@@ -331,7 +331,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isCopying: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
-      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
+      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingSoonEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
     };
 
     this.studentDeadlines = feedbackSession.studentDeadlines;
@@ -405,7 +405,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
       customResponseVisibleTimestamp: responseVisibleTime,
 
-      isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
+      isClosingSoonEmailEnabled: this.sessionEditFormModel.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
 
       studentDeadlines: this.studentDeadlines,
