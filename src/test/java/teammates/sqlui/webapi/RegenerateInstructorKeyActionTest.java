@@ -43,7 +43,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     }
 
     @BeforeMethod
-    public void setUp() {
+    void setUp() {
         Mockito.reset(mockLogic, mockSqlEmailGenerator);
 
         instructor = getTypicalInstructor();
@@ -126,7 +126,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     }
 
     @Test
-    void testExecute_instructionUpdateException_failure()
+    void testExecute_instructorUpdateException_failure()
             throws EntityDoesNotExistException, InstructorUpdateException {
         when(mockLogic.regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail()))
                 .thenThrow(new InstructorUpdateException("Instructor update failed"));
