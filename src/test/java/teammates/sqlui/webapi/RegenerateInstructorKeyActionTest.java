@@ -20,7 +20,6 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.output.RegenerateKeyData;
@@ -31,7 +30,6 @@ import teammates.ui.webapi.RegenerateInstructorKeyAction;
  */
 public class RegenerateInstructorKeyActionTest extends BaseActionTest<RegenerateInstructorKeyAction> {
 
-    private Course course;
     private Instructor instructor;
 
     @Override
@@ -48,12 +46,11 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     public void setUp() {
         Mockito.reset(mockLogic, mockSqlEmailGenerator);
 
-        course = getTypicalCourse();
         instructor = getTypicalInstructor();
         EmailWrapper mockEmail = mock(EmailWrapper.class);
 
         when(mockSqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
+                instructor.getCourseId(),
                 instructor.getEmail(),
                 EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
         )).thenReturn(mockEmail);
@@ -63,19 +60,20 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     @Test
     void testExecute_successfulRegenerationWithEmailSent_success()
             throws EntityDoesNotExistException, InstructorUpdateException {
-        when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail())).thenReturn(instructor);
+        when(mockLogic.regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail()))
+                .thenReturn(instructor);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
         RegenerateInstructorKeyAction action = getAction(params);
         RegenerateKeyData actionOutput = (RegenerateKeyData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail());
         verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
+                instructor.getCourseId(),
                 instructor.getEmail(),
                 EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
         );
@@ -87,20 +85,21 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     @Test
     void testExecute_successfulRegenerationWithEmailFailed_success()
             throws EntityDoesNotExistException, InstructorUpdateException {
-        when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail())).thenReturn(instructor);
+        when(mockLogic.regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail()))
+                .thenReturn(instructor);
         mockEmailSender.setShouldFail(true);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
         RegenerateInstructorKeyAction action = getAction(params);
         RegenerateKeyData actionOutput = (RegenerateKeyData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail());
         verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
+                instructor.getCourseId(),
                 instructor.getEmail(),
                 EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
         );
@@ -112,11 +111,11 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     @Test
     void testExecute_entityDoesNotExist_throwsEntityNotFoundException()
             throws EntityDoesNotExistException, InstructorUpdateException {
-        when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail()))
+        when(mockLogic.regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail()))
                 .thenThrow(new EntityDoesNotExistException("Instructor not found"));
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
@@ -129,11 +128,11 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     @Test
     void testExecute_instructionUpdateException_failure()
             throws EntityDoesNotExistException, InstructorUpdateException {
-        when(mockLogic.regenerateInstructorRegistrationKey(course.getId(), instructor.getEmail()))
+        when(mockLogic.regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail()))
                 .thenThrow(new InstructorUpdateException("Instructor update failed"));
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
@@ -154,7 +153,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     @Test
     void testExecute_missingInstructorEmail_throwsInvalidParametersException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
         verifyHttpParameterFailure(params);
     }
