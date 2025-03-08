@@ -331,7 +331,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isCopying: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
-      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingSoonEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
+      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingSoonEmailEnabled
+          || !feedbackSession.isPublishedEmailEnabled,
     };
 
     this.studentDeadlines = feedbackSession.studentDeadlines;
