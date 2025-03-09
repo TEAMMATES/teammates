@@ -174,13 +174,13 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
 
     @Test
     void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor("instructor-googleId");
         verifyCannotAccess();
     }
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(getTypicalStudent().getGoogleId());
+        loginAsStudent("student-googleId");
         verifyCannotAccess();
     }
 
