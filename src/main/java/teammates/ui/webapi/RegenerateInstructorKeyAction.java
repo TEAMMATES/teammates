@@ -19,18 +19,20 @@ import teammates.ui.output.RegenerateKeyData;
  */
 public class RegenerateInstructorKeyAction extends AdminOnlyAction {
 
-    private static final String SUCCESSFUL_REGENERATION =
+    /** Message indicating that the key regeneration was successful. */
+    public static final String SUCCESSFUL_REGENERATION =
             "Instructor's key for this course has been successfully regenerated,";
 
     /** Message indicating that the key regeneration was successful, and corresponding email was sent. */
     public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
             SUCCESSFUL_REGENERATION + " and the email has been sent.";
 
-    private static final String UNSUCCESSFUL_REGENERATION =
+    /** Message indicating that the key regeneration was unsuccessful. */
+    public static final String UNSUCCESSFUL_REGENERATION =
             "Regeneration of the instructor's key was unsuccessful.";
 
     /** Message indicating that the key regeneration was successful, but corresponding email could not be sent. */
-    private static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
+    public static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
             SUCCESSFUL_REGENERATION + " but the email failed to send.";
 
     @Override
