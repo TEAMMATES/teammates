@@ -43,7 +43,7 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
     }
 
     @BeforeMethod
-    void setup() {
+    void setUp() {
         Mockito.reset(mockLogic, mockSqlEmailGenerator);
 
         student = getTypicalStudent();
