@@ -65,7 +65,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackSession.setGracePeriodMinutes(30);
         feedbackSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         feedbackSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        feedbackSession.setClosingEmailEnabled(false);
+        feedbackSession.setClosingSoonEmailEnabled(false);
 
         feedbackEditPage.editSessionDetails(feedbackSession);
         feedbackEditPage.verifyStatusMessage("The feedback session has been updated.");
