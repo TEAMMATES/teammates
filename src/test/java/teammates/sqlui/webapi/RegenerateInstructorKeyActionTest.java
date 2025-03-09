@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static teammates.ui.webapi.RegenerateInstructorKeyAction.SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 import static teammates.ui.webapi.RegenerateInstructorKeyAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT;
@@ -78,6 +79,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
                 EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
         );
         verifyNumberOfEmailsSent(1);
+        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
         assertEquals(SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, actionOutput.getMessage());
         assertNotNull(actionOutput.getNewRegistrationKey());
     }
@@ -104,6 +106,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
                 EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED
         );
         verifyNoEmailsSent();
+        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
         assertEquals(SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED, actionOutput.getMessage());
         assertNotNull(actionOutput.getNewRegistrationKey());
     }
@@ -122,6 +125,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         verify(mockLogic, never()).regenerateInstructorRegistrationKey(any(), any());
         verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
         verifyNoEmailsSent();
+        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
         verifyEntityNotFound(params);
     }
 
@@ -142,16 +146,17 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(any(), any());
         verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
         verifyNoEmailsSent();
+        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
         assertEquals(UNSUCCESSFUL_REGENERATION, actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_noParameters_throwsInvalidParametersException() {
+    void testExecute_noParameters_throwsInvalidHttpParameterException() {
         verifyHttpParameterFailure();
     }
 
     @Test
-    void testExecute_missingInstructorEmail_throwsInvalidParametersException() {
+    void testExecute_missingInstructorEmail_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
@@ -159,7 +164,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     }
 
     @Test
-    void testExecute_missingCourseId_throwsInvalidParametersException() {
+    void testExecute_missingCourseId_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
@@ -169,24 +174,48 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     @Test
     void testSpecificAccessControl_admin_canAccess() {
         loginAsAdmin();
-        verifyCanAccess();
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+        };
+
+        verifyCanAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_instructor_cannotAccess() {
         loginAsInstructor("instructor-googleId");
-        verifyCannotAccess();
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+        };
+
+        verifyCannotAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
         loginAsStudent("student-googleId");
-        verifyCannotAccess();
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+        };
+
+        verifyCannotAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_loggedOut_cannotAccess() {
         logoutUser();
-        verifyCannotAccess();
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+        };
+
+        verifyCannotAccess(params);
     }
 }
