@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mockito.Mockito;
@@ -83,23 +82,25 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
             Instructor instructor = instructors.get(i);
             InstructorData instructorData = instructorsData.getInstructors().get(i);
 
+            assertEquals(instructor.getGoogleId(), instructorData.getGoogleId());
             assertEquals(instructor.getCourseId(), instructorData.getCourseId());
             assertEquals(instructor.getEmail(), instructorData.getEmail());
-            assertEquals(instructor.getRole(), instructorData.getRole());
             assertEquals(instructor.isDisplayedToStudents(), instructorData.getIsDisplayedToStudents());
             assertEquals(instructor.getDisplayName(), instructorData.getDisplayedToStudentsAs());
             assertEquals(instructor.getName(), instructorData.getName());
+            assertEquals(instructor.getRole(), instructorData.getRole());
             assertEquals(
                     instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
                     instructorData.getJoinState()
             );
+            assertEquals(instructor.getRegKey(), instructorData.getKey());
             assertEquals(instructor.getCourse().getInstitute(), instructorData.getInstitute());
         }
     }
 
     @Test
     void testExecute_searchInstructorsNoMatch_success() throws SearchServiceException {
-        when(mockLogic.searchInstructorsInWholeSystem(searchKey)).thenReturn(new ArrayList<>());
+        when(mockLogic.searchInstructorsInWholeSystem(searchKey)).thenReturn(List.of());
 
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
@@ -133,31 +134,51 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     }
 
     @Test
-    void testExecute_noParameters_throwsInvalidParametersException() {
+    void testExecute_noParameters_throwsInvalidHttpParameterException() {
         verifyHttpParameterFailure();
     }
 
     @Test
     void testSpecificAccessControl_admin_canAccess() {
         loginAsAdmin();
-        verifyCanAccess();
+
+        String[] params = {
+                Const.ParamsNames.SEARCH_KEY, searchKey,
+        };
+
+        verifyCanAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_instructor_cannotAccess() {
         loginAsInstructor("instructor-googleId");
-        verifyCannotAccess();
+
+        String[] params = {
+                Const.ParamsNames.SEARCH_KEY, searchKey,
+        };
+
+        verifyCannotAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
         loginAsStudent("student-googleId");
-        verifyCannotAccess();
+
+        String[] params = {
+                Const.ParamsNames.SEARCH_KEY, searchKey,
+        };
+
+        verifyCannotAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_loggedOut_cannotAccess() {
         logoutUser();
-        verifyCannotAccess();
+
+        String[] params = {
+                Const.ParamsNames.SEARCH_KEY, searchKey,
+        };
+
+        verifyCannotAccess(params);
     }
 }
