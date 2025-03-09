@@ -115,7 +115,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         DeadlineExtensionAttributes.UpdateOptions updateOptions = DeadlineExtensionAttributes
                 .updateOptionsBuilder(validCourseId, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, true)
                 .withEndTime(Const.TIME_REPRESENTS_LATER)
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
         deadlineExtensionsDb.updateDeadlineExtension(updateOptions);
 
@@ -123,7 +123,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
                 .getDeadlineExtension(validCourseId, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, true);
 
         assertEquals(Const.TIME_REPRESENTS_LATER, deadlineExtension.getEndTime());
-        assertTrue(deadlineExtension.getSentClosingEmail());
+        assertTrue(deadlineExtension.getSentClosingSoonEmail());
 
         ______TS("update invalid email throws invalid parameter exception");
 
@@ -160,7 +160,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         DeadlineExtensionAttributes.UpdateOptions updateOptionsNotFound = DeadlineExtensionAttributes
                 .updateOptionsBuilder(validCourseId, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_LATER)
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
 
         assertThrows(EntityDoesNotExistException.class,
@@ -384,7 +384,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
     }
 
     @Test
-    public void testGetDeadlineExtensionsPossiblyNeedingClosingEmail() {
+    public void testGetDeadlineExtensionsPossiblyNeedingClosingSoonEmail() {
         String validCourseId = VALID_COURSE_ID + "-closing";
 
         DeadlineExtension deadlineExtensionNow = new DeadlineExtension(
@@ -411,7 +411,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         deadlineExtensionsDb.saveEntities(deadlineExtensions);
 
         List<DeadlineExtensionAttributes> deadlineExtensionsNeedingClosing =
-                deadlineExtensionsDb.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+                deadlineExtensionsDb.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
         assertTrue(deadlineExtensionsNeedingClosing.contains(DeadlineExtensionAttributes.valueOf(deadlineExtensionNow)));
         assertTrue(deadlineExtensionsNeedingClosing
@@ -428,7 +428,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         for (DeadlineExtensionAttributes deadlineExtension : deadlineExtensionsNeedingClosing) {
             assertTrue(deadlineExtension.getEndTime().isAfter(Instant.now().minusSeconds(60)));
             assertTrue(deadlineExtension.getEndTime().isBefore(TimeHelper.getInstantDaysOffsetFromNow(1).plusSeconds(60)));
-            assertFalse(deadlineExtension.getSentClosingEmail());
+            assertFalse(deadlineExtension.getSentClosingSoonEmail());
         }
     }
 }
