@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
@@ -11,7 +11,7 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
   templateUrl: './copy-session-modal.component.html',
   styleUrls: ['./copy-session-modal.component.scss'],
 })
-export class CopySessionModalComponent {
+export class CopySessionModalComponent implements OnInit {
 
   // const
   FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
@@ -24,13 +24,23 @@ export class CopySessionModalComponent {
 
   newFeedbackSessionName: string = '';
   copyToCourseSet: Set<string> = new Set<string>();
+  originalSessionName: string = '';
+  isNameCollision: boolean = false;
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  ngOnInit(): void {
+    this.originalSessionName = this.newFeedbackSessionName;
+    this.checkNameCollision();
+  }
 
   /**
    * Fires the copy event.
    */
   copy(): void {
+    if (this.isNameCollision) {
+      return;
+    }
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
@@ -47,5 +57,14 @@ export class CopySessionModalComponent {
     } else {
       this.copyToCourseSet.add(courseId);
     }
+    this.checkNameCollision();
+  }
+
+  /**
+   * Checks for name collision.
+   */
+  checkNameCollision(): void {
+    this.isNameCollision = this.newFeedbackSessionName === this.originalSessionName
+      && this.copyToCourseSet.has(this.sessionToCopyCourseId);
   }
 }
