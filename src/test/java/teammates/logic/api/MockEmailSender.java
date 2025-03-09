@@ -17,11 +17,25 @@ import teammates.common.util.EmailWrapper;
 public class MockEmailSender extends EmailSender {
 
     private List<EmailWrapper> sentEmails = new ArrayList<>();
+    private boolean shouldFail;
 
     @Override
     public EmailSendingStatus sendEmail(EmailWrapper email) {
+        if (shouldFail) {
+            return new EmailSendingStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR, null);
+        }
+
         sentEmails.add(email);
         return new EmailSendingStatus(HttpStatus.SC_OK, null);
+    }
+
+    /**
+     * Sets whether email sending should fail.
+     *
+     * @param shouldFail if true, email sending will fail.
+     */
+    public void setShouldFail(boolean shouldFail) {
+        this.shouldFail = shouldFail;
     }
 
     /**
