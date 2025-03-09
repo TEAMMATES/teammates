@@ -457,7 +457,21 @@ describe('QuestionSubmissionFormComponent', () => {
 
     expect(component.shouldTabExpand()).toBeFalsy();
   });
-
+  /**
+   * Tests the isRecipientSelected method to check if it can correctly identify whether
+   * a given recipient is selected from the list of recipient submission forms.
+   * This test covers both existing and non-existing recipients.
+   *
+   * @description
+   * 1. Creates two recipients, one with a valid identifier present in the list of
+   *    recipient submission forms, and another that does not exist in the list.
+   * 2. Calls the isRecipientSelected method and verifies that it returns true for
+   *    the existing recipient and false for the non-existent one.
+   *
+   * @scenario
+   * - A recipient exists in the submission forms list: should return true.
+   * - A recipient does not exist in the list: should return false.
+   */
   it('isRecipientSelected: should return true if FeedbackResponseRecipient exists in recipientSubmissionForms', () => {
     const feedbackResponseRecipientIdentifier = 'test-identifer';
     const feedbackResponseRecipient =
@@ -470,18 +484,96 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.isRecipientSelected(feedbackResponseRecipient)).toBeTruthy();
   });
 
-  it('isRecipientSelected: should return false if FeedbackResponseRecipient does not'
-  + 'exist in recipientSubmissionForms', () => {
+  it('isRecipientSelected: should handle both existing and non-existing recipients correctly', () => {
     const feedbackResponseRecipientIdentifier = 'test-identifer';
-    const feedbackResponseRecipient =
-      feedbackResponseRecipientBuilder.recipientIdentifier(feedbackResponseRecipientIdentifier).build();
+    const feedbackResponseRecipient = feedbackResponseRecipientBuilder
+        .recipientIdentifier(feedbackResponseRecipientIdentifier)
+        .recipientName('test-name')  // Adding recipient's name to ensure clarity
+        .build();
+
+    // Adding test scenario for non-existent recipient
+    const nonExistentRecipient = feedbackResponseRecipientBuilder
+        .recipientIdentifier('nonexistent-id')
+        .recipientName('nonexistent-name')
+        .build();
+
     component.model.recipientSubmissionForms = [
-      recipientSubmissionFormBuilder.recipientIdentifier('testid1').build(),
-      recipientSubmissionFormBuilder.recipientIdentifier('testid2').build(),
+      recipientSubmissionFormBuilder
+          .recipientIdentifier(feedbackResponseRecipientIdentifier)
+          .build(),
+      recipientSubmissionFormBuilder.recipientIdentifier('testid').build(),
     ];
 
-    expect(component.isRecipientSelected(feedbackResponseRecipient)).toBeFalsy();
+    // Test for an existing recipient
+    expect(component.isRecipientSelected(feedbackResponseRecipient)).toBeTruthy();
+    // Test for a non-existent recipient
+    expect(component.isRecipientSelected(nonExistentRecipient)).toBeFalsy();
   });
+  /**
+   * Tests the filterRecipientsBySearchText method to ensure that recipients are filtered
+   * correctly based on the search text. The search should be case-insensitive and able
+   * to match either full names or parts of names. Additionally, it should only return
+   * recipients that are selected via the isRecipientSelected method.
+   *
+   * @description
+   * 1. Sets up a list of recipients with different names to test various scenarios.
+   * 2. Calls the filterRecipientsBySearchText method with different search inputs
+   *    (full name match, partial match, case-insensitive match, and empty/whitespace).
+   * 3. Verifies the output against the expected filtered recipients.
+   *
+   * @scenario
+   * - No search text or only spaces: returns all recipients.
+   * - Search for 'Jane': only Jane Doe should be returned.
+   * - Search for 'J': should return James, John, and Jane.
+   * - Search for 'Brown': should return Alice Brown.
+   * - Case-insensitive match on 'bob': should return Bob Black.
+   * - Partial search 'gre': should return Dave Grey and Edgar Green.
+   * - Search for 'Doe': should return James Doe and Jane Doe.
+   * - Multiple partial match on 'al': should return Alice and Charlie.
+   */
+  it('filterRecipientsBySearchText: should return correct filtered names', () => {
+    // Setting up test data for recipients
+    const james = { recipientIdentifier: 'jamesDoe', recipientName: 'James Doe' };
+    const john = { recipientIdentifier: 'johnSmith', recipientName: 'John Smith' };
+    const jane = { recipientIdentifier: 'janeDoe', recipientName: 'Jane Doe' };
+    const alice = { recipientIdentifier: 'aliceBrown', recipientName: 'Alice Brown' };
+    const bob = { recipientIdentifier: 'bobBlack', recipientName: 'Bob Black' };
+    const charlie = { recipientIdentifier: 'charlieWhite', recipientName: 'Charlie White' };
+    const dave = { recipientIdentifier: 'daveGrey', recipientName: 'Dave Grey' };
+    const edgar = { recipientIdentifier: 'edgarGreen', recipientName: 'Edgar Green' };
+    const francis = { recipientIdentifier: 'francisBlue', recipientName: 'Francis Blue' };
+
+    const recipients = [james, john, jane, alice, bob, charlie, dave, edgar, francis];
+
+    // Test case when search text is an empty string, should return all recipients
+    expect(component.filterRecipientsBySearchText('', recipients)).toStrictEqual(recipients);
+
+    // Test case when search text contains only spaces, should return all recipients
+    expect(component.filterRecipientsBySearchText('  ', recipients)).toStrictEqual(recipients);
+
+    // Test case for filtering by the name 'Jane', expecting only Jane Doe
+    expect(component.filterRecipientsBySearchText('Jane', recipients)).toStrictEqual([jane]);
+
+    // Test case for filtering recipients by the letter 'J', should return James, John, Jane
+    expect(component.filterRecipientsBySearchText('J', recipients)).toStrictEqual([james, john, jane]);
+
+    // Test case for filtering by the string 'Brown', should return Alice Brown
+    expect(component.filterRecipientsBySearchText('Brown', recipients)).toStrictEqual([alice]);
+
+    // Test case for a case-insensitive match on 'bob', should return Bob Black
+    expect(component.filterRecipientsBySearchText('bob', recipients)).toStrictEqual([bob]);
+
+    // Test case for partial search 'gre', should return both Dave Grey and Edgar Green
+    expect(component.filterRecipientsBySearchText('gre', recipients)).toStrictEqual([dave, edgar]);
+
+    // Test case for filtering using the last name 'Doe', should return James Doe and Jane Doe
+    expect(component.filterRecipientsBySearchText('Doe', recipients)).toStrictEqual([james, jane]);
+
+    // Test case for filtering by multiple partial matches 'al', should return Alice and Charlie
+    expect(component.filterRecipientsBySearchText('al', recipients)).toStrictEqual([alice, charlie]);
+  });
+
+
 
   it('triggerDeleteCommentEvent: should emit the correct index to deleteCommentEvent', () => {
     let emittedIndex: number | undefined;

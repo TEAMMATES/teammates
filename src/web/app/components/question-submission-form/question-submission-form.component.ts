@@ -58,6 +58,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
+  // Initial a new array to store names
+  searchName: string[] = [];
+  feedbackRecipients: Array<FeedbackResponseRecipient | null> = [];
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -94,6 +97,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
     this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
+    // Initialize the searchName array with empty strings, matching the length of recipientSubmissionForms.
+    this.searchName = new Array(this.model.recipientSubmissionForms.length).fill('');
+    this.feedbackRecipients = new Array(this.model.recipientSubmissionForms.length).fill(null);
+
   }
 
   @Input()
@@ -320,6 +327,31 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.updateSubmissionFormIndexes();
   }
 
+/**
+ * Filters the recipients based on the provided search text.
+ * 
+ * This method searches through the list of recipients and returns those that match 
+ * the search criteria. The search is case-insensitive and supports both full names 
+ * and individual name parts. If the search text contains a space, it matches the 
+ * entire name; otherwise, it searches for any part of the name.
+ * 
+ * @param {string} searchText - The text to search for within recipient names. If empty or only whitespace, all recipients are returned.
+ * @param {FeedbackResponseRecipient[]} recipients - The list of recipients to filter.
+ * @returns {FeedbackResponseRecipient[]} - A filtered list of recipients that match the search criteria and are marked as selected.
+ */
+  filterRecipientsBySearchText(searchText: string, recipients: FeedbackResponseRecipient[]): FeedbackResponseRecipient[] {
+    if (!searchText) return recipients;
+    const searchName = searchText.trim().toLowerCase();
+    if (searchName.length === 0) return recipients;
+
+    if (searchName.includes(' ')) {
+      return recipients.filter((r) => !this.isRecipientSelected(r)
+        && r.recipientName.toLowerCase().includes(searchName));
+    }
+    return recipients.filter((r) => !this.isRecipientSelected(r)
+      && r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
+  }
+
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
@@ -359,6 +391,42 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     return this.model.recipientSubmissionForms.some(
       (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
         recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
+  }
+
+  // Method to handle changes in the recipient identifier.
+  triggerRecipientIdentifierChange(index: number, data: any): void {
+    this.searchName[index] = '';
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
+}
+
+updateSearchNameTextByShowSection(): void {
+  this.searchName = this.searchName.map(
+    (s, i) => {
+      return this.feedbackRecipients[i] === null ? s : this.getSelectionOptionLabel(this.feedbackRecipients[i]!);
+    },
+  );
+}
+
+triggerSelectInputFocus(index: number): void {
+  if (this.feedbackRecipients[index] !== null) {
+    this.searchName[index] = '';
+    this.model.recipientSubmissionForms[index].recipientIdentifier = '';
+    this.feedbackRecipients[index] = null;
+  }
+}
+
+
+  // Trigger to change the text input
+  triggerSelectInputChange(index: number): void {
+    this.model.recipientSubmissionForms[index].recipientIdentifier = '';
+    this.feedbackRecipients[index] = null;
+  }
+
+  triggerRecipientOptionSelect(index: number, recipient: FeedbackResponseRecipient, event: any): void {
+    event.target.blur();
+    this.searchName[index] = this.getSelectionOptionLabel(recipient);
+    this.feedbackRecipients[index] = recipient;
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
   }
 
   /**
@@ -523,6 +591,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.isSectionTeamShown = false;
       this.sortRecipientsByName();
     }
+    this.updateSearchNameTextByShowSection();
   }
 
   /**
