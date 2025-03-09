@@ -145,13 +145,13 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Test
     void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(getTypicalInstructor().getGoogleId());
+        loginAsInstructor("instructor-googleId");
         verifyCannotAccess();
     }
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(getTypicalStudent().getGoogleId());
+        loginAsStudent("student-googleId");
         verifyCannotAccess();
     }
 
