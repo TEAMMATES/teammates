@@ -153,7 +153,7 @@ public class UpdateFeedbackSessionAction extends Action {
             feedbackSession.setGracePeriod(updateRequest.getGracePeriod());
             feedbackSession.setSessionVisibleFromTime(sessionVisibleTime);
             feedbackSession.setResultsVisibleFromTime(resultsVisibleTime);
-            feedbackSession.setClosingEmailEnabled(updateRequest.isClosingEmailEnabled());
+            feedbackSession.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
             feedbackSession.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
             feedbackSession.setDeadlineExtensions(prevDeadlineExtensions);
             try {
@@ -252,7 +252,7 @@ public class UpdateFeedbackSessionAction extends Action {
                                 .withGracePeriod(updateRequest.getGracePeriod())
                                 .withSessionVisibleFromTime(sessionVisibleTime)
                                 .withResultsVisibleFromTime(resultsVisibleTime)
-                                .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
+                                .withIsClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled())
                                 .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
                                 .withStudentDeadlines(studentDeadlines)
                                 .withInstructorDeadlines(instructorDeadlines)
