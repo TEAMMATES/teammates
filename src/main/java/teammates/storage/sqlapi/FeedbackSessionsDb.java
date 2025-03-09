@@ -293,7 +293,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
                         cb.greaterThan(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
                         cb.and(
                                 cb.equal(root.get("isClosingSoonEmailSent"), false),
-                                cb.equal(root.get("isClosingEmailEnabled"), true))
+                                cb.equal(root.get("isClosingSoonEmailEnabled"), true))
                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
@@ -312,7 +312,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
                 .where(cb.and(
                         cb.greaterThan(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
                         cb.isFalse(root.get("isClosedEmailSent")),
-                        cb.isTrue(root.get("isClosingEmailEnabled")),
+                        cb.isTrue(root.get("isClosingSoonEmailEnabled")),
                         cb.isNull(root.get("deletedAt"))
                ));
 
@@ -349,7 +349,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
      * Gets a list of undeleted feedback sessions which start within the last 2 days
      * and possibly need an open email to be sent.
      */
-    public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingOpenEmail() {
+    public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingOpenedEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -357,7 +357,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         cr.select(root)
                 .where(cb.and(
                     cb.greaterThan(root.get("startTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
-                    cb.isFalse(root.get("isOpenEmailSent")),
+                    cb.isFalse(root.get("isOpenedEmailSent")),
                     cb.isNull(root.get("deletedAt"))
                 ));
 

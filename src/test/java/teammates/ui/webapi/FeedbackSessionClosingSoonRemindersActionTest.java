@@ -18,14 +18,14 @@ import teammates.test.ThreadHelper;
 import teammates.ui.request.SendEmailRequest;
 
 /**
- * SUT: {@link FeedbackSessionClosingRemindersAction}.
+ * SUT: {@link FeedbackSessionClosingSoonRemindersAction}.
  */
-public class FeedbackSessionClosingRemindersActionTest
-        extends BaseActionTest<FeedbackSessionClosingRemindersAction> {
+public class FeedbackSessionClosingSoonRemindersActionTest
+        extends BaseActionTest<FeedbackSessionClosingSoonRemindersAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS;
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS;
     }
 
     @Override
@@ -45,12 +45,12 @@ public class FeedbackSessionClosingRemindersActionTest
 
         ______TS("default state of typical data bundle: 0 sessions/deadline extensions closing soon");
 
-        FeedbackSessionClosingRemindersAction action = getAction();
+        FeedbackSessionClosingSoonRemindersAction action = getAction();
         action.execute();
 
         verifyNoTasksAdded();
 
-        ______TS("1 session closing soon, 1 session closing soon with disabled closing reminder, "
+        ______TS("1 session closing soon, 1 session closing soon with disabled closing soon reminder, "
                 + "1 session closing soon but not yet opened");
 
         // Modify session to close in 24 hours
@@ -67,29 +67,29 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withEndTime(session1.getEndTime())
                         .build());
         session1.setSentOpeningSoonEmail(true); // fsLogic will set the flag to true
-        session1.setSentOpenEmail(true); // fsLogic will set the flag to true
+        session1.setSentOpenedEmail(true); // fsLogic will set the flag to true
         verifyPresentInDatabase(session1);
 
-        // Ditto, but disable the closing reminder
+        // Ditto, but disable the closing soon reminder
 
         FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session1InCourse2");
         session2.setTimeZone("UTC");
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
-        session2.setClosingEmailEnabled(false);
+        session2.setClosingSoonEmailEnabled(false);
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
                         .withTimeZone(session2.getTimeZone())
                         .withStartTime(session2.getStartTime())
                         .withEndTime(session2.getEndTime())
-                        .withIsClosingEmailEnabled(session2.isClosingEmailEnabled())
+                        .withIsClosingSoonEmailEnabled(session2.isClosingSoonEmailEnabled())
                         .build());
         session2.setSentOpeningSoonEmail(true); // fsLogic will set the flag to true
-        session2.setSentOpenEmail(true); // fsLogic will set the flag to true
+        session2.setSentOpenedEmail(true); // fsLogic will set the flag to true
         verifyPresentInDatabase(session2);
 
-        // 1 session not yet opened; do not send the closing reminder
+        // 1 session not yet opened; do not send the closing soon reminder
 
         FeedbackSessionAttributes session3 = typicalBundle.feedbackSessions.get("gracePeriodSession");
         session3.setTimeZone("UTC");
@@ -103,7 +103,7 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withEndTime(session3.getEndTime())
                         .build());
         session3.setSentOpeningSoonEmail(true); // fsLogic will set the flag to true
-        session3.setSentOpenEmail(false); // fsLogic will set the flag to true
+        session3.setSentOpenedEmail(false); // fsLogic will set the flag to true
         verifyPresentInDatabase(session3);
 
         // wait for very briefly so that the above session will be within the time limit
@@ -122,7 +122,7 @@ public class FeedbackSessionClosingRemindersActionTest
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
             String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
-                    + String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
+                    + String.format(EmailType.FEEDBACK_CLOSING_SOON.getSubject(),
                     courseName, session1.getFeedbackSessionName());
             assertEquals(expectedSubject, email.getSubject());
         }
@@ -130,11 +130,11 @@ public class FeedbackSessionClosingRemindersActionTest
         ______TS("1 session closing soon with emails sent;"
                 + "deadline extensions closing within next 24 hours have emails sent");
 
-        session1.setSentClosingEmail(true);
+        session1.setSentClosingSoonEmail(true);
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session3.getFeedbackSessionName(), session3.getCourseId())
-                        .withSentClosingEmail(session3.isSentClosingEmail())
+                        .withSentClosingSoonEmail(session3.isSentClosingSoonEmail())
                         .build());
 
         action = getAction();
@@ -181,7 +181,7 @@ public class FeedbackSessionClosingRemindersActionTest
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withEndTime(sessionClosingTime)
-                        .withSentClosingEmail(true)
+                        .withSentClosingSoonEmail(true)
                         .withStudentDeadlines(Map.of(studentDe.getUserEmail(), extendedDeadlineTime,
                                 studentOutdatedEndTimeDe.getUserEmail(), extendedDeadlineTime.minusSeconds(60 * 60)))
                         .withInstructorDeadlines(Map.of(instructorDe.getUserEmail(), extendedDeadlineTime))
@@ -190,7 +190,7 @@ public class FeedbackSessionClosingRemindersActionTest
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
                         .withEndTime(sessionClosingTime)
-                        .withSentClosingEmail(true)
+                        .withSentClosingSoonEmail(true)
                         .withStudentDeadlines(Map.of(studentRemindersDisabledDe.getUserEmail(), extendedDeadlineTime))
                         .build());
         logic.updateFeedbackSession(
@@ -198,8 +198,8 @@ public class FeedbackSessionClosingRemindersActionTest
                         .updateOptionsBuilder(session3.getFeedbackSessionName(), session3.getCourseId())
                         .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
                         .withEndTime(sessionClosingTime)
-                        .withSentClosingEmail(true)
-                        .withIsClosingEmailEnabled(true)
+                        .withSentClosingSoonEmail(true)
+                        .withIsClosingSoonEmailEnabled(true)
                         .withStudentDeadlines(Map.of(studentDifferentCourseDe.getUserEmail(), extendedDeadlineTime))
                         .build());
 
@@ -209,7 +209,7 @@ public class FeedbackSessionClosingRemindersActionTest
         action = getAction();
         action.execute();
 
-        // sentClosingEmail is true for all sessions, should only send emails to those with extended deadlines
+        // sentClosingSoonEmail is true for all sessions, should only send emails to those with extended deadlines
         // 2 students, 1 instructor with valid deadline extensions within time period
         // 1 student in session with reminders disabled
         // 1 student with outdated deadline, 1 student with deleted deadline
@@ -219,9 +219,9 @@ public class FeedbackSessionClosingRemindersActionTest
         for (var task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
-            String expectedSubjectSession1 = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
+            String expectedSubjectSession1 = String.format(EmailType.FEEDBACK_CLOSING_SOON.getSubject(),
                     courseName, session1.getFeedbackSessionName());
-            String expectedSubjectSession3 = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
+            String expectedSubjectSession3 = String.format(EmailType.FEEDBACK_CLOSING_SOON.getSubject(),
                     courseName, session3.getFeedbackSessionName());
             assertTrue(expectedSubjectSession1.equals(email.getSubject())
                     || expectedSubjectSession3.equals(email.getSubject()));
