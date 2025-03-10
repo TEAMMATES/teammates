@@ -3085,173 +3085,193 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
-                      <table
-                        aria-label="Response for Barry Harris"
-                        class="table table-bordered desktop-view"
-                      >
-                        <thead>
-                          <tr>
-                            <td />
-                            <th
-                              scope="col"
-                            >
-                              choice 1
-                            </th>
-                            <th
-                              scope="col"
-                            >
-                              choice 2
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 1
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                              >
-                                 description 1 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                              >
-                                 description 2 
-                              </label>
-                            </td>
-                          </tr>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 2
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                              >
-                                 description 3 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                              >
-                                 description 4 
-                              </label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div
-                        aria-label="Response for Barry Harris"
-                        class="mobile-view"
-                      >
+                      <div>
                         <div
-                          class="card"
+                          class="table-container"
                         >
-                          <div
-                            class="card-header bg-light"
+                          <table
+                            aria-label="Response for Barry Harris"
+                            class="table table-bordered desktop-view"
                           >
-                             subquestion 1 
-                          </div>
+                            <thead>
+                              <tr>
+                                <td />
+                                <th
+                                  scope="col"
+                                >
+                                  choice 1
+                                </th>
+                                <th
+                                  scope="col"
+                                >
+                                  choice 2
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="row-answered"
+                              >
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                  subquestion 1
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  >
+                                     description 1 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  >
+                                     description 2 
+                                  </label>
+                                </td>
+                              </tr>
+                              <tr
+                                class="row-answered"
+                              >
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                  subquestion 2
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  >
+                                     description 3 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  >
+                                     description 4 
+                                  </label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                           <div
-                            class="card-body row-answered"
+                            aria-label="Response for Barry Harris"
+                            class="mobile-view"
                           >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 1 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 1 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 1 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 2 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 2 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 2 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 3 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 4 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                         <div
-                          class="card"
+                          class="button-container"
                         >
-                          <div
-                            class="card-header bg-light"
+                          <button
+                            class="btn btn-warning"
+                            id="btn-reset"
+                            name="button-reset"
+                            ngbtooltip="Reset current choices"
+                            title="Reset choices"
+                            type="button"
                           >
-                             subquestion 2 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 3 
-                              </label>
-                            </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 4 
-                              </label>
-                            </div>
-                          </div>
+                             Reset choices 
+                          </button>
                         </div>
                       </div>
                     </tm-rubric-question-edit-answer-form>
@@ -6196,181 +6216,202 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
-                      <table
-                        aria-label="Response for Barry Harris"
-                        class="table table-bordered desktop-view"
-                      >
-                        <thead>
-                          <tr>
-                            <td />
-                            <th
-                              scope="col"
-                            >
-                              choice 1
-                            </th>
-                            <th
-                              scope="col"
-                            >
-                              choice 2
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 1
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                              >
-                                 description 1 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                              >
-                                 description 2 
-                              </label>
-                            </td>
-                          </tr>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 2
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                              >
-                                 description 3 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                              >
-                                 description 4 
-                              </label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div
-                        aria-label="Response for Barry Harris"
-                        class="mobile-view"
-                      >
+                      <div>
                         <div
-                          class="card"
+                          class="table-container"
                         >
-                          <div
-                            class="card-header bg-light"
+                          <table
+                            aria-label="Response for Barry Harris"
+                            class="table table-bordered desktop-view"
                           >
-                             subquestion 1 
-                          </div>
+                            <thead>
+                              <tr>
+                                <td />
+                                <th
+                                  scope="col"
+                                >
+                                  choice 1
+                                </th>
+                                <th
+                                  scope="col"
+                                >
+                                  choice 2
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="row-answered"
+                              >
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                  subquestion 1
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  >
+                                     description 1 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  >
+                                     description 2 
+                                  </label>
+                                </td>
+                              </tr>
+                              <tr
+                                class="row-answered"
+                              >
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                  subquestion 2
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  >
+                                     description 3 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  >
+                                     description 4 
+                                  </label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                           <div
-                            class="card-body row-answered"
+                            aria-label="Response for Barry Harris"
+                            class="mobile-view"
                           >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 1 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 1 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 1 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 2 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 2 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 2 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 3 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 4 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                         <div
-                          class="card"
+                          class="button-container"
                         >
-                          <div
-                            class="card-header bg-light"
+                          <button
+                            class="btn btn-warning"
+                            disabled=""
+                            id="btn-reset"
+                            name="button-reset"
+                            ngbtooltip="Reset current choices"
+                            title="Reset choices"
+                            type="button"
                           >
-                             subquestion 2 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 3 
-                              </label>
-                            </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 4 
-                              </label>
-                            </div>
-                          </div>
+                             Reset choices 
+                          </button>
                         </div>
                       </div>
                     </tm-rubric-question-edit-answer-form>
