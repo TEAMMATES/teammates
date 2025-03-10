@@ -9,15 +9,15 @@ import teammates.common.util.RequestTracer;
 import teammates.storage.sqlentity.FeedbackSession;
 
 /**
- * Cron job: schedules feedback session opening emails to be sent.
+ * Cron job: schedules feedback session opened emails to be sent.
  */
-public class FeedbackSessionOpeningRemindersAction extends AdminOnlyAction {
+public class FeedbackSessionOpenedRemindersAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSessionAttributes> sessionAttributes = logic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessionAttributes = logic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         for (FeedbackSessionAttributes session : sessionAttributes) {
             // If course has been migrated, use sql email logic instead.
@@ -26,27 +26,27 @@ public class FeedbackSessionOpeningRemindersAction extends AdminOnlyAction {
             }
 
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpeningEmails(session);
+            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpenedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 logic.updateFeedbackSession(
                         FeedbackSessionAttributes
                                 .updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                                .withSentOpenEmail(true)
+                                .withSentOpenedEmail(true)
                                 .build());
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
             }
         }
 
-        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionOpeningEmails(session);
+            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionOpenedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
-                session.setOpenEmailSent(true);
+                session.setOpenedEmailSent(true);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
             }

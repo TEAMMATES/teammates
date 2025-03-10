@@ -22,7 +22,7 @@ indexes:
 - kind: FeedbackSession
   properties:
   - direction: asc
-    name: isClosingEmailEnabled
+    name: isClosingSoonEmailEnabled
   - direction: asc
     name: sentClosedEmail
   - direction: asc
@@ -30,15 +30,15 @@ indexes:
 - kind: FeedbackSession
   properties:
   - direction: asc
-    name: isClosingEmailEnabled
+    name: isClosingSoonEmailEnabled
   - direction: asc
-    name: sentClosingEmail
+    name: sentClosingSoonEmail
   - direction: asc
     name: endTime
 - kind: FeedbackSession
   properties:
   - direction: asc
-    name: sentOpenEmail
+    name: sentOpenedEmail
   - direction: asc
     name: startTime
 - kind: FeedbackSession
@@ -84,7 +84,7 @@ indexes:
 - kind: DeadlineExtension
   properties:
   - direction: asc
-    name: sentClosingEmail
+    name: sentClosingSoonEmail
   - direction: asc
     name: endTime
 - kind: Notification

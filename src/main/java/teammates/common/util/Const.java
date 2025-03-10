@@ -403,12 +403,12 @@ public final class Const {
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
-        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS =
-                URI_PREFIX + "/feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_OPENED_REMINDERS =
+                URI_PREFIX + "/feedbackSessionOpenedReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionClosedReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS =
-                URI_PREFIX + "/feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS =
+                URI_PREFIX + "/feedbackSessionClosingSoonReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
         public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =

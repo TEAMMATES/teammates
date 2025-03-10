@@ -69,7 +69,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 .withGracePeriod(Duration.ZERO)
                 .withInstructions("<p>Please fill in the new feedback session.</p>")
                 .withTimeZone(course.getTimeZone())
-                .withIsClosingEmailEnabled(true)
+                .withIsClosingSoonEmailEnabled(true)
                 .withIsPublishedEmailEnabled(true)
                 .build();
 
