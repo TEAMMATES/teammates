@@ -147,9 +147,9 @@ public final class ActionFactory {
 
         map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
         map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, GET, DatastoreBackupAction.class);
-        map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, GET, FeedbackSessionOpeningRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_OPENED_REMINDERS, GET, FeedbackSessionOpenedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
-        map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, GET, FeedbackSessionClosingRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS, GET, FeedbackSessionClosingSoonRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
                 FeedbackSessionOpeningSoonRemindersAction.class);

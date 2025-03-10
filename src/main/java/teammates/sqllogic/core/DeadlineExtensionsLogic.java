@@ -106,10 +106,10 @@ public final class DeadlineExtensionsLogic {
 
     /**
      * Gets a list of deadline extensions with endTime coming up soon
-     * and possibly need a closing email to be sent.
+     * and possibly need a closing soon email to be sent.
      */
-    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
-        return deadlineExtensionsDb.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingSoonEmail() {
+        return deadlineExtensionsDb.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
     }
 
     /**
