@@ -2,7 +2,6 @@ package teammates.storage.sqlsearch;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -36,8 +35,9 @@ public class AccountRequestSearchManager extends SearchManager<AccountRequest> {
 
     @Override
     AccountRequest getEntityFromDocument(SolrDocument document) {
-        UUID id = UUID.fromString((String) document.getFieldValue("id"));
-        return accountRequestsDb.getAccountRequest(id);
+        String email = (String) document.getFirstValue("email");
+        String institute = (String) document.getFirstValue("institute");
+        return accountRequestsDb.getAccountRequest(email, institute);
     }
 
     @Override
