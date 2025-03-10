@@ -13,15 +13,19 @@
       </div>
       <div class="form-group">
         <label>Course ID:</label>
-        <input [class.invalid]="newCourseIdIsConflicting" id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1"
-          [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH" (focus)="this.newCourseIdIsConflicting = false">
+        <input [class.invalid]="newCourseIdIsConflicting || courseIdEmptyError" id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1"
+          [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH" (focus)="this.newCourseIdIsConflicting = false; courseIdEmptyError = false" (ngModelChange)="onCourseIdChange($event)">
         <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
+        <div *ngIf="courseIdEmptyError" class="text-danger">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>The field Course ID should not be empty.</div>
       </div>
       <div class="form-group">
         <label>Course Name:</label>
         <input id="copy-course-name" class="form-control" type="text" placeholder="e.g. Software Engineering" [(ngModel)]="newCourseName"
-          [maxlength]="COURSE_NAME_MAX_LENGTH"/>
+          [maxlength]="COURSE_NAME_MAX_LENGTH" (focus)="courseNameEmptyError = false" (ngModelChange)="onCourseNameChange($event)"/>
         <span>{{ COURSE_NAME_MAX_LENGTH - newCourseName.length }} characters left</span>
+        <div *ngIf="courseNameEmptyError" class="text-danger">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>The field Course Name should not be empty.</div>
       </div>
       <div class="form-group">
         <label class="ngb-tooltip-class">
