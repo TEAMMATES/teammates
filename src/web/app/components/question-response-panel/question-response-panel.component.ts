@@ -25,6 +25,9 @@ import { FeedbackQuestionModel } from '../../pages-session/session-result-page/s
 })
 export class QuestionResponsePanelComponent {
 
+  @Input()
+  hideSelfResponses: boolean = false;
+
   readonly RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
     FeedbackQuestionType.CONTRIB,
   ];
