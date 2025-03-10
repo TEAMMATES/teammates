@@ -104,7 +104,7 @@ public class CreateFeedbackSessionAction extends Action {
                     resultsVisibleTime,
                     createRequest.getGracePeriod(),
                     true,
-                    createRequest.isClosingEmailEnabled(),
+                    createRequest.isClosingSoonEmailEnabled(),
                     createRequest.isPublishedEmailEnabled()
             );
 
@@ -167,7 +167,7 @@ public class CreateFeedbackSessionAction extends Action {
                             .withGracePeriod(createRequest.getGracePeriod())
                             .withSessionVisibleFromTime(sessionVisibleTime)
                             .withResultsVisibleFromTime(resultsVisibleTime)
-                            .withIsClosingEmailEnabled(createRequest.isClosingEmailEnabled())
+                            .withIsClosingSoonEmailEnabled(createRequest.isClosingSoonEmailEnabled())
                             .withIsPublishedEmailEnabled(createRequest.isPublishedEmailEnabled())
                             .build();
             try {
