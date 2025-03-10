@@ -29,59 +29,53 @@ import teammates.ui.webapi.QueryLogsAction;
 public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
     private static final String GOOGLE_ID = "user-googleId";
 
-    JsonResult actionOutput;
+    private long startTimeForFailCases = Instant.now().toEpochMilli();
+    private long endTimeForFailCases = startTimeForFailCases - 1000;
+    private long endTimeForSuccessCases = Instant.now().toEpochMilli();
+    private long startTimeForSuccessCases = endTimeForSuccessCases - 1000 * 60 * 60 * 24;
+    private Map<String, Object> requestParams = new HashMap<>();
+    private Map<String, Object> requestHeaders = new HashMap<>();
 
-    long startTimeForFailCases = Instant.now().toEpochMilli();
-    long endTimeForFailCases = startTimeForFailCases - 1000;
-    long endTimeForSuccessCases = Instant.now().toEpochMilli();
-    long startTimeForSuccessCases = endTimeForSuccessCases - 1000 * 60 * 60 * 24;
-    Map<String, Object> requestParams = new HashMap<>();
-    Map<String, Object> requestHeaders = new HashMap<>();
+    private String infoLogTrace1 = "info log trace 1";
+    private String infoLogTrace2 = "info log trace 2";
+    private String infoLogInsertId1 = "info log insert id 1";
+    private String infoLogInsertId2 = "info log insert id 2";
+    private String infoLogTextPayload1 = "info log text payload 1";
+    private String infoLogTextPayload2 = "info log text payload 2";
+    private SourceLocation infoLogSourceLocation1 = new SourceLocation("file1", 1L, "func1");
+    private SourceLocation infoLogSourceLocation2 = new SourceLocation("file2", 2L, "func2");
+    private long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
+    private long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
+    private RequestLogUser infoLogUserInfo1 = new RequestLogUser();
+    private RequestLogDetails infoLogJsonPayLoad1 = new RequestLogDetails();
 
-    String severity = "INFO";
-    String infoLogTrace1 = "info log trace 1";
-    String infoLogTrace2 = "info log trace 2";
-    String infoLogInsertId1 = "info log insert id 1";
-    String infoLogInsertId2 = "info log insert id 2";
-    String infoLogTextPayload1 = "info log text palyload 1";
-    String infoLogTextPayload2 = "info log text palyload 2";
-    SourceLocation infoLogSourceLocation1 = new SourceLocation("file1", 1L, "func1");
-    SourceLocation infoLogSourceLocation2 = new SourceLocation("file2", 2L, "func2");
-    long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
-    long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
-    RequestLogUser infoLogUserInfo1 = new RequestLogUser();
-    RequestLogDetails infoLogJsonPayLoad1 = new RequestLogDetails();
+    private FeedbackSessionAuditLogDetails infoLogJsonPayLoad2 = new FeedbackSessionAuditLogDetails();
+    private String warningLogTrace1 = "warning log trace 1";
+    private String warningLogTrace2 = "warning log trace 2";
+    private String warningLogInsertId1 = "warning log insert id 1";
+    private String warningLogInsertId2 = "warning log insert id 2";
+    private String warningLogTextPayload1 = "warning log text payload 1";
+    private String warningLogTextPayload2 = "warning log text payload 2";
+    private SourceLocation warningLogSourceLocation1 = new SourceLocation("file3", 3L, "func3");
+    private SourceLocation warningLogSourceLocation2 = new SourceLocation("file4", 4L, "func4");
+    private long warningLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 3;
+    private long warningLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 4;
+    private RequestLogUser warningLogUserInfo1 = new RequestLogUser();
+    private RequestLogDetails warningLogJsonPayLoad1 = new RequestLogDetails();
 
-    FeedbackSessionAuditLogDetails infoLogJsonPayLoad2 = new FeedbackSessionAuditLogDetails();
-
-    String warningLogTrace1 = "warning log trace 1";
-    String warningLogTrace2 = "warning log trace 2";
-    String warningLogInsertId1 = "warning log insert id 1";
-    String warningLogInsertId2 = "warning log insert id 2";
-    String warningLogTextPayload1 = "warning log text palyload 1";
-    String warningLogTextPayload2 = "warning log text palyload 2";
-    SourceLocation warningLogSourceLocation1 = new SourceLocation("file3", 3L, "func3");
-    SourceLocation warningLogSourceLocation2 = new SourceLocation("file4", 4L, "func4");
-    long warningLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 3;
-    long warningLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 4;
-    RequestLogUser warningLogUserInfo1 = new RequestLogUser();
-    RequestLogDetails warningLogJsonPayLoad1 = new RequestLogDetails();
-
-    EmailSentLogDetails warningLogJsonPayLoad2 = new EmailSentLogDetails();
-
-    String errorLogTrace = "error log trace";
-    String errorLogInsertId1 = "error log insertId 1";
-    String errorLogInsertId2 = "error log insertId 2";
-    String errorLogTextPayload1 = "error log text palyload 1";
-    String errorLogTextPayload2 = "error log text palyload 2";
-    SourceLocation errorLogSourceLocation1 = new SourceLocation("file5", 5L, "func5");
-    SourceLocation errorLogSourceLocation2 = new SourceLocation("file6", 6L, "func6");
-    long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
-    long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
-    RequestLogUser errorLogUserInfo1 = new RequestLogUser();
-    RequestLogDetails errorLogJsonPayLoad1 = new RequestLogDetails();
-
-    ExceptionLogDetails errorLogJsonPayLoad2 = new ExceptionLogDetails();
+    private EmailSentLogDetails warningLogJsonPayLoad2 = new EmailSentLogDetails();
+    private String errorLogTrace = "error log trace";
+    private String errorLogInsertId1 = "error log insertId 1";
+    private String errorLogInsertId2 = "error log insertId 2";
+    private String errorLogTextPayload1 = "error log text payload 1";
+    private String errorLogTextPayload2 = "error log text payload 2";
+    private SourceLocation errorLogSourceLocation1 = new SourceLocation("file5", 5L, "func5");
+    private SourceLocation errorLogSourceLocation2 = new SourceLocation("file6", 6L, "func6");
+    private long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
+    private long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
+    private RequestLogUser errorLogUserInfo1 = new RequestLogUser();
+    private RequestLogDetails errorLogJsonPayLoad1 = new RequestLogDetails();
+    private ExceptionLogDetails errorLogJsonPayLoad2 = new ExceptionLogDetails();
 
     @Override
     protected String getActionUri() {
@@ -206,7 +200,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
     @Test
     void testExecute_searchEndTimeBeforeStart_shouldFail() {
         String[] paramsInvalid1 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_SEVERITY, String.valueOf(LogSeverity.INFO),
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
@@ -216,7 +210,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
     @Test
     void testExecute_invalidSearchStartTime_shouldFail() {
         String[] paramsInvalid2 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_SEVERITY, String.valueOf(LogSeverity.INFO),
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, "abc",
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
@@ -226,7 +220,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
     @Test
     void testExecute_invalidSearchEndTime_shouldFail() {
         String[] paramsInvalid3 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_SEVERITY, String.valueOf(LogSeverity.INFO),
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, " ",
         };
@@ -238,11 +232,11 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         logoutUser();
         loginAsAdmin();
         String[] paramsValid = {
-                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, String.valueOf(LogSeverity.INFO),
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForSuccessCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
-        actionOutput = getJsonResult(getAction(paramsValid));
+        JsonResult actionOutput = getJsonResult(getAction(paramsValid));
 
         GeneralLogsData generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         List<GeneralLogEntry> logEntries = generalLogsData.getLogEntries();
@@ -292,11 +286,11 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         logoutUser();
         loginAsAdmin();
         String[] paramsForAdmin = {
-                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, String.valueOf(LogSeverity.INFO),
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForSuccessCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
-        actionOutput = getJsonResult(getAction(paramsForAdmin));
+        JsonResult actionOutput = getJsonResult(getAction(paramsForAdmin));
 
         GeneralLogsData generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         List<GeneralLogEntry> logEntries = generalLogsData.getLogEntries();
@@ -323,11 +317,11 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         logoutUser();
         loginAsMaintainer();
         String[] paramsForMaintainer = {
-                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, String.valueOf(LogSeverity.INFO),
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForSuccessCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
-        actionOutput = getJsonResult(getAction(paramsForMaintainer));
+        JsonResult actionOutput = getJsonResult(getAction(paramsForMaintainer));
 
         GeneralLogsData generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         List<GeneralLogEntry> logEntries = generalLogsData.getLogEntries();
