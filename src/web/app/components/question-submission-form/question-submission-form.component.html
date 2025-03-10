@@ -70,17 +70,26 @@
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-                <select id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+                <input type="text"
+                        id="recipient-input-qn-{{ model.questionNumber }}-idx-{{ i }}"
+                        class="form-control fw-bold col"
+                        [ngModel]="displayedRecipientName[i] || getRecipientNameForInput(model.recipientSubmissionForms[i].recipientIdentifier)"
                         (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
+                        (input)="filterRecipients($event.target.value, i)"
+                        (focus)="showDropdown(i)"
+                        (blur)="hideDropdown(i)"
                         [disabled]="isFormsDisabled"
-                        [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i">
-                  <option value=""></option>
-                  <ng-container *ngFor="let recipient of model.recipientList">
-                    <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
-                  </ng-container>
-                </select>
+                        [attr.aria-label]="'Select recipient input question ' + model.questionNumber + ' index ' + i"
+                        placeholder="Type to search..." />
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})
+                </div>
+              </div>
+              <div *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT && filteredRecipients[i]?.length > 0 && dropdownVisible[i]" class="dropdown-menu evaluee-select show">
+                <div class="dropdown-item"
+                  *ngFor="let recipient of filteredRecipients[i]"
+                  (click)="selectRecipient(recipient, recipientSubmissionFormModel, i)">
+                  {{ getSelectionOptionLabel(recipient) }}
                 </div>
               </div>
             </div>
