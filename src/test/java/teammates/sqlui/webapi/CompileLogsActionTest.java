@@ -16,8 +16,8 @@ import teammates.ui.webapi.CompileLogsAction;
  */
 public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
     private static final String GOOGLE_ID = "user-googleId";
-    private static final long TIMESTAMP_TOO_DISTANT = Instant.now().minusSeconds(7 * 60).toEpochMilli();
-    private static final long CORRECT_TIMESTAMP = Instant.now().minusSeconds(30).toEpochMilli();
+    private static final long DISTANT_TIMESTAMP = Instant.now().minusSeconds(7 * 60).toEpochMilli();
+    private static final long RECENT_TIMESTAMP = Instant.now().minusSeconds(30).toEpochMilli();
 
     private SourceLocation sourceLocation = new SourceLocation("file5", 5L, "func5");
 
@@ -66,9 +66,9 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
     @Test
     void testExecute_noRecentErrorLogs_noEmailSent() {
         mockLogsProcessor.insertErrorLog("errorlogtrace1", "errorloginsertid1", sourceLocation,
-                TIMESTAMP_TOO_DISTANT, "Error message 1", null);
+                DISTANT_TIMESTAMP, "Error message 1", null);
         mockLogsProcessor.insertWarningLog("warninglogtrace1", "warningloginsertid1", sourceLocation,
-                CORRECT_TIMESTAMP, "Warning message 1", null);
+                RECENT_TIMESTAMP, "Warning message 1", null);
 
         CompileLogsAction action = getAction();
         action.execute();
@@ -79,7 +79,7 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
     @Test
     void testExecute_recentErrorLogs_emailSent() {
         mockLogsProcessor.insertErrorLog("errorlogtrace1", "errorloginsertid1", sourceLocation,
-                CORRECT_TIMESTAMP, "Error message 1", null);
+                RECENT_TIMESTAMP, "Error message 1", null);
 
         CompileLogsAction action = getAction();
         action.execute();
