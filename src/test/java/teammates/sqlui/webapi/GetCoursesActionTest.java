@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 import teammates.ui.webapi.GetCoursesAction;
 import teammates.ui.webapi.JsonResult;
@@ -24,8 +25,8 @@ import teammates.ui.webapi.JsonResult;
 public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     private Instructor stubInstructor;
     private List<Instructor> stubInstructorList;
-    private Course stubCourse;
     private List<Course> stubCourseList;
+    private CoursesData expectedCoursesData;
 
     @Override
     protected String getActionUri() {
@@ -42,10 +43,11 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         stubInstructor = getTypicalInstructor();
         stubInstructorList = new ArrayList<>();
         stubInstructorList.add(stubInstructor);
-        stubCourse = getTypicalCourse();
+        Course stubCourse = getTypicalCourse();
         stubCourse.setCreatedAt(Instant.ofEpochMilli(1));
         stubCourseList = new ArrayList<>();
         stubCourseList.add(stubCourse);
+        expectedCoursesData = new CoursesData(stubCourseList);
     }
 
     @Test
@@ -64,9 +66,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         GetCoursesAction action = getAction(params);
         JsonResult result = action.execute();
         CoursesData data = (CoursesData) result.getOutput();
-        assertEquals(stubCourseList.size(), data.getCourses().size());
-        assertEquals(stubCourseList.get(0).getId(), data.getCourses().get(0).getCourseId());
-        assertEquals(stubInstructor.getPrivileges().getCourseLevelPrivileges(), data.getCourses().get(0).getPrivileges());
+        verifySameCoursesData(expectedCoursesData, data, false);
     }
 
     @Test
@@ -80,7 +80,6 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         JsonResult result = action.execute();
         CoursesData data = (CoursesData) result.getOutput();
         assertEquals(0, data.getCourses().size());
-
     }
 
     @Test
@@ -91,7 +90,6 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         when(mockLogic.getSoftDeletedCoursesForInstructors(argThat(
                 argument -> Objects.equals(argument.get(0).getGoogleId(),
                                 stubInstructor.getGoogleId())))).thenReturn(stubCourseList);
-
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.SOFT_DELETED,
@@ -99,9 +97,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         GetCoursesAction action = getAction(params);
         JsonResult result = action.execute();
         CoursesData data = (CoursesData) result.getOutput();
-        assertEquals(stubCourseList.size(), data.getCourses().size());
-        assertEquals(stubCourseList.get(0).getId(), data.getCourses().get(0).getCourseId());
-        assertEquals(stubInstructor.getPrivileges().getCourseLevelPrivileges(), data.getCourses().get(0).getPrivileges());
+        verifySameCoursesData(expectedCoursesData, data, false);
     }
 
     @Test
@@ -131,9 +127,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         GetCoursesAction action = getAction(params);
         JsonResult result = action.execute();
         CoursesData data = (CoursesData) result.getOutput();
-        assertEquals(1, data.getCourses().size());
-        assertEquals(stubCourse.getId(), data.getCourses().get(0).getCourseId());
-        assertEquals(0, data.getCourses().get(0).getDeletionTimestamp());
+        verifySameCoursesData(expectedCoursesData, data, true);
     }
 
     @Test
@@ -148,6 +142,35 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
                 Const.ParamsNames.ENTITY_TYPE, null,
         };
         verifyHttpParameterFailure(params2);
+    }
+
+    private void verifySameCoursesData(CoursesData expectedCourses, CoursesData actualCourses, boolean isStudent) {
+        if (expectedCourses.getCourses().size() != actualCourses.getCourses().size()) {
+            fail("Course list size does not match");
+        }
+        for (int i = 0; i < expectedCourses.getCourses().size(); i++) {
+            if (isStudent) {
+                verifySameCourseDataStudent(expectedCourses.getCourses().get(i), actualCourses.getCourses().get(i));
+            } else {
+                verifySameCourseData(expectedCourses.getCourses().get(i), actualCourses.getCourses().get(i));
+            }
+        }
+    }
+
+    private void verifySameCourseDataStudent(CourseData expectedCourseData, CourseData actualCourseData) {
+        assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
+        assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
+        assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());
+        assertEquals(0, actualCourseData.getDeletionTimestamp());
+        assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
+    }
+
+    private void verifySameCourseData(CourseData expectedCourseData, CourseData actualCourseData) {
+        assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
+        assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
+        assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());
+        assertEquals(expectedCourseData.getDeletionTimestamp(), actualCourseData.getDeletionTimestamp());
+        assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
     }
 
     @Test
@@ -180,11 +203,48 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     }
 
     @Test
-    void testSpecificAccessControl_instructorAndNotLoggedIn_cannotAccess() {
-        String[] params = {
+    void testSpecificAccessControl_notLoggedIn_cannotAccess() {
+        String[] studentParams = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+        String[] instructorParams = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
+        logoutUser();
+        verifyCannotAccess(studentParams);
+        verifyCannotAccess(instructorParams);
+    }
+
+    @Test
+    void testSpecificAccessControl_loginAsUnregistered_cannotAccess() {
+        loginAsUnregistered("unregistered-user");
+        String[] params1 = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
+        };
+        verifyCannotAccess(params1);
+
+        String[] params2 = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+        verifyCannotAccess(params2);
+    }
+
+    @Test
+    void testSpecificAccessControl_loginUserAndEntityMismatch_cannotAccess() {
+        loginAsInstructor(stubInstructor.getGoogleId());
+        String[] params = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
         verifyCannotAccess(params);
+
+        logoutUser();
+        loginAsStudent("student");
+        String[] params2 = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
+        };
+        verifyCannotAccess(params2);
     }
 }
