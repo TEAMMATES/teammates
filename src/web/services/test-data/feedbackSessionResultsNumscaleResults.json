@@ -245,7 +245,7 @@
     "customResponseVisibleTimestamp": 1809208740000,
     "submissionStatus": "OPEN",
     "publishStatus": "NOT_PUBLISHED",
-    "isClosingEmailEnabled": true,
+    "isClosingSoonEmailEnabled": true,
     "isPublishedEmailEnabled": true,
     "createdAtTimestamp": 1332287940000
   }

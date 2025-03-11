@@ -51,7 +51,7 @@ public class FeedbackSessionData extends ApiOutput {
     private FeedbackSessionSubmissionStatus submissionStatus;
     private FeedbackSessionPublishStatus publishStatus;
 
-    private Boolean isClosingEmailEnabled;
+    private Boolean isClosingSoonEmailEnabled;
     private Boolean isPublishedEmailEnabled;
 
     private long createdAtTimestamp;
@@ -122,7 +122,7 @@ public class FeedbackSessionData extends ApiOutput {
             this.publishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
         }
 
-        this.isClosingEmailEnabled = feedbackSessionAttributes.isClosingEmailEnabled();
+        this.isClosingSoonEmailEnabled = feedbackSessionAttributes.isClosingSoonEmailEnabled();
         this.isPublishedEmailEnabled = feedbackSessionAttributes.isPublishedEmailEnabled();
 
         this.createdAtTimestamp = feedbackSessionAttributes.getCreatedTime().toEpochMilli();
@@ -210,7 +210,7 @@ public class FeedbackSessionData extends ApiOutput {
             this.publishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
         }
 
-        this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
+        this.isClosingSoonEmailEnabled = feedbackSession.isClosingSoonEmailEnabled();
         this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
 
         this.createdAtTimestamp = feedbackSession.getCreatedAt().toEpochMilli();
@@ -327,8 +327,8 @@ public class FeedbackSessionData extends ApiOutput {
         return publishStatus;
     }
 
-    public Boolean getIsClosingEmailEnabled() {
-        return isClosingEmailEnabled;
+    public Boolean getIsClosingSoonEmailEnabled() {
+        return isClosingSoonEmailEnabled;
     }
 
     public Boolean getIsPublishedEmailEnabled() {
@@ -375,8 +375,8 @@ public class FeedbackSessionData extends ApiOutput {
         this.publishStatus = publishStatus;
     }
 
-    public void setClosingEmailEnabled(Boolean closingEmailEnabled) {
-        isClosingEmailEnabled = closingEmailEnabled;
+    public void setClosingSoonEmailEnabled(Boolean closingSoonEmailEnabled) {
+        isClosingSoonEmailEnabled = closingSoonEmailEnabled;
     }
 
     public void setPublishedEmailEnabled(Boolean publishedEmailEnabled) {
@@ -473,7 +473,7 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     private void hideInformationForStudentAndInstructor() {
-        setClosingEmailEnabled(null);
+        setClosingSoonEmailEnabled(null);
         setPublishedEmailEnabled(null);
         setGracePeriod(null);
         setCreatedAtTimestamp(0);
