@@ -129,7 +129,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testExecute_instructorWithoutPermission_emptyList() {
+    void testExecute_instructorWithoutPermissionWithInvalidTeamParams_emptyList() {
         loginAsInstructor(stubInstructorWithoutPrivileges.getGoogleId());
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithoutPrivileges.getGoogleId()))
                 .thenReturn(stubInstructorWithoutPrivileges);
@@ -198,7 +198,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
                         false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole, wrongPrivileges);
         loginAsInstructor(stubInstructorWithOnlyViewPrivilegesForDifferentSection.getGoogleId());
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(),
-                stubInstructorWithOnlyViewSectionPrivileges.getGoogleId()))
+                stubInstructorWithOnlyViewPrivilegesForDifferentSection.getGoogleId()))
                 .thenReturn(stubInstructorWithOnlyViewPrivilegesForDifferentSection);
         when(mockLogic.getStudentsForCourse(stubCourse.getId())).thenReturn(stubStudentListTwo);
 
@@ -512,7 +512,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testSpecificAccessControl_anotherCourseFromInstructor_cannotAccess() {
+    void testSpecificAccessControl_wrongCourse_cannotAccess() {
         loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
         when(mockLogic.getInstructorByGoogleId("another-course-id", stubInstructorWithAllPrivileges.getGoogleId()))
                 .thenReturn(null);
