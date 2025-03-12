@@ -52,17 +52,17 @@ public class Student extends User {
 
     @Override
     public String getTeamName() {
-        return getTeam().getName();
+        return getTeam() != null ? getTeam().getName() : null;
     }
 
     @Override
     public String getSectionName() {
-        return this.getTeam().getSection().getName();
+        return getTeam() != null ? getTeam().getSection() != null ? getTeam().getSection().getName() : null : null;
     }
 
     @Override
     public Section getSection() {
-        return this.getTeam().getSection();
+        return getTeam() != null ? getTeam().getSection() : null;
     }
 
     @Override
