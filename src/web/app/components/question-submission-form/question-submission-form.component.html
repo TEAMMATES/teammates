@@ -70,15 +70,24 @@
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-                <select id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
-                        (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
-                        [disabled]="isFormsDisabled"
-                        [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i">
-                  <option value=""></option>
-                  <ng-container *ngFor="let recipient of model.recipientList">
-                    <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
-                  </ng-container>
-                </select>
+                <div class="input-selection-wrapper col">
+                  <input type="text" class="form-control form-select fw-bold" id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
+                          [(ngModel)]="searchNameTexts[i]"
+                          (ngModelChange)="triggerSelectInputChange(i)"
+                          [disabled]="isFormsDisabled"
+                          [attr.aria-label]="'Recipient names filter ' + model.questionNumber + ' index ' + i"
+                          [ngClass]="(feedbackRecipients[i] === null && filterRecipientsBySearchText(searchNameTexts[i],model.recipientList).length === 0) ? 'no-match' : ''"
+                          (focus)="triggerSelectInputFocus(i)"
+                          autocomplete="off" />
+                  <div class="form-control input-selection-option-wrapper" [ngClass]="feedbackRecipients[i] !== null ? 'selected-input' : ''">
+                    <ng-container *ngFor="let recipient of filterRecipientsBySearchText(searchNameTexts[i],model.recipientList)">
+                      <option class="input-selection-option" *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier"
+                      [ngValue]="recipient.recipientIdentifier"
+                      (click)="triggerRecipientOptionSelect(i, recipient, $event)"
+                      tabindex="0">{{ getSelectionOptionLabel(recipient) }}</option>
+                    </ng-container>
+                  </div>
+                </div>
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})
                 </div>
