@@ -3,7 +3,10 @@ package teammates.sqlui.webapi;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.ui.request.Intent.FULL_DETAIL;
 import static teammates.ui.request.Intent.INSTRUCTOR_RESULT;
@@ -33,7 +36,6 @@ import teammates.storage.sqlentity.Student;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetSessionResultsAction;
-import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -116,6 +118,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     @Test
     void testExecute_fullDetailIntent_success() {
         prepareMocksBasicParams(FULL_DETAIL);
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -125,23 +128,17 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
-
-        logoutUser();
-        loginAsStudent(googleId);
-        JsonResult actionOutput1 = getJsonResult(action);
-        SessionResultsData output1 = (SessionResultsData) actionOutput1.getOutput();
-        assertTrue(isSessionResultsDataEqual(expectedResults, output1));
     }
 
     @Test
     void testExecute_instructorResultIntent_success() {
         prepareMocksBasicParams(INSTRUCTOR_RESULT);
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.INTENT, INSTRUCTOR_RESULT.name(),
         };
-
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
@@ -153,6 +150,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         prepareMocksBasicParams(STUDENT_RESULT);
         logoutUser();
         loginAsStudent(googleId);
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -201,6 +199,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         loginAsInstructor(googleId);
         Instructor instructorStub = getTypicalInstructor();
         FeedbackQuestion questionStub = getTypicalFeedbackQuestionForSession(session);
+
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructorStub.getEmail())).thenReturn(instructorStub);
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
@@ -208,6 +207,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                         argument -> Objects.equals(argument.getName(), session.getName())),
                 eq(course.getId()), eq(instructorStub.getEmail()), eq(questionStub.getId()), eq("sectionName"),
                 eq(FeedbackResultFetchType.RECEIVER))).thenReturn(resultsStub);
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -216,6 +216,60 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "sectionName",
                 Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER, FeedbackResultFetchType.RECEIVER.name(),
                 Const.ParamsNames.PREVIEWAS, instructorStub.getEmail(),
+        };
+        GetSessionResultsAction action = getAction(params);
+        JsonResult actionOutput = getJsonResult(action);
+        SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+    }
+
+    @Test
+    void testExecute_withAllParametersAndInstructorResultIntent_success() {
+        loginAsInstructor(googleId);
+        Instructor instructorStub = getTypicalInstructor();
+        FeedbackQuestion questionStub = getTypicalFeedbackQuestionForSession(session);
+
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
+        when(mockLogic.getInstructorForEmail(course.getId(), instructorStub.getEmail())).thenReturn(instructorStub);
+        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
+        when(mockLogic.getSessionResultsForUser(argThat(
+                        argument -> Objects.equals(argument.getName(), session.getName())),
+                eq(course.getId()), eq(instructorStub.getEmail()),
+                eq(true), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, INSTRUCTOR_RESULT.name(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionStub.getId().toString(),
+                Const.ParamsNames.PREVIEWAS, instructorStub.getEmail(),
+        };
+        GetSessionResultsAction action = getAction(params);
+        JsonResult actionOutput = getJsonResult(action);
+        SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+    }
+
+    @Test
+    void testExecute_withAllParametersAndStudentResultIntent_success() {
+        loginAsStudent(googleId);
+        Student studentStub = getTypicalStudent();
+        FeedbackQuestion questionStub = getTypicalFeedbackQuestionForSession(session);
+
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
+        when(mockLogic.getStudentForEmail(course.getId(), studentStub.getEmail())).thenReturn(studentStub);
+        when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
+        when(mockLogic.getSessionResultsForUser(argThat(
+                        argument -> Objects.equals(argument.getName(), session.getName())),
+                eq(course.getId()), eq(studentStub.getEmail()),
+                eq(false), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionStub.getId().toString(),
+                Const.ParamsNames.PREVIEWAS, studentStub.getEmail(),
         };
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
@@ -291,6 +345,14 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         };
         verifyCannotAccess(params2);
 
+        String [] params3 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, FULL_DETAIL.name(),
+        };
+        verifyCannotAccess(params3);
+
+        verify(mockLogic, times(3)).getFeedbackSession(session.getName(), session.getCourseId());
     }
 
     @Test
@@ -299,6 +361,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         Instructor instructor = getTypicalInstructor();
         session.setResultsVisibleFromTime(Instant.MAX); // unpublished session
         assertFalse(session.isPublished());
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -308,7 +371,12 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+
         verifyCanAccess(params);
+
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), googleId);
     }
 
     @Test
@@ -326,6 +394,10 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
         verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, never()).getInstructorForEmail(course.getId(), instructor.getEmail());
+        verify(mockLogic, never()).getInstructorByGoogleId(course.getId(), googleId);
     }
 
     @Test
@@ -333,6 +405,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
         assertTrue(session.isPublished());
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -341,7 +414,12 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+
         verifyCanAccess(params);
+
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, never()).getInstructorForEmail(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), googleId);
     }
 
     @Test
@@ -349,6 +427,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
         assertTrue(session.isPublished());
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -358,13 +437,18 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+
         verifyCanAccess(params);
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), instructor.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), googleId);
     }
 
     @Test
     void testCheckSpecificAccessControl_fullDetailIntent_canAccess() {
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -373,7 +457,11 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructor);
         when(mockLogic.getInstructorForEmail(session.getCourseId(), instructor.getEmail())).thenReturn(instructor);
+
         verifyCanAccess(params);
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(session.getCourseId(), googleId);
+        verify(mockLogic, never()).getInstructorForEmail(session.getCourseId(), instructor.getEmail());
     }
 
     @Test
@@ -382,6 +470,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         session.setSessionVisibleFromTime(Instant.now());
         assertTrue(session.isPublished());
         Student student = getTypicalStudent();
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -389,7 +478,10 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         };
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(student);
+
         verifyCanAccess(params);
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getStudentByGoogleId(session.getCourseId(), googleId);
     }
 
     @Test
@@ -397,23 +489,31 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         loginAsStudent(googleId);
         session.setSessionVisibleFromTime(Instant.now());
         assertTrue(session.isPublished());
-        Student student = getTypicalStudent();
+        Student anotherStudent = getTypicalStudent();
+        anotherStudent.setCourse(new Course("another-course-id", "another-course-name", "UTC", "another-institute"));
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, "another-course-id",
                 Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
         };
         when(mockLogic.getFeedbackSession(session.getName(), "another-course-id")).thenReturn(session);
-        when(mockLogic.getStudentByGoogleId("another-course-id", student.getEmail())).thenReturn(null);
+        when(mockLogic.getStudentByGoogleId("another-course-id", googleId)).thenReturn(anotherStudent);
+
         verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), "another-course-id");
+        verify(mockLogic, times(1)).getStudentByGoogleId("another-course-id", googleId);
+
     }
 
     @Test
-    void testCheckSpecificAccessControl_studentResultIntentHisPublishedSessionWithPreviewAs_canAccess() {
+    void testCheckSpecificAccessControl_studentResultIntentHisPublishedSessionWithPreviewAs_cannotAccess() {
         loginAsStudent(googleId);
         session.setSessionVisibleFromTime(Instant.now());
         assertTrue(session.isPublished());
         Student student = getTypicalStudent();
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -422,9 +522,12 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         };
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getStudentForEmail(session.getCourseId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(getTypicalInstructor());
-        verifyCanAccess(params);
+        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(null);
 
+        verifyCannotAccess(params);
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getStudentForEmail(session.getCourseId(), student.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(session.getCourseId(), googleId);
     }
 
     @Test
@@ -433,6 +536,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         session.setResultsVisibleFromTime(Instant.MAX);
         assertFalse(session.isPublished());
         Student student = getTypicalStudent();
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -440,16 +544,22 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         };
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getStudentForEmail(session.getCourseId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(getTypicalInstructor());
+        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(null);
+
         verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, never()).getStudentForEmail(session.getCourseId(), student.getEmail());
+        verify(mockLogic, never()).getInstructorByGoogleId(session.getCourseId(), googleId);
     }
 
     @Test
-    void testCheckSpecificAccessControl_studentResultIntentUnpublishedSessionWithPreviewAs_canAccess() {
+    void testCheckSpecificAccessControl_studentResultIntentUnpublishedSessionWithPreviewAs_cannotAccess() {
         loginAsStudent(googleId);
         Student student = getTypicalStudent();
         session.setResultsVisibleFromTime(Instant.MAX);
         assertFalse(session.isPublished());
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -458,35 +568,41 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         };
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getStudentForEmail(session.getCourseId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(getTypicalInstructor());
-        verifyCanAccess(params);
+        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(null);
+
+        verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getStudentForEmail(session.getCourseId(), student.getEmail());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(session.getCourseId(), googleId);
     }
 
     @Test
     void testCheckSpecificAccessControl_invalidIntent_invalidHttpParameterException() {
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
-        String[] params = {
+        String[] params1 = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
         };
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructor);
-        GetSessionResultsAction a = getAction(params);
-        assertThrows(InvalidHttpParameterException.class, a::checkAccessControl);
+        verifyHttpParameterFailureAcl(params1);
 
         String [] params2 = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
         };
-        GetSessionResultsAction b = getAction(params2);
-        assertThrows(InvalidHttpParameterException.class, b::checkAccessControl);
+        verifyHttpParameterFailureAcl(params2);
+
+        verify(mockLogic, times(2)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, never()).getInstructorByGoogleId(session.getCourseId(), googleId);
     }
 
     @Test
-    void testSpecificAccessControl_studentPreviewAsInstructor_canAccess() {
+    void testSpecificAccessControl_studentPreviewAsInstructor_cannotAccess() {
         loginAsStudent(googleId);
 
         String[] params = {
@@ -498,15 +614,21 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(session.getCourseId(), getTypicalInstructor().getEmail()))
                 .thenReturn(getTypicalInstructor());
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(getTypicalInstructor());
-        verifyCanAccess(params);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(null);
+
+        verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getInstructorByGoogleId(session.getCourseId(), googleId);
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getInstructorForEmail(session.getCourseId(), getTypicalInstructor().getEmail());
     }
 
     @Test
-    void testSpecificAccessControl_instructorPreviewAsStudent_canAccess() {
+    void testSpecificAccessControl_instructorPreviewAsStudentValidParams_canAccess() {
         loginAsInstructor(googleId);
         Student student = getTypicalStudent();
-        String[] params = {
+
+        String[] params1 = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
@@ -515,7 +637,49 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getStudentForEmail(student.getCourseId(), student.getEmail())).thenReturn(student);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(getTypicalInstructor());
-        verifyCanAccess(params);
+        verifyCanAccess(params1);
+
+        String[] params2 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
+                Const.ParamsNames.PREVIEWAS, student.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student.getEmail(),
+        };
+        verifyCanAccess(params2);
+
+        session.setSessionVisibleFromTime(Instant.MIN);
+        String[] params3 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student.getEmail(),
+        };
+        verifyCanAccess(params3);
+
+        verify(mockLogic, times(2)).getInstructorByGoogleId(session.getCourseId(), googleId);
+        verify(mockLogic, times(3)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(3)).getStudentForEmail(student.getCourseId(), student.getEmail());
+    }
+
+    @Test
+    void testSpecificAccessControl_instructorPreviewAsStudentInvalidParams_cannotAcess() {
+        loginAsInstructor(googleId);
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
+        };
+        when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(null);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(getTypicalInstructor());
+
+        verifyCannotAccess(params);
+
+        verify(mockLogic, never()).getInstructorByGoogleId(session.getCourseId(), googleId);
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), googleId);
     }
 
     @Test
@@ -523,14 +687,18 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
         instructor.setPrivileges(new InstructorPrivileges());
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.INTENT, INSTRUCTOR_RESULT.name(),
         };
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+
         verifyCannotAccess(params);
+
+        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
+        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), googleId);
     }
 }
