@@ -64,6 +64,20 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
+     * Get AccountRequest by {@code email} and {@code institute} from database.
+     */
+    public AccountRequest getAccountRequest(String email, String institute) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root).where(cb.and(cb.equal(
+                root.get("email"), email), cb.equal(root.get("institute"), institute)));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Get all Account Requests with {@code status} of 'pending'.
      */
     public List<AccountRequest> getPendingAccountRequests() {
@@ -119,7 +133,8 @@ public final class AccountRequestsDb extends EntitiesDb {
     }
 
     /**
-     * Get AccountRequest with {@code createdTime} within the times {@code startTime} and {@code endTime}.
+     * Get AccountRequest with {@code createdTime} within the times
+     * {@code startTime} and {@code endTime}.
      */
     public List<AccountRequest> getAccountRequests(Instant startTime, Instant endTime) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -145,7 +160,7 @@ public final class AccountRequestsDb extends EntitiesDb {
 
         if (getAccountRequest(accountRequest.getId()) == null) {
             throw new EntityDoesNotExistException(
-                String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
+                    String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
         }
 
         merge(accountRequest);
