@@ -9,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * The data transfer object for {@link DeadlineExtension} entities.
@@ -47,6 +48,21 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
                 deadlineExtension.getIsInstructor());
 
         deadlineExtensionAttributes.sentClosingSoonEmail = deadlineExtension.getSentClosingSoonEmail();
+        deadlineExtensionAttributes.endTime = deadlineExtension.getEndTime();
+        deadlineExtensionAttributes.createdAt = deadlineExtension.getCreatedAt();
+        deadlineExtensionAttributes.updatedAt = deadlineExtension.getUpdatedAt();
+
+        return deadlineExtensionAttributes;
+    }
+
+    public static DeadlineExtensionAttributes valueOf(teammates.storage.sqlentity.DeadlineExtension deadlineExtension) {
+        DeadlineExtensionAttributes deadlineExtensionAttributes = new DeadlineExtensionAttributes(
+                deadlineExtension.getId().toString(),
+                deadlineExtension.getFeedbackSession().getName(),
+                deadlineExtension.getUser().getEmail(),
+                deadlineExtension.getUser() instanceof Instructor);
+
+        deadlineExtensionAttributes.sentClosingSoonEmail = deadlineExtension.isClosingSoonEmailSent();
         deadlineExtensionAttributes.endTime = deadlineExtension.getEndTime();
         deadlineExtensionAttributes.createdAt = deadlineExtension.getCreatedAt();
         deadlineExtensionAttributes.updatedAt = deadlineExtension.getUpdatedAt();
