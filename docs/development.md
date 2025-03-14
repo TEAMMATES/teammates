@@ -63,16 +63,12 @@ In order for the back-end to properly work, you need to have a running database 
 
 The details on how to run them locally can be found [here (for local Datastore emulator)](#running-the-datastore-emulator) and [here (for full-text search service)](search.md).
 
-If you have access to Docker, we have a Docker compose definition to run those services:
+If you have access to Docker, we recommend using Docker Compose v2 to run those services:
 
 ```sh
 docker compose up -d
 ```
-If the above command does not work, you may not have the updated v2 version of Docker. You may want to try this instead:
 
-```sh
-docker-compose up -d
-```
 For more information on Docker, you may wish to refer to the [Docker Documentation](https://docs.docker.com/compose/reference/).
 
 ### Starting the dev server
@@ -239,15 +235,10 @@ The Datastore emulator will be running in the port specified in the `build.prope
 
 <panel header="**Using Docker-based tooling**">
 
-We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
+Docker Compose v2 is used to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
 
 ```sh
 docker compose run -p 8484:8484 datastore
-```
-If the above command does not work, you may want to try this instead:
-
-```sh
-docker-compose run -p 8484:8484 datastore
 ```
 
 **Verification:** Should receive an "Ok" response in the browser at `http://localhost:8484`.
@@ -288,56 +279,13 @@ If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to 
 
 There are two big categories of testing in TEAMMATES:
 
-- **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
-- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](e2e-testing.md).  
+- **Component tests**: White-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. To learn more about running and writing component tests, refer to [this guide](unit-testing.md).
+- **<tooltip content="End-to-end">E2E</tooltip> tests**: Black-box tests, i.e. they test the application as a whole without knowing any internal working. To learn more about running and writing E2E tests, refer to [this guide](e2e-testing.md).  
 
-<div id="running-tests">
+Other tests in TEAMMATES include:
 
-#### Running tests
-
-##### Frontend tests
-
-To run all front-end component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
-
-```sh
-npm run test
-```
-
-To update snapshots, run the following command:
-```sh
-npm run test
-```
-
-Followed by `a` to run all the test cases. Check through the snapshots to make sure that the changes are as expected, and press `u` to update them.
-
-To run all front-end component tests once and generate coverage data afterwards, run the following command:
-
-```sh
-npm run coverage
-```
-
-To run an individual test in a test file, change `it` in the `*.spec.ts` file to `fit`.
-
-To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.
-
-##### Backend tests
-
-Back-end component tests follow this configuration:
-
-Test suite | Command | Results can be viewed in
----|---|---
-`Component tests` | `./gradlew componentTests --continue` | `{project folder}/build/reports/tests/componentTests/index.html`
-Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
-
-You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
-
-```sh
-./gradlew componentTests jacocoReport
-```
-
-The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
-
-</div>
+- **Performance tests**: Evaluate the application's stability and responsiveness under expected, peak, and prolonged loads. See [Performance Testing](performance-testing.md).
+- **Accessibility tests**: Ensure the application is accessible to users with disabilities. See [Accessibility Testing](axe-testing.md).
 
 ## Deploying to a staging server
 
