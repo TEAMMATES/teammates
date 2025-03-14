@@ -1,5 +1,7 @@
 package teammates.sqlui.webapi;
 
+import org.testng.annotations.Test;
+
 import teammates.common.util.Const;
 import teammates.ui.webapi.GetInstructorsAction;
 
@@ -15,5 +17,9 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         return GET;
     }
 
+    @Test
+    void testExecute_invalidParams_throwsInvalidHttpParameterException() {
+
+    }
 
 }
