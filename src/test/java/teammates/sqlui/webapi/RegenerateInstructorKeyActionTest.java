@@ -112,13 +112,35 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     }
 
     @Test
-    void testExecute_entityDoesNotExist_throwsEntityNotFoundException()
+    void testExecute_nonExistentInstructorEmail_throwsEntityNotFoundException()
             throws EntityDoesNotExistException, InstructorUpdateException {
-        when(mockLogic.regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail()))
-                .thenThrow(new EntityDoesNotExistException("Instructor not found"));
+        String nonExistentInstructorEmail = "RANDOM_EMAIL";
+
+        when(mockLogic.regenerateInstructorRegistrationKey(instructor.getCourseId(), nonExistentInstructorEmail))
+                .thenThrow(new EntityDoesNotExistException("Instructor email not found"));
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, nonExistentInstructorEmail,
+        };
+
+        verify(mockLogic, never()).regenerateInstructorRegistrationKey(any(), any());
+        verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
+        verifyNoEmailsSent();
+        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyEntityNotFound(params);
+    }
+
+    @Test
+    void testExecute_nonExistentCourseId_throwsEntityNotFoundException()
+            throws EntityDoesNotExistException, InstructorUpdateException {
+        String nonExistentCourseId = "RANDOM_COURSE";
+
+        when(mockLogic.regenerateInstructorRegistrationKey(nonExistentCourseId, instructor.getEmail()))
+                .thenThrow(new EntityDoesNotExistException("Course id not found"));
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, nonExistentCourseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
@@ -143,7 +165,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
         RegenerateInstructorKeyAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action, HttpStatus.SC_INTERNAL_SERVER_ERROR).getOutput();
 
-        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(any(), any());
+        verify(mockLogic, times(1)).regenerateInstructorRegistrationKey(instructor.getCourseId(), instructor.getEmail());
         verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
         verifyNoEmailsSent();
         verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
