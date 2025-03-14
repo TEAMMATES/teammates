@@ -55,6 +55,10 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         return deadlineExtensionAttributes;
     }
 
+    /**
+     * Gets the {@link DeadlineExtensionAttributes} instance
+     * of the given {@link teammates.storage.sqlentity.DeadlineExtension}.
+     */
     public static DeadlineExtensionAttributes valueOf(teammates.storage.sqlentity.DeadlineExtension deadlineExtension) {
         DeadlineExtensionAttributes deadlineExtensionAttributes = new DeadlineExtensionAttributes(
                 deadlineExtension.getId().toString(),

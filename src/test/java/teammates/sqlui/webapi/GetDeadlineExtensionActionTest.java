@@ -1,7 +1,14 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.when;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -10,13 +17,6 @@ import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetDeadlineExtensionAction;
 import teammates.ui.webapi.JsonResult;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.when;
 
 /**
  * SUT: {@link GetDeadlineExtensionAction}.
@@ -86,58 +86,10 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
             ArrayList<String> params = new ArrayList<>(Arrays.asList(getNormalParams()));
             params.remove(i * 2);
             params.remove(i * 2);
-            String[] paramsArray = params.toArray(new String[params.size()]);
+            String[] paramsArray = params.toArray(new String[0]);
             verifyHttpParameterFailure(paramsArray);
         }
     }
-
-//    @Test
-//    void testExecute_missingParameterCourseId_shouldFail() {
-//        String[] params = new String[] {
-//                // Const.ParamsNames.COURSE_ID, getTypicalCourse().getId(),
-//                Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
-//                Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
-//                Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
-//        };
-//
-//        verifyHttpParameterFailure(params);
-//    }
-//
-//    @Test
-//    void testExecute_missingParameterFeedbackSessionName_shouldFail() {
-//        String[] params = new String[] {
-//                Const.ParamsNames.COURSE_ID, getTypicalCourse().getId(),
-//                // Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
-//                Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
-//                Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
-//        };
-//
-//        verifyHttpParameterFailure(params);
-//    }
-//
-//    @Test
-//    void testExecute_missingParameterUserEmail_shouldFail() {
-//        String[] params = new String[] {
-//                Const.ParamsNames.COURSE_ID, getTypicalCourse().getId(),
-//                Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
-//                // Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
-//                Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
-//        };
-//
-//        verifyHttpParameterFailure(params);
-//    }
-//
-//    @Test
-//    void testExecute_missingParameterIsInstructor_shouldFail() {
-//        String[] params = new String[] {
-//                Const.ParamsNames.COURSE_ID, getTypicalCourse().getId(),
-//                Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
-//                Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
-//                // Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
-//        };
-//
-//        verifyHttpParameterFailure(params);
-//    }
 
     @Test
     void testExecute_deadlineExtensionMissing_shouldFail() {
@@ -161,8 +113,10 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
 
         when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSessionName(), deadlineExtension.getCourseId()))
                 .thenReturn(getTypicalDeadlineExtension().getFeedbackSession());
+        when(mockLogic.getStudentForEmail(deadlineExtension.getCourseId(), deadlineExtension.getUserEmail()))
+                .thenReturn(getTypicalStudent());
         when(mockLogic.getExtendedDeadlineForUser(isA(FeedbackSession.class), isA(User.class)))
-                .thenReturn(Instant.ofEpochMilli(deadlineExtension.getEndTime().toEpochMilli()));
+                .thenReturn(deadlineExtension.getEndTime());
 
         GetDeadlineExtensionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
@@ -173,7 +127,8 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         assertEquals(deadlineExtension.getFeedbackSessionName(), response.getFeedbackSessionName());
         assertEquals(deadlineExtension.getUserEmail(), response.getUserEmail());
         assertEquals(deadlineExtension.getIsInstructor(), response.getIsInstructor());
-        assertEquals(deadlineExtension.getEndTime(), Instant.ofEpochMilli(response.getEndTime()));
+        assertEquals(deadlineExtension.getEndTime().toEpochMilli(),
+                Instant.ofEpochMilli(response.getEndTime()).toEpochMilli());
         assertEquals(deadlineExtension.getSentClosingSoonEmail(), response.getSentClosingSoonEmail());
     }
 
