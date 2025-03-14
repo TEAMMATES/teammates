@@ -28,7 +28,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
         assertEquals(VALID_USER_EMAIL, deadlineExtensionAttributes.getUserEmail());
         assertFalse(deadlineExtensionAttributes.getIsInstructor());
         assertEquals(Const.TIME_REPRESENTS_LATER, deadlineExtensionAttributes.getEndTime());
-        assertTrue(deadlineExtensionAttributes.getSentClosingEmail());
+        assertTrue(deadlineExtensionAttributes.getSentClosingSoonEmail());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
         DeadlineExtensionAttributes deadlineExtensionAttributes = DeadlineExtensionAttributes
                 .builder(VALID_COURSE_ID, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, true)
                 .withEndTime(Const.TIME_REPRESENTS_LATER)
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
 
         assertEquals(VALID_COURSE_ID, deadlineExtensionAttributes.getCourseId());
@@ -44,7 +44,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
         assertEquals(VALID_USER_EMAIL, deadlineExtensionAttributes.getUserEmail());
         assertTrue(deadlineExtensionAttributes.getIsInstructor());
         assertEquals(Const.TIME_REPRESENTS_LATER, deadlineExtensionAttributes.getEndTime());
-        assertTrue(deadlineExtensionAttributes.getSentClosingEmail());
+        assertTrue(deadlineExtensionAttributes.getSentClosingSoonEmail());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
         assertEquals(VALID_USER_EMAIL, deadlineExtensionAttributes.getUserEmail());
         assertTrue(deadlineExtensionAttributes.getIsInstructor());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, deadlineExtensionAttributes.getEndTime());
-        assertFalse(deadlineExtensionAttributes.getSentClosingEmail());
+        assertFalse(deadlineExtensionAttributes.getSentClosingSoonEmail());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
                 .updateOptionsBuilder(VALID_COURSE_ID, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_NOW)
                 .withNewEmail("new-email@gmail.tmt")
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
         deadlineExtension.update(updateOptions);
 
@@ -98,7 +98,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
         assertEquals("new-email@gmail.tmt", deadlineExtension.getUserEmail());
         assertFalse(deadlineExtension.getIsInstructor());
         assertEquals(Const.TIME_REPRESENTS_NOW, deadlineExtension.getEndTime());
-        assertTrue(deadlineExtension.getSentClosingEmail());
+        assertTrue(deadlineExtension.getSentClosingSoonEmail());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
                 .updateOptionsBuilder(VALID_COURSE_ID, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_NOW)
                 .withNewEmail("new-email@gmail.tmt")
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
         deadlineExtension.update(updateOptions);
 
@@ -119,7 +119,7 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
         newDeadlineExtension.update(newUpdateOptions);
 
         assertEquals(deadlineExtension, newDeadlineExtension);
-        assertEquals(deadlineExtension.getSentClosingEmail(), newDeadlineExtension.getSentClosingEmail());
+        assertEquals(deadlineExtension.getSentClosingSoonEmail(), newDeadlineExtension.getSentClosingSoonEmail());
     }
 
     @Test
@@ -132,14 +132,14 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
                 .updateOptionsBuilder(null, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_NOW)
                 .withNewEmail("new-email@gmail.tmt")
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build());
 
         assertThrows(AssertionError.class, () -> DeadlineExtensionAttributes
                 .updateOptionsBuilder(VALID_COURSE_ID, null, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_NOW)
                 .withNewEmail("new-email@gmail.tmt")
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build());
 
         assertThrows(AssertionError.class, () -> DeadlineExtensionAttributes

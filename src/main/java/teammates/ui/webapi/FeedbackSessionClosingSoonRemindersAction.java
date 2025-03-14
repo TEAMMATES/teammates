@@ -17,9 +17,9 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 
 /**
- * Cron job: schedules feedback session closing emails to be sent.
+ * Cron job: schedules feedback session closing soon emails to be sent.
  */
-public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
+public class FeedbackSessionClosingSoonRemindersAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
@@ -31,7 +31,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionClosingEmails(session);
+            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionClosingSoonEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setClosingSoonEmailSent(true);
@@ -44,7 +44,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
 
         // Group deadline extensions by feedback sessions
         Collection<List<DeadlineExtension>> groupedDeadlineExtensions =
-                sqlLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail()
+                sqlLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail()
                     .stream()
                     .collect(Collectors.groupingBy(de -> de.getFeedbackSession()))
                     .values();
@@ -53,7 +53,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
             RequestTracer.checkRemainingTime();
 
             FeedbackSession session = deadlineExtensions.get(0).getFeedbackSession();
-            if (!session.isClosingEmailEnabled()) {
+            if (!session.isClosingSoonEmailEnabled()) {
                 continue;
             }
 
@@ -78,13 +78,13 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
             }
 
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosingEmails(session);
+            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosingSoonEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 logic.updateFeedbackSession(
                         FeedbackSessionAttributes
                                 .updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                                .withSentClosingEmail(true)
+                                .withSentClosingSoonEmail(true)
                                 .build());
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
@@ -95,7 +95,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
     private void executeForDatastoreExtendedDeadlines() {
         // group deadline extensions by courseId and feedbackSessionName
         Collection<List<DeadlineExtensionAttributes>> groupedDeadlineExtensionsAttributes =
-                logic.getDeadlineExtensionsPossiblyNeedingClosingEmail()
+                logic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail()
                         .stream()
                         .collect(Collectors.groupingBy(de -> de.getCourseId() + "%" + de.getFeedbackSessionName()))
                         .values();
@@ -109,7 +109,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
             RequestTracer.checkRemainingTime();
             String feedbackSessionName = deadlineExtensions.get(0).getFeedbackSessionName();
             FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-            if (feedbackSession == null || !feedbackSession.isClosingEmailEnabled()) {
+            if (feedbackSession == null || !feedbackSession.isClosingSoonEmailEnabled()) {
                 continue;
             }
 
@@ -124,7 +124,7 @@ public class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                     DeadlineExtensionAttributes.UpdateOptions updateOptions = DeadlineExtensionAttributes
                             .updateOptionsBuilder(courseId, feedbackSessionName,
                                     deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor())
-                            .withSentClosingEmail(true)
+                            .withSentClosingSoonEmail(true)
                             .build();
                     logic.updateDeadlineExtension(updateOptions);
                 }

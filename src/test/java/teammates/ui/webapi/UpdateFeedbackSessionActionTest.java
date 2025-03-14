@@ -103,7 +103,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertEquals(session.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(session.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(session.isClosingSoonEmailEnabled(), response.getIsClosingSoonEmailEnabled());
         assertEquals(session.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
         assertEquals(session.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
@@ -124,7 +124,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 7, "Africa/Johannesburg").toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertFalse(response.getIsClosingEmailEnabled());
+        assertFalse(response.getIsClosingSoonEmailEnabled());
         assertFalse(response.getIsPublishedEmailEnabled());
 
         assertNotNull(response.getCreatedAtTimestamp());
@@ -693,7 +693,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 7, timeZone).toEpochMilli());
 
-        updateRequest.setClosingEmailEnabled(false);
+        updateRequest.setClosingSoonEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
 
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions
