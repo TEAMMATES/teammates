@@ -258,7 +258,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     }
 
     @Test
-    void testSpecificAccessControl_loggedOut_canAccess() {
+    void testSpecificAccessControl_loggedOut_cannotAccess() {
         logoutUser();
         String[] params = {};
         verifyCannotAccess(params);
