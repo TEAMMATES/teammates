@@ -1,12 +1,8 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,7 +11,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.api.MockEmailSender;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -32,7 +27,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     private Instructor stubInstructor;
     private Course stubCourse;
     private EmailWrapper stubEmailWrapper;
-    private MockEmailSender savedEmailSender;
 
     @Override
     protected String getActionUri() {
@@ -46,8 +40,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
 
     @BeforeMethod
     void setUp() {
-        savedEmailSender = super.mockEmailSender;
-        super.mockEmailSender = mock(MockEmailSender.class);
         stubCourse = getTypicalCourse();
         stubInstructor = getTypicalInstructor();
         stubStudent = getTypicalStudent();
@@ -55,11 +47,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         stubEmailWrapper.setRecipient(stubStudent.getEmail());
         stubEmailWrapper.setSubject("You have been registered for " + stubCourse.getName());
         reset(mockLogic);
-    }
-
-    @AfterMethod
-    void tearDown() {
-        super.mockEmailSender = savedEmailSender;
     }
 
     @Test
@@ -96,11 +83,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
         assertEquals("Student successfully joined course", messageOutput.getMessage());
-        verify(mockEmailSender, times(1)).sendEmail(stubEmailWrapper);
+        verifyNumberOfEmailsSent(1);
     }
 
     @Test
-    void testExecute_studentAlreadyExists_throwsEntityAlreadyExistsException() throws EntityAlreadyExistsException,
+    void testExecute_studentAlreadyExists_throwsInvalidOperationException() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
         loginAsUnregistered("unreg-student");
 
@@ -113,6 +100,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
         JoinCourseAction action = getAction(params);
         assertThrows(InvalidOperationException.class, action::execute);
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -128,6 +116,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         verifyEntityNotFound(params);
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -144,6 +133,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action, 500);
         assertEquals(500, jsonResult.getStatusCode());
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -165,11 +155,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
         assertEquals("Instructor successfully joined course", messageOutput.getMessage());
-        verify(mockEmailSender, times(1)).sendEmail(stubEmailWrapper);
+        verifyNumberOfEmailsSent(1);
     }
 
     @Test
-    void testExecute_instructorAlreadyExists_throwsEntityAlreadyExistsException() throws EntityAlreadyExistsException,
+    void testExecute_instructorAlreadyExists_throwsInvalidOperationException() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
         loginAsUnregistered("unreg-instructor");
 
@@ -182,6 +172,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
         JoinCourseAction action = getAction(params);
         assertThrows(InvalidOperationException.class, action::execute);
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -197,6 +188,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         verifyEntityNotFound(params);
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -213,6 +205,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action, 500);
         assertEquals(500, jsonResult.getStatusCode());
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -236,6 +229,8 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
         verifyHttpParameterFailure(params3);
+
+        verifyNoEmailsSent();
     }
 
     @Test
