@@ -22,7 +22,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
-import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.api.MockUserProvision;
@@ -61,7 +60,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
-    MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
+    teammates.logic.api.RecaptchaVerifier mockRecaptchaVerifier = mock(teammates.logic.api.RecaptchaVerifier.class);
     SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
 
     abstract String getActionUri();

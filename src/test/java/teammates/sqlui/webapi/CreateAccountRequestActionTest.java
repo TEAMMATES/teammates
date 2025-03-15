@@ -1,7 +1,11 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -36,6 +40,13 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         createRequest = getTypicalAccountCreateRequest();
     }
 
+    @AfterMethod
+    void tearDown() {
+        reset(mockRecaptchaVerifier);
+        reset(mockLogic);
+        logoutUser();
+    }
+
     @Test
     void testExecute_nullInstructorName_throwsInvalidHttpRequestBodyException() {
         createRequest.setInstructorName(null);
@@ -43,6 +54,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
         assertEquals("name cannot be null", ex.getMessage());
         verifyNoTasksAdded();
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -52,6 +64,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
         assertEquals("email cannot be null", ex.getMessage());
         verifyNoTasksAdded();
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -61,10 +74,65 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
         assertEquals("institute cannot be null", ex.getMessage());
         verifyNoTasksAdded();
+        verifyNoEmailsSent();
     }
 
     @Test
     void testExecute_validAccountCreateRequest_success() throws InvalidParametersException {
+        String instructorEmail = "jamesbond89@gmail.tmt";
+        String instructorName = "JamesBond";
+        String instructorInstitution = "TEAMMATES Test Institute 1";
+        String instructorComments = "comments";
+        AccountRequest accountRequest = new AccountRequest(instructorEmail, instructorName, instructorInstitution,
+                AccountRequestStatus.PENDING, instructorComments);
+
+        when(mockRecaptchaVerifier.isVerificationSuccessful(createRequest.getCaptchaResponse())).thenReturn(true);
+        when(mockLogic.createAccountRequestWithTransaction(instructorName, instructorEmail, instructorInstitution,
+                AccountRequestStatus.PENDING, instructorComments)).thenReturn(accountRequest);
+
+        CreateAccountRequestAction action = getAction(createRequest);
+        AccountRequestData output = (AccountRequestData) getJsonResult(action).getOutput();
+
+        verify(mockRecaptchaVerifier).isVerificationSuccessful(createRequest.getCaptchaResponse());
+        verifyAccountRequestCreated(output, accountRequest);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+        verifyNumberOfEmailsSent(2);
+    }
+
+    @Test
+    void testExecute_invalidCaptcha_throwsInvalidHttpRequestBodyException() {
+        when(mockRecaptchaVerifier.isVerificationSuccessful(createRequest.getCaptchaResponse())).thenReturn(false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
+        assertEquals("Something went wrong with the reCAPTCHA verification. Please try again.", ex.getMessage());
+        verify(mockRecaptchaVerifier).isVerificationSuccessful(createRequest.getCaptchaResponse());
+        verifyNoTasksAdded();
+        verifyNoEmailsSent();
+    }
+
+    @Test
+    void testExecute_createAccountRequestWithTransactionThrows_throwsInvalidHttpRequestBodyException()
+            throws InvalidParametersException {
+        String instructorEmail = "jamesbond89@gmail.tmt";
+        String instructorName = "JamesBond";
+        String instructorInstitution = "TEAMMATES Test Institute 1";
+        String instructorComments = "comments";
+
+        when(mockRecaptchaVerifier.isVerificationSuccessful(createRequest.getCaptchaResponse())).thenReturn(true);
+        when(mockLogic.createAccountRequestWithTransaction(instructorName, instructorEmail, instructorInstitution,
+                AccountRequestStatus.PENDING, instructorComments))
+                .thenThrow(new InvalidParametersException("test"));
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
+        assertEquals("test", ex.getMessage());
+        verify(mockRecaptchaVerifier).isVerificationSuccessful(createRequest.getCaptchaResponse());
+        verifyNoTasksAdded();
+        verifyNoEmailsSent();
+    }
+
+    @Test
+    void testExecute_adminUser_bypassesCaptchaAndNoEmailSent() throws InvalidParametersException {
+        loginAsAdmin();
         String instructorEmail = "jamesbond89@gmail.tmt";
         String instructorName = "JamesBond";
         String instructorInstitution = "TEAMMATES Test Institute 1";
@@ -78,9 +146,23 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         CreateAccountRequestAction action = getAction(createRequest);
         AccountRequestData output = (AccountRequestData) getJsonResult(action).getOutput();
 
+        verify(mockRecaptchaVerifier, never()).isVerificationSuccessful(createRequest.getCaptchaResponse());
         verifyAccountRequestCreated(output, accountRequest);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-        verifyNumberOfEmailsSent(2);
+        verifyNumberOfEmailsSent(0);
+    }
+
+    @Test
+    void testExecute_invalidInstructorName_throwsInvalidHttpRequestBodyException() {
+        createRequest.setInstructorName("James%20Bond99");
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
+        assertEquals("\"James%20Bond99\" is not acceptable to TEAMMATES as a/an person name because "
+                + "it contains invalid characters. A/An person name must start with an "
+                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
+                ex.getMessage());
+        verifyNoTasksAdded();
+        verifyNoEmailsSent();
     }
 
     private AccountCreateRequest getTypicalAccountCreateRequest() {
