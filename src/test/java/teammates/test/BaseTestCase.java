@@ -241,15 +241,26 @@ public class BaseTestCase {
         return UsageStatistics.valueOf(getTypicalUsageStatisticsAttributes(startTime));
     }
 
-    protected DeadlineExtension getTypicalDeadlineExtension() {
+    protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
         return new DeadlineExtension(
                 getTypicalStudent(),
                 getTypicalFeedbackSessionForCourse(getTypicalCourse()),
                 Instant.now());
     }
 
-    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributes() {
-        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtension());
+    protected DeadlineExtension getTypicalDeadlineExtensionInstructor() {
+        return new DeadlineExtension(
+                getTypicalInstructor(),
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()),
+                Instant.now());
+    }
+
+    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesStudent() {
+        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionStudent());
+    }
+
+    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesInstructor() {
+        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionInstructor());
     }
 
     /**
