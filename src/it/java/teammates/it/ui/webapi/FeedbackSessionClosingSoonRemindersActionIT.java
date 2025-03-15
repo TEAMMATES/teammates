@@ -15,13 +15,13 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.webapi.FeedbackSessionClosingRemindersAction;
+import teammates.ui.webapi.FeedbackSessionClosingSoonRemindersAction;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * SUT: {@link FeedbackSessionClosingRemindersAction}.
+ * SUT: {@link FeedbackSessionClosingSoonRemindersAction}.
  */
-public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<FeedbackSessionClosingRemindersAction> {
+public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<FeedbackSessionClosingSoonRemindersAction> {
 
     @Override
     @BeforeMethod
@@ -61,7 +61,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
     @Override
     String getActionUri() {
-        return Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS;
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
         String[] params = {};
 
-        FeedbackSessionClosingRemindersAction action1 = getAction(params);
+        FeedbackSessionClosingSoonRemindersAction action1 = getAction(params);
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
@@ -141,7 +141,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
         String[] params = {};
 
-        FeedbackSessionClosingRemindersAction action1 = getAction(params);
+        FeedbackSessionClosingSoonRemindersAction action1 = getAction(params);
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
@@ -172,7 +172,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
         String[] params = {};
 
-        FeedbackSessionClosingRemindersAction action1 = getAction(params);
+        FeedbackSessionClosingSoonRemindersAction action1 = getAction(params);
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
@@ -202,7 +202,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
         String[] params = {};
 
-        FeedbackSessionClosingRemindersAction action1 = getAction(params);
+        FeedbackSessionClosingSoonRemindersAction action1 = getAction(params);
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
@@ -219,7 +219,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
         Duration noGracePeriod = Duration.between(now, now);
 
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setClosingEmailEnabled(false);
+        session.setClosingSoonEmailEnabled(false);
         session.setClosingSoonEmailSent(false);
         session.setEndTime(now.plusSeconds((oneHour * 23) + 60));
         session.setGracePeriod(noGracePeriod);
@@ -230,7 +230,7 @@ public class FeedbackSessionClosingRemindersActionIT extends BaseActionIT<Feedba
 
         String[] params = {};
 
-        FeedbackSessionClosingRemindersAction action1 = getAction(params);
+        FeedbackSessionClosingSoonRemindersAction action1 = getAction(params);
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 

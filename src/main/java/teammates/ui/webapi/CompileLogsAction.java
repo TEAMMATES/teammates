@@ -13,7 +13,7 @@ import teammates.common.util.EmailWrapper;
 /**
  * Cron job: compiles application logs and sends severe logs compilation to the support email.
  */
-class CompileLogsAction extends AdminOnlyAction {
+public class CompileLogsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {

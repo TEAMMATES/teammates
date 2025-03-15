@@ -60,7 +60,7 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
   submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
 
-  isClosingEmailEnabled: true,
+  isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
 
   templateSessionName: 'Example session',
@@ -193,7 +193,7 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-  isClosingEmailEnabled: true,
+  isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
   studentDeadlines: {},

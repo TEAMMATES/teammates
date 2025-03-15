@@ -123,10 +123,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement changeEmailButton;
 
     @FindBy(id = "email-opening")
-    private WebElement openingSessionEmailCheckbox;
+    private WebElement openedSessionEmailCheckbox;
 
     @FindBy(id = "email-closing")
-    private WebElement closingSessionEmailCheckbox;
+    private WebElement closingSoonSessionEmailCheckbox;
 
     @FindBy(id = "email-published")
     private WebElement publishedSessionEmailCheckbox;
@@ -239,20 +239,20 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyEmailSettings(FeedbackSessionAttributes feedbackSession) {
-        boolean isOpeningEmailEnabled = feedbackSession.isOpeningEmailEnabled();
-        boolean isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
+        boolean isOpenedEmailEnabled = feedbackSession.isOpenedEmailEnabled();
+        boolean isClosingSoonEmailEnabled = feedbackSession.isClosingSoonEmailEnabled();
         boolean isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
 
         // Default settings, assert setting section not expanded
-        if (isOpeningEmailEnabled && isClosingEmailEnabled && isPublishedEmailEnabled) {
+        if (isOpenedEmailEnabled && isClosingSoonEmailEnabled && isPublishedEmailEnabled) {
             assertTrue(isElementPresent("btn-change-email"));
             return;
         }
-        if (isOpeningEmailEnabled) {
-            assertTrue(openingSessionEmailCheckbox.isSelected());
+        if (isOpenedEmailEnabled) {
+            assertTrue(openedSessionEmailCheckbox.isSelected());
         }
-        if (isClosingEmailEnabled) {
-            assertTrue(closingSessionEmailCheckbox.isSelected());
+        if (isClosingSoonEmailEnabled) {
+            assertTrue(closingSoonSessionEmailCheckbox.isSelected());
         }
         if (isPublishedEmailEnabled) {
             assertTrue(publishedSessionEmailCheckbox.isSelected());
@@ -1009,11 +1009,11 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void setEmailSettings(FeedbackSessionAttributes newFeedbackSessionDetails) {
         showEmailSettings();
-        if (newFeedbackSessionDetails.isOpeningEmailEnabled() != openingSessionEmailCheckbox.isSelected()) {
-            click(openingSessionEmailCheckbox);
+        if (newFeedbackSessionDetails.isOpenedEmailEnabled() != openedSessionEmailCheckbox.isSelected()) {
+            click(openedSessionEmailCheckbox);
         }
-        if (newFeedbackSessionDetails.isClosingEmailEnabled() != closingSessionEmailCheckbox.isSelected()) {
-            click(closingSessionEmailCheckbox);
+        if (newFeedbackSessionDetails.isClosingSoonEmailEnabled() != closingSoonSessionEmailCheckbox.isSelected()) {
+            click(closingSoonSessionEmailCheckbox);
         }
         if (newFeedbackSessionDetails.isPublishedEmailEnabled() != publishedSessionEmailCheckbox.isSelected()) {
             click(publishedSessionEmailCheckbox);

@@ -69,6 +69,7 @@ public class NotificationBasicRequest extends BasicRequest {
         assertTrue(style != null, "Notification style cannot be null");
         assertTrue(targetUser != null, "Notification target user cannot be null");
         assertTrue(title != null, "Notification title cannot be null");
+        assertTrue(!title.trim().isEmpty(), "Notification title cannot be empty");
         assertTrue(message != null, "Notification message cannot be null");
     }
 }

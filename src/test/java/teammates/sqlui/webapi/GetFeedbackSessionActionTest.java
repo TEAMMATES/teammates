@@ -109,7 +109,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
         assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
 
-        assertNull(response.getIsClosingEmailEnabled());
+        assertNull(response.getIsClosingSoonEmailEnabled());
         assertNull(response.getIsPublishedEmailEnabled());
 
         assertEquals(0, response.getCreatedAtTimestamp());
