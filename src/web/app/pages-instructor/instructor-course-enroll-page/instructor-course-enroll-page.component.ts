@@ -656,4 +656,29 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       scrollOffset: 70,
     });
   }
+
+  /**
+   * Implement the copy method
+   */
+  copyToClipboard(): void {
+    const existingStudentsHOTInstance: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+    const newStudentsHOTInstance: Handsontable = this.hotRegisterer.getInstance(this.newStudentsHOT);
+
+    const existingStudentsData = existingStudentsHOTInstance.getData();
+
+    newStudentsHOTInstance.loadData(existingStudentsData);
+
+    if(!this.isExistingStudentsPresent) {
+      this.statusMessageService.showErrorToast('No valid existing students to copy.');
+      return;
+    }
+
+    if(this.isExistingStudentsPanelCollapsed) {
+      this.statusMessageService.showWarningToast('Please expand existing students.');
+      return;
+    } else {
+      this.statusMessageService.showSuccessToast('Existing students copied successfully.');
+    }
+
+  }
 }
