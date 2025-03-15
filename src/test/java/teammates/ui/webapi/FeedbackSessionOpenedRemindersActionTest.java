@@ -14,14 +14,14 @@ import teammates.common.util.TimeHelperExtension;
 import teammates.ui.request.SendEmailRequest;
 
 /**
- * SUT: {@link FeedbackSessionOpeningRemindersAction}.
+ * SUT: {@link FeedbackSessionOpenedRemindersAction}.
  */
-public class FeedbackSessionOpeningRemindersActionTest
-        extends BaseActionTest<FeedbackSessionOpeningRemindersAction> {
+public class FeedbackSessionOpenedRemindersActionTest
+        extends BaseActionTest<FeedbackSessionOpenedRemindersAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS;
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENED_REMINDERS;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class FeedbackSessionOpeningRemindersActionTest
 
         ______TS("default state of typical data bundle: no sessions opened");
 
-        FeedbackSessionOpeningRemindersAction action = getAction();
+        FeedbackSessionOpenedRemindersAction action = getAction();
         action.execute();
 
         verifyNoTasksAdded();
@@ -69,7 +69,7 @@ public class FeedbackSessionOpeningRemindersActionTest
         FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(2));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(3));
-        session2.setOpeningEmailEnabled(false);
+        session2.setOpenedEmailEnabled(false);
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
@@ -96,12 +96,12 @@ public class FeedbackSessionOpeningRemindersActionTest
             EmailWrapper email = requestBody.getEmail();
             try {
                 String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
-                        + String.format(EmailType.FEEDBACK_OPENING.getSubject(),
+                        + String.format(EmailType.FEEDBACK_OPENED.getSubject(),
                         courseName, session1.getFeedbackSessionName());
                 assertEquals(expectedSubject, email.getSubject());
             } catch (AssertionError ae) {
                 String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
-                        + String.format(EmailType.FEEDBACK_OPENING.getSubject(),
+                        + String.format(EmailType.FEEDBACK_OPENED.getSubject(),
                         courseName, session2.getFeedbackSessionName());
                 assertEquals(expectedSubject, email.getSubject());
             }
@@ -109,17 +109,17 @@ public class FeedbackSessionOpeningRemindersActionTest
 
         ______TS("2 sessions opened with emails sent");
 
-        session1.setSentOpenEmail(true);
+        session1.setSentOpenedEmail(true);
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
-                        .withSentOpenEmail(session1.isSentOpenEmail())
+                        .withSentOpenedEmail(session1.isSentOpenedEmail())
                         .build());
-        session2.setSentOpenEmail(true);
+        session2.setSentOpenedEmail(true);
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
-                        .withSentOpenEmail(session2.isSentOpenEmail())
+                        .withSentOpenedEmail(session2.isSentOpenedEmail())
                         .build());
 
         action = getAction();

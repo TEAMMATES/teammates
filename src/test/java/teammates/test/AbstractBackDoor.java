@@ -607,7 +607,7 @@ public abstract class AbstractBackDoor {
                 .withEndTime(Instant.ofEpochMilli(sessionData.getSubmissionEndTimestamp()))
                 .withTimeZone(sessionData.getTimeZone())
                 .withGracePeriod(Duration.ofMinutes(sessionData.getGracePeriod()))
-                .withIsClosingEmailEnabled(sessionData.getIsClosingEmailEnabled())
+                .withIsClosingSoonEmailEnabled(sessionData.getIsClosingSoonEmailEnabled())
                 .withIsPublishedEmailEnabled(sessionData.getIsPublishedEmailEnabled())
                 .withStudentDeadlines(studentDeadlines)
                 .withInstructorDeadlines(instructorDeadlines)
@@ -951,7 +951,7 @@ public abstract class AbstractBackDoor {
                 deadlineExtensionData.getCourseId(), deadlineExtensionData.getFeedbackSessionName(),
                 deadlineExtensionData.getUserEmail(), deadlineExtensionData.getIsInstructor())
                 .withEndTime(Instant.ofEpochMilli(deadlineExtensionData.getEndTime()))
-                .withSentClosingEmail(deadlineExtensionData.getSentClosingEmail())
+                .withSentClosingSoonEmail(deadlineExtensionData.getSentClosingSoonEmail())
                 .build();
     }
 

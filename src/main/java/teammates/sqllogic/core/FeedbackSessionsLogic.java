@@ -392,10 +392,10 @@ public final class FeedbackSessionsLogic {
      * @param session recently updated session.
      */
     public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
-        // reset isOpenEmailSent if the session has opened but is being un-opened
+        // reset isOpenedEmailSent if the session has opened but is being un-opened
         // now, or else leave it as sent if so.
-        if (session.isOpenEmailSent()) {
-            session.setOpenEmailSent(session.isOpened());
+        if (session.isOpenedEmailSent()) {
+            session.setOpenedEmailSent(session.isOpened());
 
             // also reset isOpeningSoonEmailSent
             session.setOpeningSoonEmailSent(
@@ -508,9 +508,9 @@ public final class FeedbackSessionsLogic {
      * Gets a list of undeleted feedback sessions which start within the last 2 hours
      * and need an open email to be sent.
      */
-    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenedEmailsToBeSent() {
         List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
-        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenedEmail();
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSession session : sessions) {
