@@ -49,7 +49,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         Mockito.reset(mockLogic);
 
         Student student1 = getTypicalStudent();
-        student1.setTeam(getTypicalTeam());
 
         Student student2 = getTypicalStudent();
         Account student2Account = getTypicalAccount();
