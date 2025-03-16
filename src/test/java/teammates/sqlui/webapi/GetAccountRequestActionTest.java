@@ -13,7 +13,7 @@ import teammates.ui.output.AccountRequestData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetAccountRequestAction;
 
-/*
+/**
  * SUT: {@link GetAccountRequestAction}.
  */
 public class GetAccountRequestActionTest extends BaseActionTest<GetAccountRequestAction> {
