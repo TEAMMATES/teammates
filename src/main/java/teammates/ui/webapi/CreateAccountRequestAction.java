@@ -25,7 +25,7 @@ public class CreateAccountRequestAction extends Action {
 
     @Override
     public boolean isTransactionNeeded() {
-        return true;
+        return false;
     }
 
     @Override
