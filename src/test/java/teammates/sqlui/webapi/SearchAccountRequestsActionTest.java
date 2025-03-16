@@ -58,7 +58,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
         when(mockLogic.searchAccountRequestsInWholeSystem(searchKey)).thenReturn(accountRequests);
 
         String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey
+                Const.ParamsNames.SEARCH_KEY, searchKey,
         };
 
         SearchAccountRequestsAction action = getAction(params);
@@ -92,7 +92,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
         when(mockLogic.searchAccountRequestsInWholeSystem(searchKey)).thenReturn(List.of());
 
         String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey
+                Const.ParamsNames.SEARCH_KEY, searchKey,
         };
 
         SearchAccountRequestsAction action = getAction(params);
@@ -110,7 +110,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
                 new SearchServiceException("Search service error", 500));
 
         String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey
+                Const.ParamsNames.SEARCH_KEY, searchKey,
         };
 
         SearchAccountRequestsAction action = getAction(params);
