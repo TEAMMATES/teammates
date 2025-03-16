@@ -64,7 +64,7 @@ public class JsonResult extends ActionResult {
         JsonUtils.toCompactJson(output, pw);
     }
 
-    List<Cookie> getCookies() {
+    public List<Cookie> getCookies() {
         return cookies;
     }
 

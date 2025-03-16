@@ -15,7 +15,7 @@ import teammates.ui.output.AuthInfo;
  *
  * <p>This does not log in or log out the user.
  */
-class GetAuthInfoAction extends Action {
+public class GetAuthInfoAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
