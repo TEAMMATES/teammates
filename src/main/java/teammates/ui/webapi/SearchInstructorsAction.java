@@ -41,7 +41,7 @@ public class SearchInstructorsAction extends AdminOnlyAction {
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getRegKey(),
-                    sqlLogic.getCourse(instructor.getCourseId()).getInstitute(),
+                    sqlLogic.getCourseInstitute(instructor.getCourseId()),
                     instructor.getGoogleId());
 
             instructorDataList.add(instructorData);

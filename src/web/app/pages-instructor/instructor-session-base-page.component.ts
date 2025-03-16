@@ -83,7 +83,7 @@ export abstract class InstructorSessionBasePageComponent {
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
 
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
 
     templateSessionName: '',
@@ -249,7 +249,7 @@ export abstract class InstructorSessionBasePageComponent {
       responseVisibleSetting: copiedResponseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
-      isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
+      isClosingSoonEmailEnabled: fromFeedbackSession.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
     });
   }

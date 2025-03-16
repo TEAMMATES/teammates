@@ -106,7 +106,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals(createdFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(createdFeedbackSession.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(createdFeedbackSession.isClosingSoonEmailEnabled(), response.getIsClosingSoonEmailEnabled());
         assertEquals(createdFeedbackSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
         assertEquals(createdFeedbackSession.getCreatedAt().toEpochMilli(), response.getCreatedAtTimestamp());
@@ -124,7 +124,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
         assertEquals(responseVisibleHour.toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertFalse(response.getIsClosingEmailEnabled());
+        assertFalse(response.getIsClosingSoonEmailEnabled());
         assertFalse(response.getIsPublishedEmailEnabled());
 
         assertNotNull(response.getCreatedAtTimestamp());
@@ -148,7 +148,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
         createRequest.setCustomResponseVisibleTimestamp(feedbackSession.getResultsVisibleFromTime().toEpochMilli());
 
-        createRequest.setClosingEmailEnabled(feedbackSession.isClosingEmailEnabled());
+        createRequest.setClosingSoonEmailEnabled(feedbackSession.isClosingSoonEmailEnabled());
         createRequest.setPublishedEmailEnabled(feedbackSession.isPublishedEmailEnabled());
 
         return createRequest;

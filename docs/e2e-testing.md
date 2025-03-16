@@ -10,7 +10,7 @@
 - It aims to ensure all integrated components of the application work together as expected when it is being used by the end user.   
 - This is done by simulating user scenarios on the fully built product.  
   
-E2E tests in TEAMMATES can be found in the package `teammates.e2e`.
+E2E tests in TEAMMATES are located in the package `teammates.e2e` and configured in `src/e2e/resources/testng-e2e.xml`.
 
 ## Running E2E tests
 
@@ -69,11 +69,12 @@ Only modern Edge (Chromium-based) is supported.
 <br>
 
 ### Running the tests
+
 E2E tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
-`E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
+E2E tests | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
 Any individual E2E test | `./gradlew e2eTestTry1 --tests TestClassName` | `{project folder}/build/reports/e2e-test-try-1/index.html`
 
 - `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. 
@@ -86,14 +87,12 @@ If you are testing against a production server (staging server or live server), 
 
 1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
    * In particular, you will need a legitimate Gmail account to be used for testing.
-
-1. If you are testing email sending, you need to setup a `Gmail API` as follows:
+2. If you are testing email sending, you need to setup a `Gmail API` as follows:
    * [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#setting-up-gmail-api-credentials) and download it.
    * Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
    * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
    * Run `EmailAccountTest` to confirm that the setup works. For the first run, it is expected that you will need to grant access from the test Gmail account to the above API.
-
-1. Run the full test suite or any subset of it as how you would have done it in dev server. 
+3. Run the full test suite or any subset of it as how you would have done it in dev server. 
    * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
    
 ## Creating E2E tests
@@ -103,8 +102,8 @@ As E2E tests should be written from the end user perspective, each test case sho
 In TEAMMATES, E2E test cases are organized by page. For each page, we:
 
 1. Identify the important user workflows  
-1. Simulate the user actions involved in the workflow by interacting with the UI elements.  
-1. Assert the expected conditions are present after the interaction.  
+2. Simulate the user actions involved in the workflow by interacting with the UI elements.  
+3. Assert the expected conditions are present after the interaction.  
   
 [Selenium](https://www.selenium.dev/) is used to locate and interact with elements in the UI.
   
@@ -138,8 +137,8 @@ All Page Object classes inherit from `AppPage` which contains methods that are c
 ### Things to avoid when writing E2E tests
   
 1. **Testing based on implementation** - The focus should be on user actions instead of implementation details. Therefore, black box testing should be adopted and test cases should be designed around use cases.   
-1. **Excessive exception testing** - Testing edge cases with E2E tests should be avoided. This is because E2E tests are expensive to run and not that effective for isolating bugs. Hence we should focus on the happy path and exception paths that are more common. We should leave more exhaustive testing to lower-level unit or integration tests.   
-1. **Not following "Tell Don't Ask" Principle** - Instead of "asking" for data from the page objects and performing operations on them, "tell" the page object to do the operations. This is mostly seen in the verification methods where assertions are done in the page object instead of in the test case. This improves readability and maintainability as data and behavior are placed together.  
+2. **Excessive exception testing** - Testing edge cases with E2E tests should be avoided. This is because E2E tests are expensive to run and not that effective for isolating bugs. Hence we should focus on the happy path and exception paths that are more common. We should leave more exhaustive testing to lower-level unit or integration tests.   
+3. **Not following "Tell Don't Ask" Principle** - Instead of "asking" for data from the page objects and performing operations on them, "tell" the page object to do the operations. This is mostly seen in the verification methods where assertions are done in the page object instead of in the test case. This improves readability and maintainability as data and behavior are placed together.  
   
 ### FAQ  
   
