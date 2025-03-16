@@ -6,7 +6,9 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
+  isNameCollision="false"
   newFeedbackSessionName=""
+  originalSessionName=""
   sessionToCopyCourseId=""
 >
   <div
@@ -96,7 +98,9 @@ exports[`CopySessionModalComponent should snap with some session and courses can
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
+  isNameCollision="false"
   newFeedbackSessionName={[Function String]}
+  originalSessionName=""
   sessionToCopyCourseId={[Function String]}
 >
   <div
