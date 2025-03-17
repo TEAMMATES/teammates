@@ -695,12 +695,33 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 .thenReturn(stubFeedbackSession);
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
 
-        String[] params = {
+        String[] params1 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionThatCanBeModerated.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getEmail(),
         };
-        verifyCanAccess(params);
+        verifyCanAccess(params1);
+
+        logoutUser();
+        loginAsStudent(stubStudent.getGoogleId());
+        FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
+        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
+        questionAnswerableToStudent.setGiverType(FeedbackParticipantType.STUDENTS);
+        questionAnswerableToStudent.setShowRecipientNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
+        questionAnswerableToStudent.setShowResponsesTo(List.of(FeedbackParticipantType.INSTRUCTORS));
+        questionAnswerableToStudent.setShowGiverNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
+                .thenReturn(stubFeedbackSession);
+        when(mockLogic.getFeedbackQuestion(questionAnswerableToStudent.getId())).thenReturn(questionAnswerableToStudent);
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
+
+        String[] params2 = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionAnswerableToStudent.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubStudent.getEmail(),
+        };
+        verifyCanAccess(params2);
     }
 
     @Test
@@ -708,16 +729,31 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         loginAsInstructor(stubInstructor.getGoogleId());
         FeedbackQuestion questionThatCannotBeModerated = stubFeedbackQuestion;
         when(mockLogic.getFeedbackQuestion(questionThatCannotBeModerated.getId())).thenReturn(questionThatCannotBeModerated);
-        when(mockLogic.getInstructorForEmail(stubCourse.getId(), stubInstructor.getEmail())).thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 
-        String[] params = {
+        String[] params1 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionThatCannotBeModerated.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getEmail(),
         };
-        verifyCannotAccess(params);
+        verifyCannotAccess(params1);
+
+        logoutUser();
+        loginAsStudent(stubStudent.getGoogleId());
+        FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
+        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
+        questionAnswerableToStudent.setGiverType(FeedbackParticipantType.STUDENTS);
+        when(mockLogic.getFeedbackQuestion(questionAnswerableToStudent.getId())).thenReturn(questionAnswerableToStudent);
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
+                .thenReturn(stubFeedbackSession);
+
+        String[] params2 = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionAnswerableToStudent.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubStudent.getEmail(),
+        };
+        verifyCannotAccess(params2);
     }
 
     @Test
