@@ -74,7 +74,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals(createdSession.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(createdSession.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(createdSession.isClosingSoonEmailEnabled(), response.getIsClosingSoonEmailEnabled());
         assertEquals(createdSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
         assertEquals(createdSession.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
@@ -96,7 +96,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 7, createdSession.getTimeZone()).toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertFalse(response.getIsClosingEmailEnabled());
+        assertFalse(response.getIsClosingSoonEmailEnabled());
         assertFalse(response.getIsPublishedEmailEnabled());
 
         assertNotNull(response.getCreatedAtTimestamp());
@@ -156,7 +156,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals(copiedSession.getResultsVisibleFromTime().toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(copiedSession.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(copiedSession.isClosingSoonEmailEnabled(), response.getIsClosingSoonEmailEnabled());
         assertEquals(copiedSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
         assertEquals(copiedSession.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
@@ -173,8 +173,8 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
                 TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(2, toCopySession.getTimeZone()));
         assertEquals(copiedSession.getResultsVisibleFromTime(),
                 TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(7, toCopySession.getTimeZone()));
-        assertEquals(copiedSession.isOpeningEmailEnabled(), toCopySession.isOpeningEmailEnabled());
-        assertEquals(copiedSession.isClosingEmailEnabled(), toCopySession.isClosingEmailEnabled());
+        assertEquals(copiedSession.isOpenedEmailEnabled(), toCopySession.isOpenedEmailEnabled());
+        assertEquals(copiedSession.isClosingSoonEmailEnabled(), toCopySession.isClosingSoonEmailEnabled());
         assertEquals(copiedSession.isPublishedEmailEnabled(), toCopySession.isPublishedEmailEnabled());
 
         FeedbackQuestionAttributes feedbackQuestion = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse2");
@@ -230,7 +230,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 7, timeZone).toEpochMilli());
 
-        createRequest.setClosingEmailEnabled(false);
+        createRequest.setClosingSoonEmailEnabled(false);
         createRequest.setPublishedEmailEnabled(false);
 
         return createRequest;
@@ -258,7 +258,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 7, toCopySession.getTimeZone()).toEpochMilli());
 
-        createRequest.setClosingEmailEnabled(toCopySession.isClosingEmailEnabled());
+        createRequest.setClosingSoonEmailEnabled(toCopySession.isClosingSoonEmailEnabled());
         createRequest.setPublishedEmailEnabled(toCopySession.isPublishedEmailEnabled());
         return createRequest;
     }

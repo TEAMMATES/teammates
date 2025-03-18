@@ -87,34 +87,43 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
                 <div>
-                  <a
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
                     id="edit-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-pen"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div
                   class="ngb-tooltip-class"
                   placement="top"
                 >
-                  <a
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
                     id="delete-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-trash"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div>
-                  <a
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
                     id="view-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-eye"
                     />
-                  </a>
+                  </button>
                 </div>
                 <button
                   class="btn btn-success"
@@ -189,34 +198,43 @@ exports[`AccountRequestTableComponent should display account requests with no re
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
                 <div>
-                  <a
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
                     id="edit-account-request-1"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-pen"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div
                   class="ngb-tooltip-class"
                   placement="top"
                 >
-                  <a
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
                     id="delete-account-request-1"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-trash"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div>
-                  <a
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
                     id="view-account-request-1"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-eye"
                     />
-                  </a>
+                  </button>
                 </div>
                 <button
                   class="btn btn-success"
@@ -382,34 +400,43 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
                 <div>
-                  <a
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
                     id="edit-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-pen"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div
                   class="ngb-tooltip-class"
                   placement="top"
                 >
-                  <a
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
                     id="delete-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-trash"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div>
-                  <a
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
                     id="view-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-eye"
                     />
-                  </a>
+                  </button>
                 </div>
                 <button
                   class="btn btn-success"
@@ -503,34 +530,43 @@ exports[`AccountRequestTableComponent should display account requests with reset
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
                 <div>
-                  <a
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
                     id="edit-account-request-1"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-pen"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div
                   class="ngb-tooltip-class"
                   placement="top"
                 >
-                  <a
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
                     id="delete-account-request-1"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-trash"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div>
-                  <a
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
                     id="view-account-request-1"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-eye"
                     />
-                  </a>
+                  </button>
                 </div>
                 <button
                   class="btn btn-success"
@@ -681,34 +717,43 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                 class="d-flex flex-row align-items-center justify-content-center gap-2"
               >
                 <div>
-                  <a
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
                     id="edit-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-pen"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div
                   class="ngb-tooltip-class"
                   placement="top"
                 >
-                  <a
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
                     id="delete-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-trash"
                     />
-                  </a>
+                  </button>
                 </div>
                 <div>
-                  <a
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
                     id="view-account-request-0"
+                    type="button"
                   >
                     <i
                       class="fa-solid fa-eye"
                     />
-                  </a>
+                  </button>
                 </div>
                 <button
                   class="btn btn-success"

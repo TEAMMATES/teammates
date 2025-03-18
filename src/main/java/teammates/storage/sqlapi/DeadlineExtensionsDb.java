@@ -122,9 +122,9 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
 
     /**
      * Gets a list of deadline extensions with endTime coming up soon
-     * and possibly need a closing email to be sent.
+     * and possibly need a closing soon email to be sent.
      */
-    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingSoonEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);

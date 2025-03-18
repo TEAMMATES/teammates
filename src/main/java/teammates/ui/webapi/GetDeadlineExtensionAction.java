@@ -50,7 +50,7 @@ public class GetDeadlineExtensionAction extends Action {
                         + " not found.");
             }
 
-            // set sentClosingEmail as false by default since it is removed.
+            // set sentClosingSoonEmail as false by default since it is removed.
             return new JsonResult(new DeadlineExtensionData(courseId, feedbackSessionName,
                     userEmail, isInstructor, false, deadlineExtensionEndTime));
         } else {
