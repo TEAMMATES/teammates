@@ -215,8 +215,8 @@ public class DataStoreToSqlConverter {
                 fsAttr.getSessionVisibleFromTime(),
                 fsAttr.getResultsVisibleFromTime(),
                 gracePeriod,
-                fsAttr.isOpeningEmailEnabled(),
-                fsAttr.isClosingEmailEnabled(),
+                fsAttr.isOpenedEmailEnabled(),
+                fsAttr.isClosingSoonEmailEnabled(),
                 fsAttr.isPublishedEmailEnabled());
 
         sqlFs.setCreatedAt(fsAttr.getCreatedTime());
@@ -280,7 +280,7 @@ public class DataStoreToSqlConverter {
                 sqlFeedbackSession,
                 deadlineExtension.getEndTime());
 
-        sqlDE.setClosingSoonEmailSent(deadlineExtension.getSentClosingEmail());
+        sqlDE.setClosingSoonEmailSent(deadlineExtension.getSentClosingSoonEmail());
         sqlDE.setCreatedAt(deadlineExtension.getCreatedAt());
         sqlDE.setId(DEADLINE_EXTENSION_UUID_GENERATOR.generateUuid());
 
