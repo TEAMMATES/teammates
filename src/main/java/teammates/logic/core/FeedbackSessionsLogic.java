@@ -191,8 +191,8 @@ public final class FeedbackSessionsLogic {
      * Gets a list of undeleted feedback sessions which start within the last 2 hours
      * and need an open email to be sent.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
-        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenedEmailsToBeSent() {
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
@@ -283,10 +283,10 @@ public final class FeedbackSessionsLogic {
 
         // adjust email sending status
 
-        // reset sentOpenEmail if the session has opened but is being un-opened
+        // reset sentOpenedEmail if the session has opened but is being un-opened
         // now, or else leave it as sent if so.
-        if (oldSession.isSentOpenEmail()) {
-            newUpdateOptions.withSentOpenEmail(newSession.isOpened());
+        if (oldSession.isSentOpenedEmail()) {
+            newUpdateOptions.withSentOpenedEmail(newSession.isOpened());
 
             // also reset sentOpeningSoonEmail
             newUpdateOptions.withSentOpeningSoonEmail(
@@ -299,8 +299,8 @@ public final class FeedbackSessionsLogic {
         if (oldSession.isSentClosedEmail()) {
             newUpdateOptions.withSentClosedEmail(newSession.isClosed());
 
-            // also reset sentClosingEmail
-            newUpdateOptions.withSentClosingEmail(
+            // also reset sentClosingSoonEmail
+            newUpdateOptions.withSentClosingSoonEmail(
                     newSession.isClosed()
                             || newSession.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
@@ -443,7 +443,7 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
-        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSessionAttributes session : sessions) {
