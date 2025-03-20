@@ -124,6 +124,41 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
     }
 
     @Test
+    void testSpecificAccessControl_invalidParams_cannotAccess() {
+        String[] params1 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
+                Const.ParamsNames.COURSE_ID, null,
+        };
+        verifyCannotAccess(params1);
+
+        String[] params2 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
+                Const.ParamsNames.COURSE_ID, null,
+        };
+        verifyCannotAccess(params2);
+
+        String[] params3 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
+                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+        };
+        verifyCannotAccess(params3);
+
+        String[] params4 = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
+
+        };
+        verifyCannotAccess(params4);
+
+        String[] params5 = {
+                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+        };
+        verifyCannotAccess(params5);
+
+        String[] params6 = {};
+        verifyCannotAccess(params6);
+    }
+
+    @Test
     void testSpecificAccessControl_admin_canAccess() {
         verifyCannotAccess();
         loginAsAdmin();
