@@ -27,37 +27,26 @@ public class JsonResultTest extends BaseTestCase {
     @Test
     public void testExecute_sendStringMessageReceivesMessage_shouldSucceed() throws Exception {
         JsonResult result = new JsonResult(MESSAGE);
-        executeSuccessfulJsonResultTest(result);
+        verifyJsonResult(result, MESSAGE, 0, 0);
     }
 
     @Test
     public void testExecute_sendMessageOutputReceivesMessage_shouldSucceed() throws Exception {
         JsonResult result = new JsonResult(messageOutput);
-        executeSuccessfulJsonResultTest(result);
-    }
-
-    private void executeSuccessfulJsonResultTest(JsonResult result) throws Exception {
-        MessageOutput output = (MessageOutput) result.getOutput();
-        assertEquals(MESSAGE, output.getMessage());
-        assertEquals(0, result.getCookies().size());
-
-        MockHttpServletResponse resp = new MockHttpServletResponse();
-        result.send(resp);
-        assertEquals(0, resp.getCookies().size());
+        verifyJsonResult(result, MESSAGE, 0, 0);
     }
 
     @Test
     public void testExecute_sendMessageOutputCookieReceiveMessageAndCookies_shouldSucceed() throws Exception {
         cookies.add(testCookie);
         JsonResult result = new JsonResult(messageOutput, cookies);
+        verifyJsonResult(result, MESSAGE, 1, 1);
+    }
 
-        MessageOutput output = (MessageOutput) result.getOutput();
-        assertEquals(MESSAGE, output.getMessage());
-        assertEquals(1, result.getCookies().size());
-
-        MockHttpServletResponse resp = new MockHttpServletResponse();
-        result.send(resp);
-        assertEquals(1, resp.getCookies().size());
+    @Test
+    public void testExecute_emptyMessageAndCookie_shouldSucceed() throws Exception {
+        JsonResult result = new JsonResult(emptyMessageOutput, emptyCookies);
+        verifyJsonResult(result, EMPTY_MESSAGE, 0, 0);
     }
 
     @Test
@@ -79,15 +68,17 @@ public class JsonResultTest extends BaseTestCase {
         assertThrows(NullPointerException.class, () -> nullTestJsonResult.send(resp));
     }
 
-    @Test
-    public void testExecute_emptyMessageAndCookie_shouldSucceed() throws Exception {
-        JsonResult result = new JsonResult(emptyMessageOutput, emptyCookies);
+    private void verifyJsonResult(
+            JsonResult result,
+            String expectedMessage,
+            int expectedMessageCookieSize,
+            int expectedResponseCookieSize) throws Exception {
         MessageOutput output = (MessageOutput) result.getOutput();
-        assertEquals(EMPTY_MESSAGE, output.getMessage());
-        assertEquals(0, result.getCookies().size());
+        assertEquals(expectedMessage, output.getMessage());
+        assertEquals(expectedMessageCookieSize, result.getCookies().size());
 
         MockHttpServletResponse resp = new MockHttpServletResponse();
         result.send(resp);
-        assertEquals(0, resp.getCookies().size());
+        assertEquals(expectedResponseCookieSize, resp.getCookies().size());
     }
 }
