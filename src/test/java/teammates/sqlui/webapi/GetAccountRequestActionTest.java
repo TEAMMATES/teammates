@@ -53,10 +53,9 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
     @Test
     void testExecute_nonExistingAccountRequest_throwsEntityNotFoundException() {
-        accountRequest = null;
         UUID id = UUID.fromString("11110000-0000-0000-0000-000000000000");
 
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
+        when(mockLogic.getAccountRequest(id)).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
@@ -65,6 +64,13 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         EntityNotFoundException enfe = verifyEntityNotFound(params);
         assertEquals("Account request with id: 11110000-0000-0000-0000-000000000000 does not exist.",
                 enfe.getMessage());
+    }
+
+    @Test
+    void testExecute_noParams_throwsInvalidHttpParameterException() {
+        String[] params = {};
+
+        verifyHttpParameterFailure(params);
     }
 
     @Test
@@ -78,13 +84,10 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
     @Test
     void testSpecificAccessControl_admin_canAccess() {
-        UUID id = accountRequest.getId();
-
         loginAsAdmin();
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
 
         String[] params = {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString(),
         };
 
         verifyCanAccess(params);
@@ -92,12 +95,8 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
     @Test
     void testSpecificAccessControl_notAdmin_cannotAccess() {
-        UUID id = accountRequest.getId();
-
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
-
         String[] params = {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString(),
         };
 
         loginAsUnregistered("unregistered");
