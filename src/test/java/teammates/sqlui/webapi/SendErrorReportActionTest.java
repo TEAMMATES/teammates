@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.ErrorReportRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.SendErrorReportAction;
 
@@ -71,21 +72,30 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
     }
 
     @Test
+    void testExecute_nullRequestBody_throwsInvalidHttpRequestBodyException() {
+        InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(null, PARAMS);
+        assertEquals("The request body is null", e.getMessage());
+    }
+
+    @Test
     void testExecute_nullRequestId_throwsInvalidHttpRequestBodyException() {
         ErrorReportRequest reportWithNullRequestId = new ErrorReportRequest(null, SUBJECT, CONTENT);
-        verifyHttpRequestBodyFailure(reportWithNullRequestId, PARAMS);
+        InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(reportWithNullRequestId, PARAMS);
+        assertEquals("requestId cannot be null", e.getMessage());
     }
 
     @Test
     void testExecute_nullSubject_throwsInvalidHttpRequestBodyException() {
         ErrorReportRequest reportWithNullSubject = new ErrorReportRequest(REQUEST_ID, null, CONTENT);
-        verifyHttpRequestBodyFailure(reportWithNullSubject, PARAMS);
+        InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(reportWithNullSubject, PARAMS);
+        assertEquals("subject cannot be null", e.getMessage());
     }
 
     @Test
     void testExecute_nullContent_throwsInvalidHttpRequestBodyException() {
         ErrorReportRequest reportWithNullContent = new ErrorReportRequest(REQUEST_ID, SUBJECT, null);
-        verifyHttpRequestBodyFailure(reportWithNullContent, PARAMS);
+        InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(reportWithNullContent, PARAMS);
+        assertEquals("content cannot be null", e.getMessage());
     }
 
     @Test
