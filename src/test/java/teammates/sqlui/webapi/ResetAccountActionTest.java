@@ -242,7 +242,8 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     }
 
     @Test
-    void testExecute_resetAccountThrowsEntityDoesNotExistException_throwsEntityNotFoundException() throws EntityDoesNotExistException {
+    void testExecute_resetAccountThrowsEntityDoesNotExistException_throwsEntityNotFoundException()
+            throws EntityDoesNotExistException {
         loginAsAdmin();
 
         String[] params1 = {
