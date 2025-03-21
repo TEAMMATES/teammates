@@ -1,5 +1,7 @@
 package teammates.sqlui.webapi;
 
+import static teammates.ui.webapi.GetAuthInfoAction.createLoginUrl;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -109,9 +111,11 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     }
 
     @Test
-    void testExecute_addCsrfTokenCookies_noLoggedInUser() {
+    public void testExecute_addCsrfTokenCookies_shouldAddToResponseAccordingToExistingCsrfToken() {
         String expectedCsrfToken = StringHelper.encrypt("1234");
         String[] emptyParams = new String[] {};
+
+        ______TS("No logged in user");
 
         logoutUser();
 
@@ -119,47 +123,34 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
-    }
 
-    @Test
-    void testExecute_addCsrfTokenCookies_fakeCsrfToken() {
-        String expectedCsrfToken = StringHelper.encrypt("1234");
-        String[] emptyParams = new String[] {};
-
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        ______TS("User logged in with fake csrf token");
 
         Cookie cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, "someFakeCsrfToken");
 
-        GetAuthInfoAction a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
-        JsonResult r = getJsonResult(a);
+        a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
+        r = getJsonResult(a);
 
         assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
-    }
 
-    @Test
-    void testExecute_addCsrfTokenCookies_userLoggedInWithNonExistingCsrfToken() {
-        String expectedCsrfToken = StringHelper.encrypt("1234");
-        String[] emptyParams = new String[] {};
+        ______TS("User logged in with non existing csrf token");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        GetAuthInfoAction a = getAction(emptyParams);
-        JsonResult r = getJsonResult(a);
+        a = getAction(emptyParams);
+        r = getJsonResult(a);
 
         assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
-    }
 
-    @Test
-    void testExecute_addCsrfTokenCookies_userLoggedInWithMatchedCsrfToken() {
-        String[] emptyParams = new String[] {};
+        ______TS("User logged in with matched CSRF token cookies");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        Cookie cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME,
+        cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME,
                 StringHelper.encrypt("1234"));
 
-        GetAuthInfoAction a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
-        JsonResult r = getJsonResult(a);
+        a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
+        r = getJsonResult(a);
 
         assertEquals(0, r.getCookies().size());
     }
@@ -186,10 +177,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     void testAccessControl_nonAdminCannotMasquerade() {
         loginAsInstructor("idOfInstructor1OfCourse1");
         verifyCannotMasquerade("idOfAnotherInstructor");
-    }
-
-    String createLoginUrl(String frontendUrl, String nextUrl) {
-        return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
     }
 
 }
