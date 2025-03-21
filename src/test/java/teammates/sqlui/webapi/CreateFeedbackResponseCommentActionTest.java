@@ -581,6 +581,29 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
+    void testAccessControl_instructorWithOnlyEitherPrivilege_cannotAccessCrossSectionComment() {
+        Instructor instructorWithoutPrivilege = getTypicalInstructor();
+        instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
+        InstructorPrivileges privileges = new InstructorPrivileges();
+        privileges.updatePrivilege("Section B",
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        instructorWithoutPrivilege.setPrivileges(privileges);
+
+        String[] params = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
+                StringHelper.encrypt(typicalFeedbackResponse.getId().toString()),
+        };
+
+        when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+                .thenReturn(instructorWithoutPrivilege);
+
+        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
+
+        verifyCannotAccess(params);
+    }
+
+    @Test
     void testAccessControl_logOut_cannotAccess() {
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
 
