@@ -38,8 +38,8 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======" +
-                System.lineSeparator()
+        String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======"
+                + System.lineSeparator()
                 + "USER: Non-logged in user" + System.lineSeparator()
                 + "REQUEST ID: " + REQUEST_ID + System.lineSeparator()
                 + "SUBJECT: " + SUBJECT + System.lineSeparator()
