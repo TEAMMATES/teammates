@@ -128,7 +128,6 @@ public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailActio
         ______TS("Missing continueUrl parameter");
         String[] missingContinueUrlParams = new String[] {
                 Const.ParamsNames.USER_EMAIL, USER_EMAIL,
-                Const.ParamsNames.CONTINUE_URL, null,
                 Const.ParamsNames.USER_CAPTCHA_RESPONSE, USER_CAPTCHA_RESPONSE,
         };
         verifyHttpParameterFailure(missingContinueUrlParams);
