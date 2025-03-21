@@ -100,6 +100,13 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
     }
 
     @Test
+    void testExecute_noParams_throwsInvalidHttpParameterException() {
+        String[] params = {};
+
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test
     void testExecute_missingAccountRequestId_throwsInvalidHttpParameterException()
             throws EntityDoesNotExistException, InvalidParametersException {
         String[] params = {
@@ -113,13 +120,10 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
     @Test
     void testSpecificAccessControl_admin_canAccess() {
-        UUID id = accountRequest.getId();
-
         loginAsAdmin();
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
 
         String[] params = {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString(),
         };
 
         verifyCanAccess(params);
@@ -127,12 +131,8 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
     @Test
     void testSpecificAccessControl_notAdmin_cannotAccess() {
-        UUID id = accountRequest.getId();
-
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
-
         String[] params = {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString(),
         };
 
         loginAsUnregistered("unregistered");
