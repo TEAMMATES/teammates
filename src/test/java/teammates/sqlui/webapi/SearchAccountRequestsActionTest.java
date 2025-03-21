@@ -123,6 +123,13 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
     }
 
     @Test
+    void testExecute_noParams_throwsInvalidHttpParameterException() {
+        String[] params = {};
+
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test
     void testExecute_nullSearchKey_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, null,
