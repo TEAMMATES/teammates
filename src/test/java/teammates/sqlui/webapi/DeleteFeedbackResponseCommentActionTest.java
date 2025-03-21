@@ -541,7 +541,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
-                .thenReturn(Instant.now().minus(Duration.ofMinutes(10)));
+                .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
