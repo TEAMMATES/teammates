@@ -667,7 +667,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
-    void testAccessControl_instructorSubmissionPastEndTimeBeforeDeadLine_canAccess() {
+    void testAccessControl_instructorSubmissionPastEndTimeBeforeDeadLineWithinGracePeriod_canAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
@@ -725,7 +725,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
-    void testAccessControl_studentSubmissionPastEndTimeBeforeDeadline_canAccess() {
+    void testAccessControl_studentSubmissionPastEndTimeBeforeDeadlineWithinGracePeriod_canAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
@@ -741,7 +741,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
 
-        // mock the extended deadline to be 10 minutes ago with a 15 minute grace period
+        // mock the extended deadline to be 10 minutes in the future
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
 
