@@ -29,7 +29,7 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
     }
 
     @Test
-    void testExecute_typicalCase_success() {
+    void testExecute_notLoggedInTypicalCase_success() {
         logoutUser();
 
         ErrorReportRequest report = new ErrorReportRequest(REQUEST_ID, SUBJECT,
@@ -38,9 +38,29 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======"
-                + System.lineSeparator()
+        String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
                 + "USER: Non-logged in user" + System.lineSeparator()
+                + "REQUEST ID: " + REQUEST_ID + System.lineSeparator()
+                + "SUBJECT: " + SUBJECT + System.lineSeparator()
+                + "CONTENT: " + CONTENT;
+
+        assertEquals(expectedLogMessage,
+                action.getUserErrorReportLogMessage(report));
+        assertEquals("Error report successfully sent", output.getMessage());
+    }
+
+    @Test
+    void testExecute_loggedInTypicalCase_success() {
+        loginAsUnregistered(GOOGLE_ID);
+
+        ErrorReportRequest report = new ErrorReportRequest(REQUEST_ID, SUBJECT,
+                CONTENT);
+        SendErrorReportAction action = getAction(report, PARAMS);
+        JsonResult result = getJsonResult(action);
+        MessageOutput output = (MessageOutput) result.getOutput();
+
+        String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
+                + "USER: " + GOOGLE_ID + System.lineSeparator()
                 + "REQUEST ID: " + REQUEST_ID + System.lineSeparator()
                 + "SUBJECT: " + SUBJECT + System.lineSeparator()
                 + "CONTENT: " + CONTENT;
