@@ -25,32 +25,32 @@ public class JsonResultTest extends BaseTestCase {
     private final Cookie testCookie = new Cookie("cookieName", "cookieValue");
 
     @Test
-    public void testExecute_sendStringMessageReceivesMessage_shouldSucceed() throws Exception {
+    public void testConstructor_sendStringMessageReceivesMessage_shouldSucceed() throws Exception {
         JsonResult result = new JsonResult(MESSAGE);
         verifyJsonResult(result, MESSAGE, 0, 0);
     }
 
     @Test
-    public void testExecute_sendMessageOutputReceivesMessage_shouldSucceed() throws Exception {
+    public void testConstructor_sendMessageOutputReceivesMessage_shouldSucceed() throws Exception {
         JsonResult result = new JsonResult(messageOutput);
         verifyJsonResult(result, MESSAGE, 0, 0);
     }
 
     @Test
-    public void testExecute_sendMessageOutputCookieReceiveMessageAndCookies_shouldSucceed() throws Exception {
+    public void testConstructor_sendMessageOutputCookieReceiveMessageAndCookies_shouldSucceed() throws Exception {
         cookies.add(testCookie);
         JsonResult result = new JsonResult(messageOutput, cookies);
         verifyJsonResult(result, MESSAGE, 1, 1);
     }
 
     @Test
-    public void testExecute_emptyMessageAndCookie_shouldSucceed() throws Exception {
+    public void testConstructor_emptyMessageAndCookie_shouldSucceed() throws Exception {
         JsonResult result = new JsonResult(emptyMessageOutput, emptyCookies);
         verifyJsonResult(result, EMPTY_MESSAGE, 0, 0);
     }
 
     @Test
-    public void testExecute_sendNullMessage_shouldGetNullAndFailResponse() {
+    public void testConstructor_sendNullMessage_shouldGetNullAndFailResponse() {
         JsonResult result = new JsonResult((String) null);
         MessageOutput output = (MessageOutput) result.getOutput();
         assertEquals(null, output.getMessage());
