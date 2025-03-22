@@ -9,7 +9,7 @@ import teammates.ui.output.AccountRequestData;
 /**
  * Gets account request information.
  */
-class GetAccountRequestAction extends AdminOnlyAction {
+public class GetAccountRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
