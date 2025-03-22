@@ -242,11 +242,11 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     }
 
     @Test
-    void testExecute_resetAccountThrowsEntityDoesNotExistException_throwsEntityNotFoundException()
+    void testExecute_studentResetAccountThrowsEntityDoesNotExistException_throwsEntityNotFoundException()
             throws EntityDoesNotExistException {
         loginAsAdmin();
 
-        String[] params1 = {
+        String[] params = {
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
                 Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
         };
@@ -254,10 +254,17 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 .thenReturn(stubStudent);
         doThrow(EntityDoesNotExistException.class).when(mockLogic).resetStudentGoogleId(stubStudent.getEmail(),
                 stubStudent.getCourseId(), stubStudent.getGoogleId());
-        verifyEntityNotFound(params1);
+        verifyEntityNotFound(params);
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
 
-        String[] params2 = {
+    }
+
+    @Test
+    void testExecute_instructorResetAccountThrowsEntityDoesNotExistException_throwsEntityNotFoundException()
+            throws EntityDoesNotExistException {
+        loginAsAdmin();
+
+        String[] params = {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
                 Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
         };
@@ -265,7 +272,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 .thenReturn(stubInstructor);
         doThrow(EntityDoesNotExistException.class).when(mockLogic).resetInstructorGoogleId(stubInstructor.getEmail(),
                 stubInstructor.getCourseId(), stubInstructor.getGoogleId());
-        verifyEntityNotFound(params2);
+        verifyEntityNotFound(params);
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
     }
 
