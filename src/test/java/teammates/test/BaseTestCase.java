@@ -22,6 +22,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -34,6 +35,7 @@ import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -237,6 +239,28 @@ public class BaseTestCase {
 
     protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
         return UsageStatistics.valueOf(getTypicalUsageStatisticsAttributes(startTime));
+    }
+
+    protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
+        return new DeadlineExtension(
+                getTypicalStudent(),
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()),
+                Instant.now());
+    }
+
+    protected DeadlineExtension getTypicalDeadlineExtensionInstructor() {
+        return new DeadlineExtension(
+                getTypicalInstructor(),
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()),
+                Instant.now());
+    }
+
+    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesStudent() {
+        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionStudent());
+    }
+
+    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesInstructor() {
+        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionInstructor());
     }
 
     /**

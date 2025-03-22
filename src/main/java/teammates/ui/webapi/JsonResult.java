@@ -26,18 +26,18 @@ public class JsonResult extends ActionResult {
     private final ApiOutput output;
     private List<Cookie> cookies;
 
-    JsonResult(ApiOutput output) {
+    public JsonResult(ApiOutput output) {
         super(HttpStatus.SC_OK);
         this.output = output;
         this.cookies = new ArrayList<>();
     }
 
-    JsonResult(ApiOutput output, List<Cookie> cookies) {
+    public JsonResult(ApiOutput output, List<Cookie> cookies) {
         this(output);
         this.cookies = cookies;
     }
 
-    JsonResult(String message) {
+    public JsonResult(String message) {
         this(message, HttpStatus.SC_OK);
     }
 
@@ -64,7 +64,7 @@ public class JsonResult extends ActionResult {
         JsonUtils.toCompactJson(output, pw);
     }
 
-    List<Cookie> getCookies() {
+    public List<Cookie> getCookies() {
         return cookies;
     }
 
