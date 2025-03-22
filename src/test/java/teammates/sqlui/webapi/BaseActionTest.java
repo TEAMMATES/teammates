@@ -62,6 +62,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     MockUserProvision mockUserProvision = new MockUserProvision();
     teammates.logic.api.RecaptchaVerifier mockRecaptchaVerifier = mock(teammates.logic.api.RecaptchaVerifier.class);
     SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
+    teammates.logic.api.EmailGenerator mockEmailGenerator = mock(teammates.logic.api.EmailGenerator.class);
 
     abstract String getActionUri();
 
@@ -110,6 +111,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setSqlEmailGenerator(mockSqlEmailGenerator);
+            action.setEmailGenerator(mockEmailGenerator);
             action.init(req);
             return action;
         } catch (ActionMappingException e) {
