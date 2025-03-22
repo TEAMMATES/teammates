@@ -226,7 +226,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
     }
 
     @Test
-    void testSpecificAccessControl_instructorAccessNotHisCourse_cannotAccess() {
+    void testSpecificAccessControl_instructorAccessNotOwnCourse_cannotAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
         String[] params = {
