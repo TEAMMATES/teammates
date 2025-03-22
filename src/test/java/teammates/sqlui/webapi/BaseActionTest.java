@@ -20,6 +20,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
+import teammates.logic.api.AuthProxy;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockTaskQueuer;
@@ -63,6 +64,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     teammates.logic.api.RecaptchaVerifier mockRecaptchaVerifier = mock(teammates.logic.api.RecaptchaVerifier.class);
     SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
     teammates.logic.api.EmailGenerator mockEmailGenerator = mock(teammates.logic.api.EmailGenerator.class);
+    AuthProxy mockAuthProxy = mock(AuthProxy.class);
 
     abstract String getActionUri();
 
@@ -112,6 +114,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setSqlEmailGenerator(mockSqlEmailGenerator);
             action.setEmailGenerator(mockEmailGenerator);
+            action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;
         } catch (ActionMappingException e) {
