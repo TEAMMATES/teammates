@@ -64,6 +64,12 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         verifyHttpParameterFailure(params1);
         verifyHttpParameterFailure(params2);
         verifyHttpParameterFailure(params3);
+
+        logoutUser();
+        loginAsInstructor(stubInstructorWithAccount.getGoogleId());
+        verifyHttpParameterFailure(params1);
+        verifyHttpParameterFailure(params2);
+        verifyHttpParameterFailure(params3);
     }
 
     @Test
