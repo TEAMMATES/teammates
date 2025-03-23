@@ -74,9 +74,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
         when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(students);
-        for (Student student : students) {
-            when(mockLogic.getCourseInstitute(student.getCourseId())).thenReturn(student.getCourse().getInstitute());
-        }
 
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
