@@ -67,6 +67,37 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         return List.of(instructor1, instructor2);
     }
 
+    private void verifyStudentsData(List<Student> expectedStudents, StudentsData actualStudentsData, boolean isAdmin) {
+        assertEquals(expectedStudents.size(), actualStudentsData.getStudents().size());
+
+        for (int i = 0; i < expectedStudents.size(); i++) {
+            Student student = expectedStudents.get(i);
+            StudentData studentData = actualStudentsData.getStudents().get(i);
+
+            assertEquals(student.getId(), studentData.getStudentId());
+            assertEquals(student.getEmail(), studentData.getEmail());
+            assertEquals(student.getCourseId(), studentData.getCourseId());
+            assertEquals(student.getName(), studentData.getName());
+            assertEquals(student.getComments(), studentData.getComments());
+            assertEquals(
+                    student.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
+                    studentData.getJoinState()
+            );
+            assertEquals(student.getTeamName(), studentData.getTeamName());
+            assertEquals(student.getSectionName(), studentData.getSectionName());
+
+            if (isAdmin) {
+                assertEquals(student.getGoogleId(), studentData.getGoogleId());
+                assertEquals(student.getRegKey(), studentData.getKey());
+                assertEquals(student.getCourse().getInstitute(), studentData.getInstitute());
+            } else {
+                assertNull(studentData.getGoogleId());
+                assertNull(studentData.getKey());
+                assertNull(studentData.getInstitute());
+            }
+        }
+    }
+
     @Test
     void testExecute_instructorSearchStudentsWithValidEntity_success() throws SearchServiceException {
         loginAsInstructor(instructorId);
@@ -89,27 +120,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, never()).getCourseInstitute(any());
         verifyNoMoreInteractions(mockLogic);
 
-        assertEquals(students.size(), studentsData.getStudents().size());
-
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-            StudentData studentData = studentsData.getStudents().get(i);
-
-            assertEquals(student.getId(), studentData.getStudentId());
-            assertEquals(student.getEmail(), studentData.getEmail());
-            assertEquals(student.getCourseId(), studentData.getCourseId());
-            assertEquals(student.getName(), studentData.getName());
-            assertNull(studentData.getGoogleId());
-            assertEquals(student.getComments(), studentData.getComments());
-            assertNull(studentData.getKey());
-            assertNull(studentData.getInstitute());
-            assertEquals(
-                    student.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
-                    studentData.getJoinState()
-            );
-            assertEquals(student.getTeamName(), studentData.getTeamName());
-            assertEquals(student.getSectionName(), studentData.getSectionName());
-        }
+        verifyStudentsData(students, studentsData, false);
     }
 
     @Test
@@ -162,27 +173,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         ));
         verifyNoMoreInteractions(mockLogic);
 
-        assertEquals(students.size(), studentsData.getStudents().size());
-
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-            StudentData studentData = studentsData.getStudents().get(i);
-
-            assertEquals(student.getId(), studentData.getStudentId());
-            assertEquals(student.getEmail(), studentData.getEmail());
-            assertEquals(student.getCourseId(), studentData.getCourseId());
-            assertEquals(student.getName(), studentData.getName());
-            assertEquals(student.getGoogleId(), studentData.getGoogleId());
-            assertEquals(student.getComments(), studentData.getComments());
-            assertEquals(student.getRegKey(), studentData.getKey());
-            assertEquals(student.getCourse().getInstitute(), studentData.getInstitute());
-            assertEquals(
-                    student.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
-                    studentData.getJoinState()
-            );
-            assertEquals(student.getTeamName(), studentData.getTeamName());
-            assertEquals(student.getSectionName(), studentData.getSectionName());
-        }
+        verifyStudentsData(students, studentsData, true);
     }
 
     @Test
