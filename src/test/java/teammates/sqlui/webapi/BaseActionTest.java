@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -27,6 +28,9 @@ import teammates.logic.api.MockTaskQueuer;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.api.MockUserProvision;
 import teammates.sqllogic.api.SqlEmailGenerator;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.ui.request.BasicRequest;
@@ -383,79 +387,149 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
-    protected void adminCanAccess(String... params) {
+    /**
+     * Access Control Test Methods.
+     * Private methods are for internal user.
+     * Protected methods are open for calling by test classes and name starts with verify.
+     */
+    private void adminCanAccess(String... params) {
         loginAsAdmin();
         verifyCanAccess(params);
         logoutUser();
     }
 
-    protected void adminCannotAccess(String... params) {
+    private void adminCannotAccess(String... params) {
         loginAsAdmin();
         verifyCannotAccess(params);
         logoutUser();
     }
 
-    protected void instructorCanAccess(String... params) {
+    private void instructorCanAccess(String... params) {
         loginAsInstructor("instructor-googleId");
         verifyCanAccess(params);
         logoutUser();
     }
 
-    protected void instructorCannotAccess(String... params) {
+    private void instructorCannotAccess(String... params) {
         loginAsInstructor("instructor-googleId");
         verifyCannotAccess(params);
         logoutUser();
     }
 
-    protected void studentCanAccess(String... params) {
+    private void studentCanAccess(String... params) {
         loginAsStudent("student-googleId");
         verifyCanAccess(params);
         logoutUser();
     }
 
-    protected void studentCannotAccess(String... params) {
+    private void studentCannotAccess(String... params) {
         loginAsStudent("student-googleId");
         verifyCannotAccess(params);
         logoutUser();
     }
 
-    protected void unregisteredCanAccess(String... params) {
+    private void unregisteredCanAccess(String... params) {
         loginAsUnregistered("unregistered-googleId");
         verifyCanAccess(params);
         logoutUser();
     }
 
-    protected void unregisteredCannotAccess(String... params) {
+    private void unregisteredCannotAccess(String... params) {
         loginAsUnregistered("unregistered-googleId");
         verifyCannotAccess(params);
         logoutUser();
     }
 
-    protected void guestCanAccess(String... params) {
+    private void guestCanAccess(String... params) {
         logoutUser();
         verifyCanAccess(params);
     }
 
-    protected void guestCannotAccess(String... params) {
+    private void guestCannotAccess(String... params) {
         logoutUser();
         verifyCannotAccess(params);
     }
 
-    protected void maintainerCanAccess(String... params) {
-        loginAsMaintainer();
+    private void studentsOfSameCourseSetup(Course thisCourse) {
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
+        sameCourseStudent.setGoogleId("same-course-student-googleId");
+
+        logoutUser();
+        loginAsStudent(sameCourseStudent.getGoogleId());
+    }
+
+    private void instructorsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(thisCourse);
+        sameCourseInstructor.setGoogleId("same-course-instructor-googleId");
+
+        Instructor otherCourseInstructor = getTypicalInstructor();
+        otherCourseInstructor.setCourse(getTypicalCourse());
+        otherCourseInstructor.setGoogleId("other-course-instructor-googleId");
+
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
+        sameCourseStudent.setGoogleId("same-course-student-googleId");
+
+        logoutUser();
+        loginAsInstructor(sameCourseInstructor.getGoogleId());
+
+        verifyCannotMasquerade(sameCourseStudent.getGoogleId(), params);
+        verifyCannotMasquerade(otherCourseInstructor.getGoogleId(), params);
         verifyCanAccess(params);
-        logoutUser();
     }
 
-    protected void maintainerCannotAccess(String... params) {
-        loginAsMaintainer();
+    private void instructorsOfOtherCourseSetup(Course thisCourse, String... params) {
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(thisCourse);
+        sameCourseInstructor.setGoogleId("same-course-instructor-googleId");
+
+        Instructor otherCourseInstructor = getTypicalInstructor();
+        otherCourseInstructor.setCourse(getTypicalCourse());
+        otherCourseInstructor.setGoogleId("other-course-instructor-googleId");
+
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
+        sameCourseStudent.setGoogleId("same-course-student-googleId");
+
+        logoutUser();
+        loginAsInstructor(otherCourseInstructor.getGoogleId());
+
+        verifyCannotMasquerade(sameCourseStudent.getGoogleId(), params);
+        verifyCannotMasquerade(otherCourseInstructor.getGoogleId(), params);
+    }
+
+    private void instructorsOfOtherCoursesCanAccess(Course thisCourse, String... params) {
+        instructorsOfOtherCourseSetup(thisCourse, params);
+        verifyCanAccess(params);
+    }
+
+    private void instructorsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
+        instructorsOfOtherCourseSetup(thisCourse, params);
         verifyCannotAccess(params);
-        logoutUser();
     }
 
-    // TODO, and not same course cannot access
-    protected void instructorsOfTheSameCourseCanAccess(String... params) {
+    private void verifyInaccessibleWithoutCorrectCoursePrivilege(Course thisCourse, String privilege, String... params) {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(thisCourse);
+        instructor.setGoogleId("helper-instructor-googleId");
+
         logoutUser();
+        loginAsInstructor(instructor.getGoogleId());
+        verifyCanAccess(params);
+
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(privilege, true);
+        instructor.setPrivileges(instructorPrivileges);
+
+        verifyCannotAccess(params);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, params);
+    }
+
+    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(Instructor instructor, String... params) {
+        loginAsAdmin();
+        verifyCanMasquerade(instructor.getGoogleId(), params);
     }
 
     protected void verifyAnyUserCanAccess(String... params) {
@@ -478,10 +552,87 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         adminCanAccess(params);
     }
 
+    protected void verifyNoOneCanAccess(String... params) {
+        guestCannotAccess(params);
+        unregisteredCannotAccess(params);
+        studentCannotAccess(params);
+        instructorCannotAccess(params);
+        adminCannotAccess(params);
+    }
+
+    protected void verifyMaintainerCanAccess(String... params) {
+        loginAsMaintainer();
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    protected void verifyMaintainerCannotAccess(String... params) {
+        loginAsMaintainer();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
     protected void verifyOnlyInstructorsCanAccess(String... params) {
+        Instructor testInstructor = getTypicalInstructor();
+
         guestCannotAccess(params);
         unregisteredCannotAccess(params);
         studentCannotAccess(params);
         instructorCanAccess(params);
+        instructorsOfTheSameCourseCanAccess(testInstructor.getCourse(), params);
+        instructorsOfOtherCoursesCanAccess(testInstructor.getCourse(), params);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(testInstructor, params);
+    }
+
+    protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
+        guestCannotAccess(params);
+        unregisteredCannotAccess(params);
+        studentCannotAccess(params);
+        instructorCannotAccess(params);
+        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        instructorsOfOtherCoursesCannotAccess(currentCourse, params);
+    }
+
+    protected void verifyOnlyStudentsCanAccess(String... params) {
+        Student otherStudent = getTypicalStudent();
+        otherStudent.setGoogleId("other-student-googleId");
+
+        guestCannotAccess(params);
+        unregisteredCannotAccess(params);
+        studentCanAccess(params);
+        verifyStudentsOfTheSameCourseCanAccess(otherStudent.getCourse(), params);
+        instructorCannotAccess(params);
+    }
+
+    protected void verifyStudentsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
+        studentsOfSameCourseSetup(thisCourse, params);
+        verifyCanAccess(params);
+    }
+
+    protected void verifyStudentsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
+        studentsOfSameCourseSetup(thisCourse, params);
+        verifyCannotAccess(params);
+    }
+
+    protected void verifyInaccessibleWithoutModifySessionPrivilege(Course thisCourse, String... params) {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(thisCourse);
+        instructor.setGoogleId("helper-instructor-googleId");
+        instructor.setPrivileges(
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
+
+        logoutUser();
+        loginAsInstructor(instructor.getGoogleId());
+        verifyCannotAccess(params);
+    }
+
+    protected void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+            Course thisCourse, String privilege, String... submissionParams)
+            throws Exception {
+        guestCannotAccess(submissionParams);
+        unregisteredCannotAccess(submissionParams);
+        studentCannotAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(thisCourse, submissionParams);
+        verifyInaccessibleWithoutCorrectCoursePrivilege(thisCourse, privilege, submissionParams);
     }
 }
