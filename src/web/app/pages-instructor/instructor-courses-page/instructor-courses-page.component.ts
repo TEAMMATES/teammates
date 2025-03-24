@@ -602,7 +602,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       responseVisibleSetting: copiedResponseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
-      isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
+      isClosingSoonEmailEnabled: fromFeedbackSession.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
     };
   }

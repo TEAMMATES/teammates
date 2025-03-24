@@ -173,7 +173,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         when(mockLogic.createNotification(any())).thenThrow(new InvalidParametersException("Invalid title"));
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Invalid title", ex.getMessage());
+        assertEquals("Notification title cannot be empty", ex.getMessage());
     }
 
     private NotificationCreateRequest getTypicalCreateRequest() {
