@@ -113,7 +113,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setSqlEmailGenerator(mockSqlEmailGenerator);
-            action.setEmailGenerator(mockEmailGenerator);
             action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;
