@@ -92,7 +92,7 @@ This type of request will be processed as follows:
 
 GAE server sends such automated requests through two different configurations:
 
-- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opening reminders. It is configured in `cron.yaml`.
+- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opened reminders. It is configured in `cron.yaml`.
 - Task queue workers: These are hybrids of user-invoked and GAE-invoked in that they are queued by users (i.e. users request for the tasks to be added to queue), but executed by GAE (i.e. GAE determines when and which tasks in the queue are executed at any point of time). This is typically used for tasks that may take a long time to finish and might be blocking user's interaction. It is configured in `queue.yaml` as well as the `TaskQueue` nested class of the [Const](https://github.com/TEAMMATES/teammates/blob/master/src/main/java/teammates/common/util/Const.java) class.
 
 ### Template Method pattern
