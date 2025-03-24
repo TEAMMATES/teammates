@@ -9,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * The data transfer object for {@link DeadlineExtension} entities.
@@ -19,7 +20,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
     private String feedbackSessionName;
     private String userEmail;
     private boolean isInstructor;
-    private boolean sentClosingEmail;
+    private boolean sentClosingSoonEmail;
     private Instant endTime;
     private transient Instant createdAt;
     private transient Instant updatedAt;
@@ -30,7 +31,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         this.feedbackSessionName = feedbackSessionName;
         this.userEmail = userEmail;
         this.isInstructor = isInstructor;
-        this.sentClosingEmail = false;
+        this.sentClosingSoonEmail = false;
         this.endTime = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
@@ -46,7 +47,26 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
                 deadlineExtension.getUserEmail(),
                 deadlineExtension.getIsInstructor());
 
-        deadlineExtensionAttributes.sentClosingEmail = deadlineExtension.getSentClosingEmail();
+        deadlineExtensionAttributes.sentClosingSoonEmail = deadlineExtension.getSentClosingSoonEmail();
+        deadlineExtensionAttributes.endTime = deadlineExtension.getEndTime();
+        deadlineExtensionAttributes.createdAt = deadlineExtension.getCreatedAt();
+        deadlineExtensionAttributes.updatedAt = deadlineExtension.getUpdatedAt();
+
+        return deadlineExtensionAttributes;
+    }
+
+    /**
+     * Gets the {@link DeadlineExtensionAttributes} instance
+     * of the given {@link teammates.storage.sqlentity.DeadlineExtension}.
+     */
+    public static DeadlineExtensionAttributes valueOf(teammates.storage.sqlentity.DeadlineExtension deadlineExtension) {
+        DeadlineExtensionAttributes deadlineExtensionAttributes = new DeadlineExtensionAttributes(
+                deadlineExtension.getId().toString(),
+                deadlineExtension.getFeedbackSession().getName(),
+                deadlineExtension.getUser().getEmail(),
+                deadlineExtension.getUser() instanceof Instructor);
+
+        deadlineExtensionAttributes.sentClosingSoonEmail = deadlineExtension.isClosingSoonEmailSent();
         deadlineExtensionAttributes.endTime = deadlineExtension.getEndTime();
         deadlineExtensionAttributes.createdAt = deadlineExtension.getCreatedAt();
         deadlineExtensionAttributes.updatedAt = deadlineExtension.getUpdatedAt();
@@ -77,8 +97,8 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         return isInstructor;
     }
 
-    public boolean getSentClosingEmail() {
-        return sentClosingEmail;
+    public boolean getSentClosingSoonEmail() {
+        return sentClosingSoonEmail;
     }
 
     public Instant getEndTime() {
@@ -117,7 +137,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         assert getEndTime() != null;
 
         DeadlineExtension deadlineExtension = new DeadlineExtension(getCourseId(), getFeedbackSessionName(),
-                getUserEmail(), getIsInstructor(), getSentClosingEmail(), getEndTime());
+                getUserEmail(), getIsInstructor(), getSentClosingSoonEmail(), getEndTime());
 
         if (!Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP.equals(this.getCreatedAt())) {
             deadlineExtension.setCreatedAt(this.getCreatedAt());
@@ -170,7 +190,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
      */
     public void update(UpdateOptions updateOptions) {
         updateOptions.endTimeOption.ifPresent(s -> endTime = s);
-        updateOptions.sentClosingEmailOption.ifPresent(s -> sentClosingEmail = s);
+        updateOptions.sentClosingSoonEmailOption.ifPresent(s -> sentClosingSoonEmail = s);
         updateOptions.newEmailOption.ifPresent(s -> userEmail = s);
     }
 
@@ -221,7 +241,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         private final boolean isInstructor;
 
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
-        private UpdateOption<Boolean> sentClosingEmailOption = UpdateOption.empty();
+        private UpdateOption<Boolean> sentClosingSoonEmailOption = UpdateOption.empty();
         private UpdateOption<String> newEmailOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
@@ -255,8 +275,8 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
             return endTimeOption.isPresent();
         }
 
-        public boolean isSentClosingEmailOptionPresent() {
-            return sentClosingEmailOption.isPresent();
+        public boolean isSentClosingSoonEmailOptionPresent() {
+            return sentClosingSoonEmailOption.isPresent();
         }
 
         @Override
@@ -323,8 +343,8 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
             return thisBuilder;
         }
 
-        public B withSentClosingEmail(boolean sentClosingEmail) {
-            updateOptions.sentClosingEmailOption = UpdateOption.of(sentClosingEmail);
+        public B withSentClosingSoonEmail(boolean sentClosingSoonEmail) {
+            updateOptions.sentClosingSoonEmailOption = UpdateOption.of(sentClosingSoonEmail);
             return thisBuilder;
         }
 

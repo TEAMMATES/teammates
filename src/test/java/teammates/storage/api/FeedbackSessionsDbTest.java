@@ -332,15 +332,15 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
     }
 
     @Test
-    public void testGetFeedbackSessionsPossiblyNeedingOpenEmail() throws Exception {
+    public void testGetFeedbackSessionsPossiblyNeedingOpenedEmail() throws Exception {
 
         ______TS("standard success case");
 
-        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenedEmail();
 
         assertEquals(1, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
-            assertFalse(fsa.isSentOpenEmail());
+            assertFalse(fsa.isSentOpenedEmail());
             assertFalse(fsa.isSessionDeleted());
         }
 
@@ -350,21 +350,21 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
         fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
-        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenedEmail();
         assertEquals(0, fsaList.size());
     }
 
     @Test
-    public void testGetFeedbackSessionsPossiblyNeedingClosingEmail() throws Exception {
+    public void testGetFeedbackSessionsPossiblyNeedingClosingSoonEmail() throws Exception {
 
         ______TS("standard success case");
 
-        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
 
         assertEquals(9, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
-            assertFalse(fsa.isSentClosingEmail());
-            assertTrue(fsa.isClosingEmailEnabled());
+            assertFalse(fsa.isSentClosingSoonEmail());
+            assertTrue(fsa.isClosingSoonEmailEnabled());
             assertFalse(fsa.isSessionDeleted());
         }
 
@@ -374,7 +374,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         FeedbackSessionAttributes feedbackSession = fsaList.get(0);
         fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
-        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
         assertEquals(8, fsaList.size());
     }
 
@@ -388,7 +388,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         assertEquals(9, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosedEmail());
-            assertTrue(fsa.isClosingEmailEnabled());
+            assertTrue(fsa.isClosingSoonEmailEnabled());
             assertFalse(fsa.isSessionDeleted());
         }
 
@@ -448,11 +448,11 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
                         .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
                         .withTimeZone(fs.getTimeZone())
                         .withGracePeriod(Duration.ofMinutes(fs.getGracePeriodMinutes()))
-                        .withSentOpenEmail(fs.isSentOpenEmail())
-                        .withSentClosingEmail(fs.isSentClosingEmail())
+                        .withSentOpenedEmail(fs.isSentOpenedEmail())
+                        .withSentClosingSoonEmail(fs.isSentClosingSoonEmail())
                         .withSentClosedEmail(fs.isSentClosedEmail())
                         .withSentPublishedEmail(fs.isSentPublishedEmail())
-                        .withIsClosingEmailEnabled(fs.isClosingEmailEnabled())
+                        .withIsClosingSoonEmailEnabled(fs.isClosingSoonEmailEnabled())
                         .withIsPublishedEmailEnabled(fs.isPublishedEmailEnabled())
                         .withStudentDeadlines(fs.getStudentDeadlines())
                         .withInstructorDeadlines(fs.getInstructorDeadlines())
@@ -507,13 +507,13 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         verifyPresentInDatabase(modifiedSession);
         modifiedSession.setInstructions("new instructions");
         modifiedSession.setGracePeriodMinutes(0);
-        modifiedSession.setSentOpenEmail(false);
+        modifiedSession.setSentOpenedEmail(false);
         FeedbackSessionAttributes updatedSession = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(modifiedSession.getFeedbackSessionName(), modifiedSession.getCourseId())
                         .withInstructions(modifiedSession.getInstructions())
                         .withGracePeriod(Duration.ofMinutes(modifiedSession.getGracePeriodMinutes()))
-                        .withSentOpenEmail(modifiedSession.isSentOpenEmail())
+                        .withSentOpenedEmail(modifiedSession.isSentOpenedEmail())
                         .build());
         FeedbackSessionAttributes actualFs =
                 fsDb.getFeedbackSession(modifiedSession.getCourseId(), modifiedSession.getFeedbackSessionName());
@@ -608,25 +608,25 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         assertTrue(updatedFs.isSentOpeningSoonEmail());
         assertTrue(actualFs.isSentOpeningSoonEmail());
 
-        assertFalse(actualFs.isSentOpenEmail());
+        assertFalse(actualFs.isSentOpenedEmail());
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withSentOpenEmail(true)
+                        .withSentOpenedEmail(true)
                         .build());
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertTrue(updatedFs.isSentOpenEmail());
-        assertTrue(actualFs.isSentOpenEmail());
+        assertTrue(updatedFs.isSentOpenedEmail());
+        assertTrue(actualFs.isSentOpenedEmail());
 
-        assertFalse(actualFs.isSentClosingEmail());
+        assertFalse(actualFs.isSentClosingSoonEmail());
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withSentClosingEmail(true)
+                        .withSentClosingSoonEmail(true)
                         .build());
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertTrue(updatedFs.isSentClosingEmail());
-        assertTrue(actualFs.isSentClosingEmail());
+        assertTrue(updatedFs.isSentClosingSoonEmail());
+        assertTrue(actualFs.isSentClosingSoonEmail());
 
         assertFalse(actualFs.isSentClosedEmail());
         updatedFs = fsDb.updateFeedbackSession(
@@ -648,15 +648,15 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         assertTrue(updatedFs.isSentPublishedEmail());
         assertTrue(actualFs.isSentPublishedEmail());
 
-        assertTrue(actualFs.isClosingEmailEnabled());
+        assertTrue(actualFs.isClosingSoonEmailEnabled());
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withIsClosingEmailEnabled(false)
+                        .withIsClosingSoonEmailEnabled(false)
                         .build());
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertFalse(updatedFs.isClosingEmailEnabled());
-        assertFalse(actualFs.isClosingEmailEnabled());
+        assertFalse(updatedFs.isClosingSoonEmailEnabled());
+        assertFalse(actualFs.isClosingSoonEmailEnabled());
 
         assertTrue(actualFs.isPublishedEmailEnabled());
         updatedFs = fsDb.updateFeedbackSession(

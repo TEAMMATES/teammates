@@ -301,7 +301,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
       customResponseVisibleTimestamp: responseVisibleTime,
 
-      isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
+      isClosingSoonEmailEnabled: this.sessionEditFormModel.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
     }).subscribe({
       next: (feedbackSession: FeedbackSession) => {
