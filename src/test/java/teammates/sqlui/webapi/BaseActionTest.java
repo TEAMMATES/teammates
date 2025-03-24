@@ -605,12 +605,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     protected void verifyStudentsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
-        studentsOfSameCourseSetup(thisCourse, params);
+        studentsOfSameCourseSetup(thisCourse);
         verifyCanAccess(params);
     }
 
     protected void verifyStudentsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
-        studentsOfSameCourseSetup(thisCourse, params);
+        studentsOfSameCourseSetup(thisCourse);
         verifyCannotAccess(params);
     }
 
