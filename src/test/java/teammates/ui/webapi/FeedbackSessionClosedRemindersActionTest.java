@@ -63,7 +63,7 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withStartTime(session1.getStartTime())
                         .withEndTime(session1.getEndTime())
                         .build());
-        session1.setSentOpenEmail(false); // fsLogic will set the flag to false
+        session1.setSentOpenedEmail(false); // fsLogic will set the flag to false
         session1.setSentOpeningSoonEmail(false); // fsLogic will set the flag to false
         verifyPresentInDatabase(session1);
 
@@ -73,16 +73,16 @@ public class FeedbackSessionClosedRemindersActionTest
         session2.setTimeZone("UTC");
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session2.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
-        session2.setClosingEmailEnabled(false);
+        session2.setClosingSoonEmailEnabled(false);
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
                         .withTimeZone(session2.getTimeZone())
                         .withStartTime(session2.getStartTime())
                         .withEndTime(session2.getEndTime())
-                        .withIsClosingEmailEnabled(session2.isClosingEmailEnabled())
+                        .withIsClosingSoonEmailEnabled(session2.isClosingSoonEmailEnabled())
                         .build());
-        session2.setSentOpenEmail(false); // fsLogic will set the flag to false
+        session2.setSentOpenedEmail(false); // fsLogic will set the flag to false
         session2.setSentOpeningSoonEmail(false); // fsLogic will set the flag to false
         verifyPresentInDatabase(session2);
 
@@ -99,7 +99,7 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withStartTime(session3.getStartTime())
                         .withEndTime(session3.getEndTime())
                         .build());
-        session3.setSentOpenEmail(false); // fsLogic will set the flag to false
+        session3.setSentOpenedEmail(false); // fsLogic will set the flag to false
         session3.setSentOpeningSoonEmail(false); // fsLogic will set the flag to false
         verifyPresentInDatabase(session3);
 

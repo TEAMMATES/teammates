@@ -12,7 +12,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Sends a login email.
  */
-class SendLoginEmailAction extends Action {
+public class SendLoginEmailAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
