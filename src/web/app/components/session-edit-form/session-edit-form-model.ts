@@ -57,7 +57,7 @@ export interface SessionEditFormModel {
   // ADD mode specific
   templateSessionName: string;
 
-  isClosingEmailEnabled: boolean;
+  isClosingSoonEmailEnabled: boolean;
   isPublishedEmailEnabled: boolean;
 
   isSaving: boolean;
