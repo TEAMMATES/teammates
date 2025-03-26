@@ -42,7 +42,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           <label
             class="form-check-label ngb-tooltip-class fw-bold"
             container="body"
-            ngbtooltip="Assign weights to the choices for calculating statistics."
+            ngbtooltip="Assign weights to the choices for calculating statistics. An empty weight (i.e. Not enough information to evaluate) can be assigned by leaving the input box empty."
           >
             <input
               class="form-check-input ng-untouched ng-pristine ng-valid"
@@ -204,7 +204,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           <label
             class="form-check-label ngb-tooltip-class fw-bold"
             container="body"
-            ngbtooltip="Assign weights to the choices for calculating statistics."
+            ngbtooltip="Assign weights to the choices for calculating statistics. An empty weight (i.e. Not enough information to evaluate) can be assigned by leaving the input box empty."
           >
             <input
               class="form-check-input ng-untouched ng-pristine ng-valid"
@@ -366,7 +366,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
           <label
             class="form-check-label ngb-tooltip-class fw-bold"
             container="body"
-            ngbtooltip="Assign weights to the choices for calculating statistics."
+            ngbtooltip="Assign weights to the choices for calculating statistics. An empty weight (i.e. Not enough information to evaluate) can be assigned by leaving the input box empty."
           >
             <input
               class="form-check-input ng-untouched ng-pristine ng-valid"
