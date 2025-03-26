@@ -290,7 +290,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
 
         cr.select(root)
                 .where(cb.and(
-                        // Retrieve sessions with endTime within the past two days
+                        // Retrieve sessions with endTime from 2 days ago onwards
                         // to prevent issues caused by time zone differences
                         cb.greaterThan(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
                         cb.and(
