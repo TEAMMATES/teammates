@@ -5,7 +5,7 @@ import teammates.common.util.Const;
 /**
  * Action: deletes an existing account (either student or instructor).
  */
-class DeleteAccountAction extends AdminOnlyAction {
+public class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {

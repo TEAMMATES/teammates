@@ -15,7 +15,7 @@ import teammates.ui.output.JoinLinkData;
 /**
  * Action: resets an account request.
  */
-class ResetAccountRequestAction extends AdminOnlyAction {
+public class ResetAccountRequestAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
