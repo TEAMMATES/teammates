@@ -1,7 +1,7 @@
 # Reference: https://cloud.google.com/appengine/docs/standard/scheduling-jobs-with-cron-yaml
 
 cron:
-- url: '/auto/feedbackSessionOpeningReminders'
+- url: '/auto/feedbackSessionOpenedReminders'
   schedule: 'every 60 minutes from 00:02 to 23:59'
   timezone: 'Asia/Singapore'
   description: 'Checks and sends out emails for feedback sessions which are about to open every hour.'
@@ -9,7 +9,7 @@ cron:
   schedule: 'every 60 minutes from 00:11 to 23:59'
   timezone: 'Asia/Singapore'
   description: 'Checks and sends out emails to course co-owners for feedback sessions that are due to open in 24 hours.'
-- url: '/auto/feedbackSessionClosingReminders'
+- url: '/auto/feedbackSessionClosingSoonReminders'
   schedule: 'every 60 minutes from 00:06 to 23:59'
   timezone: 'Asia/Singapore'
   description: 'Checks for feedback sessions that are due in 24 hours and send reminders to students who have not submitted their responses in full.'
