@@ -1,49 +1,64 @@
-<table class="table table-bordered desktop-view" [attr.aria-label]="getAriaLabel()">
-  <thead>
-    <tr>
-      <td></td>
-      <th *ngFor="let choice of questionDetails.rubricChoices" scope="col">{{ choice }}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let rubricDescriptionRow of questionDetails.rubricDescriptions; let i = index;"
-        [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">
-      <th class="fw-normal" scope="row">{{ questionDetails.rubricSubQuestions[i] }}</th>
-      <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;" class="text-secondary answer-cell" (click)="selectAnswer(i, j)">
-        <input
-          type="radio"
-          [disabled]="isDisabled"
-          [name]="getInputId(id, i, j, 'desktop')"
-          [id]="getInputId(id, i, j, 'desktop')"
-          [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
-        />
-        <label [for]="getInputId(id, i, j, 'desktop')" (click)="$event.stopPropagation()">
-          {{ rubricDescriptionCell }}
-        </label>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div class="mobile-view" [attr.aria-label]="getAriaLabel()">
-  <div class="card" *ngFor="let rubricDescriptionRow of questionDetails.rubricDescriptions; let i = index;">
-    <div class="card-header bg-light">
-      {{ questionDetails.rubricSubQuestions[i] }}
-    </div>
-    <div class="card-body"
-         [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">
-      <div *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;">
-        <label>
-          <input
-            type="radio"
-            [disabled]="isDisabled"
-            (click)="selectAnswer(i, j)"
-            [name]="getInputId(id, i, j, 'mobile')"
-            [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
-            [attr.aria-label]="getAriaLabelForChoice(questionDetails.rubricChoices[j], rubricDescriptionCell, questionDetails.rubricSubQuestions[i])"
-          >
-          {{ getChoiceWithDescription(questionDetails.rubricChoices[j], rubricDescriptionCell) }}
-        </label>
+<div>
+  <div class="table-container">
+    <table class="table table-bordered desktop-view" [attr.aria-label]="getAriaLabel()">
+      <thead>
+        <tr>
+          <td></td>
+          <th *ngFor="let choice of questionDetails.rubricChoices" scope="col">{{ choice }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rubricDescriptionRow of questionDetails.rubricDescriptions; let i = index;"
+            [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">
+          <th class="fw-normal" scope="row">{{ questionDetails.rubricSubQuestions[i] }}</th>
+          <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;" class="text-secondary answer-cell" (click)="selectAnswer(i, j)">
+            <input
+              type="radio"
+              [disabled]="isDisabled"
+              [name]="getInputId(id, i, j, 'desktop')"
+              [id]="getInputId(id, i, j, 'desktop')"
+              [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
+            />
+            <label [for]="getInputId(id, i, j, 'desktop')" (click)="$event.stopPropagation()">
+              {{ rubricDescriptionCell }}
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="mobile-view" [attr.aria-label]="getAriaLabel()">
+      <div class="card" *ngFor="let rubricDescriptionRow of questionDetails.rubricDescriptions; let i = index;">
+        <div class="card-header bg-light">
+          {{ questionDetails.rubricSubQuestions[i] }}
+        </div>
+        <div class="card-body"
+             [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">
+          <div *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;">
+            <label>
+              <input
+                type="radio"
+                [disabled]="isDisabled"
+                (click)="selectAnswer(i, j)"
+                [name]="getInputId(id, i, j, 'mobile')"
+                [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
+                [attr.aria-label]="getAriaLabelForChoice(questionDetails.rubricChoices[j], rubricDescriptionCell, questionDetails.rubricSubQuestions[i])"
+              >
+              {{ getChoiceWithDescription(questionDetails.rubricChoices[j], rubricDescriptionCell) }}
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="button-container">
+    <button
+      type="button"
+      class="btn btn-warning"
+      title="Reset choices"
+      id="btn-reset"
+      name="button-reset"
+      ngbTooltip="Reset current choices"
+      [disabled]="isDisabled"
+      (click)="resetHandler()">
+      Reset choices
+    </button>
