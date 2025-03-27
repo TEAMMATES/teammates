@@ -12,7 +12,7 @@ import teammates.ui.output.FeedbackSessionData;
 /**
  * Restore a feedback session from the recycle bin.
  */
-class RestoreFeedbackSessionAction extends Action {
+public class RestoreFeedbackSessionAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

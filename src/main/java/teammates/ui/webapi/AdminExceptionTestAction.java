@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 /**
  * Action specifically created for testing exception handling at API servlet.
  */
-class AdminExceptionTestAction extends Action {
+public class AdminExceptionTestAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

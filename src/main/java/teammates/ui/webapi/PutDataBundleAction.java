@@ -9,7 +9,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Persists a data bundle into the DB.
  */
-class PutDataBundleAction extends Action {
+public class PutDataBundleAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

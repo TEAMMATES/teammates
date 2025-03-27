@@ -9,7 +9,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Deletes a data bundle from the DB.
  */
-class DeleteSqlDataBundleAction extends Action {
+public class DeleteSqlDataBundleAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

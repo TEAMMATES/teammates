@@ -7,7 +7,7 @@ import teammates.common.util.JsonUtils;
 /**
  * Deletes a data bundle from the DB.
  */
-class DeleteDataBundleAction extends Action {
+public class DeleteDataBundleAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

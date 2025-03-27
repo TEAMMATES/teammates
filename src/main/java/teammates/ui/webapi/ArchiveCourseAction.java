@@ -13,7 +13,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Changes the archive status of a course.
  */
-class ArchiveCourseAction extends Action {
+public class ArchiveCourseAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
