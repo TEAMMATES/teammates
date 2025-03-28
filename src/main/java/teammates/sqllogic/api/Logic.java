@@ -1481,6 +1481,13 @@ public class Logic {
     }
 
     /**
+     * Gets a list of students with the specified email.
+     */
+    public List<Student> getAllStudentsForEmail(String email) {
+        return usersLogic.getAllStudentsForEmail(email);
+    }
+
+    /**
      * Gets a feedbackResponse or null if it does not exist.
      */
     public FeedbackResponse getFeedbackResponse(UUID frId) {

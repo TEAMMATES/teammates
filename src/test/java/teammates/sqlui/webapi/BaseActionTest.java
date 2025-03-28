@@ -63,6 +63,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     MockUserProvision mockUserProvision = new MockUserProvision();
     teammates.logic.api.RecaptchaVerifier mockRecaptchaVerifier = mock(teammates.logic.api.RecaptchaVerifier.class);
     SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
+    teammates.logic.api.EmailGenerator mockEmailGenerator = mock(teammates.logic.api.EmailGenerator.class);
     AuthProxy mockAuthProxy = mock(AuthProxy.class);
 
     abstract String getActionUri();
