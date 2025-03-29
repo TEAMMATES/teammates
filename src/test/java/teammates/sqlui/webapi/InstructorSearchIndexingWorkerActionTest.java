@@ -1,15 +1,22 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.apache.http.HttpStatus;
+import org.mockito.Mockito;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.InstructorSearchIndexingWorkerAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link InstructorSearchIndexingWorkerAction}.
@@ -33,6 +40,11 @@ public class InstructorSearchIndexingWorkerActionTest extends BaseActionTest<Ins
         typicalInstructor = getTypicalInstructor();
     }
 
+    @AfterMethod
+    void tearDownMethod() {
+        Mockito.reset(mockLogic);
+    }
+
     @Test
     void testExecute_instructorIndexed_success() throws Exception {
         String[] params = new String[] {
@@ -44,7 +56,32 @@ public class InstructorSearchIndexingWorkerActionTest extends BaseActionTest<Ins
                 .thenReturn(typicalInstructor);
 
         InstructorSearchIndexingWorkerAction action = getAction(params);
-        getJsonResult(action);
+        JsonResult r = getJsonResult(action);
+        MessageOutput output = (MessageOutput) r.getOutput();
+
+        assertEquals("Successful", output.getMessage());
+
+        verify(mockLogic, times(1))
+                .getInstructorForEmail(typicalInstructor.getCourseId(), typicalInstructor.getEmail());
+        verify(mockLogic, times(1)).putInstructorDocument(typicalInstructor);
+    }
+
+    @Test
+    void testExecute_instructorIndexed_failure() throws Exception {
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalInstructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, typicalInstructor.getEmail(),
+        };
+
+        when(mockLogic.getInstructorForEmail(typicalInstructor.getCourseId(), typicalInstructor.getEmail()))
+                .thenReturn(typicalInstructor);
+        doThrow(SearchServiceException.class).when(mockLogic).putInstructorDocument(typicalInstructor);
+
+        InstructorSearchIndexingWorkerAction action = getAction(params);
+        JsonResult r = getJsonResult(action, HttpStatus.SC_BAD_GATEWAY);
+        MessageOutput output = (MessageOutput) r.getOutput();
+
+        assertEquals("Failure", output.getMessage());
 
         verify(mockLogic, times(1))
                 .getInstructorForEmail(typicalInstructor.getCourseId(), typicalInstructor.getEmail());
@@ -80,4 +117,5 @@ public class InstructorSearchIndexingWorkerActionTest extends BaseActionTest<Ins
         verifyCanAccess();
 
     }
+
 }
