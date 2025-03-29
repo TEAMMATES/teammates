@@ -9,7 +9,7 @@ import teammates.ui.output.FeedbackSessionData;
 /**
  * Move the feedback session to the recycle bin.
  */
-class BinFeedbackSessionAction extends Action {
+public class BinFeedbackSessionAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
