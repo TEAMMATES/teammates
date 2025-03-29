@@ -17,14 +17,15 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
+import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.webapi.BinFeedbackSessionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link BinFeedbackSessionAction}.
  */
 public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSessionAction> {
 
-    private Course typicalCourse = getTypicalCourse();
     private Instructor typicalInstructor;
     private FeedbackSession typicalFeedbackSession;
 
@@ -40,6 +41,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @BeforeMethod
     void setUpMethod() {
+        Course typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackSession.setCreatedAt(Instant.now().minus(Duration.ofMinutes(15)));
@@ -65,7 +67,12 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         typicalFeedbackSession.setDeletedAt(Instant.now());
 
         BinFeedbackSessionAction a = getAction(params);
-        getJsonResult(a);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(typicalFeedbackSession.getName(), response.getFeedbackSessionName());
+        assertEquals(typicalFeedbackSession.getCourseId(), response.getCourseId());
+        assertEquals(typicalFeedbackSession.getId(), response.getFeedbackSessionId());
 
         verify(mockLogic, times(1))
                 .moveFeedbackSessionToRecycleBin(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
