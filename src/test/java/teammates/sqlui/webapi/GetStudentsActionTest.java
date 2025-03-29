@@ -185,6 +185,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         GetStudentsAction action2 = getAction(params);
         JsonResult jsonResult2 = getJsonResult(action2);
         StudentsData actualStudentsData2 = (StudentsData) jsonResult2.getOutput();
+
         // Section One students are not in the StudentsData
         verifyStudentsData(stubStudentListSectionTwo, actualStudentsData2, Type.INSTRUCTOR);
 
@@ -193,7 +194,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void test() {
+    void testExecute_instructorWithOnlyViewSectionCourseLevelPrivilege_success() {
         loginAsInstructor(stubInstructorWithCourseLevelPrivilege.getGoogleId());
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithCourseLevelPrivilege.getGoogleId()))
                 .thenReturn(stubInstructorWithCourseLevelPrivilege);
