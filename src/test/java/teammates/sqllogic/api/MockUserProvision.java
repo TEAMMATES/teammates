@@ -96,4 +96,8 @@ public class MockUserProvision extends UserProvision {
         return isLoggedIn ? mockUser : null;
     }
 
+    @Override
+    public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
+        return getCurrentUser(uic);
+    }
 }

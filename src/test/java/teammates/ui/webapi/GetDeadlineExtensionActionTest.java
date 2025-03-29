@@ -103,7 +103,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         assertEquals(deadlineExtension.getUserEmail(), response.getUserEmail());
         assertEquals(deadlineExtension.getIsInstructor(), response.getIsInstructor());
         assertEquals(deadlineExtension.getEndTime(), Instant.ofEpochMilli(response.getEndTime()));
-        assertEquals(deadlineExtension.getSentClosingEmail(), response.getSentClosingEmail());
+        assertEquals(deadlineExtension.getSentClosingSoonEmail(), response.getSentClosingSoonEmail());
     }
 
     @Override
