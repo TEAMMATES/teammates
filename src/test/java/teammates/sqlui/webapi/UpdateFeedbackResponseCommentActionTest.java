@@ -96,12 +96,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData response = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals("updated comment", response.getCommentText());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowCommentTo());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowGiverNameTo());
+        checkJsonResponse(updatedComment, response);
     }
 
     @Test
@@ -128,12 +123,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData response = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals("updated comment", response.getCommentText());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowCommentTo());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowGiverNameTo());
+        checkJsonResponse(updatedComment, response);
     }
 
     @Test
@@ -160,12 +150,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData response = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals("updated comment", response.getCommentText());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowCommentTo());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowGiverNameTo());
+        checkJsonResponse(updatedComment, response);
     }
 
     @Test
@@ -195,10 +180,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData response = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals("updated comment", response.getCommentText());
-        assertEquals(new ArrayList<>(), response.getShowCommentTo());
-        assertEquals(new ArrayList<>(), response.getShowGiverNameTo());
+        checkJsonResponse(updatedComment, response);
     }
 
     @Test
@@ -228,10 +210,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData response = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals("updated comment", response.getCommentText());
-        assertEquals(Arrays.asList(CommentVisibilityType.STUDENTS), response.getShowCommentTo());
-        assertEquals(new ArrayList<>(), response.getShowGiverNameTo());
+        checkJsonResponse(updatedComment, response);
     }
 
     @Test
@@ -275,12 +254,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData response = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals("updated comment", response.getCommentText());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowCommentTo());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowGiverNameTo());
+        checkJsonResponse(updatedComment, response);
     }
 
     @Test
@@ -310,12 +284,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData response = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals("updated comment", response.getCommentText());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowCommentTo());
-        assertEquals(Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
-                response.getShowGiverNameTo());
+        checkJsonResponse(updatedComment, response);
     }
 
     @Test
@@ -865,6 +834,12 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 false,
                 false,
                 false);
+    }
+
+    private void checkJsonResponse(FeedbackResponseComment updatedComment, FeedbackResponseCommentData response) {
+        assertEquals(updatedComment.getCommentText(), response.getCommentText());
+        assertEquals(updatedComment.getShowCommentTo().toString(), response.getShowCommentTo().toString());
+        assertEquals(updatedComment.getShowGiverNameTo().toString(), response.getShowGiverNameTo().toString());
     }
 
 }
