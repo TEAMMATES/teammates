@@ -45,12 +45,12 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_studentNotFound_throws_enfe() {
+    void testExecute_studentNotFound_shouldFail() {
         when(mockLogic.getStudentByRegistrationKey("key")).thenReturn(null);
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, "key",
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+                Const.ParamsNames.REGKEY, "key",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -66,8 +66,8 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         typicalStudent.setAccount(getTypicalAccount());
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, typicalStudent.getRegKey(),
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+                Const.ParamsNames.REGKEY, typicalStudent.getRegKey(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -81,8 +81,8 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         when(mockLogic.getStudentByRegistrationKey(typicalStudent.getRegKey())).thenReturn(typicalStudent);
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, typicalStudent.getRegKey(),
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+                Const.ParamsNames.REGKEY, typicalStudent.getRegKey(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -92,12 +92,12 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_instructorNotFound_throws_enfe() {
+    void testExecute_instructorNotFound_shouldFail() {
         when(mockLogic.getInstructorByRegistrationKey("key")).thenReturn(null);
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, "key",
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.REGKEY, "key",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -113,8 +113,8 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         typicalInstructor.setAccount(getTypicalAccount());
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -128,8 +128,8 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         when(mockLogic.getInstructorByRegistrationKey(typicalInstructor.getRegKey())).thenReturn(typicalInstructor);
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -139,13 +139,13 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_instructorIsCreatingAccount_accountRequestNotFound_throws_enfe() {
+    void testExecute_instructorIsCreatingAccountAccountRequestNotFound_shouldFail() {
         when(mockLogic.getAccountRequestByRegistrationKey("key")).thenReturn(null);
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, "key",
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-            Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+                Const.ParamsNames.REGKEY, "key",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -158,9 +158,9 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         when(mockLogic.getAccountRequestByRegistrationKey(typicalInstructor.getRegKey())).thenReturn(typicalAccountRequest);
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-            Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+                Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -175,9 +175,9 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         when(mockLogic.getAccountRequestByRegistrationKey(typicalInstructor.getRegKey())).thenReturn(typicalAccountRequest);
 
         String[] params = new String[] {
-            Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-            Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+                Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -193,15 +193,15 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         verifyHttpParameterFailure();
 
         verifyHttpParameterFailure(
-            Const.ParamsNames.REGKEY, "regkey"
+                Const.ParamsNames.REGKEY, "regkey"
         );
         verifyHttpParameterFailure(
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT
         );
 
         verifyHttpParameterFailure(
-            Const.ParamsNames.ENTITY_TYPE, "some-entity",
-            Const.ParamsNames.REGKEY, "regkey"
+                Const.ParamsNames.ENTITY_TYPE, "some-entity",
+                Const.ParamsNames.REGKEY, "regkey"
         );
     }
 
