@@ -59,7 +59,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_studentAlreadyRegistered() {
+    void testExecute_studentAlreadyRegistered_shouldReturnTrue() {
         when(mockLogic.getStudentByRegistrationKey(typicalStudent.getRegKey())).thenReturn(typicalStudent);
 
         // mark student as registered
@@ -77,7 +77,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_studentNotRegistered() {
+    void testExecute_studentNotRegistered_shouldReturnFalse() {
         when(mockLogic.getStudentByRegistrationKey(typicalStudent.getRegKey())).thenReturn(typicalStudent);
 
         String[] params = new String[] {
@@ -106,7 +106,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_instructorAlreadyRegistered() {
+    void testExecute_instructorAlreadyRegistered_shouldReturnTrue() {
         when(mockLogic.getInstructorByRegistrationKey(typicalInstructor.getRegKey())).thenReturn(typicalInstructor);
 
         // mark instructor as registered.
@@ -124,7 +124,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_instructorNotRegistered() {
+    void testExecute_instructorNotRegistered_shouldReturnFalse() {
         when(mockLogic.getInstructorByRegistrationKey(typicalInstructor.getRegKey())).thenReturn(typicalInstructor);
 
         String[] params = new String[] {
