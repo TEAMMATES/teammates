@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -43,6 +44,13 @@ public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailActio
                 Const.ParamsNames.CONTINUE_URL, CONTINUE_URL,
                 Const.ParamsNames.USER_CAPTCHA_RESPONSE, USER_CAPTCHA_RESPONSE,
         };
+
+        EmailWrapper stubEmailWrapper = new EmailWrapper();
+        stubEmailWrapper.setBcc(Config.SUPPORT_EMAIL);
+        stubEmailWrapper.setRecipient(USER_EMAIL);
+        stubEmailWrapper.setType(EmailType.LOGIN);
+        stubEmailWrapper.setSubjectFromType();
+        when(mockEmailGenerator.generateLoginEmail(USER_EMAIL, "http://localhost:4201")).thenReturn(stubEmailWrapper);
 
         SendLoginEmailAction a = getAction(loginParams);
         JsonResult result = getJsonResult(a);
