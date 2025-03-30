@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
