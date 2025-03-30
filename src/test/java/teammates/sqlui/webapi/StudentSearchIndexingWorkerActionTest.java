@@ -55,7 +55,7 @@ public class StudentSearchIndexingWorkerActionTest extends BaseActionTest<Studen
     }
 
     @Test
-    void testExecute_typicalSuccessCase() throws Exception {
+    void testExecute_typicalCase_success() throws Exception {
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
                 ParamsNames.STUDENT_EMAIL, typicalStudent.getEmail(),
