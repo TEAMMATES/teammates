@@ -1,9 +1,15 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import java.time.Instant;
+import java.util.HashMap;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -58,9 +64,27 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
 
     @Test
     void testExecute_recentErrorLogs_emailSent() {
-        mockLogsProcessor.insertErrorLog("errorlogtrace1", "errorloginsertid1", sourceLocation,
-                RECENT_TIMESTAMP, "Error message 1", null);
+        GeneralLogEntry logEntry = new GeneralLogEntry(
+                LogSeverity.ERROR,
+                "errorlogtrace1",
+                "errorloginsertid1",
+                new HashMap<>(),
+                sourceLocation,
+                RECENT_TIMESTAMP
+        );
+        logEntry.setMessage("Error message 1");
+        logEntry.setDetails(null);
 
+        mockLogsProcessor.insertErrorLog(logEntry.getTrace(), logEntry.getInsertId(), logEntry.getSourceLocation(),
+                logEntry.getTimestamp(), logEntry.getMessage(), logEntry.getDetails());
+
+        EmailWrapper stubEmailWrapper;
+        stubEmailWrapper = new EmailWrapper();
+        stubEmailWrapper.setRecipient(Config.SUPPORT_EMAIL);
+        stubEmailWrapper.setSubject(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION));
+
+        // use any() since the expected argument is a response from logs query
+        when(mockEmailGenerator.generateCompiledLogsEmail(any())).thenReturn(stubEmailWrapper);
         CompileLogsAction action = getAction();
         action.execute();
 
