@@ -382,7 +382,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Verifies that the executed action results in the specified number of emails being sent.
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
-        System.out.println(mockEmailSender.getEmailsSent().get(0));
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 }
