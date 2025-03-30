@@ -5,7 +5,10 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -49,9 +52,13 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     void setUp() {
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        typicalFeedbackSession.setSessionVisibleFromTime(Instant.now());
+
         typicalStudent = getTypicalStudent();
         typicalStudent.setAccount(getTypicalAccount());
         typicalInstructor = getTypicalInstructor();
+        typicalInstructor.setAccount(getTypicalAccount());
 
         typicalRecipients = new HashMap<>();
         typicalRecipients.put("recipient1", new FeedbackQuestionRecipient("Recipient 1", "recipient1@teammates.tmt"));
@@ -172,7 +179,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         selfRecipients.put("self", new FeedbackQuestionRecipient(typicalStudent.getName(), typicalStudent.getEmail()));
 
         when(mockLogic.getFeedbackQuestion(selfQuestion.getId())).thenReturn(selfQuestion);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getGoogleId(), typicalStudent.getId().toString()))
+        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getRecipientsOfQuestion(any(), any(), any())).thenReturn(selfRecipients);
 
@@ -267,10 +274,12 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 .thenReturn(typicalInstructor);
 
         ______TS("Instructor accessing own feedback - can access");
+        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
         loginAsInstructor(typicalInstructor.getGoogleId());
         verifyCanAccess(params);
 
         ______TS("Instructor preview as student - can access");
+        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
         String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -281,6 +290,17 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyCanAccess(previewParams);
 
         ______TS("Instructor moderating as student - can access");
+        List<FeedbackParticipantType> currentShowResponsesTo = new ArrayList<>(typicalFeedbackQuestion.getShowResponsesTo());
+        List<FeedbackParticipantType> currenShowGiverNameTo = new ArrayList<>(typicalFeedbackQuestion.getShowGiverNameTo());
+        List<FeedbackParticipantType> currentShowRecipientNameTo = new ArrayList<>(typicalFeedbackQuestion.getShowRecipientNameTo());
+
+        currentShowResponsesTo.add(FeedbackParticipantType.INSTRUCTORS);
+        currenShowGiverNameTo.add(FeedbackParticipantType.INSTRUCTORS);
+        currentShowRecipientNameTo.add(FeedbackParticipantType.INSTRUCTORS);
+        typicalFeedbackQuestion.setShowResponsesTo(currentShowResponsesTo);
+        typicalFeedbackQuestion.setShowGiverNameTo(currenShowGiverNameTo);
+        typicalFeedbackQuestion.setShowRecipientNameTo(currentShowRecipientNameTo);
+        
         String[] moderatedParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
