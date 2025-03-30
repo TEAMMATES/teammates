@@ -292,7 +292,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         ______TS("Instructor moderating as student - can access");
         List<FeedbackParticipantType> currentShowResponsesTo = new ArrayList<>(typicalFeedbackQuestion.getShowResponsesTo());
         List<FeedbackParticipantType> currenShowGiverNameTo = new ArrayList<>(typicalFeedbackQuestion.getShowGiverNameTo());
-        List<FeedbackParticipantType> currentShowRecipientNameTo = new ArrayList<>(typicalFeedbackQuestion.getShowRecipientNameTo());
+        List<FeedbackParticipantType> currentShowRecipientNameTo =
+                        new ArrayList<>(typicalFeedbackQuestion.getShowRecipientNameTo());
 
         currentShowResponsesTo.add(FeedbackParticipantType.INSTRUCTORS);
         currenShowGiverNameTo.add(FeedbackParticipantType.INSTRUCTORS);
@@ -300,7 +301,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         typicalFeedbackQuestion.setShowResponsesTo(currentShowResponsesTo);
         typicalFeedbackQuestion.setShowGiverNameTo(currenShowGiverNameTo);
         typicalFeedbackQuestion.setShowRecipientNameTo(currentShowRecipientNameTo);
-        
+
         String[] moderatedParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
