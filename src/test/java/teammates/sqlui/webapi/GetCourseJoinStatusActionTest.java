@@ -154,7 +154,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_instructorIsCreatingAccountAndNotYetRegistered_shouldReturnFalse() {  
+    void testExecute_instructorIsCreatingAccountAndNotYetRegistered_shouldReturnFalse() {
         when(mockLogic.getAccountRequestByRegistrationKey(typicalInstructor.getRegKey())).thenReturn(typicalAccountRequest);
 
         String[] params = new String[] {
@@ -170,7 +170,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    void testExecute_instructorIsCreatingAccountAndAlreadyRegistered_shouldReturnTrue() {  
+    void testExecute_instructorIsCreatingAccountAndAlreadyRegistered_shouldReturnTrue() {
         typicalAccountRequest.setRegisteredAt(Instant.now());
         when(mockLogic.getAccountRequestByRegistrationKey(typicalInstructor.getRegKey())).thenReturn(typicalAccountRequest);
 
@@ -187,7 +187,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    protected void testExecute_invalidParameters_throwsInvalidHttpParameterException() {  
+    protected void testExecute_invalidParameters_throwsInvalidHttpParameterException() {
         ______TS("invalid parameters");
         loginAsUnregistered("unregistered user");
         verifyHttpParameterFailure();
