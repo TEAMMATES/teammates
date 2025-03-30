@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.InstructorSearchIndexingWorkerAction;
+import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -86,6 +87,31 @@ public class InstructorSearchIndexingWorkerActionTest extends BaseActionTest<Ins
         verify(mockLogic, times(1))
                 .getInstructorForEmail(typicalInstructor.getCourseId(), typicalInstructor.getEmail());
         verify(mockLogic, times(1)).putInstructorDocument(typicalInstructor);
+    }
+
+    @Test
+    void testExecute_invalidParameters_throwsInvalidHttpParameterException() {
+
+        ______TS("Null Course Id");
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, null,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, typicalInstructor.getEmail(),
+        };
+
+        InvalidHttpParameterException e = verifyHttpParameterFailure(params);
+        assertEquals("The [courseid] HTTP parameter is null.", e.getMessage());
+
+        ______TS("Null Instructor Email");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalInstructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, null,
+        };
+
+        e = verifyHttpParameterFailure(params);
+        assertEquals("The [instructoremail] HTTP parameter is null.", e.getMessage());
+
     }
 
     @Test
