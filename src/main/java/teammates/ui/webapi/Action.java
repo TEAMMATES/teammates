@@ -124,6 +124,10 @@ public abstract class Action {
         this.sqlEmailGenerator = sqlEmailGenerator;
     }
 
+    public void setEmailGenerator(EmailGenerator emailGenerator) {
+        this.emailGenerator = emailGenerator;
+    }
+
     /**
      * Returns true if course has been migrated or does not exist in the datastore.
      */

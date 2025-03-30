@@ -113,6 +113,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setSqlEmailGenerator(mockSqlEmailGenerator);
+            action.setEmailGenerator(mockEmailGenerator);
             action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;
@@ -381,6 +382,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Verifies that the executed action results in the specified number of emails being sent.
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
+        System.out.println(mockEmailSender.getEmailsSent().get(0));
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 }
