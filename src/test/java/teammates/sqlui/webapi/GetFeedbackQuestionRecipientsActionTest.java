@@ -214,6 +214,12 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
+        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
+                .thenReturn(typicalFeedbackQuestion);
+        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
+                typicalFeedbackQuestion.getCourseId()))
+                .thenReturn(typicalFeedbackSession);
+
         verifyCannotAccess(params);
     }
 
@@ -226,6 +232,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
+        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
+                typicalFeedbackQuestion.getCourseId()))
+                .thenReturn(typicalFeedbackSession);
 
         ______TS("Student accessing own feedback - can access");
         loginAsStudent(typicalStudent.getGoogleId());
@@ -251,6 +260,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
+        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
+                typicalFeedbackQuestion.getCourseId()))
+                .thenReturn(typicalFeedbackSession);
         when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
