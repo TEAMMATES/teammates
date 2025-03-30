@@ -31,7 +31,6 @@ import teammates.ui.webapi.JsonResult;
  */
 public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetFeedbackQuestionRecipientsAction> {
 
-    private Course typicalCourse;
     private FeedbackSession typicalFeedbackSession;
     private FeedbackQuestion typicalFeedbackQuestion;
     private Student typicalStudent;
@@ -50,24 +49,23 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
     @BeforeMethod
     void setUp() {
-        typicalCourse = getTypicalCourse();
-        typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
+        typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         typicalStudent = getTypicalStudent();
         typicalInstructor = getTypicalInstructor();
-        
+
         typicalRecipients = new HashMap<>();
         typicalRecipients.put("recipient1", new FeedbackQuestionRecipient("Recipient 1", "recipient1@teammates.tmt"));
         typicalRecipients.put("recipient2", new FeedbackQuestionRecipient("Recipient 2", "recipient2@teammates.tmt"));
-        
+
         reset(mockLogic);
     }
 
     @Test
     void testExecute_studentSubmission_typicalSuccessCase() {
         String[] params = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
@@ -90,8 +88,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Test
     void testExecute_instructorSubmission_typicalSuccessCase() {
         String[] params = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
@@ -115,8 +113,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Test
     void testExecute_invalidIntent_throwsInvalidHttpParameterException() {
         String[] params = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, "INSTRUCTOR_RESULT"
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, "INSTRUCTOR_RESULT",
         };
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
@@ -131,7 +129,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Test
     void testExecute_missingParams_throwsInvalidHttpParameterException() {
         String[] params = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
         };
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
@@ -146,8 +144,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Test
     void testExecute_invalidQuestionId_throwsEntityNotFoundException() {
         String[] params = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, UUID.randomUUID().toString(),
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, UUID.randomUUID().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackQuestion(any(UUID.class))).thenReturn(null);
@@ -164,8 +162,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         FeedbackQuestion selfQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         selfQuestion.setRecipientType(FeedbackParticipantType.SELF);
         String[] selfParams = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, selfQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, selfQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         Map<String, FeedbackQuestionRecipient> selfRecipients = new HashMap<>();
@@ -189,8 +187,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         FeedbackQuestion teamQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         teamQuestion.setRecipientType(FeedbackParticipantType.TEAMS);
         String[] teamParams = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, teamQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, teamQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         Map<String, FeedbackQuestionRecipient> teamRecipients = new HashMap<>();
@@ -210,8 +208,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Test
     void testExecute_moderatedAndPreviewPerson_shouldReturnSameRecipients() {
         String[] params = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
@@ -229,9 +227,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         // Test moderated person
         String[] moderatedParams = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-            Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, typicalStudent.getEmail()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, typicalStudent.getEmail(),
         };
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -244,9 +242,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 moderatedRecipients.getRecipients().get(0).getIdentifier());
 
         String[] previewParams = {
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-            Const.ParamsNames.PREVIEWAS, typicalStudent.getEmail()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.PREVIEWAS, typicalStudent.getEmail(),
         };
 
         action = getAction(previewParams);
