@@ -28,7 +28,7 @@ import teammates.common.util.Logger;
  * @see <a href="https://cloud.google.com/datastore/docs/export-import-entities">https://cloud.google.com/datastore/docs/export-import-entities</a>
  * @see <a href="https://cloud.google.com/datastore/docs/reference/admin/rest/v1/projects/export">https://cloud.google.com/datastore/docs/reference/admin/rest/v1/projects/export</a>
  */
-class DatastoreBackupAction extends AdminOnlyAction {
+public class DatastoreBackupAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
