@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -176,11 +177,19 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         verifyHttpParameterFailure(params);
     }
 
-    @Test(enabled = false)
+    @Test
     void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
+
+//        UserInfo userInfo = new UserInfo("instructor-id");
+//        userInfo.isAdmin = false;
+//        userInfo.isInstructor = true;
+//        userInfo.isStudent = false;
+//        userInfo.isMaintainer = false;
+//
+//        when(mockUserProvision.getMasqueradeUser(any())).thenReturn(userInfo);
 
         verifyAccessibleWithCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);

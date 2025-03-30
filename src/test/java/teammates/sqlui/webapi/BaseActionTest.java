@@ -496,7 +496,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyCanAccess(params);
     }
 
-    private void instructorsOfOtherCourseSetup(Course thisCourse, String... params) {
+    private void instructorsOfOtherCourseSetup() {
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
@@ -509,7 +509,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     private void verifySameCourseAccessibility(Course thisCourse, String privilege, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
-//        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
+        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
 
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
@@ -612,7 +612,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         studentCannotAccess(params);
         instructorCanAccess(currentCourse, params);
         instructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCanAccess(params);
         verifyAccessibleForAdminToMasqueradeAsInstructor(testInstructor, params);
     }
 
@@ -622,7 +622,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         studentCannotAccess(params);
         instructorCanAccess(currentCourse, params);
         instructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCannotAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
     }
 
     void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
@@ -638,16 +638,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     void verifyAccessibleForAdminToMasqueradeAsInstructor(Instructor instructor, String... params) {
         loginAsAdmin();
 
-        UserInfo userInfo = new UserInfo(instructor.getGoogleId());
-        userInfo.isAdmin = true;
-        userInfo.isInstructor = true;
-        userInfo.isStudent = false;
-        userInfo.isMaintainer = false;
-
-//        when(mockUserProvision.getMasqueradeUser(anyString())).thenReturn(userInfo);
+        mockUserProvision.setAdmin(false);
+        mockUserProvision.setInstructor(true);
+        mockUserProvision.setStudent(false);
+        mockUserProvision.setMaintainer(false);
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
 
         verifyCanMasquerade(instructor.getGoogleId(), params);
+        mockUserProvision.setInstructor(false);
     }
 
     void verifyAccessibleWithModifySessionPrivilege(Course thisCourse, String... params) {
@@ -680,13 +678,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
     }
 
-    void verifyInstructorsOfOtherCoursesCanAccess(Course thisCourse, String... params) {
-        instructorsOfOtherCourseSetup(thisCourse, params);
+    void verifyInstructorsOfOtherCoursesCanAccess(String... params) {
+        instructorsOfOtherCourseSetup();
         verifyCanAccess(params);
     }
 
-    void verifyInstructorsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
-        instructorsOfOtherCourseSetup(thisCourse, params);
+    void verifyInstructorsOfOtherCoursesCannotAccess(String... params) {
+        instructorsOfOtherCourseSetup();
         verifyCannotAccess(params);
     }
 

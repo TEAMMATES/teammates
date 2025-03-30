@@ -16,8 +16,6 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateFeedbackSessionLogAction}.
  */
 public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFeedbackSessionLogAction> {
-    private static final String GOOGLE_ID = "user-googleId";
-
     Course course1;
     Course course2;
     Course courseNoStudent;

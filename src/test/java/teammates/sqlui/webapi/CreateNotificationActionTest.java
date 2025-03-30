@@ -23,7 +23,6 @@ import teammates.ui.webapi.CreateNotificationAction;
  * SUT: {@link CreateNotificationAction}.
  */
 public class CreateNotificationActionTest extends BaseActionTest<CreateNotificationAction> {
-    private static final String GOOGLE_ID = "user-googleId";
     private static final String INVALID_TITLE = "";
     NotificationCreateRequest testReq;
     private Notification testNotification;

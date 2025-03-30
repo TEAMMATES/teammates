@@ -15,7 +15,6 @@ import teammates.ui.webapi.CompileLogsAction;
  * SUT: {@link CompileLogsAction}.
  */
 public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
-    private static final String GOOGLE_ID = "user-googleId";
     private static final long DISTANT_TIMESTAMP = Instant.now().minusSeconds(7 * 60).toEpochMilli();
     private static final long RECENT_TIMESTAMP = Instant.now().minusSeconds(30).toEpochMilli();
 

@@ -19,7 +19,6 @@ import teammates.ui.webapi.DeleteNotificationAction;
  * SUT: {@link DeleteNotificationAction}.
  */
 public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificationAction> {
-    private static final String GOOGLE_ID = "user-googleId";
     Notification testNotification = new Notification(
             Instant.now(),
             Instant.ofEpochMilli(Instant.now().toEpochMilli() + 10000),

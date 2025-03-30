@@ -20,7 +20,7 @@ import teammates.ui.webapi.DeleteFeedbackQuestionAction;
  */
 public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedbackQuestionAction> {
 
-    private Instructor typicalInstructor;
+    private final Instructor typicalInstructor = getTypicalInstructor();
     private Course typicalCourse;
     private FeedbackSession typicalFeedbackSession;
     private FeedbackQuestion typicalFeedbackQuestion;
@@ -37,7 +37,6 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
 
     @BeforeMethod
     void setUp() {
-        typicalInstructor = getTypicalInstructor();
         typicalCourse = typicalInstructor.getCourse();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
