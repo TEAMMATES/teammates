@@ -15,16 +15,16 @@ public class DeadlineExtensionData extends ApiOutput {
     private final String feedbackSessionName;
     private final String userEmail;
     private final boolean isInstructor;
-    private final boolean sentClosingEmail;
+    private final boolean sentClosingSoonEmail;
     private final long endTime;
 
     public DeadlineExtensionData(String courseId, String feedbackSessionName,
-            String userEmail, boolean isInstructor, boolean sentClosingEmail, Instant endTime) {
+            String userEmail, boolean isInstructor, boolean sentClosingSoonEmail, Instant endTime) {
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
         this.userEmail = userEmail;
         this.isInstructor = isInstructor;
-        this.sentClosingEmail = sentClosingEmail;
+        this.sentClosingSoonEmail = sentClosingSoonEmail;
         this.endTime = endTime.toEpochMilli();
     }
 
@@ -33,7 +33,7 @@ public class DeadlineExtensionData extends ApiOutput {
         this.feedbackSessionName = deadlineExtension.getFeedbackSessionName();
         this.userEmail = deadlineExtension.getUserEmail();
         this.isInstructor = deadlineExtension.getIsInstructor();
-        this.sentClosingEmail = deadlineExtension.getSentClosingEmail();
+        this.sentClosingSoonEmail = deadlineExtension.getSentClosingSoonEmail();
         this.endTime = deadlineExtension.getEndTime().toEpochMilli();
     }
 
@@ -42,7 +42,7 @@ public class DeadlineExtensionData extends ApiOutput {
         this.feedbackSessionName = deadlineExtension.getFeedbackSession().getName();
         this.userEmail = deadlineExtension.getUser().getEmail();
         this.isInstructor = deadlineExtension.getUser() instanceof Instructor;
-        this.sentClosingEmail = deadlineExtension.isClosingSoonEmailSent();
+        this.sentClosingSoonEmail = deadlineExtension.isClosingSoonEmailSent();
         this.endTime = deadlineExtension.getEndTime().toEpochMilli();
     }
 
@@ -62,8 +62,8 @@ public class DeadlineExtensionData extends ApiOutput {
         return isInstructor;
     }
 
-    public boolean getSentClosingEmail() {
-        return sentClosingEmail;
+    public boolean getSentClosingSoonEmail() {
+        return sentClosingSoonEmail;
     }
 
     public long getEndTime() {
