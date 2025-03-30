@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import org.testng.annotations.BeforeMethod;
@@ -35,7 +36,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     }
 
     @BeforeMethod
-    void prepareTestData() {
+    void setUp() {
         Course c1 = getTypicalCourse();
         testInstructor1OfCourse1 = getTypicalInstructor();
         testInstructor2OfCourse1 = getTypicalInstructor();
@@ -91,6 +92,16 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     @Test
     void testAccessControl_students_cannotAccess() {
         loginAsStudent(Const.ParamsNames.STUDENT_ID);
+
+        String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
+        verifyCannotAccess(submissionParams);
+    }
+
+    @Test
+    void testAccessControl_instructorsOfDifferentCourses_cannotAccess() {
+        loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
 
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);
