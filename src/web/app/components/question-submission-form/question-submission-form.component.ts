@@ -59,6 +59,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
 
+  searchNameTexts: string[] = [];
+  feedbackRecipients: Array<FeedbackResponseRecipient | null> = [];
+
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
@@ -94,6 +97,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
     this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
+    this.searchNameTexts = new Array(this.model.recipientSubmissionForms.length).fill('');
+    this.feedbackRecipients = new Array(this.model.recipientSubmissionForms.length).fill(null);
   }
 
   @Input()
@@ -320,6 +325,19 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.updateSubmissionFormIndexes();
   }
 
+  filterRecipientsBySearchText(searchText: string, recipients: FeedbackResponseRecipient[])
+  : FeedbackResponseRecipient[] {
+    if (!searchText) return recipients;
+    const searchName = searchText.trim().toLowerCase();
+    if (searchName.length === 0) return recipients;
+    if (searchName.includes(' ')) {
+      return recipients.filter((r) => !this.isRecipientSelected(r)
+        && r.recipientName.toLowerCase().includes(searchName));
+    }
+    return recipients.filter((r) => !this.isRecipientSelected(r)
+      && r.recipientName.split(' ').some((s) => s.toLowerCase().includes(searchName)));
+  }
+
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
@@ -359,6 +377,54 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     return this.model.recipientSubmissionForms.some(
       (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
         recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier);
+  }
+
+  /**
+   * Triggers the changes of the recipient selection
+   */
+  triggerRecipientIdentifierChange(index: number, data: any): void {
+    this.searchNameTexts[index] = '';
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', data);
+  }
+
+  /**
+   * Update the texts in the recipient selection inputs to fit the Show Section/Team checkbox
+   */
+  updateSearchNameTextByShowSection(): void {
+    this.searchNameTexts = this.searchNameTexts.map(
+      (s, i) => {
+        return this.feedbackRecipients[i] === null ? s : this.getSelectionOptionLabel(this.feedbackRecipients[i]!);
+      },
+    );
+  }
+
+  /**
+   * Triggers when the input is focused
+   */
+  triggerSelectInputFocus(index: number): void {
+    if (this.feedbackRecipients[index] !== null) {
+      this.searchNameTexts[index] = '';
+      this.model.recipientSubmissionForms[index].recipientIdentifier = '';
+      this.feedbackRecipients[index] = null;
+    }
+  }
+
+  /**
+   * Triggers the changes of the recipient search text input
+   */
+  triggerSelectInputChange(index: number): void {
+    this.model.recipientSubmissionForms[index].recipientIdentifier = '';
+    this.feedbackRecipients[index] = null;
+  }
+
+  /**
+   * Triggers the changes of the recipient selection by options's click-events
+   */
+  triggerRecipientOptionSelect(index: number, recipient: FeedbackResponseRecipient, event: any): void {
+    event.target.blur();
+    this.searchNameTexts[index] = this.getSelectionOptionLabel(recipient);
+    this.feedbackRecipients[index] = recipient;
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
   }
 
   /**
@@ -523,6 +589,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.isSectionTeamShown = false;
       this.sortRecipientsByName();
     }
+    this.updateSearchNameTextByShowSection();
   }
 
   /**
