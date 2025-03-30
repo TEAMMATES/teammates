@@ -29,7 +29,6 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     private static final String COURSE_ID = "course-id";
     private static final String FEEDBACK_SESSION_NAME = "feedback-session-name";
 
-    private Course stubCourse;
     private FeedbackSession stubFeedbackSession;
     private Instructor stubInstructor;
 
@@ -45,7 +44,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
     @BeforeMethod
     protected void setUp() {
-        stubCourse = getTypicalCourse();
+        Course stubCourse = getTypicalCourse();
         stubCourse.setId(COURSE_ID);
 
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
