@@ -176,6 +176,16 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         verifyHttpParameterFailure(params);
     }
 
+    @Test(enabled = false)
+    void testAccessControl() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+        };
+
+        verifyAccessibleWithCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
+    }
+
     @Test
     public void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",

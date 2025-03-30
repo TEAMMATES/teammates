@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -173,78 +172,14 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_ID, studentId,
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        loginAsInstructor(instructorId);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, studentId,
-        };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
-        instructor.setPrivileges(instructorPrivileges);
-
-        loginAsInstructor(instructor.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, studentId,
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorInDifferentCourse_cannotAccess() {
-        loginAsInstructor("instructor2-googleId");
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, studentId,
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(studentId);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, studentId,
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, studentId,
-        };
-
-        verifyCannotAccess(params);
+        verifyAdminCanAccess(params);
+        verifyAccessibleWithCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
     }
 }
