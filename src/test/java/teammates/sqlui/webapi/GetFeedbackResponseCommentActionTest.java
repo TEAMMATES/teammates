@@ -206,7 +206,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsInstructor(instructorOfCourse1.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ2.getId().toString()),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
@@ -257,10 +257,11 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsInstructor(instructorOfCourse2.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ2.getId().toString()),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructorOfCourse2.getEmail(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
-        when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
+        when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructorOfCourse2);
 
         verifyCannotAccess(submissionParams);
@@ -269,7 +270,8 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsStudent(studentInCourse2.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ2.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, studentInCourse2.getEmail(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
@@ -302,10 +304,14 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     }
 
     private Instructor generateInstructorInCourse(String id, Course course) {
-        return new Instructor(course, id,
+        Instructor i = new Instructor(course, id,
                 id + "@tm.tmt", false,
                 "", null,
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
+        Account a = getTypicalAccount();
+        a.setGoogleId(id);
+        i.setAccount(a);
+        return i;
     }
 
     private FeedbackSession generateSessionInCourse(Course course) {
