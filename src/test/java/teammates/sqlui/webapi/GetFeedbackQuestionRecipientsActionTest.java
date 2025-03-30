@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -20,9 +21,7 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackQuestionRecipientsData;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetFeedbackQuestionRecipientsAction;
-import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -51,6 +50,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         typicalStudent = getTypicalStudent();
+        typicalStudent.setAccount(getTypicalAccount());
         typicalInstructor = getTypicalInstructor();
 
         typicalRecipients = new HashMap<>();
@@ -69,9 +69,12 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getGoogleId(), typicalStudent.getId().toString()))
+        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
-        when(mockLogic.getRecipientsOfQuestion(any(), any(), any()))
+        when(mockLogic.getRecipientsOfQuestion(
+                argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
+                argThat(arg -> arg == null),
+                argThat(arg -> arg.getGoogleId().equals(typicalStudent.getGoogleId()))))
                 .thenReturn(typicalRecipients);
 
         loginAsStudent(typicalStudent.getGoogleId());
@@ -93,9 +96,12 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(typicalInstructor.getGoogleId(), typicalInstructor.getId().toString()))
+        when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.getRecipientsOfQuestion(any(), any(), any()))
+        when(mockLogic.getRecipientsOfQuestion(
+                argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
+                argThat(arg -> arg.getGoogleId().equals(typicalInstructor.getGoogleId())),
+                argThat(arg -> arg == null)))
                 .thenReturn(typicalRecipients);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -121,8 +127,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         loginAsStudent(typicalStudent.getGoogleId());
 
-        GetFeedbackQuestionRecipientsAction action = getAction(params);
-        assertThrows(InvalidHttpParameterException.class, action::execute);
+        verifyHttpParameterFailure(params);
     }
 
     @Test
@@ -136,8 +141,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         loginAsStudent(typicalStudent.getGoogleId());
 
-        GetFeedbackQuestionRecipientsAction action = getAction(params);
-        assertThrows(InvalidHttpParameterException.class, action::execute);
+        verifyHttpParameterFailure(params);
     }
 
     @Test
@@ -151,8 +155,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         loginAsStudent(typicalStudent.getGoogleId());
 
-        GetFeedbackQuestionRecipientsAction action = getAction(params);
-        assertThrows(EntityNotFoundException.class, action::execute);
+        verifyEntityNotFound(params);
     }
 
     @Test
@@ -205,7 +208,17 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     }
 
     @Test
-    void testExecute_moderatedAndPreviewPerson_shouldReturnSameRecipients() {
+    void testAccessControl_withoutLogin_cannotAccess() {
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        verifyCannotAccess(params);
+    }
+
+    @Test
+    void testAccessControl_studentAccess_validationOfScenarios() {
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -213,45 +226,54 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getGoogleId(), typicalStudent.getId().toString()))
-                .thenReturn(typicalStudent);
-        when(mockLogic.getRecipientsOfQuestion(any(), any(), any()))
-                .thenReturn(typicalRecipients);
 
+        ______TS("Student accessing own feedback - can access");
         loginAsStudent(typicalStudent.getGoogleId());
+        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+                .thenReturn(typicalStudent);
+        verifyCanAccess(params);
 
-        GetFeedbackQuestionRecipientsAction action = getAction(params);
-        JsonResult result = action.execute();
-        FeedbackQuestionRecipientsData expectedRecipients = (FeedbackQuestionRecipientsData) result.getOutput();
-
-        // Test moderated person
-        String[] moderatedParams = {
+        ______TS("Student attempting to preview as instructor - cannot access");
+        String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, typicalStudent.getEmail(),
+                Const.ParamsNames.PREVIEWAS, typicalInstructor.getEmail(),
+        };
+        verifyCannotAccess(previewParams);
+    }
+
+    @Test
+    void testAccessControl_instructorAccess_validationOfScenarios() {
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
+        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
+                .thenReturn(typicalFeedbackQuestion);
+        when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
+                .thenReturn(typicalInstructor);
+
+        ______TS("Instructor accessing own feedback - can access");
         loginAsInstructor(typicalInstructor.getGoogleId());
-        action = getAction(moderatedParams);
-        result = action.execute();
-        FeedbackQuestionRecipientsData moderatedRecipients = (FeedbackQuestionRecipientsData) result.getOutput();
+        verifyCanAccess(params);
 
-        assertEquals(expectedRecipients.getRecipients().size(), moderatedRecipients.getRecipients().size());
-        assertEquals(expectedRecipients.getRecipients().get(0).getIdentifier(),
-                moderatedRecipients.getRecipients().get(0).getIdentifier());
-
+        ______TS("Instructor preview as student - can access");
         String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.PREVIEWAS, typicalStudent.getEmail(),
         };
+        when(mockLogic.getStudentForEmail(typicalStudent.getCourseId(), typicalStudent.getEmail()))
+                .thenReturn(typicalStudent);
+        verifyCanAccess(previewParams);
 
-        action = getAction(previewParams);
-        result = action.execute();
-        FeedbackQuestionRecipientsData previewRecipients = (FeedbackQuestionRecipientsData) result.getOutput();
-
-        assertEquals(expectedRecipients.getRecipients().size(), previewRecipients.getRecipients().size());
-        assertEquals(expectedRecipients.getRecipients().get(0).getIdentifier(),
-                previewRecipients.getRecipients().get(0).getIdentifier());
+        ______TS("Instructor moderating as student - can access");
+        String[] moderatedParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, typicalStudent.getEmail(),
+        };
+        verifyCanAccess(moderatedParams);
     }
 }
