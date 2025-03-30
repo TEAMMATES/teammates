@@ -228,7 +228,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    void testExecute_studentGetHasRespondedForSessionWithoutFsParam_success() {
+    void testExecute_studentGetHasRespondedForSessionWithoutFeedbackSessionNameParam_success() {
         loginAsStudent(typicalStudent.getGoogleId());
         List<FeedbackSession> feedbackSessions = getTypicalFeedbackSessions(typicalCourse);
 
