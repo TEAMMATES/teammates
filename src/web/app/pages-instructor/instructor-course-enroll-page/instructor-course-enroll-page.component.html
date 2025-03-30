@@ -96,12 +96,25 @@
               </div>
               <div class="enroll-button-group">
                 <button
+                    [ngClass]="{'w-50': isCopying}"
+                    type="button"
+                    title="Copy"
+                    id="btn-copy"
+                    name="button-copy"
+                    class="btn btn-info"
+                    [disabled]="isCopying"
+                    (click)="copyStudents()">
+                  <tm-progress-bar *ngIf="isCopying"></tm-progress-bar>
+                  <tm-ajax-loading *ngIf="isCopying"></tm-ajax-loading>
+                  Copy students
+                </button>
+                <button
                     [ngClass]="{'w-50': isEnrolling}"
                     type="submit"
                     title="Enroll"
                     id="btn-enroll"
                     name="button-enroll"
-                    class="btn btn-success float-end"
+                    class="btn btn-success"
                     [disabled]="isEnrolling"
                     (click)="submitEnrollData()">
                   <tm-progress-bar *ngIf="isEnrolling"></tm-progress-bar>
