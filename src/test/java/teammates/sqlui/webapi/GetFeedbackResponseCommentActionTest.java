@@ -56,7 +56,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     }
 
     @BeforeMethod
-    void prepareTestData() {
+    void setUp() {
         Course course1 = generateCourse("course-1");
         Course course2 = generateCourse("course-2");
 

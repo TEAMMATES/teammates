@@ -39,7 +39,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     }
 
     @Override
-    protected void setUp() {
+    protected void prepareTestData() {
         DataBundle dataBundle = loadDataBundle("/FeedbackResponseCommentCRUDTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
