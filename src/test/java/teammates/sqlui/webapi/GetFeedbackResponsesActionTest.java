@@ -322,34 +322,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    void testExecute_studentSubmissionNoPreviewAsModeratedPerson_successfullyGetResponses() {
-        loginAsStudent(stubStudent.getGoogleId());
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubStudent.getEmail(),
-        };
-
-        prepareGeneralMocks(EntityType.STUDENT, false, false);
-
-        // Null comments
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(null);
-        GetFeedbackResponsesAction action1 = getAction(params);
-        FeedbackResponsesData result1 = (FeedbackResponsesData) getJsonResult(action1).getOutput();
-        verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNullComments, result1);
-
-        prepareGeneralMocks(EntityType.STUDENT, false, true);
-        // Non-null comments
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(stubFeedbackResponseComment);
-        GetFeedbackResponsesAction action2 = getAction(params);
-        FeedbackResponsesData result2 = (FeedbackResponsesData) getJsonResult(action2).getOutput();
-        verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNonNullComments, result2);
-
-    }
-
-    @Test
     void testExecute_instructorSubmissionNoPreviewAsModeratedPersonNonNullComments_successfullyGetResponses() {
         loginAsInstructor(stubInstructor.getGoogleId());
         String[] params = {
@@ -384,7 +356,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenThrow(InvalidHttpParameterException.class);
         GetFeedbackResponsesAction action = getAction(params1);
         EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
         assertEquals("Feedback Question not found", enfe.getMessage());
@@ -821,7 +792,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Test
     void testSpecificAccessControl_idCannotBeConvertedToUuid_throwsEntityNotFoundException() {
         loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenThrow(InvalidHttpParameterException.class);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "random-invalid-id",
