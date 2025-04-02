@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -170,6 +171,20 @@ public class BaseTestCase {
     protected Team getTypicalTeam() {
         Section section = getTypicalSection();
         return new Team(section, "test-team");
+    }
+
+    protected FeedbackResponseComment getTypicalFeedbackResponseComment() {
+        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
+        FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+        FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(typicalFeedbackResponse,
+                "typical-giver", FeedbackParticipantType.RECEIVER, getTypicalSection(), getTypicalSection(),
+                "typical-comment", true, true, List.of(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
+                List.of(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.INSTRUCTORS), "email");
+        feedbackResponseComment.setId(10L);
+        feedbackResponseComment.setCreatedAt(Instant.now());
+        feedbackResponseComment.setUpdatedAt(Instant.now());
+        return feedbackResponseComment;
     }
 
     protected FeedbackSession getTypicalFeedbackSessionForCourse(Course course) {
