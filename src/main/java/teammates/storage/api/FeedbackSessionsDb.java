@@ -367,9 +367,11 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingSoonEmail() {
         return load()
+                // Retrieve sessions with endTime from 2 days ago onwards to prevent issues caused by time zone differences
                 .filter("endTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentClosingSoonEmail =", false)
                 .filter("isClosingSoonEmailEnabled =", true)
+                .filter("sentClosedEmail =", false)
                 .list();
     }
 
