@@ -24,12 +24,27 @@ import teammates.ui.request.StudentUpdateRequest;
  * Action: Edits details of a student in a course.
  */
 public class UpdateStudentAction extends Action {
-    static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. "
+    /** Message indicating that the student to be edited could not be found in the system. */
+    public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. "
             + "If the student was created during the last few minutes, "
             + "try again in a few more minutes as the student may still be being saved.";
-    private static final String SUCCESSFUL_UPDATE = "Student has been updated";
-    private static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and email sent";
-    private static final String SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED = SUCCESSFUL_UPDATE + " but email failed to send";
+    /** Message indicating that the student information was successfully updated. */
+    public static final String SUCCESSFUL_UPDATE = "Student has been updated";
+    /**
+     * Message indicating that the student information was successfully updated,
+     * and email was successfully sent to the student's new email address.
+     */
+    public static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and email sent";
+    /**
+     * Message indicating that the student information was successfully updated,
+     * but email failed to be sent to the student's new email address.
+     */
+    public static final String SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED = SUCCESSFUL_UPDATE + " but email failed to send";
+    /**
+     * Message indicating that the update operation failed because the requested new email address
+     * for the student is already being used by another student in the system.
+     */
+    public static final String ERROR_EMAIL_ALREADY_EXISTS = "Trying to update to an email that is already in use";
 
     @Override
     AuthType getMinAuthLevel() {
@@ -101,7 +116,7 @@ public class UpdateStudentAction extends Action {
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException("Trying to update to an email that is already in use", e);
+            throw new InvalidOperationException(ERROR_EMAIL_ALREADY_EXISTS, e);
         }
 
         return new JsonResult(SUCCESSFUL_UPDATE);
