@@ -3,8 +3,6 @@ package teammates.sqllogic.api;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.logic.api.UserProvision;
-import teammates.logic.core.InstructorsLogic;
-import teammates.sqllogic.core.UsersLogic;
 
 /**
  * Allows mocking of the {@link UserProvision} API used in production.
