@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -37,6 +38,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
 
     @BeforeMethod
     void setUp() {
+        reset(mockLogic);
         typicalCourse = typicalInstructor.getCourse();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
@@ -82,6 +84,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
 
     @Test
     void testSpecificAccessControl_nonExistentFeedbackQuestion_cannotAccess() {
+        logoutUser();
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(null);
         String[] submissionParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
