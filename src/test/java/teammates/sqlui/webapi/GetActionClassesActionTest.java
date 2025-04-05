@@ -279,37 +279,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     }
 
     @Test
-    protected void testAccessControl() {
-
-        ______TS("Admin can access");
-
-        loginAsAdmin();
-        verifyCanAccess();
-
-        ______TS("Maintainer can access");
-
-        loginAsMaintainer();
-        verifyCanAccess();
-
-        ______TS("Students cannot access");
-
-        loginAsStudent(getTypicalStudent().getGoogleId());
-        verifyCannotAccess();
-
-        ______TS("Instructors cannot access");
-
-        loginAsInstructor(getTypicalInstructor().getGoogleId());
-        verifyCannotAccess();
-
-        ______TS("Non-logged-in users cannot access");
-
-        logoutUser();
-        verifyCannotAccess();
-
-        ______TS("Non-registered users cannot access");
-
-        loginAsUnregistered("unregistered user");
-        verifyCannotAccess();
-
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
+        verifyMaintainerCanAccess();
     }
 }
