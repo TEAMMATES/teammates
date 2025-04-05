@@ -42,38 +42,9 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     }
 
     @Test
-    void testAccessControl_admin_cannotAccess() {
-        loginAsAdmin();
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_maintainers_cannotAccess() {
-        loginAsMaintainer();
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_student_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_loggedOut_cannotAccess() {
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
-        verifyCannotAccess();
+    void testAccessControl() {
+        verifyNoOneCanAccess();
+        verifyMaintainerCannotAccess();
     }
 
     @Test

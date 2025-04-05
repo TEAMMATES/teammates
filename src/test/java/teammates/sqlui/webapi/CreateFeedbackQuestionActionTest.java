@@ -2,7 +2,6 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
 
 import java.util.ArrayList;
 
@@ -10,7 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -212,38 +210,17 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     }
 
     @Test
-    void testSpecificAccessControl_withModifySessionPrivilege_canAccess() {
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
-                .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_withoutModifySessionPrivilege_cannotAccess() {
-        // create instructor without modify session privilege
-        Instructor instructorWithoutAccess = getTypicalInstructor();
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
-
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(instructorWithoutAccess);
 
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-        };
-
-        loginAsInstructor(instructorWithoutAccess.getGoogleId());
-        verifyCannotAccess(params);
+        verifyInaccessibleWithoutModifySessionPrivilege(typicalCourse, params);
+        verifyAccessibleWithModifySessionPrivilege(typicalCourse, params);
     }
 
     private FeedbackQuestionCreateRequest getTypicalTextQuestionCreateRequest() {
