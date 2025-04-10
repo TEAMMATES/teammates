@@ -34,6 +34,10 @@ import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.util.Const;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Page Object Model for feedback results page.
@@ -77,6 +81,16 @@ public class FeedbackResultsPage extends AppPage {
         assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), feedbackSession.getTimeZone());
     }
 
+    public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
+        assertEquals(getCourseId(), feedbackSession.getCourse().getId());
+        assertEquals(getCourseName(), course.getName());
+        assertEquals(getCourseInstitute(), course.getInstitute());
+        assertEquals(getFeedbackSessionName(), feedbackSession.getName());
+        // TODO check if this is valid ie, course.getTimeZone()
+        assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), course.getTimeZone());
+        assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), course.getTimeZone());
+    }
+
     public void verifyQuestionDetails(int questionNum, FeedbackQuestionAttributes question) {
         assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
         if (!question.getQuestionType().equals(FeedbackQuestionType.TEXT)) {
@@ -84,9 +98,28 @@ public class FeedbackResultsPage extends AppPage {
         }
     }
 
-    public void verifyResponseDetails(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> givenResponses,
-                                      List<FeedbackResponseAttributes> otherResponses,
-                                      Set<String> visibleGivers, Set<String> visibleRecipients) {
+    public void verifyQuestionDetails(int questionNum, FeedbackQuestion question) {
+        assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
+        if (!question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.TEXT)) {
+            assertEquals(getAdditionalInfoString(question), getAdditionalInfo(questionNum));
+        }
+    }
+
+    public void verifyResponseDetails(FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> givenResponses,
+            List<FeedbackResponseAttributes> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
+        if (!hasDisplayedResponses(question)) {
+            return;
+        }
+        verifyGivenResponses(question, givenResponses);
+        verifyOtherResponses(question, otherResponses, visibleGivers, visibleRecipients);
+    }
+
+    public void verifyResponseDetails(FeedbackQuestion question,
+            List<FeedbackResponse> givenResponses,
+            List<FeedbackResponse> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
         if (!hasDisplayedResponses(question)) {
             return;
         }
@@ -118,7 +151,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     public void verifyRubricStatistics(int questionNum, String[][] expectedStats,
-                                       String[][] expectedStatsExcludingSelf) {
+            String[][] expectedStatsExcludingSelf) {
         WebElement excludeSelfCheckbox = getRubricExcludeSelfCheckbox(questionNum);
         markOptionAsUnselected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStats);
@@ -192,23 +225,54 @@ public class FeedbackResultsPage extends AppPage {
         return !question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.CONTRIB);
     }
 
-    private void verifyGivenResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> givenResponses) {
+    private boolean hasDisplayedResponses(FeedbackQuestion question) {
+        return !question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.CONTRIB);
+    }
+
+    private void verifyGivenResponses(FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> givenResponses) {
         for (FeedbackResponseAttributes response : givenResponses) {
             WebElement responseField = getGivenResponseField(question.getQuestionNumber(), response.getRecipient());
             assertTrue(isResponseEqual(question, responseField, response));
         }
     }
 
-    private void verifyOtherResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> otherResponses,
-                                      Set<String> visibleGivers, Set<String> visibleRecipients) {
+    private void verifyGivenResponses(FeedbackQuestion question,
+            List<FeedbackResponse> givenResponses) {
+        for (FeedbackResponse response : givenResponses) {
+            WebElement responseField = getGivenResponseField(question.getQuestionNumber(), response.getRecipient());
+            assertTrue(isResponseEqual(question, responseField, response));
+        }
+    }
+
+    private void verifyOtherResponses(FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
         Set<String> recipients = getRecipients(otherResponses);
         for (String recipient : recipients) {
             List<FeedbackResponseAttributes> expectedResponses = otherResponses.stream()
                     .filter(r -> r.getRecipient().equals(recipient)
-                        && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
+                            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
+                    .collect(Collectors.toList());
+
+            verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);
+        }
+    }
+
+    private void verifyOtherResponses(FeedbackQuestion question,
+            List<FeedbackResponse> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
+        Set<String> recipients = getRecipientsSql(otherResponses);
+        for (String recipient : recipients) {
+            List<FeedbackResponse> expectedResponses = otherResponses.stream()
+                    .filter(r -> r.getRecipient().equals(recipient)
+                            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
                     .collect(Collectors.toList());
 
             verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);
@@ -219,9 +283,13 @@ public class FeedbackResultsPage extends AppPage {
         return responses.stream().map(FeedbackResponseAttributes::getRecipient).collect(Collectors.toSet());
     }
 
+    private Set<String> getRecipientsSql(List<FeedbackResponse> responses) {
+        return responses.stream().map(FeedbackResponse::getRecipient).collect(Collectors.toSet());
+    }
+
     private void verifyResponseForRecipient(FeedbackQuestionAttributes question, String recipient,
-                                            List<FeedbackResponseAttributes> otherResponses,
-                                            Set<String> visibleGivers, Set<String> visibleRecipients) {
+            List<FeedbackResponseAttributes> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
         List<WebElement> responseViews = getAllResponseViews(question.getQuestionNumber());
         for (FeedbackResponseAttributes response : otherResponses) {
             boolean isRecipientVisible = visibleRecipients.contains(response.getGiver())
@@ -247,9 +315,37 @@ public class FeedbackResultsPage extends AppPage {
         }
     }
 
+    private void verifyResponseForRecipient(FeedbackQuestion question, String recipient,
+            List<FeedbackResponse> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
+        List<WebElement> responseViews = getAllResponseViews(question.getQuestionNumber());
+        for (FeedbackResponse response : otherResponses) {
+            boolean isRecipientVisible = visibleRecipients.contains(response.getGiver())
+                    || CURRENT_STUDENT_IDENTIFIER.equals(recipient);
+            boolean isGiverVisible = visibleGivers.contains(response.getGiver())
+                    || visibleGivers.contains("RECEIVER") && CURRENT_STUDENT_IDENTIFIER.equals(response.getRecipient())
+                    || CURRENT_STUDENT_IDENTIFIER.equals(response.getGiver());
+            boolean isGiverVisibleToInstructor = question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                    && visibleGivers.contains("INSTRUCTORS");
+            if (isRecipientVisible) {
+                int recipientIndex = getRecipientIndex(question.getQuestionNumber(), recipient);
+                WebElement responseView = responseViews.get(recipientIndex);
+                List<WebElement> responsesFields = getAllResponseFields(responseView);
+                if (isGiverVisible || isGiverVisibleToInstructor) {
+                    int giverIndex = getGiverIndex(responseView, response.getGiver());
+                    assertTrue(isResponseEqual(question, responsesFields.get(giverIndex), response));
+                } else {
+                    assertTrue(isAnyAnonymousResponseEqual(question, responseView, response));
+                }
+            } else {
+                verifyAnonymousResponseView(question, otherResponses, isGiverVisible);
+            }
+        }
+    }
+
     private void verifyAnonymousResponseView(FeedbackQuestionAttributes question,
-                                             List<FeedbackResponseAttributes> expectedResponses,
-                                             boolean isGiverVisible) {
+            List<FeedbackResponseAttributes> expectedResponses,
+            boolean isGiverVisible) {
         List<WebElement> anonymousViews = getAllResponseViews(question.getQuestionNumber()).stream()
                 .filter(v -> isAnonymous(v.findElement(By.className("response-recipient")).getText()))
                 .collect(Collectors.toList());
@@ -280,8 +376,41 @@ public class FeedbackResultsPage extends AppPage {
         assertTrue(hasCorrectResponses);
     }
 
+    private void verifyAnonymousResponseView(FeedbackQuestion question,
+            List<FeedbackResponse> expectedResponses,
+            boolean isGiverVisible) {
+        List<WebElement> anonymousViews = getAllResponseViews(question.getQuestionNumber()).stream()
+                .filter(v -> isAnonymous(v.findElement(By.className("response-recipient")).getText()))
+                .collect(Collectors.toList());
+        if (anonymousViews.isEmpty()) {
+            fail("No anonymous views found");
+        }
+
+        boolean hasCorrectResponses = true;
+        for (WebElement responseView : anonymousViews) {
+            hasCorrectResponses = true;
+            List<WebElement> responseFields = getAllResponseFields(responseView);
+            for (FeedbackResponse response : expectedResponses) {
+                if (isGiverVisible) {
+                    int giverIndex = getGiverIndex(responseView, response.getGiver());
+                    if (!isResponseEqual(question, responseFields.get(giverIndex), response)) {
+                        hasCorrectResponses = false;
+                        break;
+                    }
+                } else if (!isAnyAnonymousResponseEqual(question, responseView, response)) {
+                    hasCorrectResponses = false;
+                    break;
+                }
+            }
+            if (hasCorrectResponses) {
+                break;
+            }
+        }
+        assertTrue(hasCorrectResponses);
+    }
+
     private boolean isResponseEqual(FeedbackQuestionAttributes question, WebElement responseField,
-                                    FeedbackResponseAttributes response) {
+            FeedbackResponseAttributes response) {
         if (question.getQuestionType().equals(FeedbackQuestionType.RUBRIC)) {
             return isRubricResponseEqual(responseField, response);
         } else {
@@ -289,8 +418,33 @@ public class FeedbackResultsPage extends AppPage {
         }
     }
 
+    private boolean isResponseEqual(FeedbackQuestion question, WebElement responseField,
+            FeedbackResponse response) {
+        if (question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.RUBRIC)) {
+            return isRubricResponseEqual(responseField, response);
+        } else {
+            return getAnswerString(question, response.getFeedbackResponseDetailsCopy()).equals(responseField.getText());
+        }
+    }
+
     private boolean isRubricResponseEqual(WebElement responseField, FeedbackResponseAttributes response) {
-        FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
+        FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response
+                .getResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            WebElement rubricTableBody = responseField.findElement(By.className("rubric-answers"));
+            WebElement rubricRow = rubricTableBody.findElements(By.cssSelector("tr")).get(i);
+            WebElement rubricCell = rubricRow.findElements(By.tagName("td")).get(answers.get(i) + 1);
+            if (rubricCell.findElements(By.className("fa-check")).size() == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isRubricResponseEqual(WebElement responseField, FeedbackResponse response) {
+        FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response
+                .getFeedbackResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             WebElement rubricTableBody = responseField.findElement(By.className("rubric-answers"));
@@ -308,11 +462,25 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean isAnyAnonymousResponseEqual(FeedbackQuestionAttributes question, WebElement responseView,
-                                                FeedbackResponseAttributes response) {
+            FeedbackResponseAttributes response) {
         List<WebElement> giverNames = responseView.findElements(By.className("response-giver"));
         List<WebElement> responseFields = getAllResponseFields(responseView);
         for (int i = 0; i < giverNames.size(); i++) {
-            if (isAnonymous(giverNames.get(i).getText()) && isResponseEqual(question, responseFields.get(i), response)) {
+            if (isAnonymous(giverNames.get(i).getText())
+                    && isResponseEqual(question, responseFields.get(i), response)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isAnyAnonymousResponseEqual(FeedbackQuestion question, WebElement responseView,
+            FeedbackResponse response) {
+        List<WebElement> giverNames = responseView.findElements(By.className("response-giver"));
+        List<WebElement> responseFields = getAllResponseFields(responseView);
+        for (int i = 0; i < giverNames.size(); i++) {
+            if (isAnonymous(giverNames.get(i).getText())
+                    && isResponseEqual(question, responseFields.get(i), response)) {
                 return true;
             }
         }
@@ -375,7 +543,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String appendMultiChoiceInfo(String info, FeedbackParticipantType generateOptionsFor, List<String> choices,
-                                         boolean isOtherEnabled) {
+            boolean isOtherEnabled) {
         StringBuilder additionalInfo = new StringBuilder(info);
         if (generateOptionsFor.equals(FeedbackParticipantType.NONE)) {
             additionalInfo = appendOptions(additionalInfo, choices);
@@ -452,8 +620,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink =
-                getQuestionResponsesSection(qnNumber).findElement(By.className("additional-info-button"));
+        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber)
+                .findElement(By.className("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
             waitUntilAnimationFinish();
@@ -496,11 +664,43 @@ public class FeedbackResultsPage extends AppPage {
         case RANK_RECIPIENTS:
             return "Rank (recipients) question";
         case CONSTSUM_OPTIONS:
-            return getConstSumOptionsAddInfo((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+            return getConstSumOptionsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
         case CONSTSUM_RECIPIENTS:
-            return getConstSumRecipientsAddInfo((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+            return getConstSumRecipientsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
         default:
             throw new AssertionError("Unknown question type: " + question.getQuestionType());
+        }
+    }
+
+    private String getAdditionalInfoString(FeedbackQuestion question) {
+        switch (question.getQuestionDetailsCopy().getQuestionType()) {
+        case TEXT:
+            return "";
+        case MCQ:
+            return getMcqAddInfo((FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy());
+        case MSQ:
+            return getMsqAddInfo((FeedbackMsqQuestionDetails) question.getQuestionDetailsCopy());
+        case RUBRIC:
+            return getRubricAddInfo((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy());
+        case NUMSCALE:
+            return getNumScaleAddInfo((FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
+        case CONTRIB:
+            return "Team contribution question";
+        case RANK_OPTIONS:
+            return getRankOptionsAddInfo((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy());
+        case RANK_RECIPIENTS:
+            return "Rank (recipients) question";
+        case CONSTSUM_OPTIONS:
+            return getConstSumOptionsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        case CONSTSUM_RECIPIENTS:
+            return getConstSumRecipientsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        default:
+            throw new AssertionError(
+                    "Unknown question type: " + question.getQuestionDetailsCopy().getQuestionType());
         }
     }
 
@@ -517,7 +717,32 @@ public class FeedbackResultsPage extends AppPage {
             return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
         case CONSTSUM:
-            return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
+            return getConstSumOptionsAnsString(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackConstantSumResponseDetails) response);
+        case RUBRIC:
+        case CONTRIB:
+            return "";
+        default:
+            throw new AssertionError("Unknown question type: " + response.getQuestionType());
+        }
+    }
+
+    private String getAnswerString(FeedbackQuestion question, FeedbackResponseDetails response) {
+        switch (response.getQuestionType()) {
+        case TEXT:
+        case NUMSCALE:
+        case RANK_RECIPIENTS:
+            return response.getAnswerString();
+        case MCQ:
+        case MSQ:
+            return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
+        case RANK_OPTIONS:
+            return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackRankOptionsResponseDetails) response);
+        case CONSTSUM:
+            return getConstSumOptionsAnsString(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackConstantSumResponseDetails) response);
         case RUBRIC:
         case CONTRIB:
@@ -528,7 +753,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getRankOptionsAnsString(FeedbackRankOptionsQuestionDetails question,
-                                           FeedbackRankOptionsResponseDetails responseDetails) {
+            FeedbackRankOptionsResponseDetails responseDetails) {
         List<String> options = question.getOptions();
         List<Integer> answers = responseDetails.getAnswers();
         List<String> answerStrings = new ArrayList<>();
@@ -539,7 +764,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
-                                               FeedbackConstantSumResponseDetails responseDetails) {
+            FeedbackConstantSumResponseDetails responseDetails) {
         if (question.isDistributeToRecipients()) {
             return responseDetails.getAnswerString();
         }
@@ -612,8 +837,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private int getRecipientIndex(int questionNum, String recipient) {
-        List<WebElement> recipients =
-                getQuestionResponsesSection(questionNum).findElements(By.className("response-recipient"));
+        List<WebElement> recipients = getQuestionResponsesSection(questionNum)
+                .findElements(By.className("response-recipient"));
         for (int i = 0; i < recipients.size(); i++) {
             if (recipients.get(i).getText().split("To: ")[1].equals(recipient)) {
                 return i;
