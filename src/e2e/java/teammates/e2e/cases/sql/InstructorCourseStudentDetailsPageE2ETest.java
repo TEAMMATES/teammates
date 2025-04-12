@@ -23,7 +23,6 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
         otherStudent = testData.students.get("ICSDet.benny.c");
     }
 
-
     @Test
     @Override
     public void testAll() {
