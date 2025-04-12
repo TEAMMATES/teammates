@@ -97,10 +97,10 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
 
         // Commented as only one student comment should be visible to students
-        // verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"),
-        // student);
-        // verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"),
-        // student);
+        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"),
+                student);
+        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"),
+                student);
         verifyCommentDetails(4, testData.feedbackResponseComments.get("qn4Comment1"), student);
 
         ______TS("registered instructor: can access results");
@@ -154,15 +154,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
-
-        // ______TS("preview results as instructor: questions with responses loaded and
-        // invisible responses excluded");
-        // verifyLoadedQuestions(instructor, true);
-
-        // ______TS("preview results as instructor: visible responses shown");
-        // questions.stream().filter(this::canInstructorSeeQuestion)
-        // .forEach(question -> verifyResponseDetails(instructor, question));
-
     }
 
     private void verifyLoadedQuestions(Student currentStudent, boolean isPreview) {

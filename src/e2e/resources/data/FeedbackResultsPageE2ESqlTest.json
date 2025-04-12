@@ -160,7 +160,8 @@
           "id": "00000000-0000-4000-8000-000000000301"
         },
         "name": "Alice Betsy",
-        "email": "FRes.alice.b@gmail.tmt"
+        "email": "FRes.alice.b@gmail.tmt",
+        "googleId": "tm.e2e.FRes.alice.b"
       },
       "Benny": {
         "comments": "This student's name is Benny Charles",

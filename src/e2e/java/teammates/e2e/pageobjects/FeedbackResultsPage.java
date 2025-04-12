@@ -435,7 +435,7 @@ public class FeedbackResultsPage extends AppPage {
             WebElement rubricTableBody = responseField.findElement(By.className("rubric-answers"));
             WebElement rubricRow = rubricTableBody.findElements(By.cssSelector("tr")).get(i);
             WebElement rubricCell = rubricRow.findElements(By.tagName("td")).get(answers.get(i) + 1);
-            if (rubricCell.findElements(By.className("fa-check")).size() == 0) {
+            if (rubricCell.findElements(By.className("fa-check")).isEmpty()) {
                 return false;
             }
         }
