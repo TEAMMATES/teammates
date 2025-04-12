@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Represents the instructor course student details view page of the website.
@@ -51,6 +52,16 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
         verifyDetail(student.getCourse(), courseId);
         verifyDetail(student.getSection(), studentSectionName);
         verifyDetail(student.getTeam(), studentTeamName);
+        verifyDetail(student.getEmail(), studentOfficialEmail);
+        verifyDetail(student.getComments(), studentComments);
+    }
+
+    public void verifyStudentDetails(Student student) {
+        verifyDetail(student.getName(), studentName);
+
+        verifyDetail(student.getCourseId(), courseId);
+        verifyDetail(student.getSectionName(), studentSectionName);
+        verifyDetail(student.getTeamName(), studentTeamName);
         verifyDetail(student.getEmail(), studentOfficialEmail);
         verifyDetail(student.getComments(), studentComments);
     }
