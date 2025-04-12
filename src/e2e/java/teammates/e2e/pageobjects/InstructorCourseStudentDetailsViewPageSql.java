@@ -41,25 +41,25 @@ public class InstructorCourseStudentDetailsViewPageSql extends AppPage {
     }
 
     public void verifyIsCorrectPage(String expectedCourseId, String expectedStudentEmail) {
-        verifyDetail(expectedCourseId, courseId.getText());
-        verifyDetail(expectedStudentEmail, studentOfficialEmail.getText());
+        verifyDetail(expectedCourseId, courseId);
+        verifyDetail(expectedStudentEmail, studentOfficialEmail);
     }
 
     public void verifyStudentDetails(Student student) {
-        verifyDetail(student.getName(), studentName.getText());
+        verifyDetail(student.getName(), studentName);
 
-        verifyDetail(student.getCourseId(), courseId.getText());
-        verifyDetail(student.getSection().getName(), studentSectionName.getText());
-        verifyDetail(student.getTeam().getName(), studentTeamName.getText());
-        verifyDetail(student.getEmail(), studentOfficialEmail.getText());
-        verifyDetail(student.getComments(), studentComments.getText());
+        verifyDetail(student.getCourseId(), courseId);
+        verifyDetail(student.getSection().getName(), studentSectionName);
+        verifyDetail(student.getTeam().getName(), studentTeamName);
+        verifyDetail(student.getEmail(), studentOfficialEmail);
+        verifyDetail(student.getComments(), studentComments);
     }
 
-    private void verifyDetail(String expected, String detailField) {
+    private void verifyDetail(String expected, WebElement detailField) {
         if (expected.isEmpty()) {
-            assertEquals(NOT_SPECIFIED_LABEL, detailField);
+            assertEquals(NOT_SPECIFIED_LABEL, detailField.getText());
         } else {
-            assertEquals(expected, detailField);
+            assertEquals(expected, detailField.getText());
         }
     }
 
