@@ -4,18 +4,23 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPageSql;
 import teammates.storage.sqlentity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE}.
  */
 public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
+    private Student student;
+    private Student otherStudent;
 
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadSqlDataBundle("/InstructorCourseStudentDetailsPageE2ETest_SqlEntities.json"));
+                        loadSqlDataBundle("/InstructorCourseStudentDetailsPageE2ETestSql.json"));
+
+        student = testData.students.get("ICSDet.jose.tmms");
+        otherStudent = testData.students.get("ICSDet.benny.c");
     }
 
 
@@ -23,20 +28,18 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         ______TS("verify loaded details");
-        Student student = testData.students.get("ICSDet.jose.tmms");
         AppUrl viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
-        InstructorCourseStudentDetailsViewPage viewPage =
-                loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class,
+        InstructorCourseStudentDetailsViewPageSql viewPage =
+                loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPageSql.class,
                         testData.instructors.get("ICSDet.instr").getGoogleId());
 
         viewPage.verifyStudentDetails(student);
 
         ______TS("verify loaded details - another student");
-        student = testData.students.get("ICSDet.benny.c");
-        viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
-        viewPage = getNewPageInstance(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
+        viewPageUrl = getStudentDetailsViewPageUrl(otherStudent.getEmail());
+        viewPage = getNewPageInstance(viewPageUrl, InstructorCourseStudentDetailsViewPageSql.class);
 
-        viewPage.verifyStudentDetails(student);
+        viewPage.verifyStudentDetails(otherStudent);
     }
 
     private AppUrl getStudentDetailsViewPageUrl(String studentEmail) {

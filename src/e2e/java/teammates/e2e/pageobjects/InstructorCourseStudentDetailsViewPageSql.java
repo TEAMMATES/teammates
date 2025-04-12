@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Represents the instructor course student details view page of the website.
  */
-public class InstructorCourseStudentDetailsViewPage extends AppPage {
+public class InstructorCourseStudentDetailsViewPageSql extends AppPage {
     private static final String NOT_SPECIFIED_LABEL = "Not Specified";
 
     @FindBy (id = "student-name")
@@ -31,7 +31,7 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
     @FindBy (id = "comments")
     private WebElement studentComments;
 
-    public InstructorCourseStudentDetailsViewPage(Browser browser) {
+    public InstructorCourseStudentDetailsViewPageSql(Browser browser) {
         super(browser);
     }
 
@@ -41,25 +41,25 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
     }
 
     public void verifyIsCorrectPage(String expectedCourseId, String expectedStudentEmail) {
-        verifyDetail(expectedCourseId, courseId);
-        verifyDetail(expectedStudentEmail, studentOfficialEmail);
+        verifyDetail(expectedCourseId, courseId.getText());
+        verifyDetail(expectedStudentEmail, studentOfficialEmail.getText());
     }
 
-    public void verifyStudentDetails(StudentAttributes student) {
-        verifyDetail(student.getName(), studentName);
+    public void verifyStudentDetails(Student student) {
+        verifyDetail(student.getName(), studentName.getText());
 
-        verifyDetail(student.getCourse(), courseId);
-        verifyDetail(student.getSection(), studentSectionName);
-        verifyDetail(student.getTeam(), studentTeamName);
-        verifyDetail(student.getEmail(), studentOfficialEmail);
-        verifyDetail(student.getComments(), studentComments);
+        verifyDetail(student.getCourseId(), courseId.getText());
+        verifyDetail(student.getSection().getName(), studentSectionName.getText());
+        verifyDetail(student.getTeam().getName(), studentTeamName.getText());
+        verifyDetail(student.getEmail(), studentOfficialEmail.getText());
+        verifyDetail(student.getComments(), studentComments.getText());
     }
 
-    private void verifyDetail(String expected, WebElement detailField) {
+    private void verifyDetail(String expected, String detailField) {
         if (expected.isEmpty()) {
-            assertEquals(NOT_SPECIFIED_LABEL, detailField.getText());
+            assertEquals(NOT_SPECIFIED_LABEL, detailField);
         } else {
-            assertEquals(expected, detailField.getText());
+            assertEquals(expected, detailField);
         }
     }
 
