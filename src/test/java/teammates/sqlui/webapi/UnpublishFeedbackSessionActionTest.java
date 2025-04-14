@@ -109,7 +109,9 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
     @Test
     void testExecute_publishedFeedbackSessionWithEmailDisabled_succeedsWithNoTasksAdded()
             throws EntityDoesNotExistException, InvalidParametersException {
-        typicalFeedbackSession.setResultsVisibleFromTime(Instant.now());
+        typicalFeedbackSession.setResultsVisibleFromTime(Instant.now()); // set the input to be published
+        FeedbackSession outputFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
+        outputFeedbackSession.setCreatedAt(Instant.now());
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -118,13 +120,14 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.unpublishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
-                .thenReturn(typicalFeedbackSession);
+                .thenReturn(outputFeedbackSession);
 
         UnpublishFeedbackSessionAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         FeedbackSessionData feedbackSessionData = (FeedbackSessionData) result.getOutput();
 
-        verifyFeedbackSessionData(feedbackSessionData, typicalFeedbackSession, FeedbackSessionPublishStatus.PUBLISHED);
+        verifyFeedbackSessionData(feedbackSessionData, outputFeedbackSession,
+                FeedbackSessionPublishStatus.NOT_PUBLISHED);
         verify(mockLogic).unpublishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
         verifyNoTasksAdded();
     }
@@ -132,8 +135,11 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
     @Test
     void testExecute_publishedFeedbackSessionWithEmailEnabled_succeedsWithTasksAdded()
             throws EntityDoesNotExistException, InvalidParametersException {
-        typicalFeedbackSession.setResultsVisibleFromTime(Instant.now());
+        typicalFeedbackSession.setResultsVisibleFromTime(Instant.now()); // set the input to be published
         typicalFeedbackSession.setPublishedEmailEnabled(true);
+        FeedbackSession outputFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
+        outputFeedbackSession.setCreatedAt(Instant.now());
+        outputFeedbackSession.setPublishedEmailEnabled(true);
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -142,13 +148,14 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.unpublishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
-                .thenReturn(typicalFeedbackSession);
+                .thenReturn(outputFeedbackSession);
 
         UnpublishFeedbackSessionAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         FeedbackSessionData feedbackSessionData = (FeedbackSessionData) result.getOutput();
 
-        verifyFeedbackSessionData(feedbackSessionData, typicalFeedbackSession, FeedbackSessionPublishStatus.PUBLISHED);
+        verifyFeedbackSessionData(feedbackSessionData, outputFeedbackSession,
+                FeedbackSessionPublishStatus.NOT_PUBLISHED);
         verify(mockLogic).unpublishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
         verifySpecifiedTasksAdded(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME, 1);
     }
@@ -255,7 +262,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
     }
 
     private void verifyFeedbackSessionData(FeedbackSessionData output, FeedbackSession session,
-            FeedbackSessionPublishStatus originalPublishStatus) {
+            FeedbackSessionPublishStatus publishStatus) {
         assertEquals(output.getFeedbackSessionId(), session.getId());
         assertEquals(output.getCourseId(), session.getCourseId());
         assertEquals(output.getTimeZone(), session.getCourse().getTimeZone());
@@ -277,7 +284,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         assertEquals(output.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
         assertEquals(output.getCustomResponseVisibleTimestamp(), output.getResultVisibleFromTimestamp());
         assertEquals(output.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);
-        assertEquals(output.getPublishStatus(), originalPublishStatus);
+        assertEquals(output.getPublishStatus(), publishStatus);
         assertEquals(output.getIsClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
         assertEquals(output.getIsPublishedEmailEnabled(), session.isPublishedEmailEnabled());
         assertEquals(output.getCreatedAtTimestamp(), session.getCreatedAt().toEpochMilli());
