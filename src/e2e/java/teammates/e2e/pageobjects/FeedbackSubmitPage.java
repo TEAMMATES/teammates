@@ -37,7 +37,10 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Represents the feedback submission page of the website.
@@ -66,6 +69,16 @@ public class FeedbackSubmitPage extends AppPage {
         assertEquals(getInstructions(), feedbackSession.getInstructions());
     }
 
+    public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
+        assertEquals(getCourseId(), feedbackSession.getCourseId());
+        assertEquals(getCourseName(), course.getName());
+        assertEquals(getCourseInstitute(), course.getInstitute());
+        assertEquals(getFeedbackSessionName(), feedbackSession.getName());
+        assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), Const.DEFAULT_TIME_ZONE);
+        assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), Const.DEFAULT_TIME_ZONE);
+        assertEquals(getInstructions(), feedbackSession.getInstructions());
+    }
+
     public void verifyNumQuestions(int expected) {
         assertEquals(browser.driver.findElements(By.cssSelector("[id^='question-submission-form-qn-']")).size(), expected);
     }
@@ -75,6 +88,14 @@ public class FeedbackSubmitPage extends AppPage {
         verifyVisibilityList(qnNumber, questionAttributes);
         if (questionAttributes.getQuestionDescription() != null) {
             assertEquals(getQuestionDescription(qnNumber), questionAttributes.getQuestionDescription());
+        }
+    }
+
+    public void verifyQuestionDetails(int qnNumber, FeedbackQuestion question) {
+        assertEquals(getQuestionBrief(qnNumber), question.getQuestionDetailsCopy().getQuestionText());
+        verifyVisibilityList(qnNumber, question);
+        if (question.getDescription() != null) {
+            assertEquals(getQuestionDescription(qnNumber), question.getDescription());
         }
     }
 
@@ -731,6 +752,18 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    private void verifyVisibilityList(int qnNumber, FeedbackQuestion question) {
+        if (question.getShowResponsesTo().isEmpty()) {
+            verifyVisibilityStringPresent(qnNumber, "No-one can see your responses");
+        }
+        if (question.getRecipientType().equals(FeedbackParticipantType.SELF)) {
+            verifyVisibilityStringPresent(qnNumber, "You can see your own feedback in the results page later on.");
+        }
+        for (FeedbackParticipantType viewerType : question.getShowResponsesTo()) {
+            verifyVisibilityStringPresent(qnNumber, getVisibilityString(question, viewerType));
+        }
+    }
+
     private void verifyVisibilityStringPresent(int qnNumber, String expectedString) {
         List<WebElement> visibilityStrings = getQuestionForm(qnNumber).findElement(By.className("visibility-list"))
                 .findElements(By.tagName("li"));
@@ -759,6 +792,30 @@ public class FeedbackSubmitPage extends AppPage {
             }
         } else {
             if (questionAttributes.getShowGiverNameTo().contains(viewerType)) {
+                message.append(", and your name, but not the name of the recipient");
+            } else {
+                message.append(", but not the name of the recipient, or your name");
+            }
+        }
+        return message.toString();
+    }
+
+    private String getVisibilityString(FeedbackQuestion question, FeedbackParticipantType viewerType) {
+        if (!question.getShowResponsesTo().contains(viewerType)) {
+            return "";
+        }
+
+        StringBuilder message = new StringBuilder(getViewerString(viewerType, question.getRecipientType()));
+        message.append(" can see your response");
+        if (question.getShowRecipientNameTo().contains(viewerType)) {
+            message.append(", the name of the recipient");
+            if (question.getShowGiverNameTo().contains(viewerType)) {
+                message.append(", and your name");
+            } else {
+                message.append(", but not your name");
+            }
+        } else {
+            if (question.getShowGiverNameTo().contains(viewerType)) {
                 message.append(", and your name, but not the name of the recipient");
             } else {
                 message.append(", but not the name of the recipient, or your name");
