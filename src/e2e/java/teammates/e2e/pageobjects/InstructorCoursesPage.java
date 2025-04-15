@@ -99,7 +99,7 @@ public class InstructorCoursesPage extends AppPage {
         showStatistics(course.getId());
         String[] courseDetail = { course.getId(), course.getName(),
         TimeHelper.formatInstant(course.getCreatedAt(), course.getTimeZone(), "d MMM yyyy"),
-        numSections, numTeams, numStudents, numUnregistered };
+                numSections, numTeams, numStudents, numUnregistered };
         verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
     }
 

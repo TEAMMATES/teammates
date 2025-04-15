@@ -65,7 +65,6 @@ public final class CoursesLogic {
         return coursesDb.createCourse(course);
     }
 
-
     /**
      * Creates a course and instructor.
      *
@@ -84,7 +83,7 @@ public final class CoursesLogic {
             createdCourse = createCourse(courseToCreate);
 
             InstructorPrivileges privileges = new InstructorPrivileges(
-                InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                    InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
             Instructor instructor = new Instructor(createdCourse, instructorAccount.getName(), instructorAccount.getEmail(),
                     true, instructorAccount.getName(), InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                     privileges);

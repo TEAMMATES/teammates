@@ -61,9 +61,12 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                         Const.TIME_REPRESENTS_LATER, session.getGracePeriod(), session.isOpenedEmailEnabled(),
                         session.isClosingSoonEmailEnabled(), session.isPublishedEmailEnabled());
 
-        copySession2 = new FeedbackSession("Second Session", copyCourse2, instructor.getEmail(), copySession.getInstructions(),
-                        copySession.getStartTime(), copySession.getEndTime(), copySession.getSessionVisibleFromTime(), copySession.getResultsVisibleFromTime(),
-                        copySession.getGracePeriod(), copySession.isOpenedEmailEnabled(), copySession.isClosingSoonEmailEnabled(), copySession.isPublishedEmailEnabled());
+        copySession2 = new FeedbackSession("Second Session", copyCourse2, instructor.getEmail(),
+                        copySession.getInstructions(), copySession.getStartTime(),
+                        copySession.getEndTime(), copySession.getSessionVisibleFromTime(),
+                        copySession.getResultsVisibleFromTime(), copySession.getGracePeriod(),
+                        copySession.isOpenedEmailEnabled(), copySession.isClosingSoonEmailEnabled(),
+                        copySession.isPublishedEmailEnabled());
     }
 
     @BeforeClass
@@ -136,7 +139,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         ______TS("restore active course");
         newCourse.setDeletedAt(null);
         Course[] activeCoursesWithNewCourseSortedByCreationDate =
-                { copyCourse2, copyCourse, newCourse, courses[1], courses[3], courses[0]  };
+                { copyCourse2, copyCourse, newCourse, courses[1], courses[3], courses[0] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");

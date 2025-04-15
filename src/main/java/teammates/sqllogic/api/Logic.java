@@ -384,7 +384,6 @@ public class Logic {
         return coursesLogic.createCourseAndInstructorWithTransaction(instructorAccount, course);
     }
 
-
     /**
      * Deletes a course by course id.
      * @param courseId of course.

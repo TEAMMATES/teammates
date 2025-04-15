@@ -64,7 +64,8 @@ public class CreateCourseAction extends Action {
             Account instructorAccount = sqlLogic.getAccountForGoogleIdWithTransaction(userInfo.getId());
             course = sqlLogic.createCourseAndInstructorWithTransaction(instructorAccount, course);
 
-            Instructor instructorCreatedForCourse = sqlLogic.getInstructorByGoogleIdWithTransaction(newCourseId, userInfo.getId());
+            Instructor instructorCreatedForCourse = sqlLogic.getInstructorByGoogleIdWithTransaction(newCourseId,
+                    userInfo.getId());
             taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
                     instructorCreatedForCourse.getEmail());
         } catch (EntityAlreadyExistsException e) {
