@@ -11,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Represents the instructor course enrollment page.
@@ -99,7 +100,18 @@ public class InstructorCourseEnrollPage extends AppPage {
         clickEnrollButton();
     }
 
+    public void enroll(Student[] studentsData) {
+        fillEnrollSpreadsheet(getEnrollmentData(studentsData));
+        waitForElementToBeClickable(enrollButton);
+        clickEnrollButton();
+    }
+
     public void verifyExistingStudentsTableContains(StudentAttributes[] expectedStudents) {
+        clickToggleExistingStudentsHeader();
+        verifyTableBodyValues(existingStudentsTable, getEnrollmentData(expectedStudents));
+    }
+
+    public void verifyExistingStudentsTableContains(Student[] expectedStudents) {
         clickToggleExistingStudentsHeader();
         verifyTableBodyValues(existingStudentsTable, getEnrollmentData(expectedStudents));
     }
@@ -109,6 +121,32 @@ public class InstructorCourseEnrollPage extends AppPage {
                                            StudentAttributes[] expectedModifiedWithoutChangeStudents,
                                            StudentAttributes[] expectedErrorStudents,
                                            StudentAttributes[] expectedUnmodifiedStudents) {
+        waitForElementVisibility(resultsPanel);
+        // number of tables depends on what results are present
+        int numTables = 0;
+        List<WebElement> tables = resultsPanel.findElements(By.tagName("table"));
+        if (expectedErrorStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedErrorStudents));
+        }
+        if (expectedNewStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedNewStudents));
+        }
+        if (expectedModifiedStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedStudents));
+        }
+        if (expectedModifiedWithoutChangeStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedWithoutChangeStudents));
+        }
+        if (expectedUnmodifiedStudents != null) {
+            verifyTableBodyValues(tables.get(numTables), getEnrollmentData(expectedUnmodifiedStudents));
+        }
+    }
+
+    public void verifyResultsPanelContains(Student[] expectedNewStudents,
+                                           Student[] expectedModifiedStudents,
+                                           Student[] expectedModifiedWithoutChangeStudents,
+                                           Student[] expectedErrorStudents,
+                                           Student[] expectedUnmodifiedStudents) {
         waitForElementVisibility(resultsPanel);
         // number of tables depends on what results are present
         int numTables = 0;
@@ -154,4 +192,15 @@ public class InstructorCourseEnrollPage extends AppPage {
         }
         return tableData;
     }
+
+    private String[][] getEnrollmentData(Student[] studentsData) {
+        String[][] tableData = new String[studentsData.length][NUM_ENROLLMENT_ATTRIBUTES];
+        for (int i = 0; i < studentsData.length; i++) {
+            String[] student = {studentsData[i].getSection().getName(), studentsData[i].getTeamName(),
+                    studentsData[i].getName(), studentsData[i].getEmail(), studentsData[i].getComments()};
+            tableData[i] = student;
+        }
+        return tableData;
+    }
+
 }
