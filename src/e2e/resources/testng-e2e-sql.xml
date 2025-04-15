@@ -25,6 +25,7 @@
             <class name="teammates.e2e.cases.sql.StudentCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.RequestPageE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorCourseStudentDetailsEditPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseStudentDetailsPageE2ETest" />
         </classes>
     </test>
 </suite>
