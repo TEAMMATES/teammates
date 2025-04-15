@@ -58,12 +58,12 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                                 .truncatedTo(ChronoUnit.HOURS).toInstant(),
                         ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone())).minus(Duration.ofDays(28))
                                 .truncatedTo(ChronoUnit.HOURS).toInstant(),
-                        Const.TIME_REPRESENTS_LATER, session.getGracePeriod(), session.isOpeningEmailEnabled(),
-                        session.isClosingEmailEnabled(), session.isPublishedEmailEnabled());
+                        Const.TIME_REPRESENTS_LATER, session.getGracePeriod(), session.isOpenedEmailEnabled(),
+                        session.isClosingSoonEmailEnabled(), session.isPublishedEmailEnabled());
 
         copySession2 = new FeedbackSession("Second Session", copyCourse2, instructor.getEmail(), copySession.getInstructions(),
                         copySession.getStartTime(), copySession.getEndTime(), copySession.getSessionVisibleFromTime(), copySession.getResultsVisibleFromTime(),
-                        copySession.getGracePeriod(), copySession.isOpeningEmailEnabled(), copySession.isClosingEmailEnabled(), copySession.isPublishedEmailEnabled());
+                        copySession.getGracePeriod(), copySession.isOpenedEmailEnabled(), copySession.isClosingSoonEmailEnabled(), copySession.isPublishedEmailEnabled());
     }
 
     @BeforeClass
