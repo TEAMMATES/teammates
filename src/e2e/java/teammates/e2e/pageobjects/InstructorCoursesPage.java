@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.Course;
 
 /**
  * Represents the "Courses" page for Instructors.
@@ -78,12 +79,27 @@ public class InstructorCoursesPage extends AppPage {
         verifyTableBodyValues(getActiveCoursesTable(), courseDetails);
     }
 
+    public void verifyActiveCoursesDetails(Course[] courses) {
+        String[][] courseDetails = getCourseDetails(courses);
+        // use verifyTableBodyValues as active courses are sorted
+        verifyTableBodyValues(getActiveCoursesTable(), courseDetails);
+    }
+
     public void verifyActiveCourseStatistics(CourseAttributes course, String numSections, String numTeams,
                                              String numStudents, String numUnregistered) {
         showStatistics(course.getId());
         String[] courseDetail = { course.getId(), course.getName(),
                 TimeHelper.formatInstant(course.getCreatedAt(), course.getTimeZone(), "d MMM yyyy"),
                 numSections, numTeams, numStudents, numUnregistered };
+        verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
+    }
+
+    public void verifyActiveCourseStatistics(Course course, String numSections, String numTeams,
+                                            String numStudents, String numUnregistered) {
+        showStatistics(course.getId());
+        String[] courseDetail = { course.getId(), course.getName(),
+        TimeHelper.formatInstant(course.getCreatedAt(), course.getTimeZone(), "d MMM yyyy"),
+        numSections, numTeams, numStudents, numUnregistered };
         verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
     }
 
@@ -97,7 +113,27 @@ public class InstructorCoursesPage extends AppPage {
         }
     }
 
+    public void verifyArchivedCoursesDetails(Course[] courses) {
+        showArchiveTable();
+        this.waitUntilAnimationFinish();
+        String[][] courseDetails = getCourseDetails(courses);
+        for (int i = 0; i < courses.length; i++) {
+            // use verifyTableRowValues as archive courses are not sorted
+            verifyTableRowValues(getArchivedTableRow(courses[i].getId()), courseDetails[i]);
+        }
+    }
+
     public void verifyDeletedCoursesDetails(CourseAttributes[] courses) {
+        showDeleteTable();
+        this.waitUntilAnimationFinish();
+        String[][] courseDetails = getDeletedCourseDetails(courses);
+        for (int i = 0; i < courses.length; i++) {
+            // use verifyTableRowValues as deleted courses are not sorted
+            verifyTableRowValues(getDeletedTableRow(courses[i].getId()), courseDetails[i]);
+        }
+    }
+
+    public void verifyDeletedCoursesDetails(Course[] courses) {
         showDeleteTable();
         this.waitUntilAnimationFinish();
         String[][] courseDetails = getDeletedCourseDetails(courses);
@@ -143,6 +179,17 @@ public class InstructorCoursesPage extends AppPage {
         click(submitButton);
     }
 
+    public void addCourse(Course newCourse) {
+        click(addCourseButton);
+
+        fillTextBox(courseIdTextBox, newCourse.getId());
+        fillTextBox(courseNameTextBox, newCourse.getName());
+        selectCourseInstitute(newCourse.getInstitute());
+        selectNewTimeZone(newCourse.getTimeZone());
+
+        click(submitButton);
+    }
+
     public void showStatistics(String courseId) {
         try {
             click(getShowStatisticsLink(courseId));
@@ -161,6 +208,20 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     public void copyCourse(String courseId, CourseAttributes newCourse) {
+        WebElement otherActionButton = getOtherActionsButton(courseId);
+        click(otherActionButton);
+        click(getCopyButton(courseId));
+        waitForPageToLoad();
+
+        fillTextBox(copyCourseIdTextBox, newCourse.getId());
+        fillTextBox(copyCourseNameTextBox, newCourse.getName());
+        selectCopyTimeZone(newCourse.getTimeZone());
+        click(copyCourseButton);
+
+        waitUntilAnimationFinish();
+    }
+
+    public void copyCourse(String courseId, Course newCourse) {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
         click(getCopyButton(courseId));
@@ -269,11 +330,31 @@ public class InstructorCoursesPage extends AppPage {
         return courseDetails;
     }
 
+    private String[][] getCourseDetails(Course[] courses) {
+        String[][] courseDetails = new String[courses.length][3];
+        for (int i = 0; i < courses.length; i++) {
+            String[] courseDetail = { courses[i].getId(), courses[i].getName(),
+                    getDateString(courses[i].getCreatedAt()) };
+            courseDetails[i] = courseDetail;
+        }
+        return courseDetails;
+    }
+
     private String getDateString(Instant instant) {
         return getDisplayedDateTime(instant, ZoneId.systemDefault().getId(), "d MMM yyyy");
     }
 
     private String[][] getDeletedCourseDetails(CourseAttributes[] courses) {
+        String[][] courseDetails = new String[courses.length][4];
+        for (int i = 0; i < courses.length; i++) {
+            String[] courseDetail = {courses[i].getId(), courses[i].getName(),
+                    getDateString(courses[i].getCreatedAt()), getDateString(courses[i].getDeletedAt()) };
+            courseDetails[i] = courseDetail;
+        }
+        return courseDetails;
+    }
+
+    private String[][] getDeletedCourseDetails(Course[] courses) {
         String[][] courseDetails = new String[courses.length][4];
         for (int i = 0; i < courses.length; i++) {
             String[] courseDetail = {courses[i].getId(), courses[i].getName(),

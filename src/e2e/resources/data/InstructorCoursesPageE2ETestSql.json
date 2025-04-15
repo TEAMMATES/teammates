@@ -1,0 +1,318 @@
+{
+  "accounts": {
+    "instructor": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ICs.instructor",
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt"
+    },
+    "student1InCS1101": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.ICs.student1",
+      "name": "Student 1",
+      "email": "ICs.student1@gmail.tmt"
+    },
+    "student2InCS1101": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.ICs.student2",
+      "name": "Student 2",
+      "email": "ICs.student2@gmail.tmt"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "CS1101": {
+      "id": "tm.e2e.ICs.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "Asia/Singapore",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2012-04-02T12:00:00Z"
+    },
+    "CS1231": {
+      "id": "tm.e2e.ICs.CS1231",
+      "name": "Discrete Structures",
+      "timeZone": "Asia/Singapore",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2012-04-02T12:00:00Z"
+    },
+    "CS2104": {
+      "id": "tm.e2e.ICs.CS2104",
+      "name": "Programming Language Concept",
+      "timeZone": "Asia/Singapore",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2013-04-02T12:00:00Z"
+    },
+    "CS2105": {
+      "id": "tm.e2e.ICs.CS2105",
+      "name": "Computer Networks",
+      "timeZone": "Asia/Singapore",
+      "institute": "TEAMMATES Test Institute 1",
+      "deletedAt": "2014-04-12T12:00:00Z",
+      "createdAt": "2014-04-02T12:00:00Z"
+    }
+  },
+  "sections": {
+    "tm.e2e.ICs.CS1101-Section1": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.ICs.CS1101"
+      },
+      "name": "Section 1"
+    }
+  },
+  "teams": {
+    "tm.e2e.ICs.CS1101-Section1-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.ICs.CS1101-Section1-Team2": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 2"
+    },
+    "tm.e2e.ICs.CS1101-Section1-Team3": {
+      "id": "00000000-0000-4000-8000-000000000303",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 3"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "instructorCS1101": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": false,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": false,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000501",
+      "courseId": "tm.e2e.ICs.CS1101",
+      "course": {
+        "id": "tm.e2e.ICs.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt"
+    },
+    "instructorCS1231": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000502",
+      "courseId": "tm.e2e.ICs.CS1231",
+      "course": {
+        "id": "tm.e2e.ICs.CS1231"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt"
+    },
+    "instructorCS2104": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000503",
+      "courseId": "tm.e2e.ICs.CS2104",
+      "course": {
+        "id": "tm.e2e.ICs.CS2104"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt"
+    },
+    "instructorCS2105": {
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000504",
+      "courseId": "tm.e2e.ICs.CS2105",
+      "course": {
+        "id": "tm.e2e.ICs.CS2105"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Demo Inst",
+      "email": "ICs.instructor@gmail.tmt"
+    }
+  },
+  "students": {
+    "student1InCS1101": {
+      "comments": "",
+      "id": "00000000-0000-4000-8000-000000000601",
+      "courseId": "tm.e2e.ICs.CS1101",
+      "course": {
+        "id": "tm.e2e.ICs.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "name": "student1",
+      "email": "ICs.student1@gmail.tmt"
+    },
+    "student2InCS1101": {
+      "comments": "",
+      "id": "00000000-0000-4000-8000-000000000602",
+      "courseId": "tm.e2e.ICs.CS1101",
+      "course": {
+        "id": "tm.e2e.ICs.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000003"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "name": "student2",
+      "email": "ICs.student2@gmail.tmt"
+    },
+    "UnauthenticatedStudentInCS1101": {
+      "comments": "",
+      "id": "00000000-0000-4000-8000-000000000603",
+      "courseId": "tm.e2e.ICs.CS1101",
+      "course": {
+        "id": "tm.e2e.ICs.CS1101"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000303"
+      },
+      "name": "student3",
+      "email": "ICs.student3@gmail.tmt"
+    }
+  },
+  "feedbackSessions": {
+    "session": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.ICs.CS1231"
+      },
+      "name": "Second Session",
+      "creatorEmail": "backdoor@gmail.tmt",
+      "instructions": "<p>Instructions for Second session</p>",
+      "startTime": "2012-04-02T00:00:00Z",
+      "endTime": "2012-05-01T00:00:00Z",
+      "sessionVisibleFromTime": "2012-04-02T00:00:00Z",
+      "resultsVisibleFromTime": "2012-05-02T00:00:00Z",
+      "gracePeriod": 10,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": false,
+      "isOpenEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "createdAt": "2012-04-01T23:59:00Z"
+    }
+  },
+  "feedbackQuestions": {
+    "qn1": {
+      "questionDetails": {
+        "shouldAllowRichText": true,
+        "questionType": "TEXT",
+        "questionText": "Testing question text"
+      },
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionNumber": 1,
+      "description": "Testing description",
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numOfEntitiesToGiveFeedbackTo": 2,
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "feedbackSessionLogs": {},
+  "notifications": {},
+  "readNotifications": {}
+}
