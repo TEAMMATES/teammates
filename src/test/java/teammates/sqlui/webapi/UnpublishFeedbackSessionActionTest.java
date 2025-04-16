@@ -161,6 +161,42 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
     }
 
     @Test
+    void testCheckSpecificAccessControl_nonExistentCourse_throwsEntityNotFoundException() {
+        String courseId = "abcRandomCourseId";
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+        };
+
+        when(mockLogic.getInstructorByGoogleId(courseId, typicalInstructor.getGoogleId()))
+                .thenReturn(null);
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), courseId))
+                .thenReturn(null);
+
+        loginAsInstructor(typicalInstructor.getGoogleId());
+
+        verifyEntityNotFoundAcl(params);
+    }
+
+    @Test
+    void testCheckSpecificAccessControl_nonExistentFeedbackSession_throwsEntityNotFoundException() {
+        String feedbackSessionName = "abcRandomSession";
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+        };
+
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+                .thenReturn(typicalInstructor);
+        when(mockLogic.getFeedbackSession(feedbackSessionName, typicalCourse.getId()))
+                .thenReturn(null);
+
+        loginAsInstructor(typicalInstructor.getGoogleId());
+
+        verifyEntityNotFoundAcl(params);
+    }
+
+    @Test
     void testCheckSpecificAccessControl_withoutLogin_throwsUnauthorizedAccessException() {
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
