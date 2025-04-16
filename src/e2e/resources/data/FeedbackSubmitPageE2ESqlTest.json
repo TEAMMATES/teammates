@@ -234,6 +234,152 @@
   },
   "feedbackQuestions": {
     "qn1ForFirstSession": {
+      "id": "00000000-0000-4000-8000-000000000800",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 other students' products",
+        "recommendedLength": 1000
+      },
+      "description": "<p>Question description for qn1</p>",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn2ForFirstSession": {
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Provide feedback on each instructor",
+        "recommendedLength": 1000
+      },
+      "description": "<p><b>Question description for qn2</b></p>",
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn3ForFirstSession": {
+      "id": "00000000-0000-4000-8000-000000000802",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your team mates",
+        "recommendedLength": 1000
+      },
+      "description": "<p>Testing description for qn3</p>",
+      "questionNumber": 3,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn4ForFirstSession": {
+      "id": "00000000-0000-4000-8000-000000000803",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "MCQ",
+        "questionText": "What do you think is the other teams' best feature?",
+        "mcqChoices": [
+          "UI",
+          "Algo",
+          "Testing"
+        ],
+        "otherEnabled": true,
+        "hasAssignedWeights": true,
+        "mcqWeights": [
+          30.61,
+          29.4,
+          20
+        ],
+        "mcqOtherWeight": 60
+      },
+      "description": "<p>Testing description for qn4</p>",
+      "questionNumber": 4,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn5ForFirstSession": {
+      "id": "00000000-0000-4000-8000-000000000803",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should be hidden.",
+        "recommendedLength": 1000
+      },
+      "description": "<p>Testing description for qn5</p>",
+      "questionNumber": 5,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+
+    "qn6ForFirstSession": {
       "questionDetails": {
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [
@@ -271,7 +417,7 @@
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
       },
-      "questionNumber": 1,
+      "questionNumber": 6,
       "description": "<p>Testing description for first session</p>",
       "giverType": "INSTRUCTORS",
       "recipientType": "OWN_TEAM_MEMBERS",
@@ -288,7 +434,7 @@
         "RECEIVER"
       ]
     },
-    "qn2ForFirstSession": {
+    "qn7ForFirstSession": {
       "questionDetails": {
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [
@@ -326,7 +472,7 @@
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
       },
-      "questionNumber": 1,
+      "questionNumber": 7,
       "description": "<p>Testing description for first session</p>",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
@@ -343,7 +489,7 @@
         "RECEIVER"
       ]
     },
-    "qn3ForFirstSession": {
+    "qn8ForFirstSession": {
       "id": "00000000-0000-4000-8000-000000000803",
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
@@ -361,7 +507,7 @@
         ]
       },
       "description": "<p>Testing description for first session</p>",
-      "questionNumber": 2,
+      "questionNumber": 8,
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
