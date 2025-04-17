@@ -30,7 +30,7 @@ public class MarkNotificationAsReadAction extends Action {
     public ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         MarkNotificationAsReadRequest readNotificationCreateRequest =
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
-        UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
+        UUID notificationId = getUuidFromString("notificationId", readNotificationCreateRequest.getNotificationId());
         Instant endTime = Instant.ofEpochMilli(readNotificationCreateRequest.getEndTimestamp());
 
         try {
