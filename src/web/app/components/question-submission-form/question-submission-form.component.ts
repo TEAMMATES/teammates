@@ -58,6 +58,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
+  dropdownVisible: boolean[] = [];
+  filteredRecipients: any[][] = [];
+  displayedRecipientName: string[] = [];
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -595,4 +598,52 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         return false;
     }
   }
+
+  /**
+   * Filters the recipient list by input value and updates the filtered recipients array at the given index.
+   */
+  filterRecipients(value: string, index: number): void {
+
+    this.filteredRecipients[index] = this.model.recipientList.filter((recipient) =>
+      this.getSelectionOptionLabel(recipient).toLowerCase().includes(value.toLowerCase()),
+    );
+    this.dropdownVisible[index] = this.filteredRecipients[index].length > 0;
+  }
+
+  /**
+   * Sets the dropdown visibility to true for the specified recipient index.
+   */
+  showDropdown(index: number): void {
+    this.dropdownVisible[index] = true;
+  }
+
+  /**
+   * Hides the dropdown for the specified recipient index after a short delay.
+   */
+  hideDropdown(index: number): void {
+    setTimeout(() => {
+      this.dropdownVisible[index] = false;
+    }, 100);
+  }
+
+  /**
+   * Updates the recipient selection in the form model and sets the displayed name for the selected recipient.
+   */
+  selectRecipient(recipient: any, recipientSubmissionFormModel: any, index: number): void {
+    recipientSubmissionFormModel.recipientIdentifier = recipient.recipientIdentifier;
+    this.displayedRecipientName[index] = recipient.recipientName;
+    this.filteredRecipients[index] = [];
+    this.dropdownVisible[index] = false;
+  }
+
+  /**
+   * Gets recipient name in {@code FIXED_RECIPIENT} mode.
+   * Origin from getRecipientName
+   */
+    getRecipientNameForInput(recipientIdentifier: string): string {
+      const recipient: FeedbackResponseRecipient | undefined =
+        this.model.recipientList.find(
+          (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
+      return recipient ? recipient.recipientName : '';
+    }
 }
