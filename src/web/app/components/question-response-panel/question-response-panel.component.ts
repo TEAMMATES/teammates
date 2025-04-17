@@ -62,6 +62,9 @@ export class QuestionResponsePanelComponent {
   regKey: string = '';
 
   @Input()
+  hideMyResponses: boolean = false;
+
+  @Input()
   previewAsPerson: string = '';
 
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {
