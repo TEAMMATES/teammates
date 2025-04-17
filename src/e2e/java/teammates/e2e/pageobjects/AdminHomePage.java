@@ -36,9 +36,6 @@ public class AdminHomePage extends AppPage {
     @FindBy (id = "add-instructor-single-line")
     private WebElement submitButtonDetailsSingleLineForm;
 
-    @FindBy (id = "add-all-instructors")
-    private WebElement addAllInstructorsButton;
-
     public AdminHomePage(Browser browser) {
         super(browser);
     }
@@ -69,19 +66,13 @@ public class AdminHomePage extends AppPage {
         click(submitButtonDetailsSingleLineForm);
     }
 
-    public void addAllInstructors() {
-        click(addAllInstructorsButton);
-        waitForElementToBeClickable(addAllInstructorsButton);
-    }
-
-    public String getMessageForInstructor(int i) {
-        By by = By.id("message-instructor-" + i);
-        waitForElementVisibility(by);
-        WebElement element = browser.driver.findElement(by);
-        if (element == null) {
-            return null;
-        }
-        return element.getText();
+    public void clickApproveAccountRequestButton(String name, String email, String institute) {
+        WebElement accountRequestRow = getAccountRequestRow(name, email, institute);
+        waitForElementPresence(By.cssSelector("[id^='approve-account-request-']"));
+        WebElement approveButton = accountRequestRow.findElement(By.cssSelector("[id^='approve-account-request-']"));
+        waitForElementToBeClickable(approveButton);
+        approveButton.click();
+        waitForPageToLoad();
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {
