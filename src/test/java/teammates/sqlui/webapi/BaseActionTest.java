@@ -586,6 +586,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         logoutUser();
         verifyCannotAccess(params);
     }
+
     /**
      * 'High-level' Access Control Test Methods.
      * Here it tests access control of an action for the full range of user types.
@@ -637,15 +638,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
     }
 
-    void verifyInaccessibleWithoutModifySessionPrivilege(Course thisCourse, String... params) {
-        verifyInaccessibleWithoutCorrectSameCoursePrivilege(
-                thisCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
-    }
-
     void verifyAccessibleWithCorrectSameCoursePrivilege(
             Course thisCourse, InstructorPrivileges privilege, String... params) {
         verifySameCourseAccessibility(thisCourse, privilege, true, params);
         verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyInaccessibleWithoutModifySessionPrivilege(Course thisCourse, String... params) {
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+                thisCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
     void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
