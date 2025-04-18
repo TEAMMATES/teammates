@@ -43,7 +43,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         Student student2 = createCourseStudent(course, "Benny Charles",
                 "benny.c.tmms@gmail.tmt", "This student's name is Benny Charles", team1);
         Student student3 = createCourseStudent(course, "Charlie Davis",
-                "charlie.d.tmms@gmail.tmt", "This student's name is Charile Davis", team2);
+                "charlie.d.tmms@gmail.tmt", "This student's name is Charlie Davis", team2);
 
         Student[] studentsEnrollingToEmptyCourse = { student1, student2, student3 };
 
