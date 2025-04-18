@@ -12,7 +12,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackResultsPage;
+import teammates.e2e.pageobjects.FeedbackResultsPageSql;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -25,7 +25,7 @@ import teammates.storage.sqlentity.Student;
  * SUT: {@link Const.WebPageURIs#SESSION_RESULTS_PAGE}.
  */
 public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
-    private FeedbackResultsPage resultsPage;
+    private FeedbackResultsPageSql resultsPage;
     private Course course;
     private FeedbackSession openSession;
     private List<FeedbackQuestion> questions = new ArrayList<>();
@@ -52,7 +52,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withStudentEmail(unregistered.getEmail())
                 .withSessionName(openSession.getName())
                 .withRegistrationKey(unregistered.getRegKey());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -64,7 +64,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourse().getId())
                 .withSessionName(openSession.getName());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPageSql.class, student.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -95,8 +95,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify comments");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
-
-        // Commented as only one student comment should be visible to students
         verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"),
                 student);
         verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"),
@@ -109,7 +107,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourse().getId())
                 .withSessionName(openSession.getName());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPageSql.class, instructor.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -124,7 +122,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourse().getId())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -151,7 +149,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourse().getId())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
     }
