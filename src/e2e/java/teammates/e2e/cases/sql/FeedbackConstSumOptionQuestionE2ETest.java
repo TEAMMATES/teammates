@@ -11,12 +11,15 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.Team;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
  *      specifically for ConstSumOption questions.
  */
 public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
+    // this is the recipient of responses
+    Team otherTeam;
 
     @Override
     protected void prepareTestData() {
@@ -27,14 +30,15 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
         student = testData.students.get("alice.tmms@FCSumOptQn.CS2104");
+        otherTeam = testData.teams.get("ProgrammingLanguageConceptsTeam2");
     }
 
     @Test
     @Override
     public void testAll() {
-        testEditPage();
-        logout();
         testSubmitPage();
+        logout();
+        testEditPage();
     }
 
     @Override
@@ -118,6 +122,6 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
         details.setAnswers(answers);
         return FeedbackResponse.makeResponse(question, student.getEmail(),
-                student.getSection(), student.getEmail(), student.getSection(), details);
+                student.getSection(), otherTeam.getName(), student.getSection(), details);
     }
 }

@@ -245,7 +245,7 @@
       "description": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "SELF",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -277,7 +277,7 @@
       "description": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "SELF",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
