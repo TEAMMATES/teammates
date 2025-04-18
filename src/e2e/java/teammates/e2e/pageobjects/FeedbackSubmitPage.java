@@ -477,8 +477,7 @@ public class FeedbackSubmitPage extends AppPage {
         List<Integer> answers = responseDetails.getAnswers();
         List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
         for (int i = 0; i < answers.size(); i++) {
-            assertEquals(constSumInputs.get(i).getAttribute("value"), Integer.toString(answers.get(i)));
-        }
+            assertEquals(Integer.toString(answers.get(i)), constSumInputs.get(i).getAttribute("value"));
     }
 
     public void fillConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
