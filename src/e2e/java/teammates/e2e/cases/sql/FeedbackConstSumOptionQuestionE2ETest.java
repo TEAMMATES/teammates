@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
-import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -69,7 +68,9 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackConstantSumQuestionDetails) testData.feedbackQuestions.get("qn1ForFirstSession").getQuestionDetailsCopy();
+        questionDetails = (FeedbackConstantSumQuestionDetails) testData.feedbackQuestions
+                .get("qn1ForFirstSession")
+                .getQuestionDetailsCopy();
         List<String> options = questionDetails.getConstSumOptions();
         options.add("Edited option.");
         questionDetails.setConstSumOptions(options);
@@ -96,7 +97,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         FeedbackResponse response = getResponse(question, Arrays.asList(50, 20, 30));
         feedbackSubmitPage.fillConstSumOptionResponse(1, "", response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
-        
+
         verifyPresentInDatabase(response);
 
         ______TS("check previous response");
@@ -116,7 +117,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
     private FeedbackResponse getResponse(FeedbackQuestion question, List<Integer> answers) {
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
         details.setAnswers(answers);
-        FeedbackResponse resp = FeedbackResponse.makeResponse(question, student.getEmail(), student.getSection(), student.getEmail(), student.getSection(), details);
-        return resp;
+        return FeedbackResponse.makeResponse(question, student.getEmail(),
+                student.getSection(), student.getEmail(), student.getSection(), details);
     }
 }
