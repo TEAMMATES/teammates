@@ -393,83 +393,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     /**
-     * Access Control Test Methods.
-     * Private methods are for internal use.
-     * Those methods without modifieres are open for calling by test classes and name starts with verify.
+     * Access Control Helper Methods.
      */
-    private void adminCanAccess(String... params) {
-        logoutUser();
-        loginAsAdmin();
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    private void adminCannotAccess(String... params) {
-        logoutUser();
-        loginAsAdmin();
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    private void instructorCanAccess(Course thisCourse, String... params) {
-        logoutUser();
-        Instructor instructor = getTypicalInstructor();
-        instructor.setCourse(thisCourse);
-
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
-
-        loginAsInstructor(instructor.getId().toString());
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    private void instructorCannotAccess(String... params) {
-        logoutUser();
-        loginAsInstructor("instructor-googleId");
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    private void studentCanAccess(String... params) {
-        logoutUser();
-        loginAsStudent("student-googleId");
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    private void studentCannotAccess(String... params) {
-        logoutUser();
-        loginAsStudent("student-googleId");
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    private void unregisteredCanAccess(String... params) {
-        logoutUser();
-        loginAsUnregistered("unregistered-googleId");
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    private void unregisteredCannotAccess(String... params) {
-        logoutUser();
-        loginAsUnregistered("unregistered-googleId");
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    private void guestCanAccess(String... params) {
-        logoutUser();
-        verifyCanAccess(params);
-    }
-
-    private void guestCannotAccess(String... params) {
-        logoutUser();
-        verifyCannotAccess(params);
-    }
-
-    private void studentsOfSameCourseSetup(Course thisCourse) {
+    private void loginStudentsOfSameCourseSetup(Course thisCourse) {
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(thisCourse);
 
@@ -477,26 +403,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         loginAsStudent(sameCourseStudent.getId().toString());
     }
 
-    private void instructorsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
-        Instructor sameCourseInstructor = getTypicalInstructor();
-        sameCourseInstructor.setCourse(thisCourse);
-
-        Instructor otherCourseInstructor = getTypicalInstructor();
-        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
-        otherCourseInstructor.setCourse(otherCourse);
-
-        Student sameCourseStudent = getTypicalStudent();
-        sameCourseStudent.setCourse(thisCourse);
-
-        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
-        verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
-
-        logoutUser();
-        loginAsInstructor(sameCourseInstructor.getId().toString());
-        verifyCanAccess(params);
-    }
-
-    private void instructorsOfOtherCourseSetup() {
+    private void loginInstructorsOfOtherCourseSetup() {
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
@@ -533,7 +440,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         if (canAccess) {
             verifyCanAccess(params);
-            verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, params);
+            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
         } else {
             verifyCannotAccess(params);
             verifyCannotMasquerade(instructor.getId().toString(), params);
@@ -565,124 +472,126 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         if (canAccess) {
             verifyCanAccess(params);
-            verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, params);
+            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
         } else {
             verifyCannotAccess(params);
             verifyCannotMasquerade(instructor.getId().toString(), params);
         }
     }
 
+    private void instructorsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(thisCourse);
 
-    // The next few methods are for testing access control
+        Instructor otherCourseInstructor = getTypicalInstructor();
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        otherCourseInstructor.setCourse(otherCourse);
 
-    // 'High-level' access-control tests: here it tests access control of an action for the full range of user types.
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
 
-    void verifyAdminCanAccess(String... params) {
-        adminCanAccess(params);
+        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
+        verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
+
+        logoutUser();
+        loginAsInstructor(sameCourseInstructor.getId().toString());
+        verifyCanAccess(params);
     }
 
-    void verifyAdminCannotAccess(String... params) {
-        adminCannotAccess(params);
+    /**
+     * 'Mid-level' Access Control Test Methods.
+     * Here it tests access control of an action for one user type.
+     * Both Mid and High Level follows the order Admin -> Maintainer -> Instructor -> Student -> Unregistered -> No login.
+     */
+    void verifyAdminsCanAccess(String... params) {
+        logoutUser();
+        loginAsAdmin();
+        verifyCanAccess(params);
+        logoutUser();
     }
 
-    void verifyInstructorsCanAccess(Course currentCourse, String... params) {
-        Instructor testInstructor = getTypicalInstructor();
-        testInstructor.setCourse(currentCourse);
-
-        instructorCanAccess(currentCourse, params);
-        instructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCanAccess(params);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(testInstructor, params);
+    void verifyAdminsCannotAccess(String... params) {
+        logoutUser();
+        loginAsAdmin();
+        verifyCannotAccess(params);
+        logoutUser();
     }
 
-    void verifyInstructorsCanAccessNoMasquerade(Course currentCourse, String... params) {
-        Instructor testInstructor = getTypicalInstructor();
-        testInstructor.setCourse(currentCourse);
-
-        instructorCanAccess(currentCourse, params);
-        instructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCanAccess(params);
-        verifyInaccessibleForAdminToMasqueradeAsInstructor(testInstructor, params);
+    void verifyMaintainersCanAccess(String... params) {
+        loginAsMaintainer();
+        verifyCanAccess(params);
+        logoutUser();
     }
 
-    void verifyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
-        instructorCanAccess(currentCourse, params);
-        instructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCannotAccess(params);
+    void verifyMaintainersCannotAccess(String... params) {
+        loginAsMaintainer();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyInstructorsCanAccess(Course thisCourse, String... params) {
+        logoutUser();
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(thisCourse);
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        loginAsInstructor(instructor.getId().toString());
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyInstructorsCannotAccess(String... params) {
+        logoutUser();
+        loginAsInstructor("instructor-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
     }
 
     void verifyStudentsCanAccess(String... params) {
-        Student otherStudent = getTypicalStudent();
-
-        studentCanAccess(params);
-        verifyStudentsOfTheSameCourseCanAccess(otherStudent.getCourse(), params);
+        logoutUser();
+        loginAsStudent("student-googleId");
+        verifyCanAccess(params);
+        logoutUser();
     }
 
-    void verifyAnyUserCanAccess(String... params) {
-        guestCanAccess(params);
-        unregisteredCanAccess(params);
-        adminCanAccess(params);
-        instructorCanAccess(getTypicalCourse(), params);
-        studentCanAccess(params);
-        verifyMaintainerCanAccess(params);
+    void verifyStudentsCannotAccess(String... params) {
+        logoutUser();
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
     }
 
-    void verifyAnyLoggedInUserCanAccess(String... params) {
-        guestCannotAccess(params);
-        unregisteredCanAccess(params);
-        adminCanAccess(params);
-        instructorCanAccess(getTypicalCourse(), params);
-        studentCanAccess(params);
+    void verifyUnregisteredCanAccess(String... params) {
+        logoutUser();
+        loginAsUnregistered("unregistered-googleId");
+        verifyCanAccess(params);
+        logoutUser();
     }
 
-    void verifyOnlyStudentsCanAccess(String... params) {
-        guestCannotAccess(params);
-        unregisteredCannotAccess(params);
-        studentCanAccess(params);
-        verifyStudentsCanAccess(params);
+    void verifyUnregisteredCannotAccess(String... params) {
+        logoutUser();
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
     }
 
-    void verifyOnlyAdminsCanAccess(String... params) {
-        guestCannotAccess(params);
-        unregisteredCannotAccess(params);
-        studentCannotAccess(params);
-        instructorCannotAccess(params);
-        verifyAdminCanAccess(params);
+    void verifyWithoutLoginCanAccess(String... params) {
+        logoutUser();
+        verifyCanAccess(params);
     }
 
-    void verifyOnlyInstructorsCanAccess(Course currentCourse, String... params) {
-        guestCannotAccess(params);
-        unregisteredCannotAccess(params);
-        studentCannotAccess(params);
-        verifyInstructorsCanAccess(currentCourse, params);
+    void verifyWithoutLoginCannotAccess(String... params) {
+        logoutUser();
+        verifyCannotAccess(params);
     }
-
-    void verifyOnlyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
-        guestCannotAccess(params);
-        unregisteredCannotAccess(params);
-        studentCannotAccess(params);
-        verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
-    }
-
-    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-            Course thisCourse, String privilege, String... submissionParams) {
-        guestCannotAccess(submissionParams);
-        unregisteredCannotAccess(submissionParams);
-        studentCannotAccess(submissionParams);
-        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-    }
-
-    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-            Course thisCourse, InstructorPrivileges privilege, String... submissionParams) {
-        guestCannotAccess(submissionParams);
-        unregisteredCannotAccess(submissionParams);
-        studentCannotAccess(submissionParams);
-        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-    }
-
-    void verifyAccessibleForAdminToMasqueradeAsInstructor(Instructor instructor, String... params) {
+    /**
+     * 'High-level' Access Control Test Methods.
+     * Here it tests access control of an action for the full range of user types.
+     */
+    // Admins
+    void verifyAccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
         loginAsAdmin();
 
         mockUserProvision.setAdmin(false);
@@ -695,7 +604,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         mockUserProvision.setInstructor(false);
     }
 
-    void verifyInaccessibleForAdminToMasqueradeAsInstructor(Instructor instructor, String... params) {
+    void verifyInaccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
         loginAsAdmin();
 
         mockUserProvision.setAdmin(false);
@@ -708,14 +617,47 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         mockUserProvision.setInstructor(false);
     }
 
+    void verifyOnlyAdminsCanAccess(String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyAdminsCanAccess(params);
+    }
+
+    // Instructors
     void verifyAccessibleWithModifySessionPrivilege(Course thisCourse, String... params) {
         verifyAccessibleWithCorrectSameCoursePrivilege(
                 thisCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
+    void verifyAccessibleWithCorrectSameCoursePrivilege(
+            Course thisCourse, String privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, true, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
     void verifyInaccessibleWithoutModifySessionPrivilege(Course thisCourse, String... params) {
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(
                 thisCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
+    }
+
+    void verifyAccessibleWithCorrectSameCoursePrivilege(
+            Course thisCourse, InstructorPrivileges privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, true, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+            Course thisCourse, String privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, false, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+            Course thisCourse, InstructorPrivileges privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, false, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
     }
 
     void verifyAccessibleWithSubmitSessionInSectionsPrivilege(Course thisCourse, String... params) {
@@ -728,67 +670,115 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
                 thisCourse, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params);
     }
 
-    void verifyAccessibleWithCorrectSameCoursePrivilege(
-            Course thisCourse, String privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, true, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
-    void verifyAccessibleWithCorrectSameCoursePrivilege(
-            Course thisCourse, InstructorPrivileges privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, true, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
-    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
-            Course thisCourse, String privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, false, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
-    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
-            Course thisCourse, InstructorPrivileges privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, false, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
     void verifyInstructorsOfOtherCoursesCanAccess(String... params) {
-        instructorsOfOtherCourseSetup();
+        loginInstructorsOfOtherCourseSetup();
         verifyCanAccess(params);
     }
 
     void verifyInstructorsOfOtherCoursesCannotAccess(String... params) {
-        instructorsOfOtherCourseSetup();
+        loginInstructorsOfOtherCourseSetup();
         verifyCannotAccess(params);
     }
 
+    void verifyAnyInstructorsCanAccess(Course currentCourse, String... params) {
+        Instructor testInstructor = getTypicalInstructor();
+        testInstructor.setCourse(currentCourse);
+
+        verifyInstructorsCanAccess(currentCourse, params);
+        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCanAccess(params);
+        verifyAccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
+    }
+
+    void verifyInstructorsCanAccessNoMasquerade(Course currentCourse, String... params) {
+        Instructor testInstructor = getTypicalInstructor();
+        testInstructor.setCourse(currentCourse);
+
+        verifyInstructorsCanAccess(currentCourse, params);
+        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCanAccess(params);
+        verifyInaccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
+    }
+
+    void verifyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
+        verifyInstructorsCanAccess(currentCourse, params);
+        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
+    }
+
+    void verifyOnlyInstructorsCanAccess(Course currentCourse, String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyAnyInstructorsCanAccess(currentCourse, params);
+    }
+
+    void verifyOnlyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
+    }
+
+    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+            Course thisCourse, String privilege, String... submissionParams) {
+        verifyWithoutLoginCannotAccess(submissionParams);
+        verifyUnregisteredCannotAccess(submissionParams);
+        verifyStudentsCannotAccess(submissionParams);
+        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+    }
+
+    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+            Course thisCourse, InstructorPrivileges privilege, String... submissionParams) {
+        verifyWithoutLoginCannotAccess(submissionParams);
+        verifyUnregisteredCannotAccess(submissionParams);
+        verifyStudentsCannotAccess(submissionParams);
+        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+    }
+
+    // Students
+    void verifyOnlyStudentsCanAccess(String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCanAccess(params);
+    }
+
     void verifyStudentsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
-        studentsOfSameCourseSetup(thisCourse);
+        loginStudentsOfSameCourseSetup(thisCourse);
         verifyCanAccess(params);
     }
 
     void verifyStudentsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
-        studentsOfSameCourseSetup(thisCourse);
+        loginStudentsOfSameCourseSetup(thisCourse);
         verifyCannotAccess(params);
     }
 
-    void verifyMaintainerCanAccess(String... params) {
-        loginAsMaintainer();
-        verifyCanAccess(params);
-        logoutUser();
+    // Registered
+    void verifyAnyLoggedInUserCanAccess(String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCanAccess(params);
+        verifyAdminsCanAccess(params);
+        verifyInstructorsCanAccess(getTypicalCourse(), params);
+        verifyStudentsCanAccess(params);
     }
 
-    void verifyMaintainerCannotAccess(String... params) {
-        loginAsMaintainer();
-        verifyCannotAccess(params);
-        logoutUser();
+    // No Login
+    void verifyAnyUserCanAccess(String... params) {
+        verifyWithoutLoginCanAccess(params);
+        verifyUnregisteredCanAccess(params);
+        verifyAdminsCanAccess(params);
+        verifyInstructorsCanAccess(getTypicalCourse(), params);
+        verifyStudentsCanAccess(params);
+        verifyMaintainersCanAccess(params);
     }
 
     void verifyNoOneCanAccess(String... params) {
-        guestCannotAccess(params);
-        unregisteredCannotAccess(params);
-        studentCannotAccess(params);
-        instructorCannotAccess(params);
-        adminCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyAdminsCannotAccess(params);
     }
 }

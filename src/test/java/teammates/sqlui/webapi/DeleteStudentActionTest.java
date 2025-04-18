@@ -178,7 +178,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
                 Const.ParamsNames.STUDENT_ID, studentId,
         };
 
-        verifyAdminCanAccess(params);
+        verifyAdminsCanAccess(params);
         verifyAccessibleWithCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(course, Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
     }

@@ -190,7 +190,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
-        verifyAdminCannotAccess(paramsAdmin);
+        verifyAdminsCannotAccess(paramsAdmin);
     }
 
     @Test

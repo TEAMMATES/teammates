@@ -281,6 +281,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Test
     void testAccessControl() {
         verifyOnlyAdminsCanAccess();
-        verifyMaintainerCanAccess();
+        verifyMaintainersCanAccess();
     }
 }

@@ -44,7 +44,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     @Test
     void testAccessControl() {
         verifyNoOneCanAccess();
-        verifyMaintainerCannotAccess();
+        verifyMaintainersCannotAccess();
     }
 
     @Test
