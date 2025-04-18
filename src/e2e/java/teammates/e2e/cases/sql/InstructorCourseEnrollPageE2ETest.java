@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
+import teammates.e2e.pageobjects.InstructorCourseEnrollPageSql;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -25,7 +25,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
     protected void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withCourseId(testData.courses.get("ICEnroll.CS2104").getId());
-        InstructorCourseEnrollPage enrollPage = loginToPage(url, InstructorCourseEnrollPage.class,
+        InstructorCourseEnrollPageSql enrollPage = loginToPage(url, InstructorCourseEnrollPageSql.class,
                 testData.instructors.get("ICEnroll.teammates.test").getGoogleId());
         Course course = testData.courses.get("ICEnroll.CS2104");
         Team team1 = testData.teams.get("tm.e2e.ICEnroll.courseICEnroll.CS2104-SectionA-Team1");
@@ -52,7 +52,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage.verifyResultsPanelContains(studentsEnrollingToEmptyCourse, null, null, null, null);
 
         // refresh page to confirm enrollment
-        enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
+        enrollPage = getNewPageInstance(url, InstructorCourseEnrollPageSql.class);
         enrollPage.verifyExistingStudentsTableContains(studentsEnrollingToEmptyCourse);
 
         StudentData s1 = new StudentData(student1);
@@ -99,7 +99,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         assertNull(getStudent(student5));
 
         // refresh page to confirm enrollment
-        enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
+        enrollPage = getNewPageInstance(url, InstructorCourseEnrollPageSql.class);
         Student[] expectedExistingData = {student1, student2, student3, student4};
         enrollPage.verifyExistingStudentsTableContains(expectedExistingData);
     }
