@@ -722,12 +722,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         addConstSumQuestion(feedbackQuestion);
     }
 
+    public void addConstSumOptionQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(6);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
     public void addConstSumRecipientQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         addNewQuestion(7);
         addConstSumQuestion(feedbackQuestion);
     }
 
     public void addConstSumQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackConstantSumQuestionDetails questionDetails =
+                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputConstSumDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addConstSumQuestion(FeedbackQuestion feedbackQuestion) {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackConstantSumQuestionDetails questionDetails =

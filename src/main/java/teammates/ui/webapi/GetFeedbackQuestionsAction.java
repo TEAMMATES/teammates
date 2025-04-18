@@ -137,7 +137,6 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         }
 
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
-
         List<FeedbackQuestion> questions;
         switch (intent) {
         case STUDENT_SUBMISSION:
