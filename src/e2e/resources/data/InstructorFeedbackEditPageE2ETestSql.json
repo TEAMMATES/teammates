@@ -1,72 +1,72 @@
 {
   "accounts": {
-    "IFEP.instr": {
+    "InstFEP.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.IFEP.instr",
+      "googleId": "tm.e2e.InstFEP.instr",
       "name": "Teammates Test",
-      "email": "IFEP.instr@gmail.tmt"
+      "email": "InstFEP.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.IFEP.jose.tmms",
+      "googleId": "tm.e2e.InstFEP.jose.tmms",
       "name": "José Gómez",
-      "email": "IFEP.jose.tmms@gmail.tmt"
+      "email": "InstFEP.jose.tmms@gmail.tmt"
     }
   },
   "accountRequests": {},
   "courses": {
-    "IFEP.CS2104": {
-      "id": "tm.e2e.IFEP.CS2104",
+    "InstFEP.CS2104": {
+      "id": "tm.e2e.InstFEP.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
-    "IFEP.CS1101": {
-      "id": "tm.e2e.IFEP.CS1101",
+    "InstFEP.CS1101": {
+      "id": "tm.e2e.InstFEP.CS1101",
       "name": "Programming Methodology",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "sections": {
-    "tm.e2e.IFEP.CS2104-SectionA": {
+    "tm.e2e.InstFEP.CS2104-SectionA": {
       "id": "00000000-0000-4000-8000-000000000201",
       "course": {
-        "id": "tm.e2e.IFEP.CS2104"
+        "id": "tm.e2e.InstFEP.CS2104"
       },
       "name": "Section A"
     },
-    "tm.e2e.IFEP.CS2104-SectionB": {
+    "tm.e2e.InstFEP.CS2104-SectionB": {
       "id": "00000000-0000-4000-8000-000000000202",
       "course": {
-        "id": "tm.e2e.IFEP.CS2104"
+        "id": "tm.e2e.InstFEP.CS2104"
       },
       "name": "Section B"
     },
-    "tm.e2e.IFEP.CS1101-None": {
+    "tm.e2e.InstFEP.CS1101-None": {
       "id": "00000000-0000-4000-8000-000000000203",
       "course": {
-        "id": "tm.e2e.IFEP.CS1101"
+        "id": "tm.e2e.InstFEP.CS1101"
       },
       "name": "None"
     }
   },
   "teams": {
-    "tm.e2e.IFEP.CS2104-SectionA-Team1": {
+    "tm.e2e.InstFEP.CS2104-SectionA-Team1": {
       "id": "00000000-0000-4000-8000-000000000301",
       "section": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
       "name": "Team 1"
     },
-    "tm.e2e.IFEP.CS2104-SectionB-Team100": {
+    "tm.e2e.InstFEP.CS2104-SectionB-Team100": {
       "id": "00000000-0000-4000-8000-000000000302",
       "section": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
       "name": "Team 100"
     },
-    "tm.e2e.IFEP.CS1101-None-Team1": {
+    "tm.e2e.InstFEP.CS1101-None-Team1": {
       "id": "00000000-0000-4000-8000-000000000303",
       "section": {
         "id": "00000000-0000-4000-8000-000000000203"
@@ -76,16 +76,16 @@
   },
   "deadlineExtensions": {},
   "instructors": {
-    "IFEP.instr": {
+    "InstFEP.instr": {
       "id": "00000000-0000-4000-8000-000000000501",
       "course": {
-        "id": "tm.e2e.IFEP.CS2104"
+        "id": "tm.e2e.InstFEP.CS2104"
       },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "IFEP.instr@gmail.tmt",
+      "email": "InstFEP.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -104,7 +104,7 @@
         "sessionLevel": {}
       }
     },
-    "IFEP.instr2": {
+    "InstFEP.instr2": {
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -123,9 +123,9 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000502",
-      "courseId": "tm.e2e.IFEP.CS1101",
+      "courseId": "tm.e2e.InstFEP.CS1101",
       "course": {
-        "id": "tm.e2e.IFEP.CS1101"
+        "id": "tm.e2e.InstFEP.CS1101"
       },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
@@ -136,30 +136,30 @@
     }
   },
   "students": {
-    "IFEP.jose.tmms": {
+    "InstFEP.jose.tmms": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
       "course": {
-        "id": "tm.e2e.IFEP.CS2104"
+        "id": "tm.e2e.InstFEP.CS2104"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "IFEP.jose.tmms@gmail.tmt",
+      "email": "InstFEP.jose.tmms@gmail.tmt",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez"
     },
-    "IFEP.benny.c": {
+    "InstFEP.benny.c": {
       "id": "00000000-0000-4000-8000-000000000602",
       "course": {
-        "id": "tm.e2e.IFEP.CS2104"
+        "id": "tm.e2e.InstFEP.CS2104"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "IFEP.benny.c.tmms@gmail.tmt",
+      "email": "InstFEP.benny.c.tmms@gmail.tmt",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     }
@@ -186,14 +186,14 @@
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000701",
       "course": {
-        "id": "tm.e2e.IFEP.CS2104"
+        "id": "tm.e2e.InstFEP.CS2104"
       },
       "name": "First Session"
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
       "course": {
-        "id": "tm.e2e.IFEP.CS1101"
+        "id": "tm.e2e.InstFEP.CS1101"
       },
       "name": "First Session",
       "creatorEmail": "tmms.test@gmail.tmt",
