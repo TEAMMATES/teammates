@@ -105,7 +105,27 @@
             <span class="ngb-tooltip-class" ngbTooltip="Will be displayed at the top of the page when users respond to the session.">Instructions</span>
           </div>
           <div class="col-md-10 text-md-start">
-            <tm-rich-text-editor id="instructions" [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable" [hasCharacterLimit]="true"></tm-rich-text-editor>
+            <tm-rich-text-editor id="instructions" [richText]="model.instructions"
+                                 (richTextChange)="triggerModelChange('instructions', $event)"
+                                 [isDisabled]="!model.isEditable"
+                                 [hasCharacterLimit]="true">
+            </tm-rich-text-editor>
+            <div class="invalid-field" *ngIf="!model.instructions || model.instructions.trim() === ''">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+              The Instructions field should not be empty.
+            </div>
+            <div *ngIf="!model.instructions || model.instructions.trim() === ''" class="invalid-feedback">
+              <i class="fa fa-exclamation-circle"></i> The field should not be empty.
+            </div>
+          </div>
+          <div class="col-md-10 text-md-start mt-3">
+            <div class="mb-2">
+              <label for="additional-text" class="form-label">Additional Information:</label>
+              <textarea id="additional-text" class="form-control additional-text" rows="4"
+                        [(ngModel)]="model.additionalInstructions"
+                        (ngModelChange)="triggerModelChange('additionalInstructions', $event)"
+                        placeholder="Please enter additional instructions..."></textarea>
+            </div>
           </div>
         </div>
         <br/>
