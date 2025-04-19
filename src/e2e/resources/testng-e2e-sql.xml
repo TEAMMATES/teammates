@@ -13,6 +13,7 @@
             <class name="teammates.e2e.cases.sql.FeedbackRubricQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorStudentRecordsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorCourseDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorFeedbackEditPageE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorStudentListPageE2ETest" />
             <class name="teammates.e2e.cases.sql.StudentHomePageE2ETest" />
             <class name="teammates.e2e.cases.sql.StudentCourseJoinConfirmationPageE2ETest" />
@@ -24,6 +25,7 @@
             <class name="teammates.e2e.cases.sql.StudentCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.RequestPageE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorCourseStudentDetailsEditPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseStudentDetailsPageE2ETest" />
         </classes>
     </test>
 </suite>

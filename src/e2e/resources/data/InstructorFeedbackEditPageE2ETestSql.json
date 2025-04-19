@@ -1,0 +1,261 @@
+{
+  "accounts": {
+    "InstFEP.instr": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.InstFEP.instr",
+      "name": "Teammates Test",
+      "email": "InstFEP.instr@gmail.tmt"
+    },
+    "José Gómez": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.InstFEP.jose.tmms",
+      "name": "José Gómez",
+      "email": "InstFEP.jose.tmms@gmail.tmt"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "InstFEP.CS2104": {
+      "id": "tm.e2e.InstFEP.CS2104",
+      "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "UTC"
+    },
+    "InstFEP.CS1101": {
+      "id": "tm.e2e.InstFEP.CS1101",
+      "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    }
+  },
+  "sections": {
+    "tm.e2e.InstFEP.CS2104-SectionA": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS2104"
+      },
+      "name": "Section A"
+    },
+    "tm.e2e.InstFEP.CS2104-SectionB": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS2104"
+      },
+      "name": "Section B"
+    },
+    "tm.e2e.InstFEP.CS1101-None": {
+      "id": "00000000-0000-4000-8000-000000000203",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS1101"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "tm.e2e.InstFEP.CS2104-SectionA-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.InstFEP.CS2104-SectionB-Team100": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "name": "Team 100"
+    },
+    "tm.e2e.InstFEP.CS1101-None-Team1": {
+      "id": "00000000-0000-4000-8000-000000000303",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "name": "Team 1"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "InstFEP.instr": {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS2104"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "InstFEP.instr@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": false,
+      "displayName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InstFEP.instr2": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000502",
+      "courseId": "tm.e2e.InstFEP.CS1101",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "regKey": "4F647E6C589F4A653FE2E00ACBF60E97098AEE5B9B2B344F1433AC3336D567FEA097E915F0B418903EA5756DB26891F20E0D47726D1FAA6CE0C29EAF17D950CD"
+    }
+  },
+  "students": {
+    "InstFEP.jose.tmms": {
+      "id": "00000000-0000-4000-8000-000000000601",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "course": {
+        "id": "tm.e2e.InstFEP.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "email": "InstFEP.jose.tmms@gmail.tmt",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez"
+    },
+    "InstFEP.benny.c": {
+      "id": "00000000-0000-4000-8000-000000000602",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "email": "InstFEP.benny.c.tmms@gmail.tmt",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles"
+    }
+  },
+  "feedbackSessions": {
+    "openSession": {
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": "<p>Instructions for first session</p>",
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenedEmail": false,
+      "sentClosingSoonEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {},
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS2104"
+      },
+      "name": "First Session"
+    },
+    "openSession2": {
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "tm.e2e.InstFEP.CS1101"
+      },
+      "name": "First Session",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": "<p>Instructions for First session</p>",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
+      "gracePeriod": 10,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": false,
+      "isOpenedEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "createdAt": "2012-04-01T23:59:00Z"
+    }
+  },
+  "feedbackQuestions": {
+    "qn1ForFirstCourseFirstSession": {
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What did this instructor do well?",
+        "recommendedLength": 1000
+      },
+      "description": "<p>Testing description for first session</p>",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    },
+    "qn1ForSecondCourseFirstSession": {
+      "id": "00000000-0000-4000-8000-000000000802",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000702"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What did this instructor do well in course 2?",
+        "recommendedLength": 1000
+      },
+      "description": "<p>Testing description for first session second course</p>",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {},
+  "readNotifications": {}
+}
