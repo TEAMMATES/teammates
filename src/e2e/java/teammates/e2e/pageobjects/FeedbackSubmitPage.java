@@ -451,6 +451,16 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void fillConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackConstantSumResponseDetails responseDetails =
+                (FeedbackConstantSumResponseDetails) response.getFeedbackResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswers();
+        List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
+        for (int i = 0; i < answers.size(); i++) {
+            fillTextBox(constSumInputs.get(i), Integer.toString(answers.get(i)));
+        }
+    }
+
     public void verifyConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackConstantSumResponseDetails responseDetails =
                 (FeedbackConstantSumResponseDetails) response.getResponseDetailsCopy();
@@ -458,6 +468,16 @@ public class FeedbackSubmitPage extends AppPage {
         List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
         for (int i = 0; i < answers.size(); i++) {
             assertEquals(constSumInputs.get(i).getAttribute("value"), Integer.toString(answers.get(i)));
+        }
+    }
+
+    public void verifyConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackConstantSumResponseDetails responseDetails =
+                (FeedbackConstantSumResponseDetails) response.getFeedbackResponseDetailsCopy();
+        List<Integer> answers = responseDetails.getAnswers();
+        List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
+        for (int i = 0; i < answers.size(); i++) {
+            assertEquals(Integer.toString(answers.get(i)), constSumInputs.get(i).getAttribute("value"));
         }
     }
 
