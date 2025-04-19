@@ -1,0 +1,2371 @@
+{
+    "accounts": {
+      "FRes.instr": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "googleId": "tm.e2e.FRes.instr",
+        "name": "Teammates Test",
+        "email": "FRes.instr@gmail.tmt"
+      },
+      "FRes.instr2": {
+        "id": "00000000-0000-4000-8000-000000000002",
+        "googleId": "tm.e2e.FRes.instr2",
+        "name": "Teammates Test",
+        "email": "FRes.instr2@gmail.tmt"
+      },
+      "FRes.alice.b": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "googleId": "tm.e2e.FRes.alice.b",
+        "name": "Alice B.",
+        "email": "FRes.alice.b@gmail.tmt"
+      },
+      "FRes.benny.c": {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "googleId": "tm.e2e.FRes.benny.c",
+        "name": "Benny C.",
+        "email": "FRes.benny.c@gmail.tmt"
+      },
+      "FRes.charlie.d": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "googleId": "tm.e2e.FRes.charlie.d",
+        "name": "Charlie D.",
+        "email": "FRes.charlie.d@gmail.tmt"
+      },
+      "FRes.danny.e": {
+        "id": "00000000-0000-4000-8000-000000000006",
+        "googleId": "tm.e2e.FRes.danny.e",
+        "name": "Danny E.",
+        "email": "FRes.danny.e@gmail.tmt"
+      },
+      "FRes.emily.f": {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "googleId": "tm.e2e.FRes.emily.f",
+        "name": "Emily F.",
+        "email": "FRes.emily.f@gmail.tmt"
+      }
+    },
+    "accountRequests": {},
+    "courses": {
+      "FRes.CS2104": {
+        "id": "tm.e2e.FRes.CS2104",
+        "name": "Programming Language Concepts",
+        "timeZone": "Asia/Singapore",
+        "institute": "TEAMMATES Test Institute 1"
+      }
+    },
+    "sections": {
+      "tm.e2e.FRes.CS2104-None": {
+        "id": "00000000-0000-4000-8000-000000000201",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "name": "None"
+      }
+    },
+    "teams": {
+      "tm.e2e.FRes.CS2104-None-Team1": {
+        "id": "00000000-0000-4000-8000-000000000301",
+        "section": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "name": "Team 1"
+      },
+      "tm.e2e.FRes.CS2104-None-Team2": {
+        "id": "00000000-0000-4000-8000-000000000302",
+        "section": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "name": "Team 2"
+      },
+      "tm.e2e.FRes.CS2104-None-Team3": {
+        "id": "00000000-0000-4000-8000-000000000303",
+        "section": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "name": "Team 3"
+      }
+    },
+    "deadlineExtensions": {},
+    "instructors": {
+      "FRes.instr": {
+        "isDisplayedToStudents": true,
+        "displayName": "Co-owner",
+        "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+        "privileges": {
+          "courseLevel": {
+            "canModifyCourse": true,
+            "canModifyInstructor": true,
+            "canModifySession": true,
+            "canModifyStudent": true,
+            "canViewStudentInSections": true,
+            "canViewSessionInSections": true,
+            "canSubmitSessionInSections": true,
+            "canModifySessionCommentsInSections": true
+          },
+          "sectionLevel": {},
+          "sessionLevel": {}
+        },
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000001"
+        },
+        "id": "00000000-0000-4000-8000-000000000501",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "name": "Teammates Test",
+        "email": "FRes.instr@gmail.tmt"
+      },
+      "FRes.instr2": {
+        "isDisplayedToStudents": true,
+        "displayName": "Co-owner",
+        "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+        "privileges": {
+          "courseLevel": {
+            "canModifyCourse": true,
+            "canModifyInstructor": true,
+            "canModifySession": true,
+            "canModifyStudent": true,
+            "canViewStudentInSections": true,
+            "canViewSessionInSections": true,
+            "canSubmitSessionInSections": true,
+            "canModifySessionCommentsInSections": true
+          },
+          "sectionLevel": {},
+          "sessionLevel": {}
+        },
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000002"
+        },
+        "id": "00000000-0000-4000-8000-000000000502",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "name": "Teammates Test 2",
+        "email": "FRes.instr2@gmail.tmt"
+      }
+    },
+    "students": {
+      "Alice": {
+        "comments": "This student's name is Alice Betsy",
+        "id": "00000000-0000-4000-8000-000000000601",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000003"
+        },
+        "team": {
+          "id": "00000000-0000-4000-8000-000000000301"
+        },
+        "name": "Alice Betsy",
+        "email": "FRes.alice.b@gmail.tmt",
+        "googleId": "tm.e2e.FRes.alice.b"
+      },
+      "Benny": {
+        "comments": "This student's name is Benny Charles",
+        "id": "00000000-0000-4000-8000-000000000602",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "team": {
+          "id": "00000000-0000-4000-8000-000000000301"
+        },
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000004"
+        },
+        "name": "Benny Charles",
+        "email": "FRes.benny.c@gmail.tmt"
+      },
+      "Charlie": {
+        "comments": "This student's name is Charlie Davis",
+        "id": "00000000-0000-4000-8000-000000000603",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "team": {
+          "id": "00000000-0000-4000-8000-000000000301"
+        },
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000005"
+        },
+        "name": "Charlie Davis",
+        "email": "FRes.charlie.d@gmail.tmt"
+      },
+      "Unregistered": {
+        "comments": "This student has not registered",
+        "id": "00000000-0000-4000-8000-000000000604",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "team": {
+          "id": "00000000-0000-4000-8000-000000000302"
+        },
+        "name": "Unregistered",
+        "email": "Unregistered@gmail.tmt"
+      },
+      "Danny": {
+        "comments": "This student's name is Danny Engrid",
+        "id": "00000000-0000-4000-8000-000000000605",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "team": {
+          "id": "00000000-0000-4000-8000-000000000302"
+        },
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000006"
+        },
+        "name": "Danny Engrid",
+        "email": "FRes.danny.e@gmail.tmt"
+      },
+      "Emily": {
+        "comments": "This student's name is Emily",
+        "id": "00000000-0000-4000-8000-000000000606",
+        "courseId": "tm.e2e.FRes.CS2104",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "team": {
+          "id": "00000000-0000-4000-8000-000000000303"
+        },
+        "account": {
+          "id": "00000000-0000-4000-8000-000000000007"
+        },
+        "name": "Emily",
+        "email": "FRes.emily.f@gmail.tmt"
+      }
+    },
+    "feedbackSessions": {
+      "Open Session": {
+        "id": "00000000-0000-4000-8000-000000000701",
+        "course": {
+          "id": "tm.e2e.FRes.CS2104"
+        },
+        "name": "First Session",
+        "creatorEmail": "FRes.instr@gmail.tmt",
+        "instructions": "Instructions for first session",
+        "startTime": "2012-04-01T16:00:00Z",
+        "endTime": "2026-04-30T16:00:00Z",
+        "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
+        "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
+        "gracePeriod": 10,
+        "isOpeningEmailEnabled": true,
+        "isClosingEmailEnabled": true,
+        "isPublishedEmailEnabled": true,
+        "isOpeningSoonEmailSent": false,
+        "isOpenEmailSent": false,
+        "isClosingSoonEmailSent": false,
+        "isClosedEmailSent": false,
+        "isPublishedEmailSent": false,
+        "createdAt": "2012-04-01T23:59:00Z"
+      }
+    },
+    "feedbackQuestions": {
+      "qn1": {
+        "questionDetails": {
+          "shouldAllowRichText": true,
+          "questionType": "TEXT",
+          "questionText": "How can this student improve?"
+        },
+        "id": "00000000-0000-4000-8000-000000000801",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 1,
+        "giverType": "INSTRUCTORS",
+        "recipientType": "STUDENTS",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+        "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
+        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      },
+      "qn2": {
+        "questionDetails": {
+          "shouldAllowRichText": true,
+          "questionType": "TEXT",
+          "questionText": "Rate 3 other students' products"
+        },
+        "id": "00000000-0000-4000-8000-000000000802",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 2,
+        "giverType": "STUDENTS",
+        "recipientType": "STUDENTS",
+        "numOfEntitiesToGiveFeedbackTo": 3,
+        "showResponsesTo": ["INSTRUCTORS", "STUDENTS", "OWN_TEAM_MEMBERS"],
+        "showGiverNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"]
+      },
+      "qn3": {
+        "questionDetails": {
+          "hasAssignedWeights": false,
+          "mcqWeights": [],
+          "mcqOtherWeight": 0.0,
+          "mcqChoices": ["UI", "Algo"],
+          "otherEnabled": true,
+          "questionDropdownEnabled": false,
+          "generateOptionsFor": "NONE",
+          "questionType": "MCQ",
+          "questionText": "What part of the product did this teammate contribute most to?"
+        },
+        "id": "00000000-0000-4000-8000-000000000803",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 3,
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM_MEMBERS",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"]
+      },
+      "qn4": {
+        "questionDetails": {
+          "msqChoices": [],
+          "otherEnabled": false,
+          "hasAssignedWeights": false,
+          "msqWeights": [],
+          "msqOtherWeight": 0.0,
+          "generateOptionsFor": "STUDENTS",
+          "maxSelectableChoices": -2147483648,
+          "minSelectableChoices": -2147483648,
+          "questionType": "MSQ",
+          "questionText": "Which students would you recommend to be a tutor?"
+        },
+        "id": "00000000-0000-4000-8000-000000000804",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 4,
+        "giverType": "STUDENTS",
+        "recipientType": "NONE",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "RECEIVER",
+          "OWN_TEAM_MEMBERS",
+          "STUDENTS",
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "RECEIVER",
+          "OWN_TEAM_MEMBERS",
+          "STUDENTS",
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "RECEIVER",
+          "OWN_TEAM_MEMBERS",
+          "STUDENTS",
+          "INSTRUCTORS"
+        ]
+      },
+      "qn5": {
+        "questionDetails": {
+          "minScale": 1,
+          "maxScale": 5,
+          "step": 0.5,
+          "questionType": "NUMSCALE",
+          "questionText": "Rate your teammates contributions?"
+        },
+        "id": "00000000-0000-4000-8000-000000000805",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 5,
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS"],
+        "showGiverNameTo": ["OWN_TEAM_MEMBERS"],
+        "showRecipientNameTo": []
+      },
+      "qn6": {
+        "questionDetails": {
+          "constSumOptions": ["Grades", "Fun"],
+          "distributeToRecipients": false,
+          "pointsPerOption": false,
+          "forceUnevenDistribution": false,
+          "distributePointsFor": "None",
+          "points": 100,
+          "questionType": "CONSTSUM_OPTIONS",
+          "questionText": "How important are the following factors to you? Give points accordingly."
+        },
+        "id": "00000000-0000-4000-8000-000000000806",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 6,
+        "giverType": "STUDENTS",
+        "recipientType": "SELF",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "RECEIVER",
+          "OWN_TEAM_MEMBERS",
+          "STUDENTS",
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "RECEIVER",
+          "OWN_TEAM_MEMBERS",
+          "STUDENTS",
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS"]
+      },
+      "qn7": {
+        "questionDetails": {
+          "constSumOptions": [],
+          "distributeToRecipients": true,
+          "pointsPerOption": true,
+          "forceUnevenDistribution": false,
+          "distributePointsFor": "None",
+          "points": 100,
+          "questionType": "CONSTSUM_RECIPIENTS",
+          "questionText": "Split points among your team members by how much they contributed."
+        },
+        "id": "00000000-0000-4000-8000-000000000807",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 7,
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+        "numOfEntitiesToGiveFeedbackTo": -100,
+        "showResponsesTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
+      },
+      "qn8": {
+        "questionDetails": {
+          "options": [
+            "Teamwork",
+            "Time management",
+            "Quality Control",
+            "Quality Assurance"
+          ],
+          "minOptionsToBeRanked": 1,
+          "maxOptionsToBeRanked": -2147483648,
+          "areDuplicatesAllowed": true,
+          "questionType": "RANK_OPTIONS",
+          "questionText": "As an student, rank for every team, the areas of improvement that they should work on"
+        },
+        "id": "00000000-0000-4000-8000-000000000808",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 8,
+        "giverType": "TEAMS",
+        "recipientType": "TEAMS",
+        "numOfEntitiesToGiveFeedbackTo": -100,
+        "showResponsesTo": ["INSTRUCTORS", "STUDENTS"],
+        "showGiverNameTo": ["INSTRUCTORS", "STUDENTS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "STUDENTS"]
+      },
+      "qn9": {
+        "questionDetails": {
+          "minOptionsToBeRanked": 1,
+          "maxOptionsToBeRanked": -2147483648,
+          "areDuplicatesAllowed": true,
+          "questionType": "RANK_RECIPIENTS",
+          "questionText": "Rank your instructors by approachability."
+        },
+        "id": "00000000-0000-4000-8000-000000000809",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 9,
+        "giverType": "STUDENTS",
+        "recipientType": "INSTRUCTORS",
+        "numOfEntitiesToGiveFeedbackTo": -100,
+        "showResponsesTo": ["INSTRUCTORS", "STUDENTS"],
+        "showGiverNameTo": ["STUDENTS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "STUDENTS"]
+      },
+      "qn10": {
+        "questionDetails": {
+          "hasAssignedWeights": true,
+          "rubricWeightsForEachCell": [
+            [1.0, 2.0, 3.0, 4.0, 5.0],
+            [0.01, 0.02, 0.03, 0.04, 0.05],
+            [2.0, 1.0, 0.0, -1.0, -2.0]
+          ],
+          "rubricChoices": [
+            "Strongly Agree",
+            "Agree",
+            "Neutral",
+            "Disagree",
+            "Strongly Disagree"
+          ],
+          "rubricSubQuestions": [
+            "This teammate is hardworking.",
+            "This teammate is on time for meetings.",
+            "This teammate displayed teamwork."
+          ],
+          "rubricDescriptions": [
+            ["", "", "", "", ""],
+            ["Most of the time", "", "", "", "Less than half the time"],
+            [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ]
+          ],
+          "questionType": "RUBRIC",
+          "questionText": "Please choose the best choice for the following sub-questions."
+        },
+        "id": "00000000-0000-4000-8000-000000000810",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 10,
+        "description": "<p>Testing description for second session</p>",
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+        "numOfEntitiesToGiveFeedbackTo": -100,
+        "showResponsesTo": ["INSTRUCTORS", "STUDENTS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
+      },
+      "qn11": {
+        "questionDetails": {
+          "isZeroSum": true,
+          "isNotSureAllowed": false,
+          "questionType": "CONTRIB",
+          "questionText": "Rate the contribution by yourself and your team members."
+        },
+        "id": "00000000-0000-4000-8000-000000000811",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 11,
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+        "numOfEntitiesToGiveFeedbackTo": -100,
+        "showResponsesTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
+      },
+      "qn12": {
+        "questionDetails": {
+          "shouldAllowRichText": true,
+          "questionType": "TEXT",
+          "questionText": "Say something nice to your teammates."
+        },
+        "id": "00000000-0000-4000-8000-000000000812",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionNumber": 12,
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM_MEMBERS",
+        "numOfEntitiesToGiveFeedbackTo": -100,
+        "showResponsesTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
+      }
+    },
+    "feedbackResponses": {
+      "qn1response1": {
+        "answer": {
+          "answer": "Instructor response to Alice.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000801",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "How can this student improve?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000901",
+        "giver": "FRes.instr@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn1response2": {
+        "answer": {
+          "answer": "Instructor response to Benny.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000801",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "How can this student improve?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000902",
+        "giver": "FRes.instr@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn2response1": {
+        "answer": {
+          "answer": "Response to Benny.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000802",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "Rate 3 other students' products"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000903",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn2response2": {
+        "answer": {
+          "answer": "Response to Unregistered.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000802",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "Rate 3 other students' products"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000904",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "Unregistered@gmail.tmt"
+      },
+      "qn2responseA": {
+        "answer": {
+          "answer": "Response from Unregistered to Alice.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000802",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "Rate 3 other students' products"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000905",
+        "giver": "Unregistered@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn2responseB": {
+        "answer": {
+          "answer": "Response from Benny to Alice.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000802",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "Rate 3 other students' products"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000906",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn2responseC": {
+        "answer": {
+          "answer": "Response from Benny to Danny.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000802",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "Rate 3 other students' products"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000907",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.danny.e@gmail.tmt"
+      },
+      "qn2responseD": {
+        "answer": {
+          "answer": "Response from Danny to Emily.",
+          "questionType": "TEXT"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000802",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "shouldAllowRichText": true,
+            "questionType": "TEXT",
+            "questionText": "Rate 3 other students' products"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000908",
+        "giver": "FRes.danny.e@gmail.tmt",
+        "recipient": "FRes.emily.f@gmail.tmt"
+      },
+      "qn3response1": {
+        "answer": {
+          "answer": "",
+          "isOther": true,
+          "otherFieldContent": "Answer from Alice.",
+          "questionType": "MCQ"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000803",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": false,
+            "mcqWeights": [],
+            "mcqOtherWeight": 0.0,
+            "mcqChoices": ["UI", "Algo"],
+            "otherEnabled": true,
+            "questionDropdownEnabled": false,
+            "generateOptionsFor": "NONE",
+            "questionType": "MCQ",
+            "questionText": "What part of the product did this teammate contribute most to?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000909",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn3response2": {
+        "answer": {
+          "answer": "Algo",
+          "isOther": false,
+          "otherFieldContent": "",
+          "questionType": "MCQ"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000803",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": false,
+            "mcqWeights": [],
+            "mcqOtherWeight": 0.0,
+            "mcqChoices": ["UI", "Algo"],
+            "otherEnabled": true,
+            "questionDropdownEnabled": false,
+            "generateOptionsFor": "NONE",
+            "questionType": "MCQ",
+            "questionText": "What part of the product did this teammate contribute most to?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000910",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn3responseA": {
+        "answer": {
+          "answer": "UI",
+          "isOther": false,
+          "otherFieldContent": "",
+          "questionType": "MCQ"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000803",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": false,
+            "mcqWeights": [],
+            "mcqOtherWeight": 0.0,
+            "mcqChoices": ["UI", "Algo"],
+            "otherEnabled": true,
+            "questionDropdownEnabled": false,
+            "generateOptionsFor": "NONE",
+            "questionType": "MCQ",
+            "questionText": "What part of the product did this teammate contribute most to?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000911",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn3responseB": {
+        "answer": {
+          "answer": "",
+          "isOther": true,
+          "otherFieldContent": "Answer from Charlie.",
+          "questionType": "MCQ"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000803",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": false,
+            "mcqWeights": [],
+            "mcqOtherWeight": 0.0,
+            "mcqChoices": ["UI", "Algo"],
+            "otherEnabled": true,
+            "questionDropdownEnabled": false,
+            "generateOptionsFor": "NONE",
+            "questionType": "MCQ",
+            "questionText": "What part of the product did this teammate contribute most to?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000912",
+        "giver": "FRes.charlie.d@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn4response1": {
+        "answer": {
+          "answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 2)"],
+          "isOther": false,
+          "otherFieldContent": "",
+          "questionType": "MSQ"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000804",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "msqChoices": [],
+            "otherEnabled": false,
+            "hasAssignedWeights": false,
+            "msqWeights": [],
+            "msqOtherWeight": 0.0,
+            "generateOptionsFor": "STUDENTS",
+            "maxSelectableChoices": -2147483648,
+            "minSelectableChoices": -2147483648,
+            "questionType": "MSQ",
+            "questionText": "Which students would you recommend to be a tutor?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000913",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "%GENERAL%"
+      },
+      "qn4responseA": {
+        "answer": {
+          "answers": ["Alice Betsy (Team 1)"],
+          "isOther": false,
+          "otherFieldContent": "",
+          "questionType": "MSQ"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000804",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "msqChoices": [],
+            "otherEnabled": false,
+            "hasAssignedWeights": false,
+            "msqWeights": [],
+            "msqOtherWeight": 0.0,
+            "generateOptionsFor": "STUDENTS",
+            "maxSelectableChoices": -2147483648,
+            "minSelectableChoices": -2147483648,
+            "questionType": "MSQ",
+            "questionText": "Which students would you recommend to be a tutor?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000914",
+        "giver": "FRes.danny.e@gmail.tmt",
+        "recipient": "%GENERAL%"
+      },
+      "qn5response1": {
+        "answer": {
+          "answer": 3.0,
+          "questionType": "NUMSCALE"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000805",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minScale": 1,
+            "maxScale": 5,
+            "step": 0.5,
+            "questionType": "NUMSCALE",
+            "questionText": "Rate your teammates contributions?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000915",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn5response2": {
+        "answer": {
+          "answer": 4.5,
+          "questionType": "NUMSCALE"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000805",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minScale": 1,
+            "maxScale": 5,
+            "step": 0.5,
+            "questionType": "NUMSCALE",
+            "questionText": "Rate your teammates contributions?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000916",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn5response3": {
+        "answer": {
+          "answer": 4.5,
+          "questionType": "NUMSCALE"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000805",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minScale": 1,
+            "maxScale": 5,
+            "step": 0.5,
+            "questionType": "NUMSCALE",
+            "questionText": "Rate your teammates contributions?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000917",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn5responseA": {
+        "answer": {
+          "answer": 4.0,
+          "questionType": "NUMSCALE"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000805",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minScale": 1,
+            "maxScale": 5,
+            "step": 0.5,
+            "questionType": "NUMSCALE",
+            "questionText": "Rate your teammates contributions?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000918",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn5responseB": {
+        "answer": {
+          "answer": 3.0,
+          "questionType": "NUMSCALE"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000805",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minScale": 1,
+            "maxScale": 5,
+            "step": 0.5,
+            "questionType": "NUMSCALE",
+            "questionText": "Rate your teammates contributions?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000919",
+        "giver": "FRes.charlie.d@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn5responseC": {
+        "answer": {
+          "answer": -999.0,
+          "questionType": "NUMSCALE"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000805",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minScale": 1,
+            "maxScale": 5,
+            "step": 0.5,
+            "questionType": "NUMSCALE",
+            "questionText": "Rate your teammates contributions?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000920",
+        "giver": "FRes.benny.e@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn5responseD": {
+        "answer": {
+          "answer": -999.0,
+          "questionType": "NUMSCALE"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000805",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minScale": 1,
+            "maxScale": 5,
+            "step": 0.5,
+            "questionType": "NUMSCALE",
+            "questionText": "Rate your teammates contributions?"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000921",
+        "giver": "FRes.danny.e@gmail.tmt",
+        "recipient": "Unregistered@gmail.tmt"
+      },
+      "qn6response1": {
+        "answer": {
+          "answers": [71, 29],
+          "questionType": "CONSTSUM"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000806",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "constSumOptions": ["Grades", "Fun"],
+            "distributeToRecipients": false,
+            "pointsPerOption": false,
+            "forceUnevenDistribution": false,
+            "distributePointsFor": "None",
+            "points": 100,
+            "questionType": "CONSTSUM_OPTIONS",
+            "questionText": "How important are the following factors to you? Give points accordingly."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000922",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn6responseA": {
+        "answer": {
+          "answers": [100, 0],
+          "questionType": "CONSTSUM"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000806",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "constSumOptions": ["Grades", "Fun"],
+            "distributeToRecipients": false,
+            "pointsPerOption": false,
+            "forceUnevenDistribution": false,
+            "distributePointsFor": "None",
+            "points": 100,
+            "questionType": "CONSTSUM_OPTIONS",
+            "questionText": "How important are the following factors to you? Give points accordingly."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000923",
+        "giver": "FRes.emily.f@gmail.tmt",
+        "recipient": "FRes.emily.f@gmail.tmt"
+      },
+      "qn7response1": {
+        "answer": {
+          "answers": [49],
+          "questionType": "CONSTSUM"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000807",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "constSumOptions": [],
+            "distributeToRecipients": true,
+            "pointsPerOption": true,
+            "forceUnevenDistribution": false,
+            "distributePointsFor": "None",
+            "points": 100,
+            "questionType": "CONSTSUM_RECIPIENTS",
+            "questionText": "Split points among your team members by how much they contributed."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000924",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn7response2": {
+        "answer": {
+          "answers": [151],
+          "questionType": "CONSTSUM"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000807",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "constSumOptions": [],
+            "distributeToRecipients": true,
+            "pointsPerOption": true,
+            "forceUnevenDistribution": false,
+            "distributePointsFor": "None",
+            "points": 100,
+            "questionType": "CONSTSUM_RECIPIENTS",
+            "questionText": "Split points among your team members by how much they contributed."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000925",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn7response3": {
+        "answer": {
+          "answers": [100],
+          "questionType": "CONSTSUM"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000807",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "constSumOptions": [],
+            "distributeToRecipients": true,
+            "pointsPerOption": true,
+            "forceUnevenDistribution": false,
+            "distributePointsFor": "None",
+            "points": 100,
+            "questionType": "CONSTSUM_RECIPIENTS",
+            "questionText": "Split points among your team members by how much they contributed."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000926",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn7responseA": {
+        "answer": {
+          "answers": [100],
+          "questionType": "CONSTSUM"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000807",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "constSumOptions": [],
+            "distributeToRecipients": true,
+            "pointsPerOption": true,
+            "forceUnevenDistribution": false,
+            "distributePointsFor": "None",
+            "points": 100,
+            "questionType": "CONSTSUM_RECIPIENTS",
+            "questionText": "Split points among your team members by how much they contributed."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000927",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn7responseB": {
+        "answer": {
+          "answers": [100],
+          "questionType": "CONSTSUM"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000807",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "constSumOptions": [],
+            "distributeToRecipients": true,
+            "pointsPerOption": true,
+            "forceUnevenDistribution": false,
+            "distributePointsFor": "None",
+            "points": 100,
+            "questionType": "CONSTSUM_RECIPIENTS",
+            "questionText": "Split points among your team members by how much they contributed."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000928",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn8response1": {
+        "answer": {
+          "answers": [1, 2, 3, 4],
+          "questionType": "RANK_OPTIONS"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000808",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "options": [
+              "Teamwork",
+              "Time management",
+              "Quality Control",
+              "Quality Assurance"
+            ],
+            "minOptionsToBeRanked": 1,
+            "maxOptionsToBeRanked": -2147483648,
+            "areDuplicatesAllowed": true,
+            "questionType": "RANK_OPTIONS",
+            "questionText": "As an student, rank for every team, the areas of improvement that they should work on"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000929",
+        "giver": "Team 1",
+        "recipient": "Team 2"
+      },
+      "qn8responseA": {
+        "answer": {
+          "answers": [4, 2, 3, 1],
+          "questionType": "RANK_OPTIONS"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000808",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "options": [
+              "Teamwork",
+              "Time management",
+              "Quality Control",
+              "Quality Assurance"
+            ],
+            "minOptionsToBeRanked": 1,
+            "maxOptionsToBeRanked": -2147483648,
+            "areDuplicatesAllowed": true,
+            "questionType": "RANK_OPTIONS",
+            "questionText": "As an student, rank for every team, the areas of improvement that they should work on"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000930",
+        "giver": "Team 2",
+        "recipient": "Team 1"
+      },
+      "qn8responseB": {
+        "answer": {
+          "answers": [2, 3, 1, 4],
+          "questionType": "RANK_OPTIONS"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000808",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "options": [
+              "Teamwork",
+              "Time management",
+              "Quality Control",
+              "Quality Assurance"
+            ],
+            "minOptionsToBeRanked": 1,
+            "maxOptionsToBeRanked": -2147483648,
+            "areDuplicatesAllowed": true,
+            "questionType": "RANK_OPTIONS",
+            "questionText": "As an student, rank for every team, the areas of improvement that they should work on"
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000931",
+        "giver": "Team 2",
+        "recipient": "Team 3"
+      },
+      "qn9response1": {
+        "answer": {
+          "answer": 1,
+          "questionType": "RANK_RECIPIENTS"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000809",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minOptionsToBeRanked": 1,
+            "maxOptionsToBeRanked": -2147483648,
+            "areDuplicatesAllowed": true,
+            "questionType": "RANK_RECIPIENTS",
+            "questionText": "Rank your instructors by approachability."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000932",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.instr2@gmail.tmt"
+      },
+      "qn9response2": {
+        "answer": {
+          "answer": 2,
+          "questionType": "RANK_RECIPIENTS"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000809",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minOptionsToBeRanked": 1,
+            "maxOptionsToBeRanked": -2147483648,
+            "areDuplicatesAllowed": true,
+            "questionType": "RANK_RECIPIENTS",
+            "questionText": "Rank your instructors by approachability."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000933",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.instr@gmail.tmt"
+      },
+      "qn9responseA": {
+        "answer": {
+          "answer": 2,
+          "questionType": "RANK_RECIPIENTS"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000809",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minOptionsToBeRanked": 1,
+            "maxOptionsToBeRanked": -2147483648,
+            "areDuplicatesAllowed": true,
+            "questionType": "RANK_RECIPIENTS",
+            "questionText": "Rank your instructors by approachability."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000934",
+        "giver": "FRes.emily.f@gmail.tmt",
+        "recipient": "FRes.instr2@gmail.tmt"
+      },
+      "qn9responseB": {
+        "answer": {
+          "answer": 1,
+          "questionType": "RANK_RECIPIENTS"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000809",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "minOptionsToBeRanked": 1,
+            "maxOptionsToBeRanked": -2147483648,
+            "areDuplicatesAllowed": true,
+            "questionType": "RANK_RECIPIENTS",
+            "questionText": "Rank your instructors by approachability."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000935",
+        "giver": "FRes.emily.f@gmail.tmt",
+        "recipient": "FRes.instr@gmail.tmt"
+      },
+      "qn10response1": {
+        "answer": {
+          "answer": [1, 2, 3],
+          "questionType": "RUBRIC"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000810",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": true,
+            "rubricWeightsForEachCell": [
+              [1.0, 2.0, 3.0, 4.0, 5.0],
+              [0.01, 0.02, 0.03, 0.04, 0.05],
+              [2.0, 1.0, 0.0, -1.0, -2.0]
+            ],
+            "rubricChoices": [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ],
+            "rubricSubQuestions": [
+              "This teammate is hardworking.",
+              "This teammate is on time for meetings.",
+              "This teammate displayed teamwork."
+            ],
+            "rubricDescriptions": [
+              ["", "", "", "", ""],
+              ["Most of the time", "", "", "", "Less than half the time"],
+              [
+                "Strongly Agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly Disagree"
+              ]
+            ],
+            "questionType": "RUBRIC",
+            "questionText": "Please choose the best choice for the following sub-questions."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000936",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn10response2": {
+        "answer": {
+          "answer": [1, 2, 3],
+          "questionType": "RUBRIC"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000810",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": true,
+            "rubricWeightsForEachCell": [
+              [1.0, 2.0, 3.0, 4.0, 5.0],
+              [0.01, 0.02, 0.03, 0.04, 0.05],
+              [2.0, 1.0, 0.0, -1.0, -2.0]
+            ],
+            "rubricChoices": [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ],
+            "rubricSubQuestions": [
+              "This teammate is hardworking.",
+              "This teammate is on time for meetings.",
+              "This teammate displayed teamwork."
+            ],
+            "rubricDescriptions": [
+              ["", "", "", "", ""],
+              ["Most of the time", "", "", "", "Less than half the time"],
+              [
+                "Strongly Agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly Disagree"
+              ]
+            ],
+            "questionType": "RUBRIC",
+            "questionText": "Please choose the best choice for the following sub-questions."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000937",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn10response3": {
+        "answer": {
+          "answer": [1, 2, 3],
+          "questionType": "RUBRIC"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000810",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": true,
+            "rubricWeightsForEachCell": [
+              [1.0, 2.0, 3.0, 4.0, 5.0],
+              [0.01, 0.02, 0.03, 0.04, 0.05],
+              [2.0, 1.0, 0.0, -1.0, -2.0]
+            ],
+            "rubricChoices": [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ],
+            "rubricSubQuestions": [
+              "This teammate is hardworking.",
+              "This teammate is on time for meetings.",
+              "This teammate displayed teamwork."
+            ],
+            "rubricDescriptions": [
+              ["", "", "", "", ""],
+              ["Most of the time", "", "", "", "Less than half the time"],
+              [
+                "Strongly Agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly Disagree"
+              ]
+            ],
+            "questionType": "RUBRIC",
+            "questionText": "Please choose the best choice for the following sub-questions."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000938",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn10responseA": {
+        "answer": {
+          "answer": [4, 4, 4],
+          "questionType": "RUBRIC"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000810",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": true,
+            "rubricWeightsForEachCell": [
+              [1.0, 2.0, 3.0, 4.0, 5.0],
+              [0.01, 0.02, 0.03, 0.04, 0.05],
+              [2.0, 1.0, 0.0, -1.0, -2.0]
+            ],
+            "rubricChoices": [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ],
+            "rubricSubQuestions": [
+              "This teammate is hardworking.",
+              "This teammate is on time for meetings.",
+              "This teammate displayed teamwork."
+            ],
+            "rubricDescriptions": [
+              ["", "", "", "", ""],
+              ["Most of the time", "", "", "", "Less than half the time"],
+              [
+                "Strongly Agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly Disagree"
+              ]
+            ],
+            "questionType": "RUBRIC",
+            "questionText": "Please choose the best choice for the following sub-questions."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000939",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn10responseB": {
+        "answer": {
+          "answer": [0, 4, 3],
+          "questionType": "RUBRIC"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000810",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": true,
+            "rubricWeightsForEachCell": [
+              [1.0, 2.0, 3.0, 4.0, 5.0],
+              [0.01, 0.02, 0.03, 0.04, 0.05],
+              [2.0, 1.0, 0.0, -1.0, -2.0]
+            ],
+            "rubricChoices": [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ],
+            "rubricSubQuestions": [
+              "This teammate is hardworking.",
+              "This teammate is on time for meetings.",
+              "This teammate displayed teamwork."
+            ],
+            "rubricDescriptions": [
+              ["", "", "", "", ""],
+              ["Most of the time", "", "", "", "Less than half the time"],
+              [
+                "Strongly Agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly Disagree"
+              ]
+            ],
+            "questionType": "RUBRIC",
+            "questionText": "Please choose the best choice for the following sub-questions."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000940",
+        "giver": "FRes.charlie.d@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn10responseC": {
+        "answer": {
+          "answer": [0, 0, 0],
+          "questionType": "RUBRIC"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000810",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": true,
+            "rubricWeightsForEachCell": [
+              [1.0, 2.0, 3.0, 4.0, 5.0],
+              [0.01, 0.02, 0.03, 0.04, 0.05],
+              [2.0, 1.0, 0.0, -1.0, -2.0]
+            ],
+            "rubricChoices": [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ],
+            "rubricSubQuestions": [
+              "This teammate is hardworking.",
+              "This teammate is on time for meetings.",
+              "This teammate displayed teamwork."
+            ],
+            "rubricDescriptions": [
+              ["", "", "", "", ""],
+              ["Most of the time", "", "", "", "Less than half the time"],
+              [
+                "Strongly Agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly Disagree"
+              ]
+            ],
+            "questionType": "RUBRIC",
+            "questionText": "Please choose the best choice for the following sub-questions."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000941",
+        "giver": "FRes.charlie.d@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn10responseD": {
+        "answer": {
+          "answer": [3, 2, 2],
+          "questionType": "RUBRIC"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000810",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "hasAssignedWeights": true,
+            "rubricWeightsForEachCell": [
+              [1.0, 2.0, 3.0, 4.0, 5.0],
+              [0.01, 0.02, 0.03, 0.04, 0.05],
+              [2.0, 1.0, 0.0, -1.0, -2.0]
+            ],
+            "rubricChoices": [
+              "Strongly Agree",
+              "Agree",
+              "Neutral",
+              "Disagree",
+              "Strongly Disagree"
+            ],
+            "rubricSubQuestions": [
+              "This teammate is hardworking.",
+              "This teammate is on time for meetings.",
+              "This teammate displayed teamwork."
+            ],
+            "rubricDescriptions": [
+              ["", "", "", "", ""],
+              ["Most of the time", "", "", "", "Less than half the time"],
+              [
+                "Strongly Agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly Disagree"
+              ]
+            ],
+            "questionType": "RUBRIC",
+            "questionText": "Please choose the best choice for the following sub-questions."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000942",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn11response1": {
+        "answer": {
+          "answer": 120,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000943",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn11response2": {
+        "answer": {
+          "answer": 150,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000944",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn11response3": {
+        "answer": {
+          "answer": 50,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000945",
+        "giver": "FRes.alice.b@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn11responseA": {
+        "answer": {
+          "answer": 150,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000946",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn11responseB": {
+        "answer": {
+          "answer": 180,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000947",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn11responseC": {
+        "answer": {
+          "answer": 100,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000948",
+        "giver": "FRes.benny.c@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      },
+      "qn11responseD": {
+        "answer": {
+          "answer": 150,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000949",
+        "giver": "FRes.charlie.d@gmail.tmt",
+        "recipient": "FRes.alice.b@gmail.tmt"
+      },
+      "qn11responseE": {
+        "answer": {
+          "answer": 0,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000950",
+        "giver": "FRes.charlie.d@gmail.tmt",
+        "recipient": "FRes.benny.c@gmail.tmt"
+      },
+      "qn11responseF": {
+        "answer": {
+          "answer": 200,
+          "questionType": "CONTRIB"
+        },
+        "feedbackQuestion": {
+          "id": "00000000-0000-4000-8000-000000000811",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "isZeroSum": true,
+            "isNotSureAllowed": false,
+            "questionType": "CONTRIB",
+            "questionText": "Rate the contribution by yourself and your team members."
+          }
+        },
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "id": "00000000-0000-4000-8000-000000000951",
+        "giver": "FRes.charlie.d@gmail.tmt",
+        "recipient": "FRes.charlie.d@gmail.tmt"
+      }
+    },
+    "feedbackResponseComments": {
+      "qn2Comment1": {
+        "id": 0,
+        "giver": "FRes.instr@gmail.tmt",
+        "giverType": "INSTRUCTORS",
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "feedbackResponse": {
+          "id": "00000000-0000-4000-8000-000000000903",
+          "answer": {
+            "answer": "Response to Benny.",
+            "questionType": "TEXT"
+          }
+        },
+        "commentText": "Instructor first comment to Alice",
+        "isVisibilityFollowingFeedbackQuestion": false,
+        "isCommentFromFeedbackParticipant": false,
+        "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
+        "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
+        "createdAt": "2026-02-02T23:59:00Z"
+      },
+      "qn2Comment2": {
+        "id": 1,
+        "giver": "FRes.instr@gmail.tmt",
+        "giverType": "INSTRUCTORS",
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "feedbackResponse": {
+          "id": "00000000-0000-4000-8000-000000000903",
+          "answer": {
+            "answer": "Response to Benny.",
+            "questionType": "TEXT"
+          }
+        },
+        "commentText": "Instructor second comment to Alice",
+        "isVisibilityFollowingFeedbackQuestion": false,
+        "isCommentFromFeedbackParticipant": false,
+        "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
+        "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
+        "createdAt": "2026-03-01T23:59:00Z"
+      },
+      "qn3Comment1": {
+        "id": 2,
+        "giver": "FRes.benny.c@gmail.tmt",
+        "giverType": "STUDENTS",
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "feedbackResponse": {
+          "id": "00000000-0000-4000-8000-000000000911",
+          "answer": {
+            "answer": "",
+            "isOther": true,
+            "otherFieldContent": "Answer from Alice.",
+            "questionType": "MCQ"
+          }
+        },
+        "commentText": "Benny comment to Alice",
+        "isVisibilityFollowingFeedbackQuestion": true,
+        "isCommentFromFeedbackParticipant": true,
+        "showCommentTo": [],
+        "showGiverNameTo": [],
+        "createdAt": "2026-03-02T23:59:00Z"
+      },
+      "qn3Comment2": {
+        "id": 3,
+        "giver": "FRes.alice.b@gmail.tmt",
+        "giverType": "STUDENTS",
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "feedbackResponse": {
+          "id": "00000000-0000-4000-8000-000000000909",
+          "answer": {
+            "answer": "",
+            "isOther": true,
+            "otherFieldContent": "Answer from Alice.",
+            "questionType": "MCQ"
+          }
+        },
+        "commentText": "Alice comment to Benny",
+        "isVisibilityFollowingFeedbackQuestion": true,
+        "isCommentFromFeedbackParticipant": true,
+        "showCommentTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "createdAt": "2026-03-02T23:59:00Z"
+      },
+      "qn4Comment1": {
+        "id": 4,
+        "giver": "FRes.danny.e@gmail.tmt",
+        "giverType": "STUDENTS",
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "feedbackResponse": {
+          "id": "00000000-0000-4000-8000-000000000913",
+          "answer": {
+            "answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 2)"],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          }
+        },
+        "commentText": "Danny comment",
+        "isVisibilityFollowingFeedbackQuestion": true,
+        "isCommentFromFeedbackParticipant": true,
+        "showCommentTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "createdAt": "2026-03-02T23:59:00Z"
+      }
+    },
+    "notifications": {},
+    "readNotifications": {}
+  }
