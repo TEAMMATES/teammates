@@ -9,11 +9,9 @@ import java.time.Instant;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.DeleteFeedbackSessionAction;
 
@@ -119,48 +117,15 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
     }
 
     @Test
-    public void testSpecificAccessControl_notInstructor_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-        };
-        loginAsStudent(googleId);
-        verifyCannotAccess(params);
-        logoutUser();
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    public void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
-        loginAsInstructor(googleId);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+    void testAccessControl() {
         when(mockLogic.getFeedbackSessionFromRecycleBin(session.getName(), course.getId())).thenReturn(session);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
         };
-        verifyCanAccess(params);
 
-    }
-
-    @Test
-    public void testSpecificAccessControl_instructorWithoutPermission_cannotAccess() {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
-        loginAsInstructor(googleId);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
-        when(mockLogic.getFeedbackSessionFromRecycleBin(session.getName(), course.getId())).thenReturn(session);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-        };
-        verifyCannotAccess(params);
+        verifyAccessibleWithModifySessionPrivilege(course, params);
+        verifyInaccessibleWithoutModifySessionPrivilege(course, params);
     }
 }

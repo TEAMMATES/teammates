@@ -97,32 +97,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(getTypicalInstructor().getGoogleId());
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(getTypicalStudent().getGoogleId());
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(getTypicalInstructor().getGoogleId());
-        verifyCannotAccess();
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
     }
 }

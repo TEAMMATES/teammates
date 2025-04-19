@@ -21,7 +21,6 @@ import teammates.ui.webapi.CompileLogsAction;
  * SUT: {@link CompileLogsAction}.
  */
 public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
-    private static final String GOOGLE_ID = "user-googleId";
     private static final long DISTANT_TIMESTAMP = Instant.now().minusSeconds(7 * 60).toEpochMilli();
     private static final long RECENT_TIMESTAMP = Instant.now().minusSeconds(30).toEpochMilli();
 
@@ -38,27 +37,8 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
     }
 
     @Test

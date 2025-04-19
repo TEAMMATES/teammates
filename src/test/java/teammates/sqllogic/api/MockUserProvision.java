@@ -13,6 +13,10 @@ import teammates.logic.api.UserProvision;
 public class MockUserProvision extends UserProvision {
     private UserInfo mockUser = new UserInfo("user.id");
     private boolean isLoggedIn;
+    private boolean isMaintainer;
+    private boolean isAdmin;
+    private boolean isInstructor;
+    private boolean isStudent;
 
     private UserInfo loginUser(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent,
             boolean isMaintainer) {
@@ -99,5 +103,32 @@ public class MockUserProvision extends UserProvision {
     @Override
     public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
         return getCurrentUser(uic);
+    }
+
+    @Override
+    public UserInfo getMasqueradeUser(String googleId) {
+        UserInfo userInfo = new UserInfo(googleId);
+        userInfo.isAdmin = isAdmin;
+        userInfo.isInstructor = isInstructor;
+        userInfo.isStudent = isStudent;
+        userInfo.isMaintainer = isMaintainer;
+
+        return userInfo;
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public void setInstructor(boolean isInstructor) {
+        this.isInstructor = isInstructor;
+    }
+
+    public void setStudent(boolean isStudent) {
+        this.isStudent = isStudent;
+    }
+
+    public void setMaintainer(boolean isMaintainer) {
+        this.isMaintainer = isMaintainer;
     }
 }

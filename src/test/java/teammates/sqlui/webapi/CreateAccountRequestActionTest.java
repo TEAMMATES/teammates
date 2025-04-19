@@ -35,6 +35,11 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         return POST;
     }
 
+    @Test(enabled = false)
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
+    }
+
     @BeforeMethod
     void setUp() {
         createRequest = getTypicalAccountCreateRequest();

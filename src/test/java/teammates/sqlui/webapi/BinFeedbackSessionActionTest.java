@@ -28,6 +28,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     private Instructor typicalInstructor;
     private FeedbackSession typicalFeedbackSession;
+    private Course typicalCourse;
 
     @Override
     protected String getActionUri() {
@@ -41,10 +42,13 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @BeforeMethod
     void setUpMethod() {
-        Course typicalCourse = getTypicalCourse();
+        typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackSession.setCreatedAt(Instant.now().minus(Duration.ofMinutes(15)));
+
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
+                .thenReturn(typicalFeedbackSession);
     }
 
     @AfterMethod
@@ -103,88 +107,42 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @Test
     void testAccessControl_instructorWithoutPrivilege_cannotAccess() {
-        Instructor instructorWithoutPrivilege = getTypicalInstructor();
-        instructorWithoutPrivilege.setPrivileges(
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
-        instructorWithoutPrivilege.setGoogleId("instructorWithoutPrivilege");
-
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
+        InstructorPrivileges instructorPrivileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
-                .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalFeedbackSession.getCourseId(),
-                instructorWithoutPrivilege.getGoogleId())).thenReturn(instructorWithoutPrivilege);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(typicalCourse, instructorPrivileges, params);
 
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1))
+        verify(mockLogic, times(6))
                 .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
-        verify(mockLogic, times(1))
-                .getInstructorByGoogleId(typicalFeedbackSession.getCourseId(),
-                        instructorWithoutPrivilege.getGoogleId());
     }
 
     @Test
     void testAccessControl_instructorOfOtherCourse_cannotAccess() {
-        Instructor instructorOfOtherCourse = getTypicalInstructor();
-        Course otherCourse = new Course("different-id", "different-name",
-                Const.DEFAULT_TIME_ZONE, "teammates");
-        instructorOfOtherCourse.setCourse(otherCourse);
-
-        loginAsInstructor(instructorOfOtherCourse.getGoogleId());
-
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
-                .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalFeedbackSession.getCourseId(),
-                instructorOfOtherCourse.getGoogleId())).thenReturn(instructorOfOtherCourse);
-
-        verifyCannotAccess(params);
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
 
         verify(mockLogic, times(1))
                 .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
-        verify(mockLogic, times(1))
-                .getInstructorByGoogleId(typicalFeedbackSession.getCourseId(),
-                        instructorOfOtherCourse.getGoogleId());
     }
 
     @Test
     void testAccessControl_nonInstructor_cannotAccess() {
         String[] params = new String[] {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
-                .thenReturn(typicalFeedbackSession);
-
-        ______TS("Non-logged-in users cannot access");
-
-        logoutUser();
-        verifyCannotAccess(params);
-
-        ______TS("Non-registered users cannot access");
-
-        loginAsUnregistered("unregistered user");
-        verifyCannotAccess(params);
-        verify(mockLogic, times(1))
-                .getInstructorByGoogleId(typicalFeedbackSession.getCourseId(), "unregistered user");
-
-        ______TS("Students cannot access");
-
-        loginAsStudent(getTypicalStudent().getGoogleId());
-        verifyCannotAccess(params);
-        verify(mockLogic, times(1))
-                .getInstructorByGoogleId(typicalFeedbackSession.getCourseId(), getTypicalStudent().getGoogleId());
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(typicalCourse, params);
     }
 
 }

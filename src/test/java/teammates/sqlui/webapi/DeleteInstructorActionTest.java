@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -269,90 +268,17 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        loginAsInstructor(instructor.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor2.getGoogleId(),
-        };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
-        instructor.setPrivileges(instructorPrivileges);
-
-        loginAsInstructor(instructor.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor2.getGoogleId(),
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorInDifferentCourse_cannotAccess() {
-        loginAsInstructor("instructor3-googleId");
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(studentId);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(instructor.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
-        };
-
-        verifyCannotAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(course, params);
+        verifyAccessibleWithCorrectSameCoursePrivilege(
+                course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, params);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+                course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, params);
+        verifyAdminsCanAccess(params);
     }
 }

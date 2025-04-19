@@ -1,6 +1,8 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +17,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -27,6 +30,10 @@ import teammates.logic.api.MockTaskQueuer;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.api.MockUserProvision;
 import teammates.sqllogic.api.SqlEmailGenerator;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.ui.request.BasicRequest;
@@ -383,5 +390,396 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
+    }
+
+    /**
+     * Access Control Helper Methods.
+     */
+    private void loginStudentsOfSameCourseSetup(Course thisCourse) {
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
+
+        logoutUser();
+        loginAsStudent(sameCourseStudent.getId().toString());
+    }
+
+    private void loginInstructorsOfOtherCourseSetup() {
+        Instructor otherCourseInstructor = getTypicalInstructor();
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        otherCourseInstructor.setCourse(otherCourse);
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(otherCourseInstructor);
+
+        logoutUser();
+        loginAsInstructor(otherCourseInstructor.getId().toString());
+    }
+
+    private void verifySameCourseAccessibility(
+            Course thisCourse, String privilege, boolean canAccess, String... params) {
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(privilege, canAccess);
+
+        verifySameCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
+    }
+
+    private void verifySameCourseAccessibility(
+            Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        instructor.setCourse(thisCourse);
+
+        logoutUser();
+        loginAsInstructor(instructor.getId().toString());
+        verifyCanAccess(params);
+
+        instructor.setPrivileges(instructorPrivileges);
+
+        if (canAccess) {
+            verifyCanAccess(params);
+            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
+        } else {
+            verifyCannotAccess(params);
+            verifyCannotMasquerade(instructor.getId().toString(), params);
+        }
+    }
+
+    private void verifyDifferentCourseAccessibility(
+            Course thisCourse, String privilege, boolean canAccess, String... params) {
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(privilege, canAccess);
+
+        verifyDifferentCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
+    }
+
+    private void verifyDifferentCourseAccessibility(
+            Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
+        Instructor instructor = getTypicalInstructor();
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        instructor.setCourse(thisCourse);
+
+        logoutUser();
+        loginAsInstructor(instructor.getId().toString());
+        verifyCanAccess(params);
+
+        instructor.setPrivileges(instructorPrivileges);
+
+        if (canAccess) {
+            verifyCanAccess(params);
+            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
+        } else {
+            verifyCannotAccess(params);
+            verifyCannotMasquerade(instructor.getId().toString(), params);
+        }
+    }
+
+    private void instructorsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(thisCourse);
+
+        Instructor otherCourseInstructor = getTypicalInstructor();
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        otherCourseInstructor.setCourse(otherCourse);
+
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
+
+        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
+        verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
+
+        logoutUser();
+        loginAsInstructor(sameCourseInstructor.getId().toString());
+        verifyCanAccess(params);
+    }
+
+    /**
+     * 'Mid-level' Access Control Test Methods.
+     * Here it tests access control of an action for one user type.
+     * Both Mid and High Level follows the order Admin -> Maintainer -> Instructor -> Student -> Unregistered -> No login.
+     */
+    void verifyAdminsCanAccess(String... params) {
+        logoutUser();
+        loginAsAdmin();
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyAdminsCannotAccess(String... params) {
+        logoutUser();
+        loginAsAdmin();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyMaintainersCanAccess(String... params) {
+        loginAsMaintainer();
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyMaintainersCannotAccess(String... params) {
+        loginAsMaintainer();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyInstructorsCanAccess(Course thisCourse, String... params) {
+        logoutUser();
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(thisCourse);
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        loginAsInstructor(instructor.getId().toString());
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyInstructorsCannotAccess(String... params) {
+        logoutUser();
+        loginAsInstructor("instructor-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyStudentsCanAccess(String... params) {
+        logoutUser();
+        loginAsStudent("student-googleId");
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyStudentsCannotAccess(String... params) {
+        logoutUser();
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyUnregisteredCanAccess(String... params) {
+        logoutUser();
+        loginAsUnregistered("unregistered-googleId");
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyUnregisteredCannotAccess(String... params) {
+        logoutUser();
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyWithoutLoginCanAccess(String... params) {
+        logoutUser();
+        verifyCanAccess(params);
+    }
+
+    void verifyWithoutLoginCannotAccess(String... params) {
+        logoutUser();
+        verifyCannotAccess(params);
+    }
+
+    /**
+     * 'High-level' Access Control Test Methods.
+     * Here it tests access control of an action for the full range of user types.
+     */
+    // Admins
+    void verifyAccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
+        loginAsAdmin();
+
+        mockUserProvision.setAdmin(false);
+        mockUserProvision.setInstructor(true);
+        mockUserProvision.setStudent(false);
+        mockUserProvision.setMaintainer(false);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+
+        verifyCanMasquerade(instructor.getGoogleId(), params);
+        mockUserProvision.setInstructor(false);
+    }
+
+    void verifyInaccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
+        loginAsAdmin();
+
+        mockUserProvision.setAdmin(false);
+        mockUserProvision.setInstructor(true);
+        mockUserProvision.setStudent(false);
+        mockUserProvision.setMaintainer(false);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+
+        verifyCannotMasquerade(instructor.getGoogleId(), params);
+        mockUserProvision.setInstructor(false);
+    }
+
+    void verifyOnlyAdminsCanAccess(String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyAdminsCanAccess(params);
+    }
+
+    // Instructors
+    void verifyAccessibleWithModifySessionPrivilege(Course thisCourse, String... params) {
+        verifyAccessibleWithCorrectSameCoursePrivilege(
+                thisCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
+    }
+
+    void verifyAccessibleWithCorrectSameCoursePrivilege(
+            Course thisCourse, String privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, true, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyAccessibleWithCorrectSameCoursePrivilege(
+            Course thisCourse, InstructorPrivileges privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, true, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyInaccessibleWithoutModifySessionPrivilege(Course thisCourse, String... params) {
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+                thisCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
+    }
+
+    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+            Course thisCourse, String privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, false, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+            Course thisCourse, InstructorPrivileges privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, false, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyAccessibleWithSubmitSessionInSectionsPrivilege(Course thisCourse, String... params) {
+        verifyAccessibleWithCorrectSameCoursePrivilege(
+                thisCourse, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params);
+    }
+
+    void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(Course thisCourse, String... params) {
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+                thisCourse, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params);
+    }
+
+    void verifyInstructorsOfOtherCoursesCanAccess(String... params) {
+        loginInstructorsOfOtherCourseSetup();
+        verifyCanAccess(params);
+    }
+
+    void verifyInstructorsOfOtherCoursesCannotAccess(String... params) {
+        loginInstructorsOfOtherCourseSetup();
+        verifyCannotAccess(params);
+    }
+
+    void verifyAnyInstructorsCanAccess(Course currentCourse, String... params) {
+        Instructor testInstructor = getTypicalInstructor();
+        testInstructor.setCourse(currentCourse);
+
+        verifyInstructorsCanAccess(currentCourse, params);
+        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCanAccess(params);
+        verifyAccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
+    }
+
+    void verifyInstructorsCanAccessNoMasquerade(Course currentCourse, String... params) {
+        Instructor testInstructor = getTypicalInstructor();
+        testInstructor.setCourse(currentCourse);
+
+        verifyInstructorsCanAccess(currentCourse, params);
+        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCanAccess(params);
+        verifyInaccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
+    }
+
+    void verifyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
+        verifyInstructorsCanAccess(currentCourse, params);
+        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
+    }
+
+    void verifyOnlyInstructorsCanAccess(Course currentCourse, String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyAnyInstructorsCanAccess(currentCourse, params);
+    }
+
+    void verifyOnlyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
+    }
+
+    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+            Course thisCourse, String privilege, String... submissionParams) {
+        verifyWithoutLoginCannotAccess(submissionParams);
+        verifyUnregisteredCannotAccess(submissionParams);
+        verifyStudentsCannotAccess(submissionParams);
+        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+    }
+
+    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+            Course thisCourse, InstructorPrivileges privilege, String... submissionParams) {
+        verifyWithoutLoginCannotAccess(submissionParams);
+        verifyUnregisteredCannotAccess(submissionParams);
+        verifyStudentsCannotAccess(submissionParams);
+        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+    }
+
+    // Students
+    void verifyOnlyStudentsCanAccess(String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCanAccess(params);
+    }
+
+    void verifyStudentsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
+        loginStudentsOfSameCourseSetup(thisCourse);
+        verifyCanAccess(params);
+    }
+
+    void verifyStudentsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
+        loginStudentsOfSameCourseSetup(thisCourse);
+        verifyCannotAccess(params);
+    }
+
+    // Registered
+    void verifyAnyLoggedInUserCanAccess(String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCanAccess(params);
+        verifyAdminsCanAccess(params);
+        verifyInstructorsCanAccess(getTypicalCourse(), params);
+        verifyStudentsCanAccess(params);
+    }
+
+    // No Login
+    void verifyAnyUserCanAccess(String... params) {
+        verifyWithoutLoginCanAccess(params);
+        verifyUnregisteredCanAccess(params);
+        verifyAdminsCanAccess(params);
+        verifyInstructorsCanAccess(getTypicalCourse(), params);
+        verifyStudentsCanAccess(params);
+        verifyMaintainersCanAccess(params);
+    }
+
+    void verifyNoOneCanAccess(String... params) {
+        verifyWithoutLoginCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyAdminsCannotAccess(params);
     }
 }
