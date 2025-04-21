@@ -118,15 +118,79 @@ export class InstructorRequestFormComponent {
     // Country Mapping
     const countryMapping: { [key: string]: string } = {
       'united states': 'USA',
+      'u.s.a': 'USA',
+      'u.s.a.': 'USA',
       us: 'USA',
       america: 'USA',
-      uk: 'United Kingdom',
-      deutschland: 'Germany',
+      'united states of america': 'USA',
+
+      'united kingdom': 'UK',
+      uk: 'UK',
+      britain: 'UK',
+      'great britain': 'UK',
+      england: 'UK',
+
       'united arab emirates': 'UAE',
-      españa: 'Spain',
-      méxico: 'Mexico',
-      belgië: 'Belgium',
+      uae: 'UAE',
+      emirates: 'UAE',
+
+      deutschland: 'Germany',
+      germany: 'Germany',
+
+      netherlands: 'Netherlands',
+      'the netherlands': 'Netherlands',
+      nederland: 'Netherlands',
       holland: 'Netherlands',
+
+      belgium: 'Belgium',
+      belgië: 'Belgium',
+
+      brazil: 'Brazil',
+      brasil: 'Brazil',
+
+      spain: 'Spain',
+      españa: 'Spain',
+
+      mexico: 'Mexico',
+      méxico: 'Mexico',
+
+      italy: 'Italy',
+      italia: 'Italy',
+
+      china: 'China',
+      'peoples republic of china': 'China',
+      prc: 'China',
+
+      france: 'France',
+      'republic of france': 'France',
+
+      india: 'India',
+
+      japan: 'Japan',
+
+      russia: 'Russia',
+      'russian federation': 'Russia',
+
+      'south korea': 'South Korea',
+      'republic of korea': 'South Korea',
+      korea: 'South Korea',
+
+      'north korea': 'North Korea',
+      'democratic peoples republic of korea': 'North Korea',
+
+      'south africa': 'South Africa',
+      'republic of south africa': 'South Africa',
+
+      switzerland: 'Switzerland',
+
+      turkey: 'Turkey',
+      'republic of turkey': 'Turkey',
+      'republic of türkiye': 'Turkey',
+
+      vietnam: 'Vietnam',
+      'viet nam': 'Vietnam',
+
+      malaysia: 'Malaysia',
     };
     // Combine country and institution
     const country = this.country.value!.trim();

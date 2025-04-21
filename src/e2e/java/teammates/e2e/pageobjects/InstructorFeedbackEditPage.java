@@ -33,7 +33,9 @@ import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.test.ThreadHelper;
 
 /**
@@ -123,10 +125,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement changeEmailButton;
 
     @FindBy(id = "email-opening")
-    private WebElement openingSessionEmailCheckbox;
+    private WebElement openedSessionEmailCheckbox;
 
     @FindBy(id = "email-closing")
-    private WebElement closingSessionEmailCheckbox;
+    private WebElement closingSoonSessionEmailCheckbox;
 
     @FindBy(id = "email-published")
     private WebElement publishedSessionEmailCheckbox;
@@ -176,6 +178,25 @@ public class InstructorFeedbackEditPage extends AppPage {
         verifyEmailSettings(feedbackSession);
     }
 
+    public void verifySessionDetails(Course course, FeedbackSession feedbackSession) {
+        waitForElementPresence(By.id("instructions"));
+        assertEquals(getCourseId(), course.getId());
+        assertEquals(getCourseName(), course.getName());
+        assertEquals("UTC", getTimeZone());
+        assertEquals(getFeedbackSessionName(), feedbackSession.getName());
+        assertEquals(getInstructions(), feedbackSession.getInstructions());
+        assertEquals(getStartDate(), getDateString(feedbackSession.getStartTime(), "UTC"));
+        assertEquals(getStartTime(), getTimeString(feedbackSession.getStartTime(), "UTC"));
+        assertEquals(getEndDate(), getDateString(feedbackSession.getEndTime(), "UTC"));
+        assertEquals(getEndTime(), getTimeString(feedbackSession.getEndTime(), "UTC"));
+        assertEquals(getGracePeriod(), feedbackSession.getGracePeriod().toMinutes() + " min");
+        verifySubmissionStatus(feedbackSession);
+        verifyPublishedStatus(feedbackSession);
+        verifyVisibilitySettings(feedbackSession);
+        verifyEmailSettings(feedbackSession);
+
+    }
+
     private void verifySubmissionStatus(FeedbackSessionAttributes feedbackSession) {
         String submissionStatus = getSubmissionStatus();
         if (feedbackSession.isClosed()) {
@@ -187,6 +208,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
+    private void verifySubmissionStatus(FeedbackSession feedbackSession) {
+        String submissionStatus = getSubmissionStatus();
+        if (feedbackSession.isClosed()) {
+            assertEquals(submissionStatus, "Closed");
+        } else if (feedbackSession.isVisible() && (feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
+            assertEquals(submissionStatus, "Open");
+        } else {
+            assertEquals(submissionStatus, "Awaiting");
+        }
+    }
+
+    private void verifyPublishedStatus(FeedbackSession feedbackSession) {
+        String publishedStatus = getPublishedStatus();
+        if (feedbackSession.isPublished()) {
+            assertEquals(publishedStatus, "Published");
+        } else {
+            assertEquals(publishedStatus, "Not Published");
+        }
+    }
+
     private void verifyPublishedStatus(FeedbackSessionAttributes feedbackSession) {
         String publishedStatus = getPublishedStatus();
         if (feedbackSession.isPublished()) {
@@ -194,6 +235,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         } else {
             assertEquals(publishedStatus, "Not Published");
         }
+    }
+
+    private void verifyVisibilitySettings(FeedbackSession feedbackSession) {
+        Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
+        Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
+
+        // Default settings, assert setting section not expanded
+        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
+                && responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            assertTrue(isElementPresent("btn-change-visibility"));
+            return;
+        }
+        verifySessionVisibilitySettings(sessionVisibleTime, feedbackSession);
+        verifyResponseVisibilitySettings(responseVisibleTime, feedbackSession);
     }
 
     private void verifyVisibilitySettings(FeedbackSessionAttributes feedbackSession) {
@@ -208,6 +263,19 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         verifySessionVisibilitySettings(sessionVisibleTime, feedbackSession);
         verifyResponseVisibilitySettings(responseVisibleTime, feedbackSession);
+    }
+
+    private void verifySessionVisibilitySettings(Instant sessionVisibleTime,
+                                                 FeedbackSession feedbackSession) {
+        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            assertTrue(openSessionVisibleTimeButton.isSelected());
+        } else {
+            assertTrue(customSessionVisibleTimeButton.isSelected());
+            assertEquals(getSessionVisibilityDate(), getDateString(feedbackSession.getSessionVisibleFromTime(),
+                    "UTC"));
+            assertEquals(getSessionVisibilityTime(), getTimeString(feedbackSession.getSessionVisibleFromTime(),
+                    "UTC"));
+        }
     }
 
     private void verifySessionVisibilitySettings(Instant sessionVisibleTime,
@@ -238,21 +306,57 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    private void verifyEmailSettings(FeedbackSessionAttributes feedbackSession) {
-        boolean isOpeningEmailEnabled = feedbackSession.isOpeningEmailEnabled();
-        boolean isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
+    private void verifyResponseVisibilitySettings(Instant responseVisibleTime,
+                                                  FeedbackSession feedbackSession) {
+        if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            assertTrue(immediateResponseVisibleTimeButton.isSelected());
+        } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            assertTrue(manualResponseVisibleTimeButton.isSelected());
+        } else {
+            assertTrue(customSessionVisibleTimeButton.isSelected());
+            assertEquals(getResponseVisibilityDate(), getDateString(feedbackSession.getResultsVisibleFromTime(),
+                    "UTC"));
+            assertEquals(getResponseVisibilityTime(), getTimeString(feedbackSession.getResultsVisibleFromTime(),
+                    "UTC"));
+        }
+    }
+
+    private void verifyEmailSettings(FeedbackSession feedbackSession) {
+        boolean isOpenedEmailEnabled = feedbackSession.isOpenedEmailEnabled();
+        boolean isClosingSoonEmailEnabled = feedbackSession.isClosingSoonEmailEnabled();
         boolean isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
 
         // Default settings, assert setting section not expanded
-        if (isOpeningEmailEnabled && isClosingEmailEnabled && isPublishedEmailEnabled) {
+        if (isOpenedEmailEnabled && isClosingSoonEmailEnabled && isPublishedEmailEnabled) {
             assertTrue(isElementPresent("btn-change-email"));
             return;
         }
-        if (isOpeningEmailEnabled) {
-            assertTrue(openingSessionEmailCheckbox.isSelected());
+        if (isOpenedEmailEnabled) {
+            assertTrue(openedSessionEmailCheckbox.isSelected());
         }
-        if (isClosingEmailEnabled) {
-            assertTrue(closingSessionEmailCheckbox.isSelected());
+        if (isClosingSoonEmailEnabled) {
+            assertTrue(closingSoonSessionEmailCheckbox.isSelected());
+        }
+        if (isPublishedEmailEnabled) {
+            assertTrue(publishedSessionEmailCheckbox.isSelected());
+        }
+    }
+
+    private void verifyEmailSettings(FeedbackSessionAttributes feedbackSession) {
+        boolean isOpenedEmailEnabled = feedbackSession.isOpenedEmailEnabled();
+        boolean isClosingSoonEmailEnabled = feedbackSession.isClosingSoonEmailEnabled();
+        boolean isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
+
+        // Default settings, assert setting section not expanded
+        if (isOpenedEmailEnabled && isClosingSoonEmailEnabled && isPublishedEmailEnabled) {
+            assertTrue(isElementPresent("btn-change-email"));
+            return;
+        }
+        if (isOpenedEmailEnabled) {
+            assertTrue(openedSessionEmailCheckbox.isSelected());
+        }
+        if (isClosingSoonEmailEnabled) {
+            assertTrue(closingSoonSessionEmailCheckbox.isSelected());
         }
         if (isPublishedEmailEnabled) {
             assertTrue(publishedSessionEmailCheckbox.isSelected());
@@ -270,7 +374,34 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(fsSaveButton);
     }
 
+    public void editSessionDetails(FeedbackSession feedbackSessionDetails, Course course) {
+        click(fsEditButton);
+        setInstructions(feedbackSessionDetails.getInstructions());
+        setSessionStartDateTime(feedbackSessionDetails.getStartTime(), course.getTimeZone());
+        setSessionEndDateTime(feedbackSessionDetails.getEndTime(), course.getTimeZone());
+        selectGracePeriod((int) feedbackSessionDetails.getGracePeriod().toMinutes());
+        setVisibilitySettings(feedbackSessionDetails, course);
+        setEmailSettings(feedbackSessionDetails);
+        click(fsSaveButton);
+    }
+
     public void copySessionToOtherCourse(CourseAttributes otherCourse, String sessionName) {
+        click(fsCopyButton);
+        WebElement copyFsModal = waitForElementPresence(By.id("copy-course-modal"));
+
+        fillTextBox(copyFsModal.findElement(By.id("copy-session-name")), sessionName);
+        List<WebElement> options = copyFsModal.findElements(By.className("form-check"));
+        for (WebElement option : options) {
+            String courseId = option.findElement(By.cssSelector("label span")).getText();
+            if (courseId.equals(otherCourse.getId())) {
+                click(option.findElement(By.tagName("input")));
+                break;
+            }
+        }
+        click(browser.driver.findElement(By.id("btn-confirm-copy-course")));
+    }
+
+    public void copySessionToOtherCourse(Course otherCourse, String sessionName) {
         click(fsCopyButton);
         WebElement copyFsModal = waitForElementPresence(By.id("copy-course-modal"));
 
@@ -298,6 +429,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(FeedbackSubmitPage.class);
     }
 
+    public FeedbackSubmitPage previewAsStudent() {
+        click(previewAsStudentButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
+    }
+
+    public FeedbackSubmitPage previewAsInstructor() {
+        click(previewAsInstructorButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
+    }
+
     public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
         selectDropdownOptionByText(previewAsInstructorDropdown, instructor.getName());
         click(previewAsInstructorButton);
@@ -320,6 +465,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         verifyQuestionVisibilitySettings(questionNum, feedbackQuestion);
     }
 
+    public void verifyQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
+        scrollElementToCenter(getQuestionForm(questionNum));
+        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionType(), getQuestionType(questionNum));
+        assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
+        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
+        assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getDescription());
+        verifyFeedbackPathSettings(questionNum, feedbackQuestion);
+        verifyQuestionVisibilitySettings(questionNum, feedbackQuestion);
+    }
+
     private void verifyFeedbackPathSettings(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         assertEquals(getDisplayGiverName(feedbackQuestion.getGiverType()), getFeedbackGiver(questionNum));
         String feedbackReceiver = getFeedbackReceiver(questionNum);
@@ -332,6 +487,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
+    private void verifyFeedbackPathSettings(int questionNum, FeedbackQuestion feedbackQuestion) {
+        String feedbackPath = getFeedbackPath(questionNum);
+        if (CUSTOM_FEEDBACK_PATH_OPTION.equals(feedbackPath)) {
+            assertEquals(CUSTOM_FEEDBACK_PATH_OPTION, getFeedbackPath(questionNum));
+            return;
+        }
+        String[] feedbackPathParts = feedbackPath.split(FEEDBACK_PATH_SEPARATOR);
+        assertEquals(feedbackPathParts[0], getDisplayGiverName(feedbackQuestion.getGiverType()));
+        assertEquals(feedbackPathParts[1], getDisplayRecipientName(feedbackQuestion.getRecipientType()));
+    }
+
     private void verifyNumberOfEntitiesToGiveFeedbackTo(int questionNum, int numberOfEntitiesToGiveFeedbackTo) {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement feedbackPathPanel = questionForm.findElement(By.tagName("tm-feedback-path-panel"));
@@ -341,6 +507,100 @@ public class InstructorFeedbackEditPage extends AppPage {
             assertTrue(feedbackPathPanel.findElement(By.id("custom-recipients")).isSelected());
             assertEquals(feedbackPathPanel.findElement(By.id("custom-recipients-number")).getAttribute("value"),
                     Integer.toString(numberOfEntitiesToGiveFeedbackTo));
+        }
+    }
+
+    private void verifyQuestionVisibilitySettings(int questionNum, FeedbackQuestion feedbackQuestion) {
+        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        List<FeedbackParticipantType> showResponsesTo = feedbackQuestion.getShowResponsesTo();
+        List<FeedbackParticipantType> showGiverNameTo = feedbackQuestion.getShowGiverNameTo();
+        List<FeedbackParticipantType> showRecipientNameTo = feedbackQuestion.getShowRecipientNameTo();
+
+        switch (visibility) {
+        case "Shown anonymously to recipient and giver's team members, visible to instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
+            assertEquals(showResponsesTo.size(), 3);
+
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
+
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
+
+        case "Visible to instructors only":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showResponsesTo.size(), 1);
+
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
+
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showRecipientNameTo.size(), 1);
+            break;
+
+        case "Shown anonymously to recipient and instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showResponsesTo.size(), 2);
+
+            assertEquals(showGiverNameTo.size(), 0);
+
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
+
+        case "Shown anonymously to recipient, visible to instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showResponsesTo.size(), 2);
+
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
+
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
+
+        case "Shown anonymously to recipient and giver/recipient's team members, visible to instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+            assertEquals(showResponsesTo.size(), 4);
+
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
+
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
+
+        case "Visible to recipient and instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showResponsesTo.size(), 2);
+
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showGiverNameTo.size(), 2);
+
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
+
+        default:
+            verifyCustomQuestionVisibility(questionNum, feedbackQuestion);
+            break;
         }
     }
 
@@ -438,6 +698,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
+    private void verifyCustomQuestionVisibility(int questionNum, FeedbackQuestion feedbackQuestion) {
+        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
+
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
+        WebElement customVisibilityTable = visibilityPanel.findElement(By.id("custom-visibility-table"));
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
+    }
+
     private void verifyCustomQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
@@ -521,6 +795,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void editQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+        clickEditQuestionButton(questionNum);
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    public void editQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         clickEditQuestionButton(questionNum);
         inputQuestionDetails(questionNum, feedbackQuestion);
         clickSaveQuestionButton(questionNum);
@@ -985,6 +1265,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         setResponseVisibilitySettings(newFeedbackSession);
     }
 
+    private void setVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
+        showVisibilitySettings();
+
+        setSessionVisibilitySettings(newFeedbackSession, course);
+        setResponseVisibilitySettings(newFeedbackSession, course);
+    }
+
+    private void setSessionVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
+        Instant sessionDateTime = newFeedbackSession.getSessionVisibleFromTime();
+        if (sessionDateTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            click(openSessionVisibleTimeButton);
+        } else {
+            click(customSessionVisibleTimeButton);
+            setVisibilityDateTime(sessionDateTime, course.getTimeZone());
+        }
+    }
+
     private void setSessionVisibilitySettings(FeedbackSessionAttributes newFeedbackSession) {
         Instant sessionDateTime = newFeedbackSession.getSessionVisibleFromTime();
         if (sessionDateTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -992,6 +1289,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         } else {
             click(customSessionVisibleTimeButton);
             setVisibilityDateTime(sessionDateTime, newFeedbackSession.getTimeZone());
+        }
+    }
+
+    private void setResponseVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
+        Instant responseDateTime = newFeedbackSession.getResultsVisibleFromTime();
+        if (responseDateTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            click(immediateResponseVisibleTimeButton);
+        } else if (responseDateTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            click(manualResponseVisibleTimeButton);
+        } else {
+            click(customResponseVisibleTimeButton);
+            setResponseDateTime(responseDateTime, course.getTimeZone());
         }
     }
 
@@ -1009,11 +1318,24 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void setEmailSettings(FeedbackSessionAttributes newFeedbackSessionDetails) {
         showEmailSettings();
-        if (newFeedbackSessionDetails.isOpeningEmailEnabled() != openingSessionEmailCheckbox.isSelected()) {
-            click(openingSessionEmailCheckbox);
+        if (newFeedbackSessionDetails.isOpenedEmailEnabled() != openedSessionEmailCheckbox.isSelected()) {
+            click(openedSessionEmailCheckbox);
         }
-        if (newFeedbackSessionDetails.isClosingEmailEnabled() != closingSessionEmailCheckbox.isSelected()) {
-            click(closingSessionEmailCheckbox);
+        if (newFeedbackSessionDetails.isClosingSoonEmailEnabled() != closingSoonSessionEmailCheckbox.isSelected()) {
+            click(closingSoonSessionEmailCheckbox);
+        }
+        if (newFeedbackSessionDetails.isPublishedEmailEnabled() != publishedSessionEmailCheckbox.isSelected()) {
+            click(publishedSessionEmailCheckbox);
+        }
+    }
+
+    private void setEmailSettings(FeedbackSession newFeedbackSessionDetails) {
+        showEmailSettings();
+        if (newFeedbackSessionDetails.isOpenedEmailEnabled() != openedSessionEmailCheckbox.isSelected()) {
+            click(openedSessionEmailCheckbox);
+        }
+        if (newFeedbackSessionDetails.isClosingSoonEmailEnabled() != closingSoonSessionEmailCheckbox.isSelected()) {
+            click(closingSoonSessionEmailCheckbox);
         }
         if (newFeedbackSessionDetails.isPublishedEmailEnabled() != publishedSessionEmailCheckbox.isSelected()) {
             click(publishedSessionEmailCheckbox);

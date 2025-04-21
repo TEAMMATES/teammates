@@ -75,7 +75,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 .withGracePeriod(Duration.ofMinutes(session.getGracePeriodMinutes()))
                 .withInstructions(session.getInstructions())
                 .withTimeZone(copyCourse.getTimeZone())
-                .withIsClosingEmailEnabled(session.isClosingEmailEnabled())
+                .withIsClosingSoonEmailEnabled(session.isClosingSoonEmailEnabled())
                 .withIsPublishedEmailEnabled(session.isPublishedEmailEnabled())
                 .build();
 
@@ -89,7 +89,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 .withGracePeriod(Duration.ofMinutes(copySession.getGracePeriodMinutes()))
                 .withInstructions(copySession.getInstructions())
                 .withTimeZone(copyCourse2.getTimeZone())
-                .withIsClosingEmailEnabled(copySession.isClosingEmailEnabled())
+                .withIsClosingSoonEmailEnabled(copySession.isClosingSoonEmailEnabled())
                 .withIsPublishedEmailEnabled(copySession.isPublishedEmailEnabled())
                 .build();
     }

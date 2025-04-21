@@ -44,7 +44,7 @@
     }
   },
   "feedbackSessions": {
-    "openingSession": {
+    "openedSession": {
       "feedbackSessionName": "AutSesRem Opening Session",
       "courseId": "tm.e2e.AutSesRem.course",
       "creatorEmail": "AutSesRem.instructor@gmail.tmt",
@@ -56,17 +56,17 @@
       "resultsVisibleFromTime": "2037-05-02T00:00:00Z",
       "timeZone": "UTC",
       "gracePeriod": 0,
-      "sentOpenEmail": false,
-      "sentClosingEmail": false,
+      "sentOpenedEmail": false,
+      "sentClosingSoonEmail": false,
       "sentClosedEmail": false,
       "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {}
     },
-    "closingSession": {
+    "closingSoonSession": {
       "feedbackSessionName": "AutSesRem Closing Session",
       "courseId": "tm.e2e.AutSesRem.course",
       "creatorEmail": "AutSesRem.instructor@gmail.tmt",
@@ -78,12 +78,12 @@
       "resultsVisibleFromTime": "2037-05-02T00:00:00Z",
       "timeZone": "UTC",
       "gracePeriod": 15,
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
+      "sentOpenedEmail": true,
+      "sentClosingSoonEmail": false,
       "sentClosedEmail": false,
       "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {}
@@ -100,12 +100,12 @@
       "resultsVisibleFromTime": "2037-05-02T00:00:00Z",
       "timeZone": "UTC",
       "gracePeriod": 15,
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
+      "sentOpenedEmail": true,
+      "sentClosingSoonEmail": false,
       "sentClosedEmail": false,
       "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {}
@@ -122,24 +122,24 @@
       "resultsVisibleFromTime": "2012-05-02T00:00:00Z",
       "timeZone": "UTC",
       "gracePeriod": 0,
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
+      "sentOpenedEmail": true,
+      "sentClosingSoonEmail": false,
       "sentClosedEmail": false,
       "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {
-    "questionForOpeningSession": {
+    "questionForOpenedSession": {
       "feedbackSessionName": "AutSesRem Opening Session",
       "courseId": "tm.e2e.AutSesRem.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+        "questionText": "This question is so that opened reminders will be sent to students, as the session needs to have question for students."
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
@@ -155,12 +155,12 @@
         "INSTRUCTORS"
       ]
     },
-    "questionForClosingSession": {
+    "questionForClosingSoonSession": {
       "feedbackSessionName": "AutSesRem Closing Session",
       "courseId": "tm.e2e.AutSesRem.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "This question is so that closing reminders will be sent to students as it is unanswered."
+        "questionText": "This question is so that closing soon reminders will be sent to students as it is unanswered."
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
@@ -181,7 +181,7 @@
       "courseId": "tm.e2e.AutSesRem.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+        "questionText": "This question is so that opened reminders will be sent to students, as the session needs to have question for students."
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",

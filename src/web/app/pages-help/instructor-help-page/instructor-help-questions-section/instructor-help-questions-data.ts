@@ -528,7 +528,7 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-  isClosingEmailEnabled: true,
+  isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
   studentDeadlines: {},

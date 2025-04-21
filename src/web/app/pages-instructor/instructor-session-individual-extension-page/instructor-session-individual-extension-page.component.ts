@@ -53,7 +53,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     customSessionVisibleTimestamp: 0,
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
     customResponseVisibleTimestamp: 0,
-    isClosingEmailEnabled: false,
+    isClosingSoonEmailEnabled: false,
     isPublishedEmailEnabled: false,
   };
 
@@ -184,7 +184,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       customSessionVisibleTimestamp: feedbackSession.customSessionVisibleTimestamp,
       responseVisibleSetting: feedbackSession.responseVisibleSetting,
       customResponseVisibleTimestamp: feedbackSession.customResponseVisibleTimestamp,
-      isClosingEmailEnabled: feedbackSession.isClosingEmailEnabled,
+      isClosingSoonEmailEnabled: feedbackSession.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
     };
     this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;

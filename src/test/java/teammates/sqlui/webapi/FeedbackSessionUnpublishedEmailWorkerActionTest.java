@@ -109,8 +109,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest
         FeedbackSession expectedSession = new FeedbackSession(
                 session.getName(), session.getCourse(), session.getCreatorEmail(), session.getInstructions(),
                 session.getStartTime(), session.getEndTime(), session.getSessionVisibleFromTime(),
-                session.getResultsVisibleFromTime(), session.getGracePeriod(), session.isOpeningEmailEnabled(),
-                session.isClosingEmailEnabled(), session.isPublishedEmailEnabled());
+                session.getResultsVisibleFromTime(), session.getGracePeriod(), session.isOpenedEmailEnabled(),
+                session.isClosingSoonEmailEnabled(), session.isPublishedEmailEnabled());
 
         expectedSession.setPublishedEmailSent(false);
 
