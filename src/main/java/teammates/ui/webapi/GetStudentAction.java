@@ -1,9 +1,12 @@
 package teammates.ui.webapi;
 
+import java.util.Optional;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -36,7 +39,6 @@ public class GetStudentAction extends Action {
 
             String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
             String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
-
             if (studentEmail != null) {
                 student = sqlLogic.getStudentForEmail(courseId, studentEmail);
 
@@ -111,7 +113,11 @@ public class GetStudentAction extends Action {
             StudentData studentData = new StudentData(student);
             if (userInfo != null && userInfo.isAdmin) {
                 studentData.setKey(student.getRegKey());
-                studentData.setGoogleId(student.getAccount().getGoogleId());
+                studentData.setGoogleId(
+                        Optional.ofNullable(student.getAccount())
+                            .map(Account::getGoogleId)
+                            .orElse("")
+                );
             }
 
             if (studentEmail == null) {
