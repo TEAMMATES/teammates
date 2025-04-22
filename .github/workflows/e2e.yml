@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - release
+      - 13144-fixes
   pull_request:
     branches:
       - master

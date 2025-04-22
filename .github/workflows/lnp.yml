@@ -3,8 +3,9 @@ name: L&P Tests
 on:
   push:
     branches:
-      - master 
+      - master
       - release
+      - 13144-fixes
   schedule:
     - cron: "0 0 * * *" # end of every day
 jobs:
