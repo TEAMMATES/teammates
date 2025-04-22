@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - 13144-fixes
   pull_request:
     branches:
       - master
