@@ -681,7 +681,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyCannotAccess(params);
     }
 
-    void verifyAnyInstructorsCanAccess(Course currentCourse, String... params) {
+    void verifyAnyInstructorCanAccess(Course currentCourse, String... params) {
         Instructor testInstructor = getTypicalInstructor();
         testInstructor.setCourse(currentCourse);
 
@@ -775,7 +775,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyMaintainersCanAccess(params);
     }
 
-    void verifyNoOneCanAccess(String... params) {
+    void verifyNoUsersCanAccess(String... params) {
         verifyWithoutLoginCannotAccess(params);
         verifyUnregisteredCannotAccess(params);
         verifyStudentsCannotAccess(params);
