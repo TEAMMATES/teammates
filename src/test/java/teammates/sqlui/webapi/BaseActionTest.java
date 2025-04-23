@@ -499,25 +499,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         }
     }
 
-    private void instructorsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
-        Instructor sameCourseInstructor = getTypicalInstructor();
-        sameCourseInstructor.setCourse(thisCourse);
-
-        Instructor otherCourseInstructor = getTypicalInstructor();
-        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
-        otherCourseInstructor.setCourse(otherCourse);
-
-        Student sameCourseStudent = getTypicalStudent();
-        sameCourseStudent.setCourse(thisCourse);
-
-        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
-        verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
-
-        logoutUser();
-        loginAsInstructor(sameCourseInstructor.getId().toString());
-        verifyCanAccess(params);
-    }
-
     /**
      * 'Mid-level' Access Control Test Methods.
      * Here it tests access control of an action for one user type.
@@ -707,7 +688,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         testInstructor.setCourse(currentCourse);
 
         verifyInstructorsCanAccess(currentCourse, params);
-        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
         verifyInstructorsOfOtherCoursesCanAccess(params);
         verifyAccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
     }
@@ -717,15 +698,30 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         testInstructor.setCourse(currentCourse);
 
         verifyInstructorsCanAccess(currentCourse, params);
-        instructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
         verifyInstructorsOfOtherCoursesCanAccess(params);
         verifyInaccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
     }
 
     void verifyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
         verifyInstructorsCanAccess(currentCourse, params);
-        instructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCannotAccess(params);
+
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(currentCourse);
+
+        Instructor otherCourseInstructor = getTypicalInstructor();
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        otherCourseInstructor.setCourse(otherCourse);
+
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(currentCourse);
+
+        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
+        verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
+
+        logoutUser();
+        loginAsInstructor(sameCourseInstructor.getId().toString());
+        verifyCanAccess(params);
     }
 
     void verifyOnlyInstructorsCanAccess(Course currentCourse, String... params) {
@@ -740,6 +736,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyUnregisteredCannotAccess(params);
         verifyStudentsCannotAccess(params);
         verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
     }
 
     void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
