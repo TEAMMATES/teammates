@@ -648,30 +648,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
                 thisCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
-    void verifyAccessibleWithCorrectSameCoursePrivilege(
-            Course thisCourse, String privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, true, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
-    void verifyAccessibleWithCorrectSameCoursePrivilege(
-            Course thisCourse, InstructorPrivileges privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, true, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
-    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
-            Course thisCourse, String privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, false, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
-    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
-            Course thisCourse, InstructorPrivileges privilege, String... params) {
-        verifySameCourseAccessibility(thisCourse, privilege, false, params);
-        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
-    }
-
     void verifyAccessibleWithSubmitSessionInSectionsPrivilege(Course thisCourse, String... params) {
         verifyAccessibleWithCorrectSameCoursePrivilege(
                 thisCourse, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params);
@@ -680,6 +656,30 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(Course thisCourse, String... params) {
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(
                 thisCourse, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params);
+    }
+
+    void verifyAccessibleWithCorrectSameCoursePrivilege(
+            Course thisCourse, String privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, true, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyAccessibleWithCorrectSameCoursePrivilege(
+            Course thisCourse, InstructorPrivileges privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, true, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+            Course thisCourse, String privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, false, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
+    }
+
+    void verifyInaccessibleWithoutCorrectSameCoursePrivilege(
+            Course thisCourse, InstructorPrivileges privilege, String... params) {
+        verifySameCourseAccessibility(thisCourse, privilege, false, params);
+        verifyDifferentCourseAccessibility(thisCourse, privilege, false, params);
     }
 
     // Students
