@@ -590,7 +590,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         verifyInstructorsCanAccess(currentCourse, params);
         verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCanAccess(params);
+        verifyInstructorsOfOtherCoursesCanAccess(currentCourse, params);
         verifyAccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
     }
 
@@ -605,13 +605,22 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);
 
-        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
         verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
+        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
     }
 
-    void verifyInstructorsOfOtherCoursesCanAccess(String... params) {
+    void verifyInstructorsOfOtherCoursesCanAccess(Course currentCourse, String... params) {
         loginAsInstructorOfOtherCourse();
         verifyCanAccess(params);
+
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(currentCourse);
+
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(currentCourse);
+
+        verifyCannotMasquerade(sameCourseInstructor.getId().toString(), params);
+        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
     }
 
     void verifyInstructorsOfOtherCoursesCannotAccess(String... params) {
@@ -669,7 +678,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         verifyInstructorsCanAccess(currentCourse, params);
         verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCanAccess(params);
+        verifyInstructorsOfOtherCoursesCanAccess(currentCourse, params);
         verifyInaccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
     }
 
