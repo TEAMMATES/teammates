@@ -594,6 +594,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyAccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
     }
 
+    void verifyAnyNonMasqueradingInstructorCanAccess(Course currentCourse, String... params) {
+        Instructor testInstructor = getTypicalInstructor();
+        testInstructor.setCourse(currentCourse);
+
+        verifyInstructorsCanAccess(currentCourse, params);
+        verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyInstructorsOfOtherCoursesCanAccess(currentCourse, params);
+        verifyInaccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
+    }
+
     void verifyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
         loginAsInstructorOfTheSameCourse(currentCourse);
         verifyCanAccess(params);
@@ -670,16 +680,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(Course thisCourse, String... params) {
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(
                 thisCourse, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params);
-    }
-
-    void verifyInstructorsCanAccessNoMasquerade(Course currentCourse, String... params) {
-        Instructor testInstructor = getTypicalInstructor();
-        testInstructor.setCourse(currentCourse);
-
-        verifyInstructorsCanAccess(currentCourse, params);
-        verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
-        verifyInstructorsOfOtherCoursesCanAccess(currentCourse, params);
-        verifyInaccessibleForAdminsToMasqueradeAsInstructor(testInstructor, params);
     }
 
     // Students

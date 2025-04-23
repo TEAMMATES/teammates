@@ -56,9 +56,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getCoursesForInstructors(argThat(
-                argument ->
-                        Objects.equals(argument.get(0).getGoogleId(),
-                        stubInstructor.getGoogleId())))).thenReturn(stubCourseList);
+                argument -> Objects.equals(argument.get(0).getGoogleId(),
+                        stubInstructor.getGoogleId()))))
+                .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
@@ -89,7 +89,8 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
                 .thenReturn(stubInstructorList);
         when(mockLogic.getSoftDeletedCoursesForInstructors(argThat(
                 argument -> Objects.equals(argument.get(0).getGoogleId(),
-                                stubInstructor.getGoogleId())))).thenReturn(stubCourseList);
+                        stubInstructor.getGoogleId()))))
+                .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.SOFT_DELETED,
@@ -179,7 +180,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
-        verifyInstructorsCanAccessNoMasquerade(stubCourseList.get(0), paramsInstructors);
+        verifyAnyNonMasqueradingInstructorCanAccess(stubCourseList.get(0), paramsInstructors);
 
         String[] paramsStudent = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
