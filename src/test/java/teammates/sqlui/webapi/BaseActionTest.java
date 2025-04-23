@@ -9,13 +9,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.servlet.http.Cookie;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
-import jakarta.servlet.http.Cookie;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Config;
@@ -50,9 +51,7 @@ import teammates.ui.webapi.UnauthorizedAccessException;
 /**
  * Base class for all action tests.
  *
- * <p>
- * On top of having a local database, these tests require proxy services to be
- * running (to be more precise, mocked).
+ * <p>On top of having a local database, these tests require proxy services to be running (to be more precise, mocked).
  *
  * @param <T> The action class being tested.
  */
@@ -265,8 +264,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Executes the action, verifies the status code as 200 OK, and returns the
      * result.
      *
-     * <p>
-     * Assumption: The action returns a {@link JsonResult}.
+     * <p>Assumption: The action returns a {@link JsonResult}.
      */
     protected JsonResult getJsonResult(Action a) {
         return getJsonResult(a, HttpStatus.SC_OK);
@@ -275,8 +273,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /**
      * Executes the action, verifies the status code, and returns the result.
      *
-     * <p>
-     * Assumption: The action returns a {@link JsonResult}.
+     * <p>Assumption: The action returns a {@link JsonResult}.
      */
     protected JsonResult getJsonResult(Action a, int statusCode) {
         try {
