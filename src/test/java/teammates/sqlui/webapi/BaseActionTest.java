@@ -425,79 +425,83 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     // Admins
     void verifyOnlyAdminsCanAccess(String... params) {
-        verifyWithoutLoginCannotAccess(params);
-        verifyUnregisteredCannotAccess(params);
-        verifyStudentsCannotAccess(params);
-        verifyInstructorsCannotAccess(params);
         verifyAdminsCanAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     // Instructors
     void verifyOnlyInstructorsCanAccess(Course currentCourse, String... params) {
-        verifyWithoutLoginCannotAccess(params);
-        verifyUnregisteredCannotAccess(params);
-        verifyStudentsCannotAccess(params);
         verifyAnyInstructorCanAccess(currentCourse, params);
+        verifyStudentsCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     void verifyOnlyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
-        verifyWithoutLoginCannotAccess(params);
-        verifyUnregisteredCannotAccess(params);
-        verifyStudentsCannotAccess(params);
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(currentCourse);
+
         verifyInstructorsOfTheSameCourseCanAccess(currentCourse, params);
+        verifyAccessibleForAdminsToMasqueradeAsInstructor(sameCourseInstructor, params);
         verifyInstructorsOfOtherCoursesCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
             Course thisCourse, String privilege, String... submissionParams) {
-        verifyWithoutLoginCannotAccess(submissionParams);
-        verifyUnregisteredCannotAccess(submissionParams);
-        verifyStudentsCannotAccess(submissionParams);
         verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+        verifyStudentsCannotAccess(submissionParams);
+        verifyUnregisteredCannotAccess(submissionParams);
+        verifyWithoutLoginCannotAccess(submissionParams);
     }
 
     void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
             Course thisCourse, InstructorPrivileges privilege, String... submissionParams) {
-        verifyWithoutLoginCannotAccess(submissionParams);
-        verifyUnregisteredCannotAccess(submissionParams);
-        verifyStudentsCannotAccess(submissionParams);
         verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
+        verifyStudentsCannotAccess(submissionParams);
+        verifyUnregisteredCannotAccess(submissionParams);
+        verifyWithoutLoginCannotAccess(submissionParams);
     }
 
     // Students
     void verifyOnlyStudentsCanAccess(String... params) {
-        verifyWithoutLoginCannotAccess(params);
-        verifyUnregisteredCannotAccess(params);
         verifyStudentsCanAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     // Unregistered
     void verifyAnyLoggedInUserCanAccess(String... params) {
-        verifyWithoutLoginCannotAccess(params);
-        verifyUnregisteredCanAccess(params);
         verifyAdminsCanAccess(params);
         verifyInstructorsCanAccess(getTypicalCourse(), params);
         verifyStudentsCanAccess(params);
+        verifyUnregisteredCanAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     // No Login
     void verifyAnyUserCanAccess(String... params) {
-        verifyWithoutLoginCanAccess(params);
-        verifyUnregisteredCanAccess(params);
         verifyAdminsCanAccess(params);
+        verifyMaintainersCanAccess(params);
         verifyInstructorsCanAccess(getTypicalCourse(), params);
         verifyStudentsCanAccess(params);
-        verifyMaintainersCanAccess(params);
+        verifyUnregisteredCanAccess(params);
+        verifyWithoutLoginCanAccess(params);
     }
 
     void verifyNoUsersCanAccess(String... params) {
-        verifyWithoutLoginCannotAccess(params);
-        verifyUnregisteredCannotAccess(params);
-        verifyStudentsCannotAccess(params);
-        verifyInstructorsCannotAccess(params);
         verifyAdminsCannotAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     /*
@@ -511,14 +515,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     // Admins
     void verifyAdminsCanAccess(String... params) {
-        logoutUser();
         loginAsAdmin();
         verifyCanAccess(params);
         logoutUser();
     }
 
     void verifyAdminsCannotAccess(String... params) {
-        logoutUser();
         loginAsAdmin();
         verifyCannotAccess(params);
         logoutUser();
@@ -565,20 +567,18 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     // Instructors
     void verifyInstructorsCanAccess(Course thisCourse, String... params) {
+        // Looser version of verifyInstructorsOfTheSameCourseCanAccess
+        loginAsInstructorOfTheSameCourse(thisCourse);
+        verifyCanAccess(params);
         logoutUser();
-        Instructor instructor = getTypicalInstructor();
-        instructor.setCourse(thisCourse);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
-
-        loginAsInstructor(instructor.getId().toString());
+        // Looser version of verifyInstructorsOfOtherCoursesCanAccess
+        loginAsInstructorOfOtherCourse();
         verifyCanAccess(params);
         logoutUser();
     }
 
     void verifyInstructorsCannotAccess(String... params) {
-        logoutUser();
         loginAsInstructor("instructor-googleId");
         verifyCannotAccess(params);
         logoutUser();
@@ -595,10 +595,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     void verifyInstructorsOfTheSameCourseCanAccess(Course currentCourse, String... params) {
-        verifyInstructorsCanAccess(currentCourse, params);
-
-        Instructor sameCourseInstructor = getTypicalInstructor();
-        sameCourseInstructor.setCourse(currentCourse);
+        loginAsInstructorOfTheSameCourse(currentCourse);
+        verifyCanAccess(params);
 
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
@@ -609,10 +607,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
         verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
-
-        logoutUser();
-        loginAsInstructor(sameCourseInstructor.getId().toString());
-        verifyCanAccess(params);
     }
 
     void verifyInstructorsOfOtherCoursesCanAccess(String... params) {
@@ -681,14 +675,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     // Students
     void verifyStudentsCanAccess(String... params) {
-        logoutUser();
         loginAsStudent("student-googleId");
         verifyCanAccess(params);
         logoutUser();
     }
 
     void verifyStudentsCannotAccess(String... params) {
-        logoutUser();
         loginAsStudent("student-googleId");
         verifyCannotAccess(params);
         logoutUser();
@@ -740,6 +732,17 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         logoutUser();
         loginAsStudent(sameCourseStudent.getId().toString());
+    }
+
+    private void loginAsInstructorOfTheSameCourse(Course thisCourse) {
+        Instructor sameCourseInstructor = getTypicalInstructor();
+        sameCourseInstructor.setCourse(thisCourse);
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(sameCourseInstructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        logoutUser();
+        loginAsInstructor(sameCourseInstructor.getId().toString());
     }
 
     private void loginAsInstructorOfOtherCourse() {
