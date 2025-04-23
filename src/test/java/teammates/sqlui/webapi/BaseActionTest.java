@@ -415,7 +415,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /**
      * Access Control Helper Methods.
      */
-    private void loginStudentsOfSameCourseSetup(Course thisCourse) {
+    private void loginAsStudentOfTheSameCourse(Course thisCourse) {
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(thisCourse);
 
@@ -423,7 +423,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         loginAsStudent(sameCourseStudent.getId().toString());
     }
 
-    private void loginInstructorsOfOtherCourseSetup() {
+    private void loginAsInstructorOfOtherCourse() {
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
@@ -693,12 +693,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     void verifyInstructorsOfOtherCoursesCanAccess(String... params) {
-        loginInstructorsOfOtherCourseSetup();
+        loginAsInstructorOfOtherCourse();
         verifyCanAccess(params);
     }
 
     void verifyInstructorsOfOtherCoursesCannotAccess(String... params) {
-        loginInstructorsOfOtherCourseSetup();
+        loginAsInstructorOfOtherCourse();
         verifyCannotAccess(params);
     }
 
@@ -768,12 +768,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     void verifyStudentsOfTheSameCourseCanAccess(Course thisCourse, String... params) {
-        loginStudentsOfSameCourseSetup(thisCourse);
+        loginAsStudentOfTheSameCourse(thisCourse);
         verifyCanAccess(params);
     }
 
     void verifyStudentsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
-        loginStudentsOfSameCourseSetup(thisCourse);
+        loginAsStudentOfTheSameCourse(thisCourse);
         verifyCannotAccess(params);
     }
 
