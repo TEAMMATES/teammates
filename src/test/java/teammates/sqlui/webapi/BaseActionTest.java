@@ -412,188 +412,17 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
-    /**
-     * Access Control Helper Methods.
+    /* Access control methods */
+
+    /*
+     * High-level access control tests: Test an action's access control across all
+     * user types.
+     *
+     * - Prefer high-level tests over mid-level tests when possible.
+     * - Follow this user type order when adding new access control tests:
+     * Admin → Maintainer → Instructor → Student → Unregistered → No login
      */
-    private void loginAsStudentOfTheSameCourse(Course thisCourse) {
-        Student sameCourseStudent = getTypicalStudent();
-        sameCourseStudent.setCourse(thisCourse);
 
-        logoutUser();
-        loginAsStudent(sameCourseStudent.getId().toString());
-    }
-
-    private void loginAsInstructorOfOtherCourse() {
-        Instructor otherCourseInstructor = getTypicalInstructor();
-        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
-        otherCourseInstructor.setCourse(otherCourse);
-
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(otherCourseInstructor);
-
-        logoutUser();
-        loginAsInstructor(otherCourseInstructor.getId().toString());
-    }
-
-    private void verifySameCourseAccessibility(
-            Course thisCourse, String privilege, boolean canAccess, String... params) {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(privilege, canAccess);
-
-        verifySameCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
-    }
-
-    private void verifySameCourseAccessibility(
-            Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
-        Instructor instructor = getTypicalInstructor();
-        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
-
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
-
-        instructor.setCourse(thisCourse);
-
-        logoutUser();
-        loginAsInstructor(instructor.getId().toString());
-        verifyCanAccess(params);
-
-        instructor.setPrivileges(instructorPrivileges);
-
-        if (canAccess) {
-            verifyCanAccess(params);
-            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
-        } else {
-            verifyCannotAccess(params);
-            verifyCannotMasquerade(instructor.getId().toString(), params);
-        }
-    }
-
-    private void verifyDifferentCourseAccessibility(
-            Course thisCourse, String privilege, boolean canAccess, String... params) {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(privilege, canAccess);
-
-        verifyDifferentCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
-    }
-
-    private void verifyDifferentCourseAccessibility(
-            Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
-        Instructor instructor = getTypicalInstructor();
-
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
-
-        instructor.setCourse(thisCourse);
-
-        logoutUser();
-        loginAsInstructor(instructor.getId().toString());
-        verifyCanAccess(params);
-
-        instructor.setPrivileges(instructorPrivileges);
-
-        if (canAccess) {
-            verifyCanAccess(params);
-            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
-        } else {
-            verifyCannotAccess(params);
-            verifyCannotMasquerade(instructor.getId().toString(), params);
-        }
-    }
-
-    /**
-     * 'Mid-level' Access Control Test Methods.
-     * Here it tests access control of an action for one user type.
-     * Both Mid and High Level follows the order Admin -> Maintainer -> Instructor
-     * -> Student -> Unregistered -> No login.
-     */
-    void verifyAdminsCanAccess(String... params) {
-        logoutUser();
-        loginAsAdmin();
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    void verifyAdminsCannotAccess(String... params) {
-        logoutUser();
-        loginAsAdmin();
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    void verifyMaintainersCanAccess(String... params) {
-        loginAsMaintainer();
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    void verifyMaintainersCannotAccess(String... params) {
-        loginAsMaintainer();
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    void verifyInstructorsCanAccess(Course thisCourse, String... params) {
-        logoutUser();
-        Instructor instructor = getTypicalInstructor();
-        instructor.setCourse(thisCourse);
-
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
-
-        loginAsInstructor(instructor.getId().toString());
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    void verifyInstructorsCannotAccess(String... params) {
-        logoutUser();
-        loginAsInstructor("instructor-googleId");
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    void verifyStudentsCanAccess(String... params) {
-        logoutUser();
-        loginAsStudent("student-googleId");
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    void verifyStudentsCannotAccess(String... params) {
-        logoutUser();
-        loginAsStudent("student-googleId");
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    void verifyUnregisteredCanAccess(String... params) {
-        logoutUser();
-        loginAsUnregistered("unregistered-googleId");
-        verifyCanAccess(params);
-        logoutUser();
-    }
-
-    void verifyUnregisteredCannotAccess(String... params) {
-        logoutUser();
-        loginAsUnregistered("unregistered-googleId");
-        verifyCannotAccess(params);
-        logoutUser();
-    }
-
-    void verifyWithoutLoginCanAccess(String... params) {
-        logoutUser();
-        verifyCanAccess(params);
-    }
-
-    void verifyWithoutLoginCannotAccess(String... params) {
-        logoutUser();
-        verifyCannotAccess(params);
-    }
-
-    /**
-     * 'High-level' Access Control Test Methods.
-     * Here it tests access control of an action for the full range of user types.
-     */
-    // Admins
     void verifyAccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
         loginAsAdmin();
 
@@ -799,5 +628,185 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyStudentsCannotAccess(params);
         verifyInstructorsCannotAccess(params);
         verifyAdminsCannotAccess(params);
+    }
+
+    /*
+     * Mid-level access control tests: Test an action's access control for a single
+     * user type.
+     *
+     * - Use when a focused check is needed or to reduce redundancy.
+     * - Follow the same user type order as high-level tests when adding new access
+     * control tests.
+     */
+
+    void verifyAdminsCanAccess(String... params) {
+        logoutUser();
+        loginAsAdmin();
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyAdminsCannotAccess(String... params) {
+        logoutUser();
+        loginAsAdmin();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyMaintainersCanAccess(String... params) {
+        loginAsMaintainer();
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyMaintainersCannotAccess(String... params) {
+        loginAsMaintainer();
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyInstructorsCanAccess(Course thisCourse, String... params) {
+        logoutUser();
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(thisCourse);
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        loginAsInstructor(instructor.getId().toString());
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyInstructorsCannotAccess(String... params) {
+        logoutUser();
+        loginAsInstructor("instructor-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyStudentsCanAccess(String... params) {
+        logoutUser();
+        loginAsStudent("student-googleId");
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyStudentsCannotAccess(String... params) {
+        logoutUser();
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyUnregisteredCanAccess(String... params) {
+        logoutUser();
+        loginAsUnregistered("unregistered-googleId");
+        verifyCanAccess(params);
+        logoutUser();
+    }
+
+    void verifyUnregisteredCannotAccess(String... params) {
+        logoutUser();
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(params);
+        logoutUser();
+    }
+
+    void verifyWithoutLoginCanAccess(String... params) {
+        logoutUser();
+        verifyCanAccess(params);
+    }
+
+    void verifyWithoutLoginCannotAccess(String... params) {
+        logoutUser();
+        verifyCannotAccess(params);
+    }
+
+    /*
+     * Helper methods for access control.
+     */
+    private void loginAsStudentOfTheSameCourse(Course thisCourse) {
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
+
+        logoutUser();
+        loginAsStudent(sameCourseStudent.getId().toString());
+    }
+
+    private void loginAsInstructorOfOtherCourse() {
+        Instructor otherCourseInstructor = getTypicalInstructor();
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        otherCourseInstructor.setCourse(otherCourse);
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(otherCourseInstructor);
+
+        logoutUser();
+        loginAsInstructor(otherCourseInstructor.getId().toString());
+    }
+
+    private void verifySameCourseAccessibility(
+            Course thisCourse, String privilege, boolean canAccess, String... params) {
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(privilege, canAccess);
+
+        verifySameCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
+    }
+
+    private void verifySameCourseAccessibility(
+            Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        instructor.setCourse(thisCourse);
+
+        logoutUser();
+        loginAsInstructor(instructor.getId().toString());
+        verifyCanAccess(params);
+
+        instructor.setPrivileges(instructorPrivileges);
+
+        if (canAccess) {
+            verifyCanAccess(params);
+            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
+        } else {
+            verifyCannotAccess(params);
+            verifyCannotMasquerade(instructor.getId().toString(), params);
+        }
+    }
+
+    private void verifyDifferentCourseAccessibility(
+            Course thisCourse, String privilege, boolean canAccess, String... params) {
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege(privilege, canAccess);
+
+        verifyDifferentCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
+    }
+
+    private void verifyDifferentCourseAccessibility(
+            Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
+        Instructor instructor = getTypicalInstructor();
+
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+
+        instructor.setCourse(thisCourse);
+
+        logoutUser();
+        loginAsInstructor(instructor.getId().toString());
+        verifyCanAccess(params);
+
+        instructor.setPrivileges(instructorPrivileges);
+
+        if (canAccess) {
+            verifyCanAccess(params);
+            verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
+        } else {
+            verifyCannotAccess(params);
+            verifyCannotMasquerade(instructor.getId().toString(), params);
+        }
     }
 }
