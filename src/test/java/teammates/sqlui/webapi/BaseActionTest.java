@@ -701,20 +701,18 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     void verifyStudentsOfOtherCoursesCannotAccess(Course thisCourse, String... params) {
-        loginAsStudentOfTheSameCourse(thisCourse);
+        loginAsStudentOfOtherCourse();
         verifyCannotAccess(params);
     }
 
     // Unregistered
     void verifyUnregisteredCanAccess(String... params) {
-        logoutUser();
         loginAsUnregistered("unregistered-googleId");
         verifyCanAccess(params);
         logoutUser();
     }
 
     void verifyUnregisteredCannotAccess(String... params) {
-        logoutUser();
         loginAsUnregistered("unregistered-googleId");
         verifyCannotAccess(params);
         logoutUser();
@@ -734,14 +732,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /*
      * Helper methods for access control.
      */
-
-    private void loginAsStudentOfTheSameCourse(Course thisCourse) {
-        Student sameCourseStudent = getTypicalStudent();
-        sameCourseStudent.setCourse(thisCourse);
-
-        logoutUser();
-        loginAsStudent(sameCourseStudent.getId().toString());
-    }
 
     private void loginAsInstructorOfTheSameCourse(Course thisCourse) {
         Instructor sameCourseInstructor = getTypicalInstructor();
@@ -828,5 +818,22 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             verifyCannotAccess(params);
             verifyCannotMasquerade(instructor.getId().toString(), params);
         }
+    }
+
+    private void loginAsStudentOfTheSameCourse(Course thisCourse) {
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(thisCourse);
+
+        logoutUser();
+        loginAsStudent(sameCourseStudent.getId().toString());
+    }
+
+    private void loginAsStudentOfOtherCourse() {
+        Student otherCourseStudent = getTypicalStudent();
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        otherCourseStudent.setCourse(otherCourse);
+
+        logoutUser();
+        loginAsStudent(otherCourseStudent.getId().toString());
     }
 }
