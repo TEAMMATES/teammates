@@ -490,7 +490,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void fillContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+    public void fillContributionResponseLegacy(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackContributionResponseDetails response =
@@ -499,11 +499,29 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void verifyContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+    public void fillContributionResponse(int qnNumber, List<FeedbackResponse> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
+            selectDropdownOptionByText(dropdowns.get(i), getContributionString(response.getAnswer()));
+        }
+    }
+
+    public void verifyContributionResponseLegacy(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackContributionResponseDetails response =
                     (FeedbackContributionResponseDetails) responses.get(i).getResponseDetailsCopy();
+            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(response.getAnswer()));
+        }
+    }
+
+    public void verifyContributionResponse(int qnNumber, List<FeedbackResponse> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
             assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(response.getAnswer()));
         }
     }
