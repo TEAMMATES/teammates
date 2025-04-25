@@ -47,8 +47,12 @@
   },
   "instructors": {
     "instructor": {
+      "id": "00000000-0000-4000-8000-000000000501",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS2104"
       },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
@@ -67,16 +71,16 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      },
-      "id": "00000000-0000-4000-8000-000000000501",
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS2104"
       },
       "displayName": "Co-owner"
     },
     "instructor2": {
+      "id": "00000000-0000-4000-8000-000000000502",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS1101"
       },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
@@ -96,11 +100,69 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "id": "00000000-0000-4000-8000-000000000502",
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS1101"
-      },
       "displayName": "Co-owner"
+    }
+  },
+  "students": {
+    "alice.tmms@FCSumRcptQn.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000601",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "email": "alice.b.tmms@gmail.tmt",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy"
+    },
+    "benny.tmms@FCSumRcptQn.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000602",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000003"
+      },
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "email": "benny.tmms@gmail.tmt",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles"
+    },
+    "charlie.tmms@FCSumRcptQn.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000603",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000004"
+      },
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "email": "FCSumRcptQn.charlie.tmms@gmail.tmt",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis"
+    },
+    "danny.tmms@FCSumRcptQn.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000604",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000005"
+      },
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "email": "FCSumRcptQn.danny.tmms@gmail.tmt",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid"
     }
   },
   "sections": {
@@ -142,82 +204,13 @@
       "name": "Team 3"
     }
   },
-  "students": {
-    "alice.tmms@FCSumRcptQn.CS2104": {
-      "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS2104"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "email": "alice.b.tmms@gmail.tmt",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      }
-    },
-    "benny.tmms@FCSumRcptQn.CS2104": {
-      "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS2104"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "email": "benny.tmms@gmail.tmt",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      }
-    },
-    "charlie.tmms@FCSumRcptQn.CS2104": {
-      "id": "00000000-0000-4000-8000-000000000603",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS2104"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "email": "FCSumRcptQn.charlie.tmms@gmail.tmt",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      }
-    },
-    "danny.tmms@FCSumRcptQn.CS2104": {
-      "id": "00000000-0000-4000-8000-000000000604",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS2104"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "email": "FCSumRcptQn.danny.tmms@gmail.tmt",
-      "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      }
-    }
-  },
   "feedbackSessions": {
     "openSession": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS2104"
+      },
+      "name": "First Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -235,14 +228,14 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS2104"
-      },
-      "name": "First Session"
+      "instructorDeadlines": {}
     },
     "openSession2": {
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "tm.e2e.FCSumRcptQn.CS1101"
+      },
+      "name": "Second Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -260,12 +253,7 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS1101"
-      },
-      "name": "Second Session"
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {
@@ -278,11 +266,11 @@
         "questionText": "Split points among the teams, according to how well you think each team did.",
         "questionType": "CONSTSUM_RECIPIENTS",
         "points": 100,
+        "constSumOptions": [],
         "distributeToRecipients": true,
         "pointsPerOption": false,
         "forceUnevenDistribution": true,
-        "distributePointsFor": "All options",
-        "constSumOptions": []
+        "distributePointsFor": "All options"
       },
       "description": "<p>Testing description for first session</p>",
       "questionNumber": 1,
@@ -310,11 +298,11 @@
         "questionText": "Split points among the teams, according to how creative you think each team was.",
         "questionType": "CONSTSUM_RECIPIENTS",
         "points": 20,
+        "constSumOptions": [],
         "distributeToRecipients": true,
         "pointsPerOption": true,
         "forceUnevenDistribution": false,
-        "distributePointsFor": "None",
-        "constSumOptions": []
+        "distributePointsFor": "None"
       },
       "description": "<p>Testing description for second session</p>",
       "questionNumber": 1,
