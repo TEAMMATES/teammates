@@ -537,11 +537,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     void verifyAccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
-        loginAsAdminAndMasqueradeAsInstructor(instructor, true);
+        loginAsAdminAndMasqueradeAsInstructor(instructor, true, params);
     }
 
     void verifyInaccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
-        loginAsAdminAndMasqueradeAsInstructor(instructor, false);
+        loginAsAdminAndMasqueradeAsInstructor(instructor, false, params);
     }
 
     // Maintainers
@@ -725,7 +725,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Helper methods for access control.
      */
 
-    private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade) {
+    private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade, String... params) {
         loginAsAdmin();
         mockUserProvision.setAdmin(false);
         mockUserProvision.setInstructor(true);
@@ -734,9 +734,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
 
         if (canMasquerade) {
-            verifyCanMasquerade(instructor.getGoogleId(), instructor.getId().toString());
+            verifyCanMasquerade(instructor.getGoogleId(), params);
         } else {
-            verifyCannotMasquerade(instructor.getGoogleId(), instructor.getId().toString());
+            verifyCannotMasquerade(instructor.getGoogleId(), params);
         }
 
         mockUserProvision.setInstructor(false);
