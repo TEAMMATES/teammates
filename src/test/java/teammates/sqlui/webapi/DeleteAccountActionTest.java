@@ -30,6 +30,11 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     }
 
     @Test
+    void testAccessControl() throws Exception {
+        verifyOnlyAdminsCanAccess();
+    }
+
+    @Test
     protected void textExecute_nullParams_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, null,

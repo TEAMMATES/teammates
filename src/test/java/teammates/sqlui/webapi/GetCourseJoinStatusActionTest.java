@@ -206,20 +206,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     }
 
     @Test
-    protected void testAccessControl_anyLoggedInUser_canAccess() {
-        logoutUser();
-        verifyCannotAccess();
-
-        loginAsUnregistered("unregistered user");
-        verifyCanAccess();
-
-        loginAsStudent(getTypicalStudent().getGoogleId());
-        verifyCanAccess();
-
-        loginAsInstructor(getTypicalInstructor().getGoogleId());
-        verifyCanAccess();
-
-        loginAsAdmin();
-        verifyCanAccess();
+    void testAccessControl() {
+        verifyAnyLoggedInUserCanAccess();
     }
 }

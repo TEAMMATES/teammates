@@ -97,39 +97,13 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
+    void testAccessControl() {
         UUID id = accountRequest.getId();
-
-        loginAsAdmin();
         when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
 
         String[] params = {
                 Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
         };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_notAdmin_cannotAccess() {
-        UUID id = accountRequest.getId();
-
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
-
-        String[] params = {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
-        };
-
-        loginAsUnregistered("unregistered");
-        verifyCannotAccess(params);
-
-        loginAsStudent("student");
-        verifyCannotAccess(params);
-
-        loginAsInstructor("instructor");
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params);
     }
 }
