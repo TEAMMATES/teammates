@@ -418,6 +418,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * - Prefer high-level tests over mid-level tests when possible.
      * - Follow this user type order when adding new access control tests:
      * Admin → Maintainer → Instructor → Student → Unregistered → No login
+     *  - An 'Only' can access test means all other types to the right cannot access except maintainers,
+     *  which should be tested separately as they are a separate unrelated entity.
      */
 
     // Admins
@@ -475,6 +477,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     // Unregistered
+    void verifyOnlyLoggedInUsersCanAccess(String... params) {
+        verifyUnregisteredCanAccess(params);
+        verifyWithoutLoginCannotAccess(params);
+    }
+
     void verifyAnyLoggedInUserCanAccess(String... params) {
         verifyAdminsCanAccess(params);
         verifyInstructorsCanAccess(getTypicalCourse(), params);
@@ -484,6 +491,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     // No Login
+    void verifyOnlyLoggedOutUsersCanAccess(String... params) {
+        verifyWithoutLoginCanAccess(params);
+    }
+
+    // All or none
     void verifyAnyUserCanAccess(String... params) {
         verifyAdminsCanAccess(params);
         verifyMaintainersCanAccess(params);
@@ -505,6 +517,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Mid-level access control tests: Test an action's access control for a single
      * user type.
      *
+     * - Use a high-level test whenever possible instead of a mid-level test.
      * - Use when a focused check is needed or to reduce redundancy.
      * - Follow the same user type order as high-level tests when adding new access
      * control tests.
@@ -524,29 +537,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     void verifyAccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
-        loginAsAdmin();
-
-        mockUserProvision.setAdmin(false);
-        mockUserProvision.setInstructor(true);
-        mockUserProvision.setStudent(false);
-        mockUserProvision.setMaintainer(false);
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-
-        verifyCanMasquerade(instructor.getGoogleId(), params);
-        mockUserProvision.setInstructor(false);
+        loginAsAdminAndMasqueradeAsInstructor(instructor, true);
     }
 
     void verifyInaccessibleForAdminsToMasqueradeAsInstructor(Instructor instructor, String... params) {
-        loginAsAdmin();
-
-        mockUserProvision.setAdmin(false);
-        mockUserProvision.setInstructor(true);
-        mockUserProvision.setStudent(false);
-        mockUserProvision.setMaintainer(false);
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-
-        verifyCannotMasquerade(instructor.getGoogleId(), params);
-        mockUserProvision.setInstructor(false);
+        loginAsAdminAndMasqueradeAsInstructor(instructor, false);
     }
 
     // Maintainers
@@ -729,6 +724,23 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /*
      * Helper methods for access control.
      */
+
+    private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade) {
+        loginAsAdmin();
+        mockUserProvision.setAdmin(false);
+        mockUserProvision.setInstructor(true);
+        mockUserProvision.setStudent(false);
+        mockUserProvision.setMaintainer(false);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+
+        if (canMasquerade) {
+            verifyCanMasquerade(instructor.getGoogleId(), instructor.getId().toString());
+        } else {
+            verifyCannotMasquerade(instructor.getGoogleId(), instructor.getId().toString());
+        }
+
+        mockUserProvision.setInstructor(false);
+    }
 
     private void loginAsInstructorOfTheSameCourse(Course thisCourse) {
         Instructor sameCourseInstructor = getTypicalInstructor();
