@@ -291,7 +291,7 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     public FeedbackSubmitPage previewAsStudent(Student student) {
-        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeam().getName(),
+        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeamName(),
                 student.getName()));
         return previewAsStudent();
     }
@@ -672,6 +672,25 @@ public class InstructorFeedbackEditPageSql extends AppPage {
         }
     }
 
+    public void addConstSumOptionQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(6);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
+    public void addConstSumRecipientQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(7);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
+    public void addConstSumQuestion(FeedbackQuestion feedbackQuestion) {
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackConstantSumQuestionDetails questionDetails =
+                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputConstSumDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
     public void editConstSumQuestion(int questionNum, FeedbackConstantSumQuestionDetails csQuestionDetails) {
         clickEditQuestionButton(questionNum);
         inputConstSumDetails(questionNum, csQuestionDetails);
@@ -684,6 +703,16 @@ public class InstructorFeedbackEditPageSql extends AppPage {
         if (questionDetails.isZeroSum()) {
             assertFalse(questionDetails.isNotSureAllowed());
         }
+    }
+
+    public void addContributionQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(8);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackContributionQuestionDetails questionDetails =
+                (FeedbackContributionQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputContributionDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
     }
 
     public void editContributionQuestion(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
@@ -757,6 +786,16 @@ public class InstructorFeedbackEditPageSql extends AppPage {
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackRankOptionsQuestionDetails questionDetails =
                 (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        inputRankDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addRankRecipientsQuestion(FeedbackQuestion feedbackQuestion) {
+        addNewQuestion(11);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRankQuestionDetails questionDetails =
+                (FeedbackRankQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputRankDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -872,6 +911,13 @@ public class InstructorFeedbackEditPageSql extends AppPage {
 
     private void selectGracePeriod(long gracePeriodMinutes) {
         selectDropdownOptionByText(gracePeriodDropdown, gracePeriodMinutes + " min");
+    }
+
+    private void setVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
+        showVisibilitySettings();
+
+        setSessionVisibilitySettings(newFeedbackSession, course);
+        setResponseVisibilitySettings(newFeedbackSession, course);
     }
 
     private void setSessionVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
@@ -1101,13 +1147,6 @@ public class InstructorFeedbackEditPageSql extends AppPage {
         for (FeedbackParticipantType participant : participants) {
             markOptionAsSelected(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
         }
-    }
-
-    private void setVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
-        showVisibilitySettings();
-
-        setSessionVisibilitySettings(newFeedbackSession, course);
-        setResponseVisibilitySettings(newFeedbackSession, course);
     }
 
     private void selectVisibilityDropdownOption(int questionNum, String text) {
@@ -1601,5 +1640,4 @@ public class InstructorFeedbackEditPageSql extends AppPage {
         inputMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
         inputMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
-
 }

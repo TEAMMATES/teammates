@@ -49,8 +49,8 @@ public class InstructorCourseStudentDetailsViewPageSql extends AppPage {
         verifyDetail(student.getName(), studentName);
 
         verifyDetail(student.getCourseId(), courseId);
-        verifyDetail(student.getSection().getName(), studentSectionName);
-        verifyDetail(student.getTeam().getName(), studentTeamName);
+        verifyDetail(student.getSectionName(), studentSectionName);
+        verifyDetail(student.getTeamName(), studentTeamName);
         verifyDetail(student.getEmail(), studentOfficialEmail);
         verifyDetail(student.getComments(), studentComments);
     }
