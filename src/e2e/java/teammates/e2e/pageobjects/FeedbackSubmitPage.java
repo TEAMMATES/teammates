@@ -461,7 +461,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void fillConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+    public void fillConstSumRecipientResponseLegacy(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackConstantSumResponseDetails response =
@@ -470,11 +470,30 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void verifyConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+    public void fillConstSumRecipientResponse(int qnNumber, List<FeedbackResponse> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
+            fillTextBox(recipientInputs.get(i), Integer.toString(response.getAnswers().get(0)));
+        }
+    }
+
+    public void verifyConstSumRecipientResponseLegacy(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackConstantSumResponseDetails response =
                     (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetailsCopy();
+            assertEquals(recipientInputs.get(i).getAttribute("value"),
+                    Integer.toString(response.getAnswers().get(0)));
+        }
+    }
+
+    public void verifyConstSumRecipientResponse(int qnNumber, List<FeedbackResponse> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
             assertEquals(recipientInputs.get(i).getAttribute("value"),
                     Integer.toString(response.getAnswers().get(0)));
         }
