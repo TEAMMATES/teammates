@@ -17,11 +17,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
@@ -33,12 +28,17 @@ import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor feedback edit page of the website.
  */
-public class InstructorFeedbackEditPage extends AppPage {
+public class InstructorFeedbackEditPageSql extends AppPage {
     private static final String CUSTOM_FEEDBACK_PATH_OPTION = "Custom feedback path";
     private static final String FEEDBACK_PATH_SEPARATOR = " will give feedback on ";
     private static final String CUSTOM_VISIBILITY_OPTION = "Custom visibility options";
@@ -148,7 +148,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "btn-preview-instructor")
     private WebElement previewAsInstructorButton;
 
-    public InstructorFeedbackEditPage(Browser browser) {
+    public InstructorFeedbackEditPageSql(Browser browser) {
         super(browser);
     }
 
@@ -157,25 +157,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getPageTitle().contains("Edit Feedback Session");
     }
 
-    public void verifySessionDetails(CourseAttributes course, FeedbackSessionAttributes feedbackSession) {
+    public void verifySessionDetails(Course course, FeedbackSession feedbackSession) {
         waitForElementPresence(By.id("instructions"));
         assertEquals(getCourseId(), course.getId());
         assertEquals(getCourseName(), course.getName());
-        assertEquals(getTimeZone(), feedbackSession.getTimeZone());
-        assertEquals(getFeedbackSessionName(), feedbackSession.getFeedbackSessionName());
+        assertEquals("UTC", getTimeZone());
+        assertEquals(getFeedbackSessionName(), feedbackSession.getName());
         assertEquals(getInstructions(), feedbackSession.getInstructions());
-        assertEquals(getStartDate(), getDateString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()));
-        assertEquals(getStartTime(), getTimeString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()));
-        assertEquals(getEndDate(), getDateString(feedbackSession.getEndTime(), feedbackSession.getTimeZone()));
-        assertEquals(getEndTime(), getTimeString(feedbackSession.getEndTime(), feedbackSession.getTimeZone()));
-        assertEquals(getGracePeriod(), feedbackSession.getGracePeriodMinutes() + " min");
+        assertEquals(getStartDate(), getDateString(feedbackSession.getStartTime(), "UTC"));
+        assertEquals(getStartTime(), getTimeString(feedbackSession.getStartTime(), "UTC"));
+        assertEquals(getEndDate(), getDateString(feedbackSession.getEndTime(), "UTC"));
+        assertEquals(getEndTime(), getTimeString(feedbackSession.getEndTime(), "UTC"));
+        assertEquals(getGracePeriod(), feedbackSession.getGracePeriod().toMinutes() + " min");
         verifySubmissionStatus(feedbackSession);
         verifyPublishedStatus(feedbackSession);
         verifyVisibilitySettings(feedbackSession);
         verifyEmailSettings(feedbackSession);
+
     }
 
-    private void verifySubmissionStatus(FeedbackSessionAttributes feedbackSession) {
+    private void verifySubmissionStatus(FeedbackSession feedbackSession) {
         String submissionStatus = getSubmissionStatus();
         if (feedbackSession.isClosed()) {
             assertEquals(submissionStatus, "Closed");
@@ -186,7 +187,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    private void verifyPublishedStatus(FeedbackSessionAttributes feedbackSession) {
+    private void verifyPublishedStatus(FeedbackSession feedbackSession) {
         String publishedStatus = getPublishedStatus();
         if (feedbackSession.isPublished()) {
             assertEquals(publishedStatus, "Published");
@@ -195,7 +196,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    private void verifyVisibilitySettings(FeedbackSessionAttributes feedbackSession) {
+    private void verifyVisibilitySettings(FeedbackSession feedbackSession) {
         Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
         Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
 
@@ -210,20 +211,20 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifySessionVisibilitySettings(Instant sessionVisibleTime,
-                                                 FeedbackSessionAttributes feedbackSession) {
+                                                 FeedbackSession feedbackSession) {
         if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             assertTrue(openSessionVisibleTimeButton.isSelected());
         } else {
             assertTrue(customSessionVisibleTimeButton.isSelected());
             assertEquals(getSessionVisibilityDate(), getDateString(feedbackSession.getSessionVisibleFromTime(),
-                    feedbackSession.getTimeZone()));
+                    "UTC"));
             assertEquals(getSessionVisibilityTime(), getTimeString(feedbackSession.getSessionVisibleFromTime(),
-                    feedbackSession.getTimeZone()));
+                    "UTC"));
         }
     }
 
     private void verifyResponseVisibilitySettings(Instant responseVisibleTime,
-                                                  FeedbackSessionAttributes feedbackSession) {
+                                                  FeedbackSession feedbackSession) {
         if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             assertTrue(immediateResponseVisibleTimeButton.isSelected());
         } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
@@ -231,13 +232,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         } else {
             assertTrue(customSessionVisibleTimeButton.isSelected());
             assertEquals(getResponseVisibilityDate(), getDateString(feedbackSession.getResultsVisibleFromTime(),
-                    feedbackSession.getTimeZone()));
+                    "UTC"));
             assertEquals(getResponseVisibilityTime(), getTimeString(feedbackSession.getResultsVisibleFromTime(),
-                    feedbackSession.getTimeZone()));
+                    "UTC"));
         }
     }
 
-    private void verifyEmailSettings(FeedbackSessionAttributes feedbackSession) {
+    private void verifyEmailSettings(FeedbackSession feedbackSession) {
         boolean isOpenedEmailEnabled = feedbackSession.isOpenedEmailEnabled();
         boolean isClosingSoonEmailEnabled = feedbackSession.isClosingSoonEmailEnabled();
         boolean isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
@@ -258,18 +259,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    public void editSessionDetails(FeedbackSessionAttributes newFeedbackSessionDetails) {
+    public void editSessionDetails(FeedbackSession feedbackSessionDetails, Course course) {
         click(fsEditButton);
-        setInstructions(newFeedbackSessionDetails.getInstructions());
-        setSessionStartDateTime(newFeedbackSessionDetails.getStartTime(), newFeedbackSessionDetails.getTimeZone());
-        setSessionEndDateTime(newFeedbackSessionDetails.getEndTime(), newFeedbackSessionDetails.getTimeZone());
-        selectGracePeriod(newFeedbackSessionDetails.getGracePeriodMinutes());
-        setVisibilitySettings(newFeedbackSessionDetails);
-        setEmailSettings(newFeedbackSessionDetails);
+        setInstructions(feedbackSessionDetails.getInstructions());
+        setSessionStartDateTime(feedbackSessionDetails.getStartTime(), course.getTimeZone());
+        setSessionEndDateTime(feedbackSessionDetails.getEndTime(), course.getTimeZone());
+        selectGracePeriod((int) feedbackSessionDetails.getGracePeriod().toMinutes());
+        setVisibilitySettings(feedbackSessionDetails, course);
+        setEmailSettings(feedbackSessionDetails);
         click(fsSaveButton);
     }
 
-    public void copySessionToOtherCourse(CourseAttributes otherCourse, String sessionName) {
+    public void copySessionToOtherCourse(Course otherCourse, String sessionName) {
         click(fsCopyButton);
         WebElement copyFsModal = waitForElementPresence(By.id("copy-course-modal"));
 
@@ -289,12 +290,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(waitForElementPresence(By.id("btn-fs-delete")));
     }
 
-    public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
-        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeam(), student.getName()));
-        click(previewAsStudentButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+    public FeedbackSubmitPage previewAsStudent(Student student) {
+        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeamName(),
+                student.getName()));
+        return previewAsStudent();
     }
 
     public FeedbackSubmitPage previewAsStudent() {
@@ -304,15 +303,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(FeedbackSubmitPage.class);
     }
 
-    public FeedbackSubmitPage previewAsInstructor() {
-        click(previewAsInstructorButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+    public FeedbackSubmitPage previewAsInstructor(Instructor instructor) {
+        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.getName());
+        return previewAsInstructor();
     }
 
-    public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
-        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.getName());
+    public FeedbackSubmitPage previewAsInstructor() {
         click(previewAsInstructorButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -323,17 +319,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertEquals(getNumQuestions(), expected);
     }
 
-    public void verifyQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+    public void verifyQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         scrollElementToCenter(getQuestionForm(questionNum));
-        assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
+        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionType(), getQuestionType(questionNum));
         assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
         assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
-        assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getQuestionDescription());
+        assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getDescription());
         verifyFeedbackPathSettings(questionNum, feedbackQuestion);
         verifyQuestionVisibilitySettings(questionNum, feedbackQuestion);
     }
 
-    private void verifyFeedbackPathSettings(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+    private void verifyFeedbackPathSettings(int questionNum, FeedbackQuestion feedbackQuestion) {
         assertEquals(getDisplayGiverName(feedbackQuestion.getGiverType()), getFeedbackGiver(questionNum));
         String feedbackReceiver = getFeedbackReceiver(questionNum);
         assertEquals(getDisplayRecipientName(feedbackQuestion.getRecipientType()), feedbackReceiver);
@@ -341,7 +337,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         if (feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.INSTRUCTORS))
                 || feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF))
                 || feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))) {
-            verifyNumberOfEntitiesToGiveFeedbackTo(questionNum, feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo());
+            verifyNumberOfEntitiesToGiveFeedbackTo(questionNum, feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo());
         }
     }
 
@@ -357,7 +353,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    private void verifyQuestionVisibilitySettings(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+    private void verifyQuestionVisibilitySettings(int questionNum, FeedbackQuestion feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
@@ -451,7 +447,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    private void verifyCustomQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+    private void verifyCustomQuestionVisibility(int questionNum, FeedbackQuestion feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
@@ -492,14 +488,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    public void addTemplateQuestion(int optionNum) {
-        addNewQuestion(1);
-        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
-
-        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
-    }
-
     public void copyQuestion(String courseId, String questionText) {
         click(copyQuestionButton);
         WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
@@ -533,16 +521,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveQuestionButton(questionNum);
     }
 
-    public void editQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        clickEditQuestionButton(questionNum);
-        inputQuestionDetails(questionNum, feedbackQuestion);
-        clickSaveQuestionButton(questionNum);
+    public void addTemplateQuestion(int optionNum) {
+        addNewQuestion(1);
+        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
+
+        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
     }
 
-    private void inputQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+    private void inputQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
-        setQuestionDescription(questionNum, feedbackQuestion.getQuestionDescription());
-        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
+        setQuestionDescription(questionNum, feedbackQuestion.getDescription());
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
         if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
@@ -562,7 +552,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertEquals(recommendLength, questionDetails.getRecommendedLength().toString());
     }
 
-    public void addTextQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addTextQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(2);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -589,7 +579,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
     }
 
-    public void addMcqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addMcqQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(3);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -615,7 +605,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
     }
 
-    public void addMsqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addMsqQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(4);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -639,7 +629,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 Integer.toString(questionDetails.getMaxScale()));
     }
 
-    public void addNumScaleQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addNumScaleQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(5);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -682,17 +672,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    public void addConstSumOptionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addConstSumOptionQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(6);
         addConstSumQuestion(feedbackQuestion);
     }
 
-    public void addConstSumRecipientQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addConstSumRecipientQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(7);
         addConstSumQuestion(feedbackQuestion);
     }
 
-    public void addConstSumQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addConstSumQuestion(FeedbackQuestion feedbackQuestion) {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackConstantSumQuestionDetails questionDetails =
@@ -715,7 +705,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    public void addContributionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addContributionQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(8);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -764,7 +754,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    public void addRubricQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addRubricQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(9);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -790,7 +780,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         verifyMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
 
-    public void addRankOptionsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addRankOptionsQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(10);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -800,7 +790,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
-    public void addRankRecipientsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    public void addRankRecipientsQuestion(FeedbackQuestion feedbackQuestion) {
         addNewQuestion(11);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
@@ -923,24 +913,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownOptionByText(gracePeriodDropdown, gracePeriodMinutes + " min");
     }
 
-    private void setVisibilitySettings(FeedbackSessionAttributes newFeedbackSession) {
+    private void setVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
         showVisibilitySettings();
 
-        setSessionVisibilitySettings(newFeedbackSession);
-        setResponseVisibilitySettings(newFeedbackSession);
+        setSessionVisibilitySettings(newFeedbackSession, course);
+        setResponseVisibilitySettings(newFeedbackSession, course);
     }
 
-    private void setSessionVisibilitySettings(FeedbackSessionAttributes newFeedbackSession) {
+    private void setSessionVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
         Instant sessionDateTime = newFeedbackSession.getSessionVisibleFromTime();
         if (sessionDateTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             click(openSessionVisibleTimeButton);
         } else {
             click(customSessionVisibleTimeButton);
-            setVisibilityDateTime(sessionDateTime, newFeedbackSession.getTimeZone());
+            setVisibilityDateTime(sessionDateTime, course.getTimeZone());
         }
     }
 
-    private void setResponseVisibilitySettings(FeedbackSessionAttributes newFeedbackSession) {
+    private void setResponseVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
         Instant responseDateTime = newFeedbackSession.getResultsVisibleFromTime();
         if (responseDateTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             click(immediateResponseVisibleTimeButton);
@@ -948,11 +938,11 @@ public class InstructorFeedbackEditPage extends AppPage {
             click(manualResponseVisibleTimeButton);
         } else {
             click(customResponseVisibleTimeButton);
-            setResponseDateTime(responseDateTime, newFeedbackSession.getTimeZone());
+            setResponseDateTime(responseDateTime, course.getTimeZone());
         }
     }
 
-    private void setEmailSettings(FeedbackSessionAttributes newFeedbackSessionDetails) {
+    private void setEmailSettings(FeedbackSession newFeedbackSessionDetails) {
         showEmailSettings();
         if (newFeedbackSessionDetails.isOpenedEmailEnabled() != openedSessionEmailCheckbox.isSelected()) {
             click(openedSessionEmailCheckbox);
@@ -1061,7 +1051,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         writeToRichTextEditor(editor, newDescription);
     }
 
-    private void setFeedbackPath(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+    private void setFeedbackPath(int questionNum, FeedbackQuestion feedbackQuestion) {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
@@ -1074,12 +1064,12 @@ public class InstructorFeedbackEditPage extends AppPage {
                 getDisplayGiverName(FeedbackParticipantType.STUDENTS));
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
                 getDisplayRecipientName(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF));
-        if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+        if (feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
             click(questionForm.findElement(By.id("unlimited-recipients")));
         } else {
             click(questionForm.findElement(By.id("custom-recipients")));
             fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
-                    Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
+                    Integer.toString(feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo()));
         }
 
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), getDisplayGiverName(newGiver));
@@ -1105,13 +1095,19 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(getQuestionForm(questionNum).findElement(By.id("btn-edit-question")));
     }
 
+    public void editQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
+        clickEditQuestionButton(questionNum);
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        clickSaveQuestionButton(questionNum);
+    }
+
     private void clickSaveQuestionButton(int questionNum) {
         WebElement saveButton = getQuestionForm(questionNum).findElement(By.id("btn-save-question"));
         click(saveButton);
         ThreadHelper.waitFor(1000);
     }
 
-    private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+    private void setQuestionVisibility(int questionNum, FeedbackQuestion feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();

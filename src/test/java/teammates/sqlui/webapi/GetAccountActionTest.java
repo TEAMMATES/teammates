@@ -62,31 +62,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(googleId);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(googleId);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        verifyCannotAccess();
-
-        loginAsAdmin();
-        verifyCanAccess();
-
-        logoutUser();
-        verifyCannotAccess();
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
     }
 }

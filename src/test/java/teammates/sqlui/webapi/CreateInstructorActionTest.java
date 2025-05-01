@@ -1,12 +1,10 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.datatransfer.InstructorPermissionRole.getEnum;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
@@ -19,7 +17,6 @@ import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.webapi.CreateInstructorAction;
@@ -189,125 +186,12 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
     }
 
     @Test
-    void testAccessControl_noLogin_cannotAccess() {
+    void testAccessControl() throws Exception {
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
         };
 
-        logoutUser();
-        verifyCannotAccess(params);
-
-        verify(mockLogic, never()).getCourse(typicalCourse.getId());
-        verify(mockLogic, never()).getInstructorByGoogleId(any(String.class), any(String.class));
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                typicalCourse, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, params);
     }
-
-    @Test
-    void testAccessControl_unregisteredUsers_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        loginAsUnregistered("unregistered user");
-        verifyCannotAccess(params);
-
-        verify(mockLogic, never()).getCourse(typicalCourse.getId());
-        verify(mockLogic, never()).getInstructorByGoogleId(any(String.class), any(String.class));
-    }
-
-    @Test
-    void testAccessControl_students_cannotAccess() {
-        Student typicalStudent = getTypicalStudent();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        loginAsStudent(typicalStudent.getGoogleId());
-        verifyCannotAccess(params);
-
-        verify(mockLogic, never()).getCourse(typicalCourse.getId());
-        verify(mockLogic, never()).getInstructorByGoogleId(any(String.class), any(String.class));
-    }
-
-    @Test
-    void testAccessControl_instructorsFromDifferentCourse_cannotAccess() {
-        Course differentCourse = new Course("different id", "different name", Const.DEFAULT_TIME_ZONE,
-                "teammates");
-        Instructor instructorFromDifferentCourse = getTypicalInstructor();
-        instructorFromDifferentCourse.setCourse(differentCourse);
-        instructorFromDifferentCourse.setGoogleId("different google id");
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
-                .thenReturn(instructorFromDifferentCourse);
-
-        loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
-
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
-        verify(mockLogic, times(1))
-                .getInstructorByGoogleId(typicalCourse.getId(), instructorFromDifferentCourse.getGoogleId());
-    }
-
-    @Test
-    void testAccessControl_instructorWithoutCorrectCoursePrivilege_cannotAccess() {
-        Instructor instructorWithoutCorrectPrivilege = getTypicalInstructor();
-        instructorWithoutCorrectPrivilege.setGoogleId("no privilege");
-        instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");
-        instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
-                .thenReturn(instructorWithoutCorrectPrivilege);
-
-        loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());
-
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
-        verify(mockLogic, times(1))
-                .getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId());
-    }
-
-    @Test
-    void testAccessControl_adminToMasqueradeAsInstructor_canAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        loginAsAdmin();
-
-        verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
-
-        verify(mockLogic, never()).getCourse(typicalCourse.getId());
-        verify(mockLogic, never()).getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
-    }
-
-    @Test
-    void testAccessControl_instructorWithCorrectCoursePrivilege_canAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-
-        loginAsInstructor(typicalInstructor.getGoogleId());
-
-        verifyCanAccess(params);
-
-        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
-        verify(mockLogic, times(1))
-                .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
-    }
-
 }
