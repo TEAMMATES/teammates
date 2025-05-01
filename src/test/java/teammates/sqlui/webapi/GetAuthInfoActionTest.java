@@ -156,27 +156,8 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     }
 
     @Test
-    void testAccessControl_adminCanAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_unRegisteredUserCanAccess() {
-        loginAsUnregistered("unregistered user");
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_noLoginCanAccess() {
-        logoutUser();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_nonAdminCannotMasquerade() {
-        loginAsInstructor("idOfInstructor1OfCourse1");
-        verifyCannotMasquerade("idOfAnotherInstructor");
+    void testAccessControl() {
+        verifyAnyUserCanAccess();
     }
 
 }
