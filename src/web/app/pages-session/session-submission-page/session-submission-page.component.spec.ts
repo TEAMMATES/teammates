@@ -18,6 +18,7 @@ import { FeedbackResponsesService } from '../../../services/feedback-responses.s
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SessionPageService } from '../../../services/session-page.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -636,6 +637,7 @@ describe('SessionSubmissionPageComponent', () => {
   let feedbackResponsesService: FeedbackResponsesService;
   let feedbackResponseCommentService: FeedbackResponseCommentService;
   let feedbackQuestionsService: FeedbackQuestionsService;
+  let sessionPageService: SessionPageService;
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
 
@@ -683,6 +685,7 @@ describe('SessionSubmissionPageComponent', () => {
     feedbackResponsesService = TestBed.inject(FeedbackResponsesService);
     feedbackResponseCommentService = TestBed.inject(FeedbackResponseCommentService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
+    sessionPageService = TestBed.inject(SessionPageService);
     simpleModalService = TestBed.inject(SimpleModalService);
     ngbModal = TestBed.inject(NgbModal);
     component = fixture.componentInstance;
@@ -695,6 +698,22 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should have the contents expanded', () => {
+    expect(component.isFormsExpanded).toBe(true);
+  });
+
+  it('should hide contents when content is collapsed', () => {
+    sessionPageService.hideExpansion();
+    expect(component.isFormsExpanded).toBe(false);
+    sessionPageService.showExpansion();
+  });
+
+  it('should show contents when content is shown', () => {
+    sessionPageService.hideExpansion();
+    sessionPageService.showExpansion();
+    expect(component.isFormsExpanded).toBe(true);
   });
 
   it('should snap when feedback session questions have failed to load', () => {
@@ -778,6 +797,7 @@ describe('SessionSubmissionPageComponent', () => {
       testRankRecipientsQuestionSubmissionForm,
     ];
     component.isSubmissionFormsDisabled = true;
+    component.isFormsExpanded = true;
     component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
