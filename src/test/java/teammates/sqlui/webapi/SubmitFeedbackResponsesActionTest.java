@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelperExtension;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -206,7 +207,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testAccessControl_() {
+    void testAccessControl_submissionIsNotOpen_throwsUnauthorizedAccessException() {
+        typicalFeedbackSession.setStartTime(TimeHelperExtension.getInstantDaysOffsetFromNow(1));
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -220,6 +222,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        verifyCanAccess(params);
+        verifyCannotAccess(params);
+    }
+
+    @Test
+    void testAccessControl_submissionBeforeEndTimeBeforeDeadline_canAccess() {
+
     }
 }
