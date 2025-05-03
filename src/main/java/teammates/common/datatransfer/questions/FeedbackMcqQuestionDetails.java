@@ -105,7 +105,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // trigger this error.
             if (hasAssignedWeights && !mcqWeights.isEmpty()) {
                 mcqWeights.stream()
-                        .filter(weight -> weight < 0)
+                        .filter(weight -> weight != null && weight < 0)
                         .forEach(weight -> errors.add(MCQ_ERROR_INVALID_WEIGHT));
             }
 

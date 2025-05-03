@@ -71,6 +71,9 @@ export class MsqQuestionStatisticsCalculation
 
       for (const answer of Object.keys(this.weightPerOption)) {
         const weight: number = this.weightPerOption[answer];
+        if (weight === null) {
+          continue;
+        }
         const frequency: number = this.answerFrequency[answer];
         const weightedPercentage: number = totalWeightedResponseCount === 0 ? 0
             : 100 * ((frequency * weight) / totalWeightedResponseCount);
@@ -116,7 +119,21 @@ export class MsqQuestionStatisticsCalculation
       this.updateResponseCountPerOptionForResponse(response.responseDetails, perRecipientResponse[email]);
     }
 
+    const areAllOptionWeightsNull: boolean = this.question.msqWeights.every(weight => weight === null);
+
     for (const recipient of Object.keys(perRecipientResponse)) {
+      if (areAllOptionWeightsNull) {
+        this.perRecipientResponses[recipient] = {
+          recipient,
+          recipientEmail: recipientEmails[recipient],
+          total: null,
+          average: null,
+          recipientTeam: recipientToTeam[recipient],
+          responses: perRecipientResponse[recipient],
+        };
+        continue;
+      }
+
       const responses: Record<string, number> = perRecipientResponse[recipient];
       let total: number = 0;
       let average: number = 0;
@@ -124,6 +141,9 @@ export class MsqQuestionStatisticsCalculation
       for (const answer of Object.keys(responses)) {
         const responseCount: number = responses[answer];
         const weight: number = this.weightPerOption[answer];
+        if (weight === null) {
+          continue;
+        }
         total += responseCount * weight;
         numOfResponsesForRecipient += responseCount;
       }
