@@ -108,6 +108,16 @@
                   <tm-ajax-loading *ngIf="isEnrolling"></tm-ajax-loading>
                   Enroll students
                 </button>
+
+                <button
+                        type="button"
+                        title="Copy"
+                        id="btn-copy"
+                        name="button-copy"
+                        class="btn btn-secondary float-end me-2"
+                        (click)="copyToClipboard()">
+                  Copy
+                </button>
               </div>
             </div>
             <div class="row mt-3" style="align-items: center;">
