@@ -73,6 +73,11 @@
   </div>
 </div>
 
+<div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" id="hideOwnResponses" [(ngModel)]="hideSelfResponses">
+  <label class="form-check-label" for="hideOwnResponses">Hide my own responses</label>
+</div>
+
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
     <div *ngIf="questions.length === 0" class="mt-4">
@@ -82,6 +87,7 @@
     </div>
     <tm-question-response-panel [questions]="questions" [session]="session"
                                 [intent]="intent" [regKey]="regKey" [previewAsPerson]="previewAsPerson"
+                                [hideSelfResponses]="hideSelfResponses"
     ></tm-question-response-panel>
   </div>
 </tm-loading-retry>
