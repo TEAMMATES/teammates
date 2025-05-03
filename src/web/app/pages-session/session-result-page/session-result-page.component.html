@@ -1,3 +1,8 @@
+<!-- Add 'Hide my own responses' Switch-->
+<div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="hideOwnResponses" [(ngModel)]="hideSelfResponses">
+    <label class="form-check-label" for="hideOwnResponses">Hide my own responses</label>
+</div>
 <h1>
   Feedback Session Results
 </h1>
@@ -82,6 +87,7 @@
     </div>
     <tm-question-response-panel [questions]="questions" [session]="session"
                                 [intent]="intent" [regKey]="regKey" [previewAsPerson]="previewAsPerson"
+                                [hideSelfResponses]="hideSelfResponses"
     ></tm-question-response-panel>
   </div>
 </tm-loading-retry>
