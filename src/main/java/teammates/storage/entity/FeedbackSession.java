@@ -3,6 +3,7 @@ package teammates.storage.entity;
 import java.time.Instant;
 import java.util.Map;
 
+import com.googlecode.objectify.annotation.AlsoLoad;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -65,17 +66,21 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean sentOpeningSoonEmail;
 
-    private boolean sentOpenEmail;
+    @AlsoLoad("sentOpeningEmail")
+    private boolean sentOpenedEmail;
 
-    private boolean sentClosingEmail;
+    @AlsoLoad("sentClosingEmail")
+    private boolean sentClosingSoonEmail;
 
     private boolean sentClosedEmail;
 
     private boolean sentPublishedEmail;
 
-    private boolean isOpeningEmailEnabled;
+    @AlsoLoad("isOpeningEmailEnabled")
+    private boolean isOpenedEmailEnabled;
 
-    private boolean isClosingEmailEnabled;
+    @AlsoLoad("isClosingEmailEnabled")
+    private boolean isClosingSoonEmailEnabled;
 
     private boolean isPublishedEmailEnabled;
 
@@ -95,9 +100,9 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
             String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
-            boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
-            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> studentDeadlines,
+            boolean sentOpeningSoonEmail, boolean sentOpenedEmail, boolean sentClosingSoonEmail,
+            boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpenedEmailEnabled,
+            boolean isClosingSoonEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> studentDeadlines,
             Map<String, Instant> instructorDeadlines) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
@@ -112,12 +117,12 @@ public class FeedbackSession extends BaseEntity {
         this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
         this.sentOpeningSoonEmail = sentOpeningSoonEmail;
-        this.sentOpenEmail = sentOpenEmail;
-        this.sentClosingEmail = sentClosingEmail;
+        this.sentOpenedEmail = sentOpenedEmail;
+        this.sentClosingSoonEmail = sentClosingSoonEmail;
         this.sentClosedEmail = sentClosedEmail;
         this.sentPublishedEmail = sentPublishedEmail;
-        this.isOpeningEmailEnabled = isOpeningEmailEnabled;
-        this.isClosingEmailEnabled = isClosingEmailEnabled;
+        this.isOpenedEmailEnabled = isOpenedEmailEnabled;
+        this.isClosingSoonEmailEnabled = isClosingSoonEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.studentDeadlines = studentDeadlines;
         this.instructorDeadlines = instructorDeadlines;
@@ -236,20 +241,20 @@ public class FeedbackSession extends BaseEntity {
         this.sentOpeningSoonEmail = sentOpeningSoonEmail;
     }
 
-    public boolean isSentOpenEmail() {
-        return sentOpenEmail;
+    public boolean isSentOpenedEmail() {
+        return sentOpenedEmail;
     }
 
-    public void setSentOpenEmail(boolean sentOpenEmail) {
-        this.sentOpenEmail = sentOpenEmail;
+    public void setSentOpenedEmail(boolean sentOpenedEmail) {
+        this.sentOpenedEmail = sentOpenedEmail;
     }
 
-    public boolean isSentClosingEmail() {
-        return sentClosingEmail;
+    public boolean isSentClosingSoonEmail() {
+        return sentClosingSoonEmail;
     }
 
-    public void setSentClosingEmail(boolean sentClosingEmail) {
-        this.sentClosingEmail = sentClosingEmail;
+    public void setSentClosingSoonEmail(boolean sentClosingSoonEmail) {
+        this.sentClosingSoonEmail = sentClosingSoonEmail;
     }
 
     public boolean isSentClosedEmail() {
@@ -268,20 +273,20 @@ public class FeedbackSession extends BaseEntity {
         this.sentPublishedEmail = sentPublishedEmail;
     }
 
-    public boolean isOpeningEmailEnabled() {
-        return isOpeningEmailEnabled;
+    public boolean isOpenedEmailEnabled() {
+        return isOpenedEmailEnabled;
     }
 
-    public void setIsOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
-        this.isOpeningEmailEnabled = isOpeningEmailEnabled;
+    public void setIsOpenedEmailEnabled(boolean isOpenedEmailEnabled) {
+        this.isOpenedEmailEnabled = isOpenedEmailEnabled;
     }
 
-    public boolean isClosingEmailEnabled() {
-        return isClosingEmailEnabled;
+    public boolean isClosingSoonEmailEnabled() {
+        return isClosingSoonEmailEnabled;
     }
 
-    public void setSendClosingEmail(boolean isClosingEmailEnabled) {
-        this.isClosingEmailEnabled = isClosingEmailEnabled;
+    public void setSendClosingSoonEmail(boolean isClosingSoonEmailEnabled) {
+        this.isClosingSoonEmailEnabled = isClosingSoonEmailEnabled;
     }
 
     public boolean isPublishedEmailEnabled() {
@@ -319,12 +324,12 @@ public class FeedbackSession extends BaseEntity {
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod
                 + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
-                + ", sentOpenEmail=" + sentOpenEmail
-                + ", sentClosingEmail=" + sentClosingEmail
+                + ", sentOpenedEmail=" + sentOpenedEmail
+                + ", sentClosingSoonEmail=" + sentClosingSoonEmail
                 + ", sentClosedEmail=" + sentClosedEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail
-                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
-                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
+                + ", isOpenedEmailEnabled=" + isOpenedEmailEnabled
+                + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                 + ", studentDeadlines=" + studentDeadlines
                 + ", instructorDeadlines=" + instructorDeadlines

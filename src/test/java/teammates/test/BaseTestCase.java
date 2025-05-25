@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,6 +23,8 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
+import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -33,6 +36,7 @@ import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -42,6 +46,7 @@ import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.UsageStatistics;
 
 /**
  * Base class for all test cases.
@@ -168,6 +173,20 @@ public class BaseTestCase {
         return new Team(section, "test-team");
     }
 
+    protected FeedbackResponseComment getTypicalFeedbackResponseComment() {
+        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
+        FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+        FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(typicalFeedbackResponse,
+                "typical-giver", FeedbackParticipantType.RECEIVER, getTypicalSection(), getTypicalSection(),
+                "typical-comment", true, true, List.of(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
+                List.of(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.INSTRUCTORS), "email");
+        feedbackResponseComment.setId(10L);
+        feedbackResponseComment.setCreatedAt(Instant.now());
+        feedbackResponseComment.setUpdatedAt(Instant.now());
+        return feedbackResponseComment;
+    }
+
     protected FeedbackSession getTypicalFeedbackSessionForCourse(Course course) {
         Instant startTime = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
         Instant endTime = TimeHelperExtension.getInstantDaysOffsetFromNow(7);
@@ -213,6 +232,50 @@ public class BaseTestCase {
     protected AccountRequest getTypicalAccountRequest() {
         return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1, Test Country",
                 AccountRequestStatus.PENDING, "");
+    }
+
+    protected UsageStatisticsAttributes getTypicalUsageStatisticsAttributes() {
+        return getTypicalUsageStatisticsAttributes(Instant.parse("2011-01-01T00:00:00Z"));
+    }
+
+    protected UsageStatisticsAttributes getTypicalUsageStatisticsAttributes(Instant startTime) {
+        return UsageStatisticsAttributes.builder(startTime, 60)
+                .withNumResponses(2)
+                .withNumCourses(2)
+                .withNumStudents(2)
+                .withNumInstructors(2)
+                .withNumAccountRequests(2)
+                .build();
+    }
+
+    protected UsageStatistics getTypicalUsageStatistics() {
+        return UsageStatistics.valueOf(getTypicalUsageStatisticsAttributes());
+    }
+
+    protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
+        return UsageStatistics.valueOf(getTypicalUsageStatisticsAttributes(startTime));
+    }
+
+    protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
+        return new DeadlineExtension(
+                getTypicalStudent(),
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()),
+                Instant.now());
+    }
+
+    protected DeadlineExtension getTypicalDeadlineExtensionInstructor() {
+        return new DeadlineExtension(
+                getTypicalInstructor(),
+                getTypicalFeedbackSessionForCourse(getTypicalCourse()),
+                Instant.now());
+    }
+
+    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesStudent() {
+        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionStudent());
+    }
+
+    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesInstructor() {
+        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionInstructor());
     }
 
     /**

@@ -18,13 +18,13 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
-import teammates.ui.webapi.FeedbackSessionOpeningRemindersAction;
+import teammates.ui.webapi.FeedbackSessionOpenedRemindersAction;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * SUT: {@link FeedbackSessionOpeningRemindersAction}.
+ * SUT: {@link FeedbackSessionOpenedRemindersAction}.
  */
-public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<FeedbackSessionOpeningRemindersAction> {
+public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<FeedbackSessionOpenedRemindersAction> {
 
     @Override
     @BeforeMethod
@@ -56,7 +56,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
 
     @Override
     String getActionUri() {
-        return Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS;
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENED_REMINDERS;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         ______TS("Typical Success Case 1: Email tasks added for co-owner, students and instructors of 1 session");
         testExecute_typicalSuccess1();
 
-        ______TS("Typical Success Case 2: No email tasks added for session -- already sent opening emails");
+        ______TS("Typical Success Case 2: No email tasks added for session -- already sent opened emails");
         testExecute_typicalSuccess2();
 
         ______TS("Typical Success Case 3: No email tasks added for session -- session not visible yet");
@@ -95,17 +95,17 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         Duration noGracePeriod = Duration.between(now, now);
 
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenEmailSent(false);
+        session.setOpenedEmailSent(false);
         session.setStartTime(now.minusSeconds(thirtyMin));
         session.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
         session.setGracePeriod(noGracePeriod);
 
-        FeedbackSessionOpeningRemindersAction action1 = getAction();
+        FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isOpenEmailSent());
+        assertTrue(session.isOpenedEmailSent());
 
         // # of email to send =
         //    # emails sent to instructorsToNotify (ie co-owner), 1 +
@@ -119,7 +119,7 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
             EmailWrapper email = requestBody.getEmail();
 
             String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
-                    + String.format(EmailType.FEEDBACK_OPENING.getSubject(),
+                    + String.format(EmailType.FEEDBACK_OPENED.getSubject(),
                     session.getCourse().getName(), session.getName());
             assertEquals(expectedSubject, email.getSubject());
         }
@@ -131,17 +131,17 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         Duration noGracePeriod = Duration.between(now, now);
 
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenEmailSent(true);
+        session.setOpenedEmailSent(true);
         session.setStartTime(now.minusSeconds(thirtyMin));
         session.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
         session.setGracePeriod(noGracePeriod);
 
-        FeedbackSessionOpeningRemindersAction action1 = getAction();
+        FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isOpenEmailSent());
+        assertTrue(session.isOpenedEmailSent());
 
         verifyNoTasksAdded();
     }
@@ -152,17 +152,17 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         Duration noGracePeriod = Duration.between(now, now);
 
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenEmailSent(false);
+        session.setOpenedEmailSent(false);
         session.setStartTime(now.plusSeconds(thirtyMin * 2));
         session.setSessionVisibleFromTime(now.plusSeconds(thirtyMin));
         session.setGracePeriod(noGracePeriod);
 
-        FeedbackSessionOpeningRemindersAction action1 = getAction();
+        FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertFalse(session.isOpenEmailSent());
+        assertFalse(session.isOpenedEmailSent());
 
         verifyNoTasksAdded();
     }
@@ -173,18 +173,18 @@ public class FeedbackSessionOpeningRemindersActionIT extends BaseActionIT<Feedba
         Duration noGracePeriod = Duration.between(now, now);
 
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenEmailSent(false);
+        session.setOpenedEmailSent(false);
         session.setStartTime(now.plusSeconds(oneDay));
         session.setEndTime(now.plusSeconds(oneDay * 3));
         session.setSessionVisibleFromTime(now.minusSeconds(oneDay * 3));
         session.setGracePeriod(noGracePeriod);
 
-        FeedbackSessionOpeningRemindersAction action1 = getAction();
+        FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertFalse(session.isOpenEmailSent());
+        assertFalse(session.isOpenedEmailSent());
 
         verifyNoTasksAdded();
     }
