@@ -10,7 +10,7 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetail
 import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Student;
@@ -42,7 +42,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
 
     @Override
     protected void testEditPage() {
-        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
+        InstructorFeedbackEditPageSql feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
         FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession")

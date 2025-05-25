@@ -56,9 +56,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getCoursesForInstructors(argThat(
-                argument ->
-                        Objects.equals(argument.get(0).getGoogleId(),
-                        stubInstructor.getGoogleId())))).thenReturn(stubCourseList);
+                argument -> Objects.equals(argument.get(0).getGoogleId(),
+                        stubInstructor.getGoogleId()))))
+                .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
@@ -89,7 +89,8 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
                 .thenReturn(stubInstructorList);
         when(mockLogic.getSoftDeletedCoursesForInstructors(argThat(
                 argument -> Objects.equals(argument.get(0).getGoogleId(),
-                                stubInstructor.getGoogleId())))).thenReturn(stubCourseList);
+                        stubInstructor.getGoogleId()))))
+                .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.SOFT_DELETED,
@@ -174,61 +175,23 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     }
 
     @Test
-    void testSpecificAccessControl_instructor_success() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        String[] params = {
+    void testAccessControl() {
+        String[] paramsInstructors = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
-        verifyCanAccess(params);
-    }
+        verifyAnyNonMasqueradingInstructorCanAccess(stubCourseList.get(0), paramsInstructors);
 
-    @Test
-    void testSpecificAccessControl_student_success() {
-        loginAsStudent("student");
-        String[] params = {
+        String[] paramsStudent = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
-        verifyCanAccess(params);
-    }
+        verifyStudentsCanAccess(paramsStudent);
 
-    @Test
-    void testSpecificAccessControl_admin_cannotAccess() {
-        loginAsAdmin();
-        String[] params = {
+        String[] paramsAdmin = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_notLoggedIn_cannotAccess() {
-        String[] studentParams = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-        String[] instructorParams = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
-        };
-        logoutUser();
-        verifyCannotAccess(studentParams);
-        verifyCannotAccess(instructorParams);
-    }
-
-    @Test
-    void testSpecificAccessControl_loginAsUnregistered_cannotAccess() {
-        loginAsUnregistered("unregistered-user");
-        String[] params1 = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
-        };
-        verifyCannotAccess(params1);
-
-        String[] params2 = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-        verifyCannotAccess(params2);
+        verifyAdminsCannotAccess(paramsAdmin);
     }
 
     @Test

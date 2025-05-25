@@ -42,38 +42,9 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     }
 
     @Test
-    void testAccessControl_admin_cannotAccess() {
-        loginAsAdmin();
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_maintainers_cannotAccess() {
-        loginAsMaintainer();
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_student_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_loggedOut_cannotAccess() {
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
-        verifyCannotAccess();
+    void testAccessControl() {
+        verifyNoUsersCanAccess();
+        verifyMaintainersCannotAccess();
     }
 
     @Test
@@ -83,7 +54,9 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
 
     @Test
     void testExecute_missingParameter_shouldFail() {
-        /* Loops through each parameter pairs and removes each parameter pair to test for that
+        /*
+         * Loops through each parameter pairs and removes each parameter pair to test
+         * for that
          * missing parameter pair case.
          */
         for (int i = 0; i < getNormalParams().length / 2; i++) {
@@ -106,8 +79,8 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
         assertEquals("Deadline extension for course id: " + deadlineExtension.getCourseId() + " and "
-                        + "feedback session name: " + deadlineExtension.getFeedbackSessionName() + " and student "
-                        + "email: " + deadlineExtension.getUserEmail() + " not found.",
+                + "feedback session name: " + deadlineExtension.getFeedbackSessionName() + " and student "
+                + "email: " + deadlineExtension.getUserEmail() + " not found.",
                 enfe.getMessage());
     }
 

@@ -19,7 +19,13 @@ import teammates.ui.webapi.DeleteNotificationAction;
  * SUT: {@link DeleteNotificationAction}.
  */
 public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificationAction> {
-    private static final String GOOGLE_ID = "user-googleId";
+    Notification testNotification = new Notification(
+            Instant.now(),
+            Instant.ofEpochMilli(Instant.now().toEpochMilli() + 10000),
+            NotificationStyle.INFO,
+            NotificationTargetUser.GENERAL,
+            "title",
+            "message");
 
     @Override
     String getActionUri() {
@@ -32,39 +38,16 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
+    void testAccessControl() {
+        String[] params = {
+                Const.ParamsNames.NOTIFICATION_ID, testNotification.getId().toString(),
+        };
 
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
+        verifyOnlyAdminsCanAccess(params);
     }
 
     @Test
     void testExecute_notificationExists_success() {
-        Notification testNotification = new Notification(
-                Instant.now(),
-                Instant.ofEpochMilli(Instant.now().toEpochMilli() + 10000),
-                NotificationStyle.INFO,
-                NotificationTargetUser.GENERAL,
-                "title",
-                "message");
-
         when(mockLogic.getNotification(testNotification.getId())).thenReturn(testNotification);
 
         String[] params = {

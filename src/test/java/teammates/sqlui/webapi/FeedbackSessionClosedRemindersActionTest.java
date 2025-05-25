@@ -111,26 +111,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor("instructor-googleId");
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-googleId");
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
     }
 }

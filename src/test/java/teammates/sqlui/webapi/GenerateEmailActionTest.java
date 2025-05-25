@@ -162,4 +162,9 @@ public class GenerateEmailActionTest
 
         verifyHttpParameterFailure(params);
     }
+
+    @Test
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
+    }
 }
