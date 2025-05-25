@@ -303,7 +303,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
 
         ______TS("init : 0 open sessions");
-        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
@@ -313,35 +313,35 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
-        session.setSentOpenEmail(false);
+        session.setSentOpenedEmail(false);
         fsLogic.createFeedbackSession(session);
 
-        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         assertEquals(1, sessionList.size());
         assertEquals(sessionList.get(0).getFeedbackSessionName(), session.getFeedbackSessionName());
 
         ______TS("case : 1 open session in undeleted course with mail sent");
-        session.setSentOpenEmail(true);
+        session.setSentOpenedEmail(true);
         fsLogic.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                        .withSentOpenEmail(session.isSentOpenEmail())
+                        .withSentOpenedEmail(session.isSentOpenedEmail())
                         .build());
 
-        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
         ______TS("case : 1 closed session in undeleted course with mail unsent");
-        session.setSentOpenEmail(false);
+        session.setSentOpenedEmail(false);
         session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                        .withSentOpenEmail(session.isSentOpenEmail())
+                        .withSentOpenedEmail(session.isSentOpenedEmail())
                         .withEndTime(session.getEndTime())
                         .build());
 
-        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
@@ -353,31 +353,31 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .withEndTime(session.getEndTime())
                         .build());
 
-        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
         ______TS("case : 1 open session in deleted course with mail sent");
-        session.setSentOpenEmail(true);
+        session.setSentOpenedEmail(true);
         fsLogic.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                        .withSentOpenEmail(session.isSentOpenEmail())
+                        .withSentOpenedEmail(session.isSentOpenedEmail())
                         .build());
 
-        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
         ______TS("case : 1 closed session in deleted course with mail unsent");
-        session.setSentOpenEmail(false);
+        session.setSentOpenedEmail(false);
         session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                        .withSentOpenEmail(session.isSentOpenEmail())
+                        .withSentOpenedEmail(session.isSentOpenedEmail())
                         .withEndTime(session.getEndTime())
                         .build());
 
-        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         assertEquals(0, sessionList.size());
 
@@ -583,7 +583,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(
                         typicalSession.getFeedbackSessionName(), typicalSession.getCourseId())
-                        .withSentOpenEmail(true)
+                        .withSentOpenedEmail(true)
                         .build());
 
         fsLogic.updateFeedbackSession(
@@ -594,14 +594,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .build());
         // updated session not open, status set to false
         assertFalse(fsLogic.getFeedbackSession(
-                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpenEmail());
+                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpenedEmail());
         assertFalse(fsLogic.getFeedbackSession(
                 typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpeningSoonEmail());
 
         fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(
                         typicalSession.getFeedbackSessionName(), typicalSession.getCourseId())
-                        .withSentOpenEmail(true)
+                        .withSentOpenedEmail(true)
                         .build());
 
         fsLogic.updateFeedbackSession(
@@ -612,7 +612,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .build());
         // updated session not open, status set to false
         assertFalse(fsLogic.getFeedbackSession(
-                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpenEmail());
+                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpenedEmail());
         // updated session opening soon, opening soon email shouldn't be sent anymore
         assertTrue(fsLogic.getFeedbackSession(
                 typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpeningSoonEmail());
@@ -620,7 +620,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(
                         typicalSession.getFeedbackSessionName(), typicalSession.getCourseId())
-                        .withSentOpenEmail(true)
+                        .withSentOpenedEmail(true)
                         .build());
 
         fsLogic.updateFeedbackSession(
@@ -631,13 +631,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .build());
         // updated session open, status set to true
         assertTrue(fsLogic.getFeedbackSession(
-                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpenEmail());
+                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpenedEmail());
         // opening soon email shouldn't be sent anymore
         assertTrue(fsLogic.getFeedbackSession(
                 typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentOpeningSoonEmail());
 
         ______TS("closed email sent, whether the updated session is closed determines the "
-                + "closed/closing email sending status");
+                + "closed/closing soon email sending status");
 
         fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(
@@ -655,7 +655,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(fsLogic.getFeedbackSession(
                 typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosedEmail());
         assertTrue(fsLogic.getFeedbackSession(
-                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosingEmail());
+                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosingSoonEmail());
 
         fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(
@@ -673,7 +673,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertFalse(fsLogic.getFeedbackSession(
                 typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosedEmail());
         assertFalse(fsLogic.getFeedbackSession(
-                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosingEmail());
+                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosingSoonEmail());
 
         fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(
@@ -690,9 +690,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // updated session not closed, status set to false
         assertFalse(fsLogic.getFeedbackSession(
                 typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosedEmail());
-        // closed in 10 minutes, should not send closing email anymore
+        // closed in 10 minutes, should not send closing soon email anymore
         assertTrue(fsLogic.getFeedbackSession(
-                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosingEmail());
+                typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentClosingSoonEmail());
 
         ______TS("published email sent, whether the updated session is published determines the "
                 + "publish email sending status");

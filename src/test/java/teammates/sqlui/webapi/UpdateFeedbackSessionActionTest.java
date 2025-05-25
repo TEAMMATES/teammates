@@ -157,7 +157,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 7, timeZone).toEpochMilli());
 
-        updateRequest.setClosingEmailEnabled(false);
+        updateRequest.setClosingSoonEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
 
         Map<String, Long> instructorDeadlines = new HashMap<>();

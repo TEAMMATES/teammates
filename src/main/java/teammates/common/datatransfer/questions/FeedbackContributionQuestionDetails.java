@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.SqlSessionResultsBundle;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -21,6 +22,8 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Contains specific structure and processing logic for contribution feedback questions.
@@ -68,6 +71,99 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public boolean isIndividualResponsesShownToStudents() {
         return false;
+    }
+
+    @Override
+    public String getQuestionResultStatisticsJson(
+            FeedbackQuestion question, String studentEmail, SqlSessionResultsBundle bundle) {
+        List<FeedbackResponse> responses = bundle.getQuestionResponseMap().get(question);
+
+        boolean isStudent = studentEmail != null;
+
+        List<String> teamNames;
+        if (isStudent) {
+            teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        } else {
+            teamNames = new ArrayList<>(bundle.getRoster().getTeamToMembersTable().keySet());
+        }
+
+        // Each team's member (email) list
+        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
+
+        // Each team's responses
+        Map<String, List<FeedbackResponse>> teamResponses = getTeamResponses(responses, bundle, teamNames);
+
+        // Get each team's submission array. -> int[teamSize][teamSize]
+        // Where int[0][1] refers points from student 0 to student 1
+        // Where student 0 is the 0th student in the list in teamMembersEmail
+        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArraySql(teamNames, teamMembersEmail, teamResponses);
+
+        // Each team's contribution question results.
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        ContributionStatistics output = new ContributionStatistics();
+
+        if (isStudent) {
+            String currentUserTeam = bundle.getRoster().getInfoForIdentifier(studentEmail).getTeamName();
+            TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
+            if (currentUserTeamResults != null) {
+                List<String> teamEmails = teamMembersEmail.get(currentUserTeam);
+                int currentUserIndex = teamEmails.indexOf(studentEmail);
+                int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
+                int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
+
+                int claimed = 0;
+                int perceived = 0;
+                Map<String, Integer> claimedOthers = new HashMap<>();
+                List<Integer> perceivedOthers = new ArrayList<>();
+
+                for (int i = 0; i < claimedNumbers.length; i++) {
+                    if (i == currentUserIndex) {
+                        claimed = claimedNumbers[i];
+                    } else {
+                        claimedOthers.put(teamEmails.get(i), claimedNumbers[i]);
+                    }
+                }
+
+                for (int i = 0; i < perceivedNumbers.length; i++) {
+                    if (i == currentUserIndex) {
+                        perceived = perceivedNumbers[i];
+                    } else {
+                        perceivedOthers.add(perceivedNumbers[i]);
+                    }
+                }
+                perceivedOthers.sort(Comparator.reverseOrder());
+
+                output.results.put(studentEmail, new ContributionStatisticsEntry(claimed, perceived,
+                        claimedOthers,
+                        perceivedOthers.stream().mapToInt(i -> i).toArray()));
+            }
+        } else {
+            Map<String, int[]> studentResults = getStudentResults(teamMembersEmail, teamResults);
+
+            for (Map.Entry<String, int[]> entry : studentResults.entrySet()) {
+                int[] summary = entry.getValue();
+                String email = entry.getKey();
+                String team = bundle.getRoster().getStudentForEmail(email).getTeam().getName();
+                List<String> teamEmails = teamMembersEmail.get(team);
+                TeamEvalResult teamResult = teamResults.get(team);
+                int studentIndex = teamEmails.indexOf(email);
+                Map<String, Integer> claimedOthers = new HashMap<>();
+                List<Integer> perceivedOthers = new ArrayList<>();
+                for (int i = 0; i < teamResult.normalizedPeerContributionRatio.length; i++) {
+                    if (i != studentIndex) {
+                        claimedOthers.put(teamEmails.get(i), teamResult.normalizedPeerContributionRatio[studentIndex][i]);
+                        perceivedOthers.add(teamResult.normalizedPeerContributionRatio[i][studentIndex]);
+                    }
+                }
+                perceivedOthers.sort(Comparator.reverseOrder());
+
+                output.results.put(email, new ContributionStatisticsEntry(summary[SUMMARY_INDEX_CLAIMED],
+                        summary[SUMMARY_INDEX_PERCEIVED],
+                        claimedOthers, perceivedOthers.stream().mapToInt(i -> i).toArray()));
+            }
+        }
+
+        return JsonUtils.toJson(output);
     }
 
     @Override
@@ -220,6 +316,35 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return teamSubmissionArray;
     }
 
+    private Map<String, int[][]> getTeamSubmissionArraySql(List<String> teamNames,
+                                                        Map<String, List<String>> teamMembersEmail,
+                                                        Map<String, List<FeedbackResponse>> teamResponses) {
+        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<>();
+        for (String team : teamNames) {
+            int teamSize = teamMembersEmail.get(team).size();
+            teamSubmissionArray.put(team, new int[teamSize][teamSize]);
+            //Initialize all as not submitted.
+            for (int i = 0; i < teamSize; i++) {
+                for (int j = 0; j < teamSize; j++) {
+                    teamSubmissionArray.get(team)[i][j] = Const.POINTS_NOT_SUBMITTED;
+                }
+            }
+            //Fill in submitted points
+            List<FeedbackResponse> teamResponseList = teamResponses.get(team);
+            List<String> memberEmailList = teamMembersEmail.get(team);
+            for (FeedbackResponse response : teamResponseList) {
+                int giverIndx = memberEmailList.indexOf(response.getGiver());
+                int recipientIndx = memberEmailList.indexOf(response.getRecipient());
+                if (giverIndx == -1 || recipientIndx == -1) {
+                    continue;
+                }
+                int points = ((FeedbackContributionResponseDetails) response.getFeedbackResponseDetailsCopy()).getAnswer();
+                teamSubmissionArray.get(team)[giverIndx][recipientIndx] = points;
+            }
+        }
+        return teamSubmissionArray;
+    }
+
     private Map<String, List<FeedbackResponseAttributes>> getTeamResponses(
             List<FeedbackResponseAttributes> responses, SessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponseAttributes>> teamResponses = new LinkedHashMap<>();
@@ -227,6 +352,21 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             teamResponses.put(teamName, new ArrayList<>());
         }
         for (FeedbackResponseAttributes response : responses) {
+            String team = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
+            if (teamResponses.containsKey(team)) {
+                teamResponses.get(team).add(response);
+            }
+        }
+        return teamResponses;
+    }
+
+    private Map<String, List<FeedbackResponse>> getTeamResponses(
+            List<FeedbackResponse> responses, SqlSessionResultsBundle bundle, List<String> teamNames) {
+        Map<String, List<FeedbackResponse>> teamResponses = new LinkedHashMap<>();
+        for (String teamName : teamNames) {
+            teamResponses.put(teamName, new ArrayList<>());
+        }
+        for (FeedbackResponse response : responses) {
             String team = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
             if (teamResponses.containsKey(team)) {
                 teamResponses.get(team).add(response);
@@ -247,10 +387,32 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return teamMembersEmail;
     }
 
+    private Map<String, List<String>> getTeamMembersEmail(
+            SqlSessionResultsBundle bundle, List<String> teamNames) {
+        Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
+        for (String teamName : teamNames) {
+            List<String> memberEmails = bundle.getRoster().getTeamToMembersTable().get(teamName)
+                    .stream().map(Student::getEmail)
+                    .collect(Collectors.toList());
+            teamMembersEmail.put(teamName, memberEmails);
+        }
+        return teamMembersEmail;
+    }
+
     private List<String> getTeamsWithAtLeastOneResponse(
             List<FeedbackResponseAttributes> responses, SessionResultsBundle bundle) {
         Set<String> teamNames = new HashSet<>();
         for (FeedbackResponseAttributes response : responses) {
+            String teamNameOfResponseGiver = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
+            teamNames.add(teamNameOfResponseGiver);
+        }
+        return new ArrayList<>(teamNames);
+    }
+
+    private List<String> getTeamsWithAtLeastOneResponse(
+            List<FeedbackResponse> responses, SqlSessionResultsBundle bundle) {
+        Set<String> teamNames = new HashSet<>();
+        for (FeedbackResponse response : responses) {
             String teamNameOfResponseGiver = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
             teamNames.add(teamNameOfResponseGiver);
         }

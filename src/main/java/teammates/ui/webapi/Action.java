@@ -124,6 +124,10 @@ public abstract class Action {
         this.sqlEmailGenerator = sqlEmailGenerator;
     }
 
+    public void setEmailGenerator(EmailGenerator emailGenerator) {
+        this.emailGenerator = emailGenerator;
+    }
+
     /**
      * Returns true if course has been migrated or does not exist in the datastore.
      */
@@ -151,7 +155,7 @@ public abstract class Action {
      */
     public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && !userInfo.isAdmin && !userInfo.id.equals(userParam)) {
+        if (userInfo != null && userParam != null && !userInfo.isAdmin && !userParam.equals(userInfo.id)) {
             throw new UnauthorizedAccessException("User " + userInfo.id
                     + " is trying to masquerade as " + userParam + " without admin permission.");
         }
