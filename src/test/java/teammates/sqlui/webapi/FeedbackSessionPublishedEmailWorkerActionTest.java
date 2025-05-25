@@ -109,8 +109,8 @@ public class FeedbackSessionPublishedEmailWorkerActionTest
         FeedbackSession expectedSession = new FeedbackSession(
                 session.getName(), session.getCourse(), session.getCreatorEmail(), session.getInstructions(),
                 session.getStartTime(), session.getEndTime(), session.getSessionVisibleFromTime(),
-                session.getResultsVisibleFromTime(), session.getGracePeriod(), session.isOpeningEmailEnabled(),
-                session.isClosingEmailEnabled(), session.isPublishedEmailEnabled());
+                session.getResultsVisibleFromTime(), session.getGracePeriod(), session.isOpenedEmailEnabled(),
+                session.isClosingSoonEmailEnabled(), session.isPublishedEmailEnabled());
 
         expectedSession.setPublishedEmailSent(true);
 
@@ -142,45 +142,11 @@ public class FeedbackSessionPublishedEmailWorkerActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_isAdmin_canAccess() {
+    void testAccessControl() {
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    public void testSpecificAccessControl_isInstructor_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-        };
-
-        loginAsInstructor("user-id");
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    public void testSpecificAccessControl_isStudent_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-        };
-
-        loginAsStudent("user-id");
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    public void testSpecificAccessControl_loggedOut_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-        };
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params);
     }
 }

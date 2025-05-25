@@ -65,11 +65,11 @@ public class FeedbackSession extends BaseEntity {
     @Convert(converter = DurationLongConverter.class)
     private Duration gracePeriod;
 
-    @Column(nullable = false)
-    private boolean isOpeningEmailEnabled;
+    @Column(nullable = false, name = "is_opening_email_enabled")
+    private boolean isOpenedEmailEnabled;
 
-    @Column(nullable = false)
-    private boolean isClosingEmailEnabled;
+    @Column(nullable = false, name = "is_closing_email_enabled")
+    private boolean isClosingSoonEmailEnabled;
 
     @Column(nullable = false)
     private boolean isPublishedEmailEnabled;
@@ -77,8 +77,8 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isOpeningSoonEmailSent;
 
-    @Column(nullable = false)
-    private boolean isOpenEmailSent;
+    @Column(nullable = false, name = "is_open_email_sent")
+    private boolean isOpenedEmailSent;
 
     @Column(nullable = false)
     private boolean isClosingSoonEmailSent;
@@ -108,7 +108,7 @@ public class FeedbackSession extends BaseEntity {
 
     public FeedbackSession(String name, Course course, String creatorEmail, String instructions, Instant startTime,
             Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean isOpenedEmailEnabled, boolean isClosingSoonEmailEnabled, boolean isPublishedEmailEnabled) {
         this.setId(UUID.randomUUID());
         this.setName(name);
         this.setCourse(course);
@@ -119,8 +119,8 @@ public class FeedbackSession extends BaseEntity {
         this.setSessionVisibleFromTime(sessionVisibleFromTime);
         this.setResultsVisibleFromTime(resultsVisibleFromTime);
         this.setGracePeriod(gracePeriod);
-        this.setOpeningEmailEnabled(isOpeningEmailEnabled);
-        this.setClosingEmailEnabled(isClosingEmailEnabled);
+        this.setOpenedEmailEnabled(isOpenedEmailEnabled);
+        this.setClosingSoonEmailEnabled(isClosingSoonEmailEnabled);
         this.setPublishedEmailEnabled(isPublishedEmailEnabled);
     }
 
@@ -149,7 +149,7 @@ public class FeedbackSession extends BaseEntity {
         FeedbackSession fs = new FeedbackSession(
                 name, course, creatorEmail, instructions, startTime,
                 endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                gracePeriod, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
+                gracePeriod, isOpenedEmailEnabled, isClosingSoonEmailEnabled, isPublishedEmailEnabled
         );
         fs.setId(getId());
         fs.setCreatedAt(getCreatedAt());
@@ -303,20 +303,20 @@ public class FeedbackSession extends BaseEntity {
         this.gracePeriod = Objects.requireNonNullElse(gracePeriod, Duration.ZERO);
     }
 
-    public boolean isOpeningEmailEnabled() {
-        return isOpeningEmailEnabled;
+    public boolean isOpenedEmailEnabled() {
+        return isOpenedEmailEnabled;
     }
 
-    public void setOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
-        this.isOpeningEmailEnabled = isOpeningEmailEnabled;
+    public void setOpenedEmailEnabled(boolean isOpenedEmailEnabled) {
+        this.isOpenedEmailEnabled = isOpenedEmailEnabled;
     }
 
-    public boolean isClosingEmailEnabled() {
-        return isClosingEmailEnabled;
+    public boolean isClosingSoonEmailEnabled() {
+        return isClosingSoonEmailEnabled;
     }
 
-    public void setClosingEmailEnabled(boolean isClosingEmailEnabled) {
-        this.isClosingEmailEnabled = isClosingEmailEnabled;
+    public void setClosingSoonEmailEnabled(boolean isClosingSoonEmailEnabled) {
+        this.isClosingSoonEmailEnabled = isClosingSoonEmailEnabled;
     }
 
     public boolean isPublishedEmailEnabled() {
@@ -351,12 +351,12 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningSoonEmailSent = isOpeningSoonEmailSent;
     }
 
-    public boolean isOpenEmailSent() {
-        return isOpenEmailSent;
+    public boolean isOpenedEmailSent() {
+        return isOpenedEmailSent;
     }
 
-    public void setOpenEmailSent(boolean isOpenEmailSent) {
-        this.isOpenEmailSent = isOpenEmailSent;
+    public void setOpenedEmailSent(boolean isOpenedEmailSent) {
+        this.isOpenedEmailSent = isOpenedEmailSent;
     }
 
     public boolean isClosingSoonEmailSent() {
@@ -405,10 +405,10 @@ public class FeedbackSession extends BaseEntity {
                 + ", creatorEmail=" + creatorEmail
                 + ", instructions=" + instructions + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
-                + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
-                + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
+                + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpenedEmailEnabled="
+                + isOpenedEmailEnabled + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
-                + ", isOpeningSoonEmailSent=" + isOpeningSoonEmailSent + ", isOpenEmailSent=" + isOpenEmailSent
+                + ", isOpeningSoonEmailSent=" + isOpeningSoonEmailSent + ", isOpenedEmailSent=" + isOpenedEmailSent
                 + ", isClosingSoonEmailSent=" + isClosingSoonEmailSent + ", isClosedEmailSent=" + isClosedEmailSent
                 + ", isPublishedEmailSent=" + isPublishedEmailSent + ", deadlineExtensions=" + deadlineExtensions
                 + ", feedbackQuestions=" + feedbackQuestions + ", createdAt=" + getCreatedAt()

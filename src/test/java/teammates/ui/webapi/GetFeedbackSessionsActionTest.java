@@ -398,14 +398,14 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         assertNull(data.getCustomSessionVisibleTimestamp());
         assertNull(data.getResponseVisibleSetting());
         assertNull(data.getCustomResponseVisibleTimestamp());
-        assertNull(data.getIsClosingEmailEnabled());
+        assertNull(data.getIsClosingSoonEmailEnabled());
         assertNull(data.getIsPublishedEmailEnabled());
         assertEquals(data.getCreatedAtTimestamp(), 0);
     }
 
     private void assertInformationHidden(FeedbackSessionData data) {
         assertNull(data.getGracePeriod());
-        assertNull(data.getIsClosingEmailEnabled());
+        assertNull(data.getIsClosingSoonEmailEnabled());
         assertNull(data.getIsPublishedEmailEnabled());
         assertEquals(data.getCreatedAtTimestamp(), 0);
     }
@@ -498,7 +498,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, data.getPublishStatus());
         }
 
-        assertEquals(expectedSession.isClosingEmailEnabled(), data.getIsClosingEmailEnabled());
+        assertEquals(expectedSession.isClosingSoonEmailEnabled(), data.getIsClosingSoonEmailEnabled());
         assertEquals(expectedSession.isPublishedEmailEnabled(), data.getIsPublishedEmailEnabled());
 
         assertEquals(expectedSession.getCreatedTime().toEpochMilli(), data.getCreatedAtTimestamp());

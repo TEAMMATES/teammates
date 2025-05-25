@@ -65,6 +65,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponseComment.toString()));
         }
 
+        feedbackResponseComment.setId(null);
         persist(feedbackResponseComment);
         return feedbackResponseComment;
     }

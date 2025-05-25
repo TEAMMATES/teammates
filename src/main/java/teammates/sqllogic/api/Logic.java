@@ -504,10 +504,10 @@ public class Logic {
 
     /**
      * Gets a list of deadline extensions with endTime coming up soon
-     * and possibly need a closing email to be sent.
+     * and possibly need a closing soon email to be sent.
      */
-    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
-        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingSoonEmail() {
+        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
     }
 
     /**
@@ -1481,6 +1481,13 @@ public class Logic {
     }
 
     /**
+     * Gets a list of students with the specified email.
+     */
+    public List<Student> getAllStudentsForEmail(String email) {
+        return usersLogic.getAllStudentsForEmail(email);
+    }
+
+    /**
      * Gets a feedbackResponse or null if it does not exist.
      */
     public FeedbackResponse getFeedbackResponse(UUID frId) {
@@ -1680,8 +1687,8 @@ public class Logic {
     /**
      * Returns a list of feedback sessions that need an "Open" email to be sent.
      */
-    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
-        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
     }
 
     /**

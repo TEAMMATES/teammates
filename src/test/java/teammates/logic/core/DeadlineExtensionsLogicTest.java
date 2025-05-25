@@ -47,7 +47,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         DeadlineExtensionAttributes deadlineExtension = DeadlineExtensionAttributes
                 .builder(VALID_COURSE_ID, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_LATER)
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
 
         DeadlineExtensionAttributes createdDeadlineExtension =
@@ -59,14 +59,14 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         assertEquals(deadlineExtension.getUserEmail(), createdDeadlineExtension.getUserEmail());
         assertEquals(deadlineExtension.getIsInstructor(), createdDeadlineExtension.getIsInstructor());
         assertEquals(deadlineExtension.getEndTime(), createdDeadlineExtension.getEndTime());
-        assertEquals(deadlineExtension.getSentClosingEmail(), createdDeadlineExtension.getSentClosingEmail());
+        assertEquals(deadlineExtension.getSentClosingSoonEmail(), createdDeadlineExtension.getSentClosingSoonEmail());
 
         ______TS("failure: duplicate deadline extension");
 
         DeadlineExtensionAttributes duplicateDeadlineExtension = DeadlineExtensionAttributes
                 .builder(VALID_COURSE_ID, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_LATER)
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
 
         assertThrows(EntityAlreadyExistsException.class,
@@ -135,7 +135,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
                         deadlineExtension.getUserEmail(),
                         deadlineExtension.getIsInstructor())
                 .withEndTime(now)
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .build();
 
         deadlineExtensionsLogic.updateDeadlineExtension(updateOptions);
@@ -151,9 +151,9 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         assertEquals(deadlineExtension.getUserEmail(), updatedDeadlineExtension.getUserEmail());
         assertEquals(deadlineExtension.getIsInstructor(), updatedDeadlineExtension.getIsInstructor());
         assertEquals(now, updatedDeadlineExtension.getEndTime());
-        assertTrue(updatedDeadlineExtension.getSentClosingEmail());
+        assertTrue(updatedDeadlineExtension.getSentClosingSoonEmail());
 
-        ______TS("endTime modified, sentClosingEmail not set: sentClosingEmail updated to false");
+        ______TS("endTime modified, sentClosingSoonEmail not set: sentClosingSoonEmail updated to false");
 
         updateOptions = DeadlineExtensionAttributes
                 .updateOptionsBuilder(
@@ -177,13 +177,13 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         assertEquals(deadlineExtension.getUserEmail(), updatedDeadlineExtension.getUserEmail());
         assertEquals(deadlineExtension.getIsInstructor(), updatedDeadlineExtension.getIsInstructor());
         assertEquals(Const.TIME_REPRESENTS_LATER, updatedDeadlineExtension.getEndTime());
-        assertFalse(updatedDeadlineExtension.getSentClosingEmail());
+        assertFalse(updatedDeadlineExtension.getSentClosingSoonEmail());
 
         ______TS("failure: deadline extension not found");
         DeadlineExtensionAttributes.UpdateOptions updateOptionsNotFound = DeadlineExtensionAttributes
                 .updateOptionsBuilder("unknown-course-id", "unknown-fs-name", "unknown@gmail.tmt", true)
                 .withEndTime(Const.TIME_REPRESENTS_LATER)
-                .withSentClosingEmail(!deadlineExtension.getSentClosingEmail())
+                .withSentClosingSoonEmail(!deadlineExtension.getSentClosingSoonEmail())
                 .build();
 
         assertThrows(EntityDoesNotExistException.class,
@@ -375,37 +375,37 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGetDeadlineExtensionsPossiblyNeedingClosingEmail() throws Exception {
+    public void testGetDeadlineExtensionsPossiblyNeedingClosingSoonEmail() throws Exception {
         String validCourseId = VALID_COURSE_ID + "-closing";
 
         DeadlineExtensionAttributes deadlineExtensionNow = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "1-" + VALID_USER_EMAIL, false)
-                .withSentClosingEmail(false)
+                .withSentClosingSoonEmail(false)
                 .withEndTime(Instant.now().plusSeconds(10))
                 .build();
         DeadlineExtensionAttributes deadlineExtensionTwelveHoursAhead = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "2-" + VALID_USER_EMAIL, false)
-                .withSentClosingEmail(false)
+                .withSentClosingSoonEmail(false)
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
                 .build();
         DeadlineExtensionAttributes deadlineExtensionOneDayAhead = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "3-" + VALID_USER_EMAIL, false)
-                .withSentClosingEmail(false)
+                .withSentClosingSoonEmail(false)
                 .withEndTime(TimeHelper.getInstantDaysOffsetFromNow(1))
                 .build();
         DeadlineExtensionAttributes deadlineExtensionInstructor = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "4-" + VALID_USER_EMAIL, true)
-                .withSentClosingEmail(false)
+                .withSentClosingSoonEmail(false)
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
                 .build();
         DeadlineExtensionAttributes deadlineExtensionOneDayBefore = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "5-" + VALID_USER_EMAIL, false)
-                .withSentClosingEmail(false)
+                .withSentClosingSoonEmail(false)
                 .withEndTime(TimeHelper.getInstantDaysOffsetBeforeNow(1))
                 .build();
         DeadlineExtensionAttributes deadlineExtensionEmailSent = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "6-" + VALID_USER_EMAIL, false)
-                .withSentClosingEmail(true)
+                .withSentClosingSoonEmail(true)
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
                 .build();
 
@@ -418,7 +418,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         }
 
         List<DeadlineExtensionAttributes> deadlineExtensionsNeedingClosing =
-                deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+                deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
         assertTrue(deadlineExtensionsNeedingClosing.contains(deadlineExtensionNow));
         assertTrue(deadlineExtensionsNeedingClosing.contains(deadlineExtensionTwelveHoursAhead));
@@ -430,7 +430,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         for (var deadlineExtension : deadlineExtensionsNeedingClosing) {
             assertTrue(deadlineExtension.getEndTime().isAfter(Instant.now().minusSeconds(60)));
             assertTrue(deadlineExtension.getEndTime().isBefore(TimeHelper.getInstantDaysOffsetFromNow(1).plusSeconds(60)));
-            assertFalse(deadlineExtension.getSentClosingEmail());
+            assertFalse(deadlineExtension.getSentClosingSoonEmail());
         }
     }
 

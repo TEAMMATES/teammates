@@ -15,7 +15,7 @@ import teammates.ui.output.AuthInfo;
  *
  * <p>This does not log in or log out the user.
  */
-class GetAuthInfoAction extends Action {
+public class GetAuthInfoAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
@@ -67,7 +67,10 @@ class GetAuthInfoAction extends Action {
         return new JsonResult(output, cookieList);
     }
 
-    String createLoginUrl(String frontendUrl, String nextUrl) {
+    /**
+     * Returns a LoginURL based on the frontendURL and nextURL.
+     */
+    public static String createLoginUrl(String frontendUrl, String nextUrl) {
         return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
     }
 

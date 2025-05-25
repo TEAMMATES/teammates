@@ -7,7 +7,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Actions: sends an error report to the system admin.
  */
-class SendErrorReportAction extends Action {
+public class SendErrorReportAction extends Action {
     private static final Logger log = Logger.getLogger();
 
     @Override
@@ -34,7 +34,7 @@ class SendErrorReportAction extends Action {
     /**
      * Gets the user error report that will be sent to the system admin.
      */
-    String getUserErrorReportLogMessage(ErrorReportRequest report) {
+    public String getUserErrorReportLogMessage(ErrorReportRequest report) {
         String user = userInfo == null ? "Non-logged in user" : userInfo.id;
         return "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
                 + "USER: " + user + System.lineSeparator()
@@ -42,5 +42,4 @@ class SendErrorReportAction extends Action {
                 + "SUBJECT: " + report.getSubject() + System.lineSeparator()
                 + "CONTENT: " + report.getContent();
     }
-
 }

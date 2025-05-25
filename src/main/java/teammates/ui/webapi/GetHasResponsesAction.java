@@ -146,11 +146,12 @@ public class GetHasResponsesAction extends Action {
             return new JsonResult(new HasResponsesData(sessionsHasResponses));
         }
 
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
 
-        StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+        Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
         return new JsonResult(new HasResponsesData(
-                logic.isFeedbackSessionAttemptedByStudent(feedbackSession, student.getEmail(), student.getTeam())));
+                sqlLogic.isFeedbackSessionAttemptedByStudent(
+                        feedbackSession, student.getEmail(), student.getTeamName())));
     }
 
     private JsonResult handleInstructorReq() {
