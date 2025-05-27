@@ -49,14 +49,14 @@ public class InstructorCourseStudentDetailsEditPageSql extends AppPage {
     }
 
     public void verifyStudentDetails(Student student) {
-        assertEquals(student.getCourse().getId(), courseId.getText());
+        assertEquals(student.getCourseId(), courseId.getText());
         assertEquals(student.getName(), studentNameTextbox.getAttribute("value"));
         if (student.getSection() == null) {
             assertEquals("None", sectionNameTextbox.getAttribute("value"));
         } else {
-            assertEquals(student.getSection().getName(), sectionNameTextbox.getAttribute("value"));
+            assertEquals(student.getSectionName(), sectionNameTextbox.getAttribute("value"));
         }
-        assertEquals(student.getTeam().getName(), teamNameTextbox.getAttribute("value"));
+        assertEquals(student.getTeamName(), teamNameTextbox.getAttribute("value"));
         assertEquals(student.getEmail(), studentEmailTextbox.getAttribute("value"));
         if (student.getComments() != null) {
             assertEquals(student.getComments(), commentsTextbox.getAttribute("value"));
@@ -65,8 +65,8 @@ public class InstructorCourseStudentDetailsEditPageSql extends AppPage {
 
     public void editStudentDetails(Student newStudent) {
         fillTextBox(studentNameTextbox, newStudent.getName());
-        fillTextBox(sectionNameTextbox, newStudent.getSection().getName());
-        fillTextBox(teamNameTextbox, newStudent.getTeam().getName());
+        fillTextBox(sectionNameTextbox, newStudent.getSectionName());
+        fillTextBox(teamNameTextbox, newStudent.getTeamName());
         if (newStudent.getComments() != null) {
             fillTextBox(commentsTextbox, newStudent.getComments());
         }

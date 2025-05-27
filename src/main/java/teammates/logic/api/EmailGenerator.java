@@ -47,8 +47,8 @@ public final class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
                                         + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
-    private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon"
+    private static final String FEEDBACK_STATUS_SESSION_OPENED = "is now open";
+    private static final String FEEDBACK_STATUS_SESSION_CLOSING_SOON = "is closing soon"
                                         + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
     private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
     private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
@@ -73,13 +73,13 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the feedback session opening emails for the given {@code session}.
+     * Generates the feedback session opened emails for the given {@code session}.
      */
-    public List<EmailWrapper> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) {
-        return generateFeedbackSessionOpeningOrClosingEmails(session, EmailType.FEEDBACK_OPENING);
+    public List<EmailWrapper> generateFeedbackSessionOpenedEmails(FeedbackSessionAttributes session) {
+        return generateFeedbackSessionOpenedOrClosingSoonEmails(session, EmailType.FEEDBACK_OPENED);
     }
 
-    private List<EmailWrapper> generateFeedbackSessionOpeningOrClosingEmails(
+    private List<EmailWrapper> generateFeedbackSessionOpenedOrClosingSoonEmails(
             FeedbackSessionAttributes session, EmailType emailType) {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
@@ -94,7 +94,7 @@ public final class EmailGenerator {
                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                 : new ArrayList<>();
 
-        if (emailType == EmailType.FEEDBACK_CLOSING) {
+        if (emailType == EmailType.FEEDBACK_CLOSING_SOON) {
             Map<String, Instant> studentDeadlines = session.getStudentDeadlines();
             students = students.stream()
                     .filter(x -> !studentDeadlines.containsKey(x.getEmail()))
@@ -106,12 +106,12 @@ public final class EmailGenerator {
                     .collect(Collectors.toList());
         }
 
-        String status = emailType == EmailType.FEEDBACK_OPENING
-                ? FEEDBACK_STATUS_SESSION_OPENING
-                : FEEDBACK_STATUS_SESSION_CLOSING;
+        String status = emailType == EmailType.FEEDBACK_OPENED
+                ? FEEDBACK_STATUS_SESSION_OPENED
+                : FEEDBACK_STATUS_SESSION_CLOSING_SOON;
 
-        String template = emailType == EmailType.FEEDBACK_OPENING
-                ? EmailTemplates.USER_FEEDBACK_SESSION_OPENING.replace("${status}", status)
+        String template = emailType == EmailType.FEEDBACK_OPENED
+                ? EmailTemplates.USER_FEEDBACK_SESSION_OPENED.replace("${status}", status)
                 : EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
@@ -260,7 +260,7 @@ public final class EmailGenerator {
         List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail()) {
+            if (fsa.isSentOpenedEmail() || fsa.isSentPublishedEmail()) {
                 sessions.add(fsa);
             }
         }
@@ -484,12 +484,12 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the feedback session closing emails for the given {@code session}.
+     * Generates the feedback session closing soon emails for the given {@code session}.
      *
      * <p>Students and instructors with deadline extensions are not notified.
      */
-    public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
-        return generateFeedbackSessionOpeningOrClosingEmails(session, EmailType.FEEDBACK_CLOSING);
+    public List<EmailWrapper> generateFeedbackSessionClosingSoonEmails(FeedbackSessionAttributes session) {
+        return generateFeedbackSessionOpenedOrClosingSoonEmails(session, EmailType.FEEDBACK_CLOSING_SOON);
     }
 
     /**
@@ -500,7 +500,7 @@ public final class EmailGenerator {
     }
 
     /**
-    * Generates the feedback session closing emails for users with deadline extensions.
+    * Generates the feedback session closing soon emails for users with deadline extensions.
     */
     public List<EmailWrapper> generateFeedbackSessionClosingWithExtensionEmails(
             FeedbackSessionAttributes session, List<DeadlineExtensionAttributes> deadlineExtensions) {
@@ -537,8 +537,8 @@ public final class EmailGenerator {
             }
         }
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
-        EmailType type = EmailType.FEEDBACK_CLOSING;
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING_SOON);
+        EmailType type = EmailType.FEEDBACK_CLOSING_SOON;
         String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
         List<EmailWrapper> emails = new ArrayList<>();
         for (StudentAttributes student : students) {
