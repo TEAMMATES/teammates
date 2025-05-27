@@ -25,7 +25,7 @@ import teammates.ui.request.Intent;
 /**
  * Get all responses given by the user for a question.
  */
-class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
+public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
     @Override
     AuthType getMinAuthLevel() {

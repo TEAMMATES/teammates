@@ -29,8 +29,8 @@ public final class DeadlineExtensionsLogic {
     /**
      * Updates a deadline extension.
      *
-     * <p>If {@code endTimeOption} is present and {@code sentClosingEmailOption}
-     * is not explicitly set, update {@code sentClosingEmailOption} to false.
+     * <p>If {@code endTimeOption} is present and {@code sentClosingSoonEmailOption}
+     * is not explicitly set, update {@code sentClosingSoonEmailOption} to false.
      *
      * @return the updated deadline extension
      * @throws InvalidParametersException if the updated deadline extension is not valid
@@ -39,10 +39,10 @@ public final class DeadlineExtensionsLogic {
     public DeadlineExtensionAttributes updateDeadlineExtension(DeadlineExtensionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
 
-        // reset sentClosingEmail if the session deadline is updated and sentClosingEmailOption is not explicitly set
-        if (updateOptions.isEndTimeOptionPresent() && !updateOptions.isSentClosingEmailOptionPresent()) {
+        // reset sentClosingSoonEmail if the session deadline is updated and sentClosingSoonEmailOption is not explicitly set
+        if (updateOptions.isEndTimeOptionPresent() && !updateOptions.isSentClosingSoonEmailOptionPresent()) {
             return deDb.updateDeadlineExtension(DeadlineExtensionAttributes.updateOptionsBuilder(updateOptions)
-                    .withSentClosingEmail(false)
+                    .withSentClosingSoonEmail(false)
                     .build());
         }
 
@@ -118,10 +118,10 @@ public final class DeadlineExtensionsLogic {
 
     /**
      * Gets a list of deadline extensions with end time coming up soon
-     * and possibly need a closing email to be sent.
+     * and possibly need a closing soon email to be sent.
      */
-    public List<DeadlineExtensionAttributes> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
-        return deDb.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    public List<DeadlineExtensionAttributes> getDeadlineExtensionsPossiblyNeedingClosingSoonEmail() {
+        return deDb.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
     }
 
 }
