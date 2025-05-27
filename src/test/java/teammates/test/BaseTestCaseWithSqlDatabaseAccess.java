@@ -112,7 +112,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             DeadlineExtensionData actualDeadlineExtension = (DeadlineExtensionData) actual;
             assertEquals(expectedDeadlineExtension.getEndTime().toEpochMilli(), actualDeadlineExtension.getEndTime());
             assertEquals(expectedDeadlineExtension.isClosingSoonEmailSent(),
-                    actualDeadlineExtension.getSentClosingEmail());
+                    actualDeadlineExtension.getSentClosingSoonEmail());
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
             FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
@@ -136,8 +136,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
                     actualFeedbackSession.getResultVisibleFromTimestamp().longValue());
             assertEquals(expectedFeedbackSession.getGracePeriod().toMinutes(),
                     actualFeedbackSession.getGracePeriod().longValue());
-            assertEquals(expectedFeedbackSession.isClosingEmailEnabled(),
-                    actualFeedbackSession.getIsClosingEmailEnabled());
+            assertEquals(expectedFeedbackSession.isClosingSoonEmailEnabled(),
+                    actualFeedbackSession.getIsClosingSoonEmailEnabled());
             assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
                     actualFeedbackSession.getIsPublishedEmailEnabled());
         } else if (expected instanceof Instructor) {

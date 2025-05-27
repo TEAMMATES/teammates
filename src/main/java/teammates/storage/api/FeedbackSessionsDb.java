@@ -146,18 +146,18 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
      * Gets a list of undeleted feedback sessions which start within the last 2 hours
      * and possibly need an open email to be sent.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpenEmail()).stream()
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenedEmail() {
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpenedEmail()).stream()
                 .filter(session -> !session.isSessionDeleted())
                 .collect(Collectors.toList());
     }
 
     /**
      * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
-     * and possibly need a closing email to be sent.
+     * and possibly need a closing soon email to be sent.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
-        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosingEmail()).stream()
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingSoonEmail() {
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosingSoonEmail()).stream()
                 .filter(session -> !session.isSessionDeleted())
                 .collect(Collectors.toList());
     }
@@ -233,15 +233,15 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
                 && this.<Boolean>hasSameValue(
                         feedbackSession.isSentOpeningSoonEmail(), newAttributes.isSentOpeningSoonEmail())
                 && this.<Boolean>hasSameValue(
-                        feedbackSession.isSentOpenEmail(), newAttributes.isSentOpenEmail())
+                        feedbackSession.isSentOpenedEmail(), newAttributes.isSentOpenedEmail())
                 && this.<Boolean>hasSameValue(
-                        feedbackSession.isSentClosingEmail(), newAttributes.isSentClosingEmail())
+                        feedbackSession.isSentClosingSoonEmail(), newAttributes.isSentClosingSoonEmail())
                 && this.<Boolean>hasSameValue(
                         feedbackSession.isSentClosedEmail(), newAttributes.isSentClosedEmail())
                 && this.<Boolean>hasSameValue(
                         feedbackSession.isSentPublishedEmail(), newAttributes.isSentPublishedEmail())
                 && this.<Boolean>hasSameValue(
-                        feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
+                        feedbackSession.isClosingSoonEmailEnabled(), newAttributes.isClosingSoonEmailEnabled())
                 && this.<Boolean>hasSameValue(
                         feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled())
                 && this.<Map<String, Instant>>hasSameValue(
@@ -262,11 +262,11 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         feedbackSession.setTimeZone(newAttributes.getTimeZone());
         feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
         feedbackSession.setSentOpeningSoonEmail(newAttributes.isSentOpeningSoonEmail());
-        feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());
-        feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
+        feedbackSession.setSentOpenedEmail(newAttributes.isSentOpenedEmail());
+        feedbackSession.setSentClosingSoonEmail(newAttributes.isSentClosingSoonEmail());
         feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
         feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
-        feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
+        feedbackSession.setSendClosingSoonEmail(newAttributes.isClosingSoonEmailEnabled());
         feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
         feedbackSession.setStudentDeadlines(newAttributes.getStudentDeadlines());
         feedbackSession.setInstructorDeadlines(newAttributes.getInstructorDeadlines());
@@ -358,18 +358,20 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
                 .list();
     }
 
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenedEmail() {
         return load()
                 .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
-                .filter("sentOpenEmail =", false)
+                .filter("sentOpenedEmail =", false)
                 .list();
     }
 
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingSoonEmail() {
         return load()
+                // Retrieve sessions with endTime from 2 days ago onwards to prevent issues caused by time zone differences
                 .filter("endTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
-                .filter("sentClosingEmail =", false)
-                .filter("isClosingEmailEnabled =", true)
+                .filter("sentClosingSoonEmail =", false)
+                .filter("isClosingSoonEmailEnabled =", true)
+                .filter("sentClosedEmail =", false)
                 .list();
     }
 
@@ -377,7 +379,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         return load()
                 .filter("endTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentClosedEmail =", false)
-                .filter("isClosingEmailEnabled =", true)
+                .filter("isClosingSoonEmailEnabled =", true)
                 .list();
     }
 
