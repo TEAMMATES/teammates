@@ -64,6 +64,9 @@ export class QuestionResponsePanelComponent {
   @Input()
   previewAsPerson: string = '';
 
+  @Input()
+  hideSelfResponses: boolean = false;
+
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
     if (this.intent === Intent.STUDENT_RESULT) {
