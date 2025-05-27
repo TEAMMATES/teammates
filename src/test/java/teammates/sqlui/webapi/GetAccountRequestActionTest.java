@@ -83,33 +83,12 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString(),
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_notAdmin_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString(),
-        };
-
-        loginAsUnregistered("unregistered");
-        verifyCannotAccess(params);
-
-        loginAsStudent("student");
-        verifyCannotAccess(params);
-
-        loginAsInstructor("instructor");
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params);
     }
 
     private void verifyAccountRequest(AccountRequestData output, AccountRequest accountRequest) {
