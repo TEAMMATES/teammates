@@ -78,7 +78,7 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
     this.simpleModalService.openConfirmationModal(
       'Reset Choices?',
       SimpleModalType.WARNING,
-      'Are you sure you want to reset your choices? This action cannot be reverted',
+      'Are you sure you want to reset your choices? This action cannot be reverted.',
     ).result.then(() => {
         this.resetRubricAnswer();
     }, () => {});
