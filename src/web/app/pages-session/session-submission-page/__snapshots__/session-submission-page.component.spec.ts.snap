@@ -3086,9 +3086,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rubric-question-edit-answer-form>
                       <div>
-                        <div
-                          class="table-container"
-                        >
+                        <div>
                           <table
                             aria-label="Response for Barry Harris"
                             class="table table-bordered desktop-view"
@@ -3099,12 +3097,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 <th
                                   scope="col"
                                 >
-                                  choice 1
+                                   choice 1 
                                 </th>
                                 <th
                                   scope="col"
                                 >
-                                  choice 2
+                                   choice 2 
                                 </th>
                               </tr>
                             </thead>
@@ -3116,7 +3114,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fw-normal"
                                   scope="row"
                                 >
-                                  subquestion 1
+                                   subquestion 1 
                                 </th>
                                 <td
                                   class="text-secondary answer-cell"
@@ -3154,7 +3152,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fw-normal"
                                   scope="row"
                                 >
-                                  subquestion 2
+                                   subquestion 2 
                                 </th>
                                 <td
                                   class="text-secondary answer-cell"
@@ -3265,12 +3263,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           <button
                             class="btn btn-warning"
                             id="btn-reset"
-                            name="button-reset"
-                            ngbtooltip="Reset current choices"
-                            title="Reset choices"
                             type="button"
                           >
-                             Reset choices 
+                             Reset Choices 
                           </button>
                         </div>
                       </div>
@@ -6217,9 +6212,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rubric-question-edit-answer-form>
                       <div>
-                        <div
-                          class="table-container"
-                        >
+                        <div>
                           <table
                             aria-label="Response for Barry Harris"
                             class="table table-bordered desktop-view"
@@ -6230,12 +6223,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 <th
                                   scope="col"
                                 >
-                                  choice 1
+                                   choice 1 
                                 </th>
                                 <th
                                   scope="col"
                                 >
-                                  choice 2
+                                   choice 2 
                                 </th>
                               </tr>
                             </thead>
@@ -6247,7 +6240,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fw-normal"
                                   scope="row"
                                 >
-                                  subquestion 1
+                                   subquestion 1 
                                 </th>
                                 <td
                                   class="text-secondary answer-cell"
@@ -6287,7 +6280,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fw-normal"
                                   scope="row"
                                 >
-                                  subquestion 2
+                                   subquestion 2 
                                 </th>
                                 <td
                                   class="text-secondary answer-cell"
@@ -6405,12 +6398,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             class="btn btn-warning"
                             disabled=""
                             id="btn-reset"
-                            name="button-reset"
-                            ngbtooltip="Reset current choices"
-                            title="Reset choices"
                             type="button"
                           >
-                             Reset choices 
+                             Reset Choices 
                           </button>
                         </div>
                       </div>
