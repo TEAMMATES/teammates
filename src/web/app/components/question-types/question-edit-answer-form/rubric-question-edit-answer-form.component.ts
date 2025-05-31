@@ -85,8 +85,8 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
   }
 
   resetRubricAnswer(): void {
-    const resettedAnswer: number[] =
+    const resetAnswer: number[] =
         Array(this.questionDetails.rubricSubQuestions.length).fill(RUBRIC_ANSWER_NOT_CHOSEN);
-    this.triggerResponseDetailsChange('answer', resettedAnswer);
+    this.triggerResponseDetailsChange('answer', resetAnswer);
   }
 }
