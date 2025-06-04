@@ -6,6 +6,15 @@
 
 Data migration is necessary when a new, possibly backwards-incompatible, schema is introduced in the code base.
 
+## SQL Database and Twin‑DB Architecture
+
+TEAMMATES has transitioned to an SQL database along with a twin‑DB architecture. This means:
+  
+- **SQL Database:** The traditional datastore is now powered by SQL, offering improved scalability and reliable data handling.
+- **Twin‑DB Architecture:** We now run two databases concurrently—a primary and a secondary (or replica). This dual configuration enables seamless data migrations and ensures that even in transition phases, both the legacy and updated systems remain operational.
+
+Developers should account for interactions between both database environments. Conversion scripts and code meant to migrate data must verify and handle the SQL data structures alongside any legacy formats during the interim period.
+
 ## Making code work for both schemas
 
 Initially, the breaking change should be written such that it works for both the old data schema and the new data schema. This can be done in two ways:
