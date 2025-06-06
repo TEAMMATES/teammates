@@ -650,35 +650,35 @@ public class FeedbackSubmitPageSql extends AppPage {
 
     private String getViewerString(FeedbackParticipantType viewerType, FeedbackParticipantType recipientType) {
         switch (viewerType) {
-            case RECEIVER:
-                return "The receiving " + getRecipientString(recipientType);
-            case OWN_TEAM_MEMBERS:
-                return "Your team members";
-            case STUDENTS:
-                return "Other students in the course";
-            case INSTRUCTORS:
-                return "Instructors in this course";
-            default:
-                throw new RuntimeException("Unknown viewer type");
+        case RECEIVER:
+            return "The receiving " + getRecipientString(recipientType);
+        case OWN_TEAM_MEMBERS:
+            return "Your team members";
+        case STUDENTS:
+            return "Other students in the course";
+        case INSTRUCTORS:
+            return "Instructors in this course";
+        default:
+            throw new RuntimeException("Unknown viewer type");
         }
     }
 
     private String getRecipientString(FeedbackParticipantType recipientType) {
         switch (recipientType) {
-            case TEAMS:
-            case TEAMS_EXCLUDING_SELF:
-            case TEAMS_IN_SAME_SECTION:
-                return "teams";
-            case OWN_TEAM_MEMBERS:
-                return "student";
-            case STUDENTS:
-            case STUDENTS_EXCLUDING_SELF:
-            case STUDENTS_IN_SAME_SECTION:
-                return "students";
-            case INSTRUCTORS:
-                return "instructors";
-            default:
-                throw new RuntimeException("Unknown recipientType");
+        case TEAMS:
+        case TEAMS_EXCLUDING_SELF:
+        case TEAMS_IN_SAME_SECTION:
+            return "teams";
+        case OWN_TEAM_MEMBERS:
+            return "student";
+        case STUDENTS:
+        case STUDENTS_EXCLUDING_SELF:
+        case STUDENTS_IN_SAME_SECTION:
+            return "students";
+        case INSTRUCTORS:
+            return "instructors";
+        default:
+            throw new RuntimeException("Unknown recipientType");
         }
     }
 
