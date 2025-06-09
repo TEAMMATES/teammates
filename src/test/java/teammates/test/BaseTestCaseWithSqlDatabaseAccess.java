@@ -5,6 +5,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -12,11 +13,13 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.ui.output.AccountData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.ApiOutput;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.DeadlineExtensionData;
@@ -24,6 +27,7 @@ import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
@@ -218,24 +222,40 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private ApiOutput getEntity(BaseEntity entity) {
-        if (entity instanceof Student) {
-            return getStudent((Student) entity);
+        if (entity instanceof Account) {
+            return getAccount((Account) entity);
+        } else if (entity instanceof Course) {
+            return getCourse((Course) entity);
         } else if (entity instanceof FeedbackQuestion) {
             return getFeedbackQuestion((FeedbackQuestion) entity);
-        } else if (entity instanceof FeedbackSession) {
-            return getFeedbackSession((FeedbackSession) entity);
         } else if (entity instanceof FeedbackResponse) {
             return getFeedbackResponse((FeedbackResponse) entity);
+        } else if (entity instanceof FeedbackSession) {
+            return getFeedbackSession((FeedbackSession) entity);
+        } else if (entity instanceof Instructor) {
+            return getInstructor((Instructor) entity);
+        } else if (entity instanceof Notification) {
+            return getNotification((Notification) entity);
+        } else if (entity instanceof Student) {
+            return getStudent((Student) entity);
         } else {
             throw new RuntimeException("Unknown entity type");
         }
     }
 
+    protected abstract AccountData getAccount(Account account);
+
+    protected abstract CourseData getCourse(Course course);
+
     protected abstract FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq);
 
-    protected abstract FeedbackSessionData getFeedbackSession(FeedbackSession fq);
+    protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fr);
 
-    protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fq);
+    protected abstract FeedbackSessionData getFeedbackSession(FeedbackSession fs);
+
+    protected abstract InstructorData getInstructor(Instructor instructor);
+
+    protected abstract NotificationData getNotification(Notification notification);
 
     protected abstract StudentData getStudent(Student student);
 
