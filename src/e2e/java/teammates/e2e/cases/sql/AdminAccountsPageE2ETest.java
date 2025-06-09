@@ -29,7 +29,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId);
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
-        AccountData account = BACKDOOR.getAccountData(googleId);
+        AccountData account = getAccount(googleId);
         accountsPage.verifyAccountDetails(account);
 
         ______TS("action: remove instructor from course");
@@ -59,7 +59,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         accountsPage.clickDeleteAccount();
         accountsPage.verifyStatusMessage("Account \"" + googleId + "\" is successfully deleted.");
 
-        assertNull(BACKDOOR.getAccountData(googleId));
+        assertNull(getAccount(googleId));
 
         // student entities should be deleted
         verifyAbsentInDatabase(student2);
