@@ -20,17 +20,25 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.AccountData;
+import teammates.ui.output.CourseData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 
 /**
@@ -242,6 +250,24 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         }
     }
 
+    AccountData getAccount(String googleId) {
+        return BACKDOOR.getAccountData(googleId);
+    }
+
+    @Override
+    protected AccountData getAccount(Account account) {
+        return getAccount(account.getGoogleId());
+    }
+
+    CourseData getCourse(String courseId) {
+        return BACKDOOR.getCourseData(courseId);
+    }
+
+    @Override
+    protected CourseData getCourse(Course course) {
+        return getCourse(course.getId());
+    }
+
     FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
         return BACKDOOR.getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
     }
@@ -260,15 +286,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
     }
 
-    StudentData getStudent(String courseId, String studentEmailAddress) {
-        return BACKDOOR.getStudentData(courseId, studentEmailAddress);
-    }
-
-    @Override
-    protected StudentData getStudent(Student student) {
-        return getStudent(student.getCourseId(), student.getEmail());
-    }
-
     FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
         return BACKDOOR.getFeedbackSessionData(courseId, feedbackSessionName);
     }
@@ -276,6 +293,33 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     @Override
     protected FeedbackSessionData getFeedbackSession(FeedbackSession feedbackSession) {
         return getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
+    }
+
+    InstructorData getInstructor(String courseId, String instructorEmail) {
+        return BACKDOOR.getInstructorData(courseId, instructorEmail);
+    }
+
+    @Override
+    protected InstructorData getInstructor(Instructor instructor) {
+        return getInstructor(instructor.getCourseId(), instructor.getEmail());
+    }
+
+    NotificationData getNotification(String notificationId) {
+        return BACKDOOR.getNotificationData(notificationId);
+    }
+
+    @Override
+    protected NotificationData getNotification(Notification notification) {
+        return getNotification(notification.getId().toString());
+    }
+
+    StudentData getStudent(String courseId, String studentEmailAddress) {
+        return BACKDOOR.getStudentData(courseId, studentEmailAddress);
+    }
+
+    @Override
+    protected StudentData getStudent(Student student) {
+        return getStudent(student.getCourseId(), student.getEmail());
     }
 
     /**
