@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
@@ -250,6 +251,20 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         }
     }
 
+    /**
+     * Puts the documents in the database using BACKDOOR.
+     * @param dataBundle the data to be put in the database
+     * @return the result of the operation
+     */
+    protected String putDocuments(SqlDataBundle dataBundle) {
+        try {
+            return BACKDOOR.putSqlDocuments(dataBundle);
+        } catch (HttpRequestFailedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     AccountData getAccount(String googleId) {
         return BACKDOOR.getAccountData(googleId);
     }
@@ -295,6 +310,17 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
     }
 
+    /**
+     * Checks if the feedback session is published.
+     */
+    protected boolean isFeedbackSessionPublished(FeedbackSessionPublishStatus status) {
+        return status == FeedbackSessionPublishStatus.PUBLISHED;
+    }
+
+    FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
+    }
+
     InstructorData getInstructor(String courseId, String instructorEmail) {
         return BACKDOOR.getInstructorData(courseId, instructorEmail);
     }
@@ -313,6 +339,24 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getNotification(notification.getId().toString());
     }
 
+    /**
+     * Deletes the notification with the given ID.
+     *
+     * @param notificationId the ID of the notification to delete
+     */
+    protected void deleteNotification(UUID notificationId) {
+        BACKDOOR.deleteNotification(notificationId);
+    }
+
+    /**
+     * Deletes the notification with the given ID.
+     *
+     * @param notificationId the ID of the notification to delete
+     */
+    protected void deleteNotification(String notificationId) {
+        BACKDOOR.deleteNotification(notificationId);
+    }
+
     StudentData getStudent(String courseId, String studentEmailAddress) {
         return BACKDOOR.getStudentData(courseId, studentEmailAddress);
     }
@@ -320,30 +364,5 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     @Override
     protected StudentData getStudent(Student student) {
         return getStudent(student.getCourseId(), student.getEmail());
-    }
-
-    /**
-     * Checks if the feedback session is published.
-     */
-    protected boolean isFeedbackSessionPublished(FeedbackSessionPublishStatus status) {
-        return status == FeedbackSessionPublishStatus.PUBLISHED;
-    }
-
-    FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
-        return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
-    }
-
-    /**
-     * Puts the documents in the database using BACKDOOR.
-     * @param dataBundle the data to be put in the database
-     * @return the result of the operation
-     */
-    protected String putDocuments(SqlDataBundle dataBundle) {
-        try {
-            return BACKDOOR.putSqlDocuments(dataBundle);
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }
