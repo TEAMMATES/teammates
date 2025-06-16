@@ -6,13 +6,13 @@
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt"
     },
-    "tm.e2e.FMcqQn.alice.tmms": {
+    "tm.e2e.FCSumOptQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.FCSumOptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt"
     },
-    "tm.e2e.FMcqQn.benny.tmms": {
+    "tm.e2e.FCSumOptQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
       "googleId": "tm.e2e.FCSumOptQn.benny.tmms",
       "name": "Benny Charles",
@@ -176,6 +176,11 @@
   },
   "feedbackSessions": {
     "openSession": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.FCSumOptQn.CS2104"
+      },
+      "name": "First Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
@@ -193,14 +198,14 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.FCSumOptQn.CS2104"
-      },
-      "name": "First Session"
+      "instructorDeadlines": {}
     },
     "openSession2": {
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "tm.e2e.FCSumOptQn.CS1101"
+      },
+      "name": "Second Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for second session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
@@ -218,12 +223,7 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.FCSumOptQn.CS1101"
-      },
-      "name": "Second Session"
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {
