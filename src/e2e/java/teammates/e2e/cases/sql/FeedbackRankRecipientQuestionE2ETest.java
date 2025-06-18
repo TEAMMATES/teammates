@@ -23,7 +23,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
 
     @Override
     protected void prepareTestData() {
-        testData = doRemoveAndRestoreDataBundle(
+        testData = removeAndRestoreDataBundle(
                 loadSqlDataBundle("/FeedbackRankRecipientQuestionE2ETestSql.json"));
 
         instructor = testData.instructors.get("instructor");
