@@ -13,6 +13,7 @@
             <class name="teammates.e2e.cases.sql.AdminSearchPageE2ETest" />
             <class name="teammates.e2e.cases.sql.AdminSessionsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.AutomatedSessionRemindersE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackConstSumOptionQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackConstSumRecipientQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackContributionQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackMcqQuestionE2ETest" />
