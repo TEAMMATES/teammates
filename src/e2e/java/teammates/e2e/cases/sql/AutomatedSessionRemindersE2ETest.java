@@ -48,7 +48,7 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
 
         // Published time for one feedback session already set to some time in the past.
 
-        doRemoveAndRestoreDataBundle(testData);
+        removeAndRestoreDataBundle(testData);
     }
 
     @Override
