@@ -8,6 +8,7 @@ import {
 } from './question-submission-form-model';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
+import { SessionPageService } from '../../../services/session-page.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackConstantSumResponseDetails,
@@ -178,7 +179,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   autosaveTimeout: any;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
-    private feedbackResponseService: FeedbackResponsesService) {
+    private feedbackResponseService: FeedbackResponsesService,
+    private sessionPageService: SessionPageService) {
     this.visibilityStateMachine =
       this.feedbackQuestionsService.getNewVisibilityStateMachine(
         this.model.giverType, this.model.recipientType);
@@ -195,6 +197,16 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       }
     }
     return false;
+  }
+
+  ngOnInit(): void {
+    this.sessionPageService.isExpandedObservable.subscribe(
+      (toExpand: boolean) => {
+        if (this.model.isTabExpanded !== toExpand) {
+          this.toggleQuestionTab();
+        }
+      },
+    );
   }
 
   ngDoCheck(): void {
