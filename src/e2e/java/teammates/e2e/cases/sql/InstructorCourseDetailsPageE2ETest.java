@@ -5,13 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseDetailsPage;
+import teammates.e2e.pageobjects.InstructorCourseDetailsPageSql;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
@@ -36,17 +34,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
         downloadedFileName = "/" + course.getId() + "_studentList.csv";
-    }
-
-    @BeforeClass
-    public void classSetup() {
         deleteDownloadsFile(downloadedFileName);
-    }
-
-    @AfterClass
-    public void classTearDown() {
-        deleteDownloadsFile(downloadedFileName);
-        BACKDOOR.removeSqlDataBundle(testData);
     }
 
     @Test
@@ -55,8 +43,8 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         Instructor instructor1 = testData.instructors.get("ICDet.instr");
         AppUrl detailsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(course.getId());
-        InstructorCourseDetailsPage detailsPage =
-                loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class, instructor1.getGoogleId());
+        InstructorCourseDetailsPageSql detailsPage =
+                loginToPage(detailsPageUrl, InstructorCourseDetailsPageSql.class, instructor1.getGoogleId());
 
         ______TS("verify loaded details");
         List<Instructor> instructors = Arrays.asList(instructor1, testData.instructors.get("ICDet.instr2"));

@@ -24,7 +24,7 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = doRemoveAndRestoreDataBundle(loadSqlDataBundle("/AdminNotificationsPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminNotificationsPageE2ETestSql.json"));
         notifications[0] = testData.notifications.get("notification1");
         notifications[1] = testData.notifications.get("notification2");
     }

@@ -485,8 +485,10 @@ public final class DataBundleLogic {
             usersMap.put(student.getId(), student);
             Course course = coursesMap.get(student.getCourse().getId());
             student.setCourse(course);
-            Team team = teamsMap.get(student.getTeam().getId());
-            student.setTeam(team);
+            if (student.getTeam() != null) {
+                Team team = teamsMap.get(student.getTeam().getId());
+                student.setTeam(team);
+            }
             if (student.getAccount() != null) {
                 Account account = accountsMap.get(student.getAccount().getId());
                 student.setAccount(account);
