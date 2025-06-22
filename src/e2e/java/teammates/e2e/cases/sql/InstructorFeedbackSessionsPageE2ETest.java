@@ -18,8 +18,9 @@ import teammates.storage.sqlentity.Student;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSIONS_PAGE}.
  */
 public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase{
-    FeedbackSession openSession;
-    FeedbackSession openSession2;
+    FeedbackSession openSessionCs2104;
+    FeedbackSession openSession2Cs1101;
+    FeedbackSession newSession;
     Instructor instructor;
     Course course;
 
@@ -30,8 +31,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase{
         instructor = testData.instructors.get("IFSP.instr");
         course = testData.courses.get("IFSP.CS2104");
 
-        openSession = testData.feedbackSessions.get("openSession");
-        openSession2 = testData.feedbackSessions.get("openSession2");
+        openSessionCs2104 = testData.feedbackSessions.get("openSession");
+        openSession2Cs1101 = testData.feedbackSessions.get("openSession2");
 
 
 
@@ -46,26 +47,25 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase{
                 loginToPage(url, InstructorFeedbackSessionsPageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
-        FeedbackSession[] loadedSessions = {openSession2, openSession};
+        FeedbackSession[] loadedSessions = {openSession2Cs1101, openSessionCs2104};
         feedbackSessionsPage.verifySessionsTable(loadedSessions);
 
         ______TS("verify response rate");
-        feedbackSessionsPage.verifyResponseRate(openSession2, getExpectedResponseRate(openSession2));
-        feedbackSessionsPage.verifyResponseRate(openSession, getExpectedResponseRate(openSession));
+        feedbackSessionsPage.verifyResponseRate(openSession2Cs1101, getExpectedResponseRate(openSession2Cs1101));
+        feedbackSessionsPage.verifyResponseRate(openSessionCs2104, getExpectedResponseRate(openSessionCs2104));
 
-//        ______TS("add new session");
-//        FeedbackSession[] sessionsForAdded = { openSession2, openSession, newSession };
-//
-//        newSession = getTypicalFeedbackSessionForCourse(course);
-//         newSession.setCreatedAt(Instant.now());
-//        feedbackSessionsPage.addFeedbackSession(getTypicalFeedbackSessionForCourse(course), true);
-//        feedbackSessionsPage.verifyStatusMessage("The feedback session has been added."
-//                + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.");
-//        feedbackSessionsPage = getNewPageInstance(url,
-//                InstructorFeedbackSessionsPageSql.class);
-//        feedbackSessionsPage.sortBySessionsName();
-//        feedbackSessionsPage.verifySessionsTable(sessionsForAdded);
-//
+        ______TS("add new session");
+
+        newSession = getTypicalFeedbackSessionForCourse(course);
+        FeedbackSession[] sortedSessionsByName = { openSessionCs2104, openSession2Cs1101, newSession};
+        feedbackSessionsPage.addFeedbackSession(getTypicalFeedbackSessionForCourse(course), true);
+        feedbackSessionsPage.verifyStatusMessage("The feedback session has been added."
+                + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.");
+        feedbackSessionsPage = getNewPageInstance(url,
+                InstructorFeedbackSessionsPageSql.class);
+        feedbackSessionsPage.sortBySessionsName();
+        feedbackSessionsPage.verifySessionsTable(sortedSessionsByName);
+
 //        verifyPresentInDatabase(newSession);
 
 

@@ -153,26 +153,26 @@ public class InstructorFeedbackSessionsPageSql extends AppPage{
 
     public void addFeedbackSession(FeedbackSession newSession, boolean isUsingTemplate) {
         clickAddSessionButton();
-//        waitForElementPresence(By.id("session-edit-form"));
-//
-//        if (isUsingTemplate) {
-//            selectDropdownOptionByText(sessionTypeDropdown,
-//                    "session using template: team peer feedback (percentage-based)");
-//        } else {
-//            selectDropdownOptionByText(sessionTypeDropdown, "session with my own questions");
-//        }
-//
-//        selectDropdownOptionByText(courseIdDropdown, newSession.getCourseId());
+        waitForElementPresence(By.id("session-edit-form"));
+
+        if (isUsingTemplate) {
+            selectDropdownOptionByText(sessionTypeDropdown,
+                    "session using template: team peer feedback (percentage-based)");
+        } else {
+            selectDropdownOptionByText(sessionTypeDropdown, "session with my own questions");
+        }
+
+        selectDropdownOptionByText(courseIdDropdown, newSession.getCourseId());
         fillTextBox(sessionNameTextBox, newSession.getName());
-//        setInstructions(newSession.getInstructions());
-//        setSessionStartDateTime(newSession.getStartTime(), newSession.getCourse().getTimeZone());
-//        setSessionEndDateTime(newSession.getEndTime(), newSession.getCourse().getTimeZone());
-//        selectGracePeriod(newSession.getGracePeriod().toMinutes());
-//        setVisibilitySettings(newSession);
-//        setEmailSettings(newSession);
+        setInstructions(newSession.getInstructions());
+        setSessionStartDateTime(newSession.getStartTime(), newSession.getCourse().getTimeZone());
+        setSessionEndDateTime(newSession.getEndTime(), newSession.getCourse().getTimeZone());
+        selectGracePeriod(newSession.getGracePeriod().toMinutes());
+        setVisibilitySettings(newSession);
+        setEmailSettings(newSession);
 
         clickCreateSessionButton();
-//        waitForSessionEditPage();
+        waitForSessionEditPage();
     }
 
     public void addCopyOfSession(FeedbackSession sessionToCopy, Course copyToCourse,
