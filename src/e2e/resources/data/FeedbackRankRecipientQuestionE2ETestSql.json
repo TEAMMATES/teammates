@@ -1,46 +1,51 @@
 {
   "accounts": {
-    "instructorWithSessions": {
+    "instructor": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FRankOptQn.instructor",
+      "googleId": "tm.e2e.FRankRcptQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt"
     },
-    "tm.e2e.FRankOptQn.alice.tmms": {
+    "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FRankOptQn.alice.tmms",
+      "googleId": "tm.e2e.FRankRcptQn.instructor2",
+      "name": "Teammates Test 2",
+      "email": "tmms.test2@gmail.tmt"
+    },
+    "tm.e2e.FRankRcptQn.alice.tmms": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.FRankRcptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt"
     },
-    "tm.e2e.FRankOptQn.benny.tmms": {
-      "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FRankOptQn.benny.tmms",
+    "tm.e2e.FRankRcptQn.benny.tmms": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "tm.e2e.FRankRcptQn.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.c.tmms@gmail.tmt"
     },
-    "tm.e2e.FRankOptQn.charlie.tmms": {
-      "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "tm.e2e.FRankOptQn.charlie.tmms",
+    "tm.e2e.FRankRcptQn.charlie.tmms": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "googleId": "tm.e2e.FRankRcptQn.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.d.tmms@gmail.tmt"
     },
-    "tm.e2e.FRankOptQn.danny.tmms": {
-      "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "tm.e2e.FRankOptQn.danny.tmms",
+    "tm.e2e.FRankRcptQn.danny.tmms": {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "googleId": "tm.e2e.FRankRcptQn.danny.tmms",
       "name": "Danny Engrid",
-      "email": "Danny.e.tmms@gmail.tmt"
+      "email": "danny.e.tmms@gmail.tmt"
     }
   },
-  "accountRequests": {},
   "courses": {
     "course": {
-      "id": "tm.e2e.FRankOptQn.CS2104",
+      "id": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "tm.e2e.FRankOptQn.CS1101",
+      "id": "tm.e2e.FRankRcptQn.CS1101",
       "name": "Programming Methodology",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
@@ -48,9 +53,11 @@
   },
   "instructors": {
     "instructor": {
-      "id": "00000000-0000-4000-8000-000000000501",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS2104"
       },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
@@ -70,75 +77,71 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      },
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
       }
     },
     "instructor2": {
-      "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS1101"
-      },
-      "displayName": "Co-owner",
-      "email": "tmms.test@gmail.tmt",
-      "isDisplayedToStudents": true,
-      "name": "Teammates Test",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": true,
-          "canModifyInstructor": true,
-          "canModifySession": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyStudent": true,
-          "canSubmitSessionInSections": true,
-          "canViewSessionInSections": true,
-          "canViewStudentInSections": true
-        },
-        "sectionLevel": {
-        },
-        "sessionLevel": {
-        }
-      },
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER"
-    }
-  },
-  "sections": {
-    "ProgrammingLanguageConceptsSection1": {
-      "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
-      },
-      "name": "Section 1"
-    }
-  },
-  "teams": {
-    "ProgrammingLanguageConceptsTeam1": {
-      "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
-    },
-    "ProgrammingLanguageConceptsTeam2": {
-      "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 2"
-    }
-  },
-  "students": {
-    "alice.tmms@FRankOptQn.CS2104": {
-      "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
       "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
+        "id": "tm.e2e.FRankRcptQn.CS2104"
+      },
+      "name": "Teammates Test 2",
+      "email": "tmms.test2@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor3": {
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS1101"
+      },
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@FRankRcptQn.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000601",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000003"
+      },
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS2104"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -147,56 +150,91 @@
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@FRankOptQn.CS2104": {
+    "benny.tmms@FRankRcptQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "email": "benny.c.tmms@gmail.tmt",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
-    },
-    "charlie.tmms@FRankOptQn.CS2104": {
-      "id": "00000000-0000-4000-8000-000000000603",
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
       },
       "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
+        "id": "tm.e2e.FRankRcptQn.CS2104"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "email": "charlie.d.tmms@gmail.tmt",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "email": "benny.tmms@gmail.tmt",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles"
     },
-    "danny.tmms@FRankOptQn.CS2104": {
-      "id": "00000000-0000-4000-8000-000000000604",
+    "charlie.tmms@FRankRcptQn.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000603",
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
       },
       "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
+        "id": "tm.e2e.FRankRcptQn.CS2104"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "email": "FRankRcptQn.charlie.tmms@gmail.tmt",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis"
+    },
+    "danny.tmms@FRankRcptQn.CS1101": {
+      "id": "00000000-0000-4000-8000-000000000604",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000006"
+      },
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS1101"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
-      "email": "danny.e.tmms@gmail.tmt",
+      "email": "FRankRcptQn.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid"
+    }
+  },
+  "sections": {
+    "CS2104None": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS2104"
+      },
+      "name": "None"
+    },
+    "CS1101None": {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS1101"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "CS2104Team1": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000101"
+      },
+      "name": "Team 1"
+    },
+    "CS1101Team1": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000102"
+      },
+      "name": "Team 1"
     }
   },
   "feedbackSessions": {
     "openSession": {
       "id": "00000000-0000-4000-8000-000000000701",
       "name": "First Session",
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS2104"
+      },
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
@@ -214,14 +252,14 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
-      }
+      "instructorDeadlines": {}
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
       "name": "Second Session",
+      "course": {
+        "id": "tm.e2e.FRankRcptQn.CS1101"
+      },
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
@@ -239,12 +277,8 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS1101"
-      }
+      "instructorDeadlines": {}
     }
-
   },
   "feedbackQuestions": {
     "qn1ForFirstSession": {
@@ -253,21 +287,15 @@
         "id": "00000000-0000-4000-8000-000000000701"
       },
       "questionDetails": {
-        "areDuplicatesAllowed": false,
-        "questionType": "RANK_OPTIONS",
-        "questionText": "As a student, rank for every teammate, the areas of improvement that they should work on",
-        "maxOptionsToBeRanked" : 3,
-        "options": [
-          "Teamwork",
-          "Time management",
-          "Quality Control",
-          "Quality Assurance"
-        ]
+        "areDuplicatesAllowed": true,
+        "questionType": "RANK_RECIPIENTS",
+        "questionText": "Rank your instructors by approachability.",
+        "minOptionsToBeRanked": 1
       },
       "description": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -287,21 +315,15 @@
         "id": "00000000-0000-4000-8000-000000000702"
       },
       "questionDetails": {
-        "areDuplicatesAllowed": true,
-        "questionText": "As an student, rank for every team, the areas of improvement that they should work on",
-        "questionType": "RANK_OPTIONS",
-        "minOptionsToBeRanked": 1,
-        "options": [
-          "Teamwork",
-          "Time management",
-          "Quality Control",
-          "Quality Assurance"
-        ]
+        "areDuplicatesAllowed": false,
+        "questionType": "RANK_RECIPIENTS",
+        "questionText": "Rank your instructors by knowledge.",
+        "maxOptionsToBeRanked": 3
       },
       "description": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "TEAMS_EXCLUDING_SELF",
+      "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -316,7 +338,6 @@
       ]
     }
   },
-  "feedbackResponseComments": {},
-  "notifications": {},
-  "readNotifications": {}
+  "feedbackResponses": {},
+  "feedbackResponseComments": {}
 }
