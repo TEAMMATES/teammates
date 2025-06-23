@@ -57,6 +57,13 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         closedSession = testData.feedbackSessions.get("closedSession");
         newSession = getTypicalFeedbackSessionForCourse(course);
+        newSession.setStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        newSession.setEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        newSession.setGracePeriod(Duration.ZERO);
 
         fileName = "/" + closedSession.getCourseId() + "_" + closedSession.getName() + "_result.csv";
     }
