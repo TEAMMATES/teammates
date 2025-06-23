@@ -48,4 +48,11 @@ export class CopySessionModalComponent {
       this.copyToCourseSet.add(courseId);
     }
   }
+
+  /**
+   * Checks if session name is valid.
+   */
+  get isValidSessionName(): boolean {
+    return this.newFeedbackSessionName.trim().length > 0;
+  }
 }
