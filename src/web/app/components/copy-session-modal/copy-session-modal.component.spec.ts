@@ -146,4 +146,13 @@ describe('CopySessionModalComponent', () => {
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
 
+  it('should disable copy button if session name is only whitespace', () => {
+    component.newFeedbackSessionName = '     ';
+    component.courseCandidates = [courseCopyTo];
+    component.copyToCourseSet.add(courseCopyTo.courseId);
+    fixture.detectChanges();
+
+    const copyButton: HTMLButtonElement = fixture.debugElement.query(By.css('#btn-confirm-copy-course')).nativeElement;
+    expect(copyButton.disabled).toBe(true);
+  })
 });
