@@ -59,6 +59,24 @@
       "comments": "dummy comment</option></td></div>'\""
     }
   },
+  "sections": {
+    "section1InCourse": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.AutSesRem.course"
+      },
+      "name": "Section 1"
+    }
+  },
+  "teams": {
+    "team1InCourse": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    }
+  },
   "feedbackSessions": {
     "openedSession": {
       "id": "00000000-0000-4000-8000-000000000701",
