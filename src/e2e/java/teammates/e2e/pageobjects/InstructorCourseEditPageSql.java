@@ -567,69 +567,69 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     private int getRoleIndex(String role) {
         switch (role) {
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-                return INSTRUCTOR_TYPE_COOWNER;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-                return INSTRUCTOR_TYPE_MANAGER;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-                return INSTRUCTOR_TYPE_OBSERVER;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-                return INSTRUCTOR_TYPE_TUTOR;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-                return INSTRUCTOR_TYPE_CUSTOM;
-            default:
-                return -1;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+            return INSTRUCTOR_TYPE_COOWNER;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+            return INSTRUCTOR_TYPE_MANAGER;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+            return INSTRUCTOR_TYPE_OBSERVER;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+            return INSTRUCTOR_TYPE_TUTOR;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+            return INSTRUCTOR_TYPE_CUSTOM;
+        default:
+            return -1;
         }
     }
 
     private int getCourseLevelPrivilegeIndex(String privilege) {
         switch (privilege) {
-            case Const.InstructorPermissions.CAN_MODIFY_COURSE:
-                return COURSE_MODIFY_COURSE;
-            case Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR:
-                return COURSE_MODIFY_INSTRUCTORS;
-            case Const.InstructorPermissions.CAN_MODIFY_SESSION:
-                return COURSE_MODIFY_SESSIONS;
-            case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
-                return COURSE_MODIFY_STUDENTS;
-            case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
-                return COURSE_VIEW_STUDENTS;
-            case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
-                return COURSE_GIVE_RESPONSES_IN_SESSION;
-            case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
-                return COURSE_VIEW_RESPONSES_IN_SESSION;
-            case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-                return COURSE_MODIFY_RESPONSES_IN_SESSION;
-            default:
-                return -1;
+        case Const.InstructorPermissions.CAN_MODIFY_COURSE:
+            return COURSE_MODIFY_COURSE;
+        case Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR:
+            return COURSE_MODIFY_INSTRUCTORS;
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION:
+            return COURSE_MODIFY_SESSIONS;
+        case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
+            return COURSE_MODIFY_STUDENTS;
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
+            return COURSE_VIEW_STUDENTS;
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
+            return COURSE_GIVE_RESPONSES_IN_SESSION;
+        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
+            return COURSE_VIEW_RESPONSES_IN_SESSION;
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+            return COURSE_MODIFY_RESPONSES_IN_SESSION;
+        default:
+            return -1;
         }
     }
 
     private int getSectionLevelPrivilegeIndex(String privilege) {
         switch (privilege) {
-            case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
-                return SECTION_VIEW_STUDENTS;
-            case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
-                return SECTION_GIVE_RESPONSES_IN_SESSION;
-            case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
-                return SECTION_VIEW_RESPONSES_IN_SESSION;
-            case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-                return SECTION_MODIFY_RESPONSES_IN_SESSION;
-            default:
-                return -1;
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
+            return SECTION_VIEW_STUDENTS;
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
+            return SECTION_GIVE_RESPONSES_IN_SESSION;
+        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
+            return SECTION_VIEW_RESPONSES_IN_SESSION;
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+            return SECTION_MODIFY_RESPONSES_IN_SESSION;
+        default:
+            return -1;
         }
     }
 
     private int getSessionLevelPrivilegeIndex(String privilege) {
         switch (privilege) {
-            case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
-                return SESSION_GIVE_RESPONSES;
-            case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
-                return SESSION_VIEW_RESPONSES;
-            case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-                return SESSION_MODIFY_RESPONSES;
-            default:
-                return -1;
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
+            return SESSION_GIVE_RESPONSES;
+        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
+            return SESSION_VIEW_RESPONSES;
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+            return SESSION_MODIFY_RESPONSES;
+        default:
+            return -1;
         }
     }
 
