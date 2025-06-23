@@ -188,7 +188,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("soft delete session");
         closedSession.setDeletedAt(Instant.now());
-        FeedbackSession[] sessionsForSoftDelete = {copiedSession, copiedSession2, newSession, openSession};
+        FeedbackSession[] sessionsForSoftDelete = {copiedSession, copiedSession2, openSession, newSession};
         FeedbackSession[] softDeletedSessions = {closedSession};
         feedbackSessionsPage.moveToRecycleBin(closedSession);
 
@@ -201,8 +201,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 instructor.getGoogleId()));
 
         ______TS("restore session");
-        FeedbackSession[] sessionsForRestore = { openSession, newSession, closedSession, copiedSession2,
-                copiedSession };
+        FeedbackSession[] sessionsForRestore = { copiedSession, copiedSession2, openSession, closedSession,
+                newSession };
         feedbackSessionsPage.restoreSession(closedSession);
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been restored.");
         feedbackSessionsPage.sortBySessionsName();
@@ -212,9 +212,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 instructor.getGoogleId()));
 
         ______TS("permanently delete session");
-        FeedbackSession[] sessionsForDelete = { copiedSession, copiedSession2, closedSession,
-                openSession };
-
+        FeedbackSession[] sessionsForDelete = { copiedSession, copiedSession2, openSession, closedSession};
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.moveToRecycleBin(newSession);
         feedbackSessionsPage.deleteSession(newSession);
@@ -226,7 +224,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatabase(newSession);
 
         ______TS("restore all session");
-        FeedbackSession[] sessionsForRestoreAll = { copiedSession, copiedSession2, closedSession, openSession };
+        FeedbackSession[] sessionsForRestoreAll = { copiedSession, copiedSession2, openSession, closedSession };
         feedbackSessionsPage.moveToRecycleBin(copiedSession);
         feedbackSessionsPage.moveToRecycleBin(copiedSession2);
         feedbackSessionsPage.restoreAllSessions();
@@ -243,7 +241,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         ______TS("delete all session");
         feedbackSessionsPage.moveToRecycleBin(copiedSession);
         feedbackSessionsPage.moveToRecycleBin(copiedSession2);
-        FeedbackSession[] sessionsForDeleteAll = { closedSession, openSession };
+        FeedbackSession[] sessionsForDeleteAll = { openSession, closedSession };
         feedbackSessionsPage.deleteAllSessions();
 
         feedbackSessionsPage.verifyStatusMessage("All sessions have been permanently deleted.");
