@@ -154,5 +154,5 @@ describe('CopySessionModalComponent', () => {
 
     const copyButton: HTMLButtonElement = fixture.debugElement.query(By.css('#btn-confirm-copy-course')).nativeElement;
     expect(copyButton.disabled).toBe(true);
-  })
+  });
 });
