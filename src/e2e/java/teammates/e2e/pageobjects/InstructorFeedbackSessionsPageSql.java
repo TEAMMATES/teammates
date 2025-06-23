@@ -19,7 +19,7 @@ import teammates.storage.sqlentity.Student;
 /**
  * Represents the "Sessions" page for Instructors.
  */
-public class InstructorFeedbackSessionsPageSql extends AppPage{
+public class InstructorFeedbackSessionsPageSql extends AppPage {
     @FindBy(id = "btn-add-session")
     private WebElement addSessionButton;
 
