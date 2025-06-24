@@ -208,8 +208,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 instructor.getGoogleId()));
 
         ______TS("restore session");
-        FeedbackSession[] sessionsForRestore = { copiedSession, copiedSession2, openSession, closedSession,
-                newSession };
+        FeedbackSession[] sessionsForRestore = { newSession, closedSession, openSession, copiedSession2,
+                copiedSession };
         feedbackSessionsPage.restoreSession(closedSession);
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been restored.");
         feedbackSessionsPage.sortBySessionsName();
