@@ -2,7 +2,6 @@ package teammates.e2e.pageobjects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,16 +10,16 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor course details page of the website.
  */
-public class InstructorCourseDetailsPage extends AppPage {
+public class InstructorCourseDetailsPageSql extends AppPage {
     @FindBy(id = "course-id")
     private WebElement courseIdField;
 
@@ -42,7 +41,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     @FindBy(id = "instructors")
     private WebElement instructorsField;
 
-    public InstructorCourseDetailsPage(Browser browser) {
+    public InstructorCourseDetailsPageSql(Browser browser) {
         super(browser);
     }
 
@@ -51,7 +50,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return getPageTitle().contains("Course Details");
     }
 
-    public void verifyCourseDetails(CourseAttributes course, InstructorAttributes[] instructors,
+    public void verifyCourseDetails(Course course, List<Instructor> instructors,
                                     int numSections, int numTeams, int numStudents) {
         assertEquals(course.getId(), courseIdField.getText());
         assertEquals(course.getName(), courseNameField.getText());
@@ -59,10 +58,10 @@ public class InstructorCourseDetailsPage extends AppPage {
         assertEquals(Integer.toString(numSections), numSectionsField.getText());
         assertEquals(Integer.toString(numTeams), numTeamsField.getText());
         assertEquals(Integer.toString(numStudents), numStudentsField.getText());
-        assertEquals(getExpectedInstructorString(instructors), instructorsField.getText());
+        assertEquals(getExpectedInstructorsString(instructors), instructorsField.getText());
     }
 
-    public void verifyStudentDetails(StudentAttributes[] students) {
+    public void verifyStudentDetails(List<Student> students) {
         verifyTableBodyValues(getStudentList(), getExpectedStudentValues(students));
     }
 
@@ -100,9 +99,10 @@ public class InstructorCourseDetailsPage extends AppPage {
         clickAndConfirm(waitForElementPresence(By.id("btn-delete-all")));
     }
 
-    private String getExpectedInstructorString(InstructorAttributes[] instructors) {
-        return Arrays.stream(instructors)
-                .map(instructor -> instructor.getRole() + ": " + instructor.getName() + " (" + instructor.getEmail() + ")")
+    private String getExpectedInstructorsString(List<Instructor> instructors) {
+        return instructors.stream()
+                .map(instructor -> instructor.getRole().getRoleName() + ": "
+                        + instructor.getName() + " (" + instructor.getEmail() + ")")
                 .collect(Collectors.joining(TestProperties.LINE_SEPARATOR));
     }
 
@@ -110,14 +110,19 @@ public class InstructorCourseDetailsPage extends AppPage {
         return browser.driver.findElement(By.cssSelector("#student-list table"));
     }
 
-    private String[][] getExpectedStudentValues(StudentAttributes[] students) {
-        String[][] expected = new String[students.length][5];
-        for (int i = 0; i < students.length; i++) {
-            StudentAttributes student = students[i];
-            expected[i][0] = student.getSection();
-            expected[i][1] = student.getTeam();
+    private String[][] getExpectedStudentValues(List<Student> students) {
+        String[][] expected = new String[students.size()][5];
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            expected[i][0] = student.getSectionName();
+            expected[i][1] = student.getTeamName();
             expected[i][2] = student.getName();
-            expected[i][3] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
+            String googleId = student.getGoogleId();
+            if (googleId == null || googleId.isEmpty()) {
+                expected[i][3] = "Yet to Join";
+            } else {
+                expected[i][3] = "Joined";
+            }
             expected[i][4] = student.getEmail();
         }
         return expected;

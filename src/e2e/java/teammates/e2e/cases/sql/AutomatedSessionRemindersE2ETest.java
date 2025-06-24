@@ -28,7 +28,8 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
         String testEmail = TestProperties.TEST_EMAIL;
         testData.accounts.get("instructorWithEvals").setEmail(testEmail);
         testData.instructors.get("AutSesRem.instructor").setEmail(testEmail);
-        testData.students.get("alice.tmms@AutSesRem.course").setEmail(testEmail);
+        // TODO: separate test email for instructor and student
+        testData.students.get("alice.tmms@AutSesRem.course").setEmail("student." + testEmail);
         testData.feedbackSessions.get("openedSession").setCreatorEmail(testEmail);
         testData.feedbackSessions.get("closingSoonSession").setCreatorEmail(testEmail);
         testData.feedbackSessions.get("closedSession").setCreatorEmail(testEmail);
@@ -48,7 +49,7 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
 
         // Published time for one feedback session already set to some time in the past.
 
-        doRemoveAndRestoreDataBundle(testData);
+        removeAndRestoreDataBundle(testData);
     }
 
     @Override

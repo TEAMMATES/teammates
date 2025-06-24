@@ -54,9 +54,30 @@
       "course": {
         "id": "tm.e2e.AutSesRem.course"
       },
-      "email": "AutSesRem.instructor@gmail.tmt",
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "email": "AutSesRem.student@gmail.tmt",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "dummy comment</option></td></div>'\""
+    }
+  },
+  "sections": {
+    "section1InCourse": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "course": {
+        "id": "tm.e2e.AutSesRem.course"
+      },
+      "name": "Section 1"
+    }
+  },
+  "teams": {
+    "team1InCourse": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000101"
+      },
+      "name": "Team 1"
     }
   },
   "feedbackSessions": {
@@ -174,7 +195,7 @@
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS"
       ],
@@ -197,7 +218,7 @@
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS"
       ],
@@ -220,7 +241,7 @@
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS"
       ],
