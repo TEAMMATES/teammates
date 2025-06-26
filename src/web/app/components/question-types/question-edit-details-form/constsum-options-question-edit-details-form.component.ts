@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import {
@@ -18,6 +18,10 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails> {
+
+  private static nextId = 0;
+
+  @Input() uniqueId = `constsum-options-${ConstsumOptionsQuestionEditDetailsFormComponent.nextId++}`;
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =

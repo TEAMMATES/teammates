@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackConstantSumDistributePointsType,
@@ -18,6 +18,10 @@ import {
 })
 export class ConstsumRecipientsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails> {
+
+  private static nextId = 0;
+
+  @Input() uniqueId = `constsum-recipients-${ConstsumRecipientsQuestionEditDetailsFormComponent.nextId++}`;
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
