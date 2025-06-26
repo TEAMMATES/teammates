@@ -44,6 +44,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         testData = removeAndRestoreDataBundle(
                 loadSqlDataBundle("/InstructorFeedbackSessionsPageE2ETestSql.json"));
 
+        // TODO Use real test email
         studentToEmail = testData.students.get("IFSessionPage.charlie");
 
         instructor = testData.instructors.get("IFSessionPage.instr1");
