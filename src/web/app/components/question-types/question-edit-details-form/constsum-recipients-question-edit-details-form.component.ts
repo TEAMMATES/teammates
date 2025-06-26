@@ -23,6 +23,8 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
       FeedbackConstantSumDistributePointsType;
 
+  readonly pointsRadioGroupName = 'constsum-' + crypto.randomUUID();
+
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
   }
