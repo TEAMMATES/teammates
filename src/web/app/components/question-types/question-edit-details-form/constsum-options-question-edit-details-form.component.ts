@@ -31,7 +31,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   @Input() questionNumber: number = 0;
   pointsRadioGroupName: string = '';
   ngOnChanges(): void {
-    this.pointsRadioGroupName = `constsum-${this.questionNumber}`;
+    this.pointsRadioGroupName = `constsum-options-${this.questionNumber}`;
   }
 
   get hasMaxPoint(): boolean {
