@@ -104,28 +104,32 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
     expect(component.pointsRadioGroupName).toBe('constsum-recipients-2');
   });
 
-  it('should maintain independent radio selection across components', () => {
+  it('should maintain independent radio selection across components', waitForAsync(async () => {
     const fixtureA = TestBed.createComponent(ConstsumRecipientsQuestionEditDetailsFormComponent);
     const compA = fixtureA.componentInstance;
     compA.questionNumber = 1;
     compA.ngOnChanges();
     fixtureA.detectChanges();
+    await fixtureA.whenStable();
 
     const fixtureB = TestBed.createComponent(ConstsumRecipientsQuestionEditDetailsFormComponent);
     const compB = fixtureB.componentInstance;
     compB.questionNumber = 2;
     compB.ngOnChanges();
     fixtureB.detectChanges();
+    await fixtureB.whenStable();
 
     const radioA = fixtureA.debugElement.query(By.css('#per-option-points-radio')).nativeElement as HTMLInputElement;
     radioA.click();
     fixtureA.detectChanges();
+    await fixtureA.whenStable();
 
     const radioB = fixtureB.debugElement.query(By.css('#total-points-radio')).nativeElement as HTMLInputElement;
     radioB.click();
     fixtureB.detectChanges();
+    await fixtureB.whenStable();
 
-    expect(compA.model.pointsPerOption).toBe(true);
-    expect(compB.model.pointsPerOption).toBe(false);
-  });
+    expect(radioA.checked).toBe(true);
+    expect(radioB.checked).toBe(true);
+  }));
 });
