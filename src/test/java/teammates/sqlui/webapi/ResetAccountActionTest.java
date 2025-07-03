@@ -299,7 +299,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 },
                 {
                         "random-params", "random-value",
-                }
+                },
         };
 
         for (String[] params : paramSets) {
