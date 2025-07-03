@@ -16,15 +16,15 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor course edit page of the website.
  */
-public class InstructorCourseEditPage extends AppPage {
+public class InstructorCourseEditPageSql extends AppPage {
     private static final int INSTRUCTOR_TYPE_COOWNER = 0;
     private static final int INSTRUCTOR_TYPE_MANAGER = 1;
     private static final int INSTRUCTOR_TYPE_OBSERVER = 2;
@@ -76,7 +76,7 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "btn-copy-instructor")
     private WebElement copyInstructorsButton;
 
-    public InstructorCourseEditPage(Browser browser) {
+    public InstructorCourseEditPageSql(Browser browser) {
         super(browser);
     }
 
@@ -85,14 +85,14 @@ public class InstructorCourseEditPage extends AppPage {
         return getPageTitle().contains("Edit Course Details");
     }
 
-    public void verifyCourseDetails(CourseAttributes course) {
+    public void verifyCourseDetails(Course course) {
         assertEquals(course.getId(), getCourseId());
         assertEquals(course.getName(), getCourseName());
         assertEquals(course.getInstitute(), getCourseInstitute());
         assertEquals(course.getTimeZone(), getTimeZone());
     }
 
-    public void verifyInstructorDetails(InstructorAttributes instructor) {
+    public void verifyInstructorDetails(Instructor instructor) {
         int instrNum = getIntrNum(instructor.getEmail());
         if (instructor.getGoogleId() != null) {
             assertEquals(instructor.getGoogleId(), getInstructorGoogleId(instrNum));
@@ -101,12 +101,12 @@ public class InstructorCourseEditPage extends AppPage {
         assertEquals(instructor.getEmail(), getInstructorEmail(instrNum));
         assertEquals(instructor.isDisplayedToStudents(), getInstructorDisplayedToStudents(instrNum));
         if (instructor.isDisplayedToStudents()) {
-            assertEquals(instructor.getDisplayedName(), getInstructorDisplayName(instrNum));
+            assertEquals(instructor.getDisplayName(), getInstructorDisplayName(instrNum));
         } else {
             assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
-        assertEquals(instructor.getRole(), getInstructorRole(instrNum));
-        if (Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(instructor.getRole())
+        assertEquals(instructor.getRole().getRoleName(), getInstructorRole(instrNum));
+        if (Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(instructor.getRole().getRoleName())
                 && getEditInstructorButton(instrNum).isEnabled()) {
             verifyCustomPrivileges(instrNum, instructor.getPrivileges());
         }
@@ -207,7 +207,7 @@ public class InstructorCourseEditPage extends AppPage {
         assertEquals(getNumInstructors(), expectedNum);
     }
 
-    public void editCourse(CourseAttributes newCourse) {
+    public void editCourse(Course newCourse) {
         clickEditCourseButton();
         fillTextBox(courseNameTextBox, newCourse.getName());
         selectNewTimeZone(newCourse.getTimeZone());
@@ -218,7 +218,7 @@ public class InstructorCourseEditPage extends AppPage {
         click(deleteCourseButton);
     }
 
-    public void addInstructor(InstructorAttributes newInstructor) {
+    public void addInstructor(Instructor newInstructor) {
         clickAddNewInstructorButton();
         int instructorIndex = getNumInstructors();
 
@@ -226,17 +226,17 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(getEmailField(instructorIndex), newInstructor.getEmail());
         if (newInstructor.isDisplayedToStudents()) {
             markOptionAsSelected(getDisplayedToStudentCheckBox(instructorIndex));
-            fillTextBox(getDisplayNameField(instructorIndex), newInstructor.getDisplayedName());
+            fillTextBox(getDisplayNameField(instructorIndex), newInstructor.getDisplayName());
         } else {
             markOptionAsUnselected(getDisplayedToStudentCheckBox(instructorIndex));
         }
-        selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.getRole()));
+        selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.getRole().getRoleName()));
         clickSaveInstructorButton(instructorIndex);
     }
 
-    public void copyInstructors(List<InstructorAttributes> newInstructors) {
+    public void copyInstructors(List<Instructor> newInstructors) {
         Map<String, List<String>> courseInstructorEmailsMap = new HashMap<>();
-        for (InstructorAttributes instructor : newInstructors) {
+        for (Instructor instructor : newInstructors) {
             courseInstructorEmailsMap.putIfAbsent(instructor.getCourseId(), new ArrayList<>());
             courseInstructorEmailsMap.get(instructor.getCourseId()).add(instructor.getEmail());
         }
@@ -271,7 +271,7 @@ public class InstructorCourseEditPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    public void verifyCopyInstructorWithExistingEmailNotAllowed(InstructorAttributes newInstructor) {
+    public void verifyCopyInstructorWithExistingEmailNotAllowed(Instructor newInstructor) {
         copyInstructors(List.of(newInstructor));
         verifyStatusMessage("An instructor with email address " + newInstructor.getEmail()
                 + " already exists in the course and/or you have selected more than one instructor "
@@ -279,28 +279,28 @@ public class InstructorCourseEditPage extends AppPage {
         click(browser.driver.findElement(By.id("btn-cancel-copy-instructor")));
     }
 
-    public void resendInstructorInvite(InstructorAttributes instructor) {
+    public void resendInstructorInvite(Instructor instructor) {
         int instrNum = getIntrNum(instructor.getEmail());
         clickAndConfirm(getInviteInstructorButton(instrNum));
     }
 
-    public void deleteInstructor(InstructorAttributes instructor) {
+    public void deleteInstructor(Instructor instructor) {
         int instrNum = getIntrNum(instructor.getEmail());
         clickAndConfirm(getDeleteInstructorButton(instrNum));
     }
 
-    public void editInstructor(int instrNum, InstructorAttributes instructor) {
+    public void editInstructor(int instrNum, Instructor instructor) {
         clickEditInstructorButton(instrNum);
 
         fillTextBox(getNameField(instrNum), instructor.getName());
         fillTextBox(getEmailField(instrNum), instructor.getEmail());
         if (instructor.isDisplayedToStudents()) {
             markOptionAsSelected(getDisplayedToStudentCheckBox(instrNum));
-            fillTextBox(getDisplayNameField(instrNum), instructor.getDisplayedName());
+            fillTextBox(getDisplayNameField(instrNum), instructor.getDisplayName());
         } else {
             markOptionAsUnselected(getDisplayedToStudentCheckBox(instrNum));
         }
-        selectRoleForInstructor(instrNum, getRoleIndex(instructor.getRole()));
+        selectRoleForInstructor(instrNum, getRoleIndex(instructor.getRole().getRoleName()));
         clickSaveInstructorButton(instrNum);
     }
 
@@ -315,7 +315,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void toggleCustomSectionLevelPrivilege(int instrNum, int panelNum, String section,
-                                                String privilege) {
+                                                  String privilege) {
         if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
@@ -329,7 +329,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void toggleCustomSessionLevelPrivilege(int instrNum, int panelNum, String section, String session,
-                                               String privilege) {
+                                                  String privilege) {
         if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
