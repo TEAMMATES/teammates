@@ -151,89 +151,32 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     }
 
     @Test
-    void testAccessControl_notLoggedIn_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
-        };
-
-        logoutUser();
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_unregisteredUser_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
-        };
-
-        loginAsUnregistered(GOOGLE_ID);
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_student_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
-        };
-
-        loginAsStudent(GOOGLE_ID);
-        verifyCannotAccess(params);
-    }
-
-    @Test
     void testAccessControl_instructorOfOtherCourses_cannotAccess() {
         when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
                 .thenReturn(stubFeedbackSession);
-        Course otherCourse = getTypicalCourse();
-        otherCourse.setId("other-course-id");
-        stubInstructor.setCourse(otherCourse);
-        when(mockLogic.getInstructorByGoogleId(COURSE_ID, GOOGLE_ID)).thenReturn(stubInstructor);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, COURSE_ID,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
         };
 
-        loginAsInstructor(GOOGLE_ID);
-        verifyCannotAccess(params);
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
     }
 
     @Test
-    void testAccessControl_instructorOfSameCourseWithoutCorrectCoursePrivilege_cannotAccess() {
+    void testAccessControl() {
         when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
                 .thenReturn(stubFeedbackSession);
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
-        stubInstructor.setPrivileges(privileges);
-        when(mockLogic.getInstructorByGoogleId(COURSE_ID, GOOGLE_ID)).thenReturn(stubInstructor);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, COURSE_ID,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
         };
 
-        loginAsInstructor(GOOGLE_ID);
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorOfSameCourseWithCorrectCoursePrivilege_canAccess() {
-        when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
-                .thenReturn(stubFeedbackSession);
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
-        stubInstructor.setPrivileges(privileges);
-        when(mockLogic.getInstructorByGoogleId(COURSE_ID, GOOGLE_ID)).thenReturn(stubInstructor);
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
-        };
-
-        loginAsInstructor(GOOGLE_ID);
-        verifyCanAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                stubFeedbackSession.getCourse(),
+                Const.InstructorPermissions.CAN_MODIFY_SESSION,
+                params
+        );
     }
 }

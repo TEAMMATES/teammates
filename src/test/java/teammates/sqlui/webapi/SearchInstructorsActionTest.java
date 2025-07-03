@@ -139,46 +139,11 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor("instructor-googleId");
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-googleId");
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-        };
-
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params);
     }
 }

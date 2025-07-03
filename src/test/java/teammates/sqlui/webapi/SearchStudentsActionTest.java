@@ -322,4 +322,21 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
         verifyCannotAccess(params);
     }
+
+    @Test
+    void testAccessControl() {
+        String[] adminParams = {
+                Const.ParamsNames.SEARCH_KEY, searchKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
+        };
+        String[] instructorParams = {
+                Const.ParamsNames.SEARCH_KEY, searchKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        verifyAdminsCanAccess(adminParams);
+        verifyInstructorsCanAccess(getTypicalCourse(), instructorParams);
+        verifyStudentsCannotAccess(adminParams);
+        verifyWithoutLoginCannotAccess(adminParams);
+    }
 }

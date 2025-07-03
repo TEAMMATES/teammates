@@ -139,32 +139,11 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_notAdmin_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-        };
-
-        loginAsUnregistered("unregistered");
-        verifyCannotAccess(params);
-
-        loginAsStudent("student");
-        verifyCannotAccess(params);
-
-        loginAsInstructor("instructor");
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params);
     }
 }

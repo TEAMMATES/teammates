@@ -277,70 +277,33 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
-        String[] params1 = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
+    void testAccessControl() {
+        String[][] paramSets = new String[][] {
+                {
+                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                        Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
+                },
+                {},
+                {
+                        Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
+                },
+                {
+                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                },
+                {
+                        Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
+                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                },
+                {
+                        Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
+                },
+                {
+                        "random-params", "random-value",
+                }
         };
-        verifyCanAccess(params1);
 
-        String[] params2 = {};
-        verifyCanAccess(params2);
-
-        String[] params3 = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-        };
-        verifyCanAccess(params3);
-
-        String[] params4 = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        verifyCanAccess(params4);
-
-        String[] params5 = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        verifyCanAccess(params5);
-
-        String[] params6 = {
-                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
-        };
-        verifyCanAccess(params6);
-
-        String[] params7 = {
-                "random-params", "random-value",
-        };
-        verifyCanAccess(params7);
-    }
-
-    @Test
-    void testSpecificAccessControl_notAdmin_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
-        };
-        verifyCannotAccess(params);
-
-        loginAsInstructor(stubInstructor.getGoogleId());
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsStudent(stubStudent.getGoogleId());
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsMaintainer();
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsStudentInstructor(stubStudent.getGoogleId());
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsUnregistered(stubInstructor.getGoogleId());
-        verifyCannotAccess(params);
+        for (String[] params : paramSets) {
+            verifyOnlyAdminsCanAccess(params);
+        }
     }
 }
