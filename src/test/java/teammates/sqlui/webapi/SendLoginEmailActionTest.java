@@ -18,7 +18,6 @@ import teammates.ui.webapi.SendLoginEmailAction;
  * SUT: {@link SendLoginEmailAction}.
  */
 public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailAction> {
-    private static final String GOOGLE_ID = "user-googleId";
     private static final String USER_EMAIL = "test@example.com";
     private static final String CONTINUE_URL = "http://localhost:4200";
     private static final String USER_CAPTCHA_RESPONSE = "user-captcha-response";
