@@ -288,7 +288,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 {Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
                         Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()},
                 {Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId()},
-                {"random-params", "random-value"}
+                {"random-params", "random-value"},
         };
         for (String[] params : allParamCombinations) {
             verifyOnlyAdminsCanAccess(params);
