@@ -277,32 +277,20 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     }
 
     @Test
-    void testAccessControl() {
-        String[][] paramSets = new String[][] {
-                {
-                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                        Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
-                },
+    void testSpecificAccessControl_onlyAdminsCanAccess_allParameterCombinations() {
+        // Test all parameter combinations
+        String[][] allParamCombinations = {
+                {Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                        Const.ParamsNames.COURSE_ID, stubStudent.getCourseId()},
                 {},
-                {
-                        Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                },
-                {
-                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                },
-                {
-                        Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                },
-                {
-                        Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
-                },
-                {
-                        "random-params", "random-value",
-                },
+                {Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail()},
+                {Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()},
+                {Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
+                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()},
+                {Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId()},
+                {"random-params", "random-value"}
         };
-
-        for (String[] params : paramSets) {
+        for (String[] params : allParamCombinations) {
             verifyOnlyAdminsCanAccess(params);
         }
     }

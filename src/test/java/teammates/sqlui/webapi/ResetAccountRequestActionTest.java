@@ -119,11 +119,10 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
     }
 
     @Test
-    void testAccessControl() {
+    void testSpecificAccessControl_onlyAdminsCanAccess_withAccountRequestId() {
         String[] params = {
                 Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString(),
         };
-
         verifyOnlyAdminsCanAccess(params);
     }
 }
