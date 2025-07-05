@@ -194,50 +194,11 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
+    void testSpecificAccessControl_onlyAdminsCanAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor("instructor-googleId");
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-googleId");
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-        };
-
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params);
     }
 }
