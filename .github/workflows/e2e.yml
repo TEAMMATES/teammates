@@ -10,12 +10,13 @@ on:
       - master
       - release
   schedule:
-    - cron: "0 0 * * *" #end of every day
+    - cron: "0 0 * * *"
+
 jobs:
   E2E-testing:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false #ensure both tests run even if one fails
+      fail-fast: false
       matrix:
         browser: [firefox]
         tests: [stable, unstable]
@@ -40,6 +41,17 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
+
+      # ← Add this step to inject your BackDoor/CSRF keys
+      - name: Create build.properties for BackDoor
+        run: |
+          cat <<EOF > build.properties
+          # Bypass CSRF in tests
+          app.csrf.key=QSxjOdylpNUhbpwgJT9E+sw5
+          # Bypass access control in tests
+          app.backdoor.key=QSxjOdylpNUhbpwgJT9E+sw5
+          EOF
+
       - name: Run Solr search service + local Datastore emulator
         run: docker compose up -d
       - name: Create Config Files
