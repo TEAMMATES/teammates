@@ -73,6 +73,7 @@ import {
 } from '../../components/question-submission-form/question-submission-form.module';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { By } from '@angular/platform-browser';
 
 describe('SessionSubmissionPageComponent', () => {
   const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
@@ -1314,5 +1315,47 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('r1')).toBe(true);
     expect(component.questionSubmissionForms[0].isTabExpandedForRecipients.get('r1')).toBe(true);
     expect(getItemSpy).toHaveBeenCalledWith('autosave');
+  });
+
+  beforeEach(() => {
+    component.questionSubmissionForms = [
+      { questionNumber: 1, isTabExpanded: false } as any,
+      { questionNumber: 2, isTabExpanded: true  } as any,
+      { questionNumber: 3, isTabExpanded: false } as any,
+    ];
+    fixture.detectChanges();
+  });
+
+  it('should show both Show All and Collapse All buttons', () => {
+    const buttons = fixture.debugElement.queryAll(By.css('button'));
+    const texts = buttons.map(b => b.nativeElement.textContent.trim());
+    expect(texts).toContain('Show All');
+    expect(texts).toContain('Collapse All');
+  });
+
+  it('should expand every question panel when Show All is clicked', () => {
+    component.questionSubmissionForms.forEach(q => q.isTabExpanded = false);
+    fixture.detectChanges();
+
+    const showAll = fixture.debugElement
+      .queryAll(By.css('button'))
+      .find(b => b.nativeElement.textContent.includes('Show All'))!;
+    showAll.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(component.questionSubmissionForms.every(q => q.isTabExpanded)).toBe(true);
+  });
+
+  it('should collapse every question panel when Collapse All is clicked', () => {
+    component.questionSubmissionForms.forEach(q => q.isTabExpanded = true);
+    fixture.detectChanges();
+
+    const collapseAll = fixture.debugElement
+      .queryAll(By.css('button'))
+      .find(b => b.nativeElement.textContent.includes('Collapse All'))!;
+    collapseAll.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(component.questionSubmissionForms.every(q => !q.isTabExpanded)).toBe(true);
   });
 });
