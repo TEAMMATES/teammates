@@ -99,38 +99,6 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
     }
 
     @Test
-    void testAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_maintainer_canAccess() {
-        loginAsMaintainer();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_instructor_canAccess() {
-        loginAsInstructor(GOOGLE_ID);
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_student_canAccess() {
-        loginAsStudent(GOOGLE_ID);
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_unregistered_canAccess() {
-        loginAsUnregistered(GOOGLE_ID);
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_loggedOut_canAccess() {
-        logoutUser();
-        verifyCanAccess();
-    }
-}
+    void testAccessControl() {
+        verifyAnyUserCanAccess();
+    }}

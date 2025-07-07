@@ -276,50 +276,19 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
-        String[] params = {
+    void testAccessControl_OnlyAdminAndInstructorsCanAccess() {
+        String[] adminParams = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_canAccess() {
-        loginAsInstructor(instructorId);
-
-        String[] params = {
+        String[] instructorParams = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-googleId");
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
-        };
-
-        verifyCannotAccess(params);
+        verifyAdminsCanAccess(adminParams);
+        verifyInstructorsCanAccess(getTypicalCourse(), instructorParams);
+        verifyStudentsCannotAccess(adminParams);
+        verifyWithoutLoginCannotAccess(adminParams);
     }
 }
