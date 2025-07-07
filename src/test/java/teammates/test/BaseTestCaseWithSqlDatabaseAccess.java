@@ -112,7 +112,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             DeadlineExtensionData actualDeadlineExtension = (DeadlineExtensionData) actual;
             assertEquals(expectedDeadlineExtension.getEndTime().toEpochMilli(), actualDeadlineExtension.getEndTime());
             assertEquals(expectedDeadlineExtension.isClosingSoonEmailSent(),
-                    actualDeadlineExtension.getSentClosingEmail());
+                    actualDeadlineExtension.getSentClosingSoonEmail());
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
             FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
@@ -136,8 +136,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
                     actualFeedbackSession.getResultVisibleFromTimestamp().longValue());
             assertEquals(expectedFeedbackSession.getGracePeriod().toMinutes(),
                     actualFeedbackSession.getGracePeriod().longValue());
-            assertEquals(expectedFeedbackSession.isClosingEmailEnabled(),
-                    actualFeedbackSession.getIsClosingEmailEnabled());
+            assertEquals(expectedFeedbackSession.isClosingSoonEmailEnabled(),
+                    actualFeedbackSession.getIsClosingSoonEmailEnabled());
             assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
                     actualFeedbackSession.getIsPublishedEmailEnabled());
         } else if (expected instanceof Instructor) {
@@ -146,7 +146,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
             assertEquals(expectedInstructor.getName(), actualInstructor.getName());
             assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
-            assertEquals(expectedInstructor.getRegKey(), actualInstructor.getKey());
+            // Cannot compare keys as actualInstructor's key is only generated before storing into the database.
+            assertNotNull(actualInstructor.getKey());
             assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
             assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
             assertEquals(expectedInstructor.getRole(), actualInstructor.getRole());
@@ -218,24 +219,40 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private ApiOutput getEntity(BaseEntity entity) {
-        if (entity instanceof Student) {
-            return getStudent((Student) entity);
+        if (entity instanceof Account) {
+            return getAccount((Account) entity);
+        } else if (entity instanceof Course) {
+            return getCourse((Course) entity);
         } else if (entity instanceof FeedbackQuestion) {
             return getFeedbackQuestion((FeedbackQuestion) entity);
-        } else if (entity instanceof FeedbackSession) {
-            return getFeedbackSession((FeedbackSession) entity);
         } else if (entity instanceof FeedbackResponse) {
             return getFeedbackResponse((FeedbackResponse) entity);
+        } else if (entity instanceof FeedbackSession) {
+            return getFeedbackSession((FeedbackSession) entity);
+        } else if (entity instanceof Instructor) {
+            return getInstructor((Instructor) entity);
+        } else if (entity instanceof Notification) {
+            return getNotification((Notification) entity);
+        } else if (entity instanceof Student) {
+            return getStudent((Student) entity);
         } else {
             throw new RuntimeException("Unknown entity type");
         }
     }
 
+    protected abstract AccountData getAccount(Account account);
+
+    protected abstract CourseData getCourse(Course course);
+
     protected abstract FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq);
 
-    protected abstract FeedbackSessionData getFeedbackSession(FeedbackSession fq);
+    protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fr);
 
-    protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fq);
+    protected abstract FeedbackSessionData getFeedbackSession(FeedbackSession fs);
+
+    protected abstract InstructorData getInstructor(Instructor instructor);
+
+    protected abstract NotificationData getNotification(Notification notification);
 
     protected abstract StudentData getStudent(Student student);
 

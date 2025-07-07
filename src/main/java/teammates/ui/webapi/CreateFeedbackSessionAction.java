@@ -11,6 +11,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -104,12 +105,13 @@ public class CreateFeedbackSessionAction extends Action {
                     resultsVisibleTime,
                     createRequest.getGracePeriod(),
                     true,
-                    createRequest.isClosingEmailEnabled(),
+                    createRequest.isClosingSoonEmailEnabled(),
                     createRequest.isPublishedEmailEnabled()
             );
 
             try {
                 feedbackSession = sqlLogic.createFeedbackSession(feedbackSession);
+                HibernateUtil.flushSession();
             } catch (EntityAlreadyExistsException e) {
                 throw new InvalidOperationException("A session named " + feedbackSessionName
                         + " exists already in the course " + course.getName()
@@ -167,7 +169,7 @@ public class CreateFeedbackSessionAction extends Action {
                             .withGracePeriod(createRequest.getGracePeriod())
                             .withSessionVisibleFromTime(sessionVisibleTime)
                             .withResultsVisibleFromTime(resultsVisibleTime)
-                            .withIsClosingEmailEnabled(createRequest.isClosingEmailEnabled())
+                            .withIsClosingSoonEmailEnabled(createRequest.isClosingSoonEmailEnabled())
                             .withIsPublishedEmailEnabled(createRequest.isPublishedEmailEnabled())
                             .build();
             try {

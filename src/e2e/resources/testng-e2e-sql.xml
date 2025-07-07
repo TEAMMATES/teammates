@@ -6,24 +6,40 @@
             <package name="teammates.e2e.util" />
         </packages>
         <classes>
+            <!-- Keep E2E tests in alphabetical order -->
+            <class name="teammates.e2e.cases.sql.AdminAccountsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.AdminHomePageE2ETest" />
+            <class name="teammates.e2e.cases.sql.AdminNotificationsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.AdminSearchPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.AdminSessionsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.AutomatedSessionRemindersE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackConstSumOptionQuestionE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackConstSumRecipientQuestionE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackContributionQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackMcqQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackMsqQuestionE2ETest" />
-            <class name="teammates.e2e.cases.sql.FeedbackTextQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackNumScaleQuestionE2ETest" />
-            <class name="teammates.e2e.cases.sql.FeedbackRubricQuestionE2ETest" />
-            <class name="teammates.e2e.cases.sql.InstructorStudentRecordsPageE2ETest" />
-            <class name="teammates.e2e.cases.sql.InstructorCourseDetailsPageE2ETest" />
-            <class name="teammates.e2e.cases.sql.InstructorStudentListPageE2ETest" />
-            <class name="teammates.e2e.cases.sql.StudentHomePageE2ETest" />
-            <class name="teammates.e2e.cases.sql.StudentCourseJoinConfirmationPageE2ETest" />
-            <class name="teammates.e2e.cases.sql.AdminSearchPageE2ETest" />
-            <class name="teammates.e2e.cases.sql.AdminHomePageE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackRankOptionQuestionE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackRankRecipientQuestionE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackResultsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackRubricQuestionE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackTextQuestionE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseEditPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseEnrollPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseJoinConfirmationPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseStudentDetailsEditPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorCourseStudentDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorFeedbackEditPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorFeedbackSessionsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorHomePageE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorNotificationsPageE2ETest" />
-            <class name="teammates.e2e.cases.sql.StudentCourseDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorStudentListPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorStudentRecordsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.RequestPageE2ETest" />
-            <class name="teammates.e2e.cases.sql.InstructorCourseStudentDetailsEditPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.StudentCourseDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.StudentCourseJoinConfirmationPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.StudentHomePageE2ETest" />
         </classes>
     </test>
 </suite>

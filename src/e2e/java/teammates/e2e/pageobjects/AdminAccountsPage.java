@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.ui.output.AccountData;
 
 /**
@@ -42,12 +41,6 @@ public class AdminAccountsPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("Account Details");
-    }
-
-    public void verifyAccountDetails(AccountAttributes account) {
-        assertEquals(account.getGoogleId(), accountId.getText());
-        assertEquals(account.getName(), accountName.getText());
-        assertEquals(account.getEmail(), accountEmail.getText());
     }
 
     public void verifyAccountDetails(AccountData account) {

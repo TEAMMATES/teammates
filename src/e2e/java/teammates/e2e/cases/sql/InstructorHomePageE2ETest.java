@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorHomePage;
+import teammates.e2e.pageobjects.InstructorHomePageSql;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -72,7 +72,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
-        InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class, instructor.getGoogleId());
+        InstructorHomePageSql homePage = loginToPage(url, InstructorHomePageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();
@@ -115,7 +115,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 
         homePage.waitForConfirmationModalAndClickOk();
-        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePageSql.class);
         homePage.sortCoursesByName();
         // flip index after sorting
         courseIndex = 0;
@@ -134,7 +134,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePageSql.class);
         homePage.sortCoursesByName();
         FeedbackSession[] otherCourseSessionsWithTwoCopies = { copiedSession, copiedSession2, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithTwoCopies);
