@@ -276,7 +276,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    void testAccessControl_OnlyAdminAndInstructorsCanAccess() {
+    void testAccessControl_adminAndInstructors_canAccess() {
         String[] adminParams = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,

@@ -10,7 +10,6 @@ import java.time.Instant;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
@@ -164,7 +163,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     }
 
     @Test
-    void testAccessControl_OnlyInstructorsOfTheSameCourseCanAccess() {
+    void testAccessControl_instructorsSameCourse_canAccess() {
         when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
                 .thenReturn(stubFeedbackSession);
 

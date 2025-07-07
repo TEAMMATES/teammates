@@ -101,4 +101,5 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
     @Test
     void testAccessControl() {
         verifyAnyUserCanAccess();
-    }}
+    }
+}
