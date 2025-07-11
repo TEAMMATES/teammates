@@ -1218,10 +1218,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   expandAllQuestions(): void {
     if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
-      this.questionSubmissionForms.forEach(q => q.isTabExpanded = true);
+      this.questionSubmissionForms.forEach((q) => {
+        q.isTabExpanded = true
+      });
     } else {
-      this.questionSubmissionForms.forEach(q => {
-        q.recipientList.forEach(recipient => {
+      this.questionSubmissionForms.forEach((q) => {
+        q.recipientList.forEach((recipient) => {
           q.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
         });
       });
@@ -1230,10 +1232,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   collapseAllQuestions(): void {
     if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
-      this.questionSubmissionForms.forEach(q => q.isTabExpanded = false);
+      this.questionSubmissionForms.forEach((q) => {
+        q.isTabExpanded = false
+      });
     } else {
-      this.questionSubmissionForms.forEach(q => {
-        q.recipientList.forEach(recipient => {
+      this.questionSubmissionForms.forEach((q) => {
+        q.recipientList.forEach((recipient) => {
           q.isTabExpandedForRecipients.set(recipient.recipientIdentifier, false);
         });
       });

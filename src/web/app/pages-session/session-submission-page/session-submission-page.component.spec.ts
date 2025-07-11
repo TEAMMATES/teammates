@@ -1320,7 +1320,7 @@ describe('SessionSubmissionPageComponent', () => {
   beforeEach(() => {
     component.questionSubmissionForms = [
     { questionNumber: 1, isTabExpanded: false } as any,
-    { questionNumber: 2, isTabExpanded: true  } as any,
+    { questionNumber: 2, isTabExpanded: true } as any,
     { questionNumber: 3, isTabExpanded: false } as any,
     ];
     fixture.detectChanges();
@@ -1336,7 +1336,7 @@ describe('SessionSubmissionPageComponent', () => {
   it('should expand every question panel when Expand All is clicked', () => {
     component.questionSubmissionForms.forEach((q) => {
       q.isTabExpanded = false;
-    });    
+    });
     fixture.detectChanges();
 
     const showAll = fixture.debugElement
@@ -1360,6 +1360,6 @@ describe('SessionSubmissionPageComponent', () => {
     collapseAll.nativeElement.click();
     fixture.detectChanges();
 
-    expect(component.questionSubmissionForms.every(q => !q.isTabExpanded)).toBe(true);
+    expect(component.questionSubmissionForms.every((q) => !q.isTabExpanded)).toBe(true);
   });
 });
