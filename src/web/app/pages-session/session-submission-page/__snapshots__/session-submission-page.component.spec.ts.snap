@@ -147,7 +147,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
@@ -325,7 +325,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
@@ -500,7 +500,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
@@ -808,7 +808,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
@@ -1082,7 +1082,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
@@ -4210,7 +4210,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
@@ -7271,7 +7271,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
@@ -7447,7 +7447,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
       <button
         class="btn btn-secondary btn-sm"
       >
-         Show All 
+         Expand All 
       </button>
       <button
         class="btn btn-secondary btn-sm ms-2"
