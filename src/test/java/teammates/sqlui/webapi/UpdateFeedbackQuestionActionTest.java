@@ -2,7 +2,6 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +11,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -197,52 +195,6 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         };
         verifyHttpParameterFailure(params);
     }
-
-//    @Test
-//    void testSpecificAccessControl_nonExistentFeedbackQuestion_cannotAccess() {
-//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(null);
-//        String[] submissionParams = {
-//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-//        };
-//
-//        verifyCannotAccess(submissionParams);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_withModifySessionPrivilege_canAccess() {
-//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-//        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
-//                typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
-//        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-//                .thenReturn(typicalInstructor);
-//
-//        String[] submissionParams = {
-//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-//        };
-//
-//        loginAsInstructor(typicalInstructor.getGoogleId());
-//        verifyCanAccess(submissionParams);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_withoutModifySessionPrivilege_cannotAccess() {
-//        // create instructor without modify session privilege
-//        Instructor instructorWithoutAccess = getTypicalInstructor();
-//        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
-//
-//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-//        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
-//                typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
-//        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-//                .thenReturn(instructorWithoutAccess);
-//
-//        String[] submissionParams = {
-//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-//        };
-//
-//        loginAsInstructor(instructorWithoutAccess.getGoogleId());
-//        verifyCannotAccess(submissionParams);
-//    }
 
     @Test
     void testAccessControl() throws Exception {

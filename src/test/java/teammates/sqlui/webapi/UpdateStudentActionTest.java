@@ -19,7 +19,6 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -28,7 +27,6 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -485,128 +483,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
         verifyHttpParameterFailure(params);
     }
-
-//    @Test
-//    void testSpecificAccessControl_admin_cannotAccess() {
-//        loginAsAdmin();
-//
-//        String[] params = {
-//                Const.ParamsNames.COURSE_ID, course.getId(),
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyCannotAccess(params);
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_missingCourseId_throwsInvalidHttpParameterException() {
-//        loginAsInstructor("instructor-googleId");
-//
-//        String[] params = {
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyHttpParameterFailureAcl(params);
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_nonExistentInstructorId_cannotAccess() {
-//        String nonExistentInstructorId = "RANDOM_ID";
-//        when(mockLogic.getInstructorByGoogleId(course.getId(), nonExistentInstructorId)).thenReturn(null);
-//        loginAsInstructor(nonExistentInstructorId);
-//
-//        String[] params = {
-//                Const.ParamsNames.COURSE_ID, course.getId(),
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyCannotAccess(params);
-//        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), nonExistentInstructorId);
-//        verify(mockLogic, times(1)).getCourse(course.getId());
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_instructorWithPermission_canAccess() {
-//        String instructorId = "instructor-googleId";
-//        // Instructor with co-owner role can modify student
-//        Instructor instructor = getTypicalInstructor();
-//        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
-//        loginAsInstructor(instructorId);
-//
-//        String[] params = {
-//                Const.ParamsNames.COURSE_ID, course.getId(),
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyCanAccess(params);
-//        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructorId);
-//        verify(mockLogic, times(1)).getCourse(course.getId());
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_instructorWithoutPermission_cannotAccess() {
-//        String instructorId = "instructor-googleId";
-//        // Instructor with observer role cannot modify student
-//        Instructor instructor = getTypicalInstructor();
-//        InstructorPrivileges instructorPrivileges =
-//                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
-//        instructor.setPrivileges(instructorPrivileges);
-//        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
-//        loginAsInstructor(instructorId);
-//
-//        String[] params = {
-//                Const.ParamsNames.COURSE_ID, course.getId(),
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyCannotAccess(params);
-//        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructorId);
-//        verify(mockLogic, times(1)).getCourse(course.getId());
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_student_cannotAccess() {
-//        loginAsStudent("student-googleId");
-//
-//        String[] params = {
-//                Const.ParamsNames.COURSE_ID, course.getId(),
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyCannotAccess(params);
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_loggedOut_cannotAccess() {
-//        logoutUser();
-//
-//        String[] params = {
-//                Const.ParamsNames.COURSE_ID, course.getId(),
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyCannotAccess(params);
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
-//
-//    @Test
-//    void testSpecificAccessControl_unregistered_cannotAccess() {
-//        loginAsUnregistered("instructor-googleId");
-//
-//        String[] params = {
-//                Const.ParamsNames.COURSE_ID, course.getId(),
-//                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-//        };
-//
-//        verifyCannotAccess(params);
-//        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
-//    }
 
     @Test
     void testAccessControl() {
