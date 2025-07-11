@@ -1219,7 +1219,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   expandAllQuestions(): void {
     if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
       this.questionSubmissionForms.forEach((q) => {
-        q.isTabExpanded = true
+        q.isTabExpanded = true;
       });
     } else {
       this.questionSubmissionForms.forEach((q) => {
@@ -1233,7 +1233,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   collapseAllQuestions(): void {
     if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
       this.questionSubmissionForms.forEach((q) => {
-        q.isTabExpanded = false
+        q.isTabExpanded = false;
       });
     } else {
       this.questionSubmissionForms.forEach((q) => {
@@ -1243,7 +1243,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       });
     }
   }
-  
+
   toggleViewChange(selectedView: SessionView): void {
     if (selectedView === this.currentSelectedSessionView) {
       return;
