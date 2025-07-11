@@ -221,76 +221,87 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         verifyNoTasksAdded();
     }
 
+//    @Test
+//    void testAccessControl_noLogin_cannotAccess() {
+//        String[] params = new String[] {
+//                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+//        };
+//
+//        logoutUser();
+//        verifyCannotAccess(params);
+//    }
+//
+//    @Test
+//    void testAccessControl_unregisteredUsers_cannotAccess() {
+//        String[] params = new String[] {
+//                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+//        };
+//
+//        loginAsUnregistered("unregistered user");
+//        verifyCannotAccess(params);
+//    }
+//
+//    @Test
+//    void testAccessControl_students_cannotAccess() {
+//        Student typicalStudent = getTypicalStudent();
+//        String[] params = new String[] {
+//                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+//        };
+//
+//        loginAsStudent(typicalStudent.getGoogleId());
+//        verifyCannotAccess(params);
+//    }
+//
+//    @Test
+//    void testAccessControl_instructorsFromDifferentCourse_cannotAccess() {
+//        Course differentCourse = new Course("different id", "different name", Const.DEFAULT_TIME_ZONE,
+//                "teammates");
+//        Instructor instructorFromDifferentCourse = getTypicalInstructor();
+//        instructorFromDifferentCourse.setCourse(differentCourse);
+//        instructorFromDifferentCourse.setGoogleId("different google id");
+//
+//        String[] params = new String[] {
+//                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+//        };
+//
+//        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+//        when(mockLogic.getInstructorByGoogleId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
+//                .thenReturn(instructorFromDifferentCourse);
+//
+//        loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
+//
+//        verifyCannotAccess(params);
+//    }
+//
+//    @Test
+//    void testAccessControl_instructorWithoutCorrectCoursePrivilege_cannotAccess() {
+//        Instructor instructorWithoutCorrectPrivilege = getTypicalInstructor();
+//        instructorWithoutCorrectPrivilege.setGoogleId("no privilege");
+//        instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");
+//        instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+//
+//        String[] params = new String[] {
+//                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+//        };
+//
+//        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+//        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
+//                .thenReturn(instructorWithoutCorrectPrivilege);
+//
+//        loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());
+//
+//        verifyCannotAccess(params);
+//    }
+
     @Test
-    void testAccessControl_noLogin_cannotAccess() {
+    void testAccessControl() {
+        // Only instructors of the same course can access
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
         };
 
-        logoutUser();
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_unregisteredUsers_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        loginAsUnregistered("unregistered user");
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_students_cannotAccess() {
-        Student typicalStudent = getTypicalStudent();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        loginAsStudent(typicalStudent.getGoogleId());
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorsFromDifferentCourse_cannotAccess() {
-        Course differentCourse = new Course("different id", "different name", Const.DEFAULT_TIME_ZONE,
-                "teammates");
-        Instructor instructorFromDifferentCourse = getTypicalInstructor();
-        instructorFromDifferentCourse.setCourse(differentCourse);
-        instructorFromDifferentCourse.setGoogleId("different google id");
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
-                .thenReturn(instructorFromDifferentCourse);
-
-        loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorWithoutCorrectCoursePrivilege_cannotAccess() {
-        Instructor instructorWithoutCorrectPrivilege = getTypicalInstructor();
-        instructorWithoutCorrectPrivilege.setGoogleId("no privilege");
-        instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");
-        instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
-                .thenReturn(instructorWithoutCorrectPrivilege);
-
-        loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());
-
-        verifyCannotAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(typicalCourse,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, params);
     }
 
 }

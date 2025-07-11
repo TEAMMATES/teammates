@@ -198,50 +198,70 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         verifyHttpParameterFailure(params);
     }
 
-    @Test
-    void testSpecificAccessControl_nonExistentFeedbackQuestion_cannotAccess() {
-        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(null);
-        String[] submissionParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-        };
+//    @Test
+//    void testSpecificAccessControl_nonExistentFeedbackQuestion_cannotAccess() {
+//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(null);
+//        String[] submissionParams = {
+//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+//        };
+//
+//        verifyCannotAccess(submissionParams);
+//    }
+//
+//    @Test
+//    void testSpecificAccessControl_withModifySessionPrivilege_canAccess() {
+//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
+//        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
+//                typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
+//        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+//                .thenReturn(typicalInstructor);
+//
+//        String[] submissionParams = {
+//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+//        };
+//
+//        loginAsInstructor(typicalInstructor.getGoogleId());
+//        verifyCanAccess(submissionParams);
+//    }
+//
+//    @Test
+//    void testSpecificAccessControl_withoutModifySessionPrivilege_cannotAccess() {
+//        // create instructor without modify session privilege
+//        Instructor instructorWithoutAccess = getTypicalInstructor();
+//        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
+//
+//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
+//        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
+//                typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
+//        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+//                .thenReturn(instructorWithoutAccess);
+//
+//        String[] submissionParams = {
+//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+//        };
+//
+//        loginAsInstructor(instructorWithoutAccess.getGoogleId());
+//        verifyCannotAccess(submissionParams);
+//    }
 
-        verifyCannotAccess(submissionParams);
-    }
-
     @Test
-    void testSpecificAccessControl_withModifySessionPrivilege_canAccess() {
+    void testAccessControl() throws Exception {
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
                 typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-
         String[] submissionParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
         };
 
+        //Accessible only for instructors with ModifySession privilege
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(typicalCourse,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
+
+        //Nonexistent feedback question cannot access
         loginAsInstructor(typicalInstructor.getGoogleId());
-        verifyCanAccess(submissionParams);
-    }
 
-    @Test
-    void testSpecificAccessControl_withoutModifySessionPrivilege_cannotAccess() {
-        // create instructor without modify session privilege
-        Instructor instructorWithoutAccess = getTypicalInstructor();
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
+        verifyEntityNotFoundAcl(Const.ParamsNames.FEEDBACK_QUESTION_ID, "random");
 
-        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
-                typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(instructorWithoutAccess);
-
-        String[] submissionParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-        };
-
-        loginAsInstructor(instructorWithoutAccess.getGoogleId());
-        verifyCannotAccess(submissionParams);
     }
 
     private FeedbackQuestionUpdateRequest getTypicalTextQuestionUpdateRequest() {

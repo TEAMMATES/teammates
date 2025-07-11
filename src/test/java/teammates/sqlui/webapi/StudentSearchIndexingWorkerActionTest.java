@@ -98,21 +98,26 @@ public class StudentSearchIndexingWorkerActionTest extends BaseActionTest<Studen
         verify(mockLogic, times(1)).putStudentDocument(typicalStudent);
     }
 
+//    @Test
+//    void testSpecificAccessControl_onlyAdmin_canAccess() {
+//        logoutUser();
+//        verifyCannotAccess();
+//
+//        loginAsUnregistered("unregistered user");
+//        verifyCannotAccess();
+//
+//        loginAsStudent(getTypicalStudent().getGoogleId());
+//        verifyCannotAccess();
+//
+//        loginAsInstructor(getTypicalInstructor().getGoogleId());
+//        verifyCannotAccess();
+//
+//        loginAsAdmin();
+//        verifyCanAccess();
+//    }
+
     @Test
-    void testSpecificAccessControl_onlyAdmin_canAccess() {
-        logoutUser();
-        verifyCannotAccess();
-
-        loginAsUnregistered("unregistered user");
-        verifyCannotAccess();
-
-        loginAsStudent(getTypicalStudent().getGoogleId());
-        verifyCannotAccess();
-
-        loginAsInstructor(getTypicalInstructor().getGoogleId());
-        verifyCannotAccess();
-
-        loginAsAdmin();
-        verifyCanAccess();
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
     }
 }

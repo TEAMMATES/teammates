@@ -187,28 +187,33 @@ public class UpdateFeedbackSessionLogsActionTest
         verify(mockLogic).createFeedbackSessionLogs(argThat(filteredLogs -> isEqual(expected, filteredLogs)));
     }
 
-    @Test
-    public void testSpecificAccessControl_isAdmin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
+//    @Test
+//    public void testSpecificAccessControl_isAdmin_canAccess() {
+//        loginAsAdmin();
+//        verifyCanAccess();
+//    }
+//
+//    @Test
+//    public void testSpecificAccessControl_isInstructor_cannotAccess() {
+//        loginAsInstructor("user-id");
+//        verifyCannotAccess();
+//    }
+//
+//    @Test
+//    public void testSpecificAccessControl_isStudent_cannotAccess() {
+//        loginAsStudent("user-id");
+//        verifyCannotAccess();
+//    }
+//
+//    @Test
+//    public void testSpecificAccessControl_loggedOut_cannotAccess() {
+//        logoutUser();
+//        verifyCannotAccess();
+//    }
 
     @Test
-    public void testSpecificAccessControl_isInstructor_cannotAccess() {
-        loginAsInstructor("user-id");
-        verifyCannotAccess();
-    }
-
-    @Test
-    public void testSpecificAccessControl_isStudent_cannotAccess() {
-        loginAsStudent("user-id");
-        verifyCannotAccess();
-    }
-
-    @Test
-    public void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
+    public void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
     }
 
     private Boolean isEqual(List<FeedbackSessionLogEntry> expected, List<FeedbackSessionLog> actual) {

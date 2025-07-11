@@ -308,37 +308,47 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
 
     }
 
+//    @Test
+//    void testSpecificAccessControl_instructorWithPermission_canAccess() {
+//        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
+//
+//        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+//        instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+//        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+//                false, "", null, instructorPrivileges);
+//
+//        loginAsInstructor(googleId);
+//        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+//        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+//
+//        String[] params = {
+//                Const.ParamsNames.COURSE_ID, course.getId(),
+//        };
+//
+//        verifyCanAccess(params);
+//    }
+//
+//    @Test
+//    void testSpecificAccessControl_notInstructor_cannotAccess() {
+//        String[] params = {
+//                Const.ParamsNames.COURSE_ID, "course-id",
+//        };
+//
+//        loginAsStudent(googleId);
+//        verifyCannotAccess(params);
+//
+//        logoutUser();
+//        verifyCannotAccess(params);
+//    }
+
     @Test
-    void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
-
-        loginAsInstructor(googleId);
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-        };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_notInstructor_cannotAccess() {
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
 
-        loginAsStudent(googleId);
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(course,
+                InstructorPermissions.CAN_MODIFY_INSTRUCTOR, params);
     }
 }
 
