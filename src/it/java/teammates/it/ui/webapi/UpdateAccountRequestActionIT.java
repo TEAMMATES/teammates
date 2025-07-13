@@ -24,6 +24,10 @@ import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateAccountRequestAction;
+import teammates.logic.api.Logic;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.storage.entity.Course;
+import java.time.Instant;
 
 /**
  * SUT: {@link UpdateAccountRequestAction}.
@@ -109,8 +113,14 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(comments, data.getComments());
         verifyNumberOfEmailsSent(0);
 
-        ______TS("email with existing account throws exception");
+        ______TS("email with existing instructor account under same institute throws exception");
         Account account = logic.createAccountWithTransaction(getTypicalAccount());
+        CourseAttributes courseAttributes = getTypicalCourseAttributes();
+
+        // Create an instructor account with the same email as the account request
+        Logic legacyLogic = Logic.inst();
+        legacyLogic.createCourseAndInstructor(account.getGoogleId(), courseAttributes);
+
         accountRequest = logic.createAccountRequestWithTransaction("name", account.getEmail(),
                 "institute", AccountRequestStatus.PENDING, "comments");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
@@ -118,8 +128,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         InvalidOperationException ipe = verifyInvalidOperation(requestBody, params);
 
-        assertEquals(String.format("An account with email %s already exists. "
-                + "Please reject or delete the account request instead.", account.getEmail()), ipe.getMessage());
+        assertEquals(String.format("An instructor account with email %s already exists. "
+                        + "Please reject or delete the account request instead.", account.getEmail()), ipe.getMessage());
 
         ______TS("non-existent but valid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
@@ -241,6 +251,18 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         assertEquals(String.format("An account request with email %s has already been approved. "
                 + "Please reject or delete the account request instead.", accountRequest.getEmail()), ipe.getMessage());
+    }
+
+    /**
+     * Returns the typical course attributes.
+     * This is a placeholder method because getTypicalCourse is not compatible, using the newer sql
+     * while the test requires the old non-sql version of Course and CourseAttributes.
+     */
+    private CourseAttributes getTypicalCourseAttributes() {
+        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "test-institute",
+                Instant.now(), Instant.now(), false);
+        CourseAttributes typicalCourseAttributes = CourseAttributes.valueOf(course);
+        return typicalCourseAttributes;
     }
 
     @Override
