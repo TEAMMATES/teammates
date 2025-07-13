@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import jakarta.annotation.Nullable;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
@@ -295,6 +294,22 @@ public class Logic {
         assert email != null;
 
         return instructorsLogic.getInstructorById(courseId, email);
+    }
+
+    /**
+     * Checks whether an instructor with the given email exists in any course that belongs to the given institute.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return true if exists, false otherwise.
+     */
+    public boolean isInstructorWithEmailInInstitute(String email, String institute) {
+
+        assert email != null;
+        assert institute != null;
+
+        return instructorsLogic.isExistingInstructorWithEmailInInstitute(email, institute);
     }
 
     /**

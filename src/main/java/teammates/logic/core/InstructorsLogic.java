@@ -8,6 +8,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -33,6 +34,7 @@ public final class InstructorsLogic {
     private static final InstructorsLogic instance = new InstructorsLogic();
 
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     private FeedbackResponsesLogic frLogic;
     private FeedbackResponseCommentsLogic frcLogic;
@@ -424,6 +426,29 @@ public final class InstructorsLogic {
      */
     public boolean isInstructorInAnyCourse(String googleId) {
         return instructorsDb.hasInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Checks if there is an existing instructor with the given email in the specified institute.
+     */
+    public boolean isExistingInstructorWithEmailInInstitute(String email, String institute) {
+        assert email != null;
+        assert institute != null;
+
+        try {
+            List<InstructorAttributes> instructors = searchInstructorsInWholeSystem(email);
+            for (InstructorAttributes instructor : instructors) {
+                if (instructor.getEmail().equals(email)) {
+                    CourseAttributes course = coursesLogic.getCourse(instructor.getCourseId());
+                    if (course != null && institute.equals(course.getInstitute())) {
+                        return true;
+                    }
+                }
+            }
+        } catch (SearchServiceException e) {
+            log.warning("Failed to search for instructors with email " + email + ": " + e.getMessage());
+        }
+        return false;
     }
 
     /**
