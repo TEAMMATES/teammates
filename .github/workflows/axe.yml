@@ -43,7 +43,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm ci
       - name: Build Frontend Bundle
-        run: npm run build
+        run: node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production
       - name: Start Server
         run: |
           ./gradlew serverRun &
