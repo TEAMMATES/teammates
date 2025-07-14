@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import jakarta.annotation.Nullable;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
@@ -113,6 +114,14 @@ public class Logic {
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
     }
 
+    /**
+     * Returns the institute of the course with ID {@code courseId}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return The institute of the course, or null if no such course exists.
+     */
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
     }

@@ -8,7 +8,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -171,6 +170,14 @@ public final class InstructorsLogic {
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
         return getInstructorsForGoogleId(googleId, false);
     }
+
+    /**
+     * Gets all instructors associated with an email.
+     */
+    public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        return instructorsDb.getInstructorsForEmail(email);
+    }
+    
 
     /**
      * Gets all instructors associated with a googleId.
@@ -435,18 +442,13 @@ public final class InstructorsLogic {
         assert email != null;
         assert institute != null;
 
-        try {
-            List<InstructorAttributes> instructors = searchInstructorsInWholeSystem(email);
-            for (InstructorAttributes instructor : instructors) {
-                if (instructor.getEmail().equals(email)) {
-                    CourseAttributes course = coursesLogic.getCourse(instructor.getCourseId());
-                    if (course != null && institute.equals(course.getInstitute())) {
-                        return true;
-                    }
+        List<InstructorAttributes> instructors = getInstructorsForEmail(email);
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.getEmail().equals(email)) {
+                if (institute.equals(coursesLogic.getCourseInstitute(instructor.getCourseId()))) {
+                    return true;
                 }
             }
-        } catch (SearchServiceException e) {
-            log.warning("Failed to search for instructors with email " + email + ": " + e.getMessage());
         }
         return false;
     }
