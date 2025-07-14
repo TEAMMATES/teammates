@@ -131,8 +131,9 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         InvalidOperationException ipe = verifyInvalidOperation(requestBody, params);
 
-        assertEquals(String.format("An instructor account with email %s already exists. "
-                        + "Please reject or delete the account request instead.", account.getEmail()), ipe.getMessage());
+        assertEquals(String.format("An instructor account with email %s under the institute %s "
+                        + "already exists. Please reject or delete the account request instead.",
+                        accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
 
         ______TS("non-existent but valid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
