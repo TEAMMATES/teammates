@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,12 +9,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
+import teammates.logic.api.Logic;
+import teammates.storage.entity.Course;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
@@ -24,10 +28,6 @@ import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateAccountRequestAction;
-import teammates.logic.api.Logic;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.storage.entity.Course;
-import java.time.Instant;
 
 /**
  * SUT: {@link UpdateAccountRequestAction}.
@@ -118,11 +118,14 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         CourseAttributes courseAttributes = getTypicalCourseAttributes();
 
         // Create an instructor account with the same email as the account request
-        Logic legacyLogic = Logic.inst();
+        Logic legacyLogic = Logic.inst(); // Use legacy (non-sql) logic because instructor has not been migrated to sql
+
+        HibernateUtil.beginTransaction();
         legacyLogic.createCourseAndInstructor(account.getGoogleId(), courseAttributes);
+        HibernateUtil.commitTransaction();
 
         accountRequest = logic.createAccountRequestWithTransaction("name", account.getEmail(),
-                "institute", AccountRequestStatus.PENDING, "comments");
+                "test-institute", AccountRequestStatus.PENDING, "comments");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
@@ -259,10 +262,10 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
      * while the test requires the old non-sql version of Course and CourseAttributes.
      */
     private CourseAttributes getTypicalCourseAttributes() {
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "test-institute",
-                Instant.now(), Instant.now(), false);
-        CourseAttributes typicalCourseAttributes = CourseAttributes.valueOf(course);
-        return typicalCourseAttributes;
+        Course course = new Course("test-course-id", "test-course-name",
+                                Const.DEFAULT_TIME_ZONE, "test-institute",
+                                Instant.now(), Instant.now(), false);
+        return CourseAttributes.valueOf(course);
     }
 
     @Override
@@ -279,6 +282,10 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         for (AccountRequest ar : accountRequests) {
             logic.deleteAccountRequest(ar.getId());
         }
+
+        // Clean up the course and instructor accounts created during the test
+        CourseAttributes courseAttributes = getTypicalCourseAttributes();
+        Logic.inst().deleteCourseCascade(courseAttributes.getId());
 
         logic.deleteAccount(getTypicalAccount().getGoogleId());
         HibernateUtil.commitTransaction();

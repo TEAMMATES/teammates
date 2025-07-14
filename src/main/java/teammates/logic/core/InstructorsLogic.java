@@ -172,20 +172,19 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Gets all instructors associated with an email.
-     */
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-        return instructorsDb.getInstructorsForEmail(email);
-    }
-    
-
-    /**
      * Gets all instructors associated with a googleId.
      *
      * @param omitArchived whether archived instructors should be omitted or not
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
+    }
+
+    /**
+     * Gets all instructors associated with an email.
+     */
+    public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        return instructorsDb.getInstructorsForEmail(email);
     }
 
     /**
@@ -444,10 +443,9 @@ public final class InstructorsLogic {
 
         List<InstructorAttributes> instructors = getInstructorsForEmail(email);
         for (InstructorAttributes instructor : instructors) {
-            if (instructor.getEmail().equals(email)) {
-                if (institute.equals(coursesLogic.getCourseInstitute(instructor.getCourseId()))) {
-                    return true;
-                }
+            if (instructor.getEmail().equals(email)
+                    && institute.equals(coursesLogic.getCourseInstitute(instructor.getCourseId()))) {
+                return true;
             }
         }
         return false;
