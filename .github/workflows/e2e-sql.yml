@@ -53,4 +53,21 @@ jobs:
           ./gradlew serverRun &
           ./wait-for-server.sh
       - name: Start Tests
-        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTestsSql
+        run: |
+          # Check if the server and pages are accessible before running the tests
+          echo "Checking environment before running tests..."
+          
+          # Run curl commands to check environment health
+          curl -v http://localhost:8080
+          curl -v http://localhost:8080/admin/adminHomePage
+          
+          # Check if the environment is OK before running the tests
+          if [ $? -ne 0 ]; then
+            echo "Environment check failed. Exiting..."
+            exit 1
+          else
+            echo "Environment check passed. Running tests..."
+          fi
+          
+          # Run all tests using xvfb-run (virtual display)
+          xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew -P${{ matrix.tests }} e2eTestsSql
