@@ -277,21 +277,35 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     }
 
     @Test
-    void testSpecificAccessControl_onlyAdminsCanAccess_allParameterCombinations() {
-        // Test all parameter combinations
-        String[][] allParamCombinations = {
-                {Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                        Const.ParamsNames.COURSE_ID, stubStudent.getCourseId()},
-                {},
-                {Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail()},
-                {Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()},
-                {Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                        Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()},
-                {Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId()},
-                {"random-params", "random-value"},
+    void testAccessControl() {
+        String[] params1 = {};
+        String[] params2 = {
+                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
         };
-        for (String[] params : allParamCombinations) {
-            verifyOnlyAdminsCanAccess(params);
-        }
+        String[] params3 = {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
+        };
+        String[] params4 = {
+                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+        };
+        String[] params5 = {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+        };
+        String[] params6 = {
+                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
+        };
+        String[] params7 = {
+                "random-params", "random-value",
+        };
+
+        verifyOnlyAdminsCanAccess(params1);
+        verifyOnlyAdminsCanAccess(params2);
+        verifyOnlyAdminsCanAccess(params3);
+        verifyOnlyAdminsCanAccess(params4);
+        verifyOnlyAdminsCanAccess(params5);
+        verifyOnlyAdminsCanAccess(params6);
+        verifyOnlyAdminsCanAccess(params7);
     }
 }

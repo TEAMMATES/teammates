@@ -150,20 +150,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     }
 
     @Test
-    void testAccessControl_instructorOfOtherCourses_cannotAccess() {
-        when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
-                .thenReturn(stubFeedbackSession);
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
-        };
-
-        verifyInstructorsOfOtherCoursesCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorsSameCourse_canAccess() {
+    void testAccessControl() {
         when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
                 .thenReturn(stubFeedbackSession);
 
@@ -177,5 +164,6 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
                 Const.InstructorPermissions.CAN_MODIFY_SESSION,
                 params
         );
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
     }
 }

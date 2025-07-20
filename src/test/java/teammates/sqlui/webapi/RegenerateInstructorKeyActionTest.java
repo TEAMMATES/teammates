@@ -194,7 +194,7 @@ public class RegenerateInstructorKeyActionTest extends BaseActionTest<Regenerate
     }
 
     @Test
-    void testSpecificAccessControl_onlyAdminsCanAccess() {
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),

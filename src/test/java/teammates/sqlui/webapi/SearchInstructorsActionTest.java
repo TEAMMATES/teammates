@@ -139,7 +139,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     }
 
     @Test
-    void testSpecificAccessControl_onlyAdminsCanAccess() {
+    void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
         };
