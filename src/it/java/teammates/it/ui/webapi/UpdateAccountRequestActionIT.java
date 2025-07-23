@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,12 +9,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
+import teammates.logic.api.Logic;
+import teammates.storage.entity.Course;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
@@ -109,17 +113,27 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(comments, data.getComments());
         verifyNumberOfEmailsSent(0);
 
-        ______TS("email with existing account throws exception");
+        ______TS("email with existing instructor account under same institute throws exception");
         Account account = logic.createAccountWithTransaction(getTypicalAccount());
+        CourseAttributes courseAttributes = getTypicalCourseAttributes();
+
+        // Create an instructor account with the same email as the account request
+        Logic legacyLogic = Logic.inst(); // Use legacy (non-sql) logic because instructor has not been migrated to sql
+
+        HibernateUtil.beginTransaction();
+        legacyLogic.createCourseAndInstructor(account.getGoogleId(), courseAttributes);
+        HibernateUtil.commitTransaction();
+
         accountRequest = logic.createAccountRequestWithTransaction("name", account.getEmail(),
-                "institute", AccountRequestStatus.PENDING, "comments");
+                "test-institute", AccountRequestStatus.PENDING, "comments");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(requestBody, params);
 
-        assertEquals(String.format("An account with email %s already exists. "
-                + "Please reject or delete the account request instead.", account.getEmail()), ipe.getMessage());
+        assertEquals(String.format("An instructor account with email %s under the institute %s "
+                        + "already exists. Please reject or delete the account request instead.",
+                        accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
 
         ______TS("non-existent but valid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
@@ -243,6 +257,18 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
                 + "Please reject or delete the account request instead.", accountRequest.getEmail()), ipe.getMessage());
     }
 
+    /**
+     * Returns the typical course attributes.
+     * This is a placeholder method because getTypicalCourse is not compatible, using the newer sql
+     * while the test requires the old non-sql version of Course and CourseAttributes.
+     */
+    private CourseAttributes getTypicalCourseAttributes() {
+        Course course = new Course("test-course-id", "test-course-name",
+                                Const.DEFAULT_TIME_ZONE, "test-institute",
+                                Instant.now(), Instant.now(), false);
+        return CourseAttributes.valueOf(course);
+    }
+
     @Override
     @Test
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
@@ -257,6 +283,10 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         for (AccountRequest ar : accountRequests) {
             logic.deleteAccountRequest(ar.getId());
         }
+
+        // Clean up the course and instructor accounts created during the test
+        CourseAttributes courseAttributes = getTypicalCourseAttributes();
+        Logic.inst().deleteCourseCascade(courseAttributes.getId());
 
         logic.deleteAccount(getTypicalAccount().getGoogleId());
         HibernateUtil.commitTransaction();
