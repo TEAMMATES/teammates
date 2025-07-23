@@ -30,6 +30,12 @@ This is possible if a part of API input/output definition changes.
 Simply rerun the command to build the type definitions to resolve the problem.
 </panel>
 
+<panel header="When running ./gradlew serverRun, the authentication fails with 'org.postgresql.util.PSQLException: FATAL: password authentication failed for user &quot;teammates&quot;'" no-close>
+
+This is possible if a local PostgreSQL instance is already running on port 5432. 
+This can be fixed by manually killing the local PostgreSQL server process before running ./gradlew serverRun again.
+</panel>
+
 <br>
 
 ## Common test errors and solutions
