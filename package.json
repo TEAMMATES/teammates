@@ -39,7 +39,7 @@
     "firebase": "^10.7.2",
     "handsontable": "^14.1.0",
     "intersection-observer": "^0.12.2",
-    "moment-timezone": "^0.5.45",
+    "moment-timezone": "^0.6.0",
     "ng-dynamic-component": "^10.7.0",
     "ng-in-viewport": "^16.1.0",
     "ngx-captcha": "^13.0.0",
