@@ -18,7 +18,6 @@ import teammates.ui.webapi.SendLoginEmailAction;
  * SUT: {@link SendLoginEmailAction}.
  */
 public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailAction> {
-    private static final String GOOGLE_ID = "user-googleId";
     private static final String USER_EMAIL = "test@example.com";
     private static final String CONTINUE_URL = "http://localhost:4200";
     private static final String USER_CAPTCHA_RESPONSE = "user-captcha-response";
@@ -193,38 +192,7 @@ public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailActio
     }
 
     @Test
-    void testAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_maintainer_canAccess() {
-        loginAsMaintainer();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_instructor_canAccess() {
-        loginAsInstructor(GOOGLE_ID);
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_student_canAccess() {
-        loginAsStudent(GOOGLE_ID);
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_unregistered_canAccess() {
-        loginAsUnregistered(GOOGLE_ID);
-        verifyCanAccess();
-    }
-
-    @Test
-    void testAccessControl_loggedOut_canAccess() {
-        logoutUser();
-        verifyCanAccess();
+    void testAccessControl() {
+        verifyAnyUserCanAccess();
     }
 }

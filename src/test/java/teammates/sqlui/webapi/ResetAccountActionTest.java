@@ -277,70 +277,35 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-
-        String[] params1 = {
+    void testAccessControl() {
+        String[] params1 = {};
+        String[] params2 = {
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
                 Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
         };
-        verifyCanAccess(params1);
-
-        String[] params2 = {};
-        verifyCanAccess(params2);
-
         String[] params3 = {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
         };
-        verifyCanAccess(params3);
-
         String[] params4 = {
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
         };
-        verifyCanAccess(params4);
-
         String[] params5 = {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
         };
-        verifyCanAccess(params5);
-
         String[] params6 = {
                 Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
         };
-        verifyCanAccess(params6);
-
         String[] params7 = {
                 "random-params", "random-value",
         };
-        verifyCanAccess(params7);
-    }
 
-    @Test
-    void testSpecificAccessControl_notAdmin_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
-        };
-        verifyCannotAccess(params);
-
-        loginAsInstructor(stubInstructor.getGoogleId());
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsStudent(stubStudent.getGoogleId());
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsMaintainer();
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsStudentInstructor(stubStudent.getGoogleId());
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsUnregistered(stubInstructor.getGoogleId());
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params1);
+        verifyOnlyAdminsCanAccess(params2);
+        verifyOnlyAdminsCanAccess(params3);
+        verifyOnlyAdminsCanAccess(params4);
+        verifyOnlyAdminsCanAccess(params5);
+        verifyOnlyAdminsCanAccess(params6);
+        verifyOnlyAdminsCanAccess(params7);
     }
 }
