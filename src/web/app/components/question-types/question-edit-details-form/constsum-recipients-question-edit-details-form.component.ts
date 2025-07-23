@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackConstantSumDistributePointsType,
@@ -17,7 +17,8 @@ import {
   styleUrls: ['./constsum-recipients-question-edit-details-form.component.scss'],
 })
 export class ConstsumRecipientsQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails> {
+    extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
+    implements OnChanges {
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
@@ -25,6 +26,12 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
 
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
+  }
+
+  @Input() questionNumber: number = 0;
+  pointsRadioGroupName: string = '';
+  ngOnChanges(): void {
+    this.pointsRadioGroupName = `constsum-recipients-${this.questionNumber}`;
   }
 
   /**
