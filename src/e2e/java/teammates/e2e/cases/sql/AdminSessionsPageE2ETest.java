@@ -63,7 +63,7 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
         futureFeedbackSession.setEndTime(instant24DaysLater);
         futureFeedbackSession.setResultsVisibleFromTime(instant24DaysLater);
 
-        doRemoveAndRestoreDataBundle(testData);
+        removeAndRestoreDataBundle(testData);
     }
 
     @Test

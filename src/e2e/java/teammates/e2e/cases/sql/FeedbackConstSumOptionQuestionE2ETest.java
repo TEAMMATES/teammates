@@ -11,23 +11,26 @@ import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
- *      specifically for ConstSumRecipient questions.
+ *      specifically for ConstSumOption questions.
  */
-public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
+public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
+    // Recipient of responses
+    Team otherTeam;
 
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadSqlDataBundle("/FeedbackConstSumRecipientQuestionE2ETestSql.json"));
+                loadSqlDataBundle("/FeedbackConstSumOptionQuestionE2ETestSql.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FCSumRcptQn.CS2104");
+        student = testData.students.get("alice.tmms@FCSumOptQn.CS2104");
+        otherTeam = testData.teams.get("ProgrammingLanguageConceptsTeam2");
     }
 
     @Test
@@ -52,7 +55,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         ______TS("add new question");
         // add new question exactly like loaded question
         loadedQuestion.setQuestionNumber(2);
-        feedbackEditPage.addConstSumRecipientQuestion(loadedQuestion);
+        feedbackEditPage.addConstSumOptionQuestion(loadedQuestion);
 
         feedbackEditPage.verifyConstSumQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);
@@ -71,6 +74,9 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
 
         ______TS("edit question");
         questionDetails = (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
+        List<String> options = questionDetails.getConstSumOptions();
+        options.add("Edited option.");
+        questionDetails.setConstSumOptions(options);
         questionDetails.setPointsPerOption(true);
         questionDetails.setPoints(1000);
         questionDetails.setDistributePointsFor("At least some options");
@@ -88,42 +94,34 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
 
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        Student receiver = testData.students.get("benny.tmms@FCSumRcptQn.CS2104");
-        Student receiver2 = testData.students.get("charlie.tmms@FCSumRcptQn.CS2104");
         feedbackSubmitPage.verifyConstSumQuestion(1, "",
                 (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
-        FeedbackResponse response = getResponse(question, receiver, 49);
-        FeedbackResponse response2 = getResponse(question, receiver2, 51);
-        List<FeedbackResponse> responses = Arrays.asList(response, response2);
-        feedbackSubmitPage.fillConstSumRecipientResponse(1, responses);
+        FeedbackResponse response = getResponse(question, Arrays.asList(50, 20, 30));
+        feedbackSubmitPage.fillConstSumOptionResponse(1, "", response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
-        verifyPresentInDatabase(response2);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
-        feedbackSubmitPage.verifyConstSumRecipientResponse(1, responses);
+        feedbackSubmitPage.verifyConstSumOptionResponse(1, "", response);
 
         ______TS("edit response");
-        response = getResponse(question, receiver, 21);
-        response2 = getResponse(question, receiver2, 79);
-        responses = Arrays.asList(response, response2);
-        feedbackSubmitPage.fillConstSumRecipientResponse(1, responses);
+        response = getResponse(question, Arrays.asList(23, 47, 30));
+        feedbackSubmitPage.fillConstSumOptionResponse(1, "", response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         feedbackSubmitPage = getFeedbackSubmitPage();
-        feedbackSubmitPage.verifyConstSumRecipientResponse(1, responses);
+        feedbackSubmitPage.verifyConstSumOptionResponse(1, "", response);
         verifyPresentInDatabase(response);
-        verifyPresentInDatabase(response2);
     }
 
-    private FeedbackResponse getResponse(FeedbackQuestion question, Student receiver, Integer answer) {
+    private FeedbackResponse getResponse(FeedbackQuestion question, List<Integer> answers) {
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
-        details.setAnswers(Arrays.asList(answer));
+        details.setAnswers(answers);
         return FeedbackResponse.makeResponse(question, student.getEmail(),
-                student.getSection(), receiver.getTeamName(), receiver.getSection(), details);
+                student.getSection(), otherTeam.getName(), student.getSection(), details);
     }
 }
