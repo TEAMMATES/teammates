@@ -138,7 +138,24 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
+    </div>
+  </div><tm-loading-retry>
     <div
       class="text-center"
     >
@@ -299,7 +316,24 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
+    </div>
+  </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -457,7 +491,24 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
+    </div>
+  </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -748,6 +799,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         </div>
       </div>
     </div>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
+    </div>
   </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
@@ -1004,6 +1072,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
         </div>
       </div>
+    </div>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
     </div>
   </div><tm-loading-retry>
     <div>
@@ -4116,6 +4201,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </div>
     </div>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
+    </div>
   </div><tm-loading-retry>
     <div>
       <tm-question-submission-form
@@ -7160,7 +7262,24 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
+    </div>
+  </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -7319,7 +7438,24 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12 text-end"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+         Expand All 
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ms-2"
+      >
+         Collapse All 
+      </button>
+    </div>
+  </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
         class="loading-container"
