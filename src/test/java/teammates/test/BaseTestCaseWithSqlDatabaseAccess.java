@@ -146,7 +146,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
             assertEquals(expectedInstructor.getName(), actualInstructor.getName());
             assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
-            assertEquals(expectedInstructor.getRegKey(), actualInstructor.getKey());
+            // Cannot compare keys as actualInstructor's key is only generated before storing into the database.
+            assertNotNull(actualInstructor.getKey());
             assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
             assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
             assertEquals(expectedInstructor.getRole(), actualInstructor.getRole());

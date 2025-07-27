@@ -9,16 +9,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Represents the instructor home page.
  */
-public class InstructorHomePage extends AppPage {
+public class InstructorHomePageSql extends AppPage {
 
-    public InstructorHomePage(Browser browser) {
+    public InstructorHomePageSql(Browser browser) {
         super(browser);
     }
 
@@ -27,7 +27,7 @@ public class InstructorHomePage extends AppPage {
         return getPageTitle().contains("Home");
     }
 
-    public void verifyCourseTabDetails(int courseTabIndex, CourseAttributes course, FeedbackSessionAttributes[] sessions) {
+    public void verifyCourseTabDetails(int courseTabIndex, Course course, FeedbackSession[] sessions) {
         String expectedDetails = "[" + course.getId() + "]: " + course.getName();
         assertEquals(getCourseDetails(courseTabIndex), expectedDetails);
 
@@ -38,7 +38,7 @@ public class InstructorHomePage extends AppPage {
         verifyTableBodyValues(getSessionsTable(courseTabIndex), expectedValues);
     }
 
-    public void verifySessionDetails(int courseTabIndex, int sessionIndex, FeedbackSessionAttributes session) {
+    public void verifySessionDetails(int courseTabIndex, int sessionIndex, FeedbackSession session) {
         String[] expectedValues = getExpectedSessionDetails(session);
         WebElement sessionRow = getSessionsTable(courseTabIndex).findElements(By.cssSelector("tbody tr")).get(sessionIndex);
         verifyTableRowValues(sessionRow, expectedValues);
@@ -52,7 +52,7 @@ public class InstructorHomePage extends AppPage {
         assertEquals(expectedResponseRate, getResponseRate(courseTabIndex, sessionIndex));
     }
 
-    public void copySession(int courseTabIndex, int sessionIndex, CourseAttributes copyToCourse, String newSessionName) {
+    public void copySession(int courseTabIndex, int sessionIndex, Course copyToCourse, String newSessionName) {
         WebElement copyFsModal = clickCopyButtonInTable(courseTabIndex, sessionIndex);
         fillTextBox(copyFsModal.findElement(By.id("copy-session-name")), newSessionName);
         selectCourseToCopyToInModal(copyFsModal, copyToCourse.getId());
@@ -73,7 +73,7 @@ public class InstructorHomePage extends AppPage {
         clickAndConfirm(unpublishButtons.get(unpublishButtons.size() - 1));
     }
 
-    public void sendReminderEmailToSelectedStudent(int courseTabIndex, int sessionIndex, StudentAttributes student) {
+    public void sendReminderEmailToSelectedStudent(int courseTabIndex, int sessionIndex, Student student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
         List<WebElement> remindSelectedButtons = browser.driver.findElements(
@@ -96,7 +96,7 @@ public class InstructorHomePage extends AppPage {
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
     }
 
-    public void resendResultsLink(int courseTabIndex, int sessionIndex, StudentAttributes student) {
+    public void resendResultsLink(int courseTabIndex, int sessionIndex, Student student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
         click(waitForElementPresence(By.className("btn-resend-" + sessionIndex)));
@@ -166,11 +166,11 @@ public class InstructorHomePage extends AppPage {
         return getDisplayedDateTime(instant, timeZone, "d MMM h:mm a");
     }
 
-    private String[] getExpectedSessionDetails(FeedbackSessionAttributes session) {
+    private String[] getExpectedSessionDetails(FeedbackSession session) {
         String[] details = new String[5];
-        details[0] = session.getFeedbackSessionName();
-        details[1] = getDateString(session.getStartTime(), session.getTimeZone());
-        details[2] = getDateString(session.getEndTime(), session.getTimeZone());
+        details[0] = session.getName();
+        details[1] = getDateString(session.getStartTime(), session.getCourse().getTimeZone());
+        details[2] = getDateString(session.getEndTime(), session.getCourse().getTimeZone());
 
         if (session.isClosed()) {
             details[3] = "Closed";

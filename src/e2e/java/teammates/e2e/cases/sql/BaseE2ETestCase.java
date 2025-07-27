@@ -330,6 +330,13 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
+    /**
+     * Gets registration key for a given instructor.
+     */
+    protected String getKeyForInstructor(String courseId, String instructorEmail) {
+        return getInstructor(courseId, instructorEmail).getKey();
+    }
+
     NotificationData getNotification(String notificationId) {
         return BACKDOOR.getNotificationData(notificationId);
     }
@@ -364,5 +371,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     @Override
     protected StudentData getStudent(Student student) {
         return getStudent(student.getCourseId(), student.getEmail());
+    }
+
+    /**
+     * Gets registration key for a given student.
+     */
+    protected String getKeyForStudent(Student student) {
+        return getStudent(student).getKey();
     }
 }
