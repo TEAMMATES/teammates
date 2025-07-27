@@ -435,7 +435,7 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Checks if there is an existing instructor with the given email in the specified institute.
+     * Checks if there is an existing instructor with the given email in any course under that belongs to the specified institute. 
      */
     public boolean isExistingInstructorWithEmailInInstitute(String email, String institute) {
         assert email != null;
