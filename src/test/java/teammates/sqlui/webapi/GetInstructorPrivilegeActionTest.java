@@ -111,14 +111,18 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     void testAccessControl_instructorsOfTheSameCourse_canAccess() {
         loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
 
-        String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
+
+        String[] submissionParams = {
+                Const.ParamsNames.COURSE_ID,  testInstructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_ID,  testInstructor1OfCourse1.getGoogleId() };
+
         verifyCannotAccess(submissionParams);
     }
 
     @Test
     void testAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
+        verifyAdminsCanAccess();
     }
 
     @Test

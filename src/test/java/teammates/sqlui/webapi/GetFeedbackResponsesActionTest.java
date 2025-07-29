@@ -899,7 +899,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_instructorWithOnlyModifySessionCommentPrivileges_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+
         Instructor instructorWithLimitedPrivileges =
                 getInstructorWithLimitedPrivileges(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         instructorWithLimitedPrivileges.setAccount(getTypicalAccount());
@@ -918,32 +918,39 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 .thenReturn(instructorWithLimitedPrivileges);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionThatCanBeModerated.getId().toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                questionThatCanBeModerated.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructorWithLimitedPrivileges.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON,
+                instructorWithLimitedPrivileges.getEmail(),
         };
+
         verifyCanAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_instructorWithOnlySubmitSectionPrivileges_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
         Instructor instructorWithLimitedPrivileges =
                 getInstructorWithLimitedPrivileges(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         instructorWithLimitedPrivileges.setAccount(getTypicalAccount());
 
+        loginAsInstructor(instructorWithLimitedPrivileges.getGoogleId());
+
         FeedbackQuestion questionAnswerableToInstructor = stubFeedbackQuestion;
+
         when(mockLogic.getFeedbackQuestion(questionAnswerableToInstructor.getId()))
                 .thenReturn(questionAnswerableToInstructor);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), instructorWithLimitedPrivileges.getGoogleId())).thenReturn(instructorWithLimitedPrivileges);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionAnswerableToInstructor.getId().toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                questionAnswerableToInstructor.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        verifyCanAccess(params);
+
+       verifyCanAccess(params);
     }
 
     private @NotNull Instructor getInstructorWithLimitedPrivileges(String privilege) {

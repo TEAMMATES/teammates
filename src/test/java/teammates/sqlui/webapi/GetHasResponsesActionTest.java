@@ -275,82 +275,82 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         }
     }
 
-    @Test
-    void testAccessControl_nonInstructor_cannotAccessResponses() {
-        String[] paramsWithCourse = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        String[] paramsWithFeedbackQuestion = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-
-        ______TS("Non-logged-in users cannot access");
-
-        logoutUser();
-        verifyCannotAccess(paramsWithCourse);
-        verifyCannotAccess(paramsWithFeedbackQuestion);
-
-        ______TS("Non-registered users cannot access");
-
-        loginAsUnregistered("unregistered user");
-
-        verifyCannotAccess(paramsWithCourse);
-        verifyCannotAccess(paramsWithFeedbackQuestion);
-
-        verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), "unregistered user");
-
-        ______TS("Students cannot access");
-
-        loginAsStudent(getTypicalStudent().getGoogleId());
-
-        verifyCannotAccess(paramsWithCourse);
-        verifyCannotAccess(paramsWithFeedbackQuestion);
-
-        verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), getTypicalStudent().getGoogleId());
-
-        // check that getCourse and getFeedbackQuestion are run once per test for logged in users
-        verify(mockLogic, times(2)).getCourse(typicalCourse.getId());
-        verify(mockLogic, times(2)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
-    }
-
-    @Test
-    void testAccessControl_instructorOfDifferentCourse_cannotAccessResponses() {
-        String[] paramsWithCourse = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        String[] paramsWithFeedbackQuestion = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-
-        Instructor instructorOfOtherCourse = getTypicalInstructor();
-        Course otherCourse = new Course("different-id", "different-name",
-                Const.DEFAULT_TIME_ZONE, "teammates");
-        instructorOfOtherCourse.setCourse(otherCourse);
-
-        loginAsInstructor(instructorOfOtherCourse.getGoogleId());
-
-        verifyCannotAccess(paramsWithCourse);
-        verifyCannotAccess(paramsWithFeedbackQuestion);
-
-        verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), instructorOfOtherCourse.getGoogleId());
-        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
-        verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
-    }
+//    @Test
+//    void testAccessControl_nonInstructor_cannotAccessResponses() {
+//        String[] paramsWithCourse = new String[] {
+//                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+//                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+//        };
+//
+//        String[] paramsWithFeedbackQuestion = new String[] {
+//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+//                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+//        };
+//
+//        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
+//
+//        ______TS("Non-logged-in users cannot access");
+//
+//        logoutUser();
+//        verifyCannotAccess(paramsWithCourse);
+//        verifyCannotAccess(paramsWithFeedbackQuestion);
+//
+//        ______TS("Non-registered users cannot access");
+//
+//        loginAsUnregistered("unregistered user");
+//
+//        verifyCannotAccess(paramsWithCourse);
+//        verifyCannotAccess(paramsWithFeedbackQuestion);
+//
+//        verify(mockLogic, times(2))
+//                .getInstructorByGoogleId(typicalCourse.getId(), "unregistered user");
+//
+//        ______TS("Students cannot access");
+//
+//        loginAsStudent(getTypicalStudent().getGoogleId());
+//
+//        verifyCannotAccess(paramsWithCourse);
+//        verifyCannotAccess(paramsWithFeedbackQuestion);
+//
+//        verify(mockLogic, times(2))
+//                .getInstructorByGoogleId(typicalCourse.getId(), getTypicalStudent().getGoogleId());
+//
+//        // check that getCourse and getFeedbackQuestion are run once per test for logged in users
+//        verify(mockLogic, times(2)).getCourse(typicalCourse.getId());
+//        verify(mockLogic, times(2)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
+//    }
+//
+//    @Test
+//    void testAccessControl_instructorOfDifferentCourse_cannotAccessResponses() {
+//        String[] paramsWithCourse = new String[] {
+//                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+//                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+//        };
+//
+//        String[] paramsWithFeedbackQuestion = new String[] {
+//                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
+//                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+//        };
+//
+//        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+//        when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
+//
+//        Instructor instructorOfOtherCourse = getTypicalInstructor();
+//        Course otherCourse = new Course("different-id", "different-name",
+//                Const.DEFAULT_TIME_ZONE, "teammates");
+//        instructorOfOtherCourse.setCourse(otherCourse);
+//
+//        loginAsInstructor(instructorOfOtherCourse.getGoogleId());
+//
+//        verifyCannotAccess(paramsWithCourse);
+//        verifyCannotAccess(paramsWithFeedbackQuestion);
+//
+//        verify(mockLogic, times(2))
+//                .getInstructorByGoogleId(typicalCourse.getId(), instructorOfOtherCourse.getGoogleId());
+//        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+//        verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
+//    }
 
     @Test
     void testAccessControl_instructorOfSameCourse_canAccessResponses() {
@@ -366,18 +366,20 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
+//        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+//                .thenReturn(typicalInstructor);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+//        loginAsInstructor(typicalInstructor.getGoogleId());
+//
+//        verifyCanAccess(paramsWithCourse);
+//        verifyCanAccess(paramsWithFeedbackQuestion);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(typicalCourse, paramsWithCourse);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(typicalCourse, paramsWithFeedbackQuestion);
 
-        verifyCanAccess(paramsWithCourse);
-        verifyCanAccess(paramsWithFeedbackQuestion);
-
-        verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
-        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
-        verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
+//        verify(mockLogic, times(2))
+//                .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
+//        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
+//        verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
 
     @Test
@@ -396,6 +398,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 .thenReturn(typicalFeedbackSession);
 
         verifyCanAccess(params);
+//        verifyStudentsOfTheSameCourseCanAccess(typicalCourse, params);
 
         verify(mockLogic, times(1))
                 .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());

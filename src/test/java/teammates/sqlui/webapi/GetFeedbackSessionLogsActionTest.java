@@ -321,10 +321,13 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
-        loginAsStudent(googleId);
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+//        loginAsStudent(googleId);
+//        verifyCannotAccess(params);
+//
+//        logoutUser();
+//        verifyCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 }
