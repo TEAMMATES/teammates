@@ -30,4 +30,8 @@ public class InvalidHttpParameterException extends RuntimeException {
         super(message, cause);
     }
 
+    public InvalidHttpParameterException(String message, NullPointerException cause) {
+        super(message, cause);
+    }
+
 }
