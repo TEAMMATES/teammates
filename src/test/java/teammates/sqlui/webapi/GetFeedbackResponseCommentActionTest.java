@@ -35,7 +35,6 @@ import teammates.ui.webapi.JsonResult;
  */
 public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeedbackResponseCommentAction> {
 
-    private Course course1;
     private Instructor instructorOfCourse1;
     private Instructor instructorOfCourse2;
     private FeedbackResponse responseForQ1;
@@ -58,7 +57,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @BeforeMethod
     void setUp() {
-        course1 = generateCourse("course-1");
+        Course course1 = generateCourse("course-1");
         Course course2 = generateCourse("course-2");
 
         feedbackSessionInCourse1 = generateSessionInCourse(course1);
@@ -216,7 +215,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         verifyCanAccess(submissionParams);
     }
 
-
     @Test
     void testAccessControl_invalidIntent_shouldFail() {
         loginAsStudent(studentInCourse1.getGoogleId());
@@ -267,7 +265,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructorOfCourse2);
 
         verifyCannotAccess(submissionParams);
-//        verifyInstructorsOfOtherCoursesCannotAccess(submissionParams);
 
         // students access other students' response from different course
         loginAsStudent(studentInCourse2.getGoogleId());
@@ -281,7 +278,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         when(mockLogic.getStudentByGoogleId(any(), any())).thenReturn(studentInCourse2);
 
         verifyCannotAccess(submissionParams);
-//        verifyStudentsOfOtherCoursesCannotAccess(feedbackSessionInCourse1.getCourse(), submissionParams);
     }
 
     private FeedbackResponseCommentData getFeedbackResponseComments(String[] params) {

@@ -9,7 +9,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
@@ -21,7 +20,6 @@ import teammates.ui.webapi.GetInstructorAction;
 public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction> {
 
     Course course;
-    FeedbackSession feedbackSession;
 
     @Override
     protected String getActionUri() {
