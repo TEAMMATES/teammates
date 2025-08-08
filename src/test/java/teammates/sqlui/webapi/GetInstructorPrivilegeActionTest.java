@@ -81,20 +81,11 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     }
 
     @Test
-    void testAccessControl_unregisteredUsers_cannotAccess() {
-        logoutUser();
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
-
+    void testAccessControl_unregisteredUsersAndStudents_cannotAccess() {
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
-        verifyCannotAccess(submissionParams);
-    }
 
-    @Test
-    void testAccessControl_students_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ID);
-
-        String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
-        verifyCannotAccess(submissionParams);
+        verifyUnregisteredCannotAccess(submissionParams);
+        verifyStudentsCannotAccess(submissionParams);
     }
 
     @Test
@@ -111,12 +102,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     void testAccessControl_instructorsOfTheSameCourse_canAccess() {
         loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
-
-        String[] submissionParams = {
-                Const.ParamsNames.COURSE_ID,  testInstructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ID,  testInstructor1OfCourse1.getGoogleId() };
-
+        String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);
     }
 
