@@ -1,0 +1,123 @@
+{
+    "accounts": {
+        "IFR.instr": {
+            "id": "00000000-0000-4000-8000-000000000001",
+            "googleId": "tm.e2e.sql.IFR.instr",
+            "name": "Instructor IFR",
+            "email": "IFR.instr@gmail.tmt"
+        },
+        "IFR.alice": {
+            "id": "00000000-0000-4000-8000-000000000002",
+            "googleId": "tm.e2e.sql.IFR.alice",
+            "name": "Alice",
+            "email": "IFR.alice@gmail.tmt"
+        }
+    },
+    "accountRequests": {},
+    "courses": {
+        "IFR.CS101": {
+            "id": "tm.e2e.sql.IFR.CS101",
+            "name": "Feedback Course",
+            "institute": "TEAMMATES Test Institute",
+            "timeZone": "UTC"
+        }
+    },
+    "sections": {
+        "IFR.CS101-SectionA": {
+            "id": "00000000-0000-4000-8000-000000000101",
+            "course": { "id": "tm.e2e.sql.IFR.CS101" },
+            "name": "Section A"
+        }
+    },
+    "teams": {
+        "IFR.CS101-SectionA-Team1": {
+            "id": "00000000-0000-4000-8000-000000000201",
+            "section": { "id": "00000000-0000-4000-8000-000000000101" },
+            "name": "Team 1"
+        }
+    },
+    "deadlineExtensions": {},
+    "instructors": {
+        "IFR.instr": {
+            "id": "00000000-0000-4000-8000-000000000301",
+            "course": { "id": "tm.e2e.sql.IFR.CS101" },
+            "account": { "id": "00000000-0000-4000-8000-000000000001" },
+            "name": "Instructor IFR",
+            "email": "IFR.instr@gmail.tmt",
+            "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+            "isDisplayedToStudents": true,
+            "displayName": "Instructor",
+            "privileges": {
+                "courseLevel": {
+                    "canViewStudentInSections": true,
+                    "canSubmitSessionInSections": true,
+                    "canModifySessionCommentsInSections": true,
+                    "canModifyCourse": true,
+                    "canViewSessionInSections": true,
+                    "canModifySession": true,
+                    "canModifyStudent": true,
+                    "canModifyInstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
+        }
+    },
+    "students": {
+        "IFR.alice": {
+            "id": "00000000-0000-4000-8000-000000000401",
+            "account": { "id": "00000000-0000-4000-8000-000000000002" },
+            "course": { "id": "tm.e2e.sql.IFR.CS101" },
+            "team": { "id": "00000000-0000-4000-8000-000000000201" },
+            "email": "IFR.alice@gmail.tmt",
+            "name": "Alice"
+        }
+    },
+    "feedbackSessions": {
+        "openSession": {
+            "id": "00000000-0000-4000-8000-000000000501",
+            "course": { "id": "tm.e2e.sql.IFR.CS101" },
+            "name": "Open Session",
+            "creatorEmail": "IFR.instr@gmail.tmt",
+            "instructions": "<p>Instructions</p>",
+            "createdAt": "2012-04-01T23:59:00Z",
+            "startTime": "2012-04-01T22:00:00Z",
+            "endTime": "2035-04-30T22:00:00Z",
+            "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+            "resultsVisibleFromTime": "2012-04-01T22:00:00Z",
+            "timeZone": "UTC",
+            "gracePeriod": 10,
+            "isOpenedEmailEnabled": true,
+            "isClosingSoonEmailEnabled": true,
+            "isPublishedEmailEnabled": true,
+            "isOpenedEmailSent": false,
+            "isClosingSoonEmailSent": false,
+            "isClosedEmailSent": false,
+            "isPublishedEmailSent": false,
+            "studentDeadlines": {},
+            "instructorDeadlines": {}
+        }
+    },
+    "feedbackQuestions": {
+        "qn1": {
+            "id": "00000000-0000-4000-8000-000000000601",
+            "feedbackSession": { "id": "00000000-0000-4000-8000-000000000501" },
+            "questionDetails": {
+                "questionType": "TEXT",
+                "questionText": "How are you?"
+            },
+            "description": "<p>Describe</p>",
+            "questionNumber": 1,
+            "giverType": "STUDENTS",
+            "recipientType": "STUDENTS",
+            "numOfEntitiesToGiveFeedbackTo": 1,
+            "showResponsesTo": ["INSTRUCTORS"],
+            "showGiverNameTo": ["INSTRUCTORS"],
+            "showRecipientNameTo": ["INSTRUCTORS"]
+        }
+    },
+    "feedbackResponses": {},
+    "notifications": {},
+    "readNotifications": {},
+    "feedbackResponseComments": {}
+}
