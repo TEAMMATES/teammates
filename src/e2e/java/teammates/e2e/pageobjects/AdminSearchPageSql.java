@@ -350,6 +350,7 @@ public class AdminSearchPageSql extends AppPage {
     public void clickRejectAccountRequestWithReasonButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement rejectButton = accountRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+        waitForElementToBeClickable(rejectButton);
         rejectButton.click();
         waitForPageToLoad();
         WebElement rejectWithReasonButton = browser.driver.findElement(By.cssSelector("[id^='reject-request-with-reason']"));
