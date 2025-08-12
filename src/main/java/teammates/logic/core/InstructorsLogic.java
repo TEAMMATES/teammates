@@ -33,6 +33,7 @@ public final class InstructorsLogic {
     private static final InstructorsLogic instance = new InstructorsLogic();
 
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     private FeedbackResponsesLogic frLogic;
     private FeedbackResponseCommentsLogic frcLogic;
@@ -177,6 +178,13 @@ public final class InstructorsLogic {
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
+    }
+
+    /**
+     * Gets all instructors associated with an email.
+     */
+    public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        return instructorsDb.getInstructorsForEmail(email);
     }
 
     /**
@@ -424,6 +432,24 @@ public final class InstructorsLogic {
      */
     public boolean isInstructorInAnyCourse(String googleId) {
         return instructorsDb.hasInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Checks if there is an existing instructor with the given email
+     * in any course under that belongs to the specified institute.
+     */
+    public boolean isExistingInstructorWithEmailInInstitute(String email, String institute) {
+        assert email != null;
+        assert institute != null;
+
+        List<InstructorAttributes> instructors = getInstructorsForEmail(email);
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.getEmail().equals(email)
+                    && institute.equals(coursesLogic.getCourseInstitute(instructor.getCourseId()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
