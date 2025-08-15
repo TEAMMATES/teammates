@@ -47,7 +47,7 @@ export class CopySessionModalComponent {
     const finalName = userModified
       ? userTyped
       : this.generateUniqueNameForCourses(base, Array.from(this.copyToCourseSet));
-  
+
     this.activeModal.close({
       newFeedbackSessionName: finalName,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
