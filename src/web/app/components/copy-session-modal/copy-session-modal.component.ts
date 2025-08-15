@@ -43,14 +43,11 @@ export class CopySessionModalComponent {
   copy(): void {
     const base = this.baseSessionName;
     const userTyped = this.newFeedbackSessionName;
-
-    // Only auto-rename if the user hasn't changed the prefill
-    const needsAuto = !userTyped || userTyped === base;
-
-    const finalName = needsAuto
-      ? this.generateUniqueNameForCourses(base || userTyped, Array.from(this.copyToCourseSet))
-      : userTyped;
-
+    const userModified = userTyped !== '' && userTyped !== base;
+    const finalName = userModified
+      ? userTyped
+      : this.generateUniqueNameForCourses(base, Array.from(this.copyToCourseSet));
+  
     this.activeModal.close({
       newFeedbackSessionName: finalName,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
@@ -68,10 +65,12 @@ export class CopySessionModalComponent {
       this.copyToCourseSet.add(courseId);
     }
 
-    this.newFeedbackSessionName = this.generateUniqueNameForCourses(
-      this.baseSessionName || this.newFeedbackSessionName,
-      Array.from(this.copyToCourseSet),
-    );
+    if (this.newFeedbackSessionName === this.baseSessionName) {
+      this.newFeedbackSessionName = this.generateUniqueNameForCourses(
+        this.baseSessionName,
+        Array.from(this.copyToCourseSet),
+      );
+    }
   }
 
   private generateUniqueNameForCourses(baseName: string, targetCourseIds: string[]): string {
