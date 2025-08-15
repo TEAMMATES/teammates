@@ -46,6 +46,22 @@ describe('CopySessionModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CopySessionModalComponent);
+    component = fixture.componentInstance;
+    activeModal = TestBed.inject(NgbActiveModal);
+
+    component.courseCandidates = [courseA, courseB];
+    component.baseSessionName = 'Second team feedback session (point-based)';
+    component.sessionToCopyCourseId = 'C1';
+    component.existingFeedbackSession = [
+      makeFeedback('C1', 'Second team feedback session (point-based)'),
+      makeFeedback('C1', 'Second team feedback session (point-based) (1)'),
+      makeFeedback('C2', 'First team feedback session (point-based)'),
+    ];
+
+    fixture.detectChanges();
+  });
   const feedbackSessionToCopy: FeedbackSession = {
     courseId: 'Test01',
     timeZone: 'Asia/Singapore',
@@ -83,6 +99,43 @@ describe('CopySessionModalComponent', () => {
     timeZone: 'UTC',
   };
 
+  const makeFeedback = (courseId: string, name: string): FeedbackSession => ({
+    courseId,
+    timeZone: 'UTC',
+    feedbackSessionName: name,
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingSoonEmailEnabled: false,
+    isPublishedEmailEnabled: false,
+    createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
+  });
+
+  const courseA: Course = {
+    courseId: 'C1',
+    courseName: 'Course 1',
+    institute: 'Inst',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
+    timeZone: 'UTC',
+  };
+
+  const courseB: Course = {
+    courseId: 'C2',
+    courseName: 'Course 2',
+    institute: 'Inst',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
+    timeZone: 'UTC',
+  };
+  
   it('should snap with some session and courses candidates', () => {
     component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
     component.courseCandidates = [courseSessionIn, courseCopyTo];
@@ -146,4 +199,37 @@ describe('CopySessionModalComponent', () => {
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
 
+  it('should prefill name from baseSessionName on initialize', () => {
+    component.ngOnInit();
+    expect(component.newFeedbackSessionName)
+      .toBe('Second team feedback session (point-based)');
+  });
+
+  it('should auto-rename select(C1) to next free suffix when C1 has conflicts', () => {
+    component.ngOnInit();
+    component.select('C1');
+    expect(component.newFeedbackSessionName)
+      .toBe('Second team feedback session (point-based) (2)');
+  });
+
+  it('should keep select(C2) base name when there is no conflict in C2', () => {
+    component.ngOnInit();
+    component.select('C2');
+    expect(component.newFeedbackSessionName)
+      .toBe('Second team feedback session (point-based)');
+  });
+
+  it('should enforce unique session names across all selected courses', () => {
+    component.existingFeedbackSession.push(
+      makeFeedback('C2', 'Second team feedback session (point-based)'),
+      makeFeedback('C2', 'Second team feedback session (point-based) (1)'),
+    );
+    component.ngOnInit();
+
+    component.select('C1');
+    component.select('C2');
+
+    expect(component.newFeedbackSessionName)
+      .toBe('Second team feedback session (point-based) (2)');
+  });
 });

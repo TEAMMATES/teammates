@@ -4,10 +4,12 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
+  baseSessionName={[Function String]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
-  newFeedbackSessionName=""
-  sessionToCopyCourseId=""
+  existingFeedbackSession={[Function Array]}
+  newFeedbackSessionName={[Function String]}
+  sessionToCopyCourseId={[Function String]}
 >
   <div
     class="modal-header"
@@ -64,8 +66,51 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
              The field "Name for copied session" should not be empty. 
           </div>
           <span>
-            64 characters left
+            22 characters left
           </span>
+        </div>
+        <div
+          class="form-check"
+        >
+          <label
+            class="form-check-label text-break"
+          >
+            <input
+              class="form-check-input"
+              name="copySessionChooseCourse"
+              type="checkbox"
+            />
+             [
+            <span
+              class="text-danger"
+            >
+              C1
+            </span>
+            ] : Course 1 
+            <span
+              class="text-danger"
+            >
+               {Session currently in this course} 
+            </span>
+          </label>
+        </div>
+        <div
+          class="form-check"
+        >
+          <label
+            class="form-check-label text-break"
+          >
+            <input
+              class="form-check-input"
+              name="copySessionChooseCourse"
+              type="checkbox"
+            />
+             [
+            <span>
+              C2
+            </span>
+            ] : Course 2 
+          </label>
         </div>
       </div>
     </div>
@@ -94,8 +139,10 @@ exports[`CopySessionModalComponent should snap with some session and courses can
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
+  baseSessionName={[Function String]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
+  existingFeedbackSession={[Function Array]}
   newFeedbackSessionName={[Function String]}
   sessionToCopyCourseId={[Function String]}
 >
@@ -137,7 +184,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             </b>
           </label>
           <input
-            class="form-control ng-untouched ng-pristine ng-invalid"
+            class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-session-name"
             maxlength="64"
             required=""
