@@ -46,6 +46,43 @@ describe('CopySessionModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  const makeFeedback = (courseId: string, name: string): FeedbackSession => ({
+    courseId,
+    timeZone: 'UTC',
+    feedbackSessionName: name,
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingSoonEmailEnabled: false,
+    isPublishedEmailEnabled: false,
+    createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
+  });
+
+  const courseA: Course = {
+    courseId: 'C1',
+    courseName: 'Course 1',
+    institute: 'Inst',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
+    timeZone: 'UTC',
+  };
+
+  const courseB: Course = {
+    courseId: 'C2',
+    courseName: 'Course 2',
+    institute: 'Inst',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
+    timeZone: 'UTC',
+  };
+
   beforeEach(() => {
     fixture = TestBed.createComponent(CopySessionModalComponent);
     component = fixture.componentInstance;
@@ -62,6 +99,7 @@ describe('CopySessionModalComponent', () => {
 
     fixture.detectChanges();
   });
+
   const feedbackSessionToCopy: FeedbackSession = {
     courseId: 'Test01',
     timeZone: 'Asia/Singapore',
@@ -99,43 +137,6 @@ describe('CopySessionModalComponent', () => {
     timeZone: 'UTC',
   };
 
-  const makeFeedback = (courseId: string, name: string): FeedbackSession => ({
-    courseId,
-    timeZone: 'UTC',
-    feedbackSessionName: name,
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingSoonEmailEnabled: false,
-    isPublishedEmailEnabled: false,
-    createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
-  });
-
-  const courseA: Course = {
-    courseId: 'C1',
-    courseName: 'Course 1',
-    institute: 'Inst',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    timeZone: 'UTC',
-  };
-
-  const courseB: Course = {
-    courseId: 'C2',
-    courseName: 'Course 2',
-    institute: 'Inst',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    timeZone: 'UTC',
-  };
-  
   it('should snap with some session and courses candidates', () => {
     component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
     component.courseCandidates = [courseSessionIn, courseCopyTo];

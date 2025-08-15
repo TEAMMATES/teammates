@@ -28,7 +28,6 @@ export class CopySessionModalComponent {
   @Input()
   existingFeedbackSession: FeedbackSession[] = [];
 
-  
   newFeedbackSessionName: string = '';
   copyToCourseSet: Set<string> = new Set<string>();
 
@@ -84,19 +83,19 @@ export class CopySessionModalComponent {
     for (const cid of targetCourseIds) {
       const set = new Set(
         this.existingFeedbackSession
-          .filter(s => s.courseId === cid)
-          .map(s => s.feedbackSessionName),
+          .filter((s) => s.courseId === cid)
+          .map((s) => s.feedbackSessionName),
       );
       namesByCourse.set(cid, set);
     }
 
-    const isFreeEverywhere = [...namesByCourse.values()].every(set => !set.has(baseName));
+    const isFreeEverywhere = [...namesByCourse.values()].every((set) => !set.has(baseName));
     if (isFreeEverywhere) return baseName;
 
     let i = 1;
     while (true) {
       const candidate = `${baseName} (${i})`;
-      const ok = [...namesByCourse.values()].every(set => !set.has(candidate));
+      const ok = [...namesByCourse.values()].every((set) => !set.has(candidate));
       if (ok) return candidate;
       i += 1;
     }

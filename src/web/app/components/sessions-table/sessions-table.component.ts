@@ -380,7 +380,8 @@ export class SessionsTableComponent implements OnInit {
     modalRef.componentInstance.newFeedbackSessionName = model.feedbackSession.feedbackSessionName;
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
     modalRef.componentInstance.sessionToCopyCourseId = model.feedbackSession.courseId;
-    modalRef.componentInstance.existingFeedbackSession = this.sessionsTableRowModelsVar.map((m: SessionsTableRowModel) => m.feedbackSession);
+    modalRef.componentInstance.existingFeedbackSession = this.sessionsTableRowModelsVar
+      .map((m: SessionsTableRowModel) => m.feedbackSession);
 
     modalRef.result.then((result: CopySessionModalResult) => {
       this.copySessionEvent.emit({
