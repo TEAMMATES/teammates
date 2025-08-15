@@ -1216,6 +1216,34 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
+  expandAllQuestions(): void {
+    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
+      this.questionSubmissionForms.forEach((q) => {
+        q.isTabExpanded = true;
+      });
+    } else {
+      this.questionSubmissionForms.forEach((q) => {
+        q.recipientList.forEach((recipient) => {
+          q.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
+        });
+      });
+    }
+  }
+
+  collapseAllQuestions(): void {
+    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
+      this.questionSubmissionForms.forEach((q) => {
+        q.isTabExpanded = false;
+      });
+    } else {
+      this.questionSubmissionForms.forEach((q) => {
+        q.recipientList.forEach((recipient) => {
+          q.isTabExpandedForRecipients.set(recipient.recipientIdentifier, false);
+        });
+      });
+    }
+  }
+
   toggleViewChange(selectedView: SessionView): void {
     if (selectedView === this.currentSelectedSessionView) {
       return;
