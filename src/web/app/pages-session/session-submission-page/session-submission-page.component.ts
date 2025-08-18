@@ -17,6 +17,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SessionPageService } from '../../../services/session-page.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -107,6 +108,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   isSavingResponses: boolean = false;
   isSubmissionFormsDisabled: boolean = false;
+  isFormsExpanded: boolean = true;
 
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
@@ -154,6 +156,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
               private logService: LogService,
+              private sessionPageService: SessionPageService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -283,6 +286,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         },
       });
     });
+
+    this.sessionPageService.isExpandedObservable.subscribe(
+        (toExpand: boolean) => {
+          this.isFormsExpanded = toExpand;
+        },
+    );
   }
 
   // Solution for checking partial element visibility adapted from
@@ -1227,6 +1236,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
       this.groupQuestionsByRecipient();
     }
+  }
+
+  expandAllResponses(): void {
+    this.sessionPageService.showExpansion();
+  }
+
+  collapseAllResponses(): void {
+    this.sessionPageService.hideExpansion();
   }
 
   /**
