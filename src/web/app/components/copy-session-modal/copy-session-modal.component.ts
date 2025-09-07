@@ -149,7 +149,7 @@ export class CopySessionModalComponent {
       namesByCourse.set(cid, set);
     }
 
-    const isFreeEverywhere = [...namesByCourse.values()].every(set => !set.has(base));
+    const isFreeEverywhere = [...namesByCourse.values()].every((set) => !set.has(base));
     if (isFreeEverywhere) return base;
 
     let i = 1;

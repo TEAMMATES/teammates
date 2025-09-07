@@ -16,7 +16,7 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus
+  FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
