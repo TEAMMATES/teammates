@@ -12,7 +12,8 @@ import {
   SessionsTableRowModel,
 } from './sessions-table-model';
 import { SimpleModalService } from '../../../services/simple-modal.service';
-import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
+import { Course, FeedbackSession, 
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
@@ -74,6 +75,9 @@ export class SessionsTableComponent implements OnInit {
 
   @Input()
   isSendReminderLoading: boolean = false;
+
+  @Input()
+  allFeedbackSessions: FeedbackSession[] = [];
 
   @Output()
   sortSessionsTableRowModelsEvent: EventEmitter<SortableEvent> = new EventEmitter();
@@ -375,19 +379,20 @@ export class SessionsTableComponent implements OnInit {
    */
   copySession(rowIndex: number): void {
     const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
-    const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
+    const model = this.sessionsTableRowModelsVar[rowIndex];
+  
     modalRef.componentInstance.baseSessionName = model.feedbackSession.feedbackSessionName;
     modalRef.componentInstance.newFeedbackSessionName = model.feedbackSession.feedbackSessionName;
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
     modalRef.componentInstance.sessionToCopyCourseId = model.feedbackSession.courseId;
-    modalRef.componentInstance.existingFeedbackSession = this.sessionsTableRowModelsVar
-      .map((m: SessionsTableRowModel) => m.feedbackSession);
-
+    const existing = this.allFeedbackSessions?.length
+      ? this.allFeedbackSessions
+      : this.sessionsTableRowModelsVar.map(m => m.feedbackSession);
+    modalRef.componentInstance.existingFeedbackSession = existing;
+    modalRef.componentInstance.preselectedCourseIds = [];
+  
     modalRef.result.then((result: CopySessionModalResult) => {
-      this.copySessionEvent.emit({
-        ...result,
-        sessionToCopyRowIndex: rowIndex,
-      });
+      this.copySessionEvent.emit({ ...result, sessionToCopyRowIndex: rowIndex });
     }, () => {});
   }
 

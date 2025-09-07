@@ -707,4 +707,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.sessionsTableRowModels = [];
     this.recycleBinFeedbackSessionRowModels = [];
   }
+
+  get allSessionsInThisTable(): FeedbackSession[] {
+    return (this.sessionsTableRowModels ?? []).map(m => m.feedbackSession);
+  }
 }

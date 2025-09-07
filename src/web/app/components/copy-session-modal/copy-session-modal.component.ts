@@ -28,31 +28,98 @@ export class CopySessionModalComponent {
   @Input()
   existingFeedbackSession: FeedbackSession[] = [];
 
+  @Input()
+  preselectedCourseIds: string[] = [];
+
   newFeedbackSessionName: string = '';
   copyToCourseSet: Set<string> = new Set<string>();
+
+  private lastAutoName: string | null = null;
+  nameClashError: string | null = null;
 
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.newFeedbackSessionName = this.baseSessionName || this.newFeedbackSessionName;
+    this.lastAutoName = this.newFeedbackSessionName;
+
+    if (this.preselectedCourseIds?.length) {
+      this.copyToCourseSet = new Set(this.preselectedCourseIds);
+      this.prefillNameForSelection();
+    }
+  }
+
+  /**
+   * Called when user types to clear and error and stop auto-overwrites
+   */
+  onNameChange(_: string): void {
+    this.nameClashError = null;
+    this.lastAutoName = null;
+  }
+
+  /** 
+   * Only update name if the user has not edited it away from the last auto value.
+   */
+  private prefillNameForSelection(): void {
+    const auto = this.generateUniqueNameForCourses(
+      this.baseSessionName,
+      Array.from(this.copyToCourseSet),
+    );
+    if (
+      this.newFeedbackSessionName === this.baseSessionName ||
+      this.newFeedbackSessionName === this.lastAutoName ||
+      !this.newFeedbackSessionName
+    ) {
+      this.newFeedbackSessionName = auto;
+      this.lastAutoName = auto;
+    }
   }
 
   /**
    * Fires the copy event.
    */
   copy(): void {
-    const base = this.baseSessionName;
-    const userTyped = this.newFeedbackSessionName;
-    const userModified = userTyped !== '' && userTyped !== base;
-    const finalName = userModified
-      ? userTyped
-      : this.generateUniqueNameForCourses(base, Array.from(this.copyToCourseSet));
+    const name = (this.newFeedbackSessionName || '').trim();
+    const targetCourseIds = Array.from(this.copyToCourseSet);
+
+    if (!name || targetCourseIds.length === 0) {
+      return;
+    }
+
+    const conflicts = this.findConflictingCourses(name, targetCourseIds);
+    if (conflicts.length > 0) {
+      this.nameClashError =
+        `A session named "${name}" already exists in: ${conflicts.join(', ')}`;
+      return;
+    }
 
     this.activeModal.close({
-      newFeedbackSessionName: finalName,
+      newFeedbackSessionName: name,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
-      copyToCourseList: Array.from(this.copyToCourseSet),
+      copyToCourseList: targetCourseIds,
     });
+  }
+
+  /**
+   * Finds courses with sessions with the same name as the session to be copied.
+   */
+  private findConflictingCourses(name: string, targetCourseIds: string[]): string[] {
+    const namesByCourse = new Map<string, Set<string>>();
+    for (const cid of targetCourseIds) {
+      const set = new Set(
+        this.existingFeedbackSession
+          .filter(s => s.courseId === cid)
+          .map(s => s.feedbackSessionName.trim()),
+      );
+      namesByCourse.set(cid, set);
+    }
+    const conflicts: string[] = [];
+    for (const cid of targetCourseIds) {
+      if (namesByCourse.get(cid)?.has(name)) {
+        conflicts.push(cid);
+      }
+    }
+    return conflicts;
   }
 
   /**
@@ -64,38 +131,31 @@ export class CopySessionModalComponent {
     } else {
       this.copyToCourseSet.add(courseId);
     }
-
-    if (this.newFeedbackSessionName === this.baseSessionName) {
-      this.newFeedbackSessionName = this.generateUniqueNameForCourses(
-        this.baseSessionName,
-        Array.from(this.copyToCourseSet),
-      );
-    }
+    this.prefillNameForSelection();
+    this.nameClashError = null;
   }
 
   private generateUniqueNameForCourses(baseName: string, targetCourseIds: string[]): string {
-    if (!baseName || targetCourseIds.length === 0) {
-      return baseName;
-    }
+    const base = (baseName || '').trim();
+    if (!base || targetCourseIds.length === 0) return base;
 
     const namesByCourse = new Map<string, Set<string>>();
     for (const cid of targetCourseIds) {
       const set = new Set(
         this.existingFeedbackSession
-          .filter((s) => s.courseId === cid)
-          .map((s) => s.feedbackSessionName),
+          .filter(s => s.courseId === cid)
+          .map(s => s.feedbackSessionName.trim())
       );
       namesByCourse.set(cid, set);
     }
 
-    const isFreeEverywhere = [...namesByCourse.values()].every((set) => !set.has(baseName));
-    if (isFreeEverywhere) return baseName;
+    const isFreeEverywhere = [...namesByCourse.values()].every(set => !set.has(base));
+    if (isFreeEverywhere) return base;
 
     let i = 1;
     while (true) {
-      const candidate = `${baseName} (${i})`;
-      const ok = [...namesByCourse.values()].every((set) => !set.has(candidate));
-      if (ok) return candidate;
+      const candidate = `${base} (${i})`;
+      if ([...namesByCourse.values()].every(set => !set.has(candidate))) return candidate;
       i += 1;
     }
   }

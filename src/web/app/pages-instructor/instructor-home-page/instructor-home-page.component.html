@@ -123,6 +123,7 @@
                 SessionsTableColumn.END_DATE
               ]"
               [isSendReminderLoading]="isSendReminderLoading"
+              [allFeedbackSessions]="allSessionsAcrossAllCourses"
               (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
               (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)"
               (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)"

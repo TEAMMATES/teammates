@@ -38,6 +38,7 @@
         [columnsToShow]="[SessionsTableColumn.COURSE_ID]"
         [headerColorScheme]="SortableTableHeaderColorScheme.BLUE"
         [isSendReminderLoading]="isSendReminderLoading"
+        [allFeedbackSessions]="allSessionsInThisTable"
         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
         (loadResponseRateEvent)="loadResponseRateEventHandler($event)"
         (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)"
