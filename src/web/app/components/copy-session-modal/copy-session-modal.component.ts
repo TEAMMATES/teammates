@@ -52,12 +52,12 @@ export class CopySessionModalComponent {
   /**
    * Called when user types to clear and error and stop auto-overwrites
    */
-  onNameChange(_: string): void {
+  onNameChange(): void {
     this.nameClashError = null;
     this.lastAutoName = null;
   }
 
-  /** 
+  /**
    * Only update name if the user has not edited it away from the last auto value.
    */
   private prefillNameForSelection(): void {
@@ -66,9 +66,9 @@ export class CopySessionModalComponent {
       Array.from(this.copyToCourseSet),
     );
     if (
-      this.newFeedbackSessionName === this.baseSessionName ||
-      this.newFeedbackSessionName === this.lastAutoName ||
-      !this.newFeedbackSessionName
+      this.newFeedbackSessionName === this.baseSessionName
+        || this.newFeedbackSessionName === this.lastAutoName
+        || !this.newFeedbackSessionName
     ) {
       this.newFeedbackSessionName = auto;
       this.lastAutoName = auto;
@@ -108,8 +108,8 @@ export class CopySessionModalComponent {
     for (const cid of targetCourseIds) {
       const set = new Set(
         this.existingFeedbackSession
-          .filter(s => s.courseId === cid)
-          .map(s => s.feedbackSessionName.trim()),
+          .filter((s) => s.courseId === cid)
+          .map((s) => s.feedbackSessionName.trim()),
       );
       namesByCourse.set(cid, set);
     }
@@ -143,8 +143,8 @@ export class CopySessionModalComponent {
     for (const cid of targetCourseIds) {
       const set = new Set(
         this.existingFeedbackSession
-          .filter(s => s.courseId === cid)
-          .map(s => s.feedbackSessionName.trim())
+          .filter((s) => s.courseId === cid)
+          .map((s) => s.feedbackSessionName.trim()),
       );
       namesByCourse.set(cid, set);
     }
@@ -155,7 +155,7 @@ export class CopySessionModalComponent {
     let i = 1;
     while (true) {
       const candidate = `${base} (${i})`;
-      if ([...namesByCourse.values()].every(set => !set.has(candidate))) return candidate;
+      if ([...namesByCourse.values()].every((set) => !set.has(candidate))) return candidate;
       i += 1;
     }
   }

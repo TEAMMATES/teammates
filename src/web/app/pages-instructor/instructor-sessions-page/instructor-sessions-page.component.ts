@@ -709,6 +709,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   get allSessionsInThisTable(): FeedbackSession[] {
-    return (this.sessionsTableRowModels ?? []).map(m => m.feedbackSession);
+    return (this.sessionsTableRowModels ?? []).map((m) => m.feedbackSession);
   }
 }

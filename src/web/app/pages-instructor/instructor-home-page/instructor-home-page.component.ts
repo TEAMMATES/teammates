@@ -348,9 +348,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
 
   get allSessionsAcrossAllCourses(): FeedbackSession[] {
     return (this.courseTabModels ?? [])
-      .flatMap(ctm => (ctm.sessionsTableRowModels ?? []).map(m => m.feedbackSession));
+      .flatMap((ctm) => (ctm.sessionsTableRowModels ?? []).map((m) => m.feedbackSession));
   }
-  
+
   /**
    * Loads the feedback session in the course and sorts them according to end date.
    */
