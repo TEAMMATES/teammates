@@ -28,6 +28,13 @@ export class CopySessionModalComponent {
   constructor(public activeModal: NgbActiveModal) {}
 
   /**
+   * Checks if the session name is valid (not empty and not just whitespace).
+   */
+  get isSessionNameValid(): boolean {
+    return !!(this.newFeedbackSessionName && this.newFeedbackSessionName.trim().length > 0);
+  }
+
+  /**
    * Fires the copy event.
    */
   copy(): void {

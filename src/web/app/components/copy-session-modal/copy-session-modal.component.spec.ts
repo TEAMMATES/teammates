@@ -146,4 +146,39 @@ describe('CopySessionModalComponent', () => {
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
 
+  it('should return false for isSessionNameValid when session name is empty', () => {
+    component.newFeedbackSessionName = '';
+    expect(component.isSessionNameValid).toBe(false);
+  });
+
+  it('should return false for isSessionNameValid when session name is only whitespace', () => {
+    component.newFeedbackSessionName = '   ';
+    expect(component.isSessionNameValid).toBe(false);
+  });
+
+  it('should return false for isSessionNameValid when session name is tab and space', () => {
+    component.newFeedbackSessionName = ' \t \n ';
+    expect(component.isSessionNameValid).toBe(false);
+  });
+
+  it('should return true for isSessionNameValid when session name has valid content', () => {
+    component.newFeedbackSessionName = 'Valid Session Name';
+    expect(component.isSessionNameValid).toBe(true);
+  });
+
+  it('should return true for isSessionNameValid when session name has content with leading/trailing whitespace', () => {
+    component.newFeedbackSessionName = '  Valid Session Name  ';
+    expect(component.isSessionNameValid).toBe(true);
+  });
+
+  it('should disable copy button when session name is only whitespace', () => {
+    component.newFeedbackSessionName = '   ';
+    component.courseCandidates = [courseSessionIn, courseCopyTo];
+    component.copyToCourseSet.add('Course1');
+    fixture.detectChanges();
+
+    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
+    expect(copyButton.nativeElement.disabled).toBeTruthy();
+  });
+
 });
