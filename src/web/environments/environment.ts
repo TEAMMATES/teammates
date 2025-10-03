@@ -8,11 +8,11 @@ import { config } from './config';
  * Environment variables for development mode.
  */
 export const environment: any = {
-  ...config,
-  production: false,
-  backendUrl: 'http://localhost:8080',
-  frontendUrl: 'http://localhost:4200',
-  withCredentials: true,
+    ...config,
+    production: false,
+    backendUrl: '/webapi',       // Proxy path to backend
+    frontendUrl: 'http://localhost:4200',
+    withCredentials: true,
 };
 
 /*

@@ -85,6 +85,9 @@ dependencies {
     implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
     implementation("org.postgresql:postgresql:42.7.3")
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
+    implementation 'org.eclipse.jetty:jetty-server:11.0.20'
+    implementation 'org.eclipse.jetty:jetty-servlets:11.0.20'
+
 
     testAnnotationProcessor(testng)
 
@@ -220,6 +223,14 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
         "teammates.ui.request.InvalidHttpRequestBodyException"
     ]
     outputFile = "src/web/types/api-request.ts"
+}
+
+task runBackend(type: JavaExec) {
+    group = "application"
+    description = "Run the Java backend locally"
+    mainClass.set("teammates.main.Application")
+    classpath = sourceSets.main.runtimeClasspath
+    environment "DATASTORE_EMULATOR_HOST", "localhost:8484"
 }
 
 task generateApiConstants(type: cz.habarta.typescript.generator.gradle.GenerateTask) {

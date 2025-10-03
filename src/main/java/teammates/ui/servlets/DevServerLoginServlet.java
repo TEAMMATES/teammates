@@ -3,6 +3,7 @@ package teammates.ui.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,18 +17,43 @@ import teammates.common.util.FileHelper;
 import teammates.common.util.HttpRequestHelper;
 
 /**
- * Servlet that handles dev server login.
+ * Servlet that handles dev server login with CORS support.
  */
 public class DevServerLoginServlet extends AuthServlet {
 
     @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        // Add CORS headers
+        setCorsHeaders(resp);
+
+        // Handle preflight request
+        if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
+            resp.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
+        // Call default doGet / doPost
+        super.service(req, resp);
+    }
+
+    private void setCorsHeaders(HttpServletResponse resp) {
+        resp.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        resp.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type, ngsw-bypass, x-web-version");
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
+    }
+
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        setCorsHeaders(resp);
+
         String nextUrl = req.getParameter("nextUrl");
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        // Prevent HTTP response splitting
         nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
+
         if (!Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", Const.WebPageURIs.LOGIN + "?nextUrl=" + nextUrl.replace("&", "%26"));
@@ -50,6 +76,8 @@ public class DevServerLoginServlet extends AuthServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        setCorsHeaders(resp);
+
         if (!Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpStatus.SC_FORBIDDEN);
             return;
@@ -68,9 +96,7 @@ public class DevServerLoginServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        // Prevent HTTP response splitting
         nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
         resp.sendRedirect(nextUrl);
     }
-
 }

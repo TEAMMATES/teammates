@@ -2,7 +2,7 @@ package teammates.main;
 
 import java.io.File;
 import java.time.zone.ZoneRulesProvider;
-
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
@@ -11,6 +11,11 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
 import teammates.ui.servlets.DevServerLoginServlet;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.FilterRegistration;
+
+import java.util.EnumSet;
+
 
 /**
  * Entrypoint to the system.
@@ -39,11 +44,14 @@ public final class Application {
         webapp.setWar(warPath);
 
         if (Config.isDevServerLoginEnabled()) {
-            // For dev server, we dynamically add servlet to serve the dev server login page.
-
             ServletHolder devServerLoginServlet =
                     new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
             webapp.addServlet(devServerLoginServlet, "/devServerLogin");
+
+            // Add this to handle Angular frontend requests
+            ServletHolder authServlet =
+                    new ServletHolder("AuthServlet", new DevServerLoginServlet());
+            webapp.addServlet(authServlet, "/webapi/auth");
         }
 
         LifeCycle.Listener customLifeCycleListener = new LifeCycle.Listener() {
@@ -73,9 +81,19 @@ public final class Application {
             }
         };
 
+        // inside main(), before server.start()
+        FilterRegistration.Dynamic cors =
+                webapp.getServletContext().addFilter("CORS", CrossOriginFilter.class);
+
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "http://localhost:4200");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin");
+        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
         server.setHandler(webapp);
         server.setStopAtShutdown(true);
         server.addEventListener(customLifeCycleListener);
+
 
         server.start();
 

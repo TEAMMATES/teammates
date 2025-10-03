@@ -46,3 +46,5 @@ describe('StaticPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+

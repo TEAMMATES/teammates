@@ -11,11 +11,18 @@
     </div>
     <div>
       <label><b>Email:</b></label>
-      <input id="request-email" type="text" class="form-control" value="{{ accountRequestEmail }}" (input)="accountRequestEmail = $event.target.value">
+      <input id="request-email" type="email" class="form-control" value="{{ accountRequestEmail }}" (input)="accountRequestEmail = $event.target.value">
     </div>
     <div>
       <label><b>Institution, Country:</b></label>
-      <input id="request-institution" type="text" class="form-control" value="{{ accountRequestInstitution }}" (input)="accountRequestInstitution = $event.target.value">
+        <input id="request-email"
+               type="email"
+               class="form-control"
+               [(ngModel)]="accountRequestEmail"
+               placeholder="Enter email"
+               required
+               email>
+
     </div>
     <div class="row">
       <div class="col-12">
