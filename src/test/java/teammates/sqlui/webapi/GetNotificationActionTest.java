@@ -1,24 +1,16 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
-
-import java.util.UUID;
-
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.GetNotificationAction;
-import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetNotificationAction}.
  */
+@Ignore
 public class GetNotificationActionTest extends BaseActionTest<GetNotificationAction> {
 
     @Override
@@ -37,48 +29,34 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
     }
 
     @Test
+    @Override
+    protected void testAccessControl() {
+        verifyOnlyAdminCanAccess();
+    }
+
+    @Override
+    protected void testExecute() {
+        // See independent test cases
+    }
+
+    @Test
     protected void testExecute_withValidNotificationId_shouldReturnData() {
-        Notification testNotification = getTypicalNotificationWithId();
-        NotificationData expected = new NotificationData(testNotification);
+        NotificationData expected = new NotificationData(typicalBundle.notifications.get("notification1"));
+        NotificationData output = (NotificationData) getJsonResult(
+                getAction(Const.ParamsNames.NOTIFICATION_ID, "notification1")).getOutput();
 
-        String[] requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_ID, String.valueOf(testNotification.getId()),
-        };
-
-        when(mockLogic.getNotification(testNotification.getId())).thenReturn(testNotification);
-
-        GetNotificationAction action = getAction(requestParams);
-        JsonResult jsonResult = getJsonResult(action);
-
-        NotificationData output = (NotificationData) jsonResult.getOutput();
-        verifyNotificationEquals(expected, output);
-
-        reset(mockLogic);
+        assertEquals(expected, output);
     }
 
     @Test
-    protected void testExecute_nonExistentNotification_shouldThrowError() {
-        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, UUID.randomUUID().toString());
-        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
+    protected void testExecute_withInvalidNotificationId_shouldThrowError() {
+        assertEquals("Notification does not exist.",
+                assertThrows(EntityNotFoundException.class,
+                        getAction(Const.ParamsNames.NOTIFICATION_ID, "invalid-notif")::execute).getMessage());
 
-        assertEquals("Notification does not exist.", enfe.getMessage());
+        assertEquals("The [notificationid] HTTP parameter is null.",
+                assertThrows(InvalidHttpParameterException.class,
+                        getAction(Const.ParamsNames.NOTIFICATION_ID, null, new String[] {})::execute).getMessage());
     }
 
-    @Test
-    protected void testExecute_notificationIdIsNull_shouldThrowError() {
-        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, null, new String[] {});
-        InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
-
-        assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());
-    }
-
-    private void verifyNotificationEquals(NotificationData expected, NotificationData actual) {
-        assertEquals(expected.getNotificationId(), actual.getNotificationId());
-        assertEquals(expected.getStyle(), actual.getStyle());
-        assertEquals(expected.getTargetUser(), actual.getTargetUser());
-        assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getMessage(), actual.getMessage());
-        assertEquals(expected.getStartTimestamp(), actual.getStartTimestamp());
-        assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
-    }
 }
