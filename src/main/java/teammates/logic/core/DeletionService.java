@@ -73,7 +73,6 @@ public final class DeletionService {
         instructorsDb.deleteInstructors(query);
     }
 
-
     /**
      * Deletes a course cascade its students, instructors, sessions, responses, deadline extensions and comments.
      *

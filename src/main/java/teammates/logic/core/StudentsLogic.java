@@ -15,7 +15,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
-import teammates.common.util.RequestTracer;
 import teammates.storage.api.StudentsDb;
 
 /**
