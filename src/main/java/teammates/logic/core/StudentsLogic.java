@@ -42,6 +42,7 @@ public final class StudentsLogic {
     private FeedbackResponsesLogic frLogic;
     private FeedbackSessionsLogic fsLogic;
     private DeadlineExtensionsLogic deLogic;
+    private DeletionService deletionService;
 
     private StudentsLogic() {
         // prevent initialization
@@ -55,6 +56,7 @@ public final class StudentsLogic {
         frLogic = FeedbackResponsesLogic.inst();
         fsLogic = FeedbackSessionsLogic.inst();
         deLogic = DeadlineExtensionsLogic.inst();
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -434,25 +436,7 @@ public final class StudentsLogic {
      * <p>Fails silently if the student does not exist.
      */
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        StudentAttributes student = getStudentForEmail(courseId, studentEmail);
-        if (student == null) {
-            return;
-        }
-
-        frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
-        if (studentsDb.getStudentCountForTeam(student.getTeam(), student.getCourse()) == 1) {
-            // the student is the only student in the team, delete responses related to the team
-            frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
-        }
-        studentsDb.deleteStudent(courseId, studentEmail);
-        fsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, studentEmail);
-        deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
-
-        updateStudentResponsesAfterDeletion(courseId);
-    }
-
-    private void updateStudentResponsesAfterDeletion(String courseId) {
-        frLogic.updateFeedbackResponsesForDeletingStudent(courseId);
+        deletionService.deleteStudentCascade(courseId, studentEmail);
     }
 
     /**
@@ -472,8 +456,7 @@ public final class StudentsLogic {
      * Deletes students using {@link AttributesDeletionQuery}.
      */
     public void deleteStudents(AttributesDeletionQuery query) {
-        studentsDb.deleteStudents(query);
-        updateStudentResponsesAfterDeletion(query.getCourseId());
+        deletionService.deleteStudents(query);
     }
 
     /**
@@ -486,7 +469,7 @@ public final class StudentsLogic {
     }
 
     private boolean isInEnrollList(StudentAttributes student,
-            List<StudentAttributes> studentInfoList) {
+                                   List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
             if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;

@@ -43,13 +43,10 @@ public final class CoursesLogic {
     private final CoursesDb coursesDb = CoursesDb.inst();
 
     private AccountsLogic accountsLogic;
+    private DeletionService deletionService;
     private FeedbackSessionsLogic feedbackSessionsLogic;
-    private FeedbackQuestionsLogic fqLogic;
-    private FeedbackResponsesLogic frLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -61,13 +58,10 @@ public final class CoursesLogic {
 
     void initLogicDependencies() {
         accountsLogic = AccountsLogic.inst();
+        deletionService = DeletionService.inst();
         feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-        fqLogic = FeedbackQuestionsLogic.inst();
-        frLogic = FeedbackResponsesLogic.inst();
-        frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
-        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -122,7 +116,7 @@ public final class CoursesLogic {
             // roll back the transaction
             coursesDb.deleteCourse(createdCourse.getId());
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "
-                                  + System.lineSeparator() + instructor.toString();
+                    + System.lineSeparator() + instructor.toString();
             assert false : errorMessage;
         }
     }
@@ -308,22 +302,7 @@ public final class CoursesLogic {
      * <p>Fails silently if no such course.
      */
     public void deleteCourseCascade(String courseId) {
-        if (getCourse(courseId) == null) {
-            return;
-        }
-
-        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-                .withCourseId(courseId)
-                .build();
-        frcLogic.deleteFeedbackResponseComments(query);
-        frLogic.deleteFeedbackResponses(query);
-        fqLogic.deleteFeedbackQuestions(query);
-        feedbackSessionsLogic.deleteFeedbackSessions(query);
-        studentsLogic.deleteStudents(query);
-        instructorsLogic.deleteInstructors(query);
-        deadlineExtensionsLogic.deleteDeadlineExtensions(query);
-
-        coursesDb.deleteCourse(courseId);
+        deletionService.deleteCourseCascade(courseId);
     }
 
     /**
