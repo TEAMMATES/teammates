@@ -1,57 +1,61 @@
 package teammates.logic.core;
 
+import java.util.List;
+
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.RequestTracer;
-import teammates.storage.api.*;
-import teammates.storage.entity.Account;
-
-import java.util.List;
+import teammates.storage.api.AccountRequestsDb;
+import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.DeadlineExtensionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.NotificationsDb;
+import teammates.storage.api.StudentsDb;
 
 /**
- * Integrate centralized deletion service across the system
+ * Handles centralized deletion operations for various entities.
+ *
+ * <p>This service consolidates deletion logic from multiple Logic classes
+ * to provide a single source of truth for deletion operations.
  */
-public class DeletionService {
+public final class DeletionService {
 
     private static final DeletionService instance = new DeletionService();
 
-    //prevent initialising Deletion Service
-    private DeletionService() {}
+    private final AccountsDb accountsDb = AccountsDb.inst();
+    private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
+    private final CoursesDb coursesDb = CoursesDb.inst();
+    private final DeadlineExtensionsDb deadlineExtensionsDb = DeadlineExtensionsDb.inst();
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
+    private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
+    private final FeedbackSessionsDb fbDb = FeedbackSessionsDb.inst();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
+    private final NotificationsDb nfDb = NotificationsDb.inst();
+    private final StudentsDb studentsDb = StudentsDb.inst();
+
+    private FeedbackSessionsLogic feedbackSessionsLogic;
+    private FeedbackResponsesLogic frLogic;
+    private InstructorsLogic instructorsLogic;
+
+    private DeletionService() {
+        // prevent initialization
+    }
 
     public static DeletionService inst() {
         return instance;
     }
 
-    private AccountsDb accountsDb;
-    private AccountRequestsDb accountRequestsDb;
-    private CoursesDb coursesDb;
-    private DeadlineExtensionsLogic deLogic;
-    private FeedbackSessionsLogic feedbackSessionsLogic;
-    private FeedbackQuestionsLogic fqLogic;
-    private FeedbackResponsesLogic frLogic;
-    private FeedbackSessionsLogic fsLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
-    private InstructorsDb instructorsDb;
-    private InstructorsLogic instructorsLogic;
-    private StudentsDb studentsDb;
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
-
     void initLogicDependencies() {
-        accountsDb = AccountsDb.inst();
-        accountRequestsDb = AccountRequestsDb.inst();
-        coursesDb = CoursesDb.inst();
-        deLogic = DeadlineExtensionsLogic.inst();
         feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-        fqLogic = FeedbackQuestionsLogic.inst();
         frLogic = FeedbackResponsesLogic.inst();
-        fsLogic = FeedbackSessionsLogic.inst();
-        frcLogic = FeedbackResponseCommentsLogic.inst();
-        instructorsDb = InstructorsDb.inst();
         instructorsLogic = InstructorsLogic.inst();
-        studentsDb = StudentsDb.inst();
-        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -83,13 +87,13 @@ public class DeletionService {
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
                 .build();
-        frcLogic.deleteFeedbackResponseComments(query);
-        frLogic.deleteFeedbackResponses(query);
-        fqLogic.deleteFeedbackQuestions(query);
-        feedbackSessionsLogic.deleteFeedbackSessions(query);
+        frcDb.deleteFeedbackResponseComments(query);
+        frDb.deleteFeedbackResponses(query);
+        fqDb.deleteFeedbackQuestions(query);
+        fbDb.deleteFeedbackSessions(query);
         deleteStudents(query);
         deleteInstructors(query);
-        deadlineExtensionsLogic.deleteDeadlineExtensions(query);
+        deadlineExtensionsDb.deleteDeadlineExtensions(query);
 
         coursesDb.deleteCourse(courseId);
     }
@@ -111,8 +115,8 @@ public class DeletionService {
             frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
         studentsDb.deleteStudent(courseId, studentEmail);
-        fsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, studentEmail);
-        deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
+        feedbackSessionsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, studentEmail);
+        deleteDeadlineExtensions(courseId, studentEmail, false);
 
         updateStudentResponsesAfterDeletion(courseId);
     }
@@ -159,8 +163,8 @@ public class DeletionService {
 
         frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
-        fsLogic.deleteFeedbackSessionsDeadlinesForInstructor(courseId, email);
-        deLogic.deleteDeadlineExtensions(courseId, email, true);
+        feedbackSessionsLogic.deleteFeedbackSessionsDeadlinesForInstructor(courseId, email);
+        deleteDeadlineExtensions(courseId, email, true);
     }
 
     /**
@@ -207,6 +211,15 @@ public class DeletionService {
     }
 
     /**
+     * Deletes an account.
+     *
+     * <p>Fails silently if the account doesn't exist.</p>
+     */
+    public void deleteAccount(String googleId) {
+        accountsDb.deleteAccount(googleId);
+    }
+
+    /**
      * Deletes the account request associated with the email address and institute.
      *
      * <p>Fails silently if the account request doesn't exist.</p>
@@ -215,6 +228,119 @@ public class DeletionService {
         accountRequestsDb.deleteAccountRequest(email, institute);
     }
 
+    // ==================== Deadline Extensions Deletion ====================
 
+    /**
+     * Deletes a deadline extension.
+     *
+     * <p>Fails silently if the deadline extension doesn't exist.</p>
+     */
+    public void deleteDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        deadlineExtensionsDb.deleteDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
+    }
+
+    /**
+     * Deletes all deadline extensions for a user in a course.
+     *
+     * <p>Fails silently if the deadline extension doesn't exist.</p>
+     */
+    public void deleteDeadlineExtensions(String courseId, String userEmail, boolean isInstructor) {
+        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                .withCourseId(courseId)
+                .withUserEmail(userEmail)
+                .withIsInstructor(isInstructor)
+                .build();
+        deadlineExtensionsDb.deleteDeadlineExtensions(query);
+    }
+
+    /**
+     * Deletes deadline extensions using {@link AttributesDeletionQuery}.
+     */
+    public void deleteDeadlineExtensions(AttributesDeletionQuery query) {
+        deadlineExtensionsDb.deleteDeadlineExtensions(query);
+    }
+
+    // ==================== Feedback Questions Deletion ====================
+
+    /**
+     * Deletes a feedback question and cascades to its responses and comments.
+     */
+    public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
+        // cascade delete responses and comments for question
+        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                .withQuestionId(feedbackQuestionId)
+                .build();
+        frcDb.deleteFeedbackResponseComments(query);
+        frDb.deleteFeedbackResponses(query);
+
+        // delete question
+        fqDb.deleteFeedbackQuestion(feedbackQuestionId);
+    }
+
+    /**
+     * Deletes feedback questions using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
+        fqDb.deleteFeedbackQuestions(query);
+    }
+
+    // ==================== Feedback Response Comments Deletion ====================
+
+    /**
+     * Deletes a feedback response comment.
+     */
+    public void deleteFeedbackResponseComment(long commentId) {
+        frcDb.deleteFeedbackResponseComment(commentId);
+    }
+
+    /**
+     * Deletes feedback response comments using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
+        frcDb.deleteFeedbackResponseComments(query);
+    }
+
+    // ==================== Feedback Responses Deletion ====================
+
+    /**
+     * Deletes feedback responses using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackResponses(AttributesDeletionQuery query) {
+        frDb.deleteFeedbackResponses(query);
+    }
+
+    /**
+     * Deletes a feedback response and cascades its associated comments.
+     */
+    public void deleteFeedbackResponseCascade(String responseId) {
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withResponseId(responseId)
+                        .build());
+        frDb.deleteFeedbackResponse(responseId);
+    }
+
+    /**
+     * Deletes all feedback responses of a question and cascades its associated comments.
+     */
+    public void deleteFeedbackResponsesForQuestionCascade(String feedbackQuestionId) {
+        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                .withQuestionId(feedbackQuestionId)
+                .build();
+        frcDb.deleteFeedbackResponseComments(query);
+        frDb.deleteFeedbackResponses(query);
+    }
+
+    // ==================== Notifications Deletion ====================
+
+    /**
+     * Deletes notification associated with the {@code notificationId}.
+     *
+     * <p>Fails silently if the notification doesn't exist.</p>
+     */
+    public void deleteNotification(String notificationId) {
+        nfDb.deleteNotification(notificationId);
+    }
 
 }

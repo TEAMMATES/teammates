@@ -44,6 +44,7 @@ public final class FeedbackResponsesLogic {
 
     private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
 
+    private DeletionService deletionService;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
@@ -58,6 +59,7 @@ public final class FeedbackResponsesLogic {
     }
 
     void initLogicDependencies() {
+        deletionService = DeletionService.inst();
         fqLogic = FeedbackQuestionsLogic.inst();
         frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
@@ -975,30 +977,21 @@ public final class FeedbackResponsesLogic {
      * Deletes responses using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackResponses(AttributesDeletionQuery query) {
-        frDb.deleteFeedbackResponses(query);
+        deletionService.deleteFeedbackResponses(query);
     }
 
     /**
      * Deletes a feedback response and cascades its associated comments.
      */
     public void deleteFeedbackResponseCascade(String responseId) {
-        frcLogic.deleteFeedbackResponseComments(
-                AttributesDeletionQuery.builder()
-                        .withResponseId(responseId)
-                        .build());
-        frDb.deleteFeedbackResponse(responseId);
+        deletionService.deleteFeedbackResponseCascade(responseId);
     }
 
     /**
      * Deletes all feedback responses of a question cascade its associated comments.
      */
     public void deleteFeedbackResponsesForQuestionCascade(String feedbackQuestionId) {
-        // delete all responses, comments of the question
-        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-                .withQuestionId(feedbackQuestionId)
-                .build();
-        deleteFeedbackResponses(query);
-        frcLogic.deleteFeedbackResponseComments(query);
+        deletionService.deleteFeedbackResponsesForQuestionCascade(feedbackQuestionId);
     }
 
     /**

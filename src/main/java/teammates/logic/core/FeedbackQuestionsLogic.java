@@ -45,6 +45,7 @@ public final class FeedbackQuestionsLogic {
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
     private CoursesLogic coursesLogic;
+    private DeletionService deletionService;
     private FeedbackResponsesLogic frLogic;
     private FeedbackSessionsLogic fsLogic;
     private InstructorsLogic instructorsLogic;
@@ -60,6 +61,7 @@ public final class FeedbackQuestionsLogic {
 
     void initLogicDependencies() {
         coursesLogic = CoursesLogic.inst();
+        deletionService = DeletionService.inst();
         frLogic = FeedbackResponsesLogic.inst();
         fsLogic = FeedbackSessionsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
@@ -773,14 +775,11 @@ public final class FeedbackQuestionsLogic {
             return; // Silently fail if question does not exist.
         }
 
-        // cascade delete responses for question.
-        frLogic.deleteFeedbackResponsesForQuestionCascade(questionToDelete.getId());
-
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
                 getFeedbackQuestionsForSession(questionToDelete.getFeedbackSessionName(), questionToDelete.getCourseId());
 
-        // delete question
-        fqDb.deleteFeedbackQuestion(feedbackQuestionId);
+        // cascade delete responses and comments, then delete question
+        deletionService.deleteFeedbackQuestionCascade(feedbackQuestionId);
 
         // adjust question numbers
         if (questionToDelete.getQuestionNumber() < questionsToShiftQnNumber.size()) {
@@ -792,7 +791,7 @@ public final class FeedbackQuestionsLogic {
      * Deletes questions using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
-        fqDb.deleteFeedbackQuestions(query);
+        deletionService.deleteFeedbackQuestions(query);
     }
 
     // Shifts all question numbers after questionNumberToShiftFrom down by one.

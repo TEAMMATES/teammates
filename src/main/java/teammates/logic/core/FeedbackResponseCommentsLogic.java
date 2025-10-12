@@ -33,6 +33,7 @@ public final class FeedbackResponseCommentsLogic {
     private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 
     private CoursesLogic coursesLogic;
+    private DeletionService deletionService;
     private FeedbackResponsesLogic frLogic;
     private FeedbackSessionsLogic fsLogic;
     private InstructorsLogic instructorsLogic;
@@ -48,6 +49,7 @@ public final class FeedbackResponseCommentsLogic {
 
     void initLogicDependencies() {
         coursesLogic = CoursesLogic.inst();
+        deletionService = DeletionService.inst();
         frLogic = FeedbackResponsesLogic.inst();
         fsLogic = FeedbackSessionsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
@@ -190,14 +192,14 @@ public final class FeedbackResponseCommentsLogic {
      * Deletes a comment.
      */
     public void deleteFeedbackResponseComment(long commentId) {
-        frcDb.deleteFeedbackResponseComment(commentId);
+        deletionService.deleteFeedbackResponseComment(commentId);
     }
 
     /**
      * Deletes comments using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
-        frcDb.deleteFeedbackResponseComments(query);
+        deletionService.deleteFeedbackResponseComments(query);
     }
 
     /**

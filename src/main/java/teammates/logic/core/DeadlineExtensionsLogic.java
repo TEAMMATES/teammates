@@ -18,12 +18,18 @@ public final class DeadlineExtensionsLogic {
 
     private final DeadlineExtensionsDb deDb = DeadlineExtensionsDb.inst();
 
+    private DeletionService deletionService;
+
     private DeadlineExtensionsLogic() {
         // prevent initialization
     }
 
     public static DeadlineExtensionsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -76,7 +82,7 @@ public final class DeadlineExtensionsLogic {
      */
     public void deleteDeadlineExtension(
             String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        deDb.deleteDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
+        deletionService.deleteDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
     }
 
     /**
@@ -88,13 +94,7 @@ public final class DeadlineExtensionsLogic {
         assert courseId != null;
         assert userEmail != null;
 
-        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-                .withCourseId(courseId)
-                .withUserEmail(userEmail)
-                .withIsInstructor(isInstructor)
-                .build();
-
-        deDb.deleteDeadlineExtensions(query);
+        deletionService.deleteDeadlineExtensions(courseId, userEmail, isInstructor);
     }
 
     /**
@@ -102,7 +102,7 @@ public final class DeadlineExtensionsLogic {
      */
     public void deleteDeadlineExtensions(AttributesDeletionQuery query) {
         assert query != null;
-        deDb.deleteDeadlineExtensions(query);
+        deletionService.deleteDeadlineExtensions(query);
     }
 
     /**
