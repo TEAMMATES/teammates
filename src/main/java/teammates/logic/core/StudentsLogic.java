@@ -423,11 +423,7 @@ public final class StudentsLogic {
      * associated responses, deadline extensions, and comments.
      */
     public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
-        var studentsInCourse = getStudentsForCourse(courseId, batchSize);
-        for (var student : studentsInCourse) {
-            RequestTracer.checkRemainingTime();
-            deleteStudentCascade(courseId, student.getEmail());
-        }
+        deletionService.deleteStudentsInCourseCascade(courseId, batchSize);
     }
 
     /**
@@ -444,12 +440,7 @@ public final class StudentsLogic {
      * its associated feedback responses, deadline extensions and comments.
      */
     public void deleteStudentsForGoogleIdCascade(String googleId) {
-        List<StudentAttributes> students = getStudentsForGoogleId(googleId);
-
-        // Cascade delete students
-        for (StudentAttributes student : students) {
-            deleteStudentCascade(student.getCourse(), student.getEmail());
-        }
+        deletionService.deleteStudentsForGoogleIdCascade(googleId);
     }
 
     /**

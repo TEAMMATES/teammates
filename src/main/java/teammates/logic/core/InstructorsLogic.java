@@ -326,12 +326,7 @@ public final class InstructorsLogic {
      * deadline extensions and comments.
      */
     public void deleteInstructorsForGoogleIdCascade(String googleId) {
-        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
-
-        // cascade delete instructors
-        for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.getCourseId(), instructor.getEmail());
-        }
+        deletionService.deleteInstructorsForGoogleIdCascade(googleId);
     }
 
     /**

@@ -34,6 +34,7 @@ public final class AccountsLogic {
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
     private NotificationsLogic notificationsLogic;
+    private DeletionService deletionService;
 
     private AccountsLogic() {
         // prevent initialization
@@ -48,6 +49,7 @@ public final class AccountsLogic {
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
         notificationsLogic = NotificationsLogic.inst();
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -246,26 +248,7 @@ public final class AccountsLogic {
      * </ul>
      */
     public void deleteAccountCascade(String googleId) {
-        // we skip this check for dual db, since all accounts are migrated, but there
-        // will still be datastore entities (Student, Course, Instructor)
-        // to be deleted by googleId
-        // if (accountsDb.getAccount(googleId) == null) {
-        // return;
-        // }
-
-        // to prevent orphan course
-        List<InstructorAttributes> instructorsToDelete =
-                instructorsLogic.getInstructorsForGoogleId(googleId, false);
-        for (InstructorAttributes instructorToDelete : instructorsToDelete) {
-            if (instructorsLogic.getInstructorsForCourse(instructorToDelete.getCourseId()).size() <= 1) {
-                // the instructor is the last instructor in the course
-                coursesLogic.deleteCourseCascade(instructorToDelete.getCourseId());
-            }
-        }
-
-        instructorsLogic.deleteInstructorsForGoogleIdCascade(googleId);
-        studentsLogic.deleteStudentsForGoogleIdCascade(googleId);
-        accountsDb.deleteAccount(googleId);
+        deletionService.deleteAccountCascade(googleId);
     }
 
     /**
