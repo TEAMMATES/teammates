@@ -119,7 +119,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_isAdmin_canAccess() {
+    public void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
@@ -127,25 +127,6 @@ public class InstructorCourseJoinEmailWorkerActionTest
                 Const.ParamsNames.INVITER_ID, inviter.getGoogleId(),
         };
 
-        verifyCanAccess(params);
-    }
-
-    @Test
-    public void testSpecificAccessControl_notAdmin_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-                Const.ParamsNames.IS_INSTRUCTOR_REJOINING, "false",
-                Const.ParamsNames.INVITER_ID, inviter.getGoogleId(),
-        };
-
-        loginAsInstructor("user-id");
-        verifyCannotAccess(params);
-
-        loginAsStudent("user-id");
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyOnlyAdminsCanAccess(params);
     }
 }
