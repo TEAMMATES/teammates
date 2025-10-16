@@ -120,4 +120,10 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> action.execute());
     }
+
+    @Test
+    public void testAccessControl() {
+        verifyAnyLoggedInUserCanAccess();
+    }
 }
+

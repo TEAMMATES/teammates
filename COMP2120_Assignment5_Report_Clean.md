@@ -433,7 +433,126 @@ void testAccessControl() {
 
 ---
 
-### File 5: StudentCourseJoinEmailWorkerActionTest.java ✅ COMPLETED
+### File 5: JsonResultTest.java ⚠️ NOT APPLICABLE
+
+**Location**: `src/test/java/teammates/sqlui/webapi/JsonResultTest.java`
+
+#### Analysis Result
+**This file does NOT require refactoring** for issue #13304.
+
+#### Reasoning
+- **File Type**: Unit test for `JsonResult` class, not an Action test file
+- **No Access Control Tests**: This file contains no `testAccessControl` or `testSpecificAccessControl` methods
+- **Test Purpose**: Tests the functionality of JSON result generation (constructors, message output, cookies)
+- **Test Methods Present**:
+  - `testConstructor_sendStringMessageReceivesMessage_shouldSucceed()`
+  - `testConstructor_sendMessageOutputReceivesMessage_shouldSucceed()`
+  - `testConstructor_sendMessageOutputCookieReceiveMessageAndCookies_shouldSucceed()`
+  - `testConstructor_emptyMessageAndCookie_shouldSucceed()`
+  - `testConstructor_sendNullMessage_shouldGetNullAndFailResponse()`
+
+#### Scope of Issue #13304
+Issue #13304 specifically targets **Action test files** that contain access control testing methods. These files:
+- Extend `BaseActionTest<SomeAction>`
+- Test web API action endpoints
+- Contain methods like `testAccessControl()` or `testSpecificAccessControl_*_canAccess/cannotAccess()`
+
+`JsonResultTest` is a pure unit test for a utility class and falls outside the scope of this refactoring task.
+
+---
+
+### File 6: MarkNotificationAsReadActionTest.java ✅ COMPLETED (Access Control Added)
+
+**Location**: `src/test/java/teammates/sqlui/webapi/MarkNotificationAsReadActionTest.java`
+
+#### Issue Analysis
+- **Before**: No access control test methods - only business logic tests with implicit login in `@BeforeMethod`
+- **Lines of Code**: 124 lines originally, now 129 lines (5 lines added)
+- **Pattern**: **Missing access control tests** - this file needed access control tests to be **added**, not refactored
+- **Discovery**: Upon investigation of the Action implementation, found it requires `AuthType.LOGGED_IN` with "any logged-in user can access" policy
+
+#### Implementation Details
+
+**Action Implementation Analysis**:
+```java
+// From MarkNotificationAsReadAction.java
+@Override
+AuthType getMinAuthLevel() {
+    return AuthType.LOGGED_IN;  // Requires login
+}
+
+@Override
+void checkSpecificAccessControl() throws UnauthorizedAccessException {
+    // Any user can create a read status for notification.
+}
+```
+
+**Before (No Access Control Test)**:
+The file only had business logic tests:
+- `testExecute_markNotificationAsRead_shouldSucceed()`
+- `testExecute_markInvalidNotificationAsRead_shouldThrowIllegalArgumentError()`
+- `testExecute_markNonExistentNotificationAsRead_shouldFail()`
+- `testExecute_notificationEndTimeIsZero_shouldFail()`
+- `testExecute_markExpiredNotificationAsRead_shouldFail()`
+
+The `@BeforeMethod` included `loginAsInstructor(instructorId)` but this was only for setting up business logic tests, **not for testing access control**.
+
+**After (Access Control Test Added)**:
+```java
+@Test
+protected void testAccessControl() {
+    verifyAnyLoggedInUserCanAccess();
+}
+```
+
+#### Technical Analysis
+- **Access Pattern**: Any logged-in user can mark notifications as read (admins, instructors, students, unregistered users)
+- **Convenience Methods Used**:
+  - `verifyAnyLoggedInUserCanAccess()`: Comprehensive access control testing that internally performs:
+    - `verifyAdminsCanAccess()` - Tests admin can access
+    - `verifyInstructorsCanAccess()` - Tests instructors can access
+    - `verifyStudentsCanAccess()` - Tests students can access
+    - `verifyUnregisteredCanAccess()` - Tests unregistered logged-in users can access
+    - `verifyWithoutLoginCannotAccess()` - Tests logged-out users cannot access
+- **Why This Pattern**: Marking notifications as read is a user-specific action that any authenticated user should be able to perform for their own notifications
+- **No Parameters Needed**: Access control is based solely on login status, not on URL parameters or request body content
+
+#### Results
+- **Type of Change**: **Addition** of access control test (not refactoring existing tests)
+- **Lines Added**: 5 lines (from 124 to 129 lines)
+- **Test Methods**: Added 1 new test method (`testAccessControl`)
+- **Test Coverage**: **Significantly enhanced** - now includes comprehensive access control testing across all user types (5 user types)
+- **Code Quality**: Follows project-wide testing patterns established in BaseActionTest.java
+- **Consistency**: Now aligned with other Action test files that have proper access control tests
+
+#### Why This Was Initially Missed
+- The presence of `loginAsInstructor` in `@BeforeMethod` made it appear that access control was handled
+- However, `@BeforeMethod` setup is for **enabling** business logic tests, not for **testing** access control
+- The Action implementation clearly requires access control validation (any logged-in user can access)
+- According to issue #13304's scope, all Action tests should have explicit access control tests using BaseActionTest convenience methods
+
+#### Verification Steps
+1. **Compilation Check**: ✅ `./gradlew compileTestJava` - SUCCESS
+2. **Syntax Validation**: ✅ No errors found
+3. **Pattern Consistency**: ✅ Uses `verifyAnyLoggedInUserCanAccess()` which matches the Action's access policy
+4. **Method Availability**: ✅ Confirmed `verifyAnyLoggedInUserCanAccess()` exists in BaseActionTest.java
+5. **Action Implementation Review**: ✅ Verified the Action requires `AuthType.LOGGED_IN` access
+
+---
+
+### File 7: [Next File Name] ⏳ PENDING
+
+[To be documented]
+
+---
+
+### File 8: [Next File Name] ⏳ PENDING
+
+[To be documented]
+
+---
+
+### File 9: StudentCourseJoinEmailWorkerActionTest.java ✅ COMPLETED
 
 **Location**: `src/test/java/teammates/sqlui/webapi/StudentCourseJoinEmailWorkerActionTest.java`
 
@@ -516,19 +635,6 @@ public void testAccessControl() {
 2. **Syntax Validation**: ✅ No errors found
 3. **Pattern Consistency**: ✅ Matches established refactoring pattern (similar to InstructorCourseJoinEmailWorkerActionTest.java)
 4. **Method Availability**: ✅ Confirmed `verifyOnlyAdminsCanAccess(params)` exists in BaseActionTest.java
-
----
-
-### File 6: [Next File Name] 🔄 IN PROGRESS
-
-**Location**: `src/test/java/teammates/sqlui/webapi/[FileName]`
-
-#### Issue Analysis
-- **Before**: [To be filled]
-- **Pattern**: [To be analyzed]
-
-#### Implementation Details
-[To be documented during refactoring]
 
 ---
 
@@ -636,13 +742,19 @@ public void testAccessControl() {
 | 2 | InstructorCourseJoinEmailWorkerActionTest.java | ✅ Complete | 20 lines | 2025-10-14 |
 | 3 | InstructorSearchIndexingWorkerActionTest.java | ✅ Complete | 26 lines | 2025-10-14 |
 | 4 | JoinCourseActionTest.java | ✅ Complete | 21 lines | 2025-10-14 |
-| 5 | StudentCourseJoinEmailWorkerActionTest.java | ✅ Complete | 20 lines | 2025-10-16 |
-| 6 | [File Name] | 🔄 In Progress | TBD | TBD |
+| 5 | JsonResultTest.java | ⚠️ Not Applicable | N/A | 2025-10-16 |
+| 6 | MarkNotificationAsReadActionTest.java | ✅ Complete (Added) | -5 lines* | 2025-10-16 |
 | 7 | [File Name] | ⏳ Pending | TBD | TBD |
 | 8 | [File Name] | ⏳ Pending | TBD | TBD |
+| 9 | StudentCourseJoinEmailWorkerActionTest.java | ✅ Complete | 20 lines | 2025-10-16 |
 
-**Total Progress**: 5/8 files completed (62.5%)
-**Total Lines Saved**: 120 lines (33+20+26+21+20)
+**Total Progress**: 6/8 files completed (75%), 1 file analyzed as not applicable
+**Total Lines Saved**: 115 lines (33+20+26+21-5+20)
+**Files Analyzed**: 7 files total
+**Files Requiring Work**: 6 files (Files 1-4, 6, 9)
+**Files Not Applicable**: 1 file (File 5) - No access control tests needed
+
+*Note: File 6 added 5 lines (access control test was missing and needed to be added, not refactored)
 
 ---
 
