@@ -1,17 +1,12 @@
 package teammates.common.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
@@ -19,6 +14,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.storage.sqlentity.DeadlineExtension;
+import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -61,6 +57,11 @@ public final class FieldValidator {
     public static final String NOTIFICATION_STYLE_FIELD_NAME = "notification style";
     public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
     public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
+
+    public static final String INVALID_DOMAIN_FOR_EMAIL = "Invalid domain for email";
+    public static final String REASON_INVALID_DOMAIN = "contains a domain that is blacklisted";
+
+    private static final String INVALID_DOMAIN_FILE_PATH = "resources/temporary_blacklisted_domain.txt";
 
     public static final List<String> NOTIFICATION_STYLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
@@ -238,6 +239,8 @@ public final class FieldValidator {
 
     public static final String NOT_EXACT_HOUR_ERROR_MESSAGE = "The %s for this feedback session must be at exact hour mark.";
 
+    public static final EmailValidator validator = EmailValidator.getInstance();
+
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
@@ -260,7 +263,7 @@ public final class FieldValidator {
      * Domain part:
      * <li>Only allow letters, digits, hyphen and dot; Must end with letters; Must have TLD
      */
-    public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
+    public static final String REGEX_EMAIL = "^(?=.{1,64}@)[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
                                             + "@([A-Za-z0-9-]+\\.)+[A-Za-z]+$";
 
     /**
@@ -283,22 +286,25 @@ public final class FieldValidator {
      * @return An explanation of why the {@code email} is not acceptable.
      *         Returns an empty string if the {@code email} is acceptable.
      */
-    public static String getInvalidityInfoForEmail(String email) {
+    public static String getInvalidityInfoForEmail(String email){
 
         assert email != null;
 
-        if (email.isEmpty()) {
-            return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
-                                            EMAIL_MAX_LENGTH);
-        } else if (isUntrimmed(email)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
-        } else if (email.length() > EMAIL_MAX_LENGTH) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME,
-                                            REASON_TOO_LONG, EMAIL_MAX_LENGTH);
-        } else if (!isValidEmailAddress(email)) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME,
-                                            REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
-        }
+            if (email.isEmpty()) {
+                return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
+                        EMAIL_MAX_LENGTH);
+            } else if (isUntrimmed(email)) {
+                return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
+            } else if (email.length() > EMAIL_MAX_LENGTH) {
+                return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME,
+                        REASON_TOO_LONG, EMAIL_MAX_LENGTH);
+            } else if (!isValidEmailAddress(email)) {
+                return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME,
+                        REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
+            } else if (!isDomainValid(email)) {
+                return getDomainErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME, REASON_INVALID_DOMAIN);
+            }
+
         return "";
     }
 
@@ -1003,8 +1009,8 @@ public final class FieldValidator {
      * @param email text input which needs the validation
      * @return true if it is a valid email address, else false.
      */
-    private static boolean isValidEmailAddress(String email) {
-        return StringHelper.isMatching(email, REGEX_EMAIL);
+    public static boolean isValidEmailAddress(String email) {
+        return validator.isValid(email);
     }
 
     /**
@@ -1023,6 +1029,13 @@ public final class FieldValidator {
                    .replace("${maxLength}", String.valueOf(maxLength));
     }
 
+    private static String getDomainErrorMessage(String messagetemplate, String userInput, String fieldName, String errorReason) {
+        return messagetemplate.replace("${userInput}", userInput)
+                              .replace("${fieldName}", fieldName)
+                              .replace("${reason}", errorReason)
+                              .replace("${invalidDomains}", INVALID_DOMAIN_FOR_EMAIL);
+    }
+
     private static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason) {
         return messageTemplate.replace("${userInput}", userInput)
@@ -1034,5 +1047,28 @@ public final class FieldValidator {
             String fieldName, int maxLength) {
         return messageTemplate.replace("${fieldName}", fieldName)
                               .replace("${maxLength}", String.valueOf(maxLength));
+    }
+
+    private static HashSet<String> getInvalidDomainsFromFile() throws FileNotFoundException {
+        HashSet<String> invalidDomains = new HashSet<String>();
+        Scanner in = new Scanner(new File(INVALID_DOMAIN_FILE_PATH));
+        while (in.hasNextLine()) {
+            String domain = in.nextLine().trim();
+            if (!domain.isEmpty()) {
+                invalidDomains.add(domain);
+            }
+        }
+        in.close();
+        return invalidDomains;
+    }
+
+    public static boolean isDomainValid(String email) {
+        String domain = email.split("@")[1];
+        try {
+            HashSet<String> invalidDomains = getInvalidDomainsFromFile();
+            return !invalidDomains.contains(domain);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Error on getting invalid domain" ,e);
+        }
     }
 }
