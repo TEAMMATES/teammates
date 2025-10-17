@@ -16,6 +16,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.TimeHelper;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.DeadlineExtension;
 
 /**
@@ -224,6 +225,39 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
         assert entity != null;
 
         return DeadlineExtensionAttributes.valueOf(entity);
+    }
+
+    /**
+     * Soft-deletes a deadline extension by its given corresponding ID.
+     * @return Soft-deletion time of the deadline extension.
+     */
+    public Instant softDeleteDeadlineExtension(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        DeadlineExtension deadlineExtensionEntity = getDeadlineExtensionEntity(id);
+
+        if (deadlineExtensionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        deadlineExtensionEntity.setDeletedAt(Instant.now());
+        saveEntity(deadlineExtensionEntity);
+
+        return deadlineExtensionEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted deadline extension by its given corresponding ID.
+     */
+    public void restoreDeletedDeadlineExtension(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        DeadlineExtension deadlineExtensionEntity = getDeadlineExtensionEntity(id);
+
+        if (deadlineExtensionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        deadlineExtensionEntity.setDeletedAt(null);
+        saveEntity(deadlineExtensionEntity);
     }
 
 }

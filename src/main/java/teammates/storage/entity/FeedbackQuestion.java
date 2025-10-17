@@ -65,6 +65,9 @@ public class FeedbackQuestion extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
+
     @SuppressWarnings("unused")
     private FeedbackQuestion() {
         // required by Objectify
@@ -95,6 +98,7 @@ public class FeedbackQuestion extends BaseEntity {
         this.showRecipientNameTo =
                 showRecipientNameTo == null ? new ArrayList<>() : showRecipientNameTo;
         this.setCreatedAt(Instant.now());
+        this.setDeletedAt(null);
     }
 
     public Instant getCreatedAt() {
@@ -115,6 +119,14 @@ public class FeedbackQuestion extends BaseEntity {
 
     public void setLastUpdate(Instant newDate) {
         this.updatedAt = newDate;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     /**

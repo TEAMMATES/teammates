@@ -33,6 +33,8 @@ public class Account extends BaseEntity {
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
 
     @SuppressWarnings("unused")
     private Account() {
@@ -56,6 +58,7 @@ public class Account extends BaseEntity {
         this.setReadNotifications(readNotifications);
         this.setCreatedAt(Instant.now());
         this.setMigrated(isMigrated);
+        this.setDeletedAt(null);
     }
 
     public String getGoogleId() {
@@ -90,6 +93,8 @@ public class Account extends BaseEntity {
         return isMigrated;
     }
 
+
+
     /**
      * Retrieves the account's read notifications map.
      * Returns an empty map if the account does not yet have the readNotifications attribute.
@@ -111,5 +116,13 @@ public class Account extends BaseEntity {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

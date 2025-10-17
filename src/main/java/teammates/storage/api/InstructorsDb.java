@@ -20,6 +20,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
@@ -416,6 +417,41 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
+    }
+
+    /**
+     * Soft-deletes an instructor by its given corresponding ID.
+     * @return Soft-deletion time of the instructor.
+     */
+    public Instant softDeleteInstructor(String courseId, String email) throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert email != null;
+        Instructor instructorEntity = getInstructorEntityForEmail(courseId, email);
+
+        if (instructorEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        instructorEntity.setDeletedAt(Instant.now());
+        saveEntity(instructorEntity);
+
+        return instructorEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted instructor by its given corresponding ID.
+     */
+    public void restoreDeletedInstructor(String courseId, String email) throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert email != null;
+        Instructor instructorEntity = getInstructorEntityForEmail(courseId, email);
+
+        if (instructorEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        instructorEntity.setDeletedAt(null);
+        saveEntity(instructorEntity);
     }
 
     @Override

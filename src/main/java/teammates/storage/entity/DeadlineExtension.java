@@ -39,6 +39,9 @@ public class DeadlineExtension extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
+
     @SuppressWarnings("unused")
     private DeadlineExtension() {
         // required by Objectify
@@ -54,6 +57,7 @@ public class DeadlineExtension extends BaseEntity {
         this.setEndTime(endTime);
         this.setId(generateId(this.courseId, this.feedbackSessionName, this.userEmail, this.isInstructor));
         this.setCreatedAt(Instant.now());
+        this.setDeletedAt(null);
     }
 
     public String getId() {
@@ -126,6 +130,14 @@ public class DeadlineExtension extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     /**

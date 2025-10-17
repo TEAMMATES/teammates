@@ -13,6 +13,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 
 /**
@@ -132,6 +133,40 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
 
     private Notification getNotificationEntity(String notificationId) {
         return load().id(notificationId).now();
+    }
+
+    /**
+     * Soft-deletes an notification by its given corresponding ID.
+     * @return Soft-deletion time of the notification.
+     */
+    public Instant softDeleteNotification(String notificationId) throws EntityDoesNotExistException {
+        assert notificationId != null;
+        Notification notificationEntity = getNotificationEntity(notificationId);
+
+        if (notificationEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        notificationEntity.setDeletedAt(Instant.now());
+        saveEntity(notificationEntity);
+
+        return notificationEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted notification by its given corresponding ID.
+     */
+    public void restoreDeletedNotification(String notificationId) throws EntityDoesNotExistException {
+        assert notificationId != null;
+        Notification notificationEntity = getNotificationEntity(notificationId);
+
+
+        if (notificationEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        notificationEntity.setDeletedAt(null);
+        saveEntity(notificationEntity);
     }
 
     @Override

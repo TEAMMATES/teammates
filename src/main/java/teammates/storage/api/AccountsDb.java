@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.Course;
 
 /**
  * Handles CRUD operations for accounts.
@@ -124,5 +125,38 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         assert entity != null;
 
         return AccountAttributes.valueOf(entity);
+    }
+
+    /**
+     * Soft-deletes an account by its given corresponding ID.
+     * @return Soft-deletion time of the account.
+     */
+    public Instant softDeleteAccount(String googleID) throws EntityDoesNotExistException {
+        assert googleID != null;
+        Account accountEntity = getAccountEntity(googleID);
+
+        if (accountEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        accountEntity.setDeletedAt(Instant.now());
+        saveEntity(accountEntity);
+
+        return accountEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted account by its given corresponding ID.
+     */
+    public void restoreDeletedAccount(String googleID) throws EntityDoesNotExistException {
+        assert googleID != null;
+        Account accountEntity = getAccountEntity(googleID);
+
+        if (accountEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        accountEntity.setDeletedAt(null);
+        saveEntity(accountEntity);
     }
 }

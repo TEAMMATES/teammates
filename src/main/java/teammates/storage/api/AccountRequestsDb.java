@@ -15,6 +15,7 @@ import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.search.AccountRequestSearchManager;
 import teammates.storage.search.SearchManagerFactory;
@@ -172,6 +173,39 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
                 .filter("createdAt >=", startTime)
                 .filter("createdAt <", endTime)
                 .count();
+    }
+
+    /**
+     * Soft-deletes an account request by its given corresponding ID.
+     * @return Soft-deletion time of the account request.
+     */
+    public Instant softDeleteAccountRequest(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        AccountRequest accountRequestEntity = getAccountRequestEntity(id);
+
+        if (accountRequestEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        accountRequestEntity.setDeletedAt(Instant.now());
+        saveEntity(accountRequestEntity);
+
+        return accountRequestEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted account request by its given corresponding ID.
+     */
+    public void restoreDeletedAccountRequest(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        AccountRequest accountRequestEntity = getAccountRequestEntity(id);
+
+        if (accountRequestEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        accountRequestEntity.setDeletedAt(null);
+        saveEntity(accountRequestEntity);
     }
 
 }

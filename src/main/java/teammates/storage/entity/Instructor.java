@@ -65,6 +65,9 @@ public class Instructor extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
+
     @SuppressWarnings("unused")
     private Instructor() {
         // required by Objectify
@@ -86,6 +89,7 @@ public class Instructor extends BaseEntity {
         this.setUniqueId(generateId(this.getEmail(), this.getCourseId()));
         this.setRegistrationKey(generateRegistrationKey());
         this.setCreatedAt(Instant.now());
+        this.setDeletedAt(null);
     }
 
     /**
@@ -234,6 +238,14 @@ public class Instructor extends BaseEntity {
 
     public void setLastUpdate(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     /**

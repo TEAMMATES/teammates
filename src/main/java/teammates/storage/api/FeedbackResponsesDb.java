@@ -21,6 +21,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
 
 /**
  * Handles CRUD operations for feedback responses.
@@ -407,6 +408,39 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .list();
+    }
+
+    /**
+     * Soft-deletes a feedback response by its given corresponding ID.
+     * @return Soft-deletion time of the feedback response.
+     */
+    public Instant softDeleteFeedbackResponse(String feedbackResponseId) throws EntityDoesNotExistException {
+        assert feedbackResponseId != null;
+        FeedbackResponse feedbackResponseEntity = getFeedbackResponseEntity(feedbackResponseId);
+
+        if (feedbackResponseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackResponseEntity.setDeletedAt(Instant.now());
+        saveEntity(feedbackResponseEntity);
+
+        return feedbackResponseEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted feedback response by its given corresponding ID.
+     */
+    public void restoreDeletedFeedbackResponse(String feedbackResponseId) throws EntityDoesNotExistException {
+        assert feedbackResponseId != null;
+        FeedbackResponse feedbackResponseEntity = getFeedbackResponseEntity(feedbackResponseId);
+
+        if (feedbackResponseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackResponseEntity.setDeletedAt(null);
+        saveEntity(feedbackResponseEntity);
     }
 
     @Override
