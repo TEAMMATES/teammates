@@ -531,8 +531,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strB = b.sectionName;
           break;
         case SortBy.TEAM_NAME:
-          strA = a.teamName?.trim() ?? '';
-          strB = b.teamName?.trim() ?? '';
+          strA = a.teamName;
+          strB = b.teamName;
           break;
         case SortBy.RESPONDENT_NAME:
           strA = a.name;
