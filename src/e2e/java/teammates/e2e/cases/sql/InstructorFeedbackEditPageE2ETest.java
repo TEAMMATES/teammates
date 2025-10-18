@@ -148,12 +148,11 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("delete session");
 
-        // TODO: uncomment when deleteSession() for sql is fixed
-        //feedbackEditPage.deleteSession();
-        //feedbackEditPage.verifyStatusMessage("The feedback session has been deleted. "
-        //        + "You can restore it from the deleted sessions table below.");
-        //assertNotNull(getSoftDeletedSession(copiedSessionName,
-        //        instructor.getGoogleId()));
+        feedbackEditPage.deleteSession();
+        feedbackEditPage.verifyStatusMessage("The feedback session has been deleted. "
+               + "You can restore it from the deleted sessions table below.");
+        assertNotNull(getSoftDeletedSession(copiedSessionName,
+               instructor.getGoogleId()));
 
     }
 
