@@ -270,6 +270,29 @@ public final class FeedbackResponseCommentsDb
         deleteEntity(entitiesToDelete.keys().list());
     }
 
+    /**
+     * Gets the count of feedback response comments for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getFeedbackResponseCommentsCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+
+        Query<FeedbackResponseComment> entities = load().project();
+        if (query.isCourseIdPresent()) {
+            entities = entities.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entities = entities.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+        if (query.isQuestionIdPresent()) {
+            entities = entities.filter("feedbackQuestionId =", query.getQuestionId());
+        }
+        if (query.isResponseIdPresent()) {
+            entities = entities.filter("feedbackResponseId =", query.getResponseId());
+        }
+
+        return entities.count();
+    }
+
     private FeedbackResponseComment getFeedbackResponseCommentEntity(long feedbackResponseCommentId) {
         return load().id(feedbackResponseCommentId).now();
     }

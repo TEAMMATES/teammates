@@ -177,6 +177,23 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
     }
 
     /**
+     * Gets the count of feedback questions for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getFeedbackQuestionsCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+
+        Query<FeedbackQuestion> entities = load().project();
+        if (query.isCourseIdPresent()) {
+            entities = entities.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entities = entities.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+
+        return entities.count();
+    }
+
+    /**
      * Gets a question entity if its string key can be decoded.
      */
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {

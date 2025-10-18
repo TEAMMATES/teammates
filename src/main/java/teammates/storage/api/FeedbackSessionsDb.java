@@ -340,6 +340,20 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         deleteEntity(entitiesToDelete.keys().list());
     }
 
+    /**
+     * Gets the count of feedback sessions for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getFeedbackSessionsCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+
+        Query<FeedbackSession> entities = load().project();
+        if (query.isCourseIdPresent()) {
+            entities = entities.filter("courseId =", query.getCourseId());
+        }
+
+        return entities.count();
+    }
+
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
     }

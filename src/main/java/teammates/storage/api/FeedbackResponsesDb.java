@@ -315,6 +315,26 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     /**
+     * Gets the count of feedback responses for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getFeedbackResponsesCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+
+        Query<FeedbackResponse> entities = load().project();
+        if (query.isCourseIdPresent()) {
+            entities = entities.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entities = entities.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+        if (query.isQuestionIdPresent()) {
+            entities = entities.filter("feedbackQuestionId =", query.getQuestionId());
+        }
+
+        return entities.count();
+    }
+
+    /**
      * Returns true if there are existing responses in any feedback session in the course.
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {

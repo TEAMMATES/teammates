@@ -176,6 +176,25 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
         deleteEntity(entitiesToDelete.keys().list());
     }
 
+    /**
+     * Gets the count of deadline extensions for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getDeadlineExtensionsCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+        assert verifyValidDeletionQuery(query);
+
+        Query<DeadlineExtension> entities = load().project().filter("courseId =", query.getCourseId());
+
+        if (query.isFeedbackSessionNamePresent()) {
+            entities = entities.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        } else if (query.isUserEmailPresent() && query.isIsInstructorPresent()) {
+            entities = entities.filter("userEmail =", query.getUserEmail());
+            entities = entities.filter("isInstructor =", query.getIsInstructor());
+        }
+
+        return entities.count();
+    }
+
     private boolean verifyValidDeletionQuery(AttributesDeletionQuery query) {
         if (!query.isCourseIdPresent()) {
             return false;

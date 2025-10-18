@@ -55,11 +55,13 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_REJECTION, POST, RejectAccountRequestAction.class);
         map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
+        map(ResourceURIs.ACCOUNT_DELETION_PREVIEW, GET, PreviewAccountDeletionAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
         map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
         map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
+        map(ResourceURIs.COURSE_DELETION_PREVIEW, GET, PreviewCourseDeletionAction.class);
         map(ResourceURIs.DEADLINE_EXTENSION, GET, GetDeadlineExtensionAction.class);
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
@@ -68,6 +70,7 @@ public final class ActionFactory {
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, DELETE, DeleteInstructorAction.class);
+        map(ResourceURIs.INSTRUCTOR_DELETION_PREVIEW, GET, PreviewInstructorDeletionAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, PUT, UpdateInstructorPrivilegeAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, POST, CreateFeedbackResponseCommentAction.class);
@@ -86,6 +89,7 @@ public final class ActionFactory {
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
+        map(ResourceURIs.STUDENT_DELETION_PREVIEW, GET, PreviewStudentDeletionAction.class);
 
         // NOTIFICATION APIs
         map(ResourceURIs.NOTIFICATION, GET, GetNotificationAction.class);
