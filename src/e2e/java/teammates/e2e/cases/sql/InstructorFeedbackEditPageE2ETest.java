@@ -150,9 +150,9 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         feedbackEditPage.deleteSession();
         feedbackEditPage.verifyStatusMessage("The feedback session has been deleted. "
-               + "You can restore it from the deleted sessions table below.");
+                + "You can restore it from the deleted sessions table below.");
         assertNotNull(getSoftDeletedSession(copiedSessionName,
-               instructor.getGoogleId()));
+                instructor.getGoogleId()));
 
     }
 
