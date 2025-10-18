@@ -27,7 +27,6 @@ import teammates.ui.webapi.QueryLogsAction;
  * SUT: {@link QueryLogsAction}.
  */
 public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
-    private static final String GOOGLE_ID = "user-googleId";
 
     private long startTimeForFailCases = Instant.now().toEpochMilli();
     private long endTimeForFailCases = startTimeForFailCases - 1000;
@@ -161,40 +160,24 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 errorLogTimestamp2, errorLogTextPayload2, errorLogJsonPayLoad2);
     }
 
+    /**
+     * Tests access control using convenience methods.
+     * 
+     * <p>This action allows only administrators and maintainers to query system logs.
+     * The convenience methods test the following scenarios:
+     * <ul>
+     *   <li>Administrators can access (verifyAdminsCanAccess)</li>
+     *   <li>Maintainers can access (verifyMaintainersCanAccess)</li>
+     *   <li>Instructors cannot access (verifyInstructorsCannotAccess)</li>
+     *   <li>Students cannot access (verifyStudentsCannotAccess)</li>
+     *   <li>Unregistered users cannot access (verifyUnregisteredCannotAccess)</li>
+     *   <li>Logged-out users cannot access (verifyWithoutLoginCannotAccess)</li>
+     * </ul>
+     */
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_maintainers_canAccess() {
-        loginAsMaintainer();
-        verifyCanAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(GOOGLE_ID);
-        verifyCannotAccess();
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
+        verifyMaintainersCanAccess();
     }
 
     @Test

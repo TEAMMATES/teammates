@@ -63,8 +63,43 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testExecute_missingParams_throwsInvalidParametersException() {
+    public void testAccessControl_notEnoughParameters_shouldFail() {
         verifyHttpParameterFailure();
+    }
+
+    /**
+     * Tests access control using convenience method.
+     * 
+     * <p>Note: This refactoring increases test coverage by adding the following test scenarios:
+     * <ul>
+     *   <li>Admin masquerading as instructor (verifyAccessibleForAdminsToMasqueradeAsInstructor)</li>
+     *   <li>Default instructor privileges verification (tests with typical instructor's full Co-owner privileges)</li>
+     *   <li>Invalid course ID scenario (verifyInaccessibleForInstructorsOfOtherCourses)</li>
+     *   <li>Student access attempts (verifyStudentsCannotAccess)</li>
+     *   <li>Unregistered user access attempts (verifyUnregisteredCannotAccess)</li>
+     *   <li>Unauthenticated access attempts (verifyWithoutLoginCannotAccess)</li>
+     * </ul>
+     * 
+     * <p>Original tests covered:
+     * <ul>
+     *   <li>Invalid course ID</li>
+     *   <li>Invalid feedback session name</li>
+     *   <li>Instructor without correct privilege (CAN_MODIFY_SESSION = false)</li>
+     *   <li>Instructor of different course</li>
+     *   <li>Instructor with correct privilege (CAN_MODIFY_SESSION = true)</li>
+     * </ul>
+     * 
+     * <p>The convenience method consolidates these scenarios while adding admin masquerading tests,
+     * default privilege verification, and additional user type checks, which improves overall test coverage.
+     */
+    @Test
+    public void testAccessControl() {
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+        };
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                typicalCourse, Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
     }
 
     @Test
@@ -155,7 +190,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testCheckSpecificAccessControl_withoutLogin_throwsUnauthorizedAccessException() {
+    void testAccessControl_withoutLogin() {
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -165,7 +200,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testCheckSpecificAccessControl_unregisteredUser_throwsUnauthorizedAccessException() {
+    void testAccessControl_unregisteredUser() {
         String googleId = "unregistered-user";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
@@ -183,7 +218,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testCheckSpecificAccessControl_student_throwsUnauthorizedAccessException() {
+    void testAccessControl_student() {
         String googleId = "student";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
@@ -201,7 +236,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testCheckSpecificAccessControl_instructorOfOtherCourse_throwsUnauthorizedAccessException() {
+    void testAccessControl_instructorOfOtherCourse() {
         String googleId = "instructor-of-other-course";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
@@ -219,7 +254,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testCheckSpecificAccessControl_instructorOfSameCourseWithoutPermission_throwsUnauthorizedAccessException() {
+    void testAccessControl_instructorOfSameCourseWithoutPermission() {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         typicalInstructor.setPrivileges(instructorPrivileges);
@@ -239,7 +274,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testCheckSpecificAccessControl_instructorOfSameCourseWithPermission_canAccess() {
+    void testAccessControl_instructorOfSameCourseWithPermission() {
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
