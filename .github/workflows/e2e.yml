@@ -2,15 +2,9 @@ name: E2E Tests
 
 on:
   push:
-    branches:
-      - master
-      - release
-  pull_request:
-    branches:
-      - master
-      - release
   schedule:
     - cron: "0 0 * * *" #end of every day
+  workflow_dispatch: {}
 jobs:
   E2E-testing:
     runs-on: ubuntu-latest
