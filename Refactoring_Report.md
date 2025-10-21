@@ -1,4 +1,4 @@
-# COMP2120 Assignment 5 - TEAMMATES Project Report
+# Report
 
 ## 📋 Project Information
 - **Repository**: TEAMMATES
