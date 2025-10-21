@@ -162,7 +162,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
     /**
      * Tests access control using convenience methods.
-     * 
+     *
      * <p>This action allows only administrators and maintainers to query system logs.
      * The convenience methods test the following scenarios:
      * <ul>

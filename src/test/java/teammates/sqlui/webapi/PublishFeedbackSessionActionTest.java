@@ -69,7 +69,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     /**
      * Tests access control using convenience method.
-     * 
+     *
      * <p>Note: This refactoring increases test coverage by adding the following test scenarios:
      * <ul>
      *   <li>Admin masquerading as instructor (verifyAccessibleForAdminsToMasqueradeAsInstructor)</li>
@@ -79,7 +79,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
      *   <li>Unregistered user access attempts (verifyUnregisteredCannotAccess)</li>
      *   <li>Unauthenticated access attempts (verifyWithoutLoginCannotAccess)</li>
      * </ul>
-     * 
+     *
      * <p>Original tests covered:
      * <ul>
      *   <li>Invalid course ID</li>
@@ -88,7 +88,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
      *   <li>Instructor of different course</li>
      *   <li>Instructor with correct privilege (CAN_MODIFY_SESSION = true)</li>
      * </ul>
-     * 
+     *
      * <p>The convenience method consolidates these scenarios while adding admin masquerading tests,
      * default privilege verification, and additional user type checks, which improves overall test coverage.
      */
