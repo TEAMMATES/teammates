@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -372,7 +373,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForEmail_valid_returnEmptyString() {
+    public void testGetInvalidityInfoForEmail_valid_returnEmptyString() throws FileNotFoundException {
         String typicalEmail = "someone@yahoo.com";
         assertEquals("Valid email (typical) should return empty string", "",
                      FieldValidator.getInvalidityInfoForEmail(typicalEmail));
@@ -387,7 +388,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForEmail_invalid_returnErrorString() {
+    public void testGetInvalidityInfoForEmail_invalid_returnErrorString() throws FileNotFoundException {
         String emptyEmail = "";
         assertEquals("Invalid email (empty) should return appropriate error string",
                      "The field 'email' is empty. An email address contains some text followed by one "
@@ -788,35 +789,35 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testRegexEmail() {
         ______TS("success: typical email");
         String email = "john@email.com";
-        assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertTrue(FieldValidator.isValidEmailAddress(email));
 
         ______TS("failure: no top level domain");
         email = "a@e";
-        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertFalse(FieldValidator.isValidEmailAddress(email));
 
         ______TS("success: minimum allowed email format");
         email = "a@e.c";
-        assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertTrue(FieldValidator.isValidEmailAddress(email));
 
         ______TS("success: all allowed special characters");
         email = "a!#$%&'*/=?^_`{}~@e.c";
-        assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertTrue(FieldValidator.isValidEmailAddress(email));
 
         ______TS("failure: invalid starting character");
         email = "$john@email.com";
-        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertFalse(FieldValidator.isValidEmailAddress(email));
 
         ______TS("failure: two consecutive dots in local part");
         email = "john..dot@email.com";
-        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertFalse(FieldValidator.isValidEmailAddress(email));
 
         ______TS("failure: invalid characters in domain part");
         email = "john@e&email.com";
-        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertFalse(FieldValidator.isValidEmailAddress(email));
 
         ______TS("failure: invalid ending character in domain part");
         email = "john@email.com3";
-        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+        assertFalse(FieldValidator.isValidEmailAddress(email));
     }
 
     @Test
