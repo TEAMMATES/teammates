@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -61,7 +62,7 @@ public final class FieldValidator {
     public static final String INVALID_DOMAIN_FOR_EMAIL = "Invalid domain for email";
     public static final String REASON_INVALID_DOMAIN = "contains a domain that is blacklisted";
 
-    private static final String INVALID_DOMAIN_FILE_PATH = "resources/temporary_blacklisted_domain.txt";
+    private static final String INVALID_DOMAIN_FILE_PATH = "temporary_blacklisted_domain.txt";
 
     public static final List<String> NOTIFICATION_STYLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
@@ -1051,7 +1052,13 @@ public final class FieldValidator {
 
     private static HashSet<String> getInvalidDomainsFromFile() throws FileNotFoundException {
         HashSet<String> invalidDomains = new HashSet<String>();
-        Scanner in = new Scanner(new File(INVALID_DOMAIN_FILE_PATH));
+        InputStream inputStream = FieldValidator.class.getClassLoader()
+                .getResourceAsStream(INVALID_DOMAIN_FILE_PATH);
+
+        if (inputStream == null) {
+            throw new FileNotFoundException("File temporary blacklisted domains not found");
+        }
+        Scanner in = new Scanner(inputStream);
         while (in.hasNextLine()) {
             String domain = in.nextLine().trim();
             if (!domain.isEmpty()) {
