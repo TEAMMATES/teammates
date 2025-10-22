@@ -335,4 +335,30 @@ public final class Logger {
         return null;
     }
 
+    /**
+     * Logs a performance metric.
+     *
+     * @param operation Name of the operation
+     * @param durationMs Duration in milliseconds
+     * @param metrics Additional metrics to log
+     */
+    public void performance(String operation, long durationMs, Map<String, Object> metrics) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("type", "PERFORMANCE");
+        payload.put("operation", operation);
+        payload.put("durationMs", durationMs);
+        payload.putAll(metrics);
+
+        String message = String.format("PERFORMANCE: %s (%dms)", operation, durationMs);
+
+        if (Config.IS_DEV_SERVER) {
+            info(message + " | " + JsonUtils.toCompactJson(metrics));
+        } else {
+            Map<String, Object> logPayload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
+            logPayload.put("performance", payload);
+            standardLog.info(JsonUtils.toCompactJson(logPayload));
+        }
+    }
+
+
 }
