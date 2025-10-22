@@ -182,7 +182,7 @@ public final class DeletionPreviewService {
         preview.setDeadlineExtensionsAffected(deadlineExtensionCount);
 
         // Check if student is the only one in their team
-        if (studentsDb.getStudentCountForTeam(student.getTeam(), student.getCourse()) == 1) {
+        if (studentsDb.getStudentCountForTeam(student.getCourse(), student.getTeam()) == 1) {
             preview.addWarning("This student is the only member of their team. "
                     + "Team-related responses will also be deleted.");
         }

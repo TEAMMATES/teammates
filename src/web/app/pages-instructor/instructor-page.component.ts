@@ -79,7 +79,7 @@ export class InstructorPageComponent implements OnInit {
             this.isAdmin = res.user.isAdmin;
             this.isMaintainer = res.user.isMaintainer;
           } else {
-            window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
+            window.location.href = `${this.backendUrl}${res.loginUrl}`;
           }
           this.isFetchingAuthDetails = false;
         },
