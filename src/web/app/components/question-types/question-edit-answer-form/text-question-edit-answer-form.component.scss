@@ -23,3 +23,28 @@
   width: 100%;
   height: 100%;
 }
+
+.email-hint {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.email-hint--error {
+  color: #dc3545; /* Bootstrap danger */
+}
+
+.email-hint--success {
+  color: #198754; /* Bootstrap success */
+}
+
+
+.plain-text-area.invalid > textarea {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15);
+}
+
+.plain-text-area.valid > textarea {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+}

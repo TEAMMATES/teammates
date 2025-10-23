@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
@@ -19,11 +19,58 @@ import {
   styleUrls: ['./text-question-edit-answer-form.component.scss'],
 })
 export class TextQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent
-        <FeedbackTextQuestionDetails, FeedbackTextResponseDetails> {
+  extends QuestionEditAnswerFormComponent<
+    FeedbackTextQuestionDetails,
+    FeedbackTextResponseDetails
+  > {
+
+
+  emailError = '';
+  emailValid = false;
+
+
+  @Output() validityChange = new EventEmitter<boolean>();
+
+  private readonly EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
+  }
+
+
+  private isEmailQuestion(): boolean {
+    const qText = (this.questionDetails?.questionText ?? '').toLowerCase();
+    return qText.includes('email') || qText.includes('mail');
+  }
+
+
+  onAnswerChange(value: string): void {
+    this.responseDetails.answer = value;
+
+    if (this.isEmailQuestion()) {
+      const v = (value ?? '').trim();
+      if (!v || !this.EMAIL_REGEX.test(v)) {
+        this.emailError = 'Invalid email format';
+        this.emailValid = false;
+        this.validityChange.emit(false);
+      } else {
+        this.emailError = '';
+        this.emailValid = true;
+        this.validityChange.emit(true);
+      }
+    } else {
+
+      this.emailError = '';
+      this.emailValid = true;
+      this.validityChange.emit(true);
+    }
+  }
+
+
+  isEmailValidForSubmit(): boolean {
+    if (!this.isEmailQuestion()) { return true; }
+    const v = (this.responseDetails?.answer ?? '').trim();
+    return !!v && this.EMAIL_REGEX.test(v);
   }
 
   decodeHtml(html: string): string {
@@ -34,7 +81,7 @@ export class TextQuestionEditAnswerFormComponent
 
   get wordCount(): number {
     return this.responseDetails.answer.split(/\s/g)
-        .filter((item: string) => item.match(/\w/)).length;
+      .filter((item: string) => item.match(/\w/)).length;
   }
 
   get isWordCountWithinRecommendedBound(): boolean {
@@ -42,8 +89,8 @@ export class TextQuestionEditAnswerFormComponent
       return true;
     }
 
-    const upperLimit: number = this.questionDetails.recommendedLength + this.questionDetails.recommendedLength * 0.1;
-    const lowerLimit: number = this.questionDetails.recommendedLength - this.questionDetails.recommendedLength * 0.1;
+    const upperLimit: number = this.questionDetails.recommendedLength * 1.1;
+    const lowerLimit: number = this.questionDetails.recommendedLength * 0.9;
 
     return this.wordCount > lowerLimit && this.wordCount < upperLimit;
   }
