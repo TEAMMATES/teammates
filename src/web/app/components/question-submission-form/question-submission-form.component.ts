@@ -104,6 +104,43 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   allSessionViews = SessionView;
 
+  /**
+   * Map to store the validity of text questions (for email validation).
+   * The key format is `${questionNumber}-${recipientId ?? 'all'}`.
+   * If the value is false → the email field is invalid.
+   */
+  private textAnswerValidity = new Map<string, boolean>();
+
+  /** Build a unique key for tracking validity for each question and recipient. */
+  private buildValidityKey(qn: number, recipientId?: string | null): string {
+    return `${qn}-${recipientId ?? 'all'}`;
+  }
+
+  /**
+   * Called when the child text question component emits a validity change event.
+   * Stores the latest validity state in the map.
+   */
+  onTextValidityChange(qn: number, recipientId: string | null, isValid: boolean): void {
+    this.textAnswerValidity.set(this.buildValidityKey(qn, recipientId), isValid);
+  }
+
+  /**
+   * Checks whether all text fields in the current question are valid.
+   * If any invalid email is detected, submission will be blocked.
+   */
+  private canSubmitCurrentQuestion(): boolean {
+    const prefix = `${this.model.questionNumber}-`;
+    for (const [key, value] of this.textAnswerValidity.entries()) {
+      if (key.startsWith(prefix) && value === false) {
+        console.error('Invalid email detected. Please correct before submitting.');
+        // Optionally show a toast/snackbar instead of console log.
+        // this.statusMessageService.showErrorToast('Please correct invalid email fields before submitting.');
+        return false;
+      }
+    }
+    return true;
+  }
+
   @Input()
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
 
@@ -472,6 +509,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
+       if (!this.canSubmitCurrentQuestion()) {
+          return;
+        }
     clearTimeout(this.autosaveTimeout);
     this.isSaved = true;
     this.hasResponseChanged = false;

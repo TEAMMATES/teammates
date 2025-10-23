@@ -94,6 +94,7 @@
               <tm-text-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [questionDetails]="model.questionDetails"
                                                 [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                 (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                 (validityChange)="onTextValidityChange(model.questionNumber, recipientSubmissionFormModel?.recipientIdentifier, $event)"
                                                 [isDisabled]="isFormsDisabled"
                                                 [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
               ></tm-text-question-edit-answer-form>
