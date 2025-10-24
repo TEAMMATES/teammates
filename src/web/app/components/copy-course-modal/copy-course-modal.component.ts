@@ -74,12 +74,6 @@ export class CopyCourseModalComponent implements OnInit {
    * Fires the copy event.
    */
   copy(): void {
-    if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorToast(
-          'Please make sure you have filled in both Course ID and Name before adding the course!');
-      return;
-    }
-
     this.newCourseIdIsConflicting = this.allCourses
       .filter((course: Course) => course.courseId === this.newCourseId).length > 0;
     if (this.newCourseIdIsConflicting) {
