@@ -26,7 +26,7 @@ public class PreviewAccountDeletionAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String googleId = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_ID);
+        String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
 
         DeletionPreviewData previewData = deletionPreviewService.previewAccountDeletion(googleId);
 

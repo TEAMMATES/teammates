@@ -55,6 +55,13 @@ public final class DeletionPreviewService {
         instructorsLogic = InstructorsLogic.inst();
     }
 
+    private InstructorsLogic getInstructorsLogic() {
+        if (instructorsLogic == null) {
+            initLogicDependencies();
+        }
+        return instructorsLogic;
+    }
+
     /**
      * Previews the deletion of a course and all its associated data.
      *
@@ -272,14 +279,14 @@ public final class DeletionPreviewService {
         }
 
         // Get all instructors for this account
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForGoogleId(googleId, false);
+        List<InstructorAttributes> instructors = getInstructorsLogic().getInstructorsForGoogleId(googleId, false);
         preview.setInstructorsAffected(instructors.size());
 
         // Check for courses that will be orphaned
         int coursesToDelete = 0;
         for (InstructorAttributes instructor : instructors) {
             List<InstructorAttributes> courseInstructors =
-                    instructorsLogic.getInstructorsForCourse(instructor.getCourseId());
+                    getInstructorsLogic().getInstructorsForCourse(instructor.getCourseId());
             if (courseInstructors.size() <= 1) {
                 coursesToDelete++;
                 preview.addWarning("Course " + instructor.getCourseId()
