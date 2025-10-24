@@ -32,19 +32,16 @@ public class PreviewStudentDeletionAction extends Action {
 
         if (!isCourseMigrated(courseId)) {
             CourseAttributes courseAttributes = logic.getCourse(courseId);
-            StudentAttributes studentAttributes = logic.getStudentForEmail(courseId, studentEmail);
 
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.id),
-                    courseAttributes, studentAttributes,
-                    Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                    courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
             return;
         }
 
         Course course = sqlLogic.getCourse(courseId);
-        Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
 
         gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.id),
-                course, student, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
