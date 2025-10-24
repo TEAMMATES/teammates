@@ -31,6 +31,7 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
     private List<FeedbackParticipantType> showGiverNameTo;
     private boolean isVisibilityFollowingFeedbackQuestion;
     private Instant createdAt;
+    private Instant deletedAt;
     private String lastEditorEmail;
     private Instant lastEditedAt;
     private String giverSection;
@@ -47,6 +48,7 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
         createdAt = Instant.now();
+        deletedAt = null;
         commentGiverType = FeedbackParticipantType.INSTRUCTORS;
         isCommentFromFeedbackParticipant = false;
     }
@@ -71,6 +73,9 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
         frca.isVisibilityFollowingFeedbackQuestion = comment.getIsVisibilityFollowingFeedbackQuestion();
         if (comment.getCreatedAt() != null) {
             frca.createdAt = comment.getCreatedAt();
+        }
+        if (comment.getDeletedAt() != null) {
+            frca.deletedAt = comment.getDeletedAt();
         }
         if (comment.getLastEditorEmail() == null) {
             frca.lastEditorEmail = frca.getCommentGiver();
@@ -191,6 +196,18 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     public String getLastEditorEmail() {

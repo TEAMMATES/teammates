@@ -1001,19 +1001,7 @@ public final class FeedbackResponsesLogic {
      * @param entityEmail the entity email
      */
     public void deleteFeedbackResponsesInvolvedEntityOfCourseCascade(String courseId, String entityEmail) {
-        // delete responses from the entity
-        List<FeedbackResponseAttributes> responsesFromStudent =
-                getFeedbackResponsesFromGiverForCourse(courseId, entityEmail);
-        for (FeedbackResponseAttributes response : responsesFromStudent) {
-            deleteFeedbackResponseCascade(response.getId());
-        }
-
-        // delete responses to the entity
-        List<FeedbackResponseAttributes> responsesToStudent =
-                getFeedbackResponsesForReceiverForCourse(courseId, entityEmail);
-        for (FeedbackResponseAttributes response : responsesToStudent) {
-            deleteFeedbackResponseCascade(response.getId());
-        }
+        deletionService.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, entityEmail);
     }
 
     private List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamForQuestion(

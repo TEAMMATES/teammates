@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -781,4 +783,32 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         }
     }
 
+
+    @Test
+    public void testSoftDeleteFeedbackResponse() throws Exception {
+        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+
+        // remove possibly conflicting entity from the database
+        deleteResponse(fra);
+
+        frDb.createEntity(fra);
+        verifyPresentInDatabase(fra);
+
+        ______TS("Success: soft delete an existing feedback response");
+        frDb.softDeleteFeedbackResponse(fra.getFeedbackQuestionId());
+        FeedbackResponseAttributes deleted = frDb.getFeedbackResponse(fra.getFeedbackQuestionId());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted feedback response");
+        frDb.restoreDeletedFeedbackResponse(deleted.getFeedbackQuestionId());
+        FeedbackResponseAttributes restored = frDb.getFeedbackResponse(deleted.getFeedbackQuestionId());
+
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> frDb.deleteFeedbackResponse(null));
+
+    }
 }

@@ -29,6 +29,7 @@ public abstract class BaseEntity {
     @CreationTimestamp
     @Column(updatable = false)
     private Instant createdAt;
+    private Instant deletedAt;
 
     BaseEntity() {
         // instantiate as child classes
@@ -68,9 +69,15 @@ public abstract class BaseEntity {
     public Instant getCreatedAt() {
         return createdAt;
     }
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     /**

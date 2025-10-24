@@ -3,6 +3,7 @@ package teammates.storage.api;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -167,6 +168,31 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         assertThrows(AssertionError.class,
                 () -> accountRequestsDb.getAccountRequest(null, null));
+    }
+
+    @Test
+    public void testSoftDeleteAccountRequest() throws Exception {
+        AccountRequest accountRequest = new AccountRequest("valid5@test.com",
+                "Test account Name", "TEAMMATES Test Institute 1");
+        accountRequest.setRegistrationKey("5-123456");
+
+        accountRequestsDb.saveEntity(accountRequest);
+
+        ______TS("Success: soft delete an existing account request");
+        accountRequestsDb.softDeleteAccountRequest(accountRequest.getId());
+        AccountRequestAttributes deleted = accountRequestsDb.getAccountRequest(accountRequest.getId(), accountRequest.getInstitute());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted account request");
+        accountRequestsDb.restoreDeletedAccountRequest(deleted.getId());
+        AccountRequestAttributes restored = accountRequestsDb.getAccountRequest(deleted.getId(), deleted.getInstitute());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> accountRequestsDb.deleteAccountRequest(null, null));
+
     }
 
 }

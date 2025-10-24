@@ -34,6 +34,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
     private transient String key;
     private transient Instant createdAt;
     private transient Instant updatedAt;
+    private transient Instant deletedAt;
 
     private InstructorAttributes(String courseId, String email) {
         this.courseId = courseId;
@@ -47,6 +48,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
 
         this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.deletedAt = null;
     }
 
     /**
@@ -89,6 +91,9 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
         if (instructor.getUpdatedAt() != null) {
             instructorAttributes.updatedAt = instructor.getUpdatedAt();
         }
+        if (instructor.getDeletedAt() != null) {
+            instructorAttributes.deletedAt = instructor.getDeletedAt();
+        }
 
         return instructorAttributes;
     }
@@ -108,6 +113,7 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
         instructorAttributes.privileges = privileges;
         instructorAttributes.createdAt = createdAt;
         instructorAttributes.updatedAt = updatedAt;
+        instructorAttributes.deletedAt = deletedAt;
 
         return instructorAttributes;
     }
@@ -346,6 +352,18 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     public Instant getUpdatedAt() {

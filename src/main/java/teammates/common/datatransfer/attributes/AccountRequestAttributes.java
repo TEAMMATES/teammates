@@ -21,6 +21,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
     private String institute;
     private Instant registeredAt;
     private Instant createdAt;
+    private Instant deletedAt;
     private transient String registrationKey;
 
     private AccountRequestAttributes(String email, String institute, String name) {
@@ -30,6 +31,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
         this.registrationKey = null;
         this.registeredAt = null;
         this.createdAt = null;
+        this.deletedAt = null;
     }
 
     /**
@@ -42,6 +44,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
         accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
         accountRequestAttributes.createdAt = accountRequest.getCreatedAt();
+        accountRequestAttributes.deletedAt = accountRequest.getDeletedAt();
 
         return accountRequestAttributes;
     }
@@ -79,6 +82,18 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     public String getRegistrationUrl() {

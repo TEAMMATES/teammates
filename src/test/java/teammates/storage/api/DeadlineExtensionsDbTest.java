@@ -6,6 +6,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -430,5 +431,40 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
             assertTrue(deadlineExtension.getEndTime().isBefore(TimeHelper.getInstantDaysOffsetFromNow(1).plusSeconds(60)));
             assertFalse(deadlineExtension.getSentClosingSoonEmail());
         }
+    }
+
+    @Test
+    public void testSoftDeleteDeadlineExtension() throws Exception {
+        String validCourseId = VALID_COURSE_ID + "-delete-courseid-user";
+        DeadlineExtension deadlineExtension = new DeadlineExtension(
+                validCourseId, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL,
+                false, true, Const.TIME_REPRESENTS_NOW);
+
+        deadlineExtensionsDb.saveEntity(deadlineExtension);
+
+
+        ______TS("Success: soft delete an existing deadline extension");
+        deadlineExtensionsDb.softDeleteDeadlineExtension(deadlineExtension.getId());
+        DeadlineExtensionAttributes deleted = deadlineExtensionsDb.getDeadlineExtension(
+                deadlineExtension.getId(),
+                deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(),
+                deadlineExtension.getIsInstructor());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted deadline extension");
+        deadlineExtensionsDb.restoreDeletedDeadlineExtension(deleted.getCourseId());
+        DeadlineExtensionAttributes restored = deadlineExtensionsDb.getDeadlineExtension(
+                deadlineExtension.getId(),
+                deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(),
+                deadlineExtension.getIsInstructor());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> deadlineExtensionsDb.deleteDeadlineExtensions(null));
+
     }
 }

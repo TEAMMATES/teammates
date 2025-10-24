@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -293,5 +294,26 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .withStartTime(typical.getStartTime())
                 .withEndTime(typical.getEndTime())
                 .build();
+    }
+
+    @Test
+    public void testSoftDeleteNotification() throws Exception {
+        NotificationAttributes na = createNewNotification();
+
+        ______TS("Success: soft delete an existing notification");
+        notificationsDb.softDeleteNotification(na.getNotificationId());
+        NotificationAttributes deleted = notificationsDb.getNotification(na.getNotificationId());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted notification");
+        notificationsDb.restoreDeletedNotification(deleted.getNotificationId());
+        NotificationAttributes restored = notificationsDb.getNotification(deleted.getNotificationId());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> notificationsDb.deleteNotification(null));
+
     }
 }

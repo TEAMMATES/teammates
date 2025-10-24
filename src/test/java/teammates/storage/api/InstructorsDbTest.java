@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -835,6 +836,46 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("Failure: null parameters");
 
         assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructors(null));
+
+    }
+
+    @Test
+    public void testSoftDeleteInstructor() throws Exception {
+        String googleId = "valid.fresh.id";
+        String courseId = "valid.course.Id";
+        String name = "valid.name";
+        String email = "valid@email.tmt";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes i = InstructorAttributes.builder(courseId, email)
+                .withGoogleId(googleId)
+                .withName(name)
+                .withRole(role)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
+
+        instructorsDb.deleteInstructor(i.getCourseId(), i.getEmail());
+        instructorsDb.createEntity(i);
+
+        verifyPresentInDatabase(i);
+
+        ______TS("Success: soft delete an existing instructor");
+        instructorsDb.softDeleteInstructor(i.getCourseId(), i.getEmail());
+        InstructorAttributes deleted = instructorsDb.getInstructorById(i.getCourseId(), i.getEmail());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted instructor");
+        instructorsDb.restoreDeletedInstructor(deleted.getCourseId(), deleted.getEmail());
+        InstructorAttributes restored = instructorsDb.getInstructorById(deleted.getCourseId(), deleted.getEmail());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructor(null, null));
 
     }
 }

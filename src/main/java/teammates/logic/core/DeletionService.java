@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.RequestTracer;
@@ -329,6 +330,28 @@ public final class DeletionService {
                 .build();
         frcDb.deleteFeedbackResponseComments(query);
         frDb.deleteFeedbackResponses(query);
+    }
+
+    /**
+     * Deletes all feedback responses involved an entity cascade its associated comments.
+     *
+     * @param courseId the course id
+     * @param entityEmail the entity email
+     */
+    public void deleteFeedbackResponsesInvolvedEntityOfCourseCascade(String courseId, String entityEmail) {
+        // delete responses from the entity
+        List<FeedbackResponseAttributes> responsesFromStudent =
+                frLogic.getFeedbackResponsesFromGiverForCourse(courseId, entityEmail);
+        for (FeedbackResponseAttributes response : responsesFromStudent) {
+            deleteFeedbackResponseCascade(response.getId());
+        }
+
+        // delete responses to the entity
+        List<FeedbackResponseAttributes> responsesToStudent =
+                frLogic.getFeedbackResponsesForReceiverForCourse(courseId, entityEmail);
+        for (FeedbackResponseAttributes response : responsesToStudent) {
+            deleteFeedbackResponseCascade(response.getId());
+        }
     }
 
     // ==================== Notifications Deletion ====================

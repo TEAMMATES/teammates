@@ -10,6 +10,7 @@ import org.testng.collections.Lists;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -656,6 +657,33 @@ public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess
         if (fq != null) {
             fqDb.deleteFeedbackQuestion(fq.getId());
         }
+    }
+
+    @Test
+    public void testSoftDeleteFeedbackQuestions() throws Exception {
+        FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
+
+        // remove possibly conflicting entity from the database
+        deleteFeedbackQuestion(fq);
+
+        fqDb.createEntity(fq);
+        verifyPresentInDatabase(fq);
+
+        ______TS("Success: soft delete an existing feedback question");
+        fqDb.softDeleteFeedbackQuestion(fq.getFeedbackQuestionId());
+        FeedbackQuestionAttributes deleted = fqDb.getFeedbackQuestion(fq.getFeedbackQuestionId());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted feedback question");
+        fqDb.restoreDeletedFeedbackQuestion(deleted.getFeedbackQuestionId());
+        FeedbackQuestionAttributes restored = fqDb.getFeedbackQuestion(deleted.getFeedbackQuestionId());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> fqDb.deleteFeedbackQuestion(null));
+
     }
 
 }

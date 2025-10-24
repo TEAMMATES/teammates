@@ -9,10 +9,13 @@ import java.util.Collection;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -456,6 +459,37 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 && otherStudent.getComments().equals(student.getComments())
                 && otherStudent.getTeam().equals(student.getTeam())
                 && otherStudent.getSection().equals(student.getSection());
+    }
+
+    @Test
+    public void testSoftDeleteStudent() throws Exception {
+        StudentAttributes s = StudentAttributes
+                .builder("course id", "valid-fresh@email.com")
+                .withName("valid student")
+                .withComment("")
+                .withTeamName("validTeamName")
+                .withSectionName("validSectionName")
+                .withGoogleId("validGoogleId")
+                .build();
+
+        studentsDb.createEntity(s);
+        verifyPresentInDatabase(s);
+
+        ______TS("Success: soft delete an existing student");
+        studentsDb.softDeleteStudent(s.getCourse(), s.getEmail());
+        StudentAttributes deleted = studentsDb.getStudentForEmail(s.getCourse(), s.getEmail());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted student");
+        studentsDb.restoreDeletedStudent(deleted.getCourse(), deleted.getEmail());
+        StudentAttributes restored = studentsDb.getStudentForEmail(deleted.getCourse(), deleted.getEmail());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> studentsDb.deleteStudent(null, null));
+
     }
 
 }

@@ -22,6 +22,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
     private String email;
     private Map<String, Instant> readNotifications;
     private Instant createdAt;
+    private Instant deletedAt;
     private boolean isMigrated;
 
     private AccountAttributes(String googleId) {
@@ -39,6 +40,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
         accountAttributes.email = a.getEmail();
         accountAttributes.readNotifications = a.getReadNotifications();
         accountAttributes.createdAt = a.getCreatedAt();
+        accountAttributes.deletedAt = a.getDeletedAt();
         accountAttributes.isMigrated = a.isMigrated();
 
         return accountAttributes;
@@ -104,6 +106,18 @@ public final class AccountAttributes extends EntityAttributes<Account> {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     public boolean isMigrated() {
