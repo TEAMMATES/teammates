@@ -35,6 +35,13 @@ import teammates.ui.webapi.JsonResult;
  */
 public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeedbackResponseCommentAction> {
 
+    private static final String COURSE_1 = "course-1";
+    private static final String COURSE_2 = "course-2";
+    private static final String STUDENT_1 = "student-1";
+    private static final String STUDENT_2 = "student-2";
+    private static final String INSTRUCTOR_1 = "instructor-1";
+    private static final String INSTRUCTOR_2 = "instructor-2";
+
     private Instructor instructorOfCourse1;
     private Instructor instructorOfCourse2;
     private FeedbackResponse responseForQ1;
@@ -57,39 +64,43 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @BeforeMethod
     void setUp() {
-        Course course1 = generateCourse("course-1");
-        Course course2 = generateCourse("course-2");
+        // setup courses and session
+        Course course1 = generateCourse(COURSE_1);
+        Course course2 = generateCourse(COURSE_2);
+        feedbackSessionInCourse1 = generateSessionInCourse("feedbackSession-1", course1);
 
-        feedbackSessionInCourse1 = generateSessionInCourse(course1);
+        // setup students and instructors
+        studentInCourse1 = generateStudentInCourse(STUDENT_1, course1);
+        studentInCourse2 = generateStudentInCourse(STUDENT_2, course2);
+        instructorOfCourse1 = generateInstructorInCourse(INSTRUCTOR_1, course1);
+        instructorOfCourse2 = generateInstructorInCourse(INSTRUCTOR_2, course2);
+
+        // setup comments and responses
         FeedbackQuestion qn1InSession1InCourse1 = getTypicalFeedbackQuestionForSession(feedbackSessionInCourse1);
         qn1InSession1InCourse1.setGiverType(FeedbackParticipantType.STUDENTS);
-
         FeedbackQuestion qn2InSession1InCourse1 = getTypicalFeedbackQuestionForSession(feedbackSessionInCourse1);
         qn2InSession1InCourse1.setGiverType(FeedbackParticipantType.INSTRUCTORS);
-
-        studentInCourse1 = generateStudentInCourse("student-1", course1);
-        studentInCourse2 = generateStudentInCourse("student-2", course2);
-        instructorOfCourse1 = generateInstructorInCourse("instructor-1", course1);
-        instructorOfCourse2 = generateInstructorInCourse("instructor-2", course2);
 
         responseForQ1 = getTypicalFeedbackResponseForQuestion(qn1InSession1InCourse1);
         responseForQ2 = getTypicalFeedbackResponseForQuestion(qn2InSession1InCourse1);
 
-        commentForQ1Response1 = new FeedbackResponseComment(responseForQ1, "student-1@teammates.tmt",
-                FeedbackParticipantType.STUDENTS, getTypicalSection(), getTypicalSection(),
-                "Student 1 comment", false, false,
-                new ArrayList<>(), new ArrayList<>(), "student-1@teammates.tmt");
-        commentForQ1Response1.setId((long) Math.random());
-        commentForQ1Response1.setCreatedAt(Instant.now());
-        commentForQ1Response1.setUpdatedAt(Instant.now());
-
-        commentForQ2Response1 = new FeedbackResponseComment(responseForQ2, "instructor-1@teammates.tmt",
-                FeedbackParticipantType.INSTRUCTORS, getTypicalSection(), getTypicalSection(),
-                "Instructor 1 comment", false, false,
-                new ArrayList<>(), new ArrayList<>(), "instructor-1@teammates.tmt");
-        commentForQ2Response1.setId((long) Math.random());
-        commentForQ2Response1.setCreatedAt(Instant.now());
-        commentForQ2Response1.setUpdatedAt(Instant.now());
+//        commentForQ1Response1 = new FeedbackResponseComment(responseForQ1, "student-1@teammates.tmt",
+//                FeedbackParticipantType.STUDENTS, getTypicalSection(), getTypicalSection(),
+//                "Student 1 comment", false, false,
+//                new ArrayList<>(), new ArrayList<>(), "student-1@teammates.tmt");
+//        commentForQ1Response1.setId((long) Math.random());
+//        commentForQ1Response1.setCreatedAt(Instant.now());
+//        commentForQ1Response1.setUpdatedAt(Instant.now());
+//
+//        commentForQ2Response1 = new FeedbackResponseComment(responseForQ2, "instructor-1@teammates.tmt",
+//                FeedbackParticipantType.INSTRUCTORS, getTypicalSection(), getTypicalSection(),
+//                "Instructor 1 comment", false, false,
+//                new ArrayList<>(), new ArrayList<>(), "instructor-1@teammates.tmt");
+//        commentForQ2Response1.setId((long) Math.random());
+//        commentForQ2Response1.setCreatedAt(Instant.now());
+//        commentForQ2Response1.setUpdatedAt(Instant.now());
+        commentForQ1Response1 = generateComment(responseForQ1, STUDENT_1, FeedbackParticipantType.STUDENTS, "Student 1 Comment");
+        commentForQ2Response1 = generateComment(responseForQ2, INSTRUCTOR_1, FeedbackParticipantType.INSTRUCTORS, "Instructor 1 Comment");
     }
 
     @Test
@@ -314,8 +325,8 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         return i;
     }
 
-    private FeedbackSession generateSessionInCourse(Course course) {
-        FeedbackSession fs = new FeedbackSession("feedbacksession-1", course,
+    private FeedbackSession generateSessionInCourse(String feedbackSession, Course course) {
+        FeedbackSession fs = new FeedbackSession(feedbackSession, course,
                 "instructor1@gmail.com", "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
@@ -324,5 +335,18 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 
         return fs;
+    }
+
+    private FeedbackResponseComment generateComment(FeedbackResponse response, String author,
+                                                    FeedbackParticipantType participantType, String text) {
+        FeedbackResponseComment comment = new FeedbackResponseComment(response, author,
+                participantType, getTypicalSection(), getTypicalSection(), text,
+                false, false, new ArrayList<>(), new ArrayList<>(), author);
+
+        comment.setId((long) Math.random());
+        comment.setCreatedAt(Instant.now());
+        comment.setUpdatedAt(Instant.now());
+
+        return comment; 
     }
 }
