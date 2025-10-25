@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -43,6 +44,7 @@ public final class DeletionService {
 
     private FeedbackSessionsLogic feedbackSessionsLogic;
     private FeedbackResponsesLogic frLogic;
+    private FeedbackQuestionsLogic fqLogic;
     private InstructorsLogic instructorsLogic;
 
     private DeletionService() {
@@ -56,6 +58,7 @@ public final class DeletionService {
     void initLogicDependencies() {
         feedbackSessionsLogic = FeedbackSessionsLogic.inst();
         frLogic = FeedbackResponsesLogic.inst();
+        fqLogic = FeedbackQuestionsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
     }
 
@@ -267,6 +270,16 @@ public final class DeletionService {
      * Deletes a feedback question and cascades to its responses and comments.
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
+        FeedbackQuestionAttributes questionToDelete =
+                fqLogic.getFeedbackQuestion(feedbackQuestionId);
+
+        if (questionToDelete == null) {
+            return; // Silently fail if question does not exist.
+        }
+
+        List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
+                fqLogic.getFeedbackQuestionsForSession(questionToDelete.getFeedbackSessionName(), questionToDelete.getCourseId());
+
         // cascade delete responses and comments for question
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                 .withQuestionId(feedbackQuestionId)
@@ -276,6 +289,11 @@ public final class DeletionService {
 
         // delete question
         fqDb.deleteFeedbackQuestion(feedbackQuestionId);
+
+        // adjust question numbers
+        if (questionToDelete.getQuestionNumber() < questionsToShiftQnNumber.size()) {
+            fqLogic.shiftQuestionNumbersDown(questionToDelete.getQuestionNumber(), questionsToShiftQnNumber);
+        }
     }
 
     /**

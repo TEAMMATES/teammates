@@ -180,13 +180,13 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("Success: soft delete an existing account request");
         accountRequestsDb.softDeleteAccountRequest(accountRequest.getId());
-        AccountRequestAttributes deleted = accountRequestsDb.getAccountRequest(accountRequest.getId(), accountRequest.getInstitute());
+        AccountRequestAttributes deleted = accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
 
         assertTrue(deleted.isDeleted());
 
         ______TS("Success: restore soft deleted account request");
-        accountRequestsDb.restoreDeletedAccountRequest(deleted.getId());
-        AccountRequestAttributes restored = accountRequestsDb.getAccountRequest(deleted.getId(), deleted.getInstitute());
+        accountRequestsDb.restoreDeletedAccountRequest(accountRequest.getId());
+        AccountRequestAttributes restored = accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         assertFalse(restored.isDeleted());
 
         ______TS("null parameter");

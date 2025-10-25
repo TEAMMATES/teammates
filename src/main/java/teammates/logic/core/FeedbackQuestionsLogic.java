@@ -768,23 +768,7 @@ public final class FeedbackQuestionsLogic {
      * <p>Silently fail if question does not exist.
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
-        FeedbackQuestionAttributes questionToDelete =
-                        getFeedbackQuestion(feedbackQuestionId);
-
-        if (questionToDelete == null) {
-            return; // Silently fail if question does not exist.
-        }
-
-        List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
-                getFeedbackQuestionsForSession(questionToDelete.getFeedbackSessionName(), questionToDelete.getCourseId());
-
-        // cascade delete responses and comments, then delete question
         deletionService.deleteFeedbackQuestionCascade(feedbackQuestionId);
-
-        // adjust question numbers
-        if (questionToDelete.getQuestionNumber() < questionsToShiftQnNumber.size()) {
-            shiftQuestionNumbersDown(questionToDelete.getQuestionNumber(), questionsToShiftQnNumber);
-        }
     }
 
     /**
@@ -795,7 +779,7 @@ public final class FeedbackQuestionsLogic {
     }
 
     // Shifts all question numbers after questionNumberToShiftFrom down by one.
-    private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
+    public void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questionsToShift) {
         for (FeedbackQuestionAttributes question : questionsToShift) {
             if (question.getQuestionNumber() > questionNumberToShiftFrom) {

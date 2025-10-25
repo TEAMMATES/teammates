@@ -435,7 +435,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
 
     @Test
     public void testSoftDeleteDeadlineExtension() throws Exception {
-        String validCourseId = VALID_COURSE_ID + "-delete-courseid-user";
+        String validCourseId = VALID_COURSE_ID + "-soft-delete-";
         DeadlineExtension deadlineExtension = new DeadlineExtension(
                 validCourseId, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL,
                 false, true, Const.TIME_REPRESENTS_NOW);
@@ -446,7 +446,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         ______TS("Success: soft delete an existing deadline extension");
         deadlineExtensionsDb.softDeleteDeadlineExtension(deadlineExtension.getId());
         DeadlineExtensionAttributes deleted = deadlineExtensionsDb.getDeadlineExtension(
-                deadlineExtension.getId(),
+                deadlineExtension.getCourseId(),
                 deadlineExtension.getFeedbackSessionName(),
                 deadlineExtension.getUserEmail(),
                 deadlineExtension.getIsInstructor());
@@ -454,9 +454,9 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         assertTrue(deleted.isDeleted());
 
         ______TS("Success: restore soft deleted deadline extension");
-        deadlineExtensionsDb.restoreDeletedDeadlineExtension(deleted.getCourseId());
+        deadlineExtensionsDb.restoreDeletedDeadlineExtension(deadlineExtension.getId());
         DeadlineExtensionAttributes restored = deadlineExtensionsDb.getDeadlineExtension(
-                deadlineExtension.getId(),
+                deadlineExtension.getCourseId(),
                 deadlineExtension.getFeedbackSessionName(),
                 deadlineExtension.getUserEmail(),
                 deadlineExtension.getIsInstructor());

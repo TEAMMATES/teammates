@@ -795,14 +795,14 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         verifyPresentInDatabase(fra);
 
         ______TS("Success: soft delete an existing feedback response");
-        frDb.softDeleteFeedbackResponse(fra.getFeedbackQuestionId());
-        FeedbackResponseAttributes deleted = frDb.getFeedbackResponse(fra.getFeedbackQuestionId());
+        frDb.softDeleteFeedbackResponse(fra.getId());
+        FeedbackResponseAttributes deleted = frDb.getFeedbackResponse(fra.getId());
 
         assertTrue(deleted.isDeleted());
 
         ______TS("Success: restore soft deleted feedback response");
-        frDb.restoreDeletedFeedbackResponse(deleted.getFeedbackQuestionId());
-        FeedbackResponseAttributes restored = frDb.getFeedbackResponse(deleted.getFeedbackQuestionId());
+        frDb.restoreDeletedFeedbackResponse(deleted.getId());
+        FeedbackResponseAttributes restored = frDb.getFeedbackResponse(deleted.getId());
 
         assertFalse(restored.isDeleted());
 

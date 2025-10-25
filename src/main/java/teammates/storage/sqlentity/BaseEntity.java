@@ -28,8 +28,8 @@ public abstract class BaseEntity {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Instant createdAt;
-    private Instant deletedAt;
+    protected Instant createdAt;
+    protected Instant deletedAt;
 
     BaseEntity() {
         // instantiate as child classes

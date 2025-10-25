@@ -46,8 +46,6 @@ public class Course extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    private Instant deletedAt;
-
     protected Course() {
         // required by Hibernate
     }

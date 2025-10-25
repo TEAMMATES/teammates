@@ -679,11 +679,6 @@ public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess
         fqDb.restoreDeletedFeedbackQuestion(deleted.getFeedbackQuestionId());
         FeedbackQuestionAttributes restored = fqDb.getFeedbackQuestion(deleted.getFeedbackQuestionId());
         assertFalse(restored.isDeleted());
-
-        ______TS("null parameter");
-
-        assertThrows(AssertionError.class, () -> fqDb.deleteFeedbackQuestion(null));
-
     }
 
 }

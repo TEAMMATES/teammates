@@ -100,8 +100,6 @@ public class FeedbackSession extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    private Instant deletedAt;
-
     protected FeedbackSession() {
         // required by Hibernate
     }

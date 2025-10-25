@@ -118,6 +118,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         studentAttributes.key = key;
         studentAttributes.createdAt = createdAt;
         studentAttributes.updatedAt = updatedAt;
+        studentAttributes.deletedAt = deletedAt;
 
         return studentAttributes;
     }

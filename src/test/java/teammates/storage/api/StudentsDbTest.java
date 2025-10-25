@@ -464,12 +464,12 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     @Test
     public void testSoftDeleteStudent() throws Exception {
         StudentAttributes s = StudentAttributes
-                .builder("course id", "valid-fresh@email.com")
-                .withName("valid student")
+                .builder("valid-course", "soft@delete.com")
+                .withName("valid student 3")
                 .withComment("")
-                .withTeamName("validTeamName")
-                .withSectionName("validSectionName")
-                .withGoogleId("validGoogleId")
+                .withTeamName("valid team name")
+                .withSectionName("valid section name")
+                .withGoogleId("")
                 .build();
 
         studentsDb.createEntity(s);

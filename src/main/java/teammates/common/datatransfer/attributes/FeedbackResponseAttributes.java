@@ -84,6 +84,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
         fra.responseDetails = deserializeResponseFromSerializedString(fr.getAnswer(), fr.getFeedbackQuestionType());
         fra.createdAt = fr.getCreatedAt();
         fra.updatedAt = fr.getUpdatedAt();
+        fra.deletedAt = fr.getDeletedAt();
 
         return fra;
     }
