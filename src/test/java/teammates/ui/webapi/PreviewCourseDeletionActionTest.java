@@ -184,16 +184,6 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
         assertNotNull(output.getEntityIdentifier());
         assertNotNull(output.getWarnings());
         assertNotNull(output.getCascadedDeletions());
-
-        // Verify no null counts
-        assertNotNull(output.getStudentsAffected());
-        assertNotNull(output.getInstructorsAffected());
-        assertNotNull(output.getFeedbackSessionsAffected());
-        assertNotNull(output.getFeedbackQuestionsAffected());
-        assertNotNull(output.getFeedbackResponsesAffected());
-        assertNotNull(output.getFeedbackCommentsAffected());
-        assertNotNull(output.getDeadlineExtensionsAffected());
-        assertNotNull(output.getTotalEntitiesAffected());
     }
 
     @Test

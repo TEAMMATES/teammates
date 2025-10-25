@@ -14,36 +14,80 @@ public class MockUserProvision extends UserProvision {
     private UserInfo mockUser = new UserInfo("user.id");
     private boolean isLoggedIn;
 
-    private UserInfo loginUser(String userId, boolean isAdmin) {
+    private UserInfo loginUser(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent,
+            boolean isMaintainer) {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
-        return getCurrentUser(null);
+        mockUser.isInstructor = isInstructor;
+        mockUser.isStudent = isStudent;
+        mockUser.isMaintainer = isMaintainer;
+        return mockUser;
     }
 
     /**
-     * Adds a logged-in user without admin rights.
+     * Adds a logged-in user without any special rights.
      *
      * @return The user info after login process
      */
     public UserInfo loginUser(String userId) {
-        return loginUser(userId, false);
-    }
-
-    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin) {
-        isLoggedIn = true;
-        mockUser.id = userId;
-        mockUser.isAdmin = isAdmin;
-        return getCurrentUserWithTransaction(null);
+        return loginUser(userId, false, false, false, false);
     }
 
     /**
-     * Adds a logged-in user without admin rights.
+     * Adds a logged-in user as an instructor.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsInstructor(String userId) {
+        return loginUser(userId, false, true, false, false);
+    }
+
+    /**
+     * Adds a logged-in user as a student.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsStudent(String userId) {
+        return loginUser(userId, false, false, true, false);
+    }
+
+    /**
+     * Adds a logged-in user as a student-instructor.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsStudentInstructor(String userId) {
+        return loginUser(userId, false, true, true, false);
+    }
+
+    /**
+     * Adds a logged-in user as a maintainer.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsMaintainer(String userId) {
+        return loginUser(userId, false, false, false, true);
+    }
+
+    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent,
+            boolean isMaintainer) {
+        isLoggedIn = true;
+        mockUser.id = userId;
+        mockUser.isAdmin = isAdmin;
+        mockUser.isInstructor = isInstructor;
+        mockUser.isStudent = isStudent;
+        mockUser.isMaintainer = isMaintainer;
+        return mockUser;
+    }
+
+    /**
+     * Adds a logged-in user without any special rights (with transaction).
      *
      * @return The user info after login process
      */
     public UserInfo loginUserWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, false);
+        return loginUserWithTransaction(userId, false, false, false, false);
     }
 
     /**
@@ -52,7 +96,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsAdmin(String userId) {
-        return loginUser(userId, true);
+        return loginUser(userId, true, false, false, false);
     }
 
     /**
@@ -61,7 +105,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsAdminWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, true);
+        return loginUserWithTransaction(userId, true, false, false, false);
     }
 
     /**

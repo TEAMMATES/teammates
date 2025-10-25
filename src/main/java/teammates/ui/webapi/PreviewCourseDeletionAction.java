@@ -8,6 +8,7 @@ import teammates.storage.sqlentity.Course;
 import teammates.ui.output.DeletionPreviewOutput;
 
 /**
+ *
  * Preview the deletion of a course to show what will be affected.
  */
 public class PreviewCourseDeletionAction extends Action {
@@ -25,6 +26,9 @@ public class PreviewCourseDeletionAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        if (courseId.trim().isEmpty()) {
+            throw new InvalidHttpParameterException("The [courseId] HTTP parameter is empty.");
+        }
 
         if (!isCourseMigrated(courseId)) {
             CourseAttributes courseAttributes = logic.getCourse(courseId);
@@ -42,6 +46,9 @@ public class PreviewCourseDeletionAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        if (courseId.trim().isEmpty()) {
+            throw new InvalidHttpParameterException("The [courseId] HTTP parameter is empty.");
+        }
 
         DeletionPreviewData previewData = deletionPreviewService.previewCourseDeletion(courseId);
 

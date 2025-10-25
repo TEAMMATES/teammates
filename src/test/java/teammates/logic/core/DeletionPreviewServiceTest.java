@@ -4,12 +4,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DeletionPreviewData;
-import teammates.test.BaseTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link DeletionPreviewService}.
  */
-public class DeletionPreviewServiceTest extends BaseTestCase {
+public class DeletionPreviewServiceTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private DeletionPreviewService deletionPreviewService = DeletionPreviewService.inst();
 
