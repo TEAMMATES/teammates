@@ -176,6 +176,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isEveryRecipientSorted: boolean = false;
 
   autosaveTimeout: any;
+  
+  // Search functionality state
+  searchTerms: Map<number, string> = new Map();
+  dropdownStates: Map<number, boolean> = new Map();
+  filteredRecipientsCache: Map<number, FeedbackResponseRecipient[]> = new Map();
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
     private feedbackResponseService: FeedbackResponsesService) {
@@ -512,6 +517,117 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
 
     return recipient.recipientName;
+  }
+
+  /**
+   * Gets the display value for recipient search input
+   */
+  getRecipientDisplayValue(recipientIdentifier: string): string {
+    if (!recipientIdentifier) {
+      return '';
+    }
+    const recipient = this.model.recipientList.find(r => r.recipientIdentifier === recipientIdentifier);
+    return recipient ? this.getSelectionOptionLabel(recipient) : '';
+  }
+
+  /**
+   * Handles recipient search input changes
+   */
+  onRecipientSearchChange(index: number, searchTerm: string): void {
+    this.searchTerms.set(index, searchTerm);
+    this.dropdownStates.set(index, true);
+    this.updateFilteredRecipients(index);
+    
+    // Clear selection if search term doesn't match current selection
+    const currentRecipient = this.model.recipientSubmissionForms[index];
+    if (currentRecipient.recipientIdentifier) {
+      const recipient = this.model.recipientList.find(r => r.recipientIdentifier === currentRecipient.recipientIdentifier);
+      if (recipient) {
+        const currentLabel = this.getSelectionOptionLabel(recipient);
+        if (currentLabel !== searchTerm) {
+          // User is typing something different, clear the selection
+          this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', '');
+        }
+      }
+    }
+  }
+
+  /**
+   * Handles recipient search input blur
+   */
+  onRecipientSearchBlur(index: number): void {
+    // Delay closing dropdown to allow click events to register
+    setTimeout(() => {
+      this.dropdownStates.set(index, false);
+    }, 200);
+  }
+
+  /**
+   * Handles recipient search input focus
+   */
+  onRecipientSearchFocus(index: number): void {
+    this.dropdownStates.set(index, true);
+    this.updateFilteredRecipients(index);
+  }
+
+  /**
+   * Checks if dropdown is open for given index
+   */
+  isDropdownOpen(index: number): boolean {
+    return this.dropdownStates.get(index) || false;
+  }
+
+  /**
+   * Updates filtered recipients based on search term
+   */
+  updateFilteredRecipients(index: number): void {
+    const searchTerm = this.searchTerms.get(index) || '';
+    let filteredRecipients = this.model.recipientList.filter(recipient => {
+      // Don't show already selected recipients (except current one)
+      const isCurrentSelection = this.model.recipientSubmissionForms[index].recipientIdentifier === recipient.recipientIdentifier;
+      const isSelected = this.isRecipientSelected(recipient);
+      
+      if (isSelected && !isCurrentSelection) {
+        return false;
+      }
+
+      if (!searchTerm) {
+        return true;
+      }
+
+      const label = this.getSelectionOptionLabel(recipient).toLowerCase();
+      const term = searchTerm.toLowerCase();
+      
+      // Check if the search term is a substring of the label
+      // or if any word in the label contains the search term
+      return label.includes(term) || 
+             label.split(/[\s|\/]/).some(word => word.includes(term));
+    });
+
+    this.filteredRecipientsCache.set(index, filteredRecipients);
+  }
+
+  /**
+   * Gets filtered recipients for given index
+   */
+  getFilteredRecipients(index: number): FeedbackResponseRecipient[] {
+    return this.filteredRecipientsCache.get(index) || [];
+  }
+
+  /**
+   * Selects a recipient from dropdown
+   */
+  selectRecipient(index: number, recipient: FeedbackResponseRecipient): void {
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
+    this.searchTerms.set(index, this.getSelectionOptionLabel(recipient));
+    this.dropdownStates.set(index, false);
+  }
+
+  /**
+   * Track function for filtered recipients
+   */
+  trackRecipientByIdentifier(_index: number, recipient: FeedbackResponseRecipient): string {
+    return recipient.recipientIdentifier;
   }
 
   toggleSectionTeam(event: Event): void {

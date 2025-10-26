@@ -70,15 +70,31 @@
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-                <select id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
-                        (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
-                        [disabled]="isFormsDisabled"
-                        [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i">
-                  <option value=""></option>
-                  <ng-container *ngFor="let recipient of model.recipientList">
-                    <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
-                  </ng-container>
-                </select>
+                <div class="col position-relative">
+                  <input
+                    type="text"
+                    id="recipient-search-qn-{{ model.questionNumber }}-idx-{{ i }}"
+                    class="form-control fw-bold"
+                    [ngModel]="getRecipientDisplayValue(recipientSubmissionFormModel.recipientIdentifier)"
+                    (ngModelChange)="onRecipientSearchChange(i, $event)"
+                    (blur)="onRecipientSearchBlur(i)"
+                    (focus)="onRecipientSearchFocus(i)"
+                    [disabled]="isFormsDisabled"
+                    placeholder="Type to search recipients..."
+                    autocomplete="off"
+                    [attr.aria-label]="'Search recipient dropdown question ' + model.questionNumber + ' index ' + i">
+                  
+                  <div *ngIf="getFilteredRecipients(i).length > 0 && isDropdownOpen(i)"
+                       class="dropdown-menu show position-absolute w-100 mt-1 max-height-200 overflow-auto"
+                       style="z-index: 1000;">
+                    <div *ngFor="let recipient of getFilteredRecipients(i); trackBy: trackRecipientByIdentifier"
+                         class="dropdown-item cursor-pointer"
+                         [class.active]="recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier"
+                         (click)="selectRecipient(i, recipient)">
+                      {{ getSelectionOptionLabel(recipient) }}
+                    </div>
+                  </div>
+                </div>
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})
                 </div>

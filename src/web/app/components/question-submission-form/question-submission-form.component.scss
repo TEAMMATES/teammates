@@ -54,3 +54,22 @@
 .collapse-caret {
   margin-right: 10px;
 }
+
+.max-height-200 {
+  max-height: 200px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.dropdown-item {
+  &.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}
