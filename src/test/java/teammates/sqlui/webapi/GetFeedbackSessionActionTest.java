@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -66,6 +67,11 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         };
     }
 
+    @AfterMethod
+    void tearDown() {
+         logoutUser();
+    }
+
     @Test
     protected void textExecute_studentSubmissionNoExtensionAndBeforeEndTime_statusOpen() {
 
@@ -75,9 +81,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         Instant newEndTime = newStartTime.plusSeconds(60 * 60);
         Duration newGracePeriod = Duration.ZERO;
 
-        feedbackSession1.setStartTime(newStartTime);
-        feedbackSession1.setEndTime(newEndTime);
-        feedbackSession1.setGracePeriod(newGracePeriod);
+        configureFeedbackSession(newStartTime, newEndTime, newGracePeriod);
 
         // mock no deadline extension
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(feedbackSession1.getEndTime());
@@ -123,7 +127,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        logoutUser();
+
     }
 
     @Test
@@ -135,9 +139,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         Instant newEndTime = newStartTime.plusSeconds(60);
         Duration newGracePeriod = Duration.ofDays(2);
 
-        feedbackSession1.setStartTime(newStartTime);
-        feedbackSession1.setEndTime(newEndTime);
-        feedbackSession1.setGracePeriod(newGracePeriod);
+
+        configureFeedbackSession(newStartTime, newEndTime, newGracePeriod);
+
 
         // mock no deadline extension
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(feedbackSession1.getEndTime());
@@ -154,7 +158,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
-        logoutUser();
+
     }
 
     @Test
@@ -166,9 +170,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         Instant newEndTime = newStartTime.plusSeconds(20);
         Duration newGracePeriod = Duration.ofSeconds(10);
 
-        feedbackSession1.setStartTime(newStartTime);
-        feedbackSession1.setEndTime(newEndTime);
-        feedbackSession1.setGracePeriod(newGracePeriod);
+        configureFeedbackSession(newStartTime, newEndTime, newGracePeriod);
 
         // mock no deadline extension
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(feedbackSession1.getEndTime());
@@ -185,7 +187,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
-        logoutUser();
+
     }
 
     @Test
@@ -198,11 +200,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         Duration newGracePeriod = Duration.ZERO;
         Instant extendedEndTime = newStartTime.plusSeconds(60 * 60 * 21);
 
-        feedbackSession1.setStartTime(newStartTime);
-        feedbackSession1.setEndTime(newEndTime);
-        feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
+        configureFeedbackSession(newStartTime, newEndTime,
+                newGracePeriod, new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -220,7 +219,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
-        logoutUser();
+
     }
 
     @Test
@@ -233,11 +232,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         Duration newGracePeriod = Duration.ZERO;
         Instant extendedEndTime = Instant.now().plusSeconds(60 * 60);
 
-        feedbackSession1.setStartTime(newStartTime);
-        feedbackSession1.setEndTime(newEndTime);
-        feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
+        configureFeedbackSession(newStartTime, newEndTime,
+                newGracePeriod, new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -255,7 +251,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
-        logoutUser();
+
     }
 
     @Test
@@ -268,11 +264,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         Instant extendedEndTime = newEndTime.plusSeconds(20);
         Duration newGracePeriod = Duration.ofDays(1);
 
-        feedbackSession1.setStartTime(newStartTime);
-        feedbackSession1.setEndTime(newEndTime);
-        feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
+        configureFeedbackSession(newStartTime, newEndTime,
+                newGracePeriod, new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -290,7 +283,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
-        logoutUser();
+
     }
 
     @Test
@@ -303,11 +296,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         Instant extendedEndTime = newEndTime.plusSeconds(10);
         Duration newGracePeriod = Duration.ofSeconds(10);
 
-        feedbackSession1.setStartTime(newStartTime);
-        feedbackSession1.setEndTime(newEndTime);
-        feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
+        configureFeedbackSession(newStartTime, newEndTime,
+                newGracePeriod, new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -325,7 +315,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
-        logoutUser();
+
     }
 
     private Course generateCourse1() {
@@ -355,5 +345,16 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 
         return fs;
+    }
+
+    private void configureFeedbackSession(Instant start, Instant end,
+                                          Duration gracePeriod, DeadlineExtension... extensions) {
+        feedbackSession1.setStartTime(start);
+        feedbackSession1.setEndTime(end);
+        feedbackSession1.setGracePeriod(gracePeriod);
+
+        for(DeadlineExtension d : extensions) {
+            feedbackSession1.getDeadlineExtensions().add(d);
+        }
     }
 }
