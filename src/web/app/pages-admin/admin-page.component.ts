@@ -75,7 +75,7 @@ export class AdminPageComponent implements OnInit {
                 'You are not authorized to view the page.');
           }
         } else {
-          window.location.href = `${this.backendUrl}${res.loginUrl}`;
+          window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
         }
         this.isFetchingAuthDetails = false;
       },

@@ -78,8 +78,8 @@ export class StaticPageComponent implements OnInit {
           this.isAdmin = res.user.isAdmin;
           this.isMaintainer = res.user.isMaintainer;
         } else {
-          this.studentLoginUrl = `${this.backendUrl}${res.loginUrl}`;
-          this.instructorLoginUrl = `${this.backendUrl}${res.loginUrl}`;
+          this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
+          this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
         }
         this.isFetchingAuthDetails = false;
       },
