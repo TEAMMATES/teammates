@@ -195,7 +195,7 @@ public class DeletionPreviewData {
 
     /**
      * Returns whether the deletion will cause the course to become orphaned.
-     * @return
+     * @return if the deletion will orphan the course
      */
     public boolean willOrphanCourse() {
         return willOrphanCourse;
