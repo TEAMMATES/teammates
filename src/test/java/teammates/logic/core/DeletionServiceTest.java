@@ -1,5 +1,11 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,11 +28,6 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.entity.AccountRequest;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * SUT: {@link DeletionService}.
