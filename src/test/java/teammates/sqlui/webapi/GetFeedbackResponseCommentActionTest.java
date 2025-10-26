@@ -83,7 +83,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         responseForQ1 = getTypicalFeedbackResponseForQuestion(qn1InSession1InCourse1);
         responseForQ2 = getTypicalFeedbackResponseForQuestion(qn2InSession1InCourse1);
-        
+
         commentForQ1Response1 = generateComment(responseForQ1, STUDENT_1, FeedbackParticipantType.STUDENTS, "Student 1 Comment");
         commentForQ2Response1 = generateComment(responseForQ2, INSTRUCTOR_1, FeedbackParticipantType.INSTRUCTORS, "Instructor 1 Comment");
     }
@@ -322,7 +322,8 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         return fs;
     }
 
-    private FeedbackResponseComment generateComment(FeedbackResponse response, String author, FeedbackParticipantType participantType, String text) {
+    private FeedbackResponseComment generateComment(FeedbackResponse response, String author,
+                                                    FeedbackParticipantType participantType, String text) {
         FeedbackResponseComment comment = new FeedbackResponseComment(response, author + "@teammates.tmt",
                 participantType, getTypicalSection(), getTypicalSection(),
                 text, false, false,

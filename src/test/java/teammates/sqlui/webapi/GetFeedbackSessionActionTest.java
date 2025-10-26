@@ -30,6 +30,10 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     private Student student1;
     private FeedbackSession feedbackSession1;
+    private String courseId;
+    private String feedbackSessionName;
+    private String timeZone;
+    private String[] params;
 
     @Override
     protected String getActionUri() {
@@ -49,20 +53,21 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
         when(mockLogic.getStudentByGoogleId(course1.getId(), student1.getAccount().getGoogleId())).thenReturn(student1);
-    }
 
-    @Test
-    protected void textExecute_studentSubmissionNoExtensionAndBeforeEndTime_statusOpen() {
         loginAsStudent(student1.getAccount().getGoogleId());
 
-        String courseId = feedbackSession1.getCourse().getId();
-        String feedbackSessionName = feedbackSession1.getName();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
-        String[] params = new String[] {
+        courseId = feedbackSession1.getCourse().getId();
+        feedbackSessionName = feedbackSession1.getName();
+        timeZone = feedbackSession1.getCourse().getTimeZone();
+        params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionNoExtensionAndBeforeEndTime_statusOpen() {
 
         ______TS("get submission by student with no extension; before end time");
 
@@ -124,17 +129,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionNoExtensionAfterEndTimeWithinGracePeriod_statusGracePeriod() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
-
-        String courseId = feedbackSession1.getCourse().getId();
-        String feedbackSessionName = feedbackSession1.getName();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
         ______TS("get submission by student with no extension; after end time but within grace period");
 
         Instant newStartTime = Instant.now().plusSeconds(-120);
@@ -166,17 +160,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionNoExtensionAfterEndTimeBeyondGracePeriod_statusClosed() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
-
-        String courseId = feedbackSession1.getCourse().getId();
-        String feedbackSessionName = feedbackSession1.getName();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
         ______TS("get submission by student with no extension; after end time and beyond grace period");
 
         Instant newStartTime = Instant.now().plusSeconds(-60);
@@ -207,17 +190,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     @Test
     protected void textExecute_studentSubmissionWithExtensionBeforeEndTime_statusOpen() {
-
-        loginAsStudent(student1.getAccount().getGoogleId());
-
-        String courseId = feedbackSession1.getCourse().getId();
-        String feedbackSessionName = feedbackSession1.getName();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
 
         ______TS("get submission by student with extension; before end time");
 
@@ -254,17 +226,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionWithExtensionAfterEndTimeBeforeExtendedDeadline_statusOpen() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
-
-        String courseId = feedbackSession1.getCourse().getId();
-        String feedbackSessionName = feedbackSession1.getName();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
         ______TS("get submission by student with extension; after end time but before extended deadline");
 
         Instant newStartTime = Instant.now().plusSeconds(-60);
@@ -300,17 +261,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionWithExtensionAfterExtendedDeadlineWithinGracePeriod_statusGracePeriod() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
-
-        String courseId = feedbackSession1.getCourse().getId();
-        String feedbackSessionName = feedbackSession1.getName();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
         ______TS("get submission by student with extension; after extended deadline but within grace period");
 
         Instant newStartTime = Instant.now().plusSeconds(-120);
@@ -345,17 +295,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     @Test
     protected void textExecute_studentSubmissionWithExtensionAfterExtendedDeadlineBeyondGracePeriod_statusClosed() {
-
-        loginAsStudent(student1.getAccount().getGoogleId());
-
-        String courseId = feedbackSession1.getCourse().getId();
-        String feedbackSessionName = feedbackSession1.getName();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
 
         ______TS("get submission by student with extension; after extended deadline and beyond grace period");
 
