@@ -1197,21 +1197,21 @@ describe('QuestionSubmissionFormComponent', () => {
 
     it('onRecipientSearchChange: should update search terms and open dropdown', () => {
       component.onRecipientSearchChange(0, 'John');
-      
+
       expect(component.searchTerms.get(0)).toBe('John');
       expect(component.dropdownStates.get(0)).toBe(true);
     });
 
     it('onRecipientSearchFocus: should open dropdown and update filtered recipients', () => {
       component.onRecipientSearchFocus(0);
-      
+
       expect(component.dropdownStates.get(0)).toBe(true);
     });
 
     it('isDropdownOpen: should return correct dropdown state', () => {
       component.dropdownStates.set(0, true);
       expect(component.isDropdownOpen(0)).toBe(true);
-      
+
       component.dropdownStates.set(0, false);
       expect(component.isDropdownOpen(0)).toBe(false);
     });
@@ -1219,17 +1219,17 @@ describe('QuestionSubmissionFormComponent', () => {
     it('updateFilteredRecipients: should filter recipients by name substring', () => {
       component.searchTerms.set(0, 'John');
       component.updateFilteredRecipients(0);
-      
+
       const filtered = component.getFilteredRecipients(0);
       expect(filtered.length).toBe(2); // John Doe and Bob Johnson
-      expect(filtered.map(r => r.recipientName)).toContain('John Doe');
-      expect(filtered.map(r => r.recipientName)).toContain('Bob Johnson');
+      expect(filtered.map((r) => r.recipientName)).toContain('John Doe');
+      expect(filtered.map((r) => r.recipientName)).toContain('Bob Johnson');
     });
 
     it('updateFilteredRecipients: should filter recipients by section substring', () => {
       component.searchTerms.set(0, 'CS2103T');
       component.updateFilteredRecipients(0);
-      
+
       const filtered = component.getFilteredRecipients(0);
       expect(filtered.length).toBe(1);
       expect(filtered[0].recipientName).toBe('Jane Smith');
@@ -1238,7 +1238,7 @@ describe('QuestionSubmissionFormComponent', () => {
     it('updateFilteredRecipients: should filter recipients by team substring', () => {
       component.searchTerms.set(0, 'Alpha');
       component.updateFilteredRecipients(0);
-      
+
       const filtered = component.getFilteredRecipients(0);
       expect(filtered.length).toBe(1);
       expect(filtered[0].recipientName).toBe('John Doe');
@@ -1247,7 +1247,7 @@ describe('QuestionSubmissionFormComponent', () => {
     it('updateFilteredRecipients: should return all available recipients when search term is empty', () => {
       component.searchTerms.set(0, '');
       component.updateFilteredRecipients(0);
-      
+
       const filtered = component.getFilteredRecipients(0);
       expect(filtered.length).toBe(3);
     });
@@ -1255,9 +1255,9 @@ describe('QuestionSubmissionFormComponent', () => {
     it('selectRecipient: should select recipient and close dropdown', () => {
       const triggerSpy = jest.spyOn(component, 'triggerRecipientSubmissionFormChange').mockReturnValue();
       const recipient = testRecipients[0];
-      
+
       component.selectRecipient(0, recipient);
-      
+
       expect(triggerSpy).toHaveBeenCalledWith(0, 'recipientIdentifier', 'john-id');
       expect(component.searchTerms.get(0)).toBe('CS1101S / Team Alpha | John Doe');
       expect(component.dropdownStates.get(0)).toBe(false);

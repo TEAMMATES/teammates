@@ -176,7 +176,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isEveryRecipientSorted: boolean = false;
 
   autosaveTimeout: any;
-  
+
   // Search functionality state
   searchTerms: Map<number, string> = new Map();
   dropdownStates: Map<number, boolean> = new Map();
@@ -526,7 +526,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (!recipientIdentifier) {
       return '';
     }
-    const recipient = this.model.recipientList.find(r => r.recipientIdentifier === recipientIdentifier);
+    const recipient = this.model.recipientList.find((r) => r.recipientIdentifier === recipientIdentifier);
     return recipient ? this.getSelectionOptionLabel(recipient) : '';
   }
 
@@ -537,11 +537,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.searchTerms.set(index, searchTerm);
     this.dropdownStates.set(index, true);
     this.updateFilteredRecipients(index);
-    
+
     // Clear selection if search term doesn't match current selection
     const currentRecipient = this.model.recipientSubmissionForms[index];
     if (currentRecipient.recipientIdentifier) {
-      const recipient = this.model.recipientList.find(r => r.recipientIdentifier === currentRecipient.recipientIdentifier);
+      const recipient = this.model.recipientList.find((r) => r.recipientIdentifier === currentRecipient.recipientIdentifier);
       if (recipient) {
         const currentLabel = this.getSelectionOptionLabel(recipient);
         if (currentLabel !== searchTerm) {
@@ -582,11 +582,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   updateFilteredRecipients(index: number): void {
     const searchTerm = this.searchTerms.get(index) || '';
-    let filteredRecipients = this.model.recipientList.filter(recipient => {
+    const filteredRecipients = this.model.recipientList.filter((recipient) => {
       // Don't show already selected recipients (except current one)
-      const isCurrentSelection = this.model.recipientSubmissionForms[index].recipientIdentifier === recipient.recipientIdentifier;
+      const isCurrentSelection = this.model.recipientSubmissionForms[index].recipientIdentifier 
+        === recipient.recipientIdentifier;
       const isSelected = this.isRecipientSelected(recipient);
-      
+
       if (isSelected && !isCurrentSelection) {
         return false;
       }
@@ -597,11 +598,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       const label = this.getSelectionOptionLabel(recipient).toLowerCase();
       const term = searchTerm.toLowerCase();
-      
+
       // Check if the search term is a substring of the label
       // or if any word in the label contains the search term
-      return label.includes(term) || 
-             label.split(/[\s|\/]/).some(word => word.includes(term));
+      return label.includes(term)
+        || label.split(/[\s|/]/).some((word) => word.includes(term));
     });
 
     this.filteredRecipientsCache.set(index, filteredRecipients);
