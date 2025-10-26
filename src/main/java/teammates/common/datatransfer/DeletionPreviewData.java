@@ -31,12 +31,39 @@ public class DeletionPreviewData {
      * Enum representing the type of entity being deleted.
      */
     public enum EntityType {
+        /**
+         * Represents a course entity.
+         */
         COURSE,
+
+        /**
+         * Represents a student entity.
+         */
         STUDENT,
+
+        /**
+         * Represents an instructor entity.
+         */
         INSTRUCTOR,
+
+        /**
+         * Represents a user account entity.
+         */
         ACCOUNT,
+
+        /**
+         * Represents a feedback session entity.
+         */
         FEEDBACK_SESSION,
+
+        /**
+         * Represents a notification entity.
+         */
         NOTIFICATION,
+
+        /**
+         * Represents an account request entity.
+         */
         ACCOUNT_REQUEST
     }
 
@@ -166,6 +193,10 @@ public class DeletionPreviewData {
         isLastInstructor = lastInstructor;
     }
 
+    /**
+     * Returns whether the deletion will cause the course to become orphaned.
+     * @return
+     */
     public boolean willOrphanCourse() {
         return willOrphanCourse;
     }
@@ -178,6 +209,10 @@ public class DeletionPreviewData {
         return warnings;
     }
 
+    /**
+     * Adds a warning message to this deletion preview.
+     * @param warning warning message to add
+     */
     public void addWarning(String warning) {
         this.warnings.add(warning);
     }
@@ -186,6 +221,12 @@ public class DeletionPreviewData {
         return cascadedDeletions;
     }
 
+    /**
+     * Adds information about a cascaded deletion that will occur as part of this deletion preview.
+     * @param entityType entity type to be deleted
+     * @param count number of entities affected
+     * @param description description of deletion impact
+     */
     public void addCascadedDeletion(EntityType entityType, int count, String description) {
         if (count > 0) {
             this.cascadedDeletions.add(new CascadedDeletionInfo(entityType, count, description));
