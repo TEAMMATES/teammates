@@ -541,7 +541,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     // Clear selection if search term doesn't match current selection
     const currentRecipient = this.model.recipientSubmissionForms[index];
     if (currentRecipient.recipientIdentifier) {
-      const recipient = this.model.recipientList.find((r) => r.recipientIdentifier === currentRecipient.recipientIdentifier);
+      const recipient = this.model.recipientList.find(
+        (r) => r.recipientIdentifier === currentRecipient.recipientIdentifier
+      );
       if (recipient) {
         const currentLabel = this.getSelectionOptionLabel(recipient);
         if (currentLabel !== searchTerm) {
@@ -584,7 +586,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     const searchTerm = this.searchTerms.get(index) || '';
     const filteredRecipients = this.model.recipientList.filter((recipient) => {
       // Don't show already selected recipients (except current one)
-      const isCurrentSelection = this.model.recipientSubmissionForms[index].recipientIdentifier 
+      const isCurrentSelection = this.model.recipientSubmissionForms[index].recipientIdentifier
         === recipient.recipientIdentifier;
       const isSelected = this.isRecipientSelected(recipient);
 
