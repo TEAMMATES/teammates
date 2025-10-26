@@ -40,33 +40,6 @@ public class DeletionPreviewData {
         ACCOUNT_REQUEST
     }
 
-    /**
-     * Represents information about cascaded deletions.
-     */
-    public static class CascadedDeletionInfo {
-        private EntityType entityType;
-        private int count;
-        private String description;
-
-        public CascadedDeletionInfo(EntityType entityType, int count, String description) {
-            this.entityType = entityType;
-            this.count = count;
-            this.description = description;
-        }
-
-        public EntityType getEntityType() {
-            return entityType;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
     public DeletionPreviewData(EntityType entityType, String entityIdentifier) {
         this.entityType = entityType;
         this.entityIdentifier = entityIdentifier;
@@ -235,5 +208,32 @@ public class DeletionPreviewData {
      */
     public boolean hasWarnings() {
         return !warnings.isEmpty() || isLastInstructor || willOrphanCourse;
+    }
+
+    /**
+     * Represents information about cascaded deletions.
+     */
+    public static class CascadedDeletionInfo {
+        private EntityType entityType;
+        private int count;
+        private String description;
+
+        public CascadedDeletionInfo(EntityType entityType, int count, String description) {
+            this.entityType = entityType;
+            this.count = count;
+            this.description = description;
+        }
+
+        public EntityType getEntityType() {
+            return entityType;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 }

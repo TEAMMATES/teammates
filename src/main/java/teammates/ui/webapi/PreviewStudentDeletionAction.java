@@ -2,11 +2,9 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.DeletionPreviewData;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.DeletionPreviewService;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Student;
 import teammates.ui.output.DeletionPreviewOutput;
 
 /**

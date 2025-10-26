@@ -30,33 +30,6 @@ public class DeletionPreviewOutput extends ApiOutput {
     private final List<String> warnings;
     private final List<CascadedDeletionOutput> cascadedDeletions;
 
-    /**
-     * Represents information about cascaded deletions in the output.
-     */
-    public static class CascadedDeletionOutput {
-        private final String entityType;
-        private final int count;
-        private final String description;
-
-        public CascadedDeletionOutput(DeletionPreviewData.CascadedDeletionInfo info) {
-            this.entityType = info.getEntityType().toString();
-            this.count = info.getCount();
-            this.description = info.getDescription();
-        }
-
-        public String getEntityType() {
-            return entityType;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
     public DeletionPreviewOutput(DeletionPreviewData data) {
         this.entityType = data.getEntityType().toString();
         this.entityIdentifier = data.getEntityIdentifier();
@@ -155,5 +128,32 @@ public class DeletionPreviewOutput extends ApiOutput {
 
     public List<CascadedDeletionOutput> getCascadedDeletions() {
         return cascadedDeletions;
+    }
+
+    /**
+     * Represents information about cascaded deletions in the output.
+     */
+    public static class CascadedDeletionOutput {
+        private final String entityType;
+        private final int count;
+        private final String description;
+
+        public CascadedDeletionOutput(DeletionPreviewData.CascadedDeletionInfo info) {
+            this.entityType = info.getEntityType().toString();
+            this.count = info.getCount();
+            this.description = info.getDescription();
+        }
+
+        public String getEntityType() {
+            return entityType;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 }

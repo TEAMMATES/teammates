@@ -8,7 +8,6 @@ import teammates.storage.sqlentity.Course;
 import teammates.ui.output.DeletionPreviewOutput;
 
 /**
- *
  * Preview the deletion of a course to show what will be affected.
  */
 public class PreviewCourseDeletionAction extends Action {

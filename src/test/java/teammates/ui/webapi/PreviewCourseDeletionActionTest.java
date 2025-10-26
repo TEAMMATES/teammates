@@ -30,7 +30,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
         // Test case 1: Preview deletion for non-existent course
         String nonExistentCourseId = "non-existent-course-xyz";
         String[] paramsNonExistent = new String[] {
-                Const.ParamsNames.COURSE_ID, nonExistentCourseId
+                Const.ParamsNames.COURSE_ID, nonExistentCourseId,
         };
 
         loginAsInstructor("instructor1");
@@ -46,7 +46,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
         // Test case 2: Preview deletion for valid course with students, instructors, sessions
         String validCourseId = "tmeu.test.cs1101s.v4.2024s1";
         String[] paramsValid = new String[] {
-                Const.ParamsNames.COURSE_ID, validCourseId
+                Const.ParamsNames.COURSE_ID, validCourseId,
         };
 
         PreviewCourseDeletionAction actionValid = getAction(paramsValid);
@@ -84,7 +84,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
     protected void testAccessControl() throws Exception {
         String courseId = "tmeu.test.cs1101s.v4.2024s1";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         // Test 1: Only instructors with CAN_MODIFY_COURSE permission should access
@@ -125,7 +125,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
     public void testExecute_withEmptyCourseId_shouldFail() throws Exception {
         loginAsInstructor("instructor1");
         String[] paramsEmpty = new String[] {
-                Const.ParamsNames.COURSE_ID, ""
+                Const.ParamsNames.COURSE_ID, "",
         };
         verifyHttpParameterFailure(paramsEmpty);
     }
@@ -135,7 +135,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
         // Test with archived course if available in test data
         String courseId = "tmeu.test.cs1101s.v4.2024s1";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         loginAsInstructor("instructor1");
@@ -153,7 +153,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
         // Test with soft-deleted course if available in test data
         String courseId = "tmeu.test.cs1101s.v4.2024s1";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         loginAsInstructor("instructor1");
@@ -170,7 +170,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
     public void testExecute_responseStructure_shouldBeValid() throws Exception {
         String courseId = "tmeu.test.cs1101s.v4.2024s1";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         loginAsInstructor("instructor1");
@@ -190,7 +190,7 @@ public class PreviewCourseDeletionActionTest extends BaseActionTest<PreviewCours
     public void testExecute_totalAffectedEqualsSum_shouldBeTrue() throws Exception {
         String courseId = "tmeu.test.cs1101s.v4.2024s1";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         loginAsInstructor("instructor1");
