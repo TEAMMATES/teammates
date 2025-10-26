@@ -27,14 +27,14 @@ import teammates.common.util.JsonUtils;
 public abstract class BaseEntity {
 
     /**
-     * Instant created
+     * Instant created.
      */
     @CreationTimestamp
     @Column(updatable = false)
     protected Instant createdAt;
 
     /**
-     * Instant deleted
+     * Instant deleted.
      */
     protected Instant deletedAt;
 

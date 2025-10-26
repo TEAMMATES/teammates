@@ -778,7 +778,9 @@ public final class FeedbackQuestionsLogic {
         deletionService.deleteFeedbackQuestions(query);
     }
 
-    // Shifts all question numbers after questionNumberToShiftFrom down by one.
+    /**
+     * Shifts all question numbers after questionNumberToShiftFrom down by one.
+     */
     public void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questionsToShift) {
         for (FeedbackQuestionAttributes question : questionsToShift) {

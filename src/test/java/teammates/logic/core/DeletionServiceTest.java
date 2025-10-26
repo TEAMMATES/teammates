@@ -28,7 +28,6 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.entity.AccountRequest;
 
-
 /**
  * SUT: {@link DeletionService}.
  */
