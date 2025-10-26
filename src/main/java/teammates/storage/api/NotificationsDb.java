@@ -13,7 +13,6 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 
 /**
@@ -159,7 +158,6 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
     public void restoreDeletedNotification(String notificationId) throws EntityDoesNotExistException {
         assert notificationId != null;
         Notification notificationEntity = getNotificationEntity(notificationId);
-
 
         if (notificationEntity == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);

@@ -18,7 +18,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
@@ -413,11 +412,16 @@ public final class FeedbackResponseCommentsDb
      * Soft-deletes a feedback response comment by its given corresponding ID.
      * @return Soft-deletion time of the feedback response comment.
      */
-    public Instant softDeleteFeedbackResponseComment(String feedbackResponseId, String giverEmail, Instant createdAt) throws EntityDoesNotExistException {
+    public Instant softDeleteFeedbackResponseComment(
+            String feedbackResponseId,
+            String giverEmail,
+            Instant createdAt)
+            throws EntityDoesNotExistException {
         assert feedbackResponseId != null;
         assert giverEmail != null;
         assert createdAt != null;
-        FeedbackResponseComment feedbackResponseCommentEntity = getFeedbackResponseCommentEntity(feedbackResponseId, giverEmail, createdAt);
+        FeedbackResponseComment feedbackResponseCommentEntity =
+                getFeedbackResponseCommentEntity(feedbackResponseId, giverEmail, createdAt);
 
         if (feedbackResponseCommentEntity == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
@@ -432,11 +436,16 @@ public final class FeedbackResponseCommentsDb
     /**
      * Restores a soft-deleted feedback response comment by its given corresponding ID.
      */
-    public void restoreDeletedFeedbackResponseComment(String feedbackResponseId, String giverEmail, Instant createdAt) throws EntityDoesNotExistException {
+    public void restoreDeletedFeedbackResponseComment(
+            String feedbackResponseId,
+            String giverEmail,
+            Instant createdAt)
+            throws EntityDoesNotExistException {
         assert feedbackResponseId != null;
         assert giverEmail != null;
         assert createdAt != null;
-        FeedbackResponseComment feedbackResponseCommentEntity = getFeedbackResponseCommentEntity(feedbackResponseId, giverEmail, createdAt);
+        FeedbackResponseComment feedbackResponseCommentEntity =
+                getFeedbackResponseCommentEntity(feedbackResponseId, giverEmail, createdAt);
 
         if (feedbackResponseCommentEntity == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);

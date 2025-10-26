@@ -22,7 +22,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Logger;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;

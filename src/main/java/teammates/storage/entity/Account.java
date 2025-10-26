@@ -93,8 +93,6 @@ public class Account extends BaseEntity {
         return isMigrated;
     }
 
-
-
     /**
      * Retrieves the account's read notifications map.
      * Returns an empty map if the account does not yet have the readNotifications attribute.

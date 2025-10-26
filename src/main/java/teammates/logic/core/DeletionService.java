@@ -278,7 +278,9 @@ public final class DeletionService {
         }
 
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
-                fqLogic.getFeedbackQuestionsForSession(questionToDelete.getFeedbackSessionName(), questionToDelete.getCourseId());
+                fqLogic.getFeedbackQuestionsForSession(
+                        questionToDelete.getFeedbackSessionName(),
+                        questionToDelete.getCourseId());
 
         // cascade delete responses and comments for question
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()

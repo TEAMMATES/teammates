@@ -16,7 +16,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.TimeHelper;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.DeadlineExtension;
 
 /**

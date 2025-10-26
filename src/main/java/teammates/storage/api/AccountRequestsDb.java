@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.search.AccountRequestSearchManager;
 import teammates.storage.search.SearchManagerFactory;

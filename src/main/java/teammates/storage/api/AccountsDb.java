@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.Course;
 
 /**
  * Handles CRUD operations for accounts.
