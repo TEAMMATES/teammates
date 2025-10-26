@@ -83,7 +83,7 @@
                     placeholder="Type to search recipients..."
                     autocomplete="off"
                     [attr.aria-label]="'Search recipient dropdown question ' + model.questionNumber + ' index ' + i">
-                  
+
                   <div *ngIf="getFilteredRecipients(i).length > 0 && isDropdownOpen(i)"
                        class="dropdown-menu show position-absolute w-100 mt-1 max-height-200 overflow-auto"
                        style="z-index: 1000;">
