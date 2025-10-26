@@ -1157,4 +1157,33 @@ describe('QuestionSubmissionFormComponent', () => {
     fixture.detectChanges();
     expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
   });
+
+  // Search functionality tests
+  it('getSearchTerm: should return empty string when no search term is set', () => {
+    expect(component.getSearchTerm(0)).toBe('');
+  });
+
+  it('updateSearch: should set search term for given index', () => {
+    component.updateSearch(0, 'test');
+    expect(component.getSearchTerm(0)).toBe('test');
+  });
+
+  it('getFilteredOptions: should return all recipients when no search term', () => {
+    component.model.recipientList = [
+      { recipientName: 'John', recipientIdentifier: '1' } as FeedbackResponseRecipient,
+      { recipientName: 'Jane', recipientIdentifier: '2' } as FeedbackResponseRecipient,
+    ];
+    expect(component.getFilteredOptions(0).length).toBe(2);
+  });
+
+  it('getFilteredOptions: should filter recipients by search term', () => {
+    component.model.recipientList = [
+      { recipientName: 'John', recipientIdentifier: '1' } as FeedbackResponseRecipient,
+      { recipientName: 'Jane', recipientIdentifier: '2' } as FeedbackResponseRecipient,
+    ];
+    component.updateSearch(0, 'john');
+    const filtered = component.getFilteredOptions(0);
+    expect(filtered.length).toBe(1);
+    expect(filtered[0].recipientName).toBe('John');
+  });
 });

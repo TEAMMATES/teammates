@@ -177,6 +177,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   autosaveTimeout: any;
 
+  // Simple search state
+  searchFilters: Map<number, string> = new Map();
+
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
     private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
@@ -512,6 +515,36 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
 
     return recipient.recipientName;
+  }
+
+  /**
+   * Gets current search term for given index
+   */
+  getSearchTerm(index: number): string {
+    return this.searchFilters.get(index) || '';
+  }
+
+  /**
+   * Updates search filter for given index
+   */
+  updateSearch(index: number, term: string): void {
+    this.searchFilters.set(index, term);
+  }
+
+  /**
+   * Gets filtered recipient options based on search term
+   */
+  getFilteredOptions(index: number): FeedbackResponseRecipient[] {
+    const searchTerm = this.searchFilters.get(index);
+    if (!searchTerm) {
+      return this.model.recipientList;
+    }
+
+    const term = searchTerm.toLowerCase();
+    return this.model.recipientList.filter((recipient) => {
+      const label = this.getSelectionOptionLabel(recipient).toLowerCase();
+      return label.includes(term);
+    });
   }
 
   toggleSectionTeam(event: Event): void {
