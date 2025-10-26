@@ -12,7 +12,6 @@ import org.testng.collections.Lists;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.JsonUtils;
@@ -653,7 +652,10 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
         assertTrue(deleted.isDeleted());
 
         ______TS("Success: restore soft deleted feedback response");
-        frcDb.restoreDeletedFeedbackResponseComment(deleted.getFeedbackResponseId(), deleted.getCommentGiver(), deleted.getCreatedAt());
+        frcDb.restoreDeletedFeedbackResponseComment(
+                deleted.getFeedbackResponseId(),
+                deleted.getCommentGiver(),
+                deleted.getCreatedAt());
         FeedbackResponseCommentAttributes restored = frcDb.getFeedbackResponseComment(
                 deleted.getFeedbackResponseId(),
                 deleted.getCommentGiver(),
@@ -663,7 +665,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
 
         ______TS("null parameter");
 
-//        assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseComment(-1));
+        //assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseComment(-1));
 
     }
 

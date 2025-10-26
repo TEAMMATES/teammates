@@ -3,7 +3,6 @@ package teammates.storage.api;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -180,13 +179,15 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("Success: soft delete an existing account request");
         accountRequestsDb.softDeleteAccountRequest(accountRequest.getId());
-        AccountRequestAttributes deleted = accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequestAttributes deleted
+                = accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
 
         assertTrue(deleted.isDeleted());
 
         ______TS("Success: restore soft deleted account request");
         accountRequestsDb.restoreDeletedAccountRequest(accountRequest.getId());
-        AccountRequestAttributes restored = accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequestAttributes restored
+                = accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         assertFalse(restored.isDeleted());
 
         ______TS("null parameter");

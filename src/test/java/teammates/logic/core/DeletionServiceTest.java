@@ -6,7 +6,18 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.*;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.entity.AccountRequest;
@@ -17,6 +28,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * SUT: {@link DeletionService}.
+ */
 public class DeletionServiceTest extends BaseLogicTest{
     private final DeletionService deletionService = DeletionService.inst();
 
@@ -1097,8 +1111,6 @@ public class DeletionServiceTest extends BaseLogicTest{
         assertThrows(AssertionError.class, () -> deletionService.deleteNotification(null));
     }
 
-
-
     @AfterClass
     public void classTearDown() {
         deletionService.deleteAccountCascade(dataBundle.students.get("student4InCourse1").getGoogleId());
@@ -1173,6 +1185,5 @@ public class DeletionServiceTest extends BaseLogicTest{
     private FeedbackResponseAttributes getResponseFromDatabase(String jsonId) {
         return getResponseFromDatabase(dataBundle, jsonId);
     }
-
 
 }

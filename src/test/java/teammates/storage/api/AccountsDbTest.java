@@ -8,14 +8,11 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.storage.entity.AccountRequest;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 

@@ -6,7 +6,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -441,7 +440,6 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
                 false, true, Const.TIME_REPRESENTS_NOW);
 
         deadlineExtensionsDb.saveEntity(deadlineExtension);
-
 
         ______TS("Success: soft delete an existing deadline extension");
         deadlineExtensionsDb.softDeleteDeadlineExtension(deadlineExtension.getId());

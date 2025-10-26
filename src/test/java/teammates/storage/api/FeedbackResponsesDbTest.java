@@ -1,6 +1,5 @@
 package teammates.storage.api;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -782,7 +780,6 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
             frDb.deleteFeedbackResponse(feedbackResponse.getId());
         }
     }
-
 
     @Test
     public void testSoftDeleteFeedbackResponse() throws Exception {
