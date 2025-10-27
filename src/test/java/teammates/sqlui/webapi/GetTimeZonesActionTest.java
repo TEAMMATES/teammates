@@ -26,42 +26,12 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
     void testAccessControl() {
         verifyOnlyAdminsCanAccess();
     }
-/*
-    @Test
-    void testAccessControl_admin_canAccess() {
-        loginAsAdmin();
-        verifyCanAccess();
-    }
-*/
+
     @Test
     void testAccessControl_maintainers_canAccess() {
         loginAsMaintainer();
         verifyCanAccess();
     }
-
-    /*@Test
-    void testAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_student_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
-        verifyCannotAccess();
-    }*/
 
     @Test
     protected void testExecute_normalCase_shouldSucceed() {
