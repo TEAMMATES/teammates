@@ -62,7 +62,7 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
     }
 
     @Test
-    void testAccesControl() {
+    void testAccessControl() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
