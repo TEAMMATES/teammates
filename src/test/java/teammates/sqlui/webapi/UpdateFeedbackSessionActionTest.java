@@ -137,7 +137,36 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         verify(mockLogic, times(1)).createDeadlineExtension(any());
         verify(mockLogic).createDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(nearestHour)));
     }
+    @Test
+    void testAccessControl_nonexistentFeedbackSession_throwsEntityNotFoundException() {
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "missing-session",
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+        };
 
+        when(mockLogic.getFeedbackSession(any(), any())).thenReturn(null);
+
+        loginAsInstructor(instructor.getGoogleId());
+        verifyEntityNotFoundAcl(params);
+    }
+
+    @Test
+    void testAccessControl_onlyInstructorsWithModifySessionPrivilegeCanAccess() {
+        FeedbackSession feedbackSession = generateSession1InCourse(course, instructor);
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+        };
+
+        when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSession);
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(course,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
+        verifyMaintainersCannotAccess(params);
+    }
     private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest(FeedbackSession feedbackSession) {
         FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
         updateRequest.setInstructions("instructions");
