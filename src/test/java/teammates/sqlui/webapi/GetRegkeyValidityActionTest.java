@@ -455,36 +455,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         assertFalse(data.isAllowedAccess());
     }
 
-/*
-    @Test
-    void testSpecificAccessControl_anyUser_canAccess() {
-        verifyCanAccess();
-
-        loginAsAdmin();
-        verifyCanAccess();
-
-        logoutUser();
-        loginAsStudent(stubStudentWithAccount.getGoogleId());
-        verifyCanAccess();
-
-        logoutUser();
-        loginAsInstructor(stubInstructorWithAccount.getGoogleId());
-        verifyCanAccess();
-
-        logoutUser();
-        loginAsMaintainer();
-        verifyCanAccess();
-
-        logoutUser();
-        loginAsUnregistered(stubStudentWithAccount.getGoogleId());
-        verifyCanAccess();
-
-        logoutUser();
-        loginAsStudentInstructor(stubStudentWithAccount.getGoogleId());
-        verifyCanAccess();
-    }
-*/
-
     @Test
     void testAccessControl () {
         verifyAnyUserCanAccess();
