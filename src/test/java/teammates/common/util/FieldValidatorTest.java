@@ -195,53 +195,57 @@ public class FieldValidatorTest extends BaseTestCase {
                      FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue));
     }
 
-    //  NOVOS TESTES – Cobertura MC/DC  
-    @Test
-    public void testGetValidityInfoForAllowedName_validWithUnderscore() {
-        String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "Luisa_Ferreira");
-        assertEquals("", result, "O nome com underscore deve ser considerado válido.");
-    }
 
-    @Test
-    public void testGetValidityInfoForAllowedName_onlyWhitespace() {
-        String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "     ");
-        assertEquals(FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE
-                .replace("${fieldName}", "name"), result,
-                "Nome contendo apenas espaços deve ser considerado inválido.");
-    }
+@Test
+public void testGetValidityInfoForAllowedName_validName() {
+    String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "Luisa_Ferreira");
+    assertEquals("", result, "O nome com underscore deve ser considerado válido.");
+}
 
-    @Test
-    public void testGetValidityInfoForAllowedName_startWithNumber() {
-        String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "1Luisa");
-        assertEquals("", result, "Nomes iniciando com número devem ser válidos se não houver caracteres inválidos.");
-    }
+@Test
+public void testGetValidityInfoForAllowedName_onlyWhitespace() {
+    String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "     ");
+    assertEquals(
+        "The provided name field is not acceptable to TEAMMATES as it contains only whitespace or contains extra spaces at the beginning or at the end of the text.",
+        result,
+        "Nome contendo apenas espaços deve ser considerado inválido."
+    );
+}
 
-    @Test
-    public void testGetValidityInfoForAllowedName_containsInvalidSymbol() {
-        String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "Luisa|Joy");
-        assertEquals(FieldValidator.getPopulatedErrorMessage(
-                FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                "Luisa|Joy", "name",
-                FieldValidator.REASON_CONTAINS_INVALID_CHAR), result,
-                "Nome com '|' deve ser considerado inválido.");
-    }
+@Test
+public void testGetValidityInfoForAllowedName_startWithNumber() {
+    String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "1Luisa");
+    assertEquals("", result, "Nomes iniciando com número devem ser válidos se não houver caracteres inválidos.");
+}
 
-    @Test
-    public void testGetValidityInfoForAllowedName_maxBoundaryValue() {
-        String maxName = "L".repeat(20);
-        String result = FieldValidator.getValidityInfoForAllowedName("name", 20, maxName);
-        assertEquals("", result, "Nome com exatamente o tamanho máximo deve ser válido.");
-    }
+@Test
+public void testGetValidityInfoForAllowedName_containsInvalidSymbol() {
+    String result = FieldValidator.getValidityInfoForAllowedName("name", 20, "Luisa|Joy");
+    assertEquals(
+        "\"Luisa|Joy\" is not acceptable to TEAMMATES as a/an name field because it contains invalid characters. A/An name field must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
+        result,
+        "Nome com '|' deve ser considerado inválido."
+    );
+}
 
-    @Test
-    public void testGetValidityInfoForAllowedName_exceedsBoundaryByOne() {
-        String tooLong = "L".repeat(21);
-        String result = FieldValidator.getValidityInfoForAllowedName("name", 20, tooLong);
-        assertEquals(FieldValidator.getPopulatedErrorMessage(
-                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                tooLong, "name", FieldValidator.REASON_TOO_LONG, 20), result,
-                "Nome com um caractere a mais deve ser considerado inválido.");
-    }
+@Test
+public void testGetValidityInfoForAllowedName_maxBoundaryValue() {
+    String maxName = "L".repeat(20);
+    String result = FieldValidator.getValidityInfoForAllowedName("name", 20, maxName);
+    assertEquals("", result, "Nome com exatamente o tamanho máximo deve ser válido.");
+}
+
+@Test
+public void testGetValidityInfoForAllowedName_exceedsBoundaryByOne() {
+    String tooLong = "L".repeat(21);
+    String result = FieldValidator.getValidityInfoForAllowedName("name", 20, tooLong);
+    assertEquals(
+        "\"LLLLLLLLLLLLLLLLLLLLL\" is not acceptable to TEAMMATES as a/an name field because it is too long. The value of a/an name field should be no longer than 20 characters. It should not be empty.",
+        result,
+        "Nome com um caractere a mais deve ser considerado inválido."
+    );
+}
+
 
     @Test
     public void testGetInvalidityInfoForPersonName_invalid_returnSpecificErrorString() {
