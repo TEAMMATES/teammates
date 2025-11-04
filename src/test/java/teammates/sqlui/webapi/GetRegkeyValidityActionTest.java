@@ -456,7 +456,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
     }
 
     @Test
-    void testAccessControl () {
+    void testAccessControl() {
         verifyAnyUserCanAccess();
     }
 }
