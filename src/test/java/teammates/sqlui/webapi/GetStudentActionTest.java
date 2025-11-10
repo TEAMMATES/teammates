@@ -300,39 +300,19 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
-                .thenReturn(stubInstructor);
-
+    void testAccessControl_instructorEmailPath_onlySameCourseWithViewSectionPrivilege() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()
         };
-        verifyCanAccess(params);
 
-        logoutUser();
-        verifyCannotAccess(params);
-    }
+        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail()))
+                .thenReturn(stubStudent);
 
-    @Test
-    void testSpecificAccessControl_instructorWithoutPermission_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        Instructor stubInstructorWithoutPermission = new Instructor(stubCourse, "name", "google.com",
-                false, "googleId",
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
-                .thenReturn(stubInstructorWithoutPermission);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        verifyCannotAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                stubCourse,
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+                params);
     }
 
     @Test
