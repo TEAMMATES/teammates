@@ -1,8 +1,12 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
+import org.mockito.stubbing.Answer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -299,6 +303,28 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     }
 
+    private void stubSelfLookup(Course course, Student student) {
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        doAnswer(bindSelf(course, student))
+                .when(mockLogic).getStudentByGoogleId(eq(course.getId()), anyString());
+    }
+
+    private Answer<Student> bindSelf(Course course, Student student) {
+        return inv -> {
+            String courseId = inv.getArgument(0);
+            String gid      = inv.getArgument(1);
+            if (!course.getId().equals(courseId)) {
+                return null;
+            }
+
+            Account acc = getTypicalAccount();
+            acc.setGoogleId(gid);
+            student.setAccount(acc);
+            student.setCourse(course);
+            return student;
+        };
+    }
+
     @Test
     void testAccessControl_instructorEmailPath_onlySameCourseWithViewSectionPrivilege() {
         String[] params = {
@@ -316,34 +342,23 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testSpecificAccessControl_studentPersonalAccessSameCourse_canAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
-
+    void testAccessControl_studentSelf_sameCourse_canAccess() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
         };
-        verifyCanAccess(params);
 
-        logoutUser();
-        verifyCannotAccess(params);
+        stubSelfLookup(stubCourse, stubStudent);
+        verifyStudentsOfTheSameCourseCanAccess(stubCourse, params);
     }
 
     @Test
-    void testSpecificAccessControl_studentPersonalAccessNotSameCourse_cannotAccess() {
-        Student studentFromAnotherCourse = getTypicalStudent();
-        studentFromAnotherCourse.setCourse(new Course("another-course", "another-course-name",
-                Const.DEFAULT_TIME_ZONE, "teammates"));
-        loginAsStudent(studentFromAnotherCourse.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), studentFromAnotherCourse.getGoogleId()))
-                .thenReturn(studentFromAnotherCourse);
-
+    void testAccessControl_studentSelf_otherCourse_cannotAccess() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
         };
-        verifyCannotAccess(params);
+
+        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        verifyStudentsOfOtherCoursesCannotAccess(stubCourse, params);
     }
 
     @Test
