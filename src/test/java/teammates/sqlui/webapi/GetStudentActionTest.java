@@ -298,17 +298,11 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;
         }
-
     }
 
-    private void stubSelfLookup(Course course, Student student) {
+    private void stubSelfLookupAsSameCourse(Course course, Student student) {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        doAnswer(bindSelf(course, student))
-                .when(mockLogic).getStudentByGoogleId(eq(course.getId()), anyString());
-    }
-
-    private Answer<Student> bindSelf(Course course, Student student) {
-        return inv -> {
+        doAnswer(inv -> {
             String courseId = inv.getArgument(0);
             String gid = inv.getArgument(1);
             if (!course.getId().equals(courseId)) {
@@ -320,7 +314,20 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             student.setAccount(acc);
             student.setCourse(course);
             return student;
-        };
+        }).when(mockLogic).getStudentByGoogleId(eq(course.getId()), anyString());
+    }
+
+    private void stubSelfLookupAsOtherCourse(Course requestedCourse, Course otherCourse, Student student) {
+        when(mockLogic.getCourse(requestedCourse.getId())).thenReturn(requestedCourse);
+
+        doAnswer(inv -> {
+            String gid = inv.getArgument(1);
+            Account acc = getTypicalAccount();
+            acc.setGoogleId(gid);
+            student.setAccount(acc);
+            student.setCourse(otherCourse);
+            return student;
+        }).when(mockLogic).getStudentByGoogleId(eq(requestedCourse.getId()), anyString());
     }
 
     private String[] regKeyParams(String key) {
@@ -352,7 +359,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId()
         };
 
-        stubSelfLookup(stubCourse, stubStudent);
+        stubSelfLookupAsSameCourse(stubCourse, stubStudent);
         verifyStudentsOfTheSameCourseCanAccess(stubCourse, params);
     }
 
@@ -361,8 +368,10 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId()
         };
+        Course otherCourse = new Course("another", "another", Const.DEFAULT_TIME_ZONE, "teammates");
+        Student s = getTypicalStudent();
 
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        stubSelfLookupAsOtherCourse(stubCourse, otherCourse, s);
         verifyStudentsOfOtherCoursesCannotAccess(stubCourse, params);
     }
 
