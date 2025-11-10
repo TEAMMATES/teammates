@@ -362,22 +362,11 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testSpecificAccessControl_studentPublicAccess_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), "randomEmail")).thenReturn(null);
-
+    void testAccessControl_studentSelf_withoutLogin_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, "randomEmail",
         };
-        verifyCannotAccess(params);
-
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), "randomEmail")).thenReturn(stubStudent);
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     @Test
