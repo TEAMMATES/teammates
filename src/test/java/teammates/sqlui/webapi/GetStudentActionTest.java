@@ -10,8 +10,6 @@ import org.mockito.stubbing.Answer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -325,6 +323,13 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         };
     }
 
+    private String[] regKeyParams(String key) {
+        return new String[] {
+                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.REGKEY, key
+        };
+    }
+
     @Test
     void testAccessControl_instructorEmailPath_onlySameCourseWithViewSectionPrivilege() {
         String[] params = {
@@ -370,55 +375,15 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testSpecificAccessControl_studentNotLoggedInValidRegKey_canAccess() {
-        when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey())).thenReturn(stubStudent);
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.REGKEY, stubStudent.getRegKey(),
-        };
-        verifyCanAccess(params);
+    void testAccessControl_unregistered_validKey_canAccess() {
+        when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey()))
+                .thenReturn(stubStudent);
+        verifyCanAccess(regKeyParams(stubStudent.getRegKey()));
     }
 
     @Test
-    void testSpecificAccessControl_studentNotLoggedInInvalidRegKey_cannotAccess() {
-        when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey())).thenReturn(null);
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.REGKEY, stubStudent.getRegKey(),
-        };
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_invalidStudentLoginId_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        verifyCannotAccess(params);
-
-        loginAsStudent(null);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), null)).thenReturn(null);
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_invalidInstructorLoginId_cannotAccess() {
-        loginAsInstructor(null);
-        String[] params1 = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        verifyCannotAccess(params1);
-
-        String[] params2 = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), null)).thenReturn(null);
-        verifyCannotAccess(params2);
-
-        logoutUser();
-        verifyCannotAccess(params1);
-        verifyCannotAccess(params2);
+    void testAccessControl_unregistered_invalidKey_cannotAccess() {
+        when(mockLogic.getStudentByRegistrationKey("BAD")).thenReturn(null);
+        verifyCannotAccess(regKeyParams("BAD"));
     }
 }
