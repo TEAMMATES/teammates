@@ -1,6 +1,6 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+import static teammates.common.util.Const.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -44,15 +44,50 @@ public final class AccountRequestsDb extends EntitiesDb {
 
     /**
      * Creates an AccountRequest in the database.
+     * If a pending account request with the same email and institute already exists,
+     * it will be returned instead of creating a duplicate.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException, EntityAlreadyExistsException {
         assert accountRequest != null;
 
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
+
+        AccountRequest existingRequest = getExistingAccountRequest(
+            accountRequest.getEmail(), 
+            accountRequest.getInstitute()
+        );
+
+        if (existingRequest != null) {
+            throw new EntityAlreadyExistsException(
+                String.format("An account request with email %s and institute %s already exists.",
+                    accountRequest.getEmail(), accountRequest.getInstitute())
+            );
+        }
+
         persist(accountRequest);
         return accountRequest;
+    }
+
+    /**
+     * @param email The email address
+     * @param institute The institute name
+     * @return Existing pending AccountRequest or null if none exists
+     */
+    AccountRequest getExistingAccountRequest(String email, String institute) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        
+        cr.select(root).where(cb.and(
+            cb.equal(root.get("email"), email),
+            cb.equal(root.get("institute"), institute),
+            cb.equal(root.get("status"), AccountRequestStatus.PENDING)
+        ));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     /**

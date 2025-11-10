@@ -125,7 +125,7 @@ public class WebApiServlet extends HttpServlet {
             action.init(req);
             action.checkAccessControl();
 
-            ActionResult result = action.execute();
+            ActionResult result = action.executeWithMonitoring();
             HibernateUtil.commitTransaction();
             return result;
         } catch (Exception e) {
@@ -139,7 +139,7 @@ public class WebApiServlet extends HttpServlet {
         action.init(req);
         action.checkAccessControl();
 
-        return action.execute();
+        return action.executeWithMonitoring();
     }
 
     private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)

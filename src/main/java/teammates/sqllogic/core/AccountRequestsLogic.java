@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -53,7 +54,7 @@ public final class AccountRequestsLogic {
     /**
      * Creates an account request.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException, EntityAlreadyExistsException {
         return accountRequestDb.createAccountRequest(accountRequest);
     }
 
@@ -61,7 +62,7 @@ public final class AccountRequestsLogic {
      * Creates an account request.
      */
     public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+            String comments) throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
 
         return accountRequestDb.createAccountRequest(toCreate);
@@ -187,16 +188,16 @@ public final class AccountRequestsLogic {
      */
     public AccountRequest createOrGetAccountRequestWithTransaction(String name, String email, String institute,
             AccountRequestStatus status, String comments)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
         HibernateUtil.beginTransaction();
         AccountRequest accountRequest;
         try {
             accountRequest = accountRequestDb.createAccountRequest(toCreate);
             HibernateUtil.commitTransaction();
-        } catch (InvalidParametersException ipe) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             HibernateUtil.rollbackTransaction();
-            throw new InvalidParametersException(ipe);
+            throw e;
         }
         return accountRequest;
     }
