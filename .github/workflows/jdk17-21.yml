@@ -1,0 +1,63 @@
+name: Component Test (JDK 17 & 21)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-test:
+    name: Build & Test (${{ matrix.java }} / ${{ matrix.test-type }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [17, 21]
+        test-type: [unit, e2e, e2e-sql]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: gradle
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Build backend (Gradle)
+        working-directory: teammates
+        run: ./gradlew clean build -x test
+
+      - name: Run tests
+        working-directory: teammates
+        run: |
+          if [ "${{ matrix.test-type }}" = "unit" ]; then
+            ./gradlew test
+          elif [ "${{ matrix.test-type }}" = "e2e" ]; then
+            ./gradlew e2eTest
+          elif [ "${{ matrix.test-type }}" = "e2e-sql" ]; then
+            ./gradlew e2eSqlTest
+          else
+            echo "Unknown test type: ${{ matrix.test-type }}"
+            exit 1
+          fi
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ matrix.java }}-${{ matrix.test-type }}
+          path: teammates/build/reports/tests/test
