@@ -310,7 +310,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     private Answer<Student> bindSelf(Course course, Student student) {
         return inv -> {
             String courseId = inv.getArgument(0);
-            String gid      = inv.getArgument(1);
+            String gid = inv.getArgument(1);
             if (!course.getId().equals(courseId)) {
                 return null;
             }
