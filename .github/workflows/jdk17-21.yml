@@ -2,7 +2,7 @@ name: Component Test (JDK 17 & 21)
 
 on:
   push:
-    branches: [main]
+    branches: [feat/ci_improve]
 
 jobs:
   build-test:
