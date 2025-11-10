@@ -31,18 +31,18 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: web/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install frontend dependencies
-        working-directory: web
+        working-directory: .
         run: npm ci
 
       - name: Build backend (Gradle)
-        working-directory: teammates
+        working-directory: .
         run: ./gradlew clean build -x test
 
       - name: Run tests
-        working-directory: teammates
+        working-directory: .
         run: |
           if [ "${{ matrix.test-type }}" = "unit" ]; then
             ./gradlew test
