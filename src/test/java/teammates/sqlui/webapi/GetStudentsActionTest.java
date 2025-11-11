@@ -1,5 +1,7 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -271,170 +273,208 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         }
     }
 
+    // 1번 메서드: 모든 접근 권한이 있는 교육자만 학생 목록에 접근 가능(교육자 전용 경로)
     @Test
     void testSpecificAccessControl_loggedInInstructorWithPrivileges_canAccess() {
-        loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
+        loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());  // 모든 권한을 가진 교육자로 로그
+
+        // 코스 아이디랑 구글 아이디로 교육자를 조회할 때, 모든 권한을 가진 교육자를 반환
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithAllPrivileges.getGoogleId())).thenReturn(stubInstructorWithAllPrivileges);
+
+        // 코스 정보 조회 시 유효한 코스 반환
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
+        // 요청 파라미터로 코스 아이디만 전달
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCanAccess(params);
+        verifyCanAccess(params);  // 접근 가능
 
+        // 학생 조회 API는 호출되지 않았다는 것 확인
         verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(),
                 stubInstructorWithAllPrivileges.getGoogleId());
+
+        // 교육자 조회 API는 정확히 한 번 호출되었다는 것 확인
         verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithAllPrivileges.getGoogleId());
     }
 
+    // 2번 메서드: 권한이 없는 교육자는 학생 목록에 접근 불가능(교육자 전용 경로)
     @Test
     void testSpecificAccessControl_loggedInInstructorWithoutPrivileges_cannotAccess() {
+
+        // 권한이 없는 교육자로 로그인
         loginAsInstructor(stubInstructorWithoutPrivileges.getGoogleId());
+
+        // 코스 아이디와 구글 아이디로 교육자를 조회할 때, 권한이 없는 교육자를 반환
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithoutPrivileges.getGoogleId())).thenReturn(stubInstructorWithoutPrivileges);
+
+        // 코스 정보 조회 시 유효한 코스 반환
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
+        // 요청 파라미터로 코스 아이디만 전달
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCannotAccess(params1);
+        verifyCannotAccess(params1);  // 접근 불가능
 
+        // 학생 조회 API는 호출되지 않았다는 것 확인
         verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(),
                 stubInstructorWithoutPrivileges.getGoogleId());
+
+        // 교육자 조회 API는 정확히 한 번 호출되었다는 것 확인
         verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithoutPrivileges.getGoogleId());
     }
 
+
+    // 3번 메서드: 각 학생들로 구성된 팀원을 조회할 때는 어떤 교육자도 접근 불가능(교육자 전용 경로)
     @Test
     void testSpecificAccessControl_instructorWithTeamParams_cannotAccess() {
+        // 접근 권한이 없는 교육자로 로그인
         loginAsInstructor(stubInstructorWithoutPrivileges.getGoogleId());
+
+        // 코스 아이디와 교육자의 아이디로 학생 조회 시 Null 값을 반환
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubInstructorWithoutPrivileges.getGoogleId()))
                 .thenReturn(null);
 
+        // 요청 파라미터로 코스 아이디와 팀명을 전달
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.TEAM_NAME, stubTeamOne.getName(),
         };
-        verifyCannotAccess(params);
+        verifyCannotAccess(params);  // 접근 불가능
 
-        logoutUser();
+        logoutUser();  // 교육자 로그아웃
+
+        // 모든 권한을 가진 교육자로 로그인
         loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
+
+        // 코스 아이디와 교육자의 아이디로 학생 조회 시 Null 값을 반환
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubInstructorWithAllPrivileges.getGoogleId()))
                 .thenReturn(null);
-        verifyCannotAccess(params);
+        verifyCannotAccess(params);  // 접근 불가능
 
+        // 교육자 조회 API는 호출되지 않았다는 것 확인
         verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithoutPrivileges.getGoogleId());
     }
 
+    // 4번 메서드: 섹션 단위의 학생 조회 권한만 가진 교육자는 학생 목록에 접근 가능(교육자 전용 경로)
     @Test
     void testSpecificAccessControl_loggedInInstructorWithOnlyViewSectionPrivileges_canAccess() {
+
+        // 섹션 단위의 학생 조회 권한만 가진 교육자로 로그인
         loginAsInstructor(stubInstructorWithOnlyViewSectionPrivileges.getGoogleId());
+
+        // 코스 아이디와 교육자의 아이디로 조회하면 섹션 단위의 학생 조회 권한만 가진 교육자 반환
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithOnlyViewSectionPrivileges.getGoogleId()))
                 .thenReturn(stubInstructorWithOnlyViewSectionPrivileges);
+
+        // 코스 정보 조회 시 유효한 코스 반환
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
+        // 파라미터로 코스 아이디만 전달
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCanAccess(params);
+        verifyCanAccess(params);  // 접근 가능
 
+        // 학생 조회 API는 호출되지 않은 것 확인
         verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(),
                 stubInstructorWithOnlyViewSectionPrivileges.getGoogleId());
+
+        // 교육자 조회 API는 한 번 호출된 것 확인
         verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithOnlyViewSectionPrivileges.getGoogleId());
     }
 
+    // 5번 메서드: 코스 레벨 권한만 가지고 있는 교육자는 학생 목록 접근 가능(교육자 전용 경로)
     @Test
     void testSpecificAccessControl_loggedInInstructorWithOnlyViewSectionCourseLevelPrivilege_canAccess() {
+
+        // 코스 권한이 있는 교육자로 로그인
         loginAsInstructor(stubInstructorWithCourseLevelPrivilege.getGoogleId());
+
+        // 코스 아이디와 교육자의 아이디로 조회 시 코스 권한이 있는 교육자 반환
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithCourseLevelPrivilege.getGoogleId()))
                 .thenReturn(stubInstructorWithCourseLevelPrivilege);
+
+        // 코스 정보 조회 시 유효한 코스 반환
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
+        // 파라미터로 코스 아이디만 전달
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCanAccess(params);
+        verifyCanAccess(params);  // 접근 가능
 
+        // 학생 조회 API는 한 번도 호출되는 않은 것 확인
         verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(),
                 stubInstructorWithCourseLevelPrivilege.getGoogleId());
+
+        // 교육자 조회 API는 한 번 호출된 것 확인
         verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithCourseLevelPrivilege.getGoogleId());
     }
 
+    // 6번 메서드: 다른 섹션에 대한 접근 권한만 가지고 있는 교육자는 학생 목록에 접근 가능
     @Test
     void testSpecificAccessControl_instructorWithDifferentSectionPrivilegesAsStudents_canAccess() {
+
+        // 다른 섹션에 대한 접근 권한만 가지고 있는 교육자로 로그인
         loginAsInstructor(stubInstructorWithOnlyViewPrivilegesForDifferentSection.getGoogleId());
+
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(),
                 stubInstructorWithOnlyViewPrivilegesForDifferentSection.getGoogleId()))
                 .thenReturn(stubInstructorWithOnlyViewPrivilegesForDifferentSection);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
+        // 파라미터로 코스 아이디만 전달
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCanAccess(params);
+        verifyCanAccess(params);  // 접근 가능
     }
 
     @Test
-    void testSpecificAccessControl_studentInSameTeam_canAccess() {
-        loginAsStudent(stubStudentOne.getGoogleId());
-        when(mockLogic.getStudentByGoogleId(stubStudentOne.getCourse().getId(),
-                stubStudentOne.getGoogleId())).thenReturn(stubStudentOne);
+    void testAccessControl_student_sameTeam_canAccess() {
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "student-googleId"))
+                .thenReturn(stubStudentOne);
 
-        String[] params = {
+        verifyStudentsCanAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeam().getName(),
-        };
-        verifyCanAccess(params);
-
-        verify(mockLogic, times(1)).getStudentByGoogleId(stubCourse.getId(),
-                stubStudentOne.getGoogleId());
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(),
-                stubStudentOne.getGoogleId());
+                Const.ParamsNames.TEAM_NAME,  stubStudentOne.getTeam().getName()
+        );
     }
 
     @Test
-    void testSpecificAccessControl_studentInDifferentTeam_cannotAccess() {
-        loginAsStudent(stubStudentOne.getGoogleId());
-        when(mockLogic.getStudentByGoogleId(stubStudentOne.getCourse().getId(),
-                stubStudentOne.getGoogleId())).thenReturn(stubStudentOne);
+    void testAccessControl_student_otherTeam_cannotAccess() {
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "student-googleId"))
+                .thenReturn(stubStudentOne);
 
-        String[] params = {
+        verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName(),
-        };
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getStudentByGoogleId(stubCourse.getId(),
-                stubStudentOne.getGoogleId());
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(),
-                stubStudentOne.getGoogleId());
+                Const.ParamsNames.TEAM_NAME,  stubStudentTwo.getTeam().getName()
+        );
     }
 
     @Test
-    void testSpecificAccessControl_studentInDifferentCourse_cannotAccess() {
-        loginAsStudent(stubStudentOne.getGoogleId());
-        when(mockLogic.getStudentByGoogleId("another-course-id",
-                stubStudentOne.getGoogleId())).thenReturn(null);
+    void testAccessControl_student_otherCourse_cannotAccess() {
+        when(mockLogic.getStudentByGoogleId("another-course-id", "student-googleId"))
+                .thenReturn(null);
 
-        String[] params = {
+        verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, "another-course-id",
-                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName(),
-        };
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getStudentByGoogleId("another-course-id",
-                stubStudentOne.getGoogleId());
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(),
-                stubStudentOne.getGoogleId());
+                Const.ParamsNames.TEAM_NAME,  stubStudentTwo.getTeam().getName()
+        );
     }
 
+    // 10번 메서드: 로그인되지 않은 사용자는 학생 목록에 접근 불가능(로그인 X 전용 경로)
     @Test
     void testSpecificAccessControl_userNotLoggedIn_cannotAccess() {
         logoutUser();
@@ -456,22 +496,24 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(), null);
     }
 
+    // 11번 메서드: 관리자도 팀원에 접근 불가능(관리자 전용 경로)
     @Test
     void testSpecificAccessControl_adminWithTeamParams_cannotAccess() {
-        loginAsAdmin();
+        loginAsAdmin();  // 관리자로 로그인
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
                 Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName(),
         };
-        verifyCannotAccess(params);
+        verifyCannotAccess(params);  // 접근 불가능
 
         logoutUser();
-        verifyCannotAccess(params);
+        verifyCannotAccess(params);  // 접근 불가능
         verify(mockLogic, times(1)).getStudentByGoogleId(stubCourse.getId(), "app_admin@gmail.com");
         verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), null);
     }
 
+    // 12번 메서드: 미등록으로 로그인했더라도 코스에 등록된 학생이라면 팀원 접근 가능(미등록 전용 경로)
     @Test
     void testSpecificAccessControl_loginAsUnregisteredValidStudent_canAccess() {
         loginAsUnregistered("unregistered-student");
@@ -489,6 +531,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), "unregistered-student");
     }
 
+    // 13번 메서드: 미등록으로 로그인하고, 코스에 등록되지 않은 학생이라면 팀원 접근 불가능(미등록 전용 경로)
     @Test
     void testSpecificAccessControl_loginAsUnregisteredInvalidStudent_cannotAccess() {
         loginAsUnregistered("unregistered-student");
@@ -506,6 +549,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), "unregistered-student");
     }
 
+    // 14번 메서드: 미등록된 교육자라도 학생 조회 권한이 있는 경우 학생 목록에 접근 가능(미등록 전용 경로)
     @Test
     void testSpecificAccessControl_loginAsUnregisteredValidInstructor_canAccess() {
         loginAsUnregistered("unregistered-instructor");
@@ -523,6 +567,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor");
     }
 
+    // 15번 메서드: 미등록된 교육자인데 학생 조회 권한까지 앖는 경우 학생 목록에 접근 불가능
     @Test
     void testSpecificAccessControl_loginAsUnregisteredInvalidInstructor_cannotAccess() {
         loginAsUnregistered("unregistered-instructor");
@@ -540,6 +585,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor");
     }
 
+    // 16번 메서드: 파라미터가 잘못된 경우, 접근 불가능
     @Test
     void testSpecificAccessControl_invalidParams_throwsInvalidHttpParameterException() {
         loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
@@ -553,6 +599,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verifyHttpParameterFailure(params2);
     }
 
+    // 17번 메서드: 잘못된 코스 아이디로 접근 시 접근 불가능(교육자 전용 경로)
     @Test
     void testSpecificAccessControl_invalidCourse_cannotAccess() {
         loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
@@ -573,6 +620,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
                 stubInstructorWithAllPrivileges.getGoogleId());
     }
 
+    // 18번 메서드: 다른 섹션의 학생 목록을 볼 수 있는 권한이 있는 교육자는 다른 코스의 학생 목록에 접근 불가능(교육자 전용 경로)
     @Test
     void testSpecificAccessControl_instructorDifferentCourseAsStudent_cannotAccess() {
         loginAsInstructor(stubInstructorWithOnlyViewPrivilegesForDifferentSection.getGoogleId());
