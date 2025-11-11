@@ -319,7 +319,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     private void stubSelfLookupAsOtherCourse(Course requestedCourse, Course otherCourse, Student student) {
         when(mockLogic.getCourse(requestedCourse.getId())).thenReturn(requestedCourse);
-
         doAnswer(inv -> {
             String gid = inv.getArgument(1);
             Account acc = getTypicalAccount();
@@ -343,10 +342,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()
         };
-
         when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail()))
                 .thenReturn(stubStudent);
-
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 stubCourse,
                 Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
@@ -358,7 +355,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId()
         };
-
         stubSelfLookupAsSameCourse(stubCourse, stubStudent);
         verifyStudentsOfTheSameCourseCanAccess(stubCourse, params);
     }
@@ -370,7 +366,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         };
         Course otherCourse = new Course("another", "another", Const.DEFAULT_TIME_ZONE, "teammates");
         Student s = getTypicalStudent();
-
         stubSelfLookupAsOtherCourse(stubCourse, otherCourse, s);
         verifyStudentsOfOtherCoursesCannotAccess(stubCourse, params);
     }
