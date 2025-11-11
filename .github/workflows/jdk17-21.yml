@@ -52,7 +52,7 @@ jobs:
           elif [ "${{ matrix.test-type }}" = "e2e" ]; then
             ./gradlew e2eTest
           elif [ "${{ matrix.test-type }}" = "e2e-sql" ]; then
-            ./gradlew e2eSqlTest
+            ./gradlew e2eSqlTest --info --stacktrace
           else
             echo "Unknown test type: ${{ matrix.test-type }}"
             exit 1
