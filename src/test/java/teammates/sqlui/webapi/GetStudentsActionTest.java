@@ -472,26 +472,15 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         );
     }
 
-    // 10번 메서드: 로그인되지 않은 사용자는 학생 목록에 접근 불가능(로그인 X 전용 경로)
     @Test
-    void testSpecificAccessControl_userNotLoggedIn_cannotAccess() {
-        logoutUser();
-
-        String[] params1 = {
+    void testAccessControl_userNotLoggedIn_cannotAccess() {
+        verifyWithoutLoginCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
-                Const.ParamsNames.TEAM_NAME, stubTeamOne.getName(),
-        };
-        verifyCannotAccess(params1);
-        verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(), null);
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), null);
-
-        String[] params2 = {
-                Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
-        };
-        verifyCannotAccess(params2);
-
-        verify(mockLogic, never()).getInstructorByGoogleId(stubStudentOne.getCourseId(), null);
-        verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(), null);
+                Const.ParamsNames.TEAM_NAME, stubTeamOne.getName()
+        );
+        verifyWithoutLoginCannotAccess(
+                Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId()
+        );
     }
 
     @Test
