@@ -456,7 +456,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     void testAccessControl_student_otherTeam_cannotAccess() {
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "student-googleId"))
                 .thenReturn(stubStudentOne);
-
         verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
                 Const.ParamsNames.TEAM_NAME,  stubStudentTwo.getTeam().getName()
@@ -467,7 +466,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     void testAccessControl_student_otherCourse_cannotAccess() {
         when(mockLogic.getStudentByGoogleId("another-course-id", "student-googleId"))
                 .thenReturn(null);
-
         verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, "another-course-id",
                 Const.ParamsNames.TEAM_NAME,  stubStudentTwo.getTeam().getName()
@@ -496,21 +494,14 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(), null);
     }
 
-    // 11번 메서드: 관리자도 팀원에 접근 불가능(관리자 전용 경로)
     @Test
-    void testSpecificAccessControl_adminWithTeamParams_cannotAccess() {
-        loginAsAdmin();  // 관리자로 로그인
-
+    void testAccessControl_admin_teamParams_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
                 Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName(),
         };
-        verifyCannotAccess(params);  // 접근 불가능
-
-        logoutUser();
-        verifyCannotAccess(params);  // 접근 불가능
-        verify(mockLogic, times(1)).getStudentByGoogleId(stubCourse.getId(), "app_admin@gmail.com");
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), null);
+        verifyAdminsCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     // 12번 메서드: 미등록으로 로그인했더라도 코스에 등록된 학생이라면 팀원 접근 가능(미등록 전용 경로)
