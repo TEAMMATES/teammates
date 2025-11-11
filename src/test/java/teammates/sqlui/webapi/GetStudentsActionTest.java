@@ -357,7 +357,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testAccessControl_unregistered_invalidStudent_cannotAccess() {
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-student"))
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-googleId"))
                 .thenReturn(null);
 
         String[] params = {
@@ -384,7 +384,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testAccessControl_unregistered_invalidInstructor_cannotAccess() {
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor"))
+        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-googleId"))
                 .thenReturn(null);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
