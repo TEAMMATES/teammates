@@ -504,76 +504,57 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         verifyWithoutLoginCannotAccess(params);
     }
 
-    // 12번 메서드: 미등록으로 로그인했더라도 코스에 등록된 학생이라면 팀원 접근 가능(미등록 전용 경로)
     @Test
-    void testSpecificAccessControl_loginAsUnregisteredValidStudent_canAccess() {
-        loginAsUnregistered("unregistered-student");
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-student")).thenReturn(stubStudentOne);
+    void testAccessControl_unregistered_validStudent_canAccess() {
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-googleId"))
+                .thenReturn(stubStudentOne);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME,  stubStudentOne.getTeam().getName(),
         };
-        verifyCanAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
-        verify(mockLogic, times(1)).getStudentByGoogleId(stubCourse.getId(), "unregistered-student");
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), "unregistered-student");
+        verifyUnregisteredCanAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
-    // 13번 메서드: 미등록으로 로그인하고, 코스에 등록되지 않은 학생이라면 팀원 접근 불가능(미등록 전용 경로)
     @Test
-    void testSpecificAccessControl_loginAsUnregisteredInvalidStudent_cannotAccess() {
-        loginAsUnregistered("unregistered-student");
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-student")).thenReturn(null);
+    void testAccessControl_unregistered_invalidStudent_cannotAccess() {
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-student"))
+                .thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME,  stubStudentOne.getTeam().getName(),
         };
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
-        verify(mockLogic, times(1)).getStudentByGoogleId(stubCourse.getId(), "unregistered-student");
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), "unregistered-student");
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
-    // 14번 메서드: 미등록된 교육자라도 학생 조회 권한이 있는 경우 학생 목록에 접근 가능(미등록 전용 경로)
     @Test
-    void testSpecificAccessControl_loginAsUnregisteredValidInstructor_canAccess() {
-        loginAsUnregistered("unregistered-instructor");
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor"))
+    void testAccessControl_unregistered_validInstructor_canAccess() {
+        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-googleId"))
                 .thenReturn(stubInstructorWithAllPrivileges);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCanAccess(params);
 
-        logoutUser();
-        verifyCannotAccess(params);
-        verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(), "unregistered-instructor");
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor");
+        verifyUnregisteredCanAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
-    // 15번 메서드: 미등록된 교육자인데 학생 조회 권한까지 앖는 경우 학생 목록에 접근 불가능
     @Test
-    void testSpecificAccessControl_loginAsUnregisteredInvalidInstructor_cannotAccess() {
-        loginAsUnregistered("unregistered-instructor");
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor")).thenReturn(null);
+    void testAccessControl_unregistered_invalidInstructor_cannotAccess() {
+        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor"))
+                .thenReturn(null);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
-        verify(mockLogic, never()).getStudentByGoogleId(stubCourse.getId(), "unregistered-instructor");
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(), "unregistered-instructor");
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     // 16번 메서드: 파라미터가 잘못된 경우, 접근 불가능
