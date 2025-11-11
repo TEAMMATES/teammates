@@ -14,6 +14,7 @@ jobs:
       matrix:
         java: [17, 21]
         test-type: [unit, e2e, e2e-sql]
+        browser: [firefox]
 
     steps:
       - name: Checkout repository
@@ -41,8 +42,11 @@ jobs:
         working-directory: .
         run: ./gradlew clean build -x test
 
-      - name: Update Property File
-        run: mv src/test/resources/test.ci-ubuntu-latest.properties src/test/resources/test.properties
+      - name: Update Property Files
+        run: |
+          cp src/test/resources/test.ci-ubuntu-latest.properties src/test/resources/test.properties 
+          cp src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
+      
 
       - name: Run tests
         working-directory: .
