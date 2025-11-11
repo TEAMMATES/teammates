@@ -41,6 +41,9 @@ jobs:
         working-directory: .
         run: ./gradlew clean build -x test
 
+      - name: Update Property File
+        run: mv src/test/resources/test.ci-ubuntu-latest.properties src/test/resources/test.properties
+
       - name: Run tests
         working-directory: .
         run: |
