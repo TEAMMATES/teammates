@@ -127,6 +127,11 @@ public final class CoursesLogic {
         feedbackSessions.forEach(feedbackSession -> {
             fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
         });
+
+        List<FeedbackSession> softDeletedFeedbackSessions = fsLogic.getSoftDeletedFeedbackSessionsForCourse(courseId);
+        softDeletedFeedbackSessions.forEach(feedbackSession -> {
+            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
+        });
         coursesDb.deleteSectionsByCourseId(courseId);
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
         instructors.forEach(instructor -> {
