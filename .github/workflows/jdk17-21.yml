@@ -15,7 +15,7 @@ jobs:
         java: [17, 21]
         test-type: [unit, e2e, e2e-sql]
         browser: [firefox]
-
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -64,6 +64,13 @@ jobs:
           ./gradlew serverRun &
           ./wait-for-server.sh
 
+      - name: Check Firefox & Geckodriver presence
+        run: |
+            which firefox
+            firefox --version
+            which geckodriver || echo "geckodriver not found"
+            geckodriver --version || echo "no geckodriver version"
+
       - name: Run tests
         working-directory: .
         run: |
@@ -77,6 +84,31 @@ jobs:
             echo "Unknown test type: ${{ matrix.test-type }}"
             exit 1
           fi
+
+      - name: Générer le rapport HTML des échecs de tests
+        if: always()
+        run: |
+          LOG1="build/reports/tests/test/test.log"
+          LOG2="build/reports/tests/e2eTest/test.log"
+          LOG3="build/reports/tests/e2eSqlTest/test.log"
+          for LOG in $LOG1 $LOG2 $LOG3
+          do
+            if [ -f "$LOG" ]; then
+              bash ./extract_failed_tests_html.sh "$LOG"
+              # Tu peux "uploader" le rapport dès qu'il existe
+              cp failed_tests_report.html "failed_tests_$(basename $(dirname $LOG)).html"
+            fi
+          done
+      - name: Upload test failure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-tests-reports
+          path: |
+            failed_tests_*.html    
+
+
+
 
       - name: Upload test reports
         if: always()
