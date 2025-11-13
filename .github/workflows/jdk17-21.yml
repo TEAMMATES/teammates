@@ -95,10 +95,10 @@ jobs:
           do
             if [ -f "$LOG" ]; then
               bash ./extract_failed_tests_html.sh "$LOG"
-              # Tu peux "uploader" le rapport dès qu'il existe
               cp failed_tests_report.html "failed_tests_$(basename $(dirname $LOG)).html"
             fi
           done
+          
       - name: Upload test failure HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -115,4 +115,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-reports-${{ matrix.java }}-${{ matrix.test-type }}
-          path: teammates/build/reports/tests/test
+          path: build/reports/tests/test
