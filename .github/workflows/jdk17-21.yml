@@ -15,7 +15,7 @@ jobs:
         java: [17, 21]
         test-type: [unit, e2e, e2e-sql]
         browser: [firefox]
-      
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,10 +32,10 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: src/web/package-lock.json
 
       - name: Install frontend dependencies
-        working-directory: .
+        working-directory: src/web
         run: npm ci
 
       - name: Build backend (Gradle)
@@ -43,20 +43,25 @@ jobs:
         run: ./gradlew clean build -x test
 
       - name: Update Property Files
+        working-directory: .
         run: |
           cp src/test/resources/test.ci-ubuntu-latest.properties src/test/resources/test.properties 
           cp src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
 
       - name: Run Solr search service + local Datastore emulator
+        working-directory: .
         run: docker compose up -d
 
       - name: Create Config Files
+        working-directory: .
         run: ./gradlew createConfigs testClasses generateTypes
-      
+
       - name: Build Frontend Bundle
+        working-directory: src/web
         run: npm run build
 
       - name: Start Server
+        working-directory: .
         run: |
           ./gradlew serverRun &
           ./wait-for-server.sh
@@ -67,9 +72,9 @@ jobs:
           if [ "${{ matrix.test-type }}" = "unit" ]; then
             xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew test
           elif [ "${{ matrix.test-type }}" = "e2e" ]; then
-            xvfb-run --server-args="-screen 0 1024x768x24"  ./gradlew e2eTests --info --stacktrace
+            xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests --info --stacktrace
           elif [ "${{ matrix.test-type }}" = "e2e-sql" ]; then
-            xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTestsSql --info --stacktrace
+            xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eSqlTest --info --stacktrace
           else
             echo "Unknown test type: ${{ matrix.test-type }}"
             exit 1
