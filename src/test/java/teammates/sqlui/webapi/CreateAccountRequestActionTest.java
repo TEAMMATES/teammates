@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.AccountRequest;
@@ -83,7 +84,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     @Test
-    void testExecute_validAccountCreateRequest_success() throws InvalidParametersException {
+    void testExecute_validAccountCreateRequest_success() throws InvalidParametersException, EntityAlreadyExistsException {
         String instructorEmail = "jamesbond89@gmail.tmt";
         String instructorName = "JamesBond";
         String instructorInstitution = "TEAMMATES Test Institute 1";
@@ -117,7 +118,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
     @Test
     void testExecute_createAccountRequestWithTransactionThrows_throwsInvalidHttpRequestBodyException()
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         String instructorEmail = "jamesbond89@gmail.tmt";
         String instructorName = "JamesBond";
         String instructorInstitution = "TEAMMATES Test Institute 1";
@@ -136,7 +137,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     @Test
-    void testExecute_adminUser_bypassesCaptchaAndNoEmailSent() throws InvalidParametersException {
+    void testExecute_adminUser_bypassesCaptchaAndNoEmailSent() throws InvalidParametersException, EntityAlreadyExistsException{
         loginAsAdmin();
         String instructorEmail = "jamesbond89@gmail.tmt";
         String instructorName = "JamesBond";

@@ -29,7 +29,7 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException,  EntityAlreadyExistsException {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
