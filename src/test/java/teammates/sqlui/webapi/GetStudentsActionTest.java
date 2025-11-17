@@ -27,7 +27,6 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetStudentsAction}.
  */
 public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
-    private Instructor stubInstructorWithoutPrivileges;
     private Instructor stubInstructorWithAllPrivileges;
     private Instructor stubInstructorWithOnlyViewSectionPrivileges;
     private Instructor stubInstructorWithOnlyViewPrivilegesForDifferentSection;
@@ -55,6 +54,8 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     @BeforeMethod
     protected void setUp() {
         stubCourse = getTypicalCourse();
+
+        Instructor stubInstructorWithoutPrivileges;
 
         // Instructor with co-owner privileges (course and section privileges)
         stubInstructorWithAllPrivileges = getTypicalInstructor();
