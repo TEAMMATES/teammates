@@ -331,7 +331,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     private String[] regKeyParams(String key) {
         return new String[] {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.REGKEY, key
+                Const.ParamsNames.REGKEY, key,
         };
     }
 
@@ -339,7 +339,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     void testAccessControl_instructorEmailPath_onlySameCourseWithViewSectionPrivilege() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail()
+                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
         };
         when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail()))
                 .thenReturn(stubStudent);
@@ -350,18 +350,18 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_studentSelf_sameCourse_canAccess() {
+    void testAccessControl_studentSelf_sameCourse() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
         stubSelfLookupAsSameCourse(stubCourse, stubStudent);
         verifyStudentsOfTheSameCourseCanAccess(stubCourse, params);
     }
 
     @Test
-    void testAccessControl_studentSelf_otherCourse_cannotAccess() {
+    void testAccessControl_studentSelf_otherCourse() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
         Course otherCourse = new Course("another", "another", Const.DEFAULT_TIME_ZONE, "teammates");
         Student s = getTypicalStudent();
@@ -370,7 +370,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_studentSelf_withoutLogin_cannotAccess() {
+    void testAccessControl_studentSelf_withoutLogin() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -378,14 +378,14 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_unregistered_validKey_canAccess() {
+    void testAccessControl_unregistered_validKey() {
         when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey()))
                 .thenReturn(stubStudent);
         verifyCanAccess(regKeyParams(stubStudent.getRegKey()));
     }
 
     @Test
-    void testAccessControl_unregistered_invalidKey_cannotAccess() {
+    void testAccessControl_unregistered_invalidKey() {
         when(mockLogic.getStudentByRegistrationKey("BAD")).thenReturn(null);
         verifyCannotAccess(regKeyParams("BAD"));
     }
