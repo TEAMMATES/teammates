@@ -146,4 +146,28 @@ describe('CopySessionModalComponent', () => {
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
 
-});
+  it('should disable copy button when session name contains only whitespace', () => {
+    component.newFeedbackSessionName = '   ';
+    component.courseCandidates = [courseSessionIn, courseCopyTo];
+    component.sessionToCopyCourseId = courseSessionIn.courseId;
+    component.copyToCourseSet.add(courseCopyTo.courseId);
+    fixture.detectChanges();
+
+    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
+    expect(copyButton.nativeElement.disabled).toBeTruthy();
+  });
+
+  
+  it('should show whitespace error message when session name contains only whitespace', () => {
+  component.newFeedbackSessionName = '   ';
+  fixture.detectChanges();
+
+  // simulate input event to trigger validation
+  const inputElement = fixture.debugElement.query(By.css('#copy-session-name'));
+  inputElement.triggerEventHandler('input', { target: { value: '   ' } });
+  fixture.detectChanges();
+
+  const errorMessage = fixture.debugElement.query(By.css('.invalid-field'));
+  expect(errorMessage.nativeElement.textContent).toContain('should not be only whitespace');
+    });
+  });
