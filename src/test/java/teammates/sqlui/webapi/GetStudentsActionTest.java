@@ -349,8 +349,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
                 Const.ParamsNames.TEAM_NAME,  stubStudentOne.getTeam().getName(),
         };
-        verifyUnregisteredCanAccess(params);
-        verifyWithoutLoginCannotAccess(params);
+        verifyOnlyLoggedInUsersCanAccess(params);
     }
 
     @Test
@@ -375,9 +374,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-
-        verifyUnregisteredCanAccess(params);
-        verifyWithoutLoginCannotAccess(params);
+        verifyOnlyLoggedInUsersCanAccess(params);
     }
 
     @Test
