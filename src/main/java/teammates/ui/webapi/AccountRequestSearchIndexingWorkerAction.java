@@ -24,13 +24,26 @@ public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException(e.getMessage(), e);
         }
 
-        AccountRequest accRequest = sqlLogic.getAccountRequest(accountRequestId);
+        AccountRequest accRequest = monitorDatabaseOperation(
+            "getAccountRequest", () -> sqlLogic.getAccountRequest(accountRequestId)
+        );
 
         try {
-            sqlLogic.putAccountRequestDocument(accRequest);
-        } catch (SearchServiceException e) {
-            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic retry
-            return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
+            monitorDatabaseOperationVoid(
+                "putAccountRequestDocument", () -> {
+                    try {
+                        sqlLogic.putAccountRequestDocument(accRequest);
+                    } catch (SearchServiceException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            );
+        } catch (RuntimeException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof SearchServiceException) {
+                return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
+            }
+            throw e;
         }
 
         return new JsonResult("Successful");

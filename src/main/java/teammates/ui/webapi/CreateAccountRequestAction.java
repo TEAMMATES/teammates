@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.AccountRequest;
@@ -53,6 +54,8 @@ public class CreateAccountRequestAction extends Action {
         try {
             accountRequest = sqlLogic.createAccountRequestWithTransaction(instructorName, instructorEmail,
                     instructorInstitution, AccountRequestStatus.PENDING, comments);
+        } catch (EntityAlreadyExistsException e) {
+            throw new InvalidOperationException("An account request with this email already exists.", e);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }

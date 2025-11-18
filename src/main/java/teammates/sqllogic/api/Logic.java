@@ -9,6 +9,7 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
@@ -23,6 +24,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.logic.core.StudentsLogic;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -94,7 +96,7 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
     public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+            String comments) throws InvalidParametersException, EntityAlreadyExistsException {
 
         return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
     }
@@ -125,7 +127,7 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
     public AccountRequest createAccountRequestWithTransaction(String name, String email, String institute,
-            AccountRequestStatus status, String comments) throws InvalidParametersException {
+            AccountRequestStatus status, String comments) throws InvalidParametersException, EntityAlreadyExistsException{
 
         return accountRequestLogic.createOrGetAccountRequestWithTransaction(name, email, institute, status, comments);
     }

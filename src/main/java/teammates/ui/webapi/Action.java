@@ -19,6 +19,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.PerformanceMonitor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.AuthProxy;
 import teammates.logic.api.EmailGenerator;
@@ -494,6 +495,47 @@ public abstract class Action {
      */
     public boolean isTransactionNeeded() {
         return true;
+    }
+
+    /**
+     * Executes the action with performance monitoring.
+     * This is the main entry point that wraps the actual execute() method with monitoring.
+     */
+    public final ActionResult executeWithMonitoring() throws InvalidHttpRequestBodyException, InvalidOperationException {
+        String actionName = this.getClass().getSimpleName();
+        try {
+            return PerformanceMonitor.monitorApiOperation(actionName, () -> {
+                try {
+                    return execute();
+                } catch (InvalidHttpRequestBodyException | InvalidOperationException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof InvalidHttpRequestBodyException) {
+                throw (InvalidHttpRequestBodyException) e.getCause();
+            }
+            if (e.getCause() instanceof InvalidOperationException) {
+                throw (InvalidOperationException) e.getCause();
+            }
+            throw e;
+        }
+    }
+
+    /**
+     * Helper method to monitor database operations that return a value.
+     * Use this in your execute() methods for database calls.
+     */
+    protected final <T> T monitorDatabaseOperation(String operationName, java.util.function.Supplier<T> operation) {
+        return PerformanceMonitor.monitorDatabaseOperation(operationName, operation);
+    }
+
+    /**
+     * Helper method to monitor database operations that return void.
+     * Use this in your execute() methods for database calls.
+     */
+    protected final void monitorDatabaseOperationVoid(String operationName, Runnable operation) {
+        PerformanceMonitor.monitorDatabaseOperationVoid(operationName, operation);
     }
 
     /**

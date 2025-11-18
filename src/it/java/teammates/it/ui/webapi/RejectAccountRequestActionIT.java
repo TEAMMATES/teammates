@@ -70,7 +70,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     @Test
     protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException,  EntityAlreadyExistsException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -103,7 +103,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     @Test
     protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException,  EntityAlreadyExistsException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -129,7 +129,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() throws InvalidParametersException,  EntityAlreadyExistsException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -146,7 +146,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonTitleButNoBody_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_withReasonTitleButNoBody_shouldThrow() throws InvalidParametersException,  EntityAlreadyExistsException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -164,7 +164,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     @Test
     protected void testExecute_alreadyRejected_shouldNotSendEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException,  EntityAlreadyExistsException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),

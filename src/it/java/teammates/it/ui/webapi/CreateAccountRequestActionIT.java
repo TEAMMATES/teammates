@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -180,7 +181,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
 
     @Test
     void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully()
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         HibernateUtil.beginTransaction();
         AccountRequest existingAccountRequest = logic.createAccountRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
