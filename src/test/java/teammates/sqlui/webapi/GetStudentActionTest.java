@@ -336,7 +336,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_instructorEmailPath_onlySameCourseWithViewSectionPrivilege() {
+    void testGetStudent_instructorEmailPathSameCourseWithViewSectionPrivilege_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
@@ -350,7 +350,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_studentSelf_sameCourse() {
+    void testGetStudent_studentSelfSameCourse_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -359,7 +359,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_studentSelf_otherCourse() {
+    void testGetStudent_studentSelfOtherCourse_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -370,7 +370,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_studentSelf_withoutLogin() {
+    void testGetStudent_studentSelfWithoutLogin_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -378,14 +378,14 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testAccessControl_unregistered_validKey() {
+    void testGetStudent_unregisteredWithValidKey_canAccess() {
         when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey()))
                 .thenReturn(stubStudent);
         verifyCanAccess(regKeyParams(stubStudent.getRegKey()));
     }
 
     @Test
-    void testAccessControl_unregistered_invalidKey() {
+    void testGetStudent_unregisteredWithInvalidKey_cannotAccess() {
         when(mockLogic.getStudentByRegistrationKey("BAD")).thenReturn(null);
         verifyCannotAccess(regKeyParams("BAD"));
     }

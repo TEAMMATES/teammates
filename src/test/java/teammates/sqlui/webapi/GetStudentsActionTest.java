@@ -273,7 +273,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_instructor_viewSectionPrivilegeSameCourse() {
+    void testGetStudents_instructorWithViewSectionPrivilegeSameCourse_canAccess() {
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 stubCourse,
                 Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
@@ -282,7 +282,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_instructorWithTeamParams_cannotAccess() {
+    void testGetStudents_instructorWithTeamParams_cannotAccess() {
         verifyInstructorsCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.TEAM_NAME, stubTeamOne.getName()
@@ -290,7 +290,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_student_sameTeam() {
+    void testGetStudents_studentSameTeam_canAccess() {
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "student-googleId"))
                 .thenReturn(stubStudentOne);
 
@@ -301,7 +301,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_student_otherTeam() {
+    void testGetStudents_studentOtherTeam_cannotAccess() {
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "student-googleId"))
                 .thenReturn(stubStudentOne);
         verifyStudentsCannotAccess(
@@ -311,7 +311,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_student_otherCourse() {
+    void testGetStudents_studentOtherCourse_cannotAccess() {
         when(mockLogic.getStudentByGoogleId("another-course-id", "student-googleId"))
                 .thenReturn(null);
         verifyStudentsCannotAccess(
@@ -321,7 +321,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_userNotLoggedIn_cannotAccess() {
+    void testGetStudents_userNotLoggedIn_cannotAccess() {
         verifyWithoutLoginCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
                 Const.ParamsNames.TEAM_NAME, stubTeamOne.getName()
@@ -332,7 +332,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_admin_teamParams() {
+    void testGetStudents_adminWithTeamParams_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
                 Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName(),
@@ -342,7 +342,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_unregistered_validStudent() {
+    void testGetStudents_unregisteredValidStudent_onlyLoggedInCanAccess() {
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-googleId"))
                 .thenReturn(stubStudentOne);
 
@@ -354,7 +354,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_unregistered_invalidStudent() {
+    void testGetStudents_unregisteredInvalidStudent_cannotAccess() {
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered-googleId"))
                 .thenReturn(null);
 
@@ -367,7 +367,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_unregistered_validInstructor() {
+    void testGetStudents_unregisteredValidInstructor_onlyLoggedInCanAccess() {
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-googleId"))
                 .thenReturn(stubInstructorWithAllPrivileges);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
@@ -379,7 +379,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_unregistered_invalidInstructor() {
+    void testGetStudents_unregisteredInvalidInstructor_cannotAccess() {
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered-googleId"))
                 .thenReturn(null);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
@@ -392,7 +392,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_invalidParams_throwsInvalidHttpParameterException() {
+    void testGetStudents_invalidParams_throwsInvalidHttpParameterException() {
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(
                 Const.ParamsNames.TEAM_NAME, stubTeamOne.getName()
@@ -400,7 +400,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_invalidCourse_cannotAccess() {
+    void testGetStudents_invalidCourse_cannotAccess() {
         loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
         when(mockLogic.getInstructorByGoogleId(
                 "invalid-course-id",
@@ -413,7 +413,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testAccessControl_instructorDifferentCourseAsStudent() {
+    void testGetStudents_instructorDifferentCourseAsStudent_cannotAccess() {
         verifyInstructorsOfOtherCoursesCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubCourse.getId()
         );
