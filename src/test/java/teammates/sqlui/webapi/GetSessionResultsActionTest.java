@@ -330,27 +330,12 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testCheckSpecificAccessControl_notLoggedInUser_cannotAccess() {
-        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        String[] params1 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
-        };
-        verifyCannotAccess(params1);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
+                .thenReturn(session);
 
-        String [] params2 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, INSTRUCTOR_RESULT.name(),
-        };
-        verifyCannotAccess(params2);
-
-        String [] params3 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, FULL_DETAIL.name(),
-        };
-        verifyCannotAccess(params3);
+        verifyWithoutLoginCannotAccess(buildParams(STUDENT_RESULT));
+        verifyWithoutLoginCannotAccess(buildParams(INSTRUCTOR_RESULT));
+        verifyWithoutLoginCannotAccess(buildParams(FULL_DETAIL));
 
         verify(mockLogic, times(3)).getFeedbackSession(session.getName(), session.getCourseId());
     }
